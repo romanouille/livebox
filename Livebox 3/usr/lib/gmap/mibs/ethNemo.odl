@@ -1,0 +1,25 @@
+/*expr:nemo and eth*/
+
+/**
+ * MIB is loaded on all network devices that are indicated as a nemo ethernet interface
+ *
+ * All devices matching expression: "nemo and eth" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib ethNemo {
+    /**
+     * Maximum bit rate supported by the interface
+     *
+     * @version 6.0
+     */
+    read-only uint32 MaxBitRateSupported;
+    /**
+     * Current selected bit rate
+     *
+     * @version 6.0
+     */
+     read-only uint32 CurrentBitRate;
+}
+
+/** @location sah_services_gmap /mibs/ethNemo.odl */

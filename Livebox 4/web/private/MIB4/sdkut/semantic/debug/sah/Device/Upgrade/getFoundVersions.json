@@ -1,0 +1,17 @@
+{
+  "status": 0,
+  "data": {
+    "versionList": [
+        {
+            "componentId": "component1",
+            "url": "http://10.190.32.4",
+            "version": "1.2.3"
+        },
+        {
+            "componentId": "component2",
+            "url": "source://localfile",
+            "version": "2.3.4"
+        }
+    ]
+  }
+}

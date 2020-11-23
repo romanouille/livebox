@@ -1,0 +1,59 @@
+object NeMo {
+	object extends MIB(0,"wlanradio") {
+		string Flag = "wlanradio";
+		object DataModel {
+
+			read-only string RadioStatus {
+				constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+				default "NotPresent";
+			}
+			read-only uint32 LastChangeTime;
+			read-only uint32 LastChange;
+			read-only uint32 MaxBitRate;
+			read-only string SupportedFrequencyBands;
+			persistent string OperatingFrequencyBand {
+				constraint enum [ "", "2.4GHz", "5GHz"];
+				default "";
+			}
+			read-only string SupportedStandards;
+			persistent string OperatingStandards = "";
+			read-only string PossibleChannels;
+			read-only string ChannelsInUse;
+			persistent uint32 Channel {
+				constraint range [0, 255];
+				default 0;
+			}
+			read-only bool AutoChannelSupported;
+			persistent bool AutoChannelEnable;
+			persistent uint32 AutoChannelRefreshPeriod;
+			read-only bool AutoChannelSelecting;
+			persistent string OperatingChannelBandwidth {
+				constraint enum ["20MHz", "40MHz", "Auto"];
+				default "Auto";
+			}
+			persistent string ExtensionChannel {
+				constraint enum ["AboveControlChannel", "BelowControlChannel", "Auto"];
+				default "Auto";
+			}
+			persistent string GuardInterval {
+				constraint enum ["400nsec", "800nsec", "Auto"];
+				default "Auto";
+			}
+			persistent int32 MCS {
+				constraint range [-1, 31];
+				default -1;
+			}
+			read-only string TransmitPowerSupported;
+			persistent int32 TransmitPower {
+				constraint range [-1, 100];
+				default -1;
+			}
+			read-only bool IEEE80211hSupported;
+			persistent bool IEEE80211hEnabled;
+			persistent string RegulatoryDomain;
+
+			void startAutoChannelSelection();
+		}
+	}
+}
+

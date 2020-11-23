@@ -1,0 +1,72 @@
+#!/bin/sh
+BMEFILE=/etc/conf/ADSL
+
+case $1 in
+	start)
+		# create any hardware-specific device nodes here
+		mknod /dev/dsp c 115 15
+		mknod /dev/voice c 115 16
+		mknod /dev/fxo c 115 17
+		mknod /dev/t38dev c 115 18
+		mknod /dev/adsl_mon c 239 0
+		mknod /dev/switch c 232 0
+		mknod /dev/tagparam_m c 96 0
+		mknod /dev/usbdect_phone c 240 0
+		mknod /dev/ttyUSB0 c 188 0
+		led_major=`sed -n 's/\(.*\) led$/\1/p' /proc/devices`
+		if [ -n "$led_major" ]; then
+			mknod /dev/led c $led_major 0
+		else
+			echo "Led driver is not installed"
+		fi
+
+		# start hardware-specific drivers
+		/sbin/modprobe ip6_tunnel
+		/sbin/modprobe fusivlib_lkm
+		/sbin/modprobe timers_lkm
+		/sbin/modprobe ethdriver_lkm
+		/sbin/modprobe sysKCode_lkm
+		/sbin/modprobe atmdriver_lkm
+		/sbin/modprobe periap_driver_lkm
+		/sbin/modprobe ipqos_lkm
+		/sbin/modprobe marvell6061
+		/sbin/modprobe ap2ap_lkm
+		/sbin/modprobe igmpsnoop_lkm
+		/sbin/modprobe ohci-hcd
+		/sbin/modprobe spi_driver_lkm
+		/sbin/modprobe bmdriver_lkm
+		/sbin/modprobe vlan_classifier_lkm
+
+		if [ -f $BMEFILE ]
+		then
+			/sbin/modprobe bmedrv
+		fi
+		
+		button_major=`sed -n 's/\(.*\) lb_button$/\1/p' /proc/devices`
+		for f in 0 1 2; do
+			mknod /dev/button$f c $button_major $f
+		done
+		ln -s /dev/button0 /dev/button_wlan_pairing
+		ln -s /dev/button0 /dev/button_wlan
+		ln -s /dev/button0 /dev/button_dect
+		ln -s /dev/button1 /dev/button_reboot
+		ln -s /dev/button2 /dev/button_reset
+
+		mkdir -p /var/dev/led
+		[ -d /sys/class/leds/led_0 ] && ln -s /sys/class/leds/led_0 /var/dev/led/Power
+		[ -d /sys/class/leds/led_1 ] && ln -s /sys/class/leds/led_1 /var/dev/led/InternetRed
+		[ -d /sys/class/leds/led_2 ] && ln -s /sys/class/leds/led_2 /var/dev/led/Internet
+		[ -d /sys/class/leds/led_3 ] && ln -s /sys/class/leds/led_3 /var/dev/led/Voip
+		[ -d /sys/class/leds/led_4 ] && ln -s /sys/class/leds/led_4 /var/dev/led/Lan
+		[ -d /sys/class/leds/led_5 ] && ln -s /sys/class/leds/led_5 /var/dev/led/Wireless
+		[ -d /sys/class/leds/led_6 ] && ln -s /sys/class/leds/led_6 /var/dev/led/Upgrade
+
+		sysutil apfeature ALL VLANBRIDGE enable
+	;;
+	stop)
+		# stop drivers if necessary
+		echo "stop ZTE specific drivers"
+	;;
+	*)
+	;;
+esac

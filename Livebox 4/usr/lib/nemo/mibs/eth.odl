@@ -1,0 +1,98 @@
+/**
+ * The Ethernet MIB is available on all NeMo Intfs that have the "eth"-flag set. Such Intf represents a
+ * physical Ethernet interface and its Status corresponds to the interface's physical link status.
+ */
+
+object NeMo {
+	object extends MIB(0,"eth") {
+		string Flag = "eth";
+		object DataModel {
+			/**
+			 * Timestamp of the last operational state change, measured in seconds since power
+			 * on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current operational
+			 * state.
+			 */
+			volatile read-only uint32 LastChange;
+
+			/**
+			 * The actual upstream and downstream PHY bit rate (after auto-negotation if
+			 * enabled), expressed in Mbps.
+			 */
+			int32 CurrentBitRate {
+				constraint enum [ -1, 10, 100, 1000 ];
+				default -1;
+			}
+
+			/**
+			 * The maximum upstream and downstream PHY bit rate supported by this interface,
+			 * expressed in Mbps.
+			 */
+			int32 MaxBitRateSupported {
+				constraint enum [ -1, 10, 100, 1000 ];
+				default 100;
+			}
+
+			/**
+			 * The configured maximum upstream and downstream PHY bit rate to be used on this
+			 * interface, expressed in Mbps. -1 means automatic selection of the maximum bit
+			 * rate. This value must be lower than or equal to the value reported by
+			 * MaxBitRateSupported.
+			 */
+			persistent int32 MaxBitRateEnabled {
+				constraint enum [ -1, 10, 100, 1000 ];
+				default -1;
+			}
+
+			/**
+			 * The actual duplex mode of this interface.
+			 */
+			string CurrentDuplexMode {
+				constraint enum [ "None", "Half", "Full" ];
+				default "None";
+			}
+
+			/**
+			 * The configured duplex mode.
+			 */
+			persistent string DuplexModeEnabled {
+				constraint enum [ "Auto", "Half", "Full" ];
+				default "Auto";
+			}
+
+			/**
+			 * Indicates whether power saving mode is supported.	
+			 */
+			bool PowerSavingSupported = false;
+
+			/**
+			 * Enable or disable power saving mode. This PowerSavingSupported is false, this
+			 * parameter can not be en
+			 */
+			persistent bool PowerSavingEnabled = false;
+
+
+			/**
+			 * Implementation specific parameter.
+			 */
+			string PhyDevice;
+
+			/**
+			 * Implementation specific parameter.
+			 */
+			int32 PhyId = -1;
+
+			/**
+			 * Implementation specific parameter.
+			 */
+			bool ExternalPhy;
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/eth.odl */

@@ -1,0 +1,15 @@
+<b>HotSpot</b><br>
+<br>
+
+Aby utworzyć HotSpot, włącz opcję gościnnego dostępu do Wi-Fi i stwórz obszar Wi-Fi w Twojej lokalizacji.
+
+
+<br>
+Uzupełnij pola na tej stronie, następnie kliknij przycisk <b>"Rejestruj"</b>, aby zarejestrować się na liście hotspotów Orange.
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,8 @@
+mib dhcp {
+read-only persistent string VendorClassID;
+read-only persistent string UserClassID;
+volatile read-only persistent string ClientID;
+read-only persistent string SerialNumber;
+read-only persistent string ProductClass;
+read-only persistent string OUI;
+}

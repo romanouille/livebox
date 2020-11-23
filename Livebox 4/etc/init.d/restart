@@ -1,0 +1,28 @@
+#!/bin/sh
+PATH=/sbin:/bin
+export PATH
+
+error_arguments ()
+{
+    echo "ERROR: Missing or invalid arguments."
+    exit 1
+}
+
+if [ -z "$1" ]
+then
+    error_arguments
+fi
+
+case $1 in
+    start)
+        echo "Restarting system, goodbye ..."
+        sleep 1
+	sync
+        reboot
+        ;;
+    *)
+        error_arguments
+esac
+
+exit 0
+

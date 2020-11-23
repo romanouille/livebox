@@ -1,0 +1,32 @@
+<div id="page01" class="status-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<p class="blockTitle bold_font" i18n="page.page0.common.label"/>
+	<form class="page0_container">
+		<div class="rightBlockTitle">
+			<div i18n="page.page0.common.step1" class="currentStep_1"/>
+		</div>
+		<h2 i18n="page.page0.step1.subtitle" class="nobold"/>
+		<div id="connTypeOptions">
+			<div id="adslOption">
+				<div class="adslLogo"/>
+				<div class="adslLabel" i18n="data.connectiontype.1"/>
+				<span id="adslradio" widgetType="EnumInput" widgetArg="'radio'" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable" enumerated="['ENABLE','DISABLE']"/>
+			</div>
+			<div id="ftthOption">
+				<div class="ftthLogo"/>
+				<div class="ftthLabel" i18n="data.connectiontype.0"/>
+				<span id="ftthradio" widgetType="EnumInput" widgetArg="'radio'" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable" enumerated="['ENABLE','DISABLE']"/>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div id="selectChangeWarning" style="display:none" class="warning" i18n="page.page0.step0.warning.title"/>
+		<div class="clear"></div>
+		<div widgetType="ButtonContainer" class="center">
+			<span id="b1" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+			<span class="spacer"/>
+			<span id="b2" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.page0.step1.valid"/>
+		</div>
+	</form>
+	<div class="centered">
+		<span i18n="page.page0.jump2home"/>&#160;<a href="javascript:;" class="jump2home orange menuItemLink" i18n="page.page0.step0.thislink" onclick="page0_clickOnThisLink();"/>.
+	</div>
+</div>

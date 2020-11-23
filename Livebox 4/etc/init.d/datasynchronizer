@@ -1,0 +1,50 @@
+
+#!/bin/sh
+
+PID="/var/run/datasynchronizer.pid"
+
+
+
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "DataSynchronizer plugin already started"
+    else
+        glib-app -n datasynchronizer -c /usr/lib/datasynchronizer/datasynchronizer.odl
+    fi
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID)
+        rm $PID
+    else
+        echo "DataSynchronizer plugin not running"
+    fi
+}
+
+
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+
+    restart)
+        stop
+        start
+        ;;
+    debuginfo)
+        if [ -f "${PID}" ]; then
+            echo "datasynchronizer is running, pid=$(cat ${PID})"
+        else
+            echo "datasynchronizer is not running"
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo]"
+        ;;
+esac

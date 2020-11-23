@@ -1,0 +1,16 @@
+datamodel {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician read,write,execute;
+}
+object SambaService {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician read,write,execute;
+}
+}
+}

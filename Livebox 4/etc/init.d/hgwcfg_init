@@ -1,0 +1,43 @@
+#!/bin/sh
+
+case $1 in
+	start)
+
+		touch /tmp/hgwcfg.lock
+		chmod 600 /tmp/hgwcfg.lock
+
+		[ ! -f /etc/defaults/hgwcfg.def ] && exit 0
+
+		BOOTMODE=$(/usr/bin/bootmode get)
+
+		if [ -f /etc/config/db_ready ]; then
+			if [ $BOOTMODE == "rescue" ]; then
+				bootmode set $BOOTMODE
+				hgwcfg.sh restore
+				reboot
+			fi
+		fi
+
+		if [ ! -f /etc/config/db_ready ]
+		then
+			if [ -f /etc/config/hgwcfg.usr ]
+			then
+				hgwcfg_scrub /etc/config/hgwcfg.usr /etc/config/hgwcfg.tmp
+				hgwcfg_strip /etc/config/hgwcfg.tmp /etc/defaults/hgwcfg.template /etc/config/hgwcfg.usr > /dev/null
+				if [ -e /etc/defaults/hgwcfg-isp.template ]; then
+					hgwcfg_strip /etc/config/hgwcfg.isp /etc/defaults/hgwcfg-isp.template /etc/config/hgwcfg.isp > /dev/null 
+				fi
+				rm -f /etc/config/hgwcfg.tmp
+				sync
+			fi
+			hgwcfg.sh exec_restore_scripts
+		fi
+		;;
+	stop)
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+		;;
+esac
+
+

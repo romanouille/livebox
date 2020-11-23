@@ -1,0 +1,32 @@
+#!/bin/sh
+. /usr/bin/pcb_common.sh
+
+name="topologydiagnostics"
+datamodel="TopologyDiagnostics"
+trace_zones="orange topo_dm hosts topo_result state topo_upload topo_xml"
+component="sah_services_topologydiagnostics"
+
+case $1 in
+    start)
+        pcb_start $name
+        mtk_load gmap /usr/lib/gmap/modules/gmap_mod_orange.so
+                ;;
+    stop)
+        mtk_unload gmap /usr/lib/gmap/modules/gmap_mod_orange
+        pcb_stop $name
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+                ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo|log]"
+        ;;
+esac

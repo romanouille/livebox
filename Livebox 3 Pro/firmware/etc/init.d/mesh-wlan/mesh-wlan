@@ -1,0 +1,352 @@
+#!/bin/sh
+##################################################################
+# Project: SagemCom Mesh WLAN Solution 
+#
+# Copyright (c) 2010-2010 Luceor SAS. All rights reserved.
+# Written by Christian DURIEUX <christian.durieux@luceor.com>
+#                                      
+# This inititialization file has to be located in /etc/init.d/mesh-wlan
+#
+# mesh-wlan usage:
+#      - mesh-wlan <start/stop/restart>
+#                                      
+# ----------------------------------------------------------------
+# V1.0: 2010-01-12 : CDU 
+#             - As specified in V1.1 interface 
+#               specification document
+# ----------------------------------------------------------------
+# V1.1: 2010-01-14 : CDU 
+#             - As specified in V1.2 interface 
+#               specification document
+# ----------------------------------------------------------------
+# V1.2: 2010-02-03 : CDU 
+#             - Add a generic configuration file 
+# ----------------------------------------------------------------
+# V1.3: 2010-04-14 : CDU 
+#             - Add olsr_debug_level support (as specified in V1.5 interface file)
+#             - Add skeleton for error management (function call tester) 
+# ----------------------------------------------------------------
+# V1.4: 2010-05-25 : CDU 
+#             - Add IPC mechanism (as specified in V1.6 interface 
+#               file & in V1.1 architecture file)
+# ----------------------------------------------------------------
+# V1.5: 2011-09-20 : BPA
+#	      - Remove useless code now done in SC middleware
+##################################################################
+
+GENERICFILE="/etc/init.d/mesh-wlan/mesh-wlan-generic"
+
+##### Beginning of the script - Do not change below #####
+if [ -f $GENERICFILE ]; then
+    . $GENERICFILE
+else
+    echo "$0: Configuration error : cannot find $GENERICFILE"
+fi
+
+
+#############################################################
+# Retrieve the current GRE tunnel. The prefix name is "lgre". This is the
+# trigger to identify our tunnels
+updateTunnelList() {
+    tunnelList=$(eval brctl show | grep $GRENAMEPREF | awk '{print $NF}')
+}
+
+
+#############################################################
+# Generation of the OLSR configuration file. 
+# All the default parameters are here.
+# Do not change them if you do not know them!
+generate_etc_olsrd_conf() {
+    rssi_thr_high="20"
+    rssi_thr_low="11"
+    hello_interval="2.0"
+    hello_validity_time="6.0"
+    tc_interval="5.0"
+    tc_validity_time="15.0"
+    mid_interval="5.0"
+    mid_validity_time="15.0"
+    hna_interval="5.0"
+    hna_validity_time="15.0"
+
+
+    cat <<EOF
+#
+# Luceor OLSR daemon config file
+#
+
+# Debug level(0-9)
+
+DebugLevel	$olsr_debug_level
+
+# IP version to use (4 or 6)
+
+IpVersion	4
+
+# Clear the screen each time the internal state changes
+
+ClearScreen no
+
+# HNA IPv4 routes
+# syntax: netaddr netmask
+# Example Internet gateway:
+# 0.0.0.0 0.0.0.0
+
+Hna4
+{
+}
+
+# hook file description
+# If not set, will not be used
+hookTC         "$OLSRHOOK"
+
+# Should olsrd keep on running even if there are
+# no interfaces available? This is a good idea
+# for a PCMCIA/USB hotswap environment.
+# "yes" OR "no"
+
+AllowNoInt	yes
+
+# TOS(type of service) value for
+# the IP header of control traffic.
+# If not set it will default to 16
+
+TosValue	${olsr_tos}
+
+# The fixed willingness to use(0-7)
+# If not set willingness will be calculated
+# dynamically based on battery/power status
+# if such information is available
+
+#Willingness    	4
+
+IpcConnect
+{
+  MaxConnections 0
+}
+
+
+UseRSSI		no
+#RSSIThrHigh	${rssi_thr_high}
+#RSSIThrLow	${rssi_thr_low}
+
+
+# Polling rate in seconds(float). 
+# Default value 0.05 sec
+
+Pollrate	0.05
+
+
+# TC redundancy
+# Specifies how much neighbor info should
+# be sent in TC messages
+# Possible values are:
+# 0 - only send MPR selectors
+# 1 - send MPR selectors and MPRs
+# 2 - send all neighbors
+#
+# defaults to 0
+
+TcRedundancy	2
+
+
+#
+# MPR coverage
+# Specifies how many MPRs a node should
+# try select to reach every 2 hop neighbor
+#
+# Can be set to any integer >0
+#
+# defaults to 1
+
+MprCoverage	2
+
+LoadPlugin "olsrd_extractor.so.0.1"
+{
+}
+
+EOF
+
+    for intf in $mesh_interface_list; do
+
+        cat <<EOF
+Interface "$intf"
+{
+  Ip4Broadcast                  255.255.255.255
+
+  HelloInterval                 ${hello_interval}
+  HelloValidityTime             ${hello_validity_time}
+  TcInterval                    ${tc_interval}
+  TcValidityTime                ${tc_validity_time}
+  MidInterval                   ${mid_interval}
+  MidValidityTime               ${mid_validity_time}
+  HnaInterval                   ${hna_interval}
+  HnaValidityTime               ${hna_validity_time}
+}
+
+EOF
+    done
+
+}
+
+#############################################################
+# CHECK ALL THE PARAMETERS
+#
+checkConfig() {
+    # mesh_interface_list
+    if [ "" = "$mesh_interface_list" ]; then
+        logInfo crit "mesh_interface_list variable is not defined. Stopped."
+        exit 1
+    fi
+
+    # bridge_name
+    if [ "" = "$bridge_name" ]; then
+        logInfo crit "bridge_name variable is not defined. Stopped."
+        exit 1
+    fi
+
+    # access_bridge_name
+    if [ "" = "$access_bridge_name" ]; then
+        logInfo crit "access_bridge_name variable is not defined. Stopped."
+        exit 1
+    fi
+
+    # access_interface_name
+    if [ $VETH_WITH_IP = "yes" ]; then
+        if [ "" = "$access_interface_name" ]; then
+            logInfo crit "access_interface_name variable is not defined. Stopped."
+            exit 1
+        fi
+        access_interface_name_meshside=$access_interface_name"_meshside"
+    else
+        access_interface_name="veth0"
+        access_interface_name_meshside="veth1"
+    fi
+
+    # olsr_debug_level
+    if [ "" = "$olsr_debug_level" ]; then
+        logInfo info "olsr_debug_level variable is not defined. 1 will be used."
+        olsr_debug_level=1
+    else
+        if [ $olsr_debug_level -gt 9 ]; then
+            logInfo info "olsr_debug_level=$olsr_debug_level is not valid. 1 will be used."
+            olsr_debug_level=1
+        else
+            if [ $olsr_debug_level -lt 0 ]; then
+                logInfo info "olsr_debug_level=$olsr_debug_level is not valid. 1 will be used."
+                olsr_debug_level=1
+            fi
+        fi
+    fi
+
+    # olsr_tos
+    if [ "" = "$olsr_tos" ]; then
+	logInfo info "olsr_tos variable is not defined. 240 will be used."
+	olsr_tos=240
+    else
+	if [ $olsr_tos -gt 255 ]; then
+	    logInfo info "olsr_tos=$olsr_tos is not valid. 240 will be used."
+	    olsr_tos=240
+	elif [ $olsr_tos -lt 0 ]; then
+	    logInfo info "olsr_tos=$olsr_tos is not valid. 240 will be used."
+	    olsr_tos=240
+	fi
+    fi
+
+    # greTTL
+    if [ "" = "$greTTL" ]; then
+        logInfo info "greTTL variable is not defined. 64 will be used."
+        greTTL=64
+    else
+        if [ $greTTL -gt 255 ]; then
+            logInfo info "greTTL=$greTTL is not valid. 64 will be used."
+            greTTL=64
+        else
+            if [ $greTTL -lt 1 ]; then
+                logInfo info "greTTL=$greTTL is not valid. 64 will be used."
+                greTTL=64
+            fi
+        fi
+    fi
+    logInfo notice "greTTL set to $greTTL."
+}
+
+#############################################################
+# START OPERATION
+#
+startWLAN() {
+    # Build OLSR configuration file
+    generate_etc_olsrd_conf > $OLSRCONFFILE
+    logInfo info "OLSR parameters generated."
+
+    # Start OLSR Daemon
+    if [ -f $OLSRFILE ]; then
+        $SUDO $OLSRFILE start
+        funcTest stop can-not-start-olsr-daemon 0
+        logInfo info "OLSR daemon started."
+    else
+        funcTest stop no-olsr-script-file 0
+        logInfo warning "no olsr script file."
+        logInfo warning "OLSR daemon is not started."
+    fi
+
+    logInfo info "Mesh WLAN started"
+}
+
+#############################################################
+# STOP OPERATION
+#
+stopWLAN() {
+    # Kill OLSR Daemon
+    if [ -f $OLSRFILE ]; then
+        $SUDO $OLSRFILE stop
+        logInfo info "OLSR daemon stopped."
+    else
+        logInfo warning "no olsr script file."
+        logInfo warning "OLSR daemon is not stopped."
+    fi
+
+    # Remove all existing tunnels
+    # First update the list of the current tunnels
+    updateTunnelList
+    for tunnel in $tunnelList; do
+        if [ $TUNNEL_VIA_LINK = "yes" ]; then
+            $SUDO ip link del $tunnel
+        else
+            $SUDO ip tunnel del $tunnel
+        fi
+        logInfo info "Tunnel $tunnel has be destroyed."
+    done
+}
+
+
+# Load the configuration file
+if [ -f $CONFFILE ]; then
+   . $CONFFILE
+   logInfo info "$CONFFILE has been loaded"
+else
+   logInfo crit "Configuration file $CONFFILE does not exist. Stopped."
+   exit 1
+fi
+
+# Let's check the configuration file
+checkConfig
+
+# What do we have to do ? 
+case $1 in
+   start)
+        startWLAN
+   ;;
+   stop)
+        stopWLAN
+   ;;
+   restart)
+        $0 stop
+        $0 start
+   ;;
+   *)
+        logInfo crit "invalid command: valid commands are start/stop/restart"
+   ;;
+esac
+
+exit 0
+        

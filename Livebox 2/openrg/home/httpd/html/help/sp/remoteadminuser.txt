@@ -1,0 +1,9 @@
+﻿<b>Administración remota:</b><br>
+<br>
+Para acceder a tu Livebox de manera remota, desde fuera de tu red, comprueba que tienes seleccionada la opción "Habilitar la administración remota".
+Podrás seleccionar tanto el modo de acceso remoto permanente como el temporal.<br>
+Esta configuración te permite acceder a tu Livebox en remoto, desde fuera de tu red. Introduce el número del puerto por el cual se podrá acceder desde el exterior de tu red. También deberás introducir un nombre de usuario y contraseña para acceder al router. Estos datos debes recordarlos ya que tendrás que introducirlos para acceder al router en remoto.<br>
+<!--
+<br>
+-->
+

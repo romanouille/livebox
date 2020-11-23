@@ -1,0 +1,43 @@
+<div id="restore" xmlns="http://www.orange.com/xhtml/engine/loose">
+    <div class="boxType3">
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_EnvLiveBox_restore">
+			<span i18n="page.myEquipments.restore.title"/>&#160;<span dataId="Device/DeviceInfo/RouterName"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			 <strong i18n="page.myEquipments.restore.subtitle"/>
+		</div>
+    </div>
+	<div class="maindiv">		
+		<form action="#">
+			<div class="boxType4 margin-top-10  border-bottom-3">
+				<span class="h3Text" i18n="page.myEquipments.restore.subpart"/>
+				<div class="clear"/>
+				<br/>
+				<div ><!-- class="forminput" -->
+					<span i18n="page.myEquipments.restore.subpart.lastrestoredate"/>&#160;<span dataId="Device/RestoreInfo/LastRestore" widgetType="Timestamp" widgetArg="'dddd dd mmmm yyyy'"/>&#160;<span i18n="page.myEquipments.restore.subpart.lastrestoretime"/>&#160;<span dataId="Device/RestoreInfo/LastRestore" widgetType="Timestamp" widgetArg="'HH:MM:ss'"/>
+				</div>
+				<br/>
+				<div class="forminput">
+					<span i18n="page.myEquipments.restore.subpart.search"/>&#160;<input type="file" id="saveFileChooser" regex=".+\.bin" filename="livebox.cfg" name="filechooser" i18nError="page.myEquipments.restore.subpart.search" i18n="page.myEquipments.restore.subpart.browse" class="w210px"/>
+				</div>
+				<div class="forminput">
+					<span i18n="page.myEquipments.restore.subpart.selected"/>&#160;<span id="selectedfile"/>.
+				</div>
+				<br/>
+				<div  i18n="page.myEquipments.restore.subpart.label"/> <!-- class="forminput" -->
+							
+				<div widgetType="ButtonContainer" class="right">
+					<span id="btnRestore" widgetType="ButtonImage" i18n="page.myEquipments.restore.subpart.btn"/>
+				</div>
+			</div>
+			<!--<div widgetType="ButtonContainer" class="btnPageBack">
+				<span widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'PREVIOUSPAGE'}" i18n="common.page.back" />
+			</div>-->
+		</form>
+	</div>
+</div>

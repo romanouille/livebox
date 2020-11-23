@@ -1,0 +1,96 @@
+datamodel {
+	object Firewall {
+                object PortForwarding {
+                        parameter SourceInterface = "data";
+                }
+
+		parameter Enable = true;
+		parameter AdvancedLevel = "Medium";
+		
+		instance of Policy(1, "Wan2Lan") {
+			parameter Name = "Wan2Lan";
+			parameter Chain = "Firewall.Chain.Medium";
+			parameter ReverseChain = "Off";
+			parameter SourceInterface = "data";
+			parameter DestinationInterface = "lan";
+			parameter Enable = true;
+			parameter IPVersion = 0;
+		}
+		instance of Policy(2, "Voip2Lan") {
+			parameter Name = "Voip2Lan";
+			parameter Chain = "Firewall.Chain.Medium";
+			parameter ReverseChain = "Firewall.Chain.VOIP";
+			parameter SourceInterface = "voip";
+			parameter DestinationInterface = "lan";
+			parameter Enable = true;
+		}
+		instance of Policy(3, "IPTV2Lan") {
+			parameter Name = "IPTV2Lan";
+			parameter Chain = "Firewall.Chain.IPTV_Input";
+			parameter ReverseChain = "Firewall.Chain.IPTV_Output";
+			parameter SourceInterface = "iptv";
+			parameter DestinationInterface = "lan";
+			parameter Enable = true;
+		}
+		instance of Policy(4, "Wan2LanIPv6") {
+			parameter Name = "Wan2LanIPv6";
+			parameter Chain = "Firewall.Chain.Medium";
+			parameter ReverseChain = "Off";
+			parameter SourceInterface = "data";
+			parameter DestinationInterface = "lan";
+			parameter Enable = false;
+			parameter IPVersion = 6;
+		}
+
+		instance of Policy(5, "Wificom") {
+			parameter Name = "Wificom";
+			parameter Chain = "Firewall.Chain.Hotspot";
+			parameter ReverseChain = "Off";
+			parameter SourceInterface = "wl1";
+			parameter DestinationInterface = "wfc_ppp";
+			parameter Enable = true;
+			parameter IPVersion = 4;
+		}
+
+		instance of Chain(1, "Custom") {
+			parameter Name = "Level_Custom";
+		}
+		instance of Chain(2, "High") {
+			parameter Name = "Level_High";
+		}
+		instance of Chain(3, "Low") {
+			parameter Name = "Level_Low";
+		}
+		instance of Chain(4, "Medium") {
+			parameter Name = "Level_Medium";
+		}
+		instance of Chain(5, "NO_ICMP") {
+			parameter Name = "NO_ICMP";
+		}
+		instance of Chain(6, "IPTV_Output") {
+			parameter Name = "IPTV_Output";
+		}
+		instance of Chain(7, "VOIP") {
+			parameter Name = "VOIP";
+		}
+		instance of Chain(8, "IPTV_Input") {
+			parameter Name = "IPTV_Input";
+		}
+		instance of Chain(9, "Hotspot") {
+			parameter Name = "Hotspot";
+		}
+		instance of Service(1, "upnp") {
+			parameter Id = "upnp";
+			parameter SourceInterface = "lan";
+			parameter DestinationPort = "1900";
+			parameter IPVersion = 0;
+			parameter Protocol = "17";
+			parameter Enable = true;
+		}
+		instance of Interface(1, "bridge") {
+			parameter Name = "bridge";
+			parameter SourceAddress6Spoofing = true;
+
+		}
+	}
+}

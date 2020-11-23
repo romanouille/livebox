@@ -1,0 +1,109 @@
+persistent object NMC {
+persistent object Discovery {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+persistent bool Enable {
+default true;
+}
+persistent uint32 Timer {
+constraint minvalue 1;
+default 60;
+}
+persistent uint32 OnTheFlyTimer {
+constraint minvalue 1;
+default 300;
+}
+}
+persistent object Autodetect {
+persistent bool FirstBoot {
+default true;
+}
+persistent bool Enable {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default true;
+}
+persistent uint32 nbOAMPing {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default 0;
+}
+persistent uint32 Timer {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+constraint minvalue 1;
+default 16;
+}
+persistent uint32 UpMinRate {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default 250;
+}
+bool ForcedPPP {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+persistent bool AutoFallback {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default true;
+}
+persistent uint32 MRDv4 {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default 21;
+}
+persistent uint32 MRDv6 {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default 20;
+}
+variant get();
+}
+persistent string VoIPMode {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+constraint enum ["Dedicated", "Internet"];
+default "Dedicated";
+}
+persistent string IPTVMode {
+acl {
+world none;
+group admin read, execute;
+group remoteadmin read, execute;
+}
+constraint enum ["Dedicated", "Internet"];
+default "Dedicated";
+}
+}

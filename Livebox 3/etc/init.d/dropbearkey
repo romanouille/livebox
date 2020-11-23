@@ -1,0 +1,20 @@
+#!/bin/sh
+
+
+
+case $1 in
+	start)
+
+		mkdir -p /cfg/system/dropbear
+
+		if [ ! -e /etc/dropbear/dropbear_rsa_host_key ]
+		then
+			mkdir -p /etc/dropbear 1>/dev/null 2>/dev/null
+			/bin/dropbearkey -t rsa -s 1024 -f /etc/dropbear/dropbear_rsa_host_key > /dev/null 2>&1
+		fi
+		touch /var/log/lastlog /var/log/wtmp
+	;;
+	stop)
+		;;
+	*)
+esac

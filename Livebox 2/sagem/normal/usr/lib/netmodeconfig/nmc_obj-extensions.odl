@@ -1,0 +1,114 @@
+/**
+ * RPCs that should be directly resolved in the netmodeconfig
+ * binary instead of the .so file should be put in this ODL file
+ * this way invidual plugins can implement their own RPCs
+ */
+acl {
+	world read,execute;
+	group admin read,write,execute;
+	group remoteadmin read,write,execute;
+	group cwmpd read,write,execute;
+}
+
+persistent object NMC {
+
+	/** 
+	 * Return the current VoIP configuration
+	 * @param Protocol current VoIP protocol (SIP, H323)
+	 * @param VPVC VPVC (ADSL) or VLANID (FTTH, VDSL) of the current VoIP interface
+	 */
+	void getVoIPConfig(out string Protocol, out string VPVC);
+
+	/** 
+	 * Return the Wi-Fi statistics
+	 * @param RxBytes number of received bytes
+	 * @param TxBytes number of transmitted bytes
+	 */
+	void getWLANStats(out uint32_t RxBytes, out uint32_t TxBytes) {
+		acl {
+			world none;
+		}
+	}
+
+	object Error {
+		/** 
+		 * Return the captive portal current error
+		 * @return the error ID
+		 */
+		string getPrimaryErrorCode();
+	}
+
+	/**
+	 * Settings for IPv6DefaultModeForceIPv4
+	 */
+	persistent object IPv6 {
+		void get(out bool Enable, out bool IPv4UserRequested) {
+			acl {
+				world none;
+			}
+		}
+		void set(in bool IPv4UserRequested) {
+			acl {
+				world none;
+			}
+		}
+	}
+
+	/**
+	 * Settings for Autodetect
+	 */
+	object Autodetect {
+		/**
+		* get FirstBoot
+		*/
+		variant get();
+	}
+
+	/**
+	 * Settings for Orange TV
+	 */
+	persistent object OrangeTV {
+
+
+		/** 
+		 * Retrieve the IPTV status to be exposed on the GUI.
+		 * Status is considered as Unknown if the Home Gateway is in bridged mode.
+		 * IPTV is considered as Available if network connection is established and a
+		 * Set-Top Box is connected to Home Gateway and turned on. It is Unavailable
+		 * otherwise
+		 * @param IPTVStatus the IPTV status
+		 */
+		void getIPTVStatus(out string IPTVStatus);
+
+		/**
+		 * Activate the multiscreens feature (more than 1 STBs)
+		 * @param MLTVEnable true to enable multi screens, false to disable multi screens.
+		 */
+		void setIPTVMultiScreens(in bool MLTVEnable) {
+			acl {
+				world none;
+			}
+		}
+
+		/**
+		 * Retrieve the multiscreens status
+		 * @param MLTVEnable true if multi screens is enabled, false if multi screens is disabled.
+		 */
+		void getIPTVMultiScreens(out bool MLTVEnable) {
+			acl {
+				world none;
+			}
+		}
+
+		/**
+		 * Retrieve the multiscreens status
+		 * @param MLTVEnable true if multi screens is enabled, false if multi screens is disabled.
+		 */
+		list getIPTVConfig() {
+			acl {
+				world none;
+			}
+		}
+	}
+}
+

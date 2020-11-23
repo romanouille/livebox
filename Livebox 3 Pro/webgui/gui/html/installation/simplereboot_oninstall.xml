@@ -1,0 +1,17 @@
+<div id="simplereboot_oninstall" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" alt="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+	<div class="alignCenter">
+		<img class="margin-bottom-10" alt="installation de la Livebox" src="theme/webCorporate/image/installation/ill_livebox.png"/>
+	</div>
+	<div id="container2">
+		<div class="h2_install" i18n="page.page0.simplereboot_oninstall.label"/>
+		<div id="restoreWait" class="centered margin-top-60">
+			<div widgetType="RunnerBar" widgetArg="{duration:3000, width:678, height:38}"/>
+		</div>
+	</div>
+</div>

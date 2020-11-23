@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<DiagnosisDescription
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns='urn:diagnosis-orange-com:description'
+    xsi:schemaLocation='urn:diagnosis-orange-com:description src/diagnosis.xsd'
+    version="sah_custom">
+
+    <!-- Automatic -->
+    <TriggerDescription>
+        <Trigger event="start" diagnosisID="start_trig"/>
+        <Trigger event="wan-phy" diagnosisID="wanp_trig"/>
+        <Trigger event="wan-log" diagnosisID="wanl_trig"/>
+        <Trigger event="voip" diagnosisID="voip_trig"/>
+    </TriggerDescription>
+    <Diagnosis ID="start_trig" name="start" description="">
+        <Sequence>
+            <Function name="SetOLEDMessage">
+                <Parameter name="message" value="HGW Started"/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="wanp_trig" name="wan-phy" description="">
+        <Sequence>
+            <Function name="SetOLEDMessage">
+                <Parameter name="message" value="WAN-PHY KO"/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="wanl_trig" name="wan-log" description="">
+        <Sequence>
+            <Function name="SetOLEDMessage">
+                <Parameter name="message" value="WAN-LOG KO"/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="voip_trig" name="voip" description="">
+        <Sequence>
+            <Function name="SetOLEDMessage">
+                <Parameter name="message" value="VOIP Not Available"/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+
+    <!-- On demand -->
+    <Diagnosis ID="start" name="start" description="bogus test sequence">
+        <Sequence>
+            <Function name="SetOLEDMessage">
+                <Parameter name="message" value="test du device en cours"/>
+            </Function>
+            <Function name="GetStartStatus"/>
+            <IF expression="StartStatus==true">
+                <ThenAction>
+                    <Function name="SaveDiagExitCode">
+                        <Parameter name="diagExitCode" value="codeStartOK"/>
+                        <Parameter name="storageType" value="flash"/>
+                    </Function>
+                </ThenAction>
+                <ElseAction>
+                    <Function name="SaveDiagExitCode">
+                        <Parameter name="diagExitCode" value="codeStartKO"/>
+                        <Parameter name="storageType" value="flash"/>
+                    </Function>
+                </ElseAction>
+            </IF>
+            <Function name="SetOLEDMessage">
+                <Parameter name="message" value="Fin du test..."/>
+            </Function>
+            <Function name="Wait">
+                <Parameter name="sleep" value="3000"/>
+            </Function>
+            <Function name="ResetOLEDMessage"/>
+        </Sequence>
+    </Diagnosis>
+    <Diagnosis ID="wan" name="wan" description="bogus wan sequence">
+        <Sequence>
+            <Function name="CheckWanIP"/>
+            <IF expression="WanIPStatus==0.0.0.0">
+                <ThenAction/>
+            </IF>
+            <Function name="GetWANStatus"/>
+            <IF expression="WanStatus==synchronized">
+                <ThenAction/>
+                <ElseAction/>
+            </IF>
+            <Function name="GetWanAccessType"/>
+            <IF expression="WanAccessType==ADSL">
+                <ThenAction/>
+            </IF>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="voip" name="voip" description="bogus voip sequence">
+        <Sequence>
+            <Function name="GetVOIPStatus"/>
+            <IF expression="VOIPStatus==true">
+                <ThenAction/>
+            </IF>
+            <Function name="CheckVOIPConfig"/>
+            <IF expression="VOIPConfigStatus==true">
+                <ThenAction/>
+            </IF>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="event" name="event" description="test lan api">
+        <Sequence>
+            <Function name="SendValue">
+                <Parameter name="valueName" value="value"/>
+            </Function>
+            <Function name="SendStep">
+                <Parameter name="step" value="step"/>
+            </Function>
+            <Function name="SendResult">
+                <Parameter name="diagExitCode" value="result"/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="then" name="if-then" description="if-then-else">
+        <Sequence>
+            <Function name="GetStartStatus"/>
+            <IF expression="StartStatus==true">
+                <ThenAction>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="StartStatus==true"/>
+                    </Function>
+                </ThenAction>
+                <ElseAction>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="StartStatus==false"/>
+                    </Function>
+                </ElseAction>
+            </IF>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="else" name="if-else" description="if-then-else">
+        <Sequence>
+            <Function name="GetStartStatus"/>
+            <IF expression="StartStatus==false">
+                <ThenAction>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="StartStatus==true"/>
+                    </Function>
+                </ThenAction>
+                <ElseAction>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="StartStatus==false"/>
+                    </Function>
+                </ElseAction>
+            </IF>
+            <Function name="Dummy"/>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="prop" name="get prop" description="get property test">
+        <Sequence>
+            <Function name="GetProperty">
+                <Parameter name="propertyName" value="Services.VoiceService.1.VoiceProfile.1.Enable"/>
+            </Function>
+            <Function name="GetProperty">
+                <Parameter name="propertyName" value="AutoDiag.DiagnosticScriptFile"/>
+            </Function>
+            <Function name="GetProperty">
+                <Parameter name="propertyName" value="DeviceInfo.DeviceId"/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="dowhile" name="count" description="do while">
+        <Sequence>
+        <Parameter name="count" value="0"/>
+            <DoWhile expression="count&lt;5">
+                <Function name="IncCounter">
+                    <Parameter name="counterName" value="count"/>
+                </Function>
+            </DoWhile>
+            <Function name="Dummy"/>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="switch" name="switch" description="test Switch">
+        <Parameter name="test1" value="test1"/>
+        <Parameter name="test2" value="test2"/>
+        <Sequence>
+            <Switch>
+                <Case expression='test1==test2'>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="Case1"/>
+                    </Function>
+                </Case>
+                <Case expression='test1==test1'>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="Case2"/>
+                    </Function>
+                </Case>
+                <Case expression='test2==test2'>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="Case3"/>
+                    </Function>
+                </Case>
+            </Switch>
+            <Function name="Dummy"/>
+        </Sequence>
+    </Diagnosis>
+    <Diagnosis ID="wait" name="wait5s" description="sleep and screen test">
+        <Sequence>
+            <Function name="SetOLEDMessage">
+                <Parameter name="message" value="waiting 5 sec"/>
+            </Function>
+            <Function name="Wait">
+                <Parameter name="sleep" value="5000"/>
+            </Function>
+            <Function name="ResetOLEDMessage"/>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="dial" name="dial" description="place a fake call to voicemail, wait end and place failing call">
+        <Sequence>
+            <Function name="PlaceCall">
+                <Parameter name="VOIPCallNumber" value="888"/>
+            </Function>
+            <Function name="Wait">
+                <Parameter name="sleep" value="20000"/>
+            </Function>
+            <Function name="PlaceCall">
+                <Parameter name="VOIPCallNumber" value="0000000000"/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="fnotfound" name="fnotfound" description="404 fonction not found">
+        <Sequence>
+            <Function name="NotFound">
+                <Parameter name="message" value="this function does not exist"/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="wrongparam" name="wrongparam" description="incomplete parameter">
+        <Sequence>
+            <Function name="Wait">
+                <Parameter name="sleep" value=""/>
+            </Function>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="global" name="global" description="testing global param">
+        <Sequence>
+            <Parameter name="diagExitCode" value="codeStartOK"/>
+            <IF expression="diagExitCode == codeStartOK">
+                <ThenAction>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="diagExitCode==codeStartOK"/>
+                    </Function>
+                </ThenAction>
+                <ElseAction>
+                    <Function name="SetOLEDMessage">
+                        <Parameter name="message" value="diagExitCode==codeStartKO"/>
+                    </Function>
+                </ElseAction>
+            </IF>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="report" name="report" description="create and send report">
+        <Sequence>
+            <Function name="AddToReport">
+                <Parameter name="diagnosticExitCode" value="AUTO_01_00_06012014"/>
+                <Parameter name="diagnosticComment" value="aucun problème détecté"/>
+            </Function>
+            <Function name="AddToReport">
+                <Parameter name="diagnosticExitCode" value="WIFI_03_00_06012014"/>
+                <Parameter name="diagnosticComment" value="Antenne wifi KO"/>
+            </Function>
+            <Function name="SendReport"/>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="report2" name="report" description="create and send report">
+        <Sequence>
+            <Function name="GetDiagExitCode"/>
+            <Function name="AddToReport">
+                <Parameter name="diagnosticExitCode" value="AUTO_01_00_06012014"/>
+                <Parameter name="diagnosticComment" value="aucun problème détecté"/>
+            </Function>
+            <Function name="AddToReport">
+                <Parameter name="diagnosticExitCode" value="WIFI_03_00_06012014"/>
+                <Parameter name="diagnosticComment" value="Antenne wifi KO"/>
+                <ListParameter name="diagnosticParameters">
+                    <Val>diagExitCode</Val>
+                    <Val>diagExitCodeTimeStamp</Val>
+                </ListParameter>
+            </Function>
+            <Function name="SendReport"/>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="reboot" name="reboot" description="calling reboot function">
+        <Sequence>
+            <Function name="Reboot"/>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="dref" name="ref" description="calling a sub diag">
+        <Sequence>
+            <DiagnosisRef IDREF="global"/>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="lib" name="testlib" description="diag that calls each lib function">
+        <Sequence>
+            <Function name="SetOLEDMessage">
+                <Parameter name="message" value="Testing autodiag lib"/>
+            </Function>
+            <Function name="GetVOIPStatus"/>
+            <Function name="CheckVOIPConfig"/>
+            <Function name="ReloadVoipConfig"/>
+            <Function name="ClearCatIQHandset"/>
+            <Function name="GetCAT-iqPairingStatus"/>
+            <Function name="SetCAT-iqPairing"/>
+            <Function name="PlaceCall">
+                <Parameter name="VOIPCallNumber" value="888"/>
+            </Function>
+            <Function name="Wait">
+                <Parameter name="sleep" value="2000"/>
+            </Function>
+            <Function name="SaveDiagExitCode">
+                <Parameter name="diagExitCode" value="codeStartOK"/>
+                <Parameter name="storageType" value="ram"/>
+            </Function>
+            <Function name="SaveDiagExitCode">
+                <Parameter name="diagExitCode" value="codeStartOK"/>
+                <Parameter name="storageType" value="flash"/>
+            </Function>
+            <Function name="GetDiagExitCode"/>
+            <Function name="ResetDiagExitCode">
+                <Parameter name="storageType" value="ram"/>
+            </Function>
+            <Function name="ResetDiagExitCode">
+                <Parameter name="storageType" value="flash"/>
+            </Function>
+            <Function name="IncCounter">
+                <Parameter name="counterName" value="count"/>
+            </Function>
+            <Function name="IncCounter">
+                <Parameter name="counterName" value="count"/>
+            </Function>
+            <Function name="ResetCounter">
+                <Parameter name="counterName" value="count"/>
+            </Function>
+            <Function name="CheckWanIP"/>
+            <Function name="GetWANStatus"/>
+            <Function name="GetWanAccessType"/>
+            <Function name="RestartWANDHCPClient"/>
+            <Function name="RestartWANPPPClient"/>
+            <Function name="GetStartStatus"/>
+            <Function name="Wait">
+                <Parameter name="sleep" value="1000"/>
+            </Function>
+            <Function name="ResetOLEDMessage"/>
+            <!-- <Function name="Reboot"/> BYPASS THIS ONE FOR NOW -->
+            <!-- <Function name="Reset"/> BYPASS THIS ONE FOR NOW -->
+            <Function name="Backup"/>
+            <Function name="Wait">
+                <Parameter name="sleep" value="2000"/>
+            </Function>
+            <Function name="Restore"/>
+            <Function name="GetProperty">
+                <Parameter name="propertyName" value="Services.VoiceService.1.VoiceProfile.1.Enable"/>
+            </Function>
+            <Function name="GetFirewallLevel"/>
+            <Function name="SetFirewallLevel">
+                <Parameter name="FirewallLevel" value="Medium"/>
+            </Function>
+            <Function name="SendValue">
+                <Parameter name="valueName" value="sendValue"/>
+            </Function>
+            <Function name="SendStep">
+                <Parameter name="step" value="sendStep"/>
+            </Function>
+            <Function name="SendResult">
+                <Parameter name="diagExitCode" value="sendResult"/>
+            </Function>
+            <Function name="AddToReport">
+                <Parameter name="diagnosticExitCode" value="LIB_TESTING"/>
+                <Parameter name="diagnosticComment" value="AddToReport test"/>
+            </Function>
+            <Function name="SendReport"/>
+            <Function name="Dummy"/>
+            <Function  name="DumpVar"/>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="exparser" name="testexparser" description="just some expression tests">
+        <Sequence>
+            <IF expression="true == true">
+                <ThenAction/>
+            </IF>
+            <IF expression="true != false">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 == 1">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 != 1">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &gt;= 1">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &gt;= 2">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &lt;= 1">
+                <ThenAction/>
+            </IF>
+            <IF expression="2 &lt;= 1">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &gt; 0">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &gt; 1">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &lt; 0">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &lt; 2">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &amp;&amp; 1">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 &amp;&amp; 0">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 || 0">
+                <ThenAction/>
+            </IF>
+            <IF expression="0 || 0">
+                <ThenAction/>
+            </IF>
+            <IF expression="true">
+                <ThenAction/>
+            </IF>
+            <IF expression="1 £ 1">
+                <ThenAction/>
+            </IF>
+        </Sequence>
+     </Diagnosis>
+    <Diagnosis ID="exparser2" name="testexparser" description="just some expression tests">
+        <Parameter name="sleep1" value="1000"/>
+        <Parameter name="sleep2" value="2000"/>
+        <Sequence>
+            <IF expression="sleep1 == sleep2">
+                <ThenAction/>
+            </IF>
+        </Sequence>
+     </Diagnosis>
+   <Diagnosis ID="list" name="list" description="test Foreach">
+        <Sequence>
+            <ListParameter name="testlist">
+                <Val>val1</Val>
+                <Val>val2</Val>
+            </ListParameter>
+            <Foreach list="testlist" var="var">
+                <IF expression="var == val1">
+                    <ThenAction/>
+                </IF>
+                <Switch>
+                    <Case expression='var==val2'/>
+                </Switch>
+            </Foreach>
+        </Sequence>
+    </Diagnosis>
+   <Diagnosis ID="foreach" name="foreach" description="test Foreach">
+        <ListParameter name="cntList" >
+            <Val>cnt0</Val>
+            <Val>cnt1</Val>
+            <Val>cnt2</Val>
+            <Val>cnt3</Val>
+        </ListParameter>
+        <Sequence>
+            <Foreach list="cntList" var="cnt">
+            <Function name="IncCounter">
+                <!-- Should this increment counter from the list ? -->
+                <Parameter name="counterName" value="var"/>
+            </Function>
+            </Foreach>
+        </Sequence>
+    </Diagnosis>
+
+    <!-- Debug -->
+    <Diagnosis ID="debug" name="debug" description="example of debug script" debug="START">
+        <Sequence>
+            <Function name="SetOLEDMessage" debug="Function SetOled">
+                <Parameter name="message" value="debug" debug="Parameter message"/>
+            </Function>
+            <IF expression="true == false" debug="IF true">
+                <ThenAction>
+                    <Function name="Dummy" debug="Then"/>
+                </ThenAction>
+                <ElseAction>
+                    <Function name="Dummy" debug="Else"/>
+                </ElseAction>
+            </IF>
+            <Parameter name="count" value="0" debug="count=0"/>
+            <DoWhile expression="count&lt;3" debug="DoWhile">
+                <Function name="IncCounter" debug="IncCounter">
+                    <Parameter name="counterName" value="count"/>
+                </Function>
+                <Function name="DumpVar">
+                    <Parameter name="variable" value="count"/>
+                </Function>
+            </DoWhile>
+            <Switch>
+                <Case expression='test1==test2' debug="case 1">
+                    <Function name="Dummy" debug="Dummy"/>
+                </Case>
+            </Switch>
+            <ListParameter name="testlist" debug="ListParam: val1, val2">
+                <Val>val1</Val>
+                <Val>val2</Val>
+            </ListParameter>
+            <Foreach list="testlist" var="var" debug="ForEach">
+                <Function name="DumpVar">
+                    <Parameter name="variable" value="var"/>
+                </Function>
+            </Foreach>
+            <Function name="DumpVar" debug="FIN, dump:"/>
+        </Sequence>
+     </Diagnosis>
+
+</DiagnosisDescription>
+

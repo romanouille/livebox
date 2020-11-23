@@ -1,0 +1,3 @@
+include "voice_storage-definition.odl";
+
+/** @location sah_services_voice /voice_application/scripts/voice_storage.odl */

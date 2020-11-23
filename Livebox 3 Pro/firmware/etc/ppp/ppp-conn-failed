@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# This script is called with the following arguments:
+#    Arg  Name                          Example
+#    $1   Error Code String             3
+#    $2   Extra Error Code String       9
+#    $3   PID String                    1234
+#    $4   PPP_IPPARAM                   the string passed in configuration 
+#                                       parameter ipparm (in our case the smu name)
+#
+#
+
+ERR_CODE="$1"
+ADD_ERR_CODE="$2"
+PID_STRING="$3"
+PPP_IPPARAM="$4"
+
+pppd2smuPppAdaptor $PPP_IPPARAM conn-failed $ERR_CODE $ADD_ERR_CODE
+

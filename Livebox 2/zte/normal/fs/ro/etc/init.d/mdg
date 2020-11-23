@@ -1,0 +1,268 @@
+#!/bin/sh
+
+#get_version(  )
+#{
+#	hcidev=$1
+#	# check firmware version
+#	tmp=$(hcitool -i $hcidev cmd 0x3b 0x2A0)
+#	set ${tmp##*plen}
+#	shift 5
+#	ver=$(( (0x$2+(0x$1 << 8)) & 0xFFF ))
+#	echo $ver
+#}
+
+conf_get_str ()
+{
+    conf_file=$1
+    variable=$2
+    line=$(/bin/grep $variable $conf_file)
+    echo ${line#*=}
+}
+
+readconf ()  
+{
+        RCONFFILE=$1
+        [ ! -f "$RCONFFILE" ] && echo "Fichier $RCONFFILE inexistant !" && exit 1
+        shift
+        for VAR in $* ; do  
+            export "$VAR=$( conf_get_str $RCONFFILE $VAR )"
+        done
+}
+
+get_rfpi(  )
+{
+	hcidev=$1
+	# check RFPI
+	tmp=$(hcitool -i $hcidev cmd 0x3b 0x0289)
+	set ${tmp##*plen}
+	shift 5
+	rfpi="$1$2$3$4$5"
+	echo $rfpi
+}
+
+
+start_mdg()
+{
+	if [ -f /var/run/mdg ]; then
+		echo "mdg already started"
+		exit 1
+	fi
+	touch /var/run/mdg	
+	#avoid multiple concurrent launch of scripts
+
+	echo "loading hci_uart" > /var/run/mdg.log
+	modprobe -r hci_uart ; modprobe hci_uart
+
+	echo "loading usb-ohci, usbserial, cp2101" >> /var/run/mdg.log
+	#modprobe usb-ohci		# statically compiled in kernel
+	modprobe usbserial
+	modprobe cp2101
+	sleep 3
+	serial=""
+	[ -e "/dev/usb/tts/0" ] && serial=/dev/usb/tts/0
+	[ -e /dev/ttyUSB[0-9] ] && serial=$(ls /dev/ttyUSB[0-9] 2>/dev/null | head -1)
+	if [ -z "$serial" ]; then
+		echo "mdg: failed to find a serial device!"
+		rm -f /var/run/mdg && exit 1
+	fi
+	# start hcid if not running yet
+	echo "Starting hciattach now!"
+	echo "starting hcid" >> /var/run/mdg.log
+	killall -0 hcid 2>/dev/null || hcid
+
+	echo "running hciattach" >> /var/run/mdg.log
+	hciattach_return=$(hciattach -p -t 2 $serial bcsp_usb 115200 flow)
+
+	if [ "$hciattach_return" = "" ]; then	
+		echo "no MDG module detected, try again"
+		sleep 4
+		hciattach_return=$(hciattach -p -t 2 $serial bcsp_usb 115200 flow)
+	fi
+
+	if [ "$hciattach_return" = "" ]; then
+		echo "still cannot connect to MDG module, exiting"
+		rm -f /var/run/mdg && exit 1
+	fi
+
+	hciattach_pid=$hciattach_return
+	hcidev=hci0
+	hcidevnum=0
+
+	echo "
+	MDG_HCIDEV=$hcidev
+	MDG_HCIDEV_ID=$hcidevnum
+	MDG_HCIATTACH_PID=$hciattach_pid
+	" > /var/run/mdg
+
+	echo "
+	MDG_HCIDEV=$hcidev
+	MDG_HCIDEV_ID=$hcidevnum
+	MDG_HCIATTACH_PID=$hciattach_pid
+	" 
+
+	echo "hciconfig $hcidev up" >> /var/run/mdg.log
+	hciconfig $hcidev up
+
+	# load lower driver
+	echo "loading DECT drivers on hcidevid=$hcidevnum" >> /var/run/mdg.log
+	echo "options thomson_lower_dect_driver hcidevid=$hcidevnum $THOMSON_DECT_DRIVER_OPTIONS" > /var/run/thomson_lower_dect_modprobe.conf
+	modprobe thomson_lower_dect_driver
+
+	#connect dect to pstn
+	#hcitool -i $hcidev cmd 0x3A 0x10A 0x6
+
+	# Check if hciattach is still running
+	kill -0 $hciattach_pid > /dev/null 2>&1
+	if [ "$?" != "0" ]; then
+		echo "hciattach is not running anymore (mdg stop has been called during start)"
+		rm -f /var/run/mdg  /var/run/mdg_version
+	fi
+}
+
+
+stop_mdg()
+{
+	if [ ! -f /var/run/mdg ]; then
+		echo "mdg already stopped"
+		exit 1
+	fi
+	
+	readconf /var/run/mdg MDG_HCIATTACH_PID
+	kill -9 $MDG_HCIATTACH_PID
+	rm -f /var/run/mdg  /var/run/mdg_version  /var/run/mdg_flashed /var/run/thomson_lower_dect_modprobe.conf
+	#if no more bluetooth or dect device attached, remove hcid
+	# but do not remove if dect watchdog without reboot
+	if [ "$1" != "watchdog" ]; then
+	    killall -0 hciattach 2>/dev/null || killall hcid
+	fi
+	rmmod cp2101
+	rmmod usbserial 
+	rmmod thomson_lower_dect_driver
+}
+
+watchdog()
+{
+	if [ -f /etc/init.d/ntp ]; then
+	    if [ -f /var/run/ntp_delta ]; then     
+		current_date=$(date -n +"%Y/%m/%d %X")
+	    else
+		current_date=$(date +"%j ------ %X")
+	    fi
+	else
+	    current_date=$(date +"%j %X")
+	fi
+        echo "$current_date  DECT watchdog." >> /root/adsld.log
+	sleep 2
+	reboot
+}
+
+factory_reset()
+{
+	if [ ! -f /var/run/mdg ]; then
+		echo "mdg already stopped"
+		exit 1
+	fi
+	readconf /var/run/mdg MDG_HCIDEV
+	echo "mdg factory reset"
+	# set pincode to 0000
+	hcitool -i $MDG_HCIDEV cmd 0x3B 0xB3  01 92  04  FF FF 00 00
+	echo "MDG_FACTORY_RESET_DONE=y" >> /etc/mdg.conf
+	stop_mdg
+	sleep 4
+	if [ -f "/var/run/prod_test" ] ; then
+		/etc/init.d/pair stop
+	fi
+	start_mdg
+}
+
+hcidevid ()
+{
+	if [ -f /var/run/mdg ]; then
+		MDG_HCIDEV_ID=255
+		readconf /var/run/mdg  MDG_HCIDEV_ID
+		exit $MDG_HCIDEV_ID
+	else
+		exit 255
+	fi
+}
+
+set_subscription ()
+{
+	#warning: set pincode to 0000
+	local regex="^\([0-9A-F]\{2\}\)\([0-9A-F]\{2\}\)\([0-9A-F]\{2\}\)\([0-9A-F]\{2\}\)\([0-9A-F]\{2\}\)"
+	local hcidev=$1
+	local ipui_1=$( echo $2 | sed  -n "s/$regex/\1/p" )
+	local ipui_2=$( echo $2 | sed  -n "s/$regex/\2/p" )
+	local ipui_3=$( echo $2 | sed  -n "s/$regex/\3/p" )
+	local ipui_4=$( echo $2 | sed  -n "s/$regex/\4/p" )
+	local ipui_5=$( echo $2 | sed  -n "s/$regex/\5/p" )
+
+	if [ ! -f /var/run/mdg ]; then
+		echo "mdg is not running"
+		exit 1
+	fi
+
+	hcitool -i $hcidev cmd 0x3B 0xB3 0x00 0x00 0x28 "$ipui_1" "$ipui_2" "$ipui_3" "$ipui_4" "$ipui_5" \
+	0x00 0x00 0x01 \
+	0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF \
+	0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 0x01 \
+	0xFF 0xFF 0x00 0x00 \
+	0x01 0x01 0xA1 0x01
+
+}
+
+
+case $1 in
+	start)
+		[ -e "/var/run/prod_test" ] && exit;
+		start_mdg
+		;;
+	start2)
+		# pour la prod
+		/etc/init.d/pair stop
+		start_mdg
+		;;
+	stop)
+		stop_mdg
+		;;
+	restart)
+		$0 stop
+		exec $0 start
+		;;
+	factory_reset)
+		factory_reset
+		;;
+	clear_sub)
+		#clear subscription list of the mdg. mdg need to be running first (mdg start)
+		readconf /var/run/mdg  MDG_HCIDEV
+		hcitool -i $MDG_HCIDEV cmd 0x3B 0x286
+		;;
+	pairing)
+		#start infinite pairing
+		readconf /var/run/mdg  MDG_HCIDEV
+		hcitool -i $MDG_HCIDEV cmd 0x3B 0x283 1
+		;;	
+	hcidevid)
+		hcidevid
+		;;
+	version)
+		readconf /var/run/mdg  MDG_HCIDEV
+		echo $(get_version $MDG_HCIDEV )
+		;;
+	watchdog)
+		watchdog
+		;;
+	rfpi)
+		readconf /var/run/mdg  MDG_HCIDEV
+		echo $(get_rfpi $MDG_HCIDEV )
+		;;
+	set_subscription)
+		# pour la prod
+		readconf /var/run/mdg  MDG_HCIDEV
+		set_subscription MDG_HCIDEV $2
+		;;
+	*)
+		echo "Usage: mdg [start|stop|restart|clear_sub|hcidevid|version|pairing|set_subscription|rfpi]"
+		;;
+esac
+

@@ -1,0 +1,243 @@
+include "nmc_ipv6-defaults.odl";
+datamodel {
+acl {
+world read,execute;
+group admin read, execute;
+group remoteadmin read, execute;
+group cwmpd read, write, execute;
+}
+object NMC {
+acl {
+world read,execute;
+}
+function get {
+acl {
+world read,execute;
+}
+}
+function set {
+acl {
+world none;
+}
+}
+parameter WanModeList {
+acl {
+world none;
+}
+}
+parameter WanMode {
+acl {
+world read,execute;
+}
+}
+function setWanMode {
+acl {
+world read,execute;
+}
+}
+function getWanModeList {
+acl {
+world none;
+}
+}
+function getWANStatus {
+acl {
+world read,execute;
+}
+}
+parameter Username {
+acl {
+world none;
+}
+}
+parameter Password {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read, write;
+}
+}
+parameter FactoryResetScheduled {
+acl {
+world none;
+group cwmpd read;
+}
+}
+parameter VoIPWelcomeMessage {
+default true;
+}
+function backup {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function restore {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function reset {
+acl {
+world none;
+}
+}
+function reboot {
+acl {
+world none;
+}
+}
+function export {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function import {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function factoryReset {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function saveflush {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter ConnectionError {
+acl {
+world read,execute;
+}
+}
+function getVoIPConfig {
+acl {
+world none;
+}
+}
+parameter DefaultsLoaded = true;
+parameter ProvisioningState {
+acl {
+world none;
+}
+}
+object OrangeTV {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+parameter Mode = "SimplifiedV2";
+}
+object Error {
+acl {
+world read,execute;
+}
+parameter FirstBoot {
+acl {
+world none;
+}
+}
+parameter Enable {
+acl {
+world none;
+}
+}
+parameter ErrorID {
+acl {
+world none;
+}
+}
+parameter Detected {
+acl {
+world none;
+}
+}
+parameter Status {
+acl {
+world none;
+}
+}
+parameter TimeWaiting {
+acl {
+world none;
+}
+}
+parameter TotalErrorDuration {
+acl {
+world none;
+}
+}
+parameter STBList {
+acl {
+world none;
+}
+}
+parameter URL {
+acl {
+world none;
+}
+}
+parameter NoRedirectDomain {
+acl {
+world none;
+}
+}
+parameter NoRedirectDomain = "g2.spnp.orange.com, se-connecter-au-reseau.orange.com";
+}
+object Guest {
+acl {
+world none;
+}
+}
+object LED {
+acl {
+world none;
+}
+}
+object NetworkConfig {
+parameter Enable = true;
+}
+object Discovery {
+acl {
+world none;
+}
+}
+object Autodetect {
+parameter Enable = true;
+}
+object TPPP {
+acl {
+world none;
+}
+}
+object WlanTimer {
+acl {
+world none;
+}
+}
+object Wifi {
+function get {
+acl {
+world read, execute;
+}
+}
+}
+object DataTracking {
+parameter CustomerAuthorization = true;
+}
+}
+}

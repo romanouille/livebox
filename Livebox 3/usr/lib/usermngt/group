@@ -1,0 +1,16 @@
+root::0:root
+ftp::50:
+nobody::99:
+Admin::101:
+User::102:
+RemoteAdmin::103:
+avahi::104:
+radvd::111:
+ntpd::112:
+upnpd::113:
+upnpdiscd::113:
+samba::120:
+httpd::121:
+dlna::123:
+pcb_users::1000:
+http::1001:

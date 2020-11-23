@@ -1,0 +1,72 @@
+FIRST BOOT & BOOT OR REBOOT:
+Labels:FR
+boot.phase 1:Démarrage en cours
+boot.phase 2.processing:Synchronisation en cours
+boot.phase 2.OK:Synchronisation OK
+boot.phase 2.NOK:Echec de synchronisation, vérifiez les branchements
+boot.phase 3:Veuillez brancher votre PC et lancer votre navigateur
+boot.phase 3TP.processing:
+boot.phase 3TP.OK:
+boot.phase 3bisTP:
+boot.phase 3bisTP.NOK:
+boot.phase 3.processing:Connexion Internet en cours
+boot.phase 3.OK:Connexion Internet OK
+boot.phase 3.NOK:Echec de connexion, branchez votre PC et lancez votre navigateur.
+boot.pnp.sms:Bonjour %s,§terminez votre installation en cliquant sur le SMS envoyé au %s
+boot.phase 5.processing:téléphone par Internet en cours
+boot.phase 5.OK:Le téléphone par Internet OK§Numéro : %s
+boot.bnr.processing:Restauration de votre configuration en cours
+boot.bnr.OK:Restauration de votre configuration terminée. Votre Livebox va redémarrer.
+status.home:internet;wifi;tél;disque;
+FIRMWARE UPGRADE:
+Labels:FR
+firmware.upgrade.phase 1:Mise à jour en cours, ne débranchez pas la Livebox
+firmware.upgrade.OK:mise à jour terminée
+DECT UPGRADE:
+dect.upgrade.phase 1:Mise à jour en cours, ne débranchez pas la Livebox
+dect.upgrade.OK:mise à jour terminée
+FAILURES:
+Labels:FR
+failure.Internet connection:connexion Internet interrompue veuillez  redémarrer la Livebox
+failure.synchronisation connection:perte de synchronisation  veuillez  redémarrer la Livebox
+failure.VoIP connection:le téléphone par Internet est indisponible veuillez  redémarrer la Livebox
+failure.network:Incident réseau. Contactez  votre service client
+failure.diagnostic:Panne détectée. Diagnostique en cours
+DECT and WPS pairing:
+Labels:FR
+pairing.DECT.processing:En attente d'un équipement, connectez votre terminal
+pairing.WPS.processing:En attente d'un équipement, connectez votre terminal
+pairing.DECT.OK:%s§Connecté à la Livebox
+pairing.WPS.OK:%s§Connecté à la Livebox
+pairing.DECT.NOK:aucun équipement détecté
+pairing.WPS.NOK:aucun équipement détecté
+pairing.DECT.NOK.erreur appairage livebox:échec d'association équipement DECT
+pairing.WPS.NOK.erreur appairage livebox:échec d'association équipement wifi
+pairing.DECT.NOK.max number:trop de téléphones connectés, supprimez une association
+USB detection:
+Labels:FR
+detection.USB.processing:périphérique USB détecté
+detection.USB.OK:périphérique USB connecté
+detection.USB.NOK:périphérique USB non reconnu
+detection.USB.readyToBeEjected:périphérique USB prêt à être retiré
+detection.USB.ejected:périphérique USB retiré
+Scheduler:
+scheduler.override:wifi activé jusqu’à nouvelle désactivation du planificateur
+BUTTONS:
+buttonI.status.internet:Internet connecté§%s %s 
+buttonI.status.wifi.on:Wifi Activé : %s§Clé : %s
+buttonI.status.wifi.off:Wifi désactivé.
+buttonI.status.voip.OK:Téléphone OK§Numéro : %s
+buttonI.status.voip.NOK:Téléphone indisponible, redémarrez votre Livebox.
+buttonI.status.hub.OK:Disque OK§%s restants.
+buttonI.status.hub.full:Disque plein, libérez de l'espace.
+buttonI.status.hub.drivefail:Problème de disque dur.
+buttonwifi.wifion:Wifi activé, appuyez de nouveau pour désactiver.
+buttonwifi.wifioff:Wifi désactivé, appuyez de nouveau pour activer
+HUB:
+hub.diskdetected:Disque détecté
+hub.format.processing:Formatage en cours du disque dur
+hub.format.OK:Formatage réussi
+hub.format.NOK:Problème de formatage
+hub.ejected:Disque éjecté
+hub.readyToBeEjected:Hub en cours d'éjection. Ne retirez pas le disque.

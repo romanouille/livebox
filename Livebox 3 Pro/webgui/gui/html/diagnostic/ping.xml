@@ -1,0 +1,45 @@
+<div id="ping" xmlns="http://www.orange.com/xhtml/engine/loose">
+	 <div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		 <h1 class="logo_diagnostic" i18n="menuDiagnostic.ping"/>
+		 <div class="margin-left-40 margin-top-m8">
+		 	<strong i18n="page.diagnostic.ping.subtitle"/>
+		 </div>
+	 </div>
+	<div class="maindiv">
+		<form action="#">
+		 <div class="boxType4 margin-top-10 border-bottom-3">
+			<div widgetType="FormInput" i18n="page.diagnostic.ping.target">
+				<input id="target" type="text" required="true" regex="^[a-zA-Z0-9_\-\.]+$" i18n="page.diagnostic.ping.target"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.diagnostic.ping.origin">
+				<select id="origin" i18n="page.diagnostic.ping.origin"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.diagnostic.ping.size">
+				<input id="size" type="text" required="true" regex="^[0-9]{1,5}$" value="64" minvalue="64" maxvalue="20000" i18n="page.diagnostic.ping.size"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.diagnostic.ping.repetition">
+				<span id="repetition" widgetType="EnumInput" widgetArg="'select'" enumerated="['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']" i18n="page.diagnostic.ping.repetition"/>
+			</div>
+			
+			<div widgetType="ButtonContainer" class="right">
+     		<span id="btnPing" widgetType="ButtonImage" i18n="page.diagnostic.ping.button"/>
+	    </div>
+	    <div class="clear"/>
+	    
+			<div widgetType="FormInput" i18n="page.diagnostic.ping.results">
+				<textarea id="results" rows="5" cols="50" i18n="page.diagnostic.ping.results"/>
+			</div>
+		  </div>
+		</form>
+	</div>
+</div>

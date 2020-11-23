@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case $1 in
+    start)
+
+ 	[ -f /proc/sys/vm/oom_dump_tasks ] && /bin/echo 1 > /proc/sys/vm/oom_dump_tasks
+	;;
+    stop)
+
+	;;
+
+esac
+

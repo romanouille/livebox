@@ -1,0 +1,345 @@
+using "scheduler_plugin.so";
+
+/**
+ * 
+ * <h1>New 'generic' scheduling plugin</h1>
+ * 
+ * Scheduling only schedules, no specific application knowledge (WIFI,...) is compiled in.
+ * On state changes the schedule plugin calls the set_state() RPC in the corresponding plugin 
+ * with a unique ID to change the state. 
+ *
+ * <pre> 
+ *  WIFI PLUGIN                                                                        SCHEDULE PLUGIN             
+ *  ===========                                                                        ===============            
+ *      --- Scheduler.registerScheduleType("wifi","WIFI",["Enable","Disable"],ULL) -------------> Activate persistent wifi schedules (assume "wl0" schedule was already there)
+ *    
+ *      <-- WIFI.setState("wl0","Enabled") ----------------------------------------------
+ *                     
+ *                              ...
+ *  
+ *      <-- WIFI.setState("wl0","Disabled") ---------------------------------------------
+ *  
+ *
+ *
+ *
+ *  Example interactions between the scheduler and the webui
+ *
+ *  WEBUI                                                                                  SCHEDULE PLUGIN             
+ *  =====                                                                                  ===============    
+ *      --- Scheduler.addSchedule("wifi",{"wl0",true,"weekly","Disabled","", ----------> Enable wl0 on wed, sat + sun
+ *               [{ "state": "Enabled", "begin": 3*24*60*60, "end": 4*24*60*60},
+ *                { "state": "Enabled", "begin:" 5*24*60*60, "end": 7*24*60*60]})
+ *
+ *      --- Scheduler.addSchedule("wifi",{"wl1",true,"daily","Enabled","", ------------> Disable wifi on wed, sat + sun
+ *               [{ "state": "Disabled", "begin": 3*24*60*60, "end": 4*24*60*60},
+ *                { "state": "Disabled", "begin:" 5*24*60*60, "end": 7*24*60*60]})
+ *
+ *      --- Scheduler.getSchedules("wifi",[]) ------------------------------------------> returns
+ *                                                                                         [{"wl0",true,"weekly","Disabled","","Disabled"},
+ *                                                                                          {"wl1",true,"Daily","Enabled","Enabled","Enabled"}]
+ *
+ *      --- Scheduler.getCompleteSchedules("wifi",[],[],[]) ---------------------------> returns
+ *                                                                                         [{"wl0",true,"weekly","Disabled","","Disabled",
+ *                                                                                           [{"Enabled",3*24*60*60,4*24*60*60},
+ *                                                                                            {"Enabled",5*24*60*60,7*24*60*60}]},
+ *                                                                                          {"wl1",true,"Daily","Enabled","Enabled","Enabled",
+ *                                                                                           [{"Disabled",3*24*60*60,4*24*60*60},
+ *                                                                                            {"Disabled",5*24*60*60,7*24*60*60}]}]
+ *
+ *      --- Scheduler.getSchedule("wifi","wl0",[],[],[]) -------------------------------> returns
+ *                                                                                         {"wl0",true,"weekly","Disabled","", "Disabled".
+ *                                                                                          [{"Enabled",3*24*60*60,4*24*60*60},
+ *                                                                                           {"Enabled",5*24*60*60,7*24*60*60}]}
+ *
+ *      --- Scheduler.overrideSchedule("wifi", "wl0", "Enabled") -----------------------> Override the schedule and always enable wl0
+ *  
+ *      --- Scheduler.enableSchedule("wifi", "wl0", false) -----------------------------> Disable the wl0 schedule
+ *
+ *      --- Scheduler.removeSchedules("wifi", "wl0") -----------------------------------> Remove the wl0 schedule
+ *
+ *      --- Scheduler.getScheduleTypes([]) ------------------------------------------------> returns ["wifi","tod"]
+ *  </pre>
+ *  
+ */
+
+/**
+ * Schedule entry struct, this struct will be used in an array. All members of this array describe one schedule.
+ */
+define schedule_entry_t {
+  /** String describing the desired state for this entry*/
+  string state;
+  /** Begin time expressed in seconds, relative to the schedule reference point */
+  uint32 begin;
+  /** End time expressed in seconds, relative to the schedule reference point */
+  uint32 end;
+}
+
+/**
+ * Schedule struct containing the schedule description and schedule data. 
+ */
+define schedule_t {
+  /** unique ID that will be provided as an argument when calling the PCB RPC when a state change occurs (e.g. "wl0" for WLAN scheduling, "00-11-22-33-44-55" for TOD) */
+  string ID;
+  /** defines if this schedule is enabled */
+  bool   enable;
+  /** daily, weekly, monthly, yearly*/
+  string base;
+  /** the default state of this schedule*/
+  string def;
+  /** if non-empty, an override is set on this schedule */
+  string override;
+  /** if non-empty, a temporary override is set on this schedule */
+  bool temporaryOverride;
+  /** not used when adding a schedule, only used when querying schedule data */
+  string value; 
+  /** the real schedule data, this is a list of schedule_entry_t entries */
+  list   schedule;
+}
+
+acl {
+  world read,execute;
+  group admin read,execute;
+  group remoteadmin read,execute;
+}
+
+/**
+ * Generic scheduler object. This object contains an overview of the different
+ * active schedule types and their relative schedules.
+ */
+object Scheduler {
+ /**
+  Register a scheduler type, the function calling this routine should implement
+  the setState() RPC to handle state changes.
+  
+  @param type logical name for this scheduler type
+  @param path Path where the call the setState() and get_state RPC's
+  @param states possible states for this schedule
+  @param schedules list of schedules
+  
+  @return true if OK, false if an error occurred
+  */
+  bool registerScheduleType(string type, string path, list states, list schedules) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+ /**
+  * Unregister a scheduler type, this function will remove all objects relateted to this type
+  * @param type logical name for this scheduler type
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool unregisterScheduleType(string type) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+ /**
+  * Add a schedule to a registered scheduler
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param info schedule info
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool addSchedule(string type, schedule_t info) {
+    acl {
+      world none;
+    }
+  }
+
+ /**
+  * Enable/disable the specified schedule
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param ID unique ID of that schedule
+  * @param enable the new state
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool enableSchedule(string type, string ID, bool enable) {
+    acl {
+      world none;
+    }
+  }
+
+ /**
+  * Add a schedule to a registered scheduler
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param ID unique ID of that schedule
+  * @param override override value, this must be a registered  state. In case this string is empty, 
+  *             the override is switched off
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool overrideSchedule(string type, string ID, string override) {
+    acl {
+      world none;
+    }
+  }
+ /**
+  * Override the current state of a schedule
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param ID unique ID of that schedule
+  * @param state the new state value
+  *
+  * @return true is OK, false if an error occurred
+  */
+  bool overrideState(string type, string ID, string state) {
+    acl {
+      world none;
+    }
+  }
+
+ /**
+  * Remove the specified schedule(s)
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param ID array of the current schedule ID's that need to be removed, if empty, all schedules will be removed
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool removeSchedules(string type, list ID) {
+    acl {
+      world none;
+    }
+  }
+
+ /**
+  * Get the registered schedule types
+  *  @param types list of strings describing the registered schedule types
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool getScheduleTypes(out list types) {
+    acl {
+      world none;
+    }
+  }
+
+ /**
+  * Get the schedules for the specified schedule type
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param scheduleInfo list of schedule_t (includes the current value, but not the schedules itself)
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool getSchedules(string type, out list scheduleInfo);
+
+ /**
+  * Get the schedules for the specified schedule type
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param scheduleInfo list of schedule_t (includes both the current value and the schedule data)
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool getCompleteSchedules(string type, out list scheduleInfo);
+
+ /**
+  * Get the specified schedule
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param ID unique ID of that schedule
+  * @param scheduleInfo list of schedule_t (includes both the current value and the schedule data)
+  *
+  * @return true if OK, false if an error occurred
+  */
+  bool getSchedule(string type, string ID, out schedule_t info);
+
+ /**
+  * Simulate the specified schedule
+  * @param type schedule type, must correspond with the 'type' in registerScheduleType
+  * @param ID unique ID of that schedule
+  * @param begin begintime of simulation
+  * @param end endtime of simulation
+  * 
+  * @return list of strings describing the setState() calls that will occur for the specified schedule
+  */
+  list simulateSchedule(string type, string ID, datetime begin, datetime end) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+ /**
+  * Simulate all schedulers
+  * - begin begintime of simulation
+  * - end endtime of simulation
+  * 
+  * @return list of strings describing the setState() calls that will occur for the specified schedule
+  */
+  list simulateSchedules(datetime begin, datetime end) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+
+ /**
+  * Scheduler.Types object, describes the registered schedule types.
+  *   - wifi { "type": "wifi", "path": "WIFI", "states": [ "Enabled", "Disabled" ]}
+  *   - tod  { "type": "tod",  "path": "TOD",  "states": [ "Enabled", "Disabled" ]}
+  */
+  object Types [] {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+    /** The name of the type */
+    string Type;
+    /** The datamodel path of this type */
+    string Path;
+    /** An enumeration of the possible states for this schedule type */
+    string States;
+
+   /**
+    * The registered schedules for this scheduler type.
+    *  - 1 { "Type": "wifi", "ID": "wl0", "Enable": true, "Base": "Weekly", "Default": "Enabled", "Override": "", "CurrentState": "Enabled" }
+    *  - ...
+    */
+    object Schedules [] {
+      /** Logical ID of this schedule */
+      string ID;
+      /** Indicate if this schedule is enabled */
+      bool   Enable;
+      /** The schedule base unit (hourly, daily, weekly, monthly) */
+      string Base;
+      /** Default state for this schedule (the scheduler will use this state if no schedule_entry_t is available for this time) */
+      string Default;
+      /** Override for this schedule, if empty no override is set, if filled in, the schedule will be disabled and the specified state will be used */
+      string Override;
+      /** Temporary override for this schedule, if empty no override is set, if filled in, the current state of the schedule will be changed, until a next state-change */
+      bool TemporaryOverride;
+      /** The current state of this schedule */
+      string CurrentState;
+      /** The time when the next state change will occur */
+      datetime NextStateChange;
+    }
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,167 @@
+
+
+using "devicemngt.so";
+
+/*
+ * Configuration of various tools
+ * used to manage the device
+ * @version V6.0
+ */
+persistent object DeviceManagement {
+
+    acl {
+        world none;
+        group admin none;
+        group remoteadmin none;
+        group cwmpd read,write,execute;
+    }
+
+    /*
+     * BulkData
+     * @version TBD
+     */
+     persistent object BulkData {
+         /*
+         * Parameter used by the PCB plugin to perform a run-time check
+         * @version TBD
+         */
+         persistent uint32 MinReportingInterval {
+             default 0;
+         }
+
+         persistent object Profile[] {
+/*           counted with ProfileNumberOfEntries; */
+             persistent string Alias;
+             /*
+             * Period elapsed between two consecutive productions (then uploads) of
+             * a log file. Special value 0 means one-shot upload (no subsequent
+             * iteration, unless Enable is set back to 0 then 1).
+             * @version TBD
+             */
+             persistent uint32 ReportingInterval {
+                 default 0;
+             }
+             persistent string FileTransferURL;
+             persistent string FileTransferUsername;
+             persistent string FileTransferPassword;
+
+        
+             persistent string ProfileType;
+             persistent string LocalFile;
+             persistent bool IsDownload;
+
+             persistent bool Enable {
+                default false;
+             }
+        }
+    }
+
+    /*
+     * SSH server configuration (dropbear)
+     * Note : a dropbear instance supports to bind to 10 ports max
+     * @version V6.0
+     */
+    persistent object SSH[] {
+
+        read-only string AccessType {
+
+          constraint enum [ "lan", "wan", "invalid" ];
+          default "invalid";
+        }
+ 
+        persistent bool Enable {
+          default 0;        
+        }
+
+        persistent uint32 IPVersion {
+          constraint enum [ 0, 4, 6 ];
+          default 0;
+        }
+
+        /*
+         * Determines whether value of persistent parameter Enable is to be taken
+         * into account upon the object's instantiation. If PersistentEnable is
+         * not set, Enable will be overwritten with value 0.
+         */
+        persistent bool PersistentEnable {
+          default 1;        
+        }
+
+        persistent bool AllowRootLogin {
+          default 0;        
+        }
+
+        /*
+         * Comma-separated list of ports
+         * to listen on the LAN interface
+         * (3 ports max authorized)
+         * @version TBD
+         */
+        persistent string Ports {
+            constraint custom devmngt_validatePorts;
+		        default "22";
+        }
+
+        /**
+         * Source IP address(ipv4), netmask is optional.
+         * @version TBD
+         */
+        persistent string SourcePrefix;
+
+        /**
+         * Defines a condition on the value of SourcePrefix.
+         * @version TBD
+         */
+        persistent bool SourcePrefixNonEmpty {
+
+		        default 0;
+        }
+
+        /*
+         * bug#49079 ([HGW_OFR_LBV3.0_G5] New params for activation of remote access)
+         * @version V6.0
+         */
+        persistent uint32 ActivationDuration;
+        
+        /*
+         * bug#49079 ([HGW_OFR_LBV3.0_G5] New params for activation of remote access)
+         * @version V6.0
+         */
+        persistent read-only datetime ActivationDate;
+    }
+
+
+    /*
+     * Parameter that allows setting the ssh user
+     * @version V6.0
+     */
+    persistent volatile string SSHUsername=root;
+
+    /*
+     * Parameter that allows setting the ssh user password
+     * @version V6.0
+     */
+    persistent volatile string SSHPassword {
+        write with devicemngt_writeSSHPassword;
+        acl {
+          world none;
+          group admin none;
+          group remoteadmin none;
+          group cwmpd read,write;
+        }
+    }
+
+
+
+  /**
+    * Export the dns settings to hgwcfg.
+    *
+    * @param fileName The filename to which to save.
+    * @return Success or failure.
+    * @version V6.0
+    */
+    bool export(string fileName);
+
+}
+
+/** @location sah_services_system /devicemngt/devicemngt-definitions.odl */

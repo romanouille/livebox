@@ -1,0 +1,16 @@
+<div id="pageBody" xmlns="http://www.orange.com/xhtml/engine/loose">
+	
+	<!--**********************
+	     USING B9 MENU in GWT 
+	    **********************
+	<div class="leftMenu">
+		<ul>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m5.m50'" i18n="menuAccount.password"></a></li>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m5.m51'" i18n="menuAccount.preferences"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m5.m52'" i18n="menuAccount.distantaccess"></a></li>
+		</ul>
+	</div>
+	-->
+	<div id="content"></div>
+	<div class="clear"/>
+</div>

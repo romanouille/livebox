@@ -1,0 +1,121 @@
+using "dhcpv6server.so";
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+group technician read,write,execute;
+}
+persistent object DHCPv6 {
+persistent object Server {
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with statusOnRead;
+}
+persistent object Pool[8] {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with dhcpv6_poolOnWrite;
+delete with dhcpv6_poolOnDelete;
+persistent string Mode {
+constraint enum ["Stateful", "Stateless"];
+default "Stateless";
+}
+persistent bool Enable = false;
+persistent string Interface;
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with poolStatusOnRead;
+}
+read-only string LinuxInterface {
+read with linuxInterfaceOnRead;
+}
+persistent object Prefix[4] {
+write with dhcpv6_prefixOnWrite;
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with prefixStatusOnRead;
+}
+persistent string Prefix;
+persistent int32 NetMask;
+persistent string MinAddress;
+persistent string MaxAddress;
+persistent bool UseDNS = true;
+persistent string DNS;
+persistent bool UseNTP = true;
+persistent string NTP;
+persistent uint32 InfoRefreshTime = 86400;
+persistent bool Enable = false;
+}
+persistent object Option[16] {
+write with dhcpv6_optionOnWrite;
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with optionStatusOnRead;
+}
+persistent string Type {
+constraint enum ["ascii", "byte_array"];
+default "ascii";
+}
+persistent string Value;
+persistent bool Enable;
+}
+}
+persistent bool Enable {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+write with enableOnWrite;
+default false;
+}
+bool commit() {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool save() {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool reset() {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool setPrefixInformation(mandatory string interface, mandatory string key, mandatory string prefix, mandatory uint32 netmask, string dns, string ntp, mandatory bool enable) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool deletePrefixInformation(mandatory string interface, mandatory string key) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+list getPrefixInformation(mandatory string interface, string key) {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+bool enableDHCPv6Server(mandatory bool enable);
+string getDHCPv6ServerStatus() {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+}
+}

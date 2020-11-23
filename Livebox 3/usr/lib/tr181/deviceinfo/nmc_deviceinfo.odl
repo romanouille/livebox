@@ -1,0 +1,46 @@
+using "deviceinfo/nmc_deviceinfo.so";
+object DeviceInfo {
+read-only string X_ORANGE-COM_RescueVersion;
+read-only string X_ORANGE-COM_MACAddress;
+read-only string X_ORANGE-COM_ExternalIPAddress;
+object X_ORANGE-COM_CustomerConfigFile[] {
+read-only string Name;
+read-only datetime Date;
+}
+}
+datamodel {
+object DeviceInfo {
+destination "pcb://$(PCB_MAIN_BUS)/DeviceInfo" {
+parameter X_ORANGE-COM_RescueVersion from RescueVersion;
+parameter X_ORANGE-COM_ExternalIPAddress from ExternalIPAddress;
+}
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+parameter X_ORANGE-COM_MACAddress from LLAddress;
+}
+instance of X_ORANGE-COM_CustomerConfigFile(1, "1") {
+destination "pcb://$(PCB_MAIN_BUS)/NMC/NetworkConfig" {
+parameter Name from ConfigName;
+parameter Date from ConfigDate;
+}
+}
+object ProcessStatus {
+instance of Process(1, "audiphone") {
+parameter Alias = "AUDIPHONE";
+destination "pcb://$(PCB_MAIN_BUS)/Process/sysbus_audiphone_plugin" {
+parameter PID;
+parameter State from Status translate with translate_process_status;
+}
+parameter Command = "pcb_app -n audiphone_plugin -c /usr/lib/audiphone/audiphone.odl";
+}
+}
+instance of VendorConfigFile(1, "digitmap") {
+parameter Alias = "XML_DIGITMAP";
+destination "pcb://$(PCB_MAIN_BUS)/DeviceInfo/VendorConfigFile/digitmap" {
+parameter Name;
+parameter Version;
+parameter Date;
+parameter Description;
+}
+}
+}
+}

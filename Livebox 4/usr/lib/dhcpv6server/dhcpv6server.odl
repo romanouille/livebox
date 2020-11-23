@@ -1,0 +1,335 @@
+using "dhcpv6server.so";
+
+acl {
+	group admin read,execute;
+	group remoteadmin read,execute;
+	group cwmpd read,write,execute;
+	group technician read,write,execute;
+}
+
+persistent object DHCPv6 {
+
+/** 
+ * DHCPv6 Server object. It contains LAN DHCPv6 Server information
+ * @version V5.0
+ */  
+	persistent object Server {
+
+/** 
+ * General Status of the DHCPv6 Server, 
+ * 'Enabled' if the Server is enabled and running without errors, 
+ * 'Disabled' if Enable is set to false and 
+ * 'Error' if the server is Enabled but error(s) occured.
+ * @version V5.0
+*/
+		read-only string Status {
+			constraint enum ["Enabled", "Disabled", "Error"];
+			default "Disabled";
+			read with statusOnRead;
+		}
+
+/** 
+ * DHCPv6 Server Pool specific configuration .
+ * @version V5.0
+*/
+		persistent object Pool[8] {
+
+			acl {
+				group admin none;
+				group remoteadmin none;
+			}
+
+			write with dhcpv6_poolOnWrite;
+			delete with dhcpv6_poolOnDelete;
+
+/** 
+ * The DHCPv6 server can be configured, Stateful or Stateless, 
+ * Stateful: IP addresses are distributed, the server keeps track of the state of the clients.
+ * Stateless: The server is only used to distribute, dns server, ntp server and/or other options
+ * Currently only Stateless DHCP server is supported for ipv6.
+ * @version V5.0
+*/
+			persistent string Mode {
+				constraint enum ["Stateful", "Stateless"];
+				default "Stateless";
+			}
+
+/**
+ * Enable the pool for this particular interface or disable the pool.
+ * @version V5.0
+*/
+			persistent bool Enable = false;
+
+/**
+ * NeMo interface name on which the DHCPv6 server will be enabled.
+ * @version V5.0
+*/
+			persistent string Interface;
+
+
+/**
+ * Pool specific Status information.
+ * @version V5.0
+*/
+			read-only string Status {
+				constraint enum ["Enabled", "Disabled", "Error"];
+				default "Disabled";
+				read with poolStatusOnRead;
+			}
+
+/** 
+ * This parameter shows the linux interface whereon the prefix is configured.
+ * This is merely used for debugging purposes.
+ * @version V5.0
+*/
+			read-only string LinuxInterface {
+				read with linuxInterfaceOnRead;
+			}
+
+/**
+ * A pool can have more prefixes configured, up to four are supported 
+ * @version V5.0
+ */ 
+ 
+			persistent object Prefix[4] {
+				write with dhcpv6_prefixOnWrite;
+
+/**
+ * Status of the prefix
+ * @version V5.0
+*/
+				read-only string Status {
+					constraint enum ["Enabled", "Disabled", "Error"];
+					default "Disabled";
+					read with prefixStatusOnRead;
+				}
+
+/**
+ * Prefix to be used on LAN. 
+ * @version V5.0
+*/
+				persistent string Prefix;
+
+/**
+ * Netmask to be used, should be the numeric value.
+ * @version V5.0
+*/
+				persistent int32 NetMask;
+
+/**
+ * Minimum Address of the Prefix. This will not be used for SLAAC 
+ * @version V5.0
+*/
+				persistent string MinAddress;
+
+/**
+ * Maximum Address of the Prefix. This will not be used for SLAAC 
+ * @version V5.0
+*/
+				persistent string MaxAddress;
+
+/** 
+ * Parameter to indicate if the DNS parameter has to be included in the pool declaration. If set to true, the specified DNS servers are used, if set to false, the DNS parameter is ignored.
+ * @version V5.0
+*/
+				persistent bool UseDNS = true;
+
+/**
+ * DNS servers to be included in the DHCP declaration if useDNS is set to true. Link local addresses are supported as dns server.
+ * @version V5.0
+*/
+				persistent string DNS;
+
+/** 
+ * Parameter to indicate if the NTP parameter has to be included in the pool declaration. If set to true, the specified NTP servers are used, if set to false, the NTP parameter is ignored.
+ * @version V5.0
+*/
+				persistent bool UseNTP = true;
+
+/**
+ * NTP servers to be included in the DHCP declaration if useNTP is set to true.
+ * @version V5.0
+*/
+				persistent string NTP;
+
+/**
+ * The info-refresh-time option gives DHCPv6 clients using Information-request messages 
+ * a hint as to how long they should between refreshing the information they were given. 
+ * Note that this option will only be delivered to the client, and be likely to affect 
+ * the client's behaviour, if the client requested the option. 
+ * If this parameter is set to 0, the option will be ignored.
+ * @version V5.0
+*/
+				persistent uint32 InfoRefreshTime = 86400;
+
+/** 
+ * Enable or disable the DHCP pool.
+ * @version V5.0
+*/
+				persistent bool Enable = false;
+			}
+
+/** 
+ * DHCP option multi instance object, 
+ * up to 16 options are supported per pool
+ * @version V5.0
+*/
+			persistent object Option[16] {
+				write with dhcpv6_optionOnWrite;
+
+/** 
+ * Option specific Status parameter.
+ * @version V5.0
+*/
+				read-only string Status {
+					constraint enum ["Enabled", "Disabled", "Error"];
+					default "Disabled";
+					read with optionStatusOnRead;
+				}
+				
+/** 
+ * Option type, currently, ascii and byte_array are supported 
+ * @version V5.0
+*/
+				persistent string Type {
+					constraint enum ["ascii", "byte_array"];
+					default "ascii";
+				}
+
+/**
+ * Value, this is the value of the option.
+ * @version V5.0
+*/				
+				persistent string Value;
+
+/**
+ * Enable the option, disable the option 
+ * @version V5.0
+*/
+				persistent bool Enable;
+			}
+		}
+
+/**
+ * Enable or disable the DHCPv6 Server
+ * @version V5.0
+*/
+		persistent bool Enable {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}			
+
+			write with enableOnWrite;
+			default false;
+		}
+
+/**
+ * Commit the configuration and apply the changes.
+ * @version V5.0
+ * @return true
+*/
+	bool commit() {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}			
+	}
+
+/**
+ * Save the configuration persistently over a reboot.
+ * @version V5.0
+ * @return true
+*/
+	bool save() {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}			
+	}
+
+/**
+ * Remove the persistent configuration, next time you restart, the system defaults will be used.
+ * @version V5.0
+ * @return true
+*/
+	bool reset() {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}			
+	}
+
+/**
+ * Configure a pool prefix for a certain interface
+ * @param interface - the interface to configure the dhcpv6 server on, typically 'lan'/'bridge'
+ * @param key - Per interface you can have more than one prefix set, define a key to address a specific prefix. In case it does not exists, it is created, otherwise the information is rewritten.
+ * @param prefix - this parameter is mandatory and contains prefix information
+ * @param netmask - netmask of the prefix to be configured.
+ * @param dns - optional, dns server to be used, by default the LAN IPv6 address.
+ * @param ntp - optional, ntp server to be used, by default the LAN IPv6 address.
+ * @param enable: enable prefix on interface or not.
+ * @return true if applied, else return error
+ * @version V5.0
+*/
+	bool setPrefixInformation(mandatory string interface, mandatory string key, mandatory string prefix, mandatory uint32 netmask, string dns, string ntp, mandatory bool enable) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}			
+	}
+
+/**
+ * Remove a pool prefix from a certain interface
+ * @param interface - the interface to remove the prefix from
+ * @param key - Key of the prefix to remove
+ * @return none
+ * @error 0x130003 Pool for given interface and key not found.
+ * @version V5.1
+*/
+	bool deletePrefixInformation(mandatory string interface, mandatory string key) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+/**
+ * List a prefix from a certain interface
+ * @param interface -  the interface to remove the prefix from
+ * @param key - Key of the prefix to remove
+ * @return list of prefixes
+ * @error 0x130003 Pool for given interface and key not found.
+ * @version V5.1
+*/
+	list getPrefixInformation(mandatory string interface, string key) {
+		acl {
+			group admin read,execute;
+			group remoteadmin read,execute;
+		}
+	}
+
+/** 
+ * Enable the DHCPv6 Server, if enable is set to 'true'. If enable is set to false, the dhcpd server will be stopped.
+ * @param Enable - true if Server must be enabled, false otherwise
+ * @return true - if the function succeeded, otherwise, return false.
+ * @version V5.0
+*/
+	bool enableDHCPv6Server(mandatory bool enable);
+
+/**
+ * Return the Status of the DHCPv6 Server. 'Enabled', 'Disabled', 'Error' are currently supported. 
+ * This function does not require arguments.
+ * @return Status.
+ * @version V5.0
+*/
+	string getDHCPv6ServerStatus() {
+	    acl {
+	      group admin none;
+	      group remoteadmin none;
+      }
+    }
+	}
+}
+
+/** @location sah_services_dhcpv6server /dhcpv6server.odl */

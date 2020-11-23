@@ -1,0 +1,85 @@
+
+
+
+    object Services {
+        object X_ORANGE-COM_WifiComm {
+            object OpenMode {
+                bool Enable;
+                read-only string Status {
+                    constraint enum["Deactivated", "Wi-Fi Off", "Not eligible", "Error", "Activated"];
+                    default "Deactivated";
+                }
+                uint32 ActivationThreshold;
+                string WiFigwName;
+                string SSID;
+                string BSSID;
+                uint32 VLANID;
+                uint32 MaxAssociation;
+            }
+        }
+    }
+
+    object Services {
+        object X_ORANGE-COM_WifiComm {
+            object SecureMode {
+                bool Enable;
+                read-only string Status {
+                    constraint enum["Deactivated", "Wi-Fi Off", "Not eligible", "Error", "Activated"];
+                    default "Deactivated";
+                }
+                uint32 ActivationThreshold;
+                string WiFigwName;
+                string SSID;
+                string BSSID;
+                uint32 VLANID;
+                string RadiusServerName;
+                uint32 RadiusServerPort;
+                string RadiusSecret;
+                uint32 RadiusReAuthWhen;
+                uint32 MaxAssociation;
+            }
+        }
+    }
+
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_WifiComm {
+            object OpenMode {
+                destination "pcb://$(PCB_MAIN_BUS)/Wificom/OpenMode" {
+                    parameter Enable;
+                    parameter Status;
+                    parameter ActivationThreshold;
+                    parameter WiFigwName;
+                    parameter SSID;
+                    parameter BSSID;
+                    parameter VLANID;
+                    parameter MaxAssociation;
+                }
+            }
+        }
+    }
+}
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_WifiComm {
+            object SecureMode {
+                destination "pcb://$(PCB_MAIN_BUS)/Wificom/SecureMode" {
+                    parameter Enable;
+                    parameter Status;
+                    parameter ActivationThreshold;
+                    parameter WiFigwName;
+                    parameter SSID;
+                    parameter BSSID;
+                    parameter VLANID;
+                    parameter RadiusServerName;
+                    parameter RadiusServerPort;
+                    parameter RadiusSecret;
+                    parameter RadiusReAuthWhen;
+                    parameter MaxAssociation;
+                }
+            }
+        }
+    }
+}

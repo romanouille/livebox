@@ -1,0 +1,14 @@
+{
+    "status": 0,
+    "data": {
+        "supportedLinkModeList": [
+          {
+            "linkMode": "ETHERNET",
+            "supportedLinkTypeList": ["ETHERNET_DHCP"]
+          }, {
+            "linkMode": "WIFI",
+            "supportedLinkTypeList": ["WIFI_2.4", "WIFI_5"]
+          }
+        ]
+    }
+}

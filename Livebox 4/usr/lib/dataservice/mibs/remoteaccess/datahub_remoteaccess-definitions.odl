@@ -1,0 +1,34 @@
+
+
+persistent object DataHub 
+{
+    persistent object RemoteAccess
+    {
+        acl {
+            world none;
+        }
+
+        persistent uint32 MinTcpPort {
+            constraint minvalue 1024;
+            constraint maxvalue 65535;
+            default 49152;
+        }
+
+        persistent uint32 MaxTcpPort {
+            constraint minvalue 1024;
+            constraint maxvalue 65535;
+            default 65535;
+        }
+
+        read-only uint32 TcpPort {
+            constraint maxvalue 65535;
+            default 0;
+        }
+
+        read-only string HttpService {
+            default "";
+        }
+    }
+}
+
+/** @location  commod_datahub_dataservice  add-on/plugin/remoteaccess/mib/datahub_remoteaccess.odl-definition.m4 */

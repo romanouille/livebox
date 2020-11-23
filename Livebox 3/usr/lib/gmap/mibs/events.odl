@@ -1,0 +1,50 @@
+mib events {
+void startEventing(mandatory string name, string types) {
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+group gmap none;
+}
+}
+void stopEventing(mandatory string name) {
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+group gmap none;
+}
+}
+list getEventLog(string type) {
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+group gmap none;
+}
+}
+list listLiveEventTypes() {
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+group gmap none;
+}
+}
+list listLogEventTypes() {
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+group gmap none;
+}
+}
+list listEventSubscribers() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+}

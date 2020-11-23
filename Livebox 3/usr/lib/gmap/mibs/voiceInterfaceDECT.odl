@@ -1,0 +1,20 @@
+/*expr:voice and interface and dect*/
+using "impl/mib_voice.so";
+
+/**
+ * MIB is loaded only on the dect interface.
+ *
+ * All devices matching expression: "voice and interface and dect" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib voiceInterfaceDECT {     
+    /**
+    * Put the base in pairing mode
+    *
+    * @version 6.0
+    */
+    void startPairing();        
+}
+
+/** @location sah_services_gmap /mibs/voiceInterfaceDECT.odl */

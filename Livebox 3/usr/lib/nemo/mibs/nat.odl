@@ -1,0 +1,8 @@
+object NeMo {
+object extends MIB(0,"nat") {
+string Flag = "netdev";
+object DataModel {
+bool NATEnabled;
+}
+}
+}

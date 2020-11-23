@@ -1,0 +1,24 @@
+{
+  "status": 0,
+  "data": {
+    "isRunning": false,
+    "lastError": 0,
+    "nbLnb": 4,
+    "nbPosition": 2,
+    "lnbList": [
+      {
+        "state": "success",
+        "position": "19.2E"
+      }, {
+        "state": "failure",
+        "position": ""
+      }, {
+        "state": "failure",
+        "position": ""
+      }, {
+        "state": "success",
+        "position": "21.2W"
+      }
+    ]
+  }
+}

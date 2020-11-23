@@ -1,0 +1,23 @@
+{
+  "status": 0,
+  "data": {
+    "userList": [
+      {
+        "login": "admin",
+        "groups": ["http", "admin"]
+      }, {
+        "login": "cwmpd",
+        "groups": []
+      }, {
+        "login": "guest",
+        "groups": ["ftp"]
+      }, {
+        "login": "install",
+        "groups": ["http", "admin"]
+      }, {
+        "login": "support",
+        "groups": ["http", "admin", "remoteadmin"]
+      }
+    ]
+  }
+}

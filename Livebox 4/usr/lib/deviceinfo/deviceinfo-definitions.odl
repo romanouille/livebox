@@ -1,0 +1,449 @@
+using "deviceinfo_plugin.so";
+
+/**
+  * This object contains general device information.
+  */
+
+acl {
+  world read,execute;
+  group admin read,execute;
+  group remoteadmin read,execute;
+  group cwmpd read,write,execute;
+  group technician execute;
+}
+
+object DeviceInfo {
+
+  /**
+    * Default getter function to retrieve all values from {DeviceInfo}
+    */
+  variant get() {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * The manufacturer of the CPE (human readable string).
+    */
+  read-only string Manufacturer {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Organizationally unique identifier of the device manufacturer. Represented as a six hexadecimal-digit value using all upper-case letters and including any leading zeros. The value MUST be a valid OUI
+    * as defined in [5].
+    * This value MUST remain fixed over the lifetime of the device, including across firmware updates.
+    */
+  read-only string ManufacturerOUI {
+    constraint maxvalue 6;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Model name of the CPE (human readable string).
+    */
+  read-only string ModelName {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * A full description of the CPE device (human readable string).
+    */
+  read-only string Description {
+    constraint maxvalue 256;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Identifier of the class of product for which the serial number applies. That is, for a given manufacturer, this parameter is used to identify the product or class of product over which the
+    * SerialNumber parameter is unique.
+    * This value MUST remain fixed over the lifetime of the device, including across firmware updates.
+    */
+  read-only string ProductClass {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Serial number of the CPE.
+    * This value MUST remain fixed over the lifetime of the device, including across firmware updates.
+    */
+  read-only string SerialNumber {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * A string identifying the particular CPE model and version.
+    */
+  read-only string HardwareVersion {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * A string identifying the software version currently installed in the CPE.
+    * To allow version comparisons, this element SHOULD be in the form of dot-delimited integers, where each successive integer
+    * represents a more minor category of variation. For example, 3.0.21 where the components mean: Major.Minor.Build.
+    */
+  read-only string SoftwareVersion {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * A string identifying the rescue software version currently installed in the CPE.
+    * To allow version comparisons, this element SHOULD be in the form of dot-delimited integers, where each successive integer
+    * represents a more minor category of variation. For example, 3.0.21 where the components mean: Major.Minor.Build.
+    */
+  read-only string RescueVersion {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * A string identifying the version of the modem firmware currently installed in the CPE. This is applicable only when the modem firmware is separable from the overall CPE software.
+    */
+  read-only string ModemFirmwareVersion {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Comma-separated list of the OptionName of each Option that is currently enabled in the CPE. The OptionName of each is identical to the OptionName element of the OptionStruct described in [2]. Only
+    * those options are listed whose State indicates the option is enabled.
+    */
+  read-only string EnabledOptions {
+    constraint maxvalue 1024;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * A comma-separated list of any additional versions. Represents any additional hardware version information the vendor might wish to supply.
+    */
+  read-only string AdditionalHardwareVersion {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * A comma-separated list of any additional versions. Represents any additional software version information the vendor might wish to supply.
+    */
+  read-only string AdditionalSoftwareVersion {
+    constraint maxvalue 64;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Represents the version of the specification implemented by the device. Currently 1.0 is the only available version. The value of this parameter MUST equal "1.0".
+    * This parameter is DEPRECATED because
+    * its value is fixed and it therefore serves no purpose. However, it is a Forced Inform parameter and therefore cannot be OBSOLETED.
+    */
+  read-only string SpecVersion {
+    constraint maxvalue 16;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Identifier of the primary service provider and other provisioning information, which MAY be used by the ACS to determine service provider-specific customization and provisioning parameters.
+    * If
+    * non-empty, this argument SHOULD be in the form of a hierarchical descriptor with one or more nodes specified. Each node in the hierarchy is represented as a 4-character sub-string, containing only
+    * numerals or upper-case letters. If there is more than one node indicated, each node is separated by a "." (dot). Examples: "TLCO" or "TLCO.GRP2".
+    */
+  persistent string ProvisioningCode {
+    constraint maxvalue 64;
+    write with write_provisioningCode;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Time in seconds since the CPE was last restarted.
+    */
+  read-only uint32 UpTime {
+    read with read_upTime;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Date and time in UTC that the CPE first both successfully established an IP-layer network connection and acquired an absolute time reference using NTP or equivalent over that network connection. The
+    * CPE MAY reset this date after a factory reset.
+    * If NTP or equivalent is not available, this parameter, if present, SHOULD be set to the Unknown Time value.
+    */
+  read-only datetime FirstUseDate {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Vendor-specific log(s).
+    */
+  read-only string DeviceLog {
+    constraint maxvalue 32768;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Number of instances of VendorConfigFile.
+    */
+  read-only uint32 VendorConfigFileNumberOfEntries {
+    default 0;
+    read with read_vendorConfigFileNumberOfEntries;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * SAH custom parameter
+    */
+  read-only string ManufacturerURL {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * SAH custom parameter
+    */
+  read-only string Country {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * SAH custom parameter
+    */
+  read-only string ExternalIPAddress {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Update the parameters coming from the settings file
+    */
+  bool update() {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Runs getDebugInformation and returns a file descriptor
+    * pointing to the output of the process
+    */
+  variant getDebugInformation() {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician execute;
+    }
+  }
+
+  /**
+    *  @brief
+    * Add a vendor configuration file
+    *
+    * @param name The vendor configuration file name
+    * @param version Current version of the vendor configuration file
+    * @param date Date when the vendor configuration file was applied
+    * @param description The vendor configuration description
+    *
+    * @version 6.0
+    */
+  bool addVendorConfigFile(string name, string version, string date, string description) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+    *  @brief
+    * Remove a vendor configuration file
+    *
+    * @param name The vendor configuration file name
+    *
+    * @version 6.0
+    */
+  void removeVendorConfigFile(string name) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+    * Current operational status of the device. Enumeration of "Up" "Initializing" "Error" "Disabled"
+    * Currently only "Initializing" and "Up" are in use
+    * @version 6.0
+    */
+  string DeviceStatus {
+    constraint enum ["Initializing", "Up", "Synchronized", "Error", "Disabled"];
+    default "Initializing";
+    write with write_deviceStatus;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Number of complete reboots since a reset to factory defaults.
+    * Note that this number will be updated in S99, e.g. when the boot has completed.
+    * @version 6.0
+    */
+  persistent read-only uint32 NumberOfReboots {
+    default 0;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Flag to indicate that an upgrade has occurred.
+    * Note that the "RestoreOccurred" flag will always be set simultaniously with this parameter as
+    * during each upgrade, a restore will occur.
+    * @version 6.1
+    */
+  read-only bool UpgradeOccurred {
+    default false;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Flag to indicate that an reset to factory defaults has occurred.
+    * Note that on first boot, this flag will also be set as you are coming from factory defaults.
+    * @version 6.1
+    */
+  read-only bool ResetOccurred {
+    default false;
+    acl {
+      world none;
+    }
+  }
+
+  /**
+    * Flag to indicate that a restore has occurred
+    * Note that this flag is also set on first boot, as in this case, the default settings are restored.
+    * @version 6.1
+    */
+  read-only bool RestoreOccurred {
+    default false;
+    acl {
+      world none;
+    }
+  }
+
+
+
+  /**
+    * Every instance of this object is a Vendor Configuration File, and contains parameters associated with the Vendor Configuration File.
+    * This table of Vendor Configuration Files is for information only
+    * and does not allow the ACS to operate on these files in any way.
+    * Whenever the CPE successfully downloads a configuration file as a result of the Download RPC with the FileType argument of "3 Vendor
+    * Configuration File", the CPE MUST update this table. If the name of the file (determined as described in the definition of the Name parameter) differs from that of any existing instance, then the CPE
+    * MUST create a new instance to represent this file. If instead, the name of the file is identical to that of an existing instance, then the CPE MUST update the content of the existing instance with
+    * the new version, date, and (optionally) description of the file.
+    */
+    persistent object VendorConfigFile[] {
+      acl {
+        world none;
+      }
+
+    /**
+      * Name of the vendor configuration file.
+      * If the CPE is able to obtain the name of the configuration file from the file itself, then the value of this parameter MUST be set to that name.
+      * Otherwise, if
+      * the CPE can extract the file name from the URL used to download the configuration file, then the value of this parameter MUST be set to that name.
+      * Otherwise, the value of this parameter MUST be set
+      * to the value of the TargetFileName argument of the Download RPC used to download this configuration file.
+      */
+    persistent read-only string Name {
+      constraint maxvalue 64;
+    }
+
+    /**
+      * A string identifying the configuration file version currently used in the CPE.
+      * If the CPE is able to obtain the version of the configuration file from the file itself, then the value of this
+      * parameter MUST be set to the obtained value.
+      * Otherwise, the value of this parameter MUST be empty.
+      */
+    persistent read-only string Version {
+      constraint maxvalue 16;
+    }
+
+    /**
+      * Date and time when the content of the current version of this vendor configuration file was first applied by the CPE.
+      */
+    persistent read-only datetime Date;
+
+    /**
+      * A description of the vendor configuration file (human-readable string).
+      */
+    persistent read-only string Description {
+      constraint maxvalue 256;
+    }
+
+  }
+
+  /**
+    * Export the settings to hgwcfg.
+    *
+    * @param fileName The filename to which to save.
+    * @return Success or failure.
+    * @version V6.1
+    */
+    bool export(string fileName) {
+      acl {
+        world none;
+      }
+    }
+}
+
+
+
+/** @location sah_services_system /deviceinfo/deviceinfo-definitions.odl */

@@ -1,0 +1,192 @@
+{
+    "Scheduler.Types.ToD": {
+        "depth" : "2",
+        "function" : "nc_custom_handle_bootComplete",
+        "params": [
+            "ID",
+            "Enable",
+            "Base",
+            "Default",
+            "Override"
+        ]
+    },
+    "Scheduler.Types.WLAN": {
+        "depth" : "2",
+        "function" : "nc_custom_handle_bootComplete",
+        "params": [
+            "ID",
+            "Enable",
+            "Base",
+            "Default",
+            "Override"
+        ]
+    },
+    "Devices.Device": {
+        "depth" : "1",
+        "function" : "nc_custom_handle_lanDevices",
+        "attr" : "0x00000040",
+        "params": [
+            "Name",
+            "DeviceType"
+        ]
+    },
+    "NeMo.Intf.wl0": [
+        "PersistentEnable",
+        "SSID",
+        "SSIDAdvertisementEnabled"
+    ],
+    "NeMo.Intf.wl0.Security": [
+        "KeyPassPhrase",
+        "ModeEnabled"
+    ],
+    "NeMo.Intf.wifi0_ath": {
+        "function" : "nc_custom_handle_wifiChannel",
+        "params": [
+            "AutoChannelEnable",
+            "Channel"
+        ]
+    },
+    "NeMo.Intf.wl0.WPS": [
+        "Enable",
+        "ConfigMethodsEnabled"
+    ],
+    "NeMo.Intf.wl0.MACFiltering": [
+        "Mode"
+    ],
+    "NeMo.Intf.wl0.MACFiltering.Entry": {
+        "function" : "nc_custom_handle_MACFilteringEntry",
+        "depth" : "1",
+        "params": []
+    },
+    "NeMo.Intf.wl1": [
+        "PersistentEnable",
+        "SSID",
+        "SSIDAdvertisementEnabled"
+    ],
+    "NeMo.Intf.wl1.Security": [
+        "KeyPassPhrase",
+        "ModeEnabled"
+    ],
+    "NeMo.Intf.wifi1_ath": {
+        "function" : "nc_custom_handle_wifiChannel",
+        "params": [
+            "AutoChannelEnable",
+            "Channel"
+        ]
+    },
+    "NeMo.Intf.wl1.WPS": [
+        "Enable",
+        "ConfigMethodsEnabled"
+    ],
+    "NeMo.Intf.wl1.MACFiltering": [
+        "Mode"
+    ],
+    "NeMo.Intf.wl1.MACFiltering.Entry": {
+        "function" : "nc_custom_handle_MACFilteringEntry",
+        "depth" : "1",
+        "params": []
+    },
+    "Phonebook.Entry": {
+        "depth" : "1",
+        "params": []
+    },
+    "DHCPv4.Server.Pool.default": [
+        "Enable",
+        "IPRouters",
+        "SubnetMask",
+        "MinAddress",
+        "MaxAddress"
+    ],
+    "DHCPv4.Server.Pool.default.Rule.default.Lease": {
+        "depth" : "1",
+        "function" : "nc_custom_handle_lease",
+        "params": [
+            "IPAddress",
+            "MACAddress",
+            "Reserved"
+        ]
+    },
+    "Firewall.PortForwarding": {
+        "depth" : "1",
+        "function" : "nc_custom_handle_portForwardingRules",
+        "params": []
+    },
+    "UPnP-IGD": {
+        "attr" : "0x00000040",
+        "params": [
+            "Enable"
+        ]
+    },
+    "DynDNS.Service.dyndns.Client": {
+        "depth" : "1",
+        "params": [
+            "Username",
+            "Password"
+        ]
+    },
+    "DynDNS.Service.dyndns.Client": {
+        "depth" : "3",
+        "params": [
+            "Enable",
+            "Name"
+        ]
+    },
+    "Firewall.DMZ": {
+        "depth" : "1",
+        "params": []
+    },
+    "Time": {
+        "attr" : "0x00000040",
+        "params": [
+            "LocalTimeZoneName"
+        ]
+    },
+    "Firewall": {
+        "attr" : "0x00000040",
+        "params": [
+            "AdvancedLevel",
+            "AdvancedIPv6Level"
+        ]
+    },
+    "Firewall.Chain.Custom.Rule": {
+        "depth" : "1",
+        "params": []
+    },
+    "Firewall.Chain.Custom.Rule": {
+        "depth" : "1",
+        "params": []
+    },
+    "Firewall.Chain.Custom_V6Out.Rule": {
+        "depth" : "1",
+        "params": []
+    },
+    "Firewall.Chain.Custom_V6In.Rule": {
+        "depth" : "1",
+        "params": []
+    },
+    "NMC.IPv6": [
+        "Enable"
+    ],
+    "RemoteAccess": {
+        "attr" : "0x00000040",
+        "params": [
+            "Enable",
+            "Port"
+        ]
+    },
+    "UserManagement.User": {
+        "depth" : "1",
+        "function" : "nc_custom_handle_remoteAccessUser",
+        "params": [
+            "UserName",
+            "Password",
+            "UserGroupParticipation"
+        ]
+    },
+    "UserManagement.User.admin": {
+        "attr" : "0x00000040",
+        "params": [
+            "Password"
+        ]
+    }
+}

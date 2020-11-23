@@ -1,0 +1,117 @@
+using "scheduler_plugin.so";
+define schedule_entry_t {
+string state;
+uint32 begin;
+uint32 end;
+}
+define schedule_t {
+string ID;
+bool   enable;
+string base;
+string def;
+string override;
+bool temporaryOverride;
+string value;
+list   schedule;
+}
+acl {
+world read,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+object Scheduler {
+bool registerScheduleType(string type, string path, list states, list schedules, string disabledState) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool unregisterScheduleType(string type) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool addSchedule(string type, schedule_t info) {
+acl {
+world none;
+}
+}
+bool enableSchedule(string type, string ID, bool enable) {
+acl {
+world none;
+}
+}
+bool overrideSchedule(string type, string ID, string override) {
+acl {
+world none;
+}
+}
+bool overrideState(string type, string ID, string state) {
+acl {
+world none;
+}
+}
+bool removeSchedules(string type, list ID) {
+acl {
+world none;
+}
+}
+bool getScheduleTypes(out list types) {
+acl {
+world none;
+}
+}
+bool getSchedules(string type, out list scheduleInfo) {
+acl {
+world none;
+}
+}
+bool getCompleteSchedules(string type, out list scheduleInfo) {
+acl {
+world none;
+}
+}
+bool getSchedule(string type, string ID, out schedule_t info) {
+acl {
+world none;
+}
+}
+list simulateSchedule(string type, string ID, datetime begin, datetime end) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+list simulateSchedules(datetime begin, datetime end) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object Types [] {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+string Type;
+string Path;
+string States;
+string DisabledState;
+object Schedules [] {
+string ID;
+bool   Enable;
+string Base;
+string Default;
+string Override;
+bool TemporaryOverride;
+string CurrentState;
+datetime NextStateChange;
+}
+}
+}

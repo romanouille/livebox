@@ -1,0 +1,326 @@
+datamodel {
+object QueueManagement {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+object Classification {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function setPolicyClassification {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(1, "xdsl_qmother") {
+parameter Name = "xdsl_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(2, "xdsl_qvoice") {
+parameter Name = "xdsl_qvoice";
+parameter QueuePrecedence = 7;
+parameter RootQueue = "xdsl_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(3, "xdsl_q1") {
+parameter Name = "xdsl_q1";
+parameter QueuePrecedence = 6;
+parameter RootQueue = "xdsl_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(4, "xdsl_q2") {
+parameter Name = "xdsl_q2";
+parameter QueuePrecedence = 5;
+parameter RootQueue = "xdsl_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(5, "xdsl_q3") {
+parameter Name = "xdsl_q3";
+parameter QueuePrecedence = 4;
+parameter RootQueue = "xdsl_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(6, "xdsl_q4") {
+parameter Name = "xdsl_q4";
+parameter QueuePrecedence = 1;
+parameter RootQueue = "xdsl_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(7, "xdsl_q5") {
+parameter Name = "xdsl_q5";
+parameter QueuePrecedence = 0;
+parameter RootQueue = "xdsl_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(8, "ftth_qmother") {
+parameter Name = "ftth_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(9, "ftth_q1") {
+parameter Name = "ftth_q1";
+parameter QueuePrecedence = 1;
+parameter RootQueue = "ftth_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(10, "ftth_q2") {
+parameter Name = "ftth_q2";
+parameter QueuePrecedence = 0;
+parameter RootQueue = "ftth_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Queue(11, "ftth_q3") {
+parameter Name = "ftth_q3";
+parameter QueuePrecedence = 7;
+parameter RootQueue = "ftth_qmother";
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "internet_default_forward") {
+parameter Name = "internet_default_forward";
+parameter ClassificationEnable = true;
+parameter ClassInterface = Forward;
+parameter ClassQueue = 6;
+parameter IPVersion = 0;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "igmp_wan") {
+parameter Name = "igmp_wan";
+parameter Protocol = 2;
+parameter ClassificationEnable = true;
+parameter ClassInterface = Local;
+parameter IPVersion = 4;
+parameter DSCPMark = 36;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "igmp_lan") {
+parameter Name = "igmp_lan";
+parameter Protocol = 2;
+parameter ClassificationEnable = true;
+parameter ClassInterface = Postrouting;
+parameter OutInterface = bridge;
+parameter IPVersion = 4;
+parameter DSCPMark = 32;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "voip_lan") {
+parameter Name = "voip_lan";
+parameter Protocol = 17;
+parameter ClassificationEnable = true;
+parameter ClassInterface = Local;
+parameter OutInterface = bridge;
+parameter DestPort = 5060;
+parameter IPVersion = 4;
+parameter DSCPMark = 48;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "dhcpv4_lan") {
+parameter Name = "dhcpv4_lan";
+parameter Protocol = 17;
+parameter ClassificationEnable = true;
+parameter ClassInterface = Local;
+parameter OutInterface = bridge;
+parameter DestPort = 68;
+parameter IPVersion = 4;
+parameter DSCPMark = 48;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "ntp_wan") {
+parameter Name = "ntp_wan";
+parameter Protocol = 17;
+parameter ClassificationEnable = true;
+parameter ClassInterface = Local;
+parameter DestPort = 123;
+parameter IPVersion = 0;
+parameter DSCPMark = 0;
+parameter StopTraverse = 0;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "dhcpv6_lan") {
+parameter Name = "dhcpv6_lan";
+parameter Protocol = 17;
+parameter ClassificationEnable = true;
+parameter ClassInterface = Local;
+parameter OutInterface = bridge;
+parameter DestPort = 546;
+parameter IPVersion = 6;
+parameter DSCPMark = 48;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "dhcpv6_wan") {
+parameter Name = "dhcpv6_wan";
+parameter Protocol = 17;
+parameter ClassificationEnable = true;
+parameter ClassInterface = Local;
+parameter DestPort = 547;
+parameter IPVersion = 6;
+parameter DSCPMark = 48;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "internet_default_local") {
+parameter Name = "internet_default_local";
+parameter ClassificationEnable = true;
+parameter ClassInterface = Local;
+parameter ClassQueue = 6;
+parameter IPVersion = 0;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "wfc") {
+parameter Name = "wfc";
+parameter ClassificationEnable = true;
+parameter ClassInterface = PostRouting;
+parameter OutInterface = wl2;
+parameter IPVersion = 4;
+parameter DSCPMark = 8;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "xdsl_qvoice") {
+parameter Name = "xdsl_qvoice";
+parameter DSCPCheck = "46";
+parameter ClassificationEnable = false;
+parameter ClassInterface = PostRouting;
+parameter ClassQueue = 2;
+parameter IPVersion = 0;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "xdsl_q1") {
+parameter Name = "xdsl_q1";
+parameter DSCPCheck = "40";
+parameter ClassificationEnable = false;
+parameter ClassInterface = PostRouting;
+parameter ClassQueue = 3;
+parameter IPVersion = 0;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "xdsl_q2") {
+parameter Name = "xdsl_q2";
+parameter DSCPCheck = "48,56";
+parameter ClassificationEnable = false;
+parameter ClassInterface = PostRouting;
+parameter ClassQueue = 4;
+parameter IPVersion = 0;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "xdsl_q3") {
+parameter Name = "xdsl_q3";
+parameter DSCPCheck = "38,36,34,32,30,28,26,24,18";
+parameter ClassificationEnable = false;
+parameter ClassInterface = PostRouting;
+parameter ClassQueue = 5;
+parameter IPVersion = 0;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "vdsl_832_pbit") {
+parameter Name = "vdsl_832_pbit";
+parameter ClassificationEnable = true;
+parameter ClassInterface = PostRouting;
+parameter OutInterface = bridge_vvmulti;
+parameter EthernetPriorityMark = -2;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "ffth_832_pbit") {
+parameter Name = "ftth_832_pbit";
+parameter ClassificationEnable = true;
+parameter ClassInterface = PostRouting;
+parameter OutInterface = bridge_vmulti;
+parameter EthernetPriorityMark = -2;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Classification(0, "gretap_wfc") {
+parameter ClassificationEnable = false;
+parameter ClassInterface = PostRouting;
+parameter ClassQueue = 7;
+parameter StopTraverse = 1;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Enable = false;
+}
+}

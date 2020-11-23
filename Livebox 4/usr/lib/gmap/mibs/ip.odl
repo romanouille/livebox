@@ -1,0 +1,131 @@
+/*expr:ipv4 or ipv6*/
+using "/usr/lib/gmap/mibs/impl/mib_ip.so";
+
+define ip_address_t {
+    string Address;
+    string Status;
+    string Scope;
+    string AddressSource;
+}
+
+/**
+ * MIB is loaded on all network devices that have (or had) an ip address
+ *
+ * All devices matching expression: "ipv4 or ipv6" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib ip {
+    /**
+     * Get a list of ip address of the device
+     *
+     * A device can contain multiple ip addresses (ipv4 and/or ipv6).
+     *
+     * @param family "ipv4" to get the list of IPv4 address, "ipv6" to get the list of IPv6 address or empty to get all addresses (default = "")
+     *
+     * @return a list of {ip_address_t} structures
+     *
+     * @version 6.0
+     */
+    list getAddress(string family) {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * The prefered ip address of the device.
+     *
+     * @version 6.0
+     */
+    string IPAddress;
+    /**
+     * The source that added the prefered ip address of the device.
+     *
+     * @version 6.0
+     */
+    string IPAddressSource;
+
+    /**
+     * List of ipv4 addresses discovered for the device
+     *
+     * @version 6.0
+     */
+    object IPv4Address[] {
+        delete with onIPv4AddressDelete;
+
+        /**
+         * The ipv4 address
+         *
+         * @version 6.0
+         */
+        string Address;
+        /**
+         * The status of the ipv4 address, can be reachable or error
+         *
+         * @version 6.0
+         */
+        string Status;
+        /**
+         * The scope of the ipv4 address
+         *
+         * @version 6.0
+         */
+        string Scope;
+        /**
+         * An string containing an identifier or name.
+         *
+         * Should give an indication of what added the ip address to the data model
+         *
+         * @version 6.0
+         */
+        string AddressSource;
+        /**
+         * Indicates if the IPv4 address is reserved for this device
+         *
+         * This is only true when the IPv4 address is assigned to the device by the DHCPv4 server and
+         * the address is configured as a static lease.
+         *
+         * @version 6.0
+         */
+        bool Reserved;
+    }
+
+    /**
+     * List of ipv4 addresses discovered for the device
+     *
+     * @version 6.0
+     */
+    object IPv6Address[] {
+        delete with onIPv6AddressDelete;
+
+        /**
+         * The ipv4 address
+         *
+         * @version 6.0
+         */
+        string Address;
+        /**
+         * The status of the ipv4 address, can be reachable or error
+         *
+         * @version 6.0
+         */
+        string Status;
+        /**
+         * The scope of the ipv4 address
+         *
+         * @version 6.0
+         */
+        string Scope;
+        /**
+         * An string containing an identifier or name.
+         *
+         * Should give an indication of what added the ip address to the data model
+         *
+         * @version 6.0
+         */
+        string AddressSource;
+    }
+}
+
+/** @location sah_services_gmap /mibs/ip.odl */

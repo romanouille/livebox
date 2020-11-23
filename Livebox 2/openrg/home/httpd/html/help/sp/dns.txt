@@ -1,0 +1,8 @@
+﻿<b>DNS:</b><br>
+<br>
+Un servidor DNS se emplea para transformar nombres de dominios en direcciones IP y viceversa. Puede configurar servidores DNS primarios y secundarios introduciendo sus direcciones IP en formato X.X.X.X.<br>
+Si seleccionas el modo automático, se emplearán los servidores DNS de Orange por defecto.<br>
+<!--
+<br>
+-->
+

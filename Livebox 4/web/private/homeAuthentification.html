@@ -1,0 +1,53 @@
+
+
+
+
+
+<script language="text/javascript">
+	
+	ctl.popup.Resize(400,250);
+	ctl.popup.SetTitle(t("home.authentication.label.title", "X Authentication"));
+	ctl.popup.Show();
+
+	// translation Translations.home.authentication.label.title
+</script>
+<form name="PopupLogin">
+<h5>
+  <span style="font-size:0.8em;" class="auth-no-failure translation Translations.home.authentication.label.subtitle"></span>
+  <span class="auth-failure" style="display: none;">
+    <img src="/images/fr/icons/icons-error.gif?30d0a8ef" style="vertical-align: middle;" class="voice Voice.general.icon.error"/>
+    <span style="font-size:0.8em;" class="translation Translations.home.authentication.error.invalid"></span>
+  </span>
+  <span class="auth-failure-no-login-pass" style="display: none;">
+    <img src="/images/fr/icons/icons-error.gif?30d0a8ef" style="vertical-align: middle;" class="voice Voice.general.icon.error"/>
+    <span style="font-size:0.8em;" class="translation Translations.home.authentication.error.empty"></span>
+  </span>
+</h5>
+<br/>
+<h2><span class="translation Translations.home.authentication.label.login"></span></h2>
+<input type="text" maxlength="32" class="input-text input-text-gray voice Voice.home.authentication.label.login" id="PopupUsername" style="width:234px;" value="admin"/>
+<br/>
+<br/>
+<h2><span class="translation Translations.home.authentication.label.password"></span></h2>
+<div>
+    <input type="password" maxlength="32" class="input-text input-text-gray voice Voice.home.authentication.label.password" id="PopupPassword" style="width:234px;"/>
+</div>
+<div style="float:left; padding-top:10px;">
+    <input type="button" id="bt_cancel" value="annuler" class="input-btn input-btn-gray translation Translations.general.btn.cancel" onclick="ctl.popup.Close();" />
+    <input type="button" id="bt_save" value="enregistrer" class="input-btn input-btn-orange translation Translations.general.btn.save" onclick="$('Username').setValue($F('PopupUsername'));$('Password').setValue($F('PopupPassword')); Event.fire($('Login'), 'sah:login'); Event.stop(event); return true;"/>
+</div>
+
+<div class="input-info-help-popup" style="position:absolute; top:50px;right:10px;">
+    <div class="header">
+        <h6><span class="translation Translations.general.label.info"></span></h6>
+    </div>
+    <div class="content translation Translations.home.authentication.info.comment"></div>
+    <div class="footer">
+    </div>
+</div>
+</form>
+
+<script language="text/javascript">
+window.setTimeout(function () {  try { $("PopupPassword").focus() } catch (e) {}; }, 1300);
+</script>
+

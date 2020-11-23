@@ -1,0 +1,10 @@
+﻿<b>Mostrar:</b><br>
+<br>
+<span class="boldorange">Configuración del dispositivo:</span> Esta sección te permite personalizar el dispositivo. Puedes introducir el nombre de un dispositivo, especificar el tipo de dispositivo, asignar un icono o especificar en qué ubicación de tu casa se encuentra el dispositivo.<br>
+<span class="boldorange">Configuración de la conexión:</span>  Este campo muestra como está conectado tu dispositivo al Livebox, el tipo de conexión (Ethernet, WiFi o USB), dirección IP y el estado (conectado o desconectado).<br>
+<span class="boldorange">Borrar el dispositivo:</span> Este botón puede ser empleado para eliminar el dispositivo de tu red.<br>
+<!--
+<br>
+<b>
+-->
+

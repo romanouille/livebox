@@ -1,0 +1,35 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="nemo-clients"
+trace_zones=""
+component="sah_lib_nemo"
+
+case $1 in
+    start)
+        rm -rf /var/lib/nemo && mkdir -p -m 700 /var/lib/nemo
+        if pcb_is_running $name; then
+            echo $name " already started"
+        else
+            sahenv -f /etc/environment pcb_app -vv -n $name /usr/lib/nemo/clients/*
+        fi
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo|log]"
+        ;;
+esac

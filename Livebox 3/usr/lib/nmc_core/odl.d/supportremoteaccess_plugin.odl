@@ -1,0 +1,26 @@
+using "../nmccore_supportremoteaccess.so";
+persistent object NMC {
+persistent object SupportRemoteAccess {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmdp none;
+}
+void activate();
+bool Enable = false ;
+read-only bool PermanentEnable = false;
+read-only string Status {
+constraint enum ["Activating", "Enabled", "Idle", "Disabled"];
+default "Disabled";
+}
+string Password;
+read-only datetime Accept;
+string Username = "support";
+uint32 Port = 44443;
+bool Secure = true;
+uint32 Timeout = 900;
+persistent bool IdleAccessEnabled = false;
+persistent string IdleSourcePrefix;
+}
+}

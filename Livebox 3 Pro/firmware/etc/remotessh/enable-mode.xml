@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CLISH_MODULE xmlns="http://clish.sourceforge.net/XMLSchema" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://clish.sourceforge.net/XMLSchema
+                     http://clish.sourceforge.net/XMLSchema/clish.xsd">
+	<!--=======================================================-->
+<VIEW name="enable-view"
+	prompt="LBProv3# ">
+
+<!-- Inheritance -->
+
+	<NAMESPACE ref="ping-view"
+		help="true"
+		completion="true"/>
+
+<!-- Simple enable mode commands -->
+
+	
+	<COMMAND name="reboot"
+		help="Reboot the Gateway and ask for confirmation if the option -f is not set">
+		<PARAM name="option"
+			help="option (-f) to force reboot"
+			optional="true"
+			ptype="STRING">
+		</PARAM>
+		<ACTION>
+		if test "${option}" = "-f"; then
+			reboot
+		elif test "${option}" = ""; then
+			echo -n Do you want to reboot the gateway Y/N: 
+			read response
+			if test "$response" = "Y" || test "$response" = "y"; then
+				reboot
+			fi
+		fi
+		</ACTION>
+	</COMMAND>
+	<COMMAND name="reset"
+		help="Restore the default configuration of Gateway and ask for confirmation if the option -f is not set">
+		<PARAM name="option"
+			help="option (-f) to force reset"
+			optional="true"
+			ptype="STRING">
+		</PARAM>
+		<ACTION>
+		if test "${option}" = "-f"; then
+			restore_default
+		elif test "${option}" = ""; then
+			echo -n Do you want to restore the gateway Y/N: 
+			read response
+			if test "$response" = "Y" || test "$response" = "y"; then
+				restore_default
+			fi
+		fi
+		</ACTION>
+	</COMMAND>
+	<COMMAND name="top"
+		help="top linux command"
+		lock="false"
+		interrupt="true">
+		<ACTION>top</ACTION>
+	</COMMAND>
+
+	<COMMAND name="logs"
+		help="Gateway Logs"
+		lock="false"
+		interrupt="true">
+		<PARAM name="cmd"
+			help="Configure the gateway logs"
+			mode="switch"
+			ptype="SUBCOMMAND">
+		<PARAM name="enable"
+			help="Enable gateway logs"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		<PARAM name="disable"
+			help="Disable gateway logs"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		<PARAM name="display"
+			help="Display gateway logs"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		</PARAM>
+		<ACTION>
+		if test "${cmd}" = "enable"; then
+			echo "Not Implemented"
+		elif test "${cmd}" = "disable"; then
+			echo "Not Implemented"
+		elif test "${cmd}" = "display"; then
+			logread		
+		fi
+		</ACTION>
+	</COMMAND>
+
+	<COMMAND name="conf"
+		help="Access to the Orange Web datamodel in order to get or set XPATH"
+		lock="false"
+		interrupt="true">
+		<PARAM name="cmd"
+		help="choose set or get"
+		mode="switch"
+		ptype="SUBCOMMAND">
+		<PARAM name="set"
+			help="Set a value to XPATH"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		<PARAM name="get"
+			help="Get value from XPATH"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		<PARAM name="add"
+			help="Add Node"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		</PARAM>
+		<PARAM name="xpath"
+			help="[XPATH]"
+			ptype="STRING">
+		</PARAM>
+		<PARAM name="value"
+			help="Value to set"
+			optional="true"
+			ptype="STRING">
+		</PARAM>
+		<ACTION>
+		if test "${cmd}" = "get"; then
+			xmo-client -p ${xpath} -c "ft" -i "http://orange.fr/data" -g
+		elif test "${cmd}" = "set"; then
+			xmo-client -p ${xpath} -c "ft" -i "http://orange.fr/data" -s ${value}
+		elif test "${cmd}" = "add"; then
+			xmo-client -p ${xpath} -c "ft" -i "http://orange.fr/data" -a
+		fi
+		</ACTION>
+	</COMMAND>
+	
+	<COMMAND name="scp"
+		help="secure copy (remote file copy program)"
+		lock="false"
+		interrupt="true">
+		<PARAM name="proto"
+			help="scp"
+			optional="true"
+			mode="switch"
+			ptype="SUBCOMMAND">
+			<PARAM name="-t"
+				help="-t option"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			
+		</PARAM>
+		<PARAM name="fo"
+			help="Protocol to use for the ping"
+			optional="true"
+			mode="switch"
+			ptype="SUBCOMMAND">
+			<PARAM name="-f"
+				help="-f option"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			
+		</PARAM>
+		<PARAM name="file"
+			help="Protocol to use for the ping"
+			optional="true"
+			mode="switch"
+			ptype="SUBCOMMAND">
+			<PARAM name="--"
+				help="-- option"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			
+		</PARAM>
+		<PARAM name="dst"
+			help="Hostname or IP-address"
+			ptype="STRING"/>
+
+		<ACTION>
+			cmd="scp -t -f "
+			cmd=$cmd" ${dst}"
+			$cmd
+		</ACTION>
+	</COMMAND>
+
+	<COMMAND name="asterisk-console"
+		 help="Access to asterisk console"
+		 ptype="SUBCOMMAND">
+		<PARAM name="-v"
+			help="Verbose mode"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="level_v"
+			help="level of verbose"
+			ptype="UINT"/>
+		</PARAM>
+		<PARAM name="-d"
+			help="debug mode"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="level_d"
+			help="level of debug"
+			ptype="UINT"/>
+		</PARAM>
+		<ACTION>
+			cmd="asterisk -r"
+			if test -n "${-v}"; then
+			if test "${level_v}" -lt 1000  ; then 
+			for i in $(seq ${level_v})
+			do
+			    cmd=$cmd"v"
+			done
+			else
+			echo "the verbosity is limited to 1000"
+			fi
+			fi
+			if test -n "${-d}"; then
+			if test "${level_d}" -lt 1000  ; then 
+			for i in $(seq ${level_d})
+			do
+			    cmd=$cmd"d"
+			done
+			else
+			echo "the Debug is limited to 1000"
+			fi
+			fi
+			$cmd
+			
+		</ACTION>
+	</COMMAND>
+
+<COMMAND name="tcpdump"
+		help="tcpdump linux command"
+		interrupt="true"
+	 	ptype="SUBCOMMAND">
+		<PARAM name="-p"
+			help="Port to monitor"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="port"
+			help="port to monitor"
+			ptype="UINT"/>
+		</PARAM>
+		<PARAM name="-i"
+			help="Listen on interface"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="interface"
+			help="Interface to monitor"
+			ptype="STRING"/>
+		</PARAM>
+		<PARAM name="-w"
+			help="capture filename"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="file"
+			help="Filename of the capture"
+			ptype="STRING"/>
+		</PARAM>
+		<ACTION>
+			cmd="tcpdump -C 3"
+			if test -n "${-p}"; then
+			cmd=$cmd" port ${port}"
+			fi
+			if test -n "${-i}"; then
+			cmd=$cmd" -i ${interface}"
+			fi
+			if test -n "${-w}"; then
+			cmd=$cmd" -w ${file}"
+			fi
+			$cmd
+		</ACTION>
+	</COMMAND>
+
+	<COMMAND name="arp"
+		help="arp linux command"
+		interrupt="true"
+	 	ptype="SUBCOMMAND">
+		<PARAM name="clear"
+			help="clear arp table"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		<ACTION>
+			if test -n "${clear}"; then
+				ip neigh flush all 			
+			else
+				cmd="arp"
+				
+			fi
+			$cmd
+		</ACTION>
+	</COMMAND>
+
+	<COMMAND name="nat"
+		help="Display all NAT rules configured by the customer"
+		interrupt="true"
+	 	ptype="SUBCOMMAND">
+		<PARAM name="show"
+			help="Display all NAT rules configured by the customer"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="ID_show"
+			help="customer id"
+			optional="true"
+			ptype="STRING"/>
+		</PARAM>
+		<PARAM name="disable"
+			help="Disable a nat rule"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="ID_disable"
+			help="customer id"
+			ptype="STRING"/>
+		</PARAM>
+		<PARAM name="remove"
+			help="Remove a nat rule"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="ID_remove"
+			help="customer id"
+			ptype="STRING"/>
+		</PARAM>
+		<PARAM name="active"
+			help="Active a nat rule"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND" >
+			<PARAM name="ID_active"
+			help="customer id"
+			ptype="STRING"/>
+		</PARAM>
+		<PARAM name="add"
+			help="Add a nat rule"
+			optional="true"
+			mode="subcommand"
+			ptype="SUBCOMMAND">
+			<PARAM name="ExternalPort"
+				help="external port command"
+				optional="true"
+				mode="subcommand"
+				ptype="SUBCOMMAND" >
+				<PARAM name="ext_port"
+				help="External port parameter"
+				ptype="STRING"/>
+		    </PARAM>
+			<PARAM name="ExternalPortEndRange"
+				help="External Port End Range command"
+				optional="true"
+				mode="subcommand"
+				ptype="SUBCOMMAND" >
+				<PARAM name="ext_port_end_range"
+				help="External Port End Range parameter"
+				ptype="STRING"/>
+		    </PARAM>
+			<PARAM name="InternalPort"
+				help="internal port command"
+				optional="true"
+				mode="subcommand"
+				ptype="SUBCOMMAND" >
+				<PARAM name="int_port"
+				help="Internal port parameter"
+				ptype="STRING"/>
+			</PARAM>
+			<PARAM name="Protocol"
+				help="protocol command"
+				optional="true"
+				mode="subcommand"
+				ptype="SUBCOMMAND" >
+				<PARAM name="proto"
+				help="protocol parameter"
+				ptype="STRING"/>	    
+		    </PARAM>
+			<PARAM name="Service"
+				help="Service command"
+				optional="true"
+				mode="subcommand"
+				ptype="SUBCOMMAND" >
+				<PARAM name="serv"
+				help="Service parameter"
+				ptype="STRING"/>	    
+		    </PARAM>
+			<PARAM name="InternalClient"
+				help="InternalClient command"
+				optional="true"
+				mode="subcommand"
+				ptype="SUBCOMMAND" >
+				<PARAM name="int_client"
+				help="InternalClient parameter"
+				ptype="STRING"/>	    
+		    </PARAM>
+		</PARAM>
+		<ACTION>
+	   	if test -n "${show}"; then
+		nat.sh ${ID_show}			
+   	 	elif test -n "${disable}"; then
+		xmo-client -p  Device/NAT/PortMappings/PortMapping[@uid=\"${ID_disable}\"]/Enable -c "ft" -i "http://orange.fr/data" -s 0
+		elif test -n "${active}"; then
+		xmo-client -p  Device/NAT/PortMappings/PortMapping[@uid=\"${ID_active}\"]/Enable -c "ft" -i "http://orange.fr/data" -s 1
+		elif test -n "${add}"; then
+		xmo-client -p  Device/NAT/PortMappings -c "ft" -i "http://orange.fr/data" -a | grep -v "New element added"
+		xmo-client -p  "Device/NAT/PortMappings/PortMapping[last()]/Creator" -c "ft" -i "http://orange.fr/data" -s "USER"
+		if [ ! -z ${ext_port} ]; then
+		xmo-client -p  "Device/NAT/PortMappings/PortMapping[last()]/ExternalPort" -c "ft" -i "http://orange.fr/data" -s ${ext_port}
+		fi
+		if [ ! -z ${ext_port_end_range} ]; then
+		xmo-client -p  "Device/NAT/PortMappings/PortMapping[last()]/InternalPortEndRange" -c "ft" -i "http://orange.fr/data" -s ${ext_port_end_range}
+		fi
+		if [ ! -z ${proto} ]; then
+		xmo-client -p  "Device/NAT/PortMappings/PortMapping[last()]/Protocol" -c "ft" -i "http://orange.fr/data" -s ${proto}
+		fi
+		if [ ! -z  ${serv} ]; then
+		xmo-client -p  "Device/NAT/PortMappings/PortMapping[last()]/Description" -c "ft" -i "http://orange.fr/data" -s ${serv}
+		fi
+		if [ ! -z ${int_port} ]; then
+		xmo-client -p  "Device/NAT/PortMappings/PortMapping[last()]/InternalPort" -c "ft" -i "http://orange.fr/data" -s ${int_port}
+		fi
+		if [ ! -z ${int_client} ]; then
+		xmo-client -p  "Device/NAT/PortMappings/PortMapping[last()]/InternalClient" -c "ft" -i "http://orange.fr/data" -s ${int_client}
+		fi
+		elif test -n "${remove}"; then
+		xmo-client -p  Device/NAT/PortMappings/PortMapping[@uid=\"${ID_remove}\"] -c "ft" -i "http://orange.fr/data" -d | grep -v "Element deleted"
+		fi
+
+		</ACTION>
+	</COMMAND>
+	<COMMAND name="nat-active"
+		help="Display all active NAT rules"
+		lock="false"
+		interrupt="true">
+		<ACTION>cat /proc/net/nf_conntrack</ACTION>
+	</COMMAND>
+
+	<COMMAND name="remote-access-web"
+		help="Manage remote Web access">
+		<PARAM name="action"
+		help="action to perform"
+		mode="switch"
+		ptype="SUBCOMMAND">
+		<PARAM name="extend"
+			help="extend remote web access duration"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		<PARAM name="open"
+			help="open remote web access"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		<PARAM name="close"
+			help="close remote web access"
+			mode="subcommand"
+			ptype="SUBCOMMAND"/>
+		</PARAM>
+		<PARAM name="port"
+			help="port number"
+			optional="true"
+			ptype="UINT">
+		</PARAM>
+		<PARAM name="password"
+			help="Robust connection password : at least 8 chars with 1 number and 1 special char"
+			optional="true"
+			ptype="PASSWD">
+		</PARAM>
+		<PARAM name="delay"
+			help="connection delay"
+			optional="true"
+			ptype="UINT">
+		</PARAM>
+		<ACTION>
+			# test password length
+			if test "${password}" != ""; then
+				res=`expr length ${password}`
+				if test "$res" -lt "8"; then
+					echo Invalid Password Length
+					exit
+				fi
+			fi
+			
+			#Action open: port must be in [10000 30000] and delay in [1 10080]. if not mentionned delay is set to 15 mn
+			if test "${action}" = "open"; then
+				if test "${port}" -gt "9999" &amp;&amp; test "${port}" -lt "30000"; then
+					echo Setting Port Number
+					xmo-client -p Device/UserInterface/RemoteAccess/SupportRemoteAccessPort -c "ft" -i "http://orange.fr/data" -s ${port}
+				else 
+					echo Invalid Port Number
+					exit
+				fi
+				if test "${password}" != ""; then
+					echo Setting password
+					md5pass=`echo -n admin  | md5sum  | cut -f 1 -d ' '`
+					xmo-client -p Device/UserAccounts/ManagedUsers/ManagedUser[Login=\"support\"]/Password -c "ft" -i "http://orange.fr/data" -s $md5pass
+					xmo-client -p Device/UserAccounts/ManagedUsers/ManagedUser[Login=\"support\"]/RemoteAccessMgt/UserRemoteAccess[@Service=\"HTTPS\"]/Enabled -c "ft" -i "http://orange.fr/data" -s 1
+				fi
+				if test "${delay}" = ""; then
+					echo Setting default delay
+					xmo-client -p Device/UserInterface/RemoteAccess/SupportRemoteAccessTime -c "ft" -i "http://orange.fr/data" -s 15
+				elif test "${delay}" -gt "1" &amp;&amp; test "${delay}" -lt "10080"; then
+					echo Setting delay
+					xmo-client -p Device/UserInterface/RemoteAccess/SupportRemoteAccessTime -c "ft" -i "http://orange.fr/data" -s ${delay}
+				else 
+					echo Invalid Delay
+					exit
+				fi
+
+			#Action extend: in this case arg1 which is normally the port number corresponds to the delay
+			elif test "${action}" = "extend"; then
+				if test "${port}" = ""; then
+					echo Setting default delay
+					xmo-client -p Device/UserInterface/RemoteAccess/SupportRemoteAccessTime -c "ft" -i "http://orange.fr/data" -s 120
+				elif test "${port}" -gt "1" &amp;&amp; test "${port}" -lt "10080"; then
+					echo Setting delay
+					xmo-client -p Device/UserInterface/RemoteAccess/SupportRemoteAccessTime -c "ft" -i "http://orange.fr/data" -s ${port}
+				else 
+					echo Invalid Delay
+				fi	
+			
+			#Action close: to close the connection set the delay to 0
+			elif test "${action}" = "close"; then
+				echo Close connection
+				xmo-client -p Device/UserInterface/RemoteAccess/SupportRemoteAccessTime -c "ft" -i "http://orange.fr/data" -s 0
+				xmo-client -p Device/UserAccounts/ManagedUsers/ManagedUser[Login=\"support\"]/RemoteAccessMgt/UserRemoteAccess[@Service=\"HTTPS\"]/Enabled -c "ft" -i "http://orange.fr/data" -s 0
+			fi
+		</ACTION>
+	</COMMAND>
+
+
+	<COMMAND name="voip-call"
+		help="Establish a call">
+		<PARAM name="src"
+			help="Source Number"
+			optional="false"
+			ptype="SOURCE_EXTEN">
+		</PARAM>
+		<PARAM name="dst"
+			help="destination Number"
+			optional="false"
+			ptype="STRING">
+		</PARAM>
+		<ACTION>
+			
+			echo action:login >> /tmp/originate.txt
+			echo username:AstAdmin >> /tmp/originate.txt
+			echo secret:Ast_PassWd_1 >> /tmp/originate.txt
+			echo >> /tmp/originate.txt
+									
+	
+				echo Action: Originate >> /tmp/originate.txt
+				echo Channel: SIP/${src} >> /tmp/originate.txt
+				echo Context: profile_10 >> /tmp/originate.txt
+				echo exten: ${dst} >> /tmp/originate.txt
+				echo priority: 1 >> /tmp/originate.txt
+				echo CallerID:${src} >> /tmp/originate.txt
+				echo >> /tmp/originate.txt
+				echo action:logoff >> /tmp/originate.txt
+				echo >> /tmp/originate.txt
+
+				nc 127.0.0.1 5038 &lt; /tmp/originate.txt > /dev/null 2>&amp;1
+
+
+			rm -rf /tmp/originate.txt
+		</ACTION>
+	</COMMAND>
+
+
+	<COMMAND name="shell"
+		help="Access to linux shell"
+		lock="false"
+		interrupt="true">
+		<ACTION>/bin/sh</ACTION>
+	</COMMAND>
+
+	<COMMAND name="show interface"
+		help="list all active interfaces on the Livebox with detailed statistics"
+		lock="false"
+		interrupt="true">
+		<PARAM name="interface"
+			help="interface name"
+			optional="true"
+			ptype="STRING">
+			
+		</PARAM>
+		<ACTION>ifconfig  ${interface}</ACTION>
+	</COMMAND>
+	<COMMAND name="show users"
+		help="show SIP phones configured"
+		lock="false"
+		interrupt="true">
+		<PARAM name="phone"
+			help="phonenumber"
+			optional="true"
+			ptype="UINT">
+			
+		</PARAM>
+		<ACTION>if test -n "${phone}"; then
+			xmo-search Device/Services/VoiceServices/VoiceService[@uid='2']/ExtensionProfiles/ExtensionProfile[@uid='1']/Extensions/Extension[ExtensionNumber=${phone}] 2> /dev/null | grep -e "ExtensionNumber" -e "Name" -e "IPAddress" -e "Status" | grep -v "ToExtensionNumber" | grep  -v "ButtonName" | grep  -v "UploadStatus" | grep  -v "AuthUserName" 
+			else
+				xmo-search Device/Services/VoiceServices/VoiceService[@uid='2']/ExtensionProfiles/ExtensionProfile[@uid='1']/Extensions/Extension[Enable] 	2> /dev/null	| grep -e "ExtensionNumber" -e "Name" -e "IPAddress" -e "Status" | grep -v "ToExtensionNumber" | grep  -v "ButtonName" | grep  -v "UploadStatus" | grep  -v "AuthUserName" 	
+			fi
+
+ </ACTION>
+	</COMMAND>
+
+	<COMMAND name="user-password"
+		help="Reinitialize user password"
+		lock="false"
+		interrupt="true">
+		<PARAM name="user"
+			help="user login"
+			optional="false"
+			ptype="STRING">
+			
+		</PARAM>
+		<PARAM name="password"
+			help="user password"
+			optional="false"
+			ptype="STRING">
+			
+		</PARAM>
+		<ACTION>
+		if test -n "${user}"; then
+		echo Change User ${user}
+			if test -n "${password}"; then
+			echo Password ${password}
+			md5password=`echo -n ${password} | md5sum |  cut -f 1 -d ' '`
+			echo md5password  $md5password
+			extevt SET Device/UserAccounts/Users/User[Login=\"${user}\"]/Password $md5password > /dev/null
+			fi
+		fi
+
+ </ACTION>
+	</COMMAND>
+	
+
+
+	<COMMAND name="show run"
+		help="Show servers state">
+		<PARAM name="name"
+			help="Server name"
+			mode="switch"
+			ptype="SUBCOMMAND">
+			<PARAM name="web"
+				help="web"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			<PARAM name="asterisk"
+				help="asterisk"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			<PARAM name="dhcp-server"
+				help="dhcp-server"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			<PARAM name="dhcp-client"
+				help="dhcp-client"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+		</PARAM>
+		<PARAM name="cmd"
+			help="Restart the corresponding server"
+			optional="true"
+			ptype="STRING">
+		</PARAM>
+		<ACTION>
+		if test "${name}" = "asterisk"; then
+			if test "${cmd}" = "restart"; then
+				echo Stopping asterisk ...
+				killall -9 asterisk > /dev/null 2>&amp;1
+				echo Starting asterisk ...
+			elif test "${cmd}" = ""; then
+				echo Process Status
+				ps | grep /usr/sbin/asterisk
+				echo List of interfaces
+				netstat -netaup | grep asterisk
+			fi
+	
+		elif test "${name}" = "web"; then
+			if test "${cmd}" = "restart"; then
+				echo Stopping Web Server ...
+				echo Starting Web Server ...
+				/etc/init.d/lighttpd restart > /dev/null 2>&amp;1
+			elif test "${cmd}" = ""; then
+				echo Process Status
+				ps | grep /usr/sbin/lighttpd
+				echo List of interfaces
+				netstat -netaup | grep lighttpd
+			fi
+
+		elif test "${name}" = "dhcp-server"; then
+			if test "${cmd}" = "restart"; then
+				echo Stopping dhcp Server ...
+				/etc/init.d/dhcpd restart > /dev/null 2>&amp;1
+				echo Staring dhcp Server ...
+			elif test "${cmd}" = ""; then
+				echo Process Status
+				ps | grep /usr/sbin/dhcpd
+				echo List of interfaces
+				netstat -netaup | grep dhcpd
+			fi			
+
+		elif test "${name}" = "dhcp-client"; then
+			if test "${cmd}" = "restart"; then
+				echo Stopping dhcp-client ...
+				killall -9 dhclient
+				echo Starting dhcp-client ...
+			elif test "${cmd}" = ""; then
+				echo Process Status
+				ps | grep /usr/sbin/dhclient
+				echo List of interfaces
+				netstat -netaup | grep dhclient
+			fi
+		fi
+		</ACTION>
+	</COMMAND>
+
+
+
+<COMMAND name="remote-access-ssh"
+		help="Manage remote access activation"
+		lock="false"
+		interrupt="true">
+		<PARAM name="type"
+			help="extend close"
+			optional="false"
+			mode="switch"
+			ptype="SUBCOMMAND">
+			<PARAM name="extend"
+				help="rextend"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			<PARAM name="close"
+				help="close"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+		</PARAM>	
+		<PARAM name="delay"
+			help="delay"
+			optional="true"
+			ptype="MIN_NUMBER">
+			
+		</PARAM>
+		<ACTION>
+		if test -n "${close}"; then
+			echo "Stopping SSH ACCESS"
+			extevt SET Device/UserAccounts/Users/User[@uid='8']/RemoteAccesses/RemoteAccess[@uid='1']/Enabled false > /dev/null
+		fi
+		
+		
+		if test -n "${extend}"; then
+			echo "Extending SSH ACCESS"
+			if test -n "${delay}"; then
+				echo Delay ${delay}
+				extevt SET Device/UserAccounts/Users/User[@uid='8']/RemoteAccesses/RemoteAccess[@uid='1']/ExpirationWindow ${delay} > /dev/null
+			else
+				extevt SET Device/UserAccounts/Users/User[@uid='8']/RemoteAccesses/RemoteAccess[@uid='1']/ExpirationWindow 30 > /dev/null
+			fi
+		fi
+		</ACTION>
+	</COMMAND>
+
+
+
+
+
+
+
+	<COMMAND name="show adsl"
+		help="display adsl statistics"
+		lock="false"
+		interrupt="true">
+		<PARAM name="stats"
+			help="conf or dhcpd"
+			optional="true"
+			mode="switch"
+			ptype="SUBCOMMAND">
+			<PARAM name="stat"
+				help="stat"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			
+		</PARAM>
+		<ACTION>
+			 
+			if test -n "${stat}"; then
+				xmo-search Device/DSL/Lines/Line[@uid='1'] 	2> /dev/null	| grep -e "LineEncoding:" -e "CurrentProfile:" -e "Upstream" -e "Downstream" -e "BytesSent" -e "BytesReceived" -e "PacketsSent" -e "PacketsReceived" -e "ErrorsSent" -e "ErrorsReceived"
+			else
+				
+
+				xmo-search Device/DSL/Lines/Line[@uid='1'] 	2> /dev/null	| grep -e "LinkStatus:" -e "StandardUsed:"			
+			fi
+			
+		</ACTION>
+	</COMMAND>
+
+	<COMMAND name="show ntp"
+		help="Display NTP Informatons"
+		lock="false"
+		interrupt="true">
+		<ACTION>xmo-search Device/Time | grep -e "NTPServer1" -e "NTPServer2" -e "CurrentLocalTime"</ACTION>
+	</COMMAND>
+
+	<COMMAND name="show system-info"
+		help="show informations about system"
+		lock="false"
+		interrupt="true">
+		<ACTION>system_info.sh</ACTION>
+	</COMMAND>
+<!-- Show commands -->
+	<COMMAND name="sip-server"
+		help="reload , stop , start the sip server (asterisk)"
+		lock="false"
+		interrupt="true">
+		<PARAM name="commande"
+			help="reload,start,stop,register"
+			optional="false"
+			mode="switch"
+			ptype="SUBCOMMAND">
+			<PARAM name="reload"
+				help="reload asterisk conf"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			<PARAM name="register"
+				help="Display regiuster Information on the trunk"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			<PARAM name="stop"
+				help="stop asterisk"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			<PARAM name="start"
+				help="start asterisk"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+		</PARAM>
+		
+		<ACTION>
+			if test -n "${reload}"; then
+				asterisk -rx 'core reload'
+				echo 'Sip Server Conf reloaded'
+			fi
+
+			if test -n "${register}"; then
+				asterisk -rx 'sip show registry'
+			fi
+
+			if test -n "${stop}"; then
+				extevt SET "Device/Services/VoiceServices/VoiceService[@uid='2']/ExtensionProfiles/ExtensionProfile[@uid='1']/SipServerActive" "false"
+			fi
+
+			if test -n "${start}"; then
+				extevt SET "Device/Services/VoiceServices/VoiceService[@uid='2']/ExtensionProfiles/ExtensionProfile[@uid='1']/SipServerActive" "true"
+			fi
+			
+		</ACTION>
+	</COMMAND>
+
+	<COMMAND name="show dhcp"
+		help="show conf or lease of dhcpd server"
+		lock="false"
+		interrupt="true">
+		<PARAM name="isconf"
+			help="conf or dhcpd"
+			optional="false"
+			mode="switch"
+			ptype="SUBCOMMAND">
+			<PARAM name="conf"
+				help="conf"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+			<PARAM name="lease"
+				help="lease"
+				mode="subcommand"
+				ptype="SUBCOMMAND"/>
+		</PARAM>
+		
+		<ACTION>
+			if test -n "${conf}"; then
+				cmd="cat /opt/conf/dhcpd.conf"
+			else
+				cmd="cat /opt/conf/dhcpd.leases"
+			fi
+			
+			$cmd
+		</ACTION>
+	</COMMAND>
+
+ <COMMAND name="show management"
+		help="show management"
+		lock="false"
+		interrupt="true">
+		<PARAM name="log"
+			help="show management log"
+			optional="true"
+			ptype="SUBCOMMAND">
+		</PARAM>
+		
+		<ACTION>
+			if test -n "${log}"; then
+			   logread | grep tr69d
+			else
+			   xmo-client -p Device/ManagementServer/URL -g | grep -v "path" | sed 's/value/url/'
+			fi
+		</ACTION>
+	</COMMAND>
+
+	<COMMAND name="show"
+		help="Show running system information"/>
+
+	<COMMAND name="show ip"
+		help="IP information"/>
+
+	
+	
+<!-- Copy commands -->
+
+</VIEW>
+
+</CLISH_MODULE>

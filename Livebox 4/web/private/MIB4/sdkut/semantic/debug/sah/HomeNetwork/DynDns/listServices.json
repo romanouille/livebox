@@ -1,0 +1,6 @@
+{
+  "status": 0,
+  "data": {
+    "serviceList": ["dyndns", "No-IP", "DtDNS"]
+  }
+}

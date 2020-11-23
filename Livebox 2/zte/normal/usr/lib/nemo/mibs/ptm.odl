@@ -1,0 +1,10 @@
+object NeMo { 
+	object extends MIB(0,"ptm") {
+		string Flag = "ptm";
+		object DataModel {
+			read-only uint32 LastChangeTime;
+			volatile read-only uint32 LastChange;
+		}
+	}
+}
+

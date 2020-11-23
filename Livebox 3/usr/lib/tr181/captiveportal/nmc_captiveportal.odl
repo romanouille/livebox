@@ -1,0 +1,25 @@
+object CaptivePortal {
+bool Enable;
+read-only string Status {
+constraint enum [ "Enabled", "Disabled", "Error_URLEmpty", "Error" ];
+default "Error";
+}
+string AllowedList;
+string URL;
+read-only string X_ORANGE-COM_ErrorCode;
+uint32 X_ORANGE-COM_TimeWaiting;
+read-only uint32 X_ORANGE-COM_TotalErrorDuration;
+}
+datamodel {
+object CaptivePortal {
+destination "pcb://$(PCB_MAIN_BUS)/NMC/Error" {
+parameter Enable;
+parameter Status;
+parameter AllowedList from STBList;
+parameter URL;
+parameter X_ORANGE-COM_ErrorCode from ErrorID;
+parameter X_ORANGE-COM_TimeWaiting from TimeWaiting;
+parameter X_ORANGE-COM_TotalErrorDuration from TotalErrorDuration;
+}
+}
+}

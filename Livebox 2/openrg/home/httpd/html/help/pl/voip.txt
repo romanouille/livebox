@@ -1,0 +1,13 @@
+<b>Telefon internetowy</b><br>
+<br>
+
+Ta strona pokazuje status Twojej usługi Telefon internetowy. Link daje Ci bezposredni dostęp do portalu danej usługi.<br>
+Jeżeli usługa jest włączona, światło łączy szerokopasmowych na modemie Livebox jest zielone i pojawia się wiadomość, że usługa Telefon internetowy jest dostępna.</b> Aby pokazać, że usługa jest w trakcie pracy.<br>W przeciwnym razie, światło łączy szerokopasmowych na modemie Livebox jest wyłączone i pojawia się wiadomość, iż usługa Telefon internetowy jest niedostępna.<br>Jeżeli usługa nie jest włączona automatycznie, spróbuj ponownie uruchomić modemu Livebox. Jeśli problem się pojawia, skontaktuj sie z infolinią.<br> Jeśli usługa jest dostępna, Twój numer telefonu internetowego pojawia się na tej stronie.<br>Możesz również skorzystać z przycisku <b>"Test"</b>, aby sprawdzić status telefonu podłączonego do Twojego modemu Livebox.
+
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

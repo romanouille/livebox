@@ -1,0 +1,12 @@
+object NeMo {
+object extends MIB(0, "wlanconfig") {
+string Flag = "wlanradio || wlanvap || wlanendpoint || wlanconfig";
+object DataModel {
+void setWLANConfig(string mibs) {
+acl {
+world none;
+}
+}
+}
+}
+}

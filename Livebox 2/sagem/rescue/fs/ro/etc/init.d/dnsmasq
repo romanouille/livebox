@@ -1,0 +1,61 @@
+#!/bin/sh
+
+DNSMASQ_CONF=/var/etc/dnsplugin/dnsmasq-config
+PIDFILE=/var/run/dnsmasq.pid
+
+wait_for_dnsmasq_to_finish()
+{
+    if [ -e $PIDFILE ]; then
+        pid=$(cat $PIDFILE)
+        while [ -e /proc/$pid ]; do
+            usleep 100000 
+        done
+    fi
+}
+
+case $1 in
+	start)
+		echo "dnsmasq start ..."
+        	$0 status &>/dev/null
+        	rv=$?
+        	if [ $rv -eq 0 ]; then
+            		echo "dnsmasq already started"
+        	else     
+            		/sbin/dnsmasq --conf-file=$DNSMASQ_CONF
+        	fi            
+	;;
+	stop)
+		if [ -e $PIDFILE ]; then
+			echo "stop dnsmasq ..."
+			kill $(cat $PIDFILE) 2>/dev/null
+            		wait_for_dnsmasq_to_finish
+            		rm -f $PIDFILE
+		else
+			echo "dnsmasq already stopped..."
+		fi
+	;;
+	restart)
+		$0 stop
+		$0 start
+	;;
+    status)
+        if [ -e $PIDFILE ]; then
+            if [ -e /proc/$(cat $PIDFILE) ]; then
+                echo "dnsmasq runs"
+                exit 0
+            else
+                echo "dnsmasq crashed"
+                exit 1
+            fi    
+        else
+            echo "dnsmasq stopped"
+            exit 1
+        fi    
+    ;;
+	*)
+		echo "usage: $0 start|stop|restart|status"
+	;;
+esac
+
+
+

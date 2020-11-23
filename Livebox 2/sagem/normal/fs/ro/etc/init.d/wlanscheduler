@@ -1,0 +1,55 @@
+#!/bin/sh
+PIDWLANSCHEDULER_PLUGIN="/var/run/wlanscheduler-plugin.pid"
+WLANSCHEDULER_PLUGIN="/bin/pcb_plugin -vv -n wlanscheduler-plugin -c /usr/lib/wlanscheduler/wlanscheduler_plugin.odl"
+
+start() {
+
+    if [ -e ${PIDWLANSCHEDULER_PLUGIN} ]; then
+        echo "WLanScheduler plug-in already started"
+    else
+        ${WLANSCHEDULER_PLUGIN};
+    fi
+}
+
+stop() {
+    if [ -e ${PIDWLANSCHEDULER_PLUGIN} ]; then
+        kill $(cat ${PIDWLANSCHEDULER_PLUGIN});
+    else
+        echo "WLanScheduler plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDWLANSCHEDULER_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    backup)
+        if [ -e $PIDWLANSCHEDULER_PLUGIN ] ; then
+            pcb_cli "WLanScheduler.export($2)"
+        else
+            echo "Wireless LAN scheduler plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/wlanscheduler
+        touch /var/lib/wlanscheduler/restore
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|backup|restore]"
+        ;;
+esac
+

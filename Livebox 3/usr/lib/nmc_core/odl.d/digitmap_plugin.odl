@@ -1,0 +1,10 @@
+using "../nmccore_digitmap.so";
+persistent object NMC {
+bool applyDigitMap(string filename) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}

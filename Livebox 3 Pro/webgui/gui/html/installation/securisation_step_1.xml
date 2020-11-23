@@ -1,0 +1,69 @@
+<div id="securisation_step_1" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif" widgetType="Image"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+
+	<div id="barnav2" class="margin-bottom-30 steps1">
+		<div class="floatLeft steps first active">
+			<strong>1</strong> - <span i18n="page.page0.barnav2.step1"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">2</strong> - <span i18n="page.page0.barnav2.step2"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">3</strong> - <span i18n="page.page0.barnav2.step3"/>
+		</div>
+	</div>
+	
+	<div id="container2" class="longer">
+		<div class="h2_install" i18n="page.page0.secure.step1.label"/>
+		<div class="padding-left-40" i18n="page.page0.secure.step1.label0"/>
+		<div class="padding-left-40">
+			<span i18n="page.page0.secure.step1.label1"></span>
+			<a class="myInfo" href="#infosBullesecure1"><img class="iconinfointext" align="absmiddle" src="theme/webCorporate/image/installation/ico_info.gif" widgetType="Image"/></a>
+			<span i18n="page.page0.secure.step1.label1.1"></span>
+			<div id="infosBullesecure1" class="tooltip">
+				<div class="bubbleTop">
+    				<img src="theme/webCorporate/image/installation/infoBubble.gif" class="floatLeft margin-right-10 margin-top-20" widgetType="Image"/>
+    				<p>
+    					<span i18n="page.page0.securisation.step1.bubbletext"></span>
+    					<span id="extrabubbletext" i18n="page.page0.securisation.step1.bubbletext.text"></span>
+    				</p>
+				</div>
+    			<div class="bubbleBottom"></div>
+			</div>
+		</div>
+		
+		<form class="installform">
+			<div widgetType="FormInput" i18n="page.page0.securisation.step1.login">
+				<span id="userlogin" style="font-weight:bold" dataId="Device/UserAccounts/ManagedUsers/ManagedUser[Login='admin']/Login"></span>
+			</div>
+			<div widgetType="FormInput" i18n="page.page0.securisation.step1.oldpassword">
+				<span id="oldPassword" widgetType="Password" widgetArg="{char: '•', period: 2000}"></span>
+			</div>
+			<div widgetType="FormInput" i18n="page.page0.securisation.step1.newpassword">
+				<span id="newPassword" widgetType="Password" widgetArg="{char: '•', period: 2000}"></span>
+			</div>
+			<div widgetType="FormInput" i18n="page.page0.securisation.step1.confirmpassword">
+				<span id="confirmPassword" widgetType="Password" widgetArg="{char: '•', period: 2000}"></span>
+				<div id="errorcurrent" class="forminput error installationerror" i18n="page.page0.securisation.step1.erroronsize" style="display:none"/>
+				<div id="erroronsize" class="forminput error installationerror" i18n="page.page0.securisation.step1.erroronsize" style="display:none"/>
+				<div id="erroronsamepass" class="forminput error installationerror" i18n="page.page0.securisation.step1.erroronsamepass" style="display:none"/>
+			</div>
+		</form>
+		<div class="clear"/>
+		
+		<div class="installButtonBar">
+			<a id="jump2installation_step_4" href="javascript:;" i18n="page.page0.previous">
+				<img class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_precedente.gif" widgetType="Image"/>
+			</a>
+			<span class="spacer"/>
+			<a id="jump2securisation_step_2" href="javascript:;" class="disableable disabled" i18n="page.page0.next">
+				<img class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_suivante_off.gif" widgetType="Image"/>
+			</a>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,12 @@
+using "cifscl.so";
+persistent object SambaService {
+read-only string Status = "Offline";
+persistent bool Enable = true;
+persistent string ServerName = "Livebox";
+persistent string Workgroup = "WORKGROUP";
+persistent string ServerDescription = "Livebox";
+persistent string NetworkDevice = "lan";
+persistent read-only string User = "samba";
+bool export(string fileName);
+bool import(string fileName);
+}

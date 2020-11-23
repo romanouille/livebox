@@ -1,0 +1,17 @@
+{
+  "status": 0,
+  "data": {
+    "sopVersion": "5.1",
+    "softwareVersion": "3.6",
+    "softwareDate": "2013-01-01",
+    "hardwareVersion": "2.4",
+    "driverVersion": "8.6",
+    "loaderVersion": "4.9",
+    "manufacturerName": "SoftAtHome",
+    "modelId": "Samsung",
+    "productId": "UHD87",
+    "serialNumber": "1234568",
+    "operatorVersion": "123-6-789",
+    "upTime": 132615
+  }
+}

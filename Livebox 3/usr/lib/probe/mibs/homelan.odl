@@ -1,0 +1,4 @@
+mib homelan {
+persistent bool Enable;
+persistent uint32 Interval;
+}

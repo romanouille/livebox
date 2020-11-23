@@ -1,0 +1,32 @@
+/*expr:level_control*/
+
+/**
+ * MIB is loaded on all DECTULE Alert units.
+ *
+ * All devices matching expression: "level_control" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib levelControl {
+    /**
+     * This interface is used for controlling a characteristic of a unit that can be set to a level, for example the
+     * brightness of a light.
+     */
+
+    /**
+     * Current level : is a fraction of 255, for ex 128
+     * is 50%, the light brightness should be 50% of max light brightness
+     */
+    read-only uint8 CurrentLevel;
+
+    /**
+     * Level represent the request level that the device should be set, “Level” is
+     * device dependent Level is a fraction of 255, for ex 128
+     * is 50%, the light brightness should be 50% of max light brightness
+     */
+    list MoveToLevel( mandatory uint8 level) {
+        acl {
+            world none;
+        }
+    }
+}

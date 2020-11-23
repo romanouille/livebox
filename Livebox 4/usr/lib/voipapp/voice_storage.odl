@@ -1,0 +1,5 @@
+include "/usr/lib/voiceplugin/voiceplugin_app-definition.odl";
+include "voice_storage-definition.odl";
+include "voice_storage-acls.odl";
+include "voice_storage-templates.odl";
+/** @location sah_services_voice /voice_application/scripts/voice_storage.odl */

@@ -1,0 +1,58 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="devicemngt"
+datamodel="DeviceManagement"
+trace_zones="bulkdata ssh telnet email bulkdata"
+component="sah_services_system"
+
+ODL="/usr/lib/devicemngt/devicemngt.odl"
+SO="/usr/lib/devicemngt/modules.so"
+
+start()
+{
+    if pcb_is_running $name; then
+        #already running
+        echo "$name already started"
+    else
+        #start pcb_app here
+        sahenv -f /etc/environment pcb_app -vv -n $name -c $ODL $SO ssh=1 email=0 bulkdata=0
+    fi
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+
+    restore)
+        mkdir -p /var/lib/devicemanagement
+        touch /var/lib/devicemanagement/restore
+        ;;
+    backup)
+        if pcb_is_running $name ; then
+            pcb_cli -q "DeviceManagement.export($2)"
+        else
+            echo "DeviceManagement is not running, impossible to make a backup"
+        fi
+        ;;
+
+    *)
+        echo "Usage : $0 [start|stop|debuginfo|log|backup|restore]"
+        ;;
+esac

@@ -1,0 +1,99 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+FW_PLUGIN_ODL="/usr/lib/firewall/fw.odl"
+name="firewall_plugin"
+start_options="--priority=-17 -c $FW_PLUGIN_ODL -I /var/run/fw_ipc_sock"
+datamodel="Firewall"
+trace_zones="firewall ipts pcp pcps RUE"
+component="sah_services_fw"
+
+FW_DEFAULTS=/usr/lib/firewall/firewall.defaults
+FW6_DEFAULTS=/usr/lib/firewall/firewall_ipv6.defaults
+
+case $1 in 
+	start)
+		iptables-restore < ${FW_DEFAULTS}
+		ip6tables-restore < ${FW6_DEFAULTS}
+
+		# limit the number of conntrack rules.
+		[ -e /proc/sys/net/nf_conntrack_max ] && echo 5000 > /proc/sys/net/nf_conntrack_max
+		# reduce the timewait timeout in ntefilter.
+		[ -e /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_time_wait ] && echo 20 > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_time_wait
+		pcb_start $name $start_options
+	;;
+
+	stop)
+		pcb_stop $name
+		# give the plugin time to shutdown properly.
+		sleep 1
+
+		iptables -P INPUT ACCEPT
+		iptables -P FORWARD ACCEPT
+		iptables -F
+		iptables -X
+		iptables -t nat -F
+		iptables -t nat -X
+		iptables -t raw -F
+		iptables -t raw -X
+
+		#ipv6
+		ip6tables -P INPUT ACCEPT
+		ip6tables -P FORWARD ACCEPT
+		ip6tables -F
+		ip6tables -X
+		ip6tables -t raw -F
+		ip6tables -t raw -X
+		
+	;;
+	backup)
+		if pcb_is_running $name ; then
+			pcb_cli -q "Firewall.export($2)"
+		else
+			echo "Firewall plugin is not running, unable to backup settings"
+		fi
+	;;
+	restore)
+		mkdir -p /var/lib/firewall
+		touch /var/lib/firewall/restore
+	;;
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+
+		show_cmd iptables -L -nv
+		show_cmd iptables -L -nv -t nat 
+		show_cmd iptables -L -nv -t mangle 
+		show_cmd iptables -L -nv -t raw
+
+		show_cmd ebtables -t filter -L --Lc
+		show_cmd ebtables -t nat -L --Lc
+		show_cmd ebtables -t mangle -L --Lc
+		show_cmd ebtables -t broute -L --Lc
+
+		show_cmd ip6tables -L -nv
+		show_cmd ip6tables -L -nv -t mangle
+		show_cmd ip6tables -L -nv -t raw
+
+		show_cmd cat /proc/net/nf_conntrack
+
+		# print broadcom hardware accelleration rules.
+		if [ -e /proc/fcache/nflist ]; then 
+			show_cmd cat /proc/fcache/nflist
+		fi
+		if [ -e /proc/fcache/brlist ]; then 
+			show_cmd cat /proc/fcache/brlist
+		fi
+	;;
+	log)
+		action=$2
+		if [ -n "$action" ]; then
+			pcb_log $name $action $trace_zones
+		else
+			pcb_log $name enable $trace_zones
+		fi
+		;;
+	*)
+		echo "Usage : $0 [start|stop|backup|restore|debuginfo|log]"
+	;;
+esac

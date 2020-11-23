@@ -1,0 +1,76 @@
+using "hosts.so";
+define device_t {
+string physAddress;
+string hostName;
+string deviceType;
+}
+object Hosts {
+read-only object Host[] {
+string X_ORANGE-COM_DetectedTypes;
+string X_ORANGE-COM_DeviceType;
+string X_ORANGE-COM_UPnPFriendlyNames;
+string X_ORANGE-COM_mDNSServicesNames;
+bool X_ORANGE-COM_LLTDDevice;
+datetime X_ORANGE-COM_LastChange;
+string Tags;
+string X_ORANGE-COM_SSID;
+uint32 X_ORANGE-COM_mDNSServiceNumberOfEntries;
+uint32 X_ORANGE-COM_UPnPDeviceNumberOfEntries;
+uint32 X_ORANGE-COM_DeviceNamesNumberOfEntries;
+uint32 IPv4AddressNumberOfEntries;
+uint32 IPv6AddressNumberOfEntries;
+object X_ORANGE-COM_DeviceNames[] {
+string Name;
+string Source;
+}
+object IPv4Address[] {
+read-only string IPAddress;
+read-only string AddressSource;
+}
+object IPv6Address[] {
+read-only string IPAddress;
+read-only string AddressSource;
+read-only string Scope;
+}
+object X_ORANGE-COM_mDNSServices[] {
+string Service;
+string ServiceType;
+string ServiceName;
+}
+object UPnP {
+uint32 DeviceNumberOfEntries;
+object Device[] {
+string Status;
+string UUID;
+string USN;
+string Location;
+string Server;
+string DeviceType;
+string FriendlyName;
+string Manufacturer;
+string ModelName;
+string ModelDescription;
+string ModelURL;
+string PresentationURL;
+}
+}
+}
+list getDevices( string paramName, variant paramValue, string flags );
+bool setName( mandatory string physAddress, mandatory string hostName, string source ) {
+acl {
+world none;
+}
+}
+bool delHost( mandatory string physAddress )  {
+acl {
+world none;
+group technician none;
+}
+}
+bool setDevice( mandatory device_t device ) {
+acl {
+world none;
+group technician none;
+}
+}
+}

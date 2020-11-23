@@ -1,0 +1,2 @@
+OBJECT DHCP.Server.Pool.bridge_default
+	PARM State=1

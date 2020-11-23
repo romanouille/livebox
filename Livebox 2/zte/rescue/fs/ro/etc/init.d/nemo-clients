@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		rm -rf /var/lib/nemo && mkdir -p -m 700 /var/lib/nemo
+		for client in `ls -1 /usr/lib/nemo/clients | sed "s/\\.so$//"`
+		do
+			sahenv -f /etc/environment mafia pcb_client -vvv -n $client -u "pcb://ipc:[/var/run/nemo]" -s /usr/lib/nemo/clients/$client.so
+		done
+		;;
+	stop)
+		for client in `ls -1 /usr/lib/nemo/clients | sed "s/\\.so$//"`
+		do
+			[ -e /var/run/$client.pid ] && kill `cat /var/run/$client.pid`
+		done
+		rm -rf /var/lib/nemo
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac
+

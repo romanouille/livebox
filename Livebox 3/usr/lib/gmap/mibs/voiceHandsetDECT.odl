@@ -1,0 +1,19 @@
+/*expr:voice and handset and dect*/
+using "impl/mib_voice.so";
+/**
+ * MIB is loaded on all dect handset devices.
+ *
+ * All devices matching expression: "voice and handset and dect" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib voiceHandsetDECT {
+    /**
+     * Unpair and remove handset object 
+     *
+     * @version 6.0
+     */
+    void unPair();
+}
+
+/** @location sah_services_gmap /mibs/voiceHandsetDECT.odl */

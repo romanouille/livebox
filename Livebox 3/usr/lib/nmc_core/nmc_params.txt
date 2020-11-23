@@ -1,0 +1,16 @@
+INCLUDE:VoIPMode
+INCLUDE:IPTVMode
+INCLUDE:VoIPWelcomeMessage
+INCLUDE:Discovery.Enable
+INCLUDE:Autodetect.FirstBoot
+EXCLUDE:Autodetect.Enable
+INCLUDE:Autodetect.nbOAMPing
+INCLUDE:Autodetect.Timer
+INCLUDE:Autodetect.AutoFallback
+INCLUDE:OrangeTV.Enable
+INCLUDE:OrangeTV.Mode
+INCLUDE:Error.Enable
+INCLUDE:Error.TimeWaiting
+INCLUDE:Error.URL
+EXCLUDE:OrangeTV.Mode
+INCLUDE:DataTracking.CustomerAuthorization

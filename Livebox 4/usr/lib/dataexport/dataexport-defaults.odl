@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object DataExport {
+    }
+}
+/** @location commod_mediahub_dataexport add-on/frontend/pcb/dataexport-defaults.odl.m4 */

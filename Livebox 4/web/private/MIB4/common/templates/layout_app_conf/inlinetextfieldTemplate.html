@@ -1,0 +1,19 @@
+<div class="txtandfield-container">
+  <div class="row txtandfield-text-input">
+    {{#if label}}
+      <label class="col-xs-2" for="{{#if id}}{{id}}{{/if}}">{{{label}}}</label>
+    {{/if}}
+  <input {{#if id}}id="{{id}}" {{/if}} type="text" value="{{value}}"
+  {{#if data-translation}}
+    class="Translation txtandfield-field" data-translation="{{data-translation}}" 
+  {{else}}
+    class="inlinetextfield-input" 
+  {{/if}}
+  {{#if data-translation-target}}
+    data-translation-target="{{data-translation-target}}" 
+  {{/if}}
+  ></div>
+  {{#if warning}}
+    <div class="txtandfield-warning" {{#if id}}id="{{id}}_warning"{{/if}}><span class="redtxt">{{{warning}}}</span></div>    
+  {{/if}}
+</div>

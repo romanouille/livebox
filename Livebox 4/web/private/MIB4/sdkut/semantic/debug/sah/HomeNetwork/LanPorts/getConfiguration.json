@@ -1,0 +1,43 @@
+{
+	"status":0,
+	"data":{
+		"portList":[
+			{
+				"portId":0,
+				"isEnabled":true,
+				"usageMode":"Internet & TV",
+				"isConfigurationAutomatic":true,
+				"macAddress":"98:8B:5D:3D:AE:C6",
+				"maximumSpeed":1000,
+				"duplexMode":"FULL"
+			},
+			{
+				"portId":1,
+				"isEnabled":false,
+				"usageMode":"off",
+				"isConfigurationAutomatic":true,
+				"macAddress":"98:8B:5D:3D:AE:C6",
+				"maximumSpeed":1000,
+				"duplexMode":"HALF"
+			},
+			{
+				"portId":2,
+				"isEnabled":false,
+				"usageMode":"off",
+				"isConfigurationAutomatic":true,
+				"macAddress":"98:8B:5D:3D:AE:C6",
+				"maximumSpeed":1000,
+				"duplexMode":"HALF"
+			},
+			{
+				"portId":3,
+				"isEnabled":false,
+				"usageMode":"off",
+				"isConfigurationAutomatic":true,
+				"macAddress":"98:8B:5D:3D:AE:C6",
+				"maximumSpeed":1000,
+				"duplexMode":"HALF"
+			}
+		]
+	}
+}

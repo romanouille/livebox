@@ -1,0 +1,73 @@
+/*expr:self and hgw*/
+
+/**
+ * MIB is loaded on devices that have the flags "self" and "hgw".
+ *
+ * All devices mathcing expression: "self and hgw" are extended with this MIB
+ * Only one such device should exist in the gMap data model.
+ *
+ * @version 6.0
+ */
+mib selfHGW {
+    /**
+     * The manufacturer of the CPE (human readable string).
+     *
+     * @version 6.0
+     */
+    read-only string Manufacturer;
+    /**
+     * Model name of the CPE (human readable string).
+     *
+     * @version 6.0
+     */
+    read-only string ModelName;
+    /**
+     * A full description of the CPE device (human readable string).
+     *
+     * @version 6.0
+     */
+    read-only string Description;
+    /**
+     * Serial number of the CPE.
+     *
+     * This value MUST remain fixed over the lifetime of the device, including across firmware updates.
+     *
+     * @version 6.0
+     */
+    read-only string SerialNumber;
+    /**
+     * Product Class
+     *
+     * @version 6.0
+     */
+    read-only string ProductClass;
+    /**
+     * A string identifying the particular CPE model and version.
+     *
+     * @version 6.0
+     */
+    read-only string HardwareVersion;
+    /**
+     * A string identifying the software version currently installed in the CPE.
+     *
+     * To allow version comparisons, this element SHOULD be in the form of dot-delimited integers, where each successive integer
+     * represents a more minor category of variation. For example, 3.0.21 where the components mean: Major.Minor.Build.
+     *
+     * @version 6.0
+     */
+    read-only string SoftwareVersion;
+    /**
+     * A string identifying the boot loader version currently installed in the CPE.
+     *
+     * @version 6.0
+     */
+    read-only string BootLoaderVersion;
+    /**
+     * Currently set firewall level
+     *
+     * @version 6.0
+     */
+    read-only string FirewallLevel;
+}
+
+/** @location sah_services_gmap /mibs/selfHGW.odl */

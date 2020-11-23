@@ -1,0 +1,47 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="tod-plugin"
+start_options="-c /usr/lib/tod/tod_plugin.odl"
+datamodel="ToD"
+trace_zones=""
+component="sah_services_tod"
+
+case $1 in
+    start)
+        pcb_start $name $start_options
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    backup)
+        if pcb_is_running $name ; then
+            pcb_cli -q "ToD.export($2)"
+        else 
+            echo "Time of day plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/tod
+        touch /var/lib/tod/restore
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|backup|restore|debuginfo|log]"
+        ;;
+esac

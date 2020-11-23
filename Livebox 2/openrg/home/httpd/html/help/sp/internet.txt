@@ -1,0 +1,50 @@
+﻿<b>Tipo de conexión:</b><br>
+<br>
+Tu Livebox está diseñado para funcionar con una conexión ADSL o de fibra óptica (FTTH). El Livebox sólo puede funcionar bajo un tipo de conexión. Si has contratado una conexión ADSL, debes marcar la opción “ADSL. Conexión a Internet ADSL”; si por el contrario has contratado una conexión mediante fibra óptica, debes marcar la opción “FTTH. Conexión a Internet mediante fibra óptica”.<br>
+<br>
+<b>Parámetros de acceso a red:</b><br>
+Con tu pack recibiste una carta de bienvenida, en la que se encuentran tu nombre de usuario y contraseña, así como la información del tipo de conexión. Esta información es necesaria para que te conectes a Internet con Orange.<br>
+<br>
+<span class="boldorange">Tu nombre de usuario:</span> Esta credencial permite a los servidores de Orange identificarte como cliente y darte acceso a Internet.
+Es necesario para configurar tu acceso a Internet. Guárdalo en un lugar seguro pues te será útil en el caso de necesitar reconfigurar tu conexión (en el caso de cambio del Livebox, etc.). Es importante la diferencia entre letras mayúsculas y minúsculas. Ten precaución de no confundir la letra o y el número 0.
+<br>
+<br>
+<span class="boldorange">Tu contraseña:</span> Asociada a tu nombre de usuario esta es la “llave” que garantiza la confidencialidad de tu conexión a Internet. Es importante que la guardes junto a tu nombre de usuario, pues puedes necesitarla en el futuro. En la guía rápida y en el manual de usuario de tu Livebox hay unos campos reservados para que anotes tus datos de conexión.<br>
+<br>
+<b>Resolución de incidencias de la conexion ADSL:</b><br>
+Pueden aparecer diferentes mensajes dependiendo del estado de la conexión a Internet.<br>
+<br>
+<span class="boldorange">Línea ADSL no sincronizada:</span> El indicador "@" del Livebox parpadea rápidamente en color rojo.<br>
+La sincronización del ADSL se produce cuando tu Livebox “reconoce” la señal de ADSL suministrada a través de tu red telefónica. La señal suministrada sirve para establecer una conexión a Internet gracias a tu Livebox. La sincronización es esencial para poder utilizar la señal de ADSL.<br>
+Se pueden producir fallos de sincronización debido a problemas relacionados con la red ADSL de Orange o la instalación telefónica de tu hogar.<br>
+Si no hay ningún problema, tu Livebox se sincronizará rápidamente, normalmente en cuestión de segundos o en el peor de los casos en unos minutos.<br>
+Durante esta fase la luz de ADSL de tu Livebox parpadeará muy deprisa.
+Si la sincronización dura más de unos minutos, compruebe los siguientes puntos de tu instalación:<br>
+Comprueba que el cable telefónico está bien conectado (deberías escuchar un clic cuando conectas el cable) en la conexión marcada como ADSL (conexión con la etiqueta gris).<br>
+Comprueba que no hay un microfiltro conectado entre la roseta de teléfono y la conexión gris del Livebox.<br>
+<span class="boldorange">Configuración ATM:</span> El indicador "@" del Livebox parpadea lentamente en color naranja.<br>
+La línea ADSL estará sincronizada, pero no está correctamente configurada.<br>
+<br>
+<span class="boldorange">Livebox no configurado:</span> El indicador "@" del Livebox parpadea lentamente en color naranja.<br>
+Esto significa que el Livebox no está correctamente configurado para disponer de una conexión a Internet. En otras palabras, debes introducir tu nombre de usuario y contraseña.<br>
+<br>
+<span class="boldorange">Fallo de autenticación PPP&nbsp;:</span> El indicador "@" del Livebox parpadea lentamente en color naranja.<br>
+La línea de ADSL está sincronizada, pero se ha producido un error en la autenticación PPP. Si esto sucede, comprueba que has introducido correctamente tu nombre de usuario y contraseña, verificando que son los que aparecen en la carta de bienvenida que recibiste con tu Livebox.<br>
+<br>
+<span class="boldorange">Sin respuesta del servidor de autenticación (BAS):</span> El indicador "@" del Livebox parpadea lentamente en color naranja.<br>
+La línea de ADSL funciona y está sincronizada, pero el servidor de autenticación de Orange no responde. En este caso, comprueba que has introducido correctamente tu nombre de usuario y contraseña, y si continua el problema llama al Servicio de Atención al Cliente.<br>
+<br>
+<span class="boldorange">Livebox conectado + sesión PPP funcionando:</span> El indicador "@" del Livebox se queda iluminado de color verde.<br>
+Tu Livebox está correctamente conectado a Internet.<br>
+<br>
+<b>Resolución de incidencias en la conexión por fibra óptica:</b><br>
+<br>
+<span class="boldorange">No hay conexión a la ONT:</span> El indicador "@" del Livebox parpadea rápidamente en color rojo.<br>
+Para acceder a Internet a través de una conexión de fibra óptica, la ONT debe estar conectada al puerto Ethernet blanco de tu Livebox. La ONT es el dispositivo conversor eléctrico-óptico que vincula la red de fibra óptica con el Livebox.<br>
+<br>
+Ten en cuenta que si conectas al puerto blanco de tu Livebox un dispositivo diferente de la ONT, la luz "@" parpadeará en color naranja, no de color rojo. Esto se debe a que el Livebox detectará un dispositivo conectado al puerto blanco pero no será capaz de establecer una sesión PPP.<br>
+<!--
+<br>
+
+-->
+

@@ -1,0 +1,6 @@
+﻿<b>Política de acceso a Internet:</b><br>
+<br>
+Esta opción se emplea para restringir el acceso a Internet de un dispositivo. <br>
+Una vez que se habilita esta opción, debes definir intervalos de tiempo utilizando las casillas de selección y los menús desplegables. Para restringir el acceso a Internet en un día específico de la semana, simplemente selecciona la casilla correspondiente. Para configurar los intervalos de tiempo de acceso a Internet, utiliza los menús desplegables. Los dispositivos podrán acceder a Internet durante los intervalos de tiempo seleccionados. Fuera de estos intervalos, los dispositivos no podrán acceder a Internet.<br>
+-->
+

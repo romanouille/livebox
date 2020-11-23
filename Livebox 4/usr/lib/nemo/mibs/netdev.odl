@@ -1,0 +1,472 @@
+object NeMo { 
+	object extends MIB(0,"netdev") {
+		string Flag = "netdev";
+		object DataModel {
+
+			/**
+			 * Interface index, equals the key of the instance.
+			 */
+			int32 NetDevIndex;
+
+			/**
+			 * Interface type. [ "ether", "atm", "void", "none", "ppp", "tunnel", "tunnel6",
+			 * "loopback" ... see "linux/arp.h" ]
+			 */
+			read-only string NetDevType;
+
+			/**
+			 * Space separated list of interface flags. [ space separated list of the
+			 * following built-in values: "loopback", "broadcast", "pointopoint", "multicast",
+			 * "noarp", "allmulti", "promisc", "master", "slave", "debug", "dynamic",
+			 * "automedia", "portsel", "notrailers", "up" ]
+			 */
+			string NetDevFlags;
+
+			/**
+			 * Interface name
+			 */
+			string NetDevName;
+
+			/**
+			 * Link layer address, most likely a MAC-address.
+			 */
+			string LLAddress;
+
+			/**
+			 * Queue Length of the interface
+			 */
+			uint32 TxQueueLen;
+
+			/**
+			 * MTU of the interface
+			 */
+			uint32 MTU;
+
+			/**
+			 * Operational state of the interface. [ "unknown", "notpresent", "down",
+			 * "lowerlayerdown", "testing", "dormant", "up" ]
+			 */
+			read-only string NetDevState=unknown;
+
+			/**
+			 * From here on: procfs parameters
+			 *
+			 * Corresponds to /proc/sys/net/ipv4/conf/*\/forwarding
+			 */
+			bool IPv4Forwarding = true;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv4/conf/*\/force_igmp_version
+			 */
+			uint32 IPv4ForceIGMPVersion {
+				constraint range [0, 3];
+				default 0;
+			}
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv4/conf/*\/accept_source_route
+			 */
+			bool IPv4AcceptSourceRoute = true;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv4/conf/*\/accept_redirects
+			 */
+			bool IPv4AcceptRedirects = false;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/accept_ra
+			 */
+			bool IPv6AcceptRA = true;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/forwarding.
+			 * 
+			 * If false, host behavior is assumed, meaning that
+			 * - IsRouter flag is not set in Neighbour Advertisements
+			 * - Router Solicitations are being sent when necessary
+			 * - If IPv6AcceptRA is true, accept Router Advertisements and do auto
+			 *   configuration
+			 * - If IPv6AcceptRedirects is true, accept Redirects
+			 * If true, router behavior is assumed, meaning that
+			 * - IsRouter flag is set in Neighbour Advertisements
+			 * - Router Solicitations are not sent
+			 * - Router Advertisements are ignored
+			 * - Redirects are ignored
+			 */
+			bool IPv6ActAsRouter = true;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/autoconf
+			 */
+			bool IPv6AutoConf = true;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/router_solicitations
+			 */
+			uint32 IPv6MaxRtrSolicitations = 3;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/router_solicitation_interval
+			 */
+			uint32 IPv6RtrSolicitationInterval = 4000;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/accept_source_route
+			 */
+			bool IPv6AcceptSourceRoute = false;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/accept_redirects
+			 */
+			bool IPv6AcceptRedirects = true;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/optimistic_dad
+			 */
+			bool IPv6OptimisticDAD = false;
+
+			/**
+			 * Corresponds to /proc/sys/net/ipv6/conf/*\/disable_ipv6
+			 */
+			bool IPv6Disable = true;
+
+			/** 
+			 * Add a routing table id if needed. If the interface is not linked with the data interface. 
+			 * The (ppp/dhcp)routes will be created in an additional routing table.  
+			 */
+                        int32 RtTable {
+                            constraint minvalue 0;
+                            constraint maxvalue 256;
+			    default 0;
+                        }
+
+			/**
+			 * 
+			 */
+			void refreshNetDev() {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/**
+			 * Fetch the statistics from NetDev.Link.x.Stats and return them in the form of a
+			 * variant map. 
+			 * @return A variant map.
+			 */
+			/*map*/void getNetDevStats() {
+			    acl {
+			        world none;
+			    }
+			}
+
+
+			/**
+			 * 
+			 */
+			string IPv6AddrDelegate;
+
+
+			/**
+			 * An IPv4-address.
+			 */
+			persistent object IPv4Addr[] {
+
+				/**
+				 * Enables this address.
+				 */
+				persistent bool Enable;
+
+				/**
+				 * The binding status of this object.
+				 * - unavailable Parent Intf not bound to any NetDev Link.
+				 * - disabled There is no NetDev counterpart because Enable==0.
+				 * error There is no NetDev counterpart because an error occurred. The
+				 *   error will be recovered automatically whenever possible.
+				 * - bound Addr has been pushed successfully to NetDev.
+				 * - dynamic Addr is created implicitly triggered by NetDev event.
+				 */
+				read-only string Status="unavailable"; 
+				// flagset = Family + Flags + Scope
+
+
+				/**
+				 * The IP-address itself in standard notation.
+				 */
+				persistent string Address;
+
+				/**
+				 * The IP-address of the peer if applicable in standard notation.
+				 */
+				persistent string Peer;
+
+				/**
+				 * The prefix length of the address. This replaces the former SubnetMask.
+				 */
+				persistent uint8 PrefixLen;
+
+				/**
+				 * Space separated list of address flags. "" [ space separated list of the
+				 * following built-in values: "secondary", "nodad", "optimistic",
+				 * "homeaddress", "deprecated", "tentative", "permanent" ]
+				 */
+				persistent string Flags; // secondary nodad optimistic homeaddress deprecated tentative permanent
+
+				/**
+				 * Scope of the address. "global" [ "global", "site", "link", "host",
+				 * "nowhere", user-defined value from NetDev.ConversionTable.Scope or an
+				 * unsigned 8-bit number. ]
+				 */
+				persistent string Scope="global"; 
+//(*)			persistent uint32 PreferredLifetime;
+//(*)			persistent uint32 ValidLifetime;
+//(*)			read-only uint32 CreatedTimestamp;
+//(*)			read-only uint32 UpdatedTimestamp;
+			}
+			
+
+			/**
+			 * An IPv6-address.
+			 */
+			persistent object IPv6Addr[] {
+
+				/**
+				 * Enables this address.
+				 */
+				persistent bool Enable;
+
+				/**
+				 * The binding status of this object.
+				 * - unavailable Parent Intf not bound to any NetDev Link.
+				 * - disabled There is no NetDev counterpart because Enable==0.
+				 * - error There is no NetDev counterpart because an error occurred. The
+				 *   error will be recovered automatically whenever possible.
+				 * - bound Addr has been pushed successfully to NetDev.
+				 * - dynamic Addr is created implicitly triggered by NetDev event.
+				 */
+				read-only string Status="unavailable"; // disabled, unavailable (no NetDev counterpart), bound (committed to NetDev), dynamic (dynamically created by NetDev), error
+				// flagset = Family + Flags + Scope
+
+
+				/**
+				 * The IP-address itself in standard notation.
+				 */
+				persistent string Address;
+
+				/**
+				 * The IP-address of the peer if applicable in standard notation.
+				 */
+				persistent string Peer;
+
+				/**
+				 * The prefix length of the address.
+				 */
+				persistent uint8 PrefixLen;
+
+				/**
+				 * Space separated list of address flags. "" [ space separated list of the
+				 * following built-in values: "secondary", "nodad", "optimistic",
+				 * "homeaddress", "deprecated", "tentative", "permanent" ]
+				 */
+				persistent string Flags; // secondary nodad optimistic homeaddress deprecated tentative permanent
+
+				/**
+				 * Scope of the address. "global" [ "global", "site", "link", "host",
+				 * "nowhere", user-defined value from NetDev.ConversionTable.Scope or an
+				 * unsigned 8-bit number. ]
+				 */
+				persistent string Scope="global";
+
+				/**
+				 * Preferred expiration time. When this time is reached, the address
+				 * becomes deprecated. It is expressed in "seconds since most recent power
+				 * on". 0 means preferred forever. Non-zero values don't work on old
+				 * kernels.
+				 */
+				persistent uint32 PreferredLifetime;
+
+				/**
+				 * Expiration time. When this time is reached, the address is deleted from
+				 * the system. It is expressed in "seconds since most recent power on". 0
+				 * means valid forever. Non-zero values don't work on old kernels.
+				 */
+				persistent uint32 ValidLifetime;
+//(*)			read-only uint32 CreatedTimestamp;
+//(*)			read-only uint32 UpdatedTimestamp;
+			}
+
+
+			/**
+			 * An IPv4-route. 
+			 * Remark: The parent Link object is the outgoing interface of the route.
+			 */
+			persistent object IPv4Route[] {
+
+				/**
+				 * Enables this route.
+				 */
+				persistent bool Enable;
+
+				/**
+				 * The binding status of this object.
+				 * - unavailable Parent Intf not bound to any NetDev Link.
+				 * - disabled There is no NetDev counterpart because Enable==0.
+				 * - error There is no NetDev counterpart because an error occurred. The
+				 *   error will be recovered automatically whenever possible.
+				 * - bound Addr has been pushed successfully to NetDev.
+				 * - dynamic Addr is created implicitly triggered by NetDev event.
+				 */
+				read-only string Status="unavailable"; // disabled, unavailable (no NetDev counterpart), bound (committed to NetDev), dynamic (dynamically created by NetDev), error
+				
+
+				/**
+				 * Prefix length of the destination.
+				 */
+				persistent uint8 DstLen;
+
+				/**
+				 * Routing table to which this route belongs. To be used for label based
+				 * routing. "main" [ "default", "main", "local", user-defined value from
+				 * NetDev.ConversionTable.Table or an unsigned 8-bit number. ]
+				 */
+				persistent string Table="main"; // unspec default main local | user defined from NetDev.ConversionTable.Table
+
+				/**
+				 * Scope of the route. "global" [ "global", "site", "link", "host",
+				 * "nowhere", user-defined value from NetDev.ConversionTable.Scope or an
+				 * unsigned 8-bit number. ]
+				 */
+				persistent string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+
+				/**
+				 * Routing protocol that was used to establish the route.
+				 * "boot" [ "redirect", "kernel", "boot", "static", user-defined value
+				 * from NetDev.ConversionTable.Protocol or an unsigned 8-bit number. ]
+				 */
+				persistent string Protocol="boot"; // redirect kernel boot static | user defined from NetDev.ConversionTable.Protocol
+
+				/**
+				 * Type of the route.
+				 */
+				persistent string Type="unicast"; // unicast local broadcast anycast multicast blackhole unreachable prohibit throw nat
+
+				/**
+				 * Destination address of the route.
+				 */
+				persistent string Dst;
+
+				/**
+				 * Priority of the route. This is what's called "metric" in "ip route".
+				 * The lower the value, the higher the priority.
+				 */
+				persistent int32 Priority;
+
+				/**
+				 * Gateway IP-address of the route.
+				 */
+				persistent string Gateway;
+//(*)			persistent string PrefSrc;
+//(*)			persistent uint32 MTU;
+//(*)			persistent uint32 AdvMSS;
+//(*)			persistent uint32 HopLimit;
+			}
+
+
+			/**
+			 * An IPv6-route. 
+			 * Remark: The parent Link object is the outgoing interface of the route.
+			 */
+			persistent object IPv6Route[] {
+
+				/**
+				 * Enables this route.
+				 */
+				persistent bool Enable;
+
+				/**
+				 * The binding status of this object.
+				 * - unavailable Parent Intf not bound to any NetDev Link.
+				 * - disabled There is no NetDev counterpart because Enable==0.
+				 * - error There is no NetDev counterpart because an error occurred. The
+				 *   error will be recovered automatically whenever possible.
+				 * - bound Addr has been pushed successfully to NetDev.
+				 * - dynamic Addr is created implicitly triggered by NetDev event.
+				 */
+				read-only string Status="unavailable";
+				
+
+				/**
+				 * Prefix length of the destination.
+				 */
+				persistent uint8 DstLen;
+
+				/**
+				 * Routing table to which this route belongs. To be used for label based
+				 * routing. "main" [ "default", "main", "local", user-defined value from
+				 * NetDev.ConversionTable.Table or an unsigned 8-bit number. ]
+				 */
+				persistent string Table="main"; // unspec default main local | user defined from NetDev.ConversionTable.Table
+
+				/**
+				 * Scope of the route. "global" [ "global", "site", "link", "host",
+				 * "nowhere", user-defined value from NetDev.ConversionTable.Scope or an
+				 * unsigned 8-bit number. ]
+				 */
+				persistent string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+
+				/**
+				 * Routing protocol that was used to establish the route.
+				 * "boot" [ "redirect", "kernel", "boot", "static", user-defined value
+				 * from NetDev.ConversionTable.Protocol or an unsigned 8-bit number. ]
+				 */
+				persistent string Protocol="boot"; // redirect kernel boot static | user defined from NetDev.ConversionTable.Protocol
+
+				/**
+				 * Type of the route. "unicast" [ "unicast", "local", "broadcast",
+				 * "anycast", "multicast", "blackhole", "unreachable", "prohibit",
+				 * "throw", "nat" ]
+				 */
+				persistent string Type="unicast"; // unicast local broadcast anycast multicast blackhole unreachable prohibit throw nat
+
+				/**
+				 * Destination address of the route.
+				 */
+				persistent string Dst;
+
+				/**
+				 * Priority of the route. This is what's called "metric" in "ip route".
+				 * The lower the value, the higher the priority.
+				 */
+				persistent int32 Priority;
+
+				/**
+				 * Gateway IP-address of the route.
+				 */
+				persistent string Gateway;
+//(*)			persistent string PrefSrc;
+//(*)			persistent uint32 MTU;
+//(*)			persistent uint32 AdvMSS;
+//(*)			persistent uint32 HopLimit;
+			}
+
+//(*)		persistent object Neigh[] {
+//(*)		persistent bool Enable;
+//(*)		read-only string Status="unavailable"; // disabled, unavailable (no NetDev counterpart), bound (committed to NetDev), dynamic (dynamically created by NetDev), error
+			  // flagset = Family + Flags + State
+
+//(*)		persistent string Family="ipv4"; // ipv4 ipv6
+//(*)		persistent string Flags; // proxy router
+//(*)		persistent string Dst;
+//(*)		persistent string LLAddress;
+//(*)		persistent string State="permanent"; // incomplete reachable stale delay probe failed noarp permanent
+//(*)		}
+		}
+	}
+}
+
+
+
+//(*) descope for performance / memory optimization ; not documented
+
+
+/** @location sah_services_nemo /mibs/netdev.odl */

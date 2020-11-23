@@ -1,0 +1,205 @@
+.tile {
+    border: 1px solid #ddd;
+    line-height: 100%;
+    cursor: pointer;
+    overflow: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.no-touch .tile.selected {
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.tile.small {
+    font-size: 0.7em;
+}
+
+.tile.medium,
+.tile.large {
+    font-size: 0.8em;
+}
+
+.tile .center {
+    text-align: center;
+}
+
+.shuffle_tile.drag,
+.shuffle_tile.move,
+.tile.drag,
+.tile.move {
+    opacity: 0.5;
+    box-shadow: 0 0 20px #9ecaed;
+    cursor: move;
+}
+
+.tile_placeholder {
+    opacity: 0.5;
+    background-color: #F00;
+}
+
+.sah_ui_dropzone.sah_ui_drop_here {
+    opacity: 0.5;
+    background-color: #F00;
+    color: #FFF;
+}
+
+.sah_ui_page .tile {
+    background: rgb(241,241,241); /* Old browsers */    
+    background: linear-gradient(135deg, rgba(241,241,241,1) 0%,rgba(241,241,241,1) 50%,rgba(247,247,247,1) 51%,rgba(247,247,247,1) 90%,rgba(160,184,40,1) 91%,rgba(191,208,0,1) 94%,rgba(191,208,0,1) 100%); /* W3C */
+}
+
+.sah_ui_page .tile .label {
+    display: inline-block;
+    width: 50%;
+    text-align: right;
+    margin-left: 4%;
+}
+
+.sah_ui_page .tile .caption {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.sah_ui_page .tile .value {
+    text-align: left;
+    margin-right: 4%;
+}
+
+.sah_ui_page .tile.greenbox {
+    display: inline-block;
+    background: rgb(193,208,26); /* Old browsers */    
+    background: linear-gradient(135deg, rgba(193,208,26,1) 0%,rgba(193,208,26,1) 50%,rgba(160,184,40,1) 51%,rgba(160,184,40,1) 90%,rgba(207,217,96,1) 91%,rgba(207,217,96,1) 100%); /* W3C */
+    color:#FFFFFF;
+    border: 1px solid #a0b828;
+    text-align: center;
+    vertical-align: top;
+    z-index:900;
+    padding: 0;
+}
+
+.sah_ui_page .tile.greenbox_s {
+    display: inline-block;
+    background: rgb(193,208,26); /* Old browsers */    
+    background: linear-gradient(135deg, rgba(193,208,26,1) 0%,rgba(193,208,26,1) 50%,rgba(160,184,40,1) 51%,rgba(160,184,40,1) 90%,rgba(207,217,96,1) 91%,rgba(207,217,96,1) 100%); /* W3C */
+    color:#FFFFFF;
+    border: 1px solid #a0b828;
+    text-align: center;
+    vertical-align: top;
+    z-index:900;
+    padding: 0;
+}
+
+
+.sah_ui_page .tile.small.greenbox {
+    font-size: 1.4em;
+    line-height: 1em;
+}
+
+.sah_ui_page .tile.medium.greenbox,
+.sah_ui_page .tile.large.greenbox {
+    font-size: 1.5em;
+    line-height: 1em;
+}
+
+.sah_ui_page .tile.greenbox span {
+    padding: 0;
+}
+
+.sah_ui_page .tile.greenbox .number {
+    color: #FFFFFF;
+    font-size: 4em;
+    margin: 5% 0 0 0;
+    display: block;
+    vertical-align: top;
+    line-height: 0.5em;
+    height: auto;
+}
+
+.sah_ui_page .tile.greenbox .little {
+    color: #FFFFFF;
+    font-size: 0.8em;
+    margin: 0;
+    display: block;
+    vertical-align: top;
+    line-height: 1em;
+    height: auto;
+}
+
+.sah_ui_page .tile.slider .slider-widget {
+    position: relative;
+    width: 100%;
+    height:100%;
+}
+
+.sah_ui_page .tile.slider .slider-list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width:100%;
+    height:100%;
+}
+
+.sah_ui_page .tile.slider .slider-item {
+    float: left;
+    width:100%;
+    height:100%;
+}
+
+.sah_ui_page .tile .title {
+    margin: 5% 0 0% 0%;
+    text-align: center;
+    width: 100%;
+}
+
+.sah_ui_page .tile.small .title {
+    font-size: 1.4em;
+    line-height: 1em;
+}
+
+.sah_ui_page .tile.medium .title,
+.sah_ui_page .tile.large .title {
+    font-size: 1.5em;
+    line-height: 1em;
+}
+
+.sah_ui_page .tile .icon {
+    text-align: center;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.sah_ui_page .tile.small .icon {
+    font-size: 32px;
+}
+
+.sah_ui_page .tile.medium .icon,
+.sah_ui_page .tile.large .icon {
+    font-size: 64px;
+    width: 100%;
+    display: inline-block;
+}
+
+.sah_ui_page .tile .status {
+    color: #bfd000;
+    position: absolute;
+    top: 75%;
+    width: 100%;
+}
+
+.sah_ui_page .tile.small .status {
+    font-size: 1em;
+    line-height: 1.1em;
+}
+
+.sah_ui_page .tile.medium .status.
+.sah_ui_page .tile.large .status.{
+    font-size: 1em;
+    line-height: 1em;
+}

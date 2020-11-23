@@ -1,0 +1,807 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=1085"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Livebox</title>
+<script type="text/javascript">
+	appUrl = '';
+	appConfig = 'fr';
+	appUid = '7c9c85ce';
+	config = {
+		BUILD_CUSTOMER: 'ft',
+		BUILD_PROJECT: 'lbv2fr',
+		BUILD_HARDWARE: 'zte_h202n',
+		SESSION_DURATION: '600'
+	};
+	if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+		config.BUILD_PROJECT = "lbv2.8fr";
+	}
+
+</script>
+<link href="/styles.css?7c9c85ce" rel="stylesheet" type="text/css"/>
+<script src="/scripts.js?7c9c85ce" type="text/javascript" charset="utf-8"></script>
+<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?7c9c85ce"/>
+<link rel="shortcut icon" href="/images/fr/common/favicon.ico?7c9c85ce" type="image/x-icon"/>
+</head>
+<body class="accessibility-small">
+<!-- Popup and backlayer from Cytadelle Technology Light framework -->
+<div id="ct-popup" class="fixed" style="height: 70px">
+	<div>
+		<img id="ct-popup-header" src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.general.popup.img.header" alt=""/>
+		<h4>
+		<div id="ct-popup-header-title" class="translation Translations.home.authentication.header"></div>
+		</h4>
+		<a id="popup-close-btn" class="nologin">
+		<img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.general.popup.img.close" alt=""/>
+		</a>
+	</div>
+	<div id="ct-popup-content">
+		<span class="translation Translations.home.authentication.label.subtitle"></span>
+	</div>
+	<img src="/images/fr/common/transparent.gif?7c9c85ce" class="png ct-popup-footer voice Voice.general.popup.img.footer" alt=""/>
+</div>
+<div id="ct-msgbox" class="fixed">
+	<img id="ct-popup-header-small" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/>
+	<div id="ct-msgbox-content">
+		<img src="/images/fr/common/transparent.gif?7c9c85ce" id="ct-msgbox-img" class="png"/>
+		<div id="ct-msgbox-msg">
+		</div>
+		<input type="button" id="ct-msgbox-button1" value="annuler" class="input-btn input-small-btn-gray translation Translations.general.btn.cancel"/><input type="button" id="ct-msgbox-button2" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/><input type="button" id="ct-msgbox-button3" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/>
+	</div>
+	<img id="ct-popup-footer" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/>
+</div>
+<div id="ct-tooltip" class="fixed">
+</div>
+<div id="ct-waiting" class="fixed">
+	<img src="/images/fr/common/transparent.gif?7c9c85ce" alt="" class="voice Voice.general.waiting.img.waiting"/>
+</div>
+<div id="ct-backlayer" class="fixed" style="display:none; top:120px">
+</div>
+<div class="devicemenu" id="deviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="devicemenuheader">
+			<span id="hostName"></span>
+			<br/>
+			<span id="ipaddress-device-menu" class="translation Translations.general.label.ipaddress" style="display: none"></span> : <span id="ip"></span>
+		</div>
+		</lh>
+		<li><a id="accessscheduling" href=""><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+		<li><a id="devicescustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="catIqMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="catIqdevicemenuheader">
+			<span id="catIqName"></span>
+		</div>
+		</lh>
+		<li><a id="catIqCustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="disconnectedDeviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="disconnectedDevicemenuheader">
+			<span id="dHostName"></span>
+		</div>
+		</lh>
+		<li><a id="dAccessscheduling" href=""><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+		<li><a id="dDevicescustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+		<!-- 		<li><span id="deletedevicemenuitem" class="translation Translations.notconnecteddevices.label.deletedevice"></span></li> -->
+	</ul>
+</div>
+<div class="devicemenu" id="usbDeviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="UdbDevicemenuheader">
+		</div>
+		</lh>
+		<li><a id="usbBrowse" href="" onclick="return false;"><span id="usbBrowse" class="first active translation Translations.general.btn.files"></span></a></li>
+		<li><a id="usbEject" href="" onclick="return false;"><span class="first active translation Translations.general.btn.eject"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="contextualMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="open">
+			 Open
+		</div>
+		</lh>
+		<li><a id="copy" href=""><span class="auth-required first translation Translations.filesbrowser.label.copy"></span></a></li>
+		<li><a id="paste" href=""><span class="auth-required translation Translations.filesbrowser.label.paste" style="display: none"></span></a></li>
+		<li><a id="rename" href=""><span class="auth-required translation Translations.filesbrowser.label.rename"></span></a></li>
+	</ul>
+</div>
+<!-- Scrollable document container -->
+<div id="document-container">
+	<div id="document-background-header">
+		<div id="document-background-footer">
+			<div id="document">
+				<div id="header">
+				<a href="/" ><div id="header-logo-livebox">
+					</div></a>
+					<div id="header-controls-login" style="overflow: visible">
+						<div id="authenticationerrors" style=" position: absolute; top:6px; right: 350px; width: 300px; color: red; text-align: right;">
+							<span id="emptyauthfields" style="display: none" class="translation Translations.home.authentication.error.empty"></span>
+							<span id="emptyauthinvalid" style="display: none" class="translation Translations.home.authentication.error.invalid"></span>
+						</div>
+						<form name="Home/Accessibility"></form>
+						<form name="Login" id="Login">
+							<div id="login-inputs-div">
+								<input name="username" type="hidden" id="Username"/>
+								<input name="password" type="hidden" id="Password"/>
+								<input type="text" style="width:100px;" id="PopupUsername" class="input-text input-text-gray" maxlength="32" value="" disabled="disabled"/>
+								<input type="password" style="width:100px;" id="PopupPassword" class="input-text input-text-gray " value="" maxlength="32"/>
+								<input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.authenticate" value="" id="bt_authenticate"/>
+							</div>
+							<div id="logout-link-div" style="display: none;">
+								<span id="logged_in_username"></span>: <a href="#" id="logout_link"><span class="translation Translations.general.label.logout"></span></a>
+							</div>
+						</form>
+					</div>
+					<div id="header-controls">
+						<form name="Admin/UserInterface/Language" action="">
+							<div id="header-controls-languages">
+								<select id="Language-select" name="Language-select">
+								</select>
+							</div>
+						</form>
+						<div id="header-controls-accessibility-minus" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.fontsize.img.decrease" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-plus" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.fontsize.img.increase" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast1" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level1" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast2" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level2" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast3" class="header-controls-accessibility">
+							<a href="" title="" class="nologin voice Voice.accessibility.contrast.link.level3"><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level3" alt=""/></a>
+						</div>
+						<form name="Home/Information">
+						</form>
+						<form name="Home/RemoteBackup">
+						</form>
+					</div>
+					<div id="header-hmenu">
+						<ul class="hmenu">
+							<li onclick="return Sah.redirect('/');" id="hmenu-home" class="first active"><a href="/"><span class="first active translation Translations.general.label.vmenu.home.title"></span></a></li>
+							<li onclick="return Sah.redirect('/configWifi.html');" id="hmenu-wifi" class="normal auth-required"><a href="/configWifi.html" class="auth-required"><span class="translation Translations.general.label.vmenu.config.title"></span></a></li>
+							<li onclick="return Sah.redirect('/myFiles.html');" id="hmenu-myfiles" class="normal auth-required"><a href="/myFiles.html" class="auth-required"><span class="translation Translations.general.label.vmenu.files.title"></span></a></li>
+							<!--<li id="hmenu-myipphone" class="normal auth-required"><a href="/phonebook.html" onclick="return Sah.redirect('/phonebook.html');" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li> -->
+							<li onclick="return Sah.redirect('/phoneRingTest.html');" id="hmenu-myipphone" class="normal auth-required"><a href="/phoneRingTest.html" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li>
+							<li onclick="return Sah.redirect('/supportLedsStatus.html');" id="hmenu-support" class="normal auth-required"><a href="/supportLedsStatus.html" class="auth-required"><span class="translation Translations.general.label.vmenu.support.title"></span></a></li>
+							<li onclick="return Sah.redirect('/advConfigNetworkDhcp.html');" id="hmenu-advconfig" class="last gray auth-required"><a href="/advConfigNetworkDhcp.html" class="auth-required"><span class="translation Translations.general.label.vmenu.advconfig.title"></span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="content">
+					
+<div id="content-left">
+	<ul id="content-left-vmenu" class="lbx2vmenu">
+
+		<li id="left-wifi-link" class="auth-required">
+			<a href="/configWifi.html"><span class="translation Translations.general.label.vmenu.config.wifi"></span></a>
+		</li>
+
+		<li id="orange-wifi-link" style="display:none" class="auth-required">
+			<a href="/configOrangeWifi.html"><span class="translation Translations.general.label.vmenu.config.wificom"></span></a>
+		</li>
+
+		<li id="left-advwifi-link" class="auth-required">
+			<a href="/advConfigWifi.html"><span class="translation Translations.general.label.vmenu.config.advancedwifi"></span></a>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	$("left-wifi-link").observe("click",function(e){Sah.redirect('/configWifi.html')});
+	$("orange-wifi-link").observe("click",function(e){Sah.redirect('/configOrangeWifi.html')});
+	$("left-advwifi-link").observe("click",function(e){Sah.redirect('/advConfigWifi.html')});
+</script>
+<style type="text/css">
+        table.scheduling {        
+                border-spacing:0px;
+                margin:10px 5px;
+                width:690px;
+        }
+        table.scheduling button:focus span{
+                height: 23px;
+                padding: 0;
+                width: 23px;
+                border : 1px solid #FF5500;
+        }
+       
+        table.scheduling tr {
+                height:20px;
+                overflow:none;
+        }
+        table.scheduling td div {
+                margin:auto;
+                width:100px;
+        }
+        body.accessibility-contrast3 table.scheduling td,table.scheduling th {
+		border-color:white;
+	}
+        table.scheduling td,table.scheduling th {
+                text-align:center;
+                border-color: black;
+                border-width: 0 1px 1px 0;
+                border-style: solid;  
+                height:12px;
+                line-height:12px;
+                overflow:hidden;
+        }
+        table.scheduling td.first {
+                padding:0px 0px 0px 10px;
+                text-align:left;
+                border-left:0 none;
+                border-top:0 none;
+                font-weight:bold;
+                color:black;
+        }
+
+        table.scheduling td input {
+                height:15px;
+                overflow:hidden;
+        }
+        body.accessibility-contrast3 table.scheduling thead th {
+		border-bottom: 1px solid white;
+	}
+        table.scheduling thead th {
+                padding:4px 0px 4px 0px;
+                text-align:right;
+                border:0 none;
+                border-bottom: 1px solid black;
+		font-weight:bold;
+                color:black;
+        }
+        table.scheduling thead th.first {
+                font-weight:bold;
+                color: black;
+        }
+	button.plain-button{
+		overflow: visible;
+		background: none;
+		margin: 0;
+		padding: 0;
+		border: none;
+		cursor: pointer;
+		float: left;
+		
+
+
+	}
+	button.plain-button::-moz-focus-inner{
+		padding:0;
+		border: 0;
+	}
+	button.plain-button span{
+		clip:rect(1px 1px 1px 1px);
+		clip:rect(1px,1px,1px,1px);
+		font-size:0; 
+	}
+	span.input-box-green{
+		background-color: #0D6808
+	}
+	body.accessibility-contrast3 span.input-box-green{
+		background-color: #00FF3A
+	}
+	span.input-box-red{
+		background-color: #EE0000
+	}
+	body.accessibility-contrast3 span.input-box-red{
+		background-color: #FF0000
+	}
+</style>
+<div id="content-center">
+        <script type="text/javascript">
+                // Vertical menu
+                var oVMenuItem = $CYT('#content-left-vmenu span.Translations.general.label.vmenu.config.wifi')[0];
+                ctl.style.klass.Add(oVMenuItem.parentNode.parentNode,"current");
+                // Horizontal menu
+                ctl.style.klass.Remove($CYT('#header-hmenu li.active'),"active");
+                ctl.style.klass.Add($CYT('#hmenu-wifi'),"active");
+        </script>
+
+        <a href="/configWifi.html"><span class="translation Translations.general.label.vmenu.config.title translated"></span></a> > <a id="wifi-sourcepage" href="/configWifi.html"><span class="translation Translations.general.label.vmenu.config.wifi translated"></span></a> > <span class="translation Translations.config.wifi.scheduling.label.title"></span>
+	<div class="hr hr-orange"></div>
+	<br/>
+	<h1><span class="translation Translations.config.wifi.scheduling.label.title"></span></h1>
+        <div class="hr"></div>
+        <h2><span class="translation Translations.config.wifi.scheduling.label.subtitle"></span></h2>
+        <br/>
+        <form name="Wifi/Scheduling/Period">
+                <h2><span style="padding-right:30px;" class="translation Translations.config.wifi.scheduling.label.enable"></span>
+			<label>
+				<input type="radio" name="WifiScheduling.Enable" id="WifiScheduling.Enable" value="0" class="voice Voice.config.wifi.scheduling.label.enable"/>
+				<span class="translation Translations.general.label.yes" style="padding:0px 20px 0px 5px;"></span>
+			</label>
+			<label>
+				<input type="radio" name="WifiScheduling.Enable" id="WifiScheduling.Disable" value="1" class="voice Voice.config.wifi.scheduling.label.disable"/>
+				<span class="translation Translations.general.label.no" style="padding:0px 20px 0px 5px;"></span>
+			</label>
+                </h2>
+
+                <div style="padding:20px 0px 5px 0px;">
+                        <span class="input-box-green"></span><span class="translation Translations.config.wifi.scheduling.label.greenbox" style="margin-left: 5px; padding-top: 5px; display:inline-block;"></span>
+                </div>
+                <div style="padding:5px 0px 5px 0px;">
+                        <span class="input-box-red"></span><span class="translation Translations.config.wifi.scheduling.label.redbox" style="margin-left: 5px; padding-top: 5px; display:inline-block;"></span>
+                </div>
+
+                <div>
+                        <div id="ct-schedulelayer" style="display:none;"></div>
+                        <div id="lb_enabled" style="display: none;">
+                                <span class="translation Translations.config.wifi.scheduling.label.alwaysenabled"></span>
+                        </div>
+
+                        <table id="scheduling" class="scheduling" cellpadding="0" cellspacing="0">
+                                <thead>
+                                        <tr>
+                                                <th style="width:100px; border-bottom: 0 none;text-align: right;">
+                                                        0
+                                                </th>
+                                                <th style="width:100px;">
+                                                        <span>4</span>
+                                                </th>
+                                                <th style="width:100px;">
+                                                        <span>8</span>
+                                                </th>
+                                                <th style="width:100px;">
+                                                        <span>12</span>
+                                                </th>
+                                                <th style="width:100px;">
+                                                        <span>16</span>
+                                                </th>
+                                                <th style="width:100px;">
+                                                        <span>20</span>
+                                                </th>
+                                                <th style="width:100px;" class="last">
+                                                        <span>24</span>
+                                                </th>
+                                        </tr>					
+                                </thead>
+
+
+                                <tbody>
+                                        <tr class="day-1">
+                                                <td class="first" scope="row">
+                                                        <span class="translation Translations.general.label.days.monday"></span>
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-01-00h"></span></button>
+							<button class="plain-button"><span class="input-box-green box-01-01h"></span></button>
+							<button class="plain-button"><span class="input-box-green box-01-02h"></span></button>
+							<button class="plain-button"><span class="input-box-green box-01-03h"></span></button>
+
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-01-04h"></span></button>
+							<button class="plain-button"><span class="input-box-green box-01-05h"></span></button>
+							<button class="plain-button"><span class="input-box-green box-01-06h"></span></button>
+							<button class="plain-button"><span class="input-box-green box-01-07h"></span></button>
+
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-01-08h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-09h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-10h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-11h"></span> </button>
+
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-01-12h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-13h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-14h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-15h"></span> </button>
+
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-01-16h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-17h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-18h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-19h"></span> </button>
+
+                                                </td>
+                                                <td class="last">
+
+							<button class="plain-button"><span class="input-box-green box-01-20h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-21h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-22h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-01-23h"></span> </button>
+
+                                                </td>
+                                        </tr>
+                                        <tr class="day-2">
+                                                <td class="first" scope="row">
+                                                        <span class="translation Translations.general.label.days.tuesday"></span>
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-02-00h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-02-01h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-02-02h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-02-03h"></span> </button>
+
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-02-04h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-05h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-06h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-07h"></span> </button>
+
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-02-08h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-09h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-10h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-11h"></span> </button>
+
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-02-12h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-13h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-14h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-15h"></span> </button>
+
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-02-16h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-17h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-18h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-19h"></span> </button>
+
+                                                </td>
+                                                <td class="last">
+
+							<button class="plain-button"><span class="input-box-green box-02-20h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-21h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-22h"></span> </button> <button class="plain-button"><span class="input-box-green box-02-23h"></span> </button>
+
+                                                </td>
+                                        </tr>
+                                        <tr class="day-3">
+                                                <td class="first" scope="row">
+                                                        <span class="translation Translations.general.label.days.wednesday"></span>
+                                                </td>
+                                                <td>
+
+							<button class="plain-button"><span class="input-box-green box-03-00h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-03-01h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-03-02h"></span> </button>
+							<button class="plain-button"><span class="input-box-green box-03-03h"></span> </button>
+
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-03-04h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-05h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-06h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-07h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-03-08h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-09h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-10h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-11h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-03-12h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-13h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-14h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-15h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-03-16h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-17h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-18h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-19h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td class="last">
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-03-20h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-21h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-22h"></span> </button> <button class="plain-button"><span class="input-box-green box-03-23h"></span> </button>
+                                                        </div>
+                                                </td>
+                                        </tr>
+                                        <tr class="day-4">
+                                                <td class="first" scope="row">
+                                                        <span class="translation Translations.general.label.days.thursday"></span>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-04-00h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-01h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-02h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-03h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-04-04h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-05h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-06h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-07h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-04-08h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-09h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-10h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-11h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-04-12h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-13h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-14h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-15h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-04-16h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-17h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-18h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-19h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td class="last">
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-04-20h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-21h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-22h"></span> </button> <button class="plain-button"><span class="input-box-green box-04-23h"></span> </button>
+                                                        </div>
+                                                </td>
+                                        </tr>
+                                        <tr class="day-5">
+                                                <td class="first" scope="row">
+                                                        <span class="translation Translations.general.label.days.friday"></span>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-05-00h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-01h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-02h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-03h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-05-04h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-05h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-06h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-07h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-05-08h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-09h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-10h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-11h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-05-12h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-13h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-14h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-15h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-05-16h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-17h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-18h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-19h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td class="last">
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-05-20h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-21h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-22h"></span> </button> <button class="plain-button"><span class="input-box-green box-05-23h"></span> </button>
+                                                        </div>
+                                                </td>
+                                        </tr>
+                                        <tr class="day-6">
+                                                <td class="first" scope="row">
+                                                        <span class="translation Translations.general.label.days.saturday"></span>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-06-00h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-01h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-02h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-03h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-06-04h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-05h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-06h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-07h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-06-08h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-09h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-10h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-11h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-06-12h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-13h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-14h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-15h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-06-16h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-17h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-18h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-19h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td class="last">
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-06-20h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-21h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-22h"></span> </button> <button class="plain-button"><span class="input-box-green box-06-23h"></span> </button>
+                                                        </div>
+                                                </td>
+                                        </tr>
+                                        <tr class="day-7">
+                                                <td class="first" scope="row">
+                                                        <span class="translation Translations.general.label.days.sunday"></span>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-07-00h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-01h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-02h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-03h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-07-04h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-05h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-06h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-07h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-07-08h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-09h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-10h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-11h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-07-12h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-13h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-14h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-15h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-07-16h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-17h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-18h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-19h"></span> </button>
+                                                        </div>
+                                                </td>
+                                                <td class="last">
+                                                        <div>
+								<button class="plain-button"><span class="input-box-green box-07-20h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-21h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-22h"></span> </button> <button class="plain-button"><span class="input-box-green box-07-23h"></span> </button>
+                                                        </div>
+                                                </td>
+                                        </tr>
+                                </tbody>
+                        </table>
+                </div>
+                <div style="float:right; margin-top:10px;">
+                        <input type="button" id="bt_cancel" value="annuler" class="input-btn input-btn-gray translation Translations.general.btn.cancel WifiSchedulingManagementCancel" onclick="ctl.popup.Close();"/>
+                        <input type="button" id="bt_save" value="enregistrer" class="input-btn input-btn-orange translation Translations.general.btn.save WifiSchedulingManagementSave" onclick="ctl.popup.Close();"/>
+                </div>
+                <br/>
+        </form>
+        <script language="text/javascript">Sah.Form.includeForm($$("form[name='Wifi/Scheduling/Period']")[0]);</script>
+</div>
+<div id="content-right">
+        <div class="input-info-help">
+                <div class="header">
+                        <h6><span class="translation Translations.general.label.help"></span></h6>
+                </div>
+                <div class="content translation Translations.config.wifi.scheduling.text.help">
+                </div>
+                <div class="footer">
+                </div>
+        </div>
+</div>
+				</div>
+				<div id="footer">
+					<div id="footer-logo-ft">
+					</div>
+					<div id="footer-menu">
+						<a href="/legal.html" onclick="return Sah.redirect('/legal.html');"><span class="translation Translations.legal.label.title"></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+		function bindReady(handler){
+			var called = false
+			function ready() {
+				if (called) return
+				called = true
+				handler()
+			}
+			if ( document.addEventListener ) { // native event
+				document.addEventListener( "DOMContentLoaded", ready, false )
+			} else if ( document.attachEvent ) {  // IE
+				try {
+					var isFrame = window.frameElement != null
+				} catch(e) {}
+				// IE, the document is not inside a frame
+				if ( document.documentElement.doScroll && !isFrame ) {
+					function tryScroll(){
+						if (called) return
+						try {
+							document.documentElement.doScroll("left")
+							ready()
+						} catch(e) {
+							setTimeout(tryScroll, 10)
+						}
+					}
+					tryScroll()
+				}
+				// IE, the document is inside a frame
+				document.attachEvent("onreadystatechange", function(){
+					if ( document.readyState === "complete" ) {
+						ready()
+					}
+				})
+			}
+			// Old browsers
+			if (window.addEventListener)
+				window.addEventListener('load', ready, false)
+			else if (window.attachEvent)
+				window.attachEvent('onload', ready)
+			else {
+				var fn = window.onload // very old browser, copy old onload
+				window.onload = function() { // replace by new onload and call the old one
+					fn && fn()
+					ready()
+				}
+			}
+		}
+		bindReady(function() {		
+			var login = Cookie.get('login');
+			  if (login != null && (!login.match(/^[A-Za-z0-9 ]+$/) || login.length > 24)){
+				Cookie.unset('sessid');
+				Cookie.unset('expirydate');
+				Cookie.unset('login');
+				Cookie.unset('context');
+
+				new Ajax.Request("/logout", {
+					onComplete: function(){Sah.redirect('/');},
+					method: "get"
+				});
+			}
+			
+			if (Cookie.get('expirydate') !== undefined && Cookie.get('expirydate') !== null){
+				
+				var expiryValue = Cookie.get('expirydate'),	
+					expiryDate = new Date(expiryValue);
+									
+				if ( Object.prototype.toString.call(expiryDate) !== '[object Date]' || !isFinite(expiryDate) )
+					expiryDate = new Date(parseInt(expiryValue));			
+					
+				var currentDate = new Date(),
+					remainingTime = expiryDate.getTime() - currentDate.getTime();
+				
+				if(remainingTime < 0 ){
+					Cookie.unset('expirydate');
+				} else {
+					setTimeout(function(){
+						Cookie.unset('sessid');
+						Cookie.unset('expirydate');
+						Cookie.unset('login');
+						Cookie.unset('context');
+						
+						new Ajax.Request("/logout", {
+							onComplete: function(){Sah.redirect('/');},
+							method: "get"
+						});
+					}, remainingTime);
+				}
+
+			}
+			
+			if ( appConfig === 'fr' ) {
+				$('hmenu-myfiles').remove();
+				if ( $('advConfigPorts') !== null ) {
+					$('advConfigPorts').remove();
+				}
+				if ( $('left-fxo-link') !== null ) {
+					$('left-fxo-link').remove();
+				}
+			}
+			if (config.BUILD_PROJECT.indexOf("2.8") < 0) {
+				if ( $('left-fxo-link') !== null ) {
+					$("left-fxo-link").show();
+				}
+			}
+			$('Login').observe("submit",function(e){
+				Event.stop(e);
+				$('Username').setValue($F('PopupUsername'));
+				$('Password').setValue($F('PopupPassword'));
+				return true;
+			}.bind(this));
+			
+			$("popup-close-btn").observe("click",function(e){
+				ctl.popup.Close();
+				return false;
+			});
+			
+			$$('.hmenu li a').each(function (el) {
+				Event.observe(el, 'mouseup', function(event) {
+					Sah.redirect(el.href);
+				});
+			});
+		});
+</script>
+</body>
+</html>

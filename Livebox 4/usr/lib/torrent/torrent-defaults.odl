@@ -1,0 +1,22 @@
+
+
+datamodel {
+	object Torrent {
+		object Tracker {
+			parameter Enable = true;
+
+			instance of Listen(0, "lan") {
+				parameter IPAddress = "127.0.0.1"; 
+				parameter Port = 6969; 
+				parameter Protocol = 6; 
+			}	
+		}
+
+		object Client {
+			parameter Enable = true;
+			parameter DownloadDir = "/tmp/bt/";
+			parameter TorrentsHTTPDir = "/web/private/torrents";
+		}
+	}
+}
+/** @location sah_services_COMPONENT /torrent-defaults.odl.m4 */

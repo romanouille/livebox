@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object DataEnricher {
+    }
+}
+/** @location commod_datahub_dataenricher add-on/frontend/pcb/enricher-defaults.odl.m4 */

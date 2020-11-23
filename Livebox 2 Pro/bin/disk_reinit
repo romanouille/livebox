@@ -1,0 +1,24 @@
+if [ $# -ne 1 ]
+then exit 1
+fi
+if [ ! -e /sys/block/$1 ]
+then exit 2
+fi
+if [ `grep -c $1 /etc/mtab` -ne 0 ]
+then exit 4
+fi
+echo "Reinitialisation de $1"
+fdisk /dev/$1 >&- 2>&- << EOF
+d
+1
+d
+2
+d
+3
+d
+4
+w
+EOF
+if [ $? -ne 0 ]
+then exit 8
+fi

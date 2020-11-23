@@ -1,0 +1,72 @@
+#!/bin/sh
+
+
+. /usr/bin/pcb_common.sh
+
+trace_zones=""
+
+
+backup() {
+    if pcb_is_running probe_plugin; then
+        pcb_cli "Probe.export()"
+    else
+        echo "Figaro is not running, impossible to make a backup"
+    fi
+}
+
+restore() {
+    mkdir -p /var/lib/probe
+    touch /var/lib/probe/restore
+}
+
+
+start() {
+    mkdir -p /cfg/system/figaro
+    chown figaro.pcb_users /cfg/system/figaro
+    export PCB_MIB_DIR="/usr/lib/probe/mibs"
+    if pcb_is_running probe_plugin; then
+         echo "probe_plugin already started"
+    else
+        sahenv -f /etc/environment pcb_app -vv -n probe_plugin -I /var/run/figaro -c /usr/lib/probe/probe.odl
+    fi
+    if pcb_is_running probe_client; then
+         echo "probe_client already started"
+    else
+        pcb_app -vv -n probe_client /usr/lib/probe/client.so /usr/lib/probe/modules/*.so
+    fi
+}
+
+stop() {
+    pcb_stop probe_client
+    pcb_stop probe_plugin
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+
+    backup)
+        backup
+        ;;
+    restore)
+        restore
+        ;;
+
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log probe_plugin $action $trace_zones
+            pcb_log probe_client $action $trace_zones
+        else
+            pcb_log probe_plugin enable $trace_zones
+            pcb_log probe_client enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|log]"
+        ;;
+esac

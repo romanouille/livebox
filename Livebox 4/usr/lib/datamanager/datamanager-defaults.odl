@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object DataManager {
+    }
+}
+/** @location commod_datahub_datamanager add-on/frontend/pcb/datamanager-defaults.odl.m4 */

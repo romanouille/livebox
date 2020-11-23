@@ -1,0 +1,60 @@
+#! /bin/sh 
+
+. /usr/bin/pcb_common.sh
+
+name="cups_plugin"
+start_options="-c /usr/lib/cups-plugin/cups-plugin.odl"
+datamodel="CupsService"
+trace_zones=""
+component="sah_services_cups-plugin"
+
+FILE="/dev/usb/lp0"
+
+start() {
+    if pcb_is_running $name; then
+        logger -t cups "cups_plugin service already started"
+        exit 1;
+    fi
+    mkdir -p /var/tmp
+
+    mkdir -p /var/tmp/cups/socket
+    mkdir -p /var/tmp/cups/localspool
+    mkdir -p /var/tmp/cups/conf
+    cp -rf /usr/etc/cups/* /var/tmp/cups/conf/
+    if [ -f $FILE ];
+    then
+       logger -t cups "File $FILE exists"
+    else
+       mkdir -p /dev/usb
+       mknod $FILE c 180 0
+    fi
+
+    pcb_start $name $start_options
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    restart)
+        pcb_stop $name
+        start
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo|log]"
+        ;;
+esac

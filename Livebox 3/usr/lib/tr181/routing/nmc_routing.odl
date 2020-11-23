@@ -1,0 +1,29 @@
+object Routing {
+object Router[] {
+counted with RouterNumberOfEntries;
+string Alias;
+object IPv6Forwarding[] {
+counted with IPv6ForwardingNumberOfEntries;
+string Alias;
+bool Enable = false;
+read-only string Status {
+constraint enum [ "Disabled", "Enabled", "Error_Misconfigured", "Error" ];
+default "Disabled";
+}
+}
+}
+}
+datamodel {
+object Routing {
+instance of Router(1, "router_data") {
+parameter Alias="ROUTER_DATA";
+instance of IPv6Forwarding(1, "ra_route") {
+parameter Alias="RA_ROUTE";
+destination "pcb://$(PCB_MAIN_BUS)/RouterAdvertisement/InterfaceSetting/lan" {
+parameter Enable from Enable;
+parameter Status from Status;
+}
+}
+}
+}
+}

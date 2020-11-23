@@ -1,0 +1,85 @@
+#!/bin/sh
+
+PCB_PLUGIN="/bin/pcb_plugin"
+FW_DEFAULTS=/usr/lib/firewall/firewall.defaults
+FW6_DEFAULTS=/usr/lib/firewall/firewall_ipv6.defaults
+FW_PLUGIN_ODL="/usr/lib/firewall/fw.odl"
+LOG_LEVEL=200
+PID="/var/run/firewall_plugin.pid"
+
+show_cmd()
+{
+	echo "[$(date)]: $@"
+	eval "$@"
+}
+
+case $1 in 
+	start)
+		iptables-restore < ${FW_DEFAULTS}
+		ip6tables-restore < ${FW6_DEFAULTS}
+
+		# limit the number of conntrack rule to 5000.
+		[ -e /proc/sys/net/nf_conntrack_max ] && echo 5000 > /proc/sys/net/nf_conntrack_max
+
+		LD_PRELOAD=libmafia_nothreads.so firewall=${LOG_LEVEL} queueManagement=${LOG_LEVEL} pcp=${LOG_LEVEL} $PCB_PLUGIN --priority=-17 -n firewall_plugin -c $FW_PLUGIN_ODL -I /var/run/fw_ipc_sock 
+	;;
+
+	stop)
+		[ -f "/var/run/firewall_plugin.pid" ] && kill $(cat /var/run/firewall_plugin.pid)
+
+		iptables -P INPUT ACCEPT
+		iptables -P FORWARD ACCEPT
+		iptables -F
+		iptables -X
+		iptables -t nat -F
+		iptables -t nat -X
+
+		#ipv6
+		ip6tables -P INPUT ACCEPT
+		ip6tables -P FORWARD ACCEPT
+		ip6tables -F
+		ip6tables -X
+		
+	;;
+	backup)
+		if [ -e $PID ] ; then
+		    pcb_cli "Firewall.export($2)"
+		else
+		    echo "Firewall plugin is not running, unable to backup settings"
+		fi
+	;;
+	restore)
+		mkdir -p /var/lib/firewall
+		touch /var/lib/firewall/restore
+	;;
+	status)
+		if [ -e $PID ] ; then 
+		    echo "firewall plugin is running."
+		else 
+		    echo "firewall plugin is not running."
+		fi 
+	;;
+	debuginfo)
+		if [ -e $PID ] ; then 
+			echo "Status [firewall plugin]: running."
+			show_cmd cat /proc/$(cat /var/run/firewall_plugin.pid)/status
+		else 
+			echo "Status [firewall plugin]: not running."
+		fi 
+
+		show_cmd iptables -L -nv
+		show_cmd iptables -L -nv -t nat 
+		show_cmd iptables -L -nv -t mangle 
+
+		show_cmd ebtables -t filter -L --Lc
+		show_cmd ebtables -t nat -L --Lc
+		show_cmd ebtables -t mangle -L --Lc
+		show_cmd ebtables -t broute -L --Lc
+
+		show_cmd ip6tables -L -nv
+		show_cmd ip6tables -L -nv -t mangle 
+	;;
+	*)
+		echo "Usage : $0 [start|stop|status|backup|restore]"
+	;;
+esac

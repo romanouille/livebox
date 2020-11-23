@@ -1,0 +1,363 @@
+using "storage.so";
+define logicalVolume_t {
+string uriString;
+string name;
+string flags;
+string mountPoint;
+string status;
+bool enable;
+string physicalMedium;
+string fileSystem;
+uint64 capacity;
+uint64 usedSpace;
+string lastError;
+bool autoMount;
+string mountOptions;
+}
+define physicalMedium_t {
+string uri;
+string name;
+string flags;
+string vendor;
+string model;
+string serialNumber;
+string firmwareVersion;
+string connectionType;
+bool removable;
+uint64 capacity;
+string status;
+string temperature;
+}
+define file_t {
+string name;
+string type;
+uint64 size;
+datetime created;
+datetime modified;
+}
+define fsckStatus_t {
+uint32 status;
+uint32 progress;
+}
+acl {
+world read,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+persistent object StorageService {
+persistent bool Enable = false;
+read-only uint32 PhysicalMediumNumberOfEntries {
+read with StorageService_getPhysicalMediumNumberOfEntries;
+default 0;
+}
+read-only uint32 LogicalVolumeNumberOfEntries {
+read with StorageService_getLogicalVolumeNumberOfEntries;
+default 0;
+}
+read-only uint32 RulesNumberOfEntries {
+read with StorageService_getRulesNumberOfEntries;
+default 0;
+}
+read-only uint32 UserAccountNumberOfEntries = 0;
+bool devicePlugged(mandatory string uri, string flags) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool deviceUnplugged(mandatory string uri) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool useLogicalVolume(mandatory string uri, mandatory int32 pid, mandatory string applicationName) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool setLogicalVolumeInfo(mandatory string uri, mandatory int32 pid, mandatory string namespace, mandatory object info) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool releaseLogicalVolume(mandatory string uri, mandatory int32 pid) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool releaseAllLogicalVolumes(mandatory int32 pid) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+logicalVolume_t getLogicalVolume(mandatory string uri);
+list getLogicalVolumes();
+physicalMedium_t getPhysicalMedium(mandatory string uri);
+list getPhysicalMediums();
+bool startSMARTCheck(mandatory string uri, mandatory string type);
+bool stopSMARTCheck(mandatory string uri);
+bool getSMARTCheckStatus(mandatory string uri, uint32_t status, uint32 progress);
+bool getSMARTCheckAttributes(mandatory string uri, out list attributes);
+bool startFileSystemCheck(mandatory string uri, mandatory bool repair);
+bool stopFileSystemCheck(mandatory string uri);
+bool getFileSystemCheckStatus(mandatory string uri, out uint32 status, out uint32 progress);
+bool setLogicalVolumeName(mandatory string uri, mandatory string name) {
+acl {
+world none;
+}
+}
+bool addLogicalVolumeFlags(mandatory string uri, mandatory string flags) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+list readDirectory(mandatory string uri, mandatory string path, object options) {
+acl {
+world none;
+group webdav read,execute;
+}
+}
+bool makeDirectory(mandatory string uri, mandatory string path) {
+acl {
+world none;
+group webdav read,execute;
+}
+}
+bool copyFile(mandatory string srcuri, mandatory string srcpath,
+mandatory string desturi, mandatory string destpath,
+list options) {
+acl {
+world none;
+group webdav read,execute;
+}
+}
+bool moveFile(mandatory string srcuri, mandatory string srcpath,
+mandatory string desturi, mandatory string destpath,
+list options) {
+acl {
+world none;
+group webdav read,execute;
+}
+}
+bool deleteFile(mandatory string uri, mandatory string path) {
+acl {
+world none;
+group webdav read,execute;
+}
+}
+variant openFile(mandatory string uri, mandatory string path, uint32 mode, list options) {
+acl {
+world none;
+group webdav read,execute;
+}
+}
+bool checkLogicalVolumeUsed(mandatory string uri, out list users);
+bool grantUserAccess(mandatory string uri,         mandatory string path,
+mandatory string username, mandatory uint8_t permissions) {
+acl {
+world none;
+}
+}
+bool grantGroupAccess(mandatory string uri,         mandatory string path,
+mandatory string groupname, mandatory uint8_t permissions) {
+acl {
+world none;
+}
+}
+bool ejectPhysicalMedium(mandatory string uri);
+bool ejectLogicalVolume(mandatory string uri);
+bool enableNetworkProtocol(mandatory string protocol) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool disableNetworkProtocol(mandatory string protocol) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool getShareList(string userAccount,out list shares) {
+acl {
+world none;
+}
+}
+bool checkAccessRights(mandatory string uri,      mandatory string path,
+mandatory string username, mandatory string service,
+mandatory uint32 permissions) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool partitionPhysicalMedium(mandatory string uri, mandatory list parts, string unit) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool export(string filename) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool import(string filename) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+persistent read-only object Rules[] {
+persistent read-only string Condition;
+persistent read-only object Target[] {
+counted with TargetNumberOfEntries;
+persistent read-only string Path;
+persistent read-only string Value;
+}
+}
+object Capabilities {
+read-only bool FTPCapable = false;
+read-only bool SFTPCapable = false;
+read-only bool HTTPCapable = false;
+read-only bool SHTTPCapable = false;
+read-only bool HTTPWritable = false;
+read-only string SupportedNetworkProtocols;
+read-only string SupportedFileSystemTypes = "FAT16,FAT32,NTFS,HFS,HFS+,HFSJ,ext2,ext3,ext4,NFS,PTP,WebDAV";
+read-only bool VolumeEncryptionCapable = false;
+}
+persistent object PhysicalMedium[] {
+persistent read-only string URI;
+persistent string Name;
+persistent string Flags;
+persistent read-only string Vendor;
+persistent read-only string Model;
+persistent read-only string SerialNumber;
+persistent read-only string FirmwareVersion;
+persistent read-only string ConnectionType {
+constraint enum [ "USB 1.1", "USB 2.0", "USB 3.0", "IEEE1394", "IEEE1394b", "IDE", "EIDE",
+"ATA/33", "ATA/66", "ATA/100", "ATA/133", "SATA/150", "SATA/300",
+"SCSI-1", "Fast SCSI", "Fast-Wide SCSI", "Ultra SCSI", "Ultra Wide SCSI",
+"Ultra2 SCSI", "Ultra2 Wide SCSI", "Ultra3 SCSI", "Ultra-320 SCSI",
+"Ultra-640 SCSI", "SSA", "SSA-40", "Fibre Channel", "MMC"
+];
+default "USB 1.1";
+}
+persistent read-only bool Removable;
+persistent read-only uint64 Capacity;
+read-only string Status {
+constraint enum [ "Online", "Standby", "Offline", "Disconnected", "Restoring" ];
+default "Offline";
+}
+persistent read-only uint32 Uptime;
+persistent read-only bool SMARTCapable = false;
+read-only uint32 Temperature {
+read with StorageService_getDeviceTemperature;
+default 0;
+}
+persistent read-only string Health {
+constraint enum [ "OK", "Failing", "Error" ];
+default "OK";
+}
+persistent read-only bool HotSwappable = false;
+persistent object Kernel {
+persistent read-only string SysfsPath;
+persistent read-only string DevfsPath;
+}
+}
+persistent object LogicalVolume[] {
+persistent read-only string URI;
+persistent string Name;
+read-only string Status {
+constraint enum [ "Offline", "Online", "Error", "Disconnected" ];
+default "Offline";
+}
+persistent bool Enable = false;
+persistent string Flags;
+persistent read-only string PhysicalReference {
+constraint maxvalue 256;
+}
+persistent read-only string PhysicalURI;
+persistent read-only string FileSystem {
+constraint enum [ "Unknown",
+"FAT16", "FAT32", "NTFS", "HFS", "HFS+",
+"HFSJ", "ext2", "ext3",
+"ext4", "XFS",
+"REISER" , "WebDAV", "NFS", "PTP"
+];
+default "Unknown";
+}
+persistent read-only uint32 FileSystemStatus {
+constraint enum [ 0, 1, 2, 4, 8, 16, 32, 128];
+default 0;
+}
+bool FileSystemCheck {
+default 0;
+}
+persistent datetime LastFileSystemCheck;
+persistent bool FileSystemCheckNeeded {
+default 0;
+}
+persistent bool FileSystemCheckDateNeeded {
+default 1;
+}
+persistent uint64 Capacity;
+persistent read-only uint64 UsedSpace {
+read with StorageService_getUsedSpace;
+}
+persistent read-only bool Encrypted = false;
+read-only uint32 FolderNumberOfEntries {
+read with StorageService_getFolderNumberOfEntries;
+default 0;
+}
+persistent string PreferredMountPoint = "";
+persistent bool AutoMount = true;
+read-only string MountPoint;
+read-only string LastError;
+read-only string MountOptions;
+persistent object Kernel {
+persistent read-only string UUID;
+persistent read-only string Label;
+persistent read-only string SysfsPath;
+persistent read-only string DevfsPath;
+}
+object Process[] {
+int32 ProcessID;
+string ApplicationName;
+}
+persistent object Folder[] {
+persistent string Name;
+persistent bool Enable = false;
+persistent uint32 UserAccountAccess = 1;
+persistent object UserAccess[] {
+persistent string UserReference;
+persistent uint8 Permissions = 0;
+}
+persistent object GroupAccess[] {
+persistent string GroupReference;
+persistent uint8 Permissions = 0;
+}
+}
+}
+}

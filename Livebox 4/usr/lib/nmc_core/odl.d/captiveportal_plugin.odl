@@ -1,0 +1,139 @@
+using "../nmccore_captiveportal.so";
+
+persistent object NMC {
+    /**
+     * Settings for captive portal
+     */
+    persistent object Error {
+
+        /**
+         * True if the current boot is
+         * from factory defaults
+         */
+        persistent bool FirstBoot {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default true;
+        }
+
+        /**
+         * True if captive portal is enabled
+         */
+        persistent bool Enable {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default false;
+        }
+
+        /**
+         * ID of the detected error
+         */
+        string ErrorID {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        /**
+         * True if an error was detected
+         */
+        bool Detected {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        /**
+         * Captive portal status
+         */
+        string Status {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            constraint enum ["Enabled", "Disabled", "Error_URLEmpty", "Error"];
+            default Disabled;
+        }
+
+        /**
+         * Time to wait before the error
+         * is displayed to the user (in sec)
+         */
+        persistent uint32 TimeWaiting {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default 90;
+        }
+
+        /**
+         * Duration of the error
+         * since it was detected (in sec)
+         */
+        read-only uint32 TotalErrorDuration {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default 0;
+        }
+
+        /**
+         * List of STB IP addresses for excluded
+         * from the captive portal redirection
+         */
+        string STBList {
+            constraint maxvalue 1000;
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        /**
+         * Redirection URL
+         */
+        persistent string URL {
+            constraint maxvalue 2000;
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default "http://livebox/captivePortal.html";
+        }
+
+        /*
+         * Domains which rediction is not applicated
+         */
+        persistent string NoRedirectDomain {
+            constraint maxvalue 2000;
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        /**
+         * Return the captive portal current error
+         * @return the error ID
+         */
+        string getPrimaryErrorCode();
+    }
+}

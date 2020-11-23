@@ -1,0 +1,10 @@
+{ 
+		"status": 0, 
+		"data": { 
+			"isAvailable": true, 
+			"phoneNumber": "1058", 
+			"protocol": "sip", 
+			"vlan": "", 
+			"vpvc": "8/55" 
+		} 
+}

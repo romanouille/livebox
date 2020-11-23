@@ -1,0 +1,99 @@
+#! /bin/sh 
+ODL="/usr/lib/cifscl/cifscl.odl"
+PID="/var/run/cifscl.pid"
+CHROOT="/var/samba"
+USER="samba"
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "cifscl service already started"
+        exit 1;
+    fi
+    if [ ! -z "${CHROOT}" ] && [ ! -d "${CHROOT}" ]; then
+        mkdir -p -m 0700 ${CHROOT} ${CHROOT}/etc ${CHROOT}/tmp ${CHROOT}/var/log ${CHROOT}/var/usbmount
+        if [ ! -e "${CHROOT}/etc/passwd" ]; then
+            echo "root::0:0:root:/root:/bin/false" > "${CHROOT}/etc/passwd"
+            grep $USER /etc/passwd >> "${CHROOT}/etc/passwd"
+        fi
+        chown $USER:$USER -R ${CHROOT}
+    fi
+
+    if [ ! -d "${CHROOT}/var/etc/samba" ]; then
+        mkdir -p -m 0700 "${CHROOT}/var/etc/samba"
+        mount -t tmpfs -o size=128k tmpfs "${CHROOT}/var/etc/samba"
+        chown $USER:$USER -R "${CHROOT}/var/etc/samba"
+    fi
+
+    pcb_plugin -n cifscl -c "${ODL}" -vv
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID)
+    else
+        echo "cifscl not running"
+        exit 1
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+backup() {
+	if [ -e $PID ] ; then
+		pcb_cli "SambaService.export($2)"
+		exit 0
+	else
+		echo "Samba plugin is not running, impossible to make a backup"
+		exit 1
+	fi
+	exit 1
+}
+
+restore() {
+	mkdir -p /var/lib/samba
+	touch /var/lib/samba/restore
+	exit 0
+}
+
+show_cmd() {
+        echo "[$(date)]: $@"
+        eval "$@"
+}
+
+debuginfo() {
+     if [ -e $PID ] ; then 
+         echo "Status [cifscl plugin]: running."
+         show_cmd cat /proc/$(cat $PID)/status
+     else 
+         echo "Status [cifscl plugin]: not running."
+     fi 
+
+     show_cmd cat /var/etc/samba/smb.conf
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+    	status
+        ;;
+    backup)
+    	backup
+    	;;
+    restore)
+    	restore
+    	;;
+    debuginfo)
+        debuginfo
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status|backup|restore]"
+        ;;
+esac

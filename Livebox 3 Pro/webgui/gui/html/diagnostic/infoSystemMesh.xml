@@ -1,0 +1,39 @@
+<div id="infoSystemMesh" xmlns="http://www.orange.com/xhtml/engine/loose">  
+	<div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_diagnostic">
+			<span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;<span i18n="menuDiagnostic.infoSystemMesh"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.diagnostic.infosystem.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">
+		<form action="#">
+			<div class="boxType4  margin-top-10 border-bottom-3">
+				<br/>
+				<div id="infosystemmesh_table" widgetType="Table" widgetArg="{extendable: false}" i18n="page.diagnostic.infosystem.mesh.table">
+					<span i18n="common.name" widgetType="TableColumn" widgetArg="{attr: '', sortable: false}" />
+					<span i18n="page.diagnostic.infosystem.mesh.firmversion" widgetType="TableColumn" widgetArg="{attr: '', sortable: false}" />
+					<!-- <span i18n="page.diagnostic.infosystem.mesh.cfgversion" widgetType="TableColumn" widgetArg="{attr: '', sortable: false}" /> -->
+					<span i18n="page.diagnostic.infosystem.mesh.guiversion" widgetType="TableColumn" widgetArg="{attr: '', sortable: false}" />
+				</div>
+				<br/>
+				<div widgetType="ButtonContainer" class="right">
+					<span id="btnSynchro" style="display: none" widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'm4.m40.m408'}" i18n="page.diagnostic.infosystem.mesh.btn"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

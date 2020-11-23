@@ -1,0 +1,9 @@
+<b>Internet access restriction:</b><br>
+<br>
+This feature is used to restrict Internet access for a device. <br>
+Once you enable this option, you must define access time ranges using check boxes and pull-down lists. To restrict access to the Internet for a particular day of the week, simply check the corresponding box. To configure the time periods for Internet access, use the pull-down lists. The device can then access the Internet during this time range. Outside the time ranges, the device cannot access the Internet.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

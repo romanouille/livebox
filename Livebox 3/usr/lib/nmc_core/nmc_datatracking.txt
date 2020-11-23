@@ -1,0 +1,8 @@
+Probe.CustomerAuthorization
+TopologyDiagnostics.CustomerAuthorization
+BulkData.Profile.probe_periodic1.CustomerAuthorization
+BulkData.Profile.probe_ondemand1.CustomerAuthorization
+BulkData.Profile.datamodel_probe_periodic1.CustomerAuthorization
+BulkData.Profile.datamodel_probe_ondemand1.CustomerAuthorization
+BulkData.Profile.datamodel_probe_onevent1.CustomerAuthorization
+BulkData.Profile.datamodel_probe_onevent2.CustomerAuthorization

@@ -1,0 +1,17 @@
+/**
+ * MIB is loaded on all units that are able to command a dimmable device.
+ *
+ * All devices matching expression: "dimmer" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib alarm {
+    object Alarm[] {
+        string Name;
+        string Type;
+        uint32 Event;
+        uint32 Value;
+        datetime Time;
+    }
+}
+/** @location sah_services_gmap /mibs/alarm.odl */

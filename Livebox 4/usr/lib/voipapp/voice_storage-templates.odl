@@ -1,0 +1,101 @@
+datamodel {
+
+    object VoiceService {
+    
+        object VoiceProfile {
+
+            object SIP {
+
+                parameter ProxyServer {
+                
+                    acl {
+                    
+                        world none;
+                        group admin none;
+                        group remoteadmin none;
+                    }
+                }
+            
+                parameter ProxyServerPort {
+                
+                    acl {
+                    
+                        world none;
+                        group admin none;
+                        group remoteadmin none;
+                    }
+                }
+            
+                parameter OutboundProxy {
+                
+                    acl {
+                    
+                        world none;
+                        group admin none;
+                        group remoteadmin none;
+                    }
+                }
+            
+                parameter OutboundProxyPort {
+                
+                    acl {
+                    
+                        world none;
+                        group admin none;
+                        group remoteadmin none;
+                    }
+                }
+            }
+
+            object H323 {
+
+                parameter Gatekeeper {
+                
+                    acl {
+                    
+                        world none;
+                        group admin none;
+                        group remoteadmin none;
+                    }
+                }
+
+                parameter GatekeeperPort {
+                
+                    acl {
+                    
+                        world none;
+                        group admin none;
+                        group remoteadmin none;
+                    }
+                }
+
+            }
+
+            object Line {
+            
+                object SIP {
+                
+                    parameter AuthUserName {
+                    
+                        acl {
+                        
+                            world none;
+                            group admin none;
+                            group remoteadmin none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    instance of VoiceService(1,"VoiceApplication") {
+        instance of VoiceProfile(1,"ATA") {
+            object Line {
+                object CallingFeatures {
+                    parameter CallTransferEnable=false;
+                }
+            }
+        }
+    }
+}

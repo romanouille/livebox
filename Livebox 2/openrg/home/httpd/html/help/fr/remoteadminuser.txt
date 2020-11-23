@@ -1,0 +1,10 @@
+<b>Administration à distance :</b><br>
+<br>
+Pour accéder à votre livebox à distance depuis un emplacement extérieur au réseau, assurez-vous que l’option <b>Activer l'accès à distance</b> est cochée.<br>
+Ensuite, vous pouvez choisir un accès à distance permanent ou temporaire.<br>
+Cette configuration vous permet d’accéder à votre livebox à distance depuis un emplacement extérieur au réseau. Saisissez le numéro du port chargé d’ouvrir l’accès à tout élément externe. Vous devez aussi saisir un identifiant et un mot de passe d'accès au routeur. Retenez les bien car ils vous seront demandés lorsque vous tenterez d'accéder à distance à votre livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

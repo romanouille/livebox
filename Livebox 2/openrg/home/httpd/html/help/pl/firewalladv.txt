@@ -1,0 +1,30 @@
+<b>Personalizacja firewalla</b><br>
+<br>
+
+Ta opcja pozwala dostosować ustawienia firewalla na Twoim modemie Livebox.
+
+
+<br><br>
+
+
+Opcja <b>Tryb Gra</b> pozwala modemowi Livebox odpowiadać na zapytania ping (sprawdzać status modemu przez sieć). Opcja ta jest zaznaczona domyślnie i przydaje się szczególnie do gier online.
+
+
+<br><br>
+
+
+W trybie spersonalizowanym, (przycisk <b>"Personalizuj"</b>), wszystkie reguły firewalla są domyślnie ustawione na wysoki poziom ochrony. Możesz usuwać reguły firewalla lub dodawać je za pomocą przycisku <b>"Dodaj"</b>. 
+
+<br><br>
+
+Możesz zmieniać hierarchię ważności reguł zmieniając ich kolejność w tabelce za pomocą pomarańczowych strzałek w górę i w dół. Możesz również włączać lub wyłączać reguły zaznaczając okienko obok nich.
+
+<br>
+Do usuwania wybranych reguł z tabeli służy ikona kosza. Przycisk <b>"Anuluj"</b> kasuje wszystkie zmiany i przywraca firewalla do domyślnych ustawień (wysoki poziom ochrony).
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

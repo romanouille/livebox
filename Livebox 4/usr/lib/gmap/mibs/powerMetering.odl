@@ -1,0 +1,76 @@
+/*expr:power_metering*/
+
+/**
+ * MIB is loaded for all devices .
+ * All devices matching expression: "power_metering" are extended with this MIB
+ * @version 6.1
+ */
+mib powerMetering {
+
+    /**
+     * Energy attribute stores energy consumption from device power up or from a measurement reset.
+     * The stored value has the basic unit of Watts/Hour
+     */
+    string Energy;
+    
+    /**
+     * Energy at Last Reset attribute stores the Energy attribute value at the instant a measurement reset occurred.
+     * The stored value has the basic unit of Watts/Hour
+     */
+    string EnergyAtLastReset;
+    
+    /**
+     * Time at Last Reset attribute stores the time value (from device uptime or UTC) at the instant a measurement reset occurred.
+     * The stored value has the basic unit of Seconds
+     */
+    string TimeAtLastReset;
+    
+    /**
+     * Instantaneous Power attribute allows reading the presently instantaneous power value.
+     * The stored value has the basic unit of Watts
+     */
+    string InstantaneousPower;
+    
+    /**
+     * Average Power attribute stores the power measured over a period of time specified by Average Power Interval.
+     * The stored value has the basic unit of Watts
+     */
+    string AveragePower;
+    
+    /**
+     * Average Power Interval attribute specifies the time period over which power should be averaged and stored into Average Power.
+     * The stored value has the basic unit of Seconds
+     */
+     string AveragePowerInterval;
+
+    /**
+     * Voltage attribute allows reading the presently instantaneous voltage value.
+     * The stored value has the basic unit of Volts
+     */
+    string Voltage;
+    
+    /**
+     * Current attribute allows reading the presently instantaneous current value.
+     * The stored value has the basic unit of Amperes
+     */
+    string Current;
+    
+    /**
+     * Frequency attribute allows reading the presently instantaneous frequency value.
+     * The stored value has the basic unit of Hertz
+     */
+    string Frequency;
+    
+    /**
+     * Power Factor attribute stores the ratio between real and apparent power.
+     * The stored value is a dimensionless fraction with minimum value 0 (zero) and maximum 1 (one)
+     */
+    string PowerFactor;
+    
+    /**
+     * Report Interval attribute stores the periodic time interval, in seconds, at which the Report command should be sent.
+     * If this attribute is set to 0 (zero) the command will never be sent
+     */
+    string ReportInterval;
+}
+/** @location sah_services_gmap /mibs/meteringDevice.odl */

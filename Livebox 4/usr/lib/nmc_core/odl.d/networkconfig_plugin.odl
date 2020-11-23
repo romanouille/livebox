@@ -1,0 +1,125 @@
+using "../nmccore_networkconfig.so";
+
+persistent object NMC {
+    persistent object NetworkConfig {
+
+        /** The Enable flag for setting network backup feature ON or OFF
+         *  This parameter is managed in Active Notification
+         *  This is a **Reboot Persistent** parameter.
+         * @version V5.2
+         */
+        persistent bool Enable {
+            acl {
+                world none;
+            }
+            default true;
+        }
+
+        /** Name of the generated network backup file
+         *  This parameter is managed in Active Notification
+         *   This is a **Reboot Persistent** parameter.
+         * @version V5.2
+         */
+        persistent string ConfigName {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default "";
+        }
+
+        /** Date of the generated network backup file
+         *  This parameter will switch back to false when config is uploaded.
+         *  This is a **Reboot Persistent** parameter.
+         * @version V5.2
+         */
+        persistent datetime ConfigDate {
+            acl {
+                world none;
+            }
+        }
+        /** The Delay parameter in seconds before config backup will be done
+         *  This is a **Reboot Persistent** parameter.
+         * @version V5.2
+         */
+        persistent uint32 Delay {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default 300;
+        }
+
+        /** The Status of the network config feature
+         *  Enabled by default
+         *  could be Disabled by ACS
+         *  Switch to Saving when RPC launchNetworkBackup is used (if Enabled)
+         *  Available when a config has been downloaded
+         *  Loading when config is getting restored
+         *  Uploading when Saving and Delay is reached
+         *  Downloading when ACS trigger a config download
+         *  Reset when aborting potential backup and cleaning ConfigName and Date
+         * @version V5.2
+         */
+        persistent string Status {
+            acl {
+                world none;
+            }
+            constraint enum ["Enabled", "Disabled", "Triggered", "Instant", "Saving", "Available", "Loading", "Uploading", "Downloading", "Reset"];
+            default "Enabled";
+        }
+
+        /**
+         * WebUI RPC for activating the feature or not
+         * @param: true (Enabled) or fase (Disabled)
+         */
+        void enableNetworkBR(bool state) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * launchNetworkBackup will start a timer of Delay seconds before switching TriggerACS to true
+         * Will trigger backup only if feature is enabled
+         * When delay is set to false, bypass it (else enabled by default)
+         * @version V5.2
+         */
+        void launchNetworkBackup(bool delay) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * launchNetworkRestore empty the ConfigFileName and reset ConfigDate
+         * or restore the downloaded configuration if any
+         * The notif of the modification should trigger the ACS to perform a network restore
+         * @version V5.2
+         */
+        void launchNetworkRestore();
+
+        /**
+         * Save ConfigName and ConfigDate into the nmcnc persist file
+         * RPC used for the restore state
+         */
+        void saveConfigInfo() {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        /** RPC flavour for getting the parameters of this object.
+         * @version V5.2
+         */
+        void get() {
+            acl {
+                world none;
+            }
+        }
+    }
+}

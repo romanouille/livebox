@@ -1,0 +1,52 @@
+using "upnp-igd_plugin.so";
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+group technician read, write, execute;
+}
+persistent object UPnP-IGD {
+variant get();
+bool set(variant parameters);
+persistent bool Enable {
+write with EnableUPnpIGD;
+default true;
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+group technician read, write, execute;
+}
+}
+persistent string WANAccessProvider;
+persistent string ModelNumber;
+persistent string ModelName;
+persistent string FriendlyName;
+persistent object PnP-X {
+persistent string HardwareId-VID;
+persistent string HardwareId-DID;
+persistent string HardwareId-SID;
+persistent string HardwareId-RID;
+}
+read-only object UDN[] {
+read-only string Id;
+read-only string Value;
+}
+void removePortMappingsWithDestinationIP( string IPv4Address ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool import( string fileName ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool export( string fileName ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}

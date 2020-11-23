@@ -1,0 +1,30 @@
+{
+    "Id": "sah_language",
+    "Category": "Self Care",
+    "Version": "0.1",
+    "Title": "sah_language.title",
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "settings",
+                  "settings": { "slides": [ "<div class=title translate={{title}}></div><span class=\"icon icon-bubbles sah_green_light\"></span><div class=status><span class=caption><span class=\"black\" translate=\"sah_language.current\"></span> <span class=\"sah_green_dark currlang\">?</span></span></div>"
+                                          ],
+                                "apicalls":{}
+                              }
+                }
+              ],
+    "en":{
+        "title":"Language",
+        "current":"current:",
+        "en":"English",
+        "fr":"Français"
+    },
+    "fr":{
+        "title":"Langue",
+        "current":"actuelle",
+        "en":"English",
+        "fr":"Français"
+    }
+}

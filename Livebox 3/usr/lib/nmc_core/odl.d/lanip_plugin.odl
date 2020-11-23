@@ -1,0 +1,13 @@
+using "../nmccore_lanip.so";
+persistent object NMC {
+void setLANIP(mandatory in string Address, mandatory in string Netmask, mandatory in bool DHCPEnable, mandatory in string DHCPMinAddress, mandatory in string DHCPMaxAddress) {
+acl {
+world none;
+}
+}
+void getLANIP(out string Address, out string Netmask, out bool DHCPEnable, out string DHCPMinAddress, out string DHCPMaxAddress) {
+acl {
+world none;
+}
+}
+}

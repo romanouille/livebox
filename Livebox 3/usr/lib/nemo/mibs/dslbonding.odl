@@ -1,0 +1,23 @@
+object NeMo {
+object extends MIB(0,"dslbonding") {
+string Flag = "dslbonding";
+object DataModel {
+read-only uint32 LastChangeTime;
+volatile read-only uint32 LastChange;
+string BondingStatus {
+constraint enum [ "Up", "Initializing", "EstablishingLink", "NoSignal", "Disabled", "Error" ];
+default "Disabled";
+}
+uint32 UpstreamRate;
+uint32 DownstreamRate;
+string FailureReasons;
+uint32 UpstreamPacketLoss;
+uint32 DownstreamPacketLoss;
+uint32 UpstreamDifferentialDelay;
+uint32 DownstreamDifferentialDelay;
+uint32 ErroredSeconds;
+uint32 SeverelyErroredSeconds;
+uint32 UnavailableSeconds;
+}
+}
+}

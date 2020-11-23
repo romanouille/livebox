@@ -1,0 +1,381 @@
+{
+  "status": 0,
+  "data": [{
+    "deviceId": "HGW",
+    "linkMode": "",
+    "deviceName": "LIVEBOX",
+    "deviceType": "HGW",
+    "children": [
+      {
+        "deviceId": "lan",
+        "linkMode": "",
+        "deviceName": "lan",
+        "deviceType": "lanIntf",
+        "children": [
+          {
+            "deviceId": "wl0",
+            "linkMode": "",
+            "deviceName": "wl0",
+            "deviceType": "portIntf_private_wifi24",
+            "children": [
+              {
+                "deviceId": "E4:CE:8F:4B:33:AA",
+                "linkMode": "WIFI",
+                "deviceName": "PC-01",
+                "deviceType": "Computer",
+                "WIFI": {
+                  "accessPointId": "wl0",
+                  "interfaceName": "wl0",
+                  "macAddress": "E4:CE:8F:4B:33:AA",
+                  "ipIpv4": "192.168.1.462",
+                  "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd0"
+                }
+              },
+              {
+                "deviceId": "50:A4:C8:BE:EE:97",
+                "linkMode": "WIFI",
+                "deviceName": "Mobile-02",
+                "deviceType": "Mobile",
+                "WIFI": {
+                  "accessPointId": "wl0",
+                  "interfaceName": "wl0",
+                  "macAddress": "50:A4:C8:BE:EE:97",
+                  "ipIpv4": "192.168.1.46",
+                  "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                }
+              }
+            ]
+          },
+          {
+            "deviceId": "wl1",
+            "linkMode": "",
+            "deviceName": "wl1",
+            "deviceType": "portIntf_private_wifi5",
+            "children": []
+          },
+          {
+            "deviceId": "eth1",
+            "linkMode": "",
+            "deviceName": "eth1",
+            "deviceType": "portIntf",
+            "children": [
+              {
+                "deviceId": "50:A4:C8:BE:EE:98",
+                "linkMode": "ETHERNET",
+                "deviceName": "Tablet-03",
+                "deviceType": "Tablet",
+                "ETHERNET": {
+                  "ethernetPortId": "eth1",
+                  "interfaceName": "eth1",
+                  "macAddress": "50:A4:C8:BE:EE:98",
+                  "ipIpv4": "192.168.1.46",
+                  "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                }
+              }
+            ]
+          },
+          {
+            "deviceId": "eth2",
+            "linkMode": "",
+            "deviceName": "eth2",
+            "deviceType": "portIntf",
+            "children": [
+              {
+                "deviceId": "50:A4:C8:BE:EE:99",
+                "linkMode": "ETHERNET",
+                "deviceName": "Laptop-03",
+                "deviceType": "Laptop",
+                "ETHERNET": {
+                  "ethernetPortId": "eth2",
+                  "interfaceName": "eth2",
+                  "macAddress": "50:A4:C8:BE:EE:99",
+                  "ipIpv4": "192.168.1.46",
+                  "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                }
+              }
+            ]
+          },
+          {
+            "deviceId": "eth3",
+            "linkMode": "",
+            "deviceName": "eth3",
+            "deviceType": "portIntf",
+            "children": [
+              {
+                "deviceId": "BC:F2:AF:31:38:66",
+                "linkMode": "ETHERNET",
+                "deviceName": "France Telecom Liveplug HD+ [MT2330]",
+                "deviceType": "Homeplug",
+                "ETHERNET": {
+                  "ethernetPortId": "eth3",
+                  "interfaceName": "eth3",
+                  "macAddress": "BC:F2:AF:31:38:66",
+                  "ipIpv4": "192.168.1.46",
+                  "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                },
+                "children": [
+                  {
+                    "deviceId": "BC:F2:AF:31:38:66_port1",
+                    "linkMode": "",
+                    "deviceName": "CPL",
+                    "deviceType": "portIntf_cpl",
+                    "children": [
+                      {
+                        "deviceId": "BC:F2:AF:48:87:BE",
+                        "linkMode": "ETHERNET",
+                        "deviceName": "France Telecom Liveplug HD+ [MT2330;P:2330]",
+                        "deviceType": "Homeplug",
+                        "ETHERNET": {
+                          "ethernetPortId": "BC:F2:AF:31:38:66_port1",
+                          "interfaceName": "port1",
+                          "macAddress": "BC:F2:AF:48:87:BE",
+                          "ipIpv4": "192.168.1.46",
+                          "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                        },
+                        "children": [
+                          {
+                            "deviceId": "BC:F2:AF:48:87:BE_port1",
+                            "linkMode": "",
+                            "deviceName": "CPL",
+                            "deviceType": "portIntf_cpl",
+                            "children": [
+                              {
+                                "deviceId": "3C:07:54:03:F6:94",
+                                "linkMode": "ETHERNET",
+                                "deviceName": "MBP-04",
+                                "deviceType": "Laptop_ios",
+                                "ETHERNET": {
+                                  "ethernetPortId": "BC:F2:AF:48:87:BE_port1",
+                                  "interfaceName": "port1",
+                                  "macAddress": "3C:07:54:03:F6:94",
+                                  "ipIpv4": "192.168.1.14",
+                                  "ipIpv6" : "fe80::3e07:54ff:fe03:f694"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deviceId": "eth4",
+            "linkMode": "",
+            "deviceName": "eth4",
+            "deviceType": "portIntf",
+            "children": [
+              {
+                "deviceId": "08:00:27:2A:E5:1F",
+                "linkMode": "ETHERNET",
+                "deviceName": "laptop-05",
+                "deviceType": "Laptop_windows",
+                "ETHERNET": {
+                  "ethernetPortId": "eth4",
+                  "interfaceName": "eth4",
+                  "macAddress": "08:00:27:2A:E5:1F",
+                  "ipIpv4": "192.168.1.17",
+                  "ipIpv6": "fe80::a00:27ff:fe2a:e51f"
+                }
+              },
+              {
+                "deviceId": "BC:F6:85:D7:23:E5",
+                "linkMode": "ETHERNET",
+                "deviceName": "mobile-06",
+                "deviceType": "Mobile-android",
+                "ETHERNET": {
+                  "ethernetPortId": "eth4",
+                  "interfaceName": "eth4",
+                  "macAddress": "BC:F6:85:D7:23:E5",
+                  "ipIpv4": "192.168.1.18",
+                  "ipIpv6": "fe80::a00:27ff:fe2a:e51f"
+                }
+              },
+              {
+                "deviceId": "BC:F2:AF:31:38:70",
+                "linkMode": "ETHERNET",
+                "deviceName": "France Telecom Liveplug Extender",
+                "deviceType": "Homeplug_extender",
+                "ETHERNET": {
+                  "ethernetPortId": "eth4",
+                  "interfaceName": "eth4",
+                  "macAddress": "BC:F2:AF:31:38:70",
+                  "ipIpv4": "192.168.1.46",
+                  "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                },
+                "children": [
+                  {
+                    "deviceId": "BC:F2:AF:31:38:70_port1",
+                    "linkMode": "",
+                    "deviceName": "port1",
+                    "deviceType": "portIntf",
+                    "children": [
+                      {
+                        "deviceId": "BC:F2:AF:48:87:FF",
+                        "linkMode": "WIFI",
+                        "deviceName": "Iphone-07",
+                        "deviceType": "Mobile_ios",
+                        "ETHERNET": {
+                          "ethernetPortId": "BC:F2:AF:31:38:70_port1",
+                          "interfaceName": "port1",
+                          "macAddress": "BC:F2:AF:48:87:FF",
+                          "ipIpv4": "192.168.1.46",
+                          "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "deviceId": "BC:F2:AF:31:38:99",
+                "linkMode": "ETHERNET",
+                "deviceName": "France Telecom Liveplug Extender",
+                "deviceType": "Homeplug_extender",
+                "ETHERNET": {
+                  "ethernetPortId": "eth4",
+                  "interfaceName": "eth4",
+                  "macAddress": "BC:F2:AF:31:38:99",
+                  "ipIpv4": "192.168.1.46",
+                  "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                },
+                "children": [
+                  {
+                    "deviceId": "BC:F2:AF:31:38:99_port1",
+                    "linkMode": "",
+                    "deviceName": "port1",
+                    "deviceType": "portIntf",
+                    "children": [
+                      {
+                        "deviceId": "BC:F2:AF:48:87:99",
+                        "linkMode": "WIFI",
+                        "deviceName": "Iphone-09",
+                        "deviceType": "Mobile_ios",
+                        "ETHERNET": {
+                          "ethernetPortId": "BC:F2:AF:31:38:99_port1",
+                          "interfaceName": "port1",
+                          "macAddress": "BC:F2:AF:48:87:99",
+                          "ipIpv4": "192.168.1.46",
+                          "ipIpv6" : "fe80::42f2:1ff:fe8c:7cd1"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "deviceId": "guest",
+        "linkMode": "",
+        "deviceName": "guest",
+        "deviceType": "guestIntf",
+        "children": [
+          {
+            "deviceId": "wlguest2",
+            "linkMode": "",
+            "deviceName": "wlguest2",
+            "deviceType": "portIntf_guest_wifi24",
+            "children": [
+              {
+                "deviceId": "BC:F6:85:D7:23:E9",
+                "linkMode": "WIFI",
+                "deviceName": "desktop-08",
+                "deviceType": "Computer-linux",
+                "WIFI": {
+                  "ethernetPortId": "wlguest2",
+                  "interfaceName": "wlguest2",
+                  "macAddress": "BC:F6:85:D7:23:E9",
+                  "ipIpv4": "192.168.1.18",
+                  "ipIpv6": "fe80::a00:27ff:fe2a:e51f"
+                }
+              }
+            ]
+          },
+          {
+            "deviceId": "wlguest5",
+            "linkMode": "",
+            "deviceName": "wlguest5",
+            "deviceType": "portIntf_wifi5"
+          }
+        ]
+      },
+      {
+        "deviceId": "sysbus_USBHost",
+        "linkMode": "",
+        "deviceName": "USBHost",
+        "deviceType": "usbIntf",
+        "children": [
+          {
+            "deviceId": "Port1",
+            "linkMode": "",
+            "deviceName": "Port1",
+            "deviceType": "portIntf",
+            "children": [
+              {
+                "deviceId": "USB_1_2",
+                "linkMode": "USB",
+                "deviceName": "USB DISK Pro",
+                "deviceType": "Disk"
+              }
+            ]
+          },
+          {
+              "deviceId": "Port2",
+              "linkMode": "",
+              "deviceName": "Port2",
+              "deviceType": "portIntf"
+          }
+        ]
+      },
+      {
+        "deviceId": "DECT",
+        "linkMode": "",
+        "deviceName": "DECT",
+        "deviceType": "dectIntf",
+        "children": [
+          {
+            "deviceId": "HS0119B27E2D",
+            "linkMode": "CATIQ2",
+            "deviceName": "DECT1",
+            "deviceType": "Phone",
+            "CATIQ2": {
+              "internalPhoneNumber": "202"
+            }
+          }
+        ]
+      },
+      {
+        "deviceId": "FXS",
+        "linkMode": "",
+        "deviceName": "FXS",
+        "deviceType": "fxsIntf",
+        "children": [
+         {
+          "deviceId": "HS0119B27E2E",
+          "linkMode": "FXS",
+          "deviceName": "FXS1",
+          "deviceType": "Phone",
+          "FXS": {
+            "internalPhoneNumber": "203"
+          }
+        },
+        {
+          "deviceId": "HS0119B27E2F",
+          "linkMode": "FXS",
+          "deviceName": "FXS2",
+          "deviceType": "Phone",
+          "FXS": {
+            "internalPhoneNumber": "204"
+          }
+        }
+      ]
+    }
+  ]
+  }]
+}

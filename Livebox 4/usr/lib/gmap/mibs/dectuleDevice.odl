@@ -1,0 +1,61 @@
+/*expr:dect_ule and physical*/
+
+/**
+ * MIB is loaded on all dect-ule devices .
+ *
+ * All devices matching expression: "dect_ule and physical and interface" are extended with this MIB
+ *
+ * @version 6.0
+ */
+ mib dectuleDevice {
+
+    /**
+     * @brief Device Id
+     * @version 6.0
+     */
+    read-only uint16 Id;
+ 
+    /**
+     * @brief The  IPUI (International Portable User Identity) is a unique identifier for each DECT device.
+     * @version 6.0
+     */
+    read-only string IPUI{
+        constraint maxvalue 11; // including the '\0'
+    }
+    
+    /**
+     * @brief: The Application Version attribute specifies the application version number of the application software contained in
+     * the device or FP. The usage of this attribute is manufacturer dependent.
+     */
+    read-only string ApplicationVersion;
+
+    /**
+     * @brief: The HWVersion specifies the version number of the hardware of the device or FP. The usage of this attribute is
+     * manufacturer dependent.
+     */
+    read-only string HardwareVersion;
+
+    /**
+     * @brief: The Device Enable specifies if the device Enable or Disable, there is option to Enable/Disable the device by Device
+     * Enable field
+     * @version 6.0
+     */
+    bool DeviceEnable;
+
+    /**
+     * @brief: Number of Units attached to this device.
+     * @version 6.0
+     */
+    read-only uint16 NumberOfUnits;
+    
+     /**
+     * Unpair and remove handset object 
+     * @version 6.0
+     */
+    void deRegister() {
+        acl {
+            world none;
+        }
+    }
+}
+/** @location sah_services_gmap /mibs/dectuleDevice.odl */

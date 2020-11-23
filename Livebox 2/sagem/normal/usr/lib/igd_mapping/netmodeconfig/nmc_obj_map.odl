@@ -1,0 +1,141 @@
+using "netmodeconfig/nmc_pcb_plugin_map.so";
+ 
+object DeviceConfig {
+    string X_ORANGE-COM_WANInterfaceType {
+        constraint enum [ "DSL", "Ethernet", "VDSL" ];
+        default "DSL";
+    }
+    string X_ORANGE-COM_VoIPRunningInterface {
+        constraint enum [ "Dedicated", "Internet" ];
+        default "Dedicated";
+    }
+    string X_ORANGE-COM_IPTVRunningInterface {
+        constraint enum [ "Dedicated", "Internet" ];
+        default "Dedicated";
+    }
+    bool X_ORANGE-COM_IPv6DefaultMode {
+        default "false";
+    }
+    bool X_ORANGE-COM_IPv6DefaultModeForceIPv4 {
+        default "false";
+    }
+}
+
+object Services { 
+    object X_ORANGE-COM_Autodetect;
+    object X_ORANGE-COM_OrangeTV {
+        bool Enable;
+        string Status {
+            constraint enum [ "Enabled", "Disabled", "Error" ];
+            default "Error";
+        }
+        string Mode {
+            constraint enum [ "Routed", "Bridged" ];
+            default "Routed";
+        }
+    }
+    object X_ORANGE-COM_SupportRemoteAccess {
+        bool Enable {
+            default "false";
+        }
+        string Password {
+            default "";
+        }
+        datetime Accept{
+            default "";
+        }
+    }
+   object X_ORANGE-COM_PnP {
+        string ServerURL;
+        string WakeUpURL;
+        uint32 WakeUpPort;
+        string NCMTCI;
+        string CustomerFirstName;
+        string CustomerName;
+        string ConnectionMode;
+    }
+}
+
+object CaptivePortal {
+    bool Enable;
+    read-only string Status {
+        constraint enum [ "Enabled", "Disabled", "Error_URLEmpty", "Error" ];
+        default "Error";
+    }
+    string X_ORANGE-COM_ExcludedDevices;
+    string CaptivePortalURL;
+    read-only string X_ORANGE-COM_ErrorCode;
+    uint32 X_ORANGE-COM_TimeWaiting;
+    read-only uint32 X_ORANGE-COM_TotalErrorDuration;
+}
+
+object UPnP {
+	object Device {
+	  bool Enable;
+	}
+	object Discovery;
+}	
+
+datamodel {
+    object DeviceConfig {
+        destination "pcb://$(PCB_MAIN_BUS)/NMC" {
+            parameter X_ORANGE-COM_WANInterfaceType from WanMode translate with translate_WANInterfaceType;
+            parameter X_ORANGE-COM_VoIPRunningInterface from VoIPMode;
+            parameter X_ORANGE-COM_IPTVRunningInterface from IPTVMode;
+        }
+        destination "pcb://$(PCB_MAIN_BUS)/NMC/IPv6" {
+            parameter X_ORANGE-COM_IPv6DefaultMode from Enable;
+            parameter X_ORANGE-COM_IPv6DefaultModeForceIPv4 from IPv4UserRequested;
+        }
+    }
+    object Services {
+        object X_ORANGE-COM_Autodetect from "pcb://$(PCB_MAIN_BUS)/NMC/Autodetect";
+        object X_ORANGE-COM_OrangeTV {
+            destination "pcb://$(PCB_MAIN_BUS)/NMC/OrangeTV" {
+                parameter Enable;
+                parameter Status;
+                parameter Mode;
+            }
+        }
+        object X_ORANGE-COM_SupportRemoteAccess {
+            destination "pcb://$(PCB_MAIN_BUS)/NMC/SupportRemoteAccess" {
+                parameter Enable;
+                parameter Password;
+                parameter Accept;
+            }
+        } 
+
+        object X_ORANGE-COM_PnP {
+            destination "pcb://$(PCB_MAIN_BUS)/PnP" {
+                parameter ServerURL;
+                parameter WakeUpURL;
+                parameter WakeUpPort;
+                parameter CustomerFirstName from FirstName;
+                parameter CustomerName from LastName;
+                parameter NCMTCI from MobilePhoneNumber;
+                parameter ConnectionMode;
+            }
+        }
+
+    }
+    object CaptivePortal {
+        destination "pcb://$(PCB_MAIN_BUS)/NMC/Error" {
+            parameter Enable;
+            parameter Status;
+            parameter X_ORANGE-COM_ExcludedDevices from STBList;
+            parameter CaptivePortalURL from URL;
+            parameter X_ORANGE-COM_ErrorCode from ErrorID;
+            parameter X_ORANGE-COM_TimeWaiting from TimeWaiting;
+            parameter X_ORANGE-COM_TotalErrorDuration from TotalErrorDuration;
+        }
+    }
+    	
+    object UPnP {
+	object Device {
+	    destination "pcb://$(PCB_MAIN_BUS)/UPnP-IGD" {
+		parameter Enable from Enable; 
+	    }
+	}
+        object Discovery from "pcb://$(PCB_MAIN_BUS)/UPnP/Discovery" recursive;
+    }	
+}

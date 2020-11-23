@@ -1,0 +1,12 @@
+object NeMo {
+object extends MIB(0,"copy") {
+string Flag = "";
+object DataModel {
+void copy(mandatory in string name) {
+acl {
+world none;
+}
+}
+}
+}
+}

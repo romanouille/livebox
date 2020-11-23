@@ -1,0 +1,20 @@
+#!/bin/sh
+. /etc_ro_fs/autoconf.conf
+
+case $1 in
+start)
+	echo "telnetd start ..."
+	[ -z "$CONFIG_DEV" ] && LOGIN="-l /bin/login"
+	[ -f /mnt/jffs2/jffs2_3/fonske ] && telnetd $LOGIN &
+	
+	echo "open telnet in the firewall ..."
+	pcb_cli -q 'Firewall.setService("telnet","lan","23","6",0,true)'
+	;;
+stop)
+	pcb_cli -q 'Firewall.deleteService("telnet")'
+	killall telnetd
+	;;
+*)
+	echo "$0 stop | start"
+	;;
+esac

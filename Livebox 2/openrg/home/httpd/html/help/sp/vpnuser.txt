@@ -1,0 +1,3 @@
+<b>Usuario VPN:</b><br>
+<br>
+Esta página permite crear nuevos usuarios, asignarles contraseñas y aplicar una política de conexión definida en el perfil. 

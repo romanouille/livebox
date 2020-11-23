@@ -1,0 +1,2 @@
+include "topologydiagnostics-definitions.odl";
+include "topologydiagnostics-defaults.odl";

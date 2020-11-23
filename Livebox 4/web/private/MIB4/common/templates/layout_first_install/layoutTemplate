@@ -1,0 +1,22 @@
+﻿<div class="popup_screen">  
+</div>
+{{> popupTemplate}}
+<div class="navbar navbar-default navbar-fixed-top header-fixed">
+  <div class="container main-header" id="header_template_container">
+     <!-- header template -->
+     {{> headerTemplate}}
+  </div>
+</div>
+
+<div class="container container-content">    
+  <div class="row">
+    <div class="col-xs-10 no-padding" id="content_template_container">
+      <!-- content template -->
+      {{> contentTemplate}}
+    </div>
+    <div class="col-xs-2" id="info_template_container">
+      <!-- info template -->
+      {{> infoTemplate}}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,240 @@
+#!/bin/sh
+
+set PATH=/usr/sbin:/sbin:/bin
+
+# get the kernel reset options
+BTLDR_HARD_RESET=0
+BTLDR_SOFT_RESET=0
+grep "factory-reset=hard" /proc/cmdline > /dev/null && BTLDR_HARD_RESET=1
+grep "factory-reset=soft" /proc/cmdline > /dev/null && BTLDR_SOFT_RESET=1
+
+userpart=$(cat /proc/mtd | grep -i user | sed -n "s/\(mtd\)\(.*\):\(.\)*/\2/p")
+if [ -d /dev/mtd ]; then userpart="/$userpart"; fi
+
+FORMAT_USERFS()
+{
+   if [ ! -f /cfg/formatted ]
+   then
+       echo
+       echo "*********************** Formatting /cfg/"
+       echo       
+
+       # unmount the partition: retry unmounting several times if unmount fails
+       # if unmount still fails after X retries, continue with format, but
+       # reboot directly. This should create a clean starting point. cfr. bug 49058
+        
+       CNT=0
+       UNMOUNTSUCCESSFULL=1
+
+       while ! umount /cfg; do
+          if [ "$CNT" -gt "10" ]
+          then
+            UNMOUNTSUCCESSFULL=0
+            break  # Skip entire rest of loop.
+          fi
+
+          /bin/echo "Failed to unmount! (retry $CNT/10)"
+          sleep 5
+                                 
+          CNT=$(($CNT+1))    
+       done
+
+       /usr/sbin/eraseall /dev/mtd$userpart
+    
+       if [ "$UNMOUNTSUCCESSFULL" -eq "0" ]
+       then
+         echo "error unmounting: reboot to get into a clean state"
+         reboot
+       fi
+
+       mount -t jffs2  /dev/mtdblock$userpart /cfg
+
+       touch /cfg/formatted
+       touch /tmp/reset_hard_occurred
+   fi
+}
+
+POPULATE_COMMON_CONFIG()
+{
+  if [ ! -f /etc/config/${FIRMTYPE} ]
+  then
+    echo
+    echo "*********************** Populating /cfg/common/config"
+    echo
+
+     if [ ! -f /etc/config/${ALT_FIRMTYPE} ]
+     then
+        echo
+        echo "*********************** Erase /cfg/config before population"
+        echo
+        rm -f -r /cfg/common/config
+    fi
+
+    mkdir -p /cfg/common/config
+    mkdir -p /cfg/common/var/lib
+
+    echo
+    echo "*********************** /cfg/common/config Populated"
+    echo
+
+    cp /etc/version /etc/config/${FIRMTYPE}
+
+# create /etc/passwd and /etc/group
+    cp -f /usr/lib/usermngt/passwd /cfg/system/passwd
+    sync
+    cp -f /usr/lib/usermngt/group /cfg/system/group
+    sync
+
+
+  fi
+}
+
+DEBUG_ACTIVE=debug_active
+
+POPULATE_USERFS()
+{
+   if [ ! -n "$CONFIG_GENERATION_RESC" ]; then
+       if [ -f /etc/config/db_ready ]
+       then
+           CONFIGVERSION=`cat /web/version.txt | grep CONFIG_VERSION_NAME_MAJOR`
+           DBREADYVERSION=`cat /etc/config/db_ready`
+           echo "## CV=$CONFIGVERSION DB=$DBREADYVERSION"
+           if [ "$DBREADYVERSION" != "$CONFIGVERSION" ]
+           then
+               rm -f /cfg/system/Populated
+               rm -f /etc/config/db_ready
+               touch /tmp/upgrade_occurred
+           fi
+       fi
+       if [ -f /etc/config/package_installation_failed ]
+       then
+           echo "Package installation failed, trigger restore"
+           rm -f /cfg/system/Populated
+           rm -f /etc/config/db_ready
+       fi
+   fi
+   if [ ! -e /cfg/system/version -o ! -e /cfg/system/Populated ]
+   then
+       rm -f /cfg/system/Populated
+   fi
+
+   if [ ! -e /cfg/system/Populated ]
+   then
+       echo
+       echo "*********************** Populating /cfg/system"
+       echo
+
+       # PUT FACTORY PARAMETERS IN USERFS
+
+       rm -f -r /cfg/system
+
+       sync
+
+       echo
+       echo "*********************** /cfg/system Populated"
+       echo
+
+       mkdir -p /cfg/system/root/.ssh
+       cp /usr/lib/dropbear/.ssh/* /cfg/system/root/.ssh/
+       mkdir -p /cfg/system/home
+       touch /cfg/system/Populated
+       cp /etc/version /cfg/system/
+   fi
+   
+   # check if cfg/system/etc/config exists: in case of downgrades from the new file system layout to the old one,
+   # /etc/ will become empty in the downgraded release, so /etc/config is invalid, to avoid this always create this
+   # link (it is not used in the new file system)
+   if [ ! -e /cfg/system/etc/config ]; then
+       if [ ! -e /cfg/system/etc ]; then
+           mkdir -p /cfg/system/etc
+       fi       
+       ln -s /mnt/jffs2/jffs2_3/common/config /cfg/system/etc/config
+   fi
+}
+
+# BEGIN OF MAIN PROCESS
+
+unset FIRMTYPE
+unset ALT_FIRMTYPE
+FIRMTYPE=system
+ALT_FIRMTYPE=rescue
+
+mount -t jffs2 -o rw /dev/mtdblock$userpart /cfg
+
+if [ "$FIRMTYPE" = "system" ]
+then
+	echo
+	echo "> BOOT SYSTEM <"
+	echo
+else
+	echo
+	echo "> BOOT RESCUE <"
+	echo
+fi
+
+button_major=`sed -n 's/\(.*\) lb_button$/\1/p' /proc/devices`
+for f in 0 1 2 3 4 5 6; do
+    mknod /dev/button$f c $button_major $f 2>/dev/null
+done
+
+FORMAT_EXT=                         # format the ext partition after mounting
+CALL_RESET_SCRIPTS=0                # call reset scripts
+if [ $BTLDR_HARD_RESET -eq 1 ] ; then
+	
+echo  -e "=======> Bootloader requests a hard reset!! <=======\n"
+	FORMAT_EXT=format
+
+	rm -f /cfg/formatted  && sync  # trigger a cfg format
+elif [ $BTLDR_SOFT_RESET -eq 1 ] ; then
+	echo  -e "=======> Bootloader requests a soft reset!! <=======\n"
+	CALL_RESET_SCRIPTS=1
+else
+	# Check if reset button is pushed
+	_rv=$(/bin/reset_button)
+	if [ "$_rv" == "1" ]; then
+		echo -e "=======> Reset button pushed, restoring to factory defaults <=======\n"
+		FORMAT_EXT=format
+		rm -f /cfg/formatted && sync    # trigger a cfg format
+	fi
+fi
+
+# mount ext partition
+if [ -f /etc/init.d/ext ]; then
+  /etc/init.d/ext start $FORMAT_EXT
+fi
+
+
+FORMAT_USERFS
+
+POPULATE_USERFS
+
+POPULATE_COMMON_CONFIG
+    
+if [ ! -e /cfg/system/passwd ]; then
+    # create /etc/passwd and /etc/group
+    cp -f /usr/lib/usermngt/passwd /cfg/system/passwd
+    sync
+fi
+if [ ! -e /cfg/system/group ]; then
+    cp -f /usr/lib/usermngt/group /cfg/system/group
+    sync
+fi
+
+
+if [ ! -e /cfg/system/syslog.conf ]; then
+    # create file used by /etc/syslog.conf
+    cp -f /usr/lib/devicemngt/syslog.conf /cfg/system/syslog.conf
+    sync
+fi
+
+mkdir -p /cfg/common/var/lib
+ln -sf /cfg/common/var/lib /var/state
+mkdir -p /var/lib
+
+if  [ $CALL_RESET_SCRIPTS -eq 1 ]; then
+	echo "Executing soft reset."
+	/usr/sbin/reset.sh -y -silent
+fi
+
+exit 0
+

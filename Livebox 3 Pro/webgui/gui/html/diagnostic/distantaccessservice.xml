@@ -1,0 +1,59 @@
+<div id="distantaccessservice" xmlns="http://www.orange.com/xhtml/engine/loose">
+  <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>		
+		<h1 class="logo_diagnostic " i18n="menuDiagnostic.distantaccessservice"/>
+		<div class="margin-left-40 margin-top-m8">
+		 	<strong i18n="page.diagnostic.distantaccessservice.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		 <div class="boxType4 margin-top-10 border-bottom-1">
+		<!-- 	<div class="centered"> -->
+			<span class="h3Text" i18n="page.diagnostic.distantaccessservice.info.remain"/>
+		<!-- 	</div> -->
+		    <br/><br/>
+			<div id="timer" widgetType="ProgressBar"/>
+			
+			<div class="centered">
+				<span id="remain1"  i18n="page.diagnostic.distantaccessservice.info.remain2"/>
+				<span style="display:none" id="remain2"  i18n="page.diagnostic.distantaccessservice.info.remain3"/>
+			</div>
+			<br/>
+		  </div>
+		  <div class="boxType5 border-bottom-3 ">
+				<div class="h3Text" i18n="page.diagnostic.distantaccessservice.info"></div>
+				<!-- marge à gauche -->
+				<div class="margin-left-100" widgetType="FormInput" i18n="page.diagnostic.distantaccessservice.info.login">
+					<span class="bold_font" dataId="Device/UserAccounts/ManagedUsers/ManagedUser/Login"/>
+				</div>
+				
+				<div class="margin-left-100" widgetType="FormInput" i18n="page.diagnostic.distantaccessservice.info.password">
+					<span class="bold_font" dataId="Device/UserAccounts/ManagedUsers/ManagedUser/Password"/>
+				</div>
+				
+				<div class="margin-left-100" widgetType="FormInput" i18n="page.diagnostic.distantaccessservice.info.ip">
+					<span class="bold_font" id="ip" dataId="Device/Networks/WAN[@name='WAN']/ExternalIPAddress"/>
+				</div>
+				
+				<div class="margin-left-100" widgetType="FormInput" i18n="page.diagnostic.distantaccessservice.info.port">
+					<span class="bold_font" id="port" dataId="Device/UserInterface/RemoteAccess/SupportRemoteAccessPort"/>
+				</div>
+				
+				<div class="margin-left-100" widgetType="FormInput" i18n="page.diagnostic.distantaccessservice.info.url">
+					<span id="url"/>
+				</div>
+			</div>
+
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnStop"  widgetType="ButtonImage" i18n="page.diagnostic.distantaccessservice.stop"/>
+				<span id="btnGo"   widgetType="ButtonImage" i18n="page.diagnostic.distantaccessservice.go"/>
+				<span id="btnExtend"  widgetType="ButtonImage" i18n="page.diagnostic.distantaccessservice.extend"/>
+	    </div>
+		</form>
+	</div>
+</div>

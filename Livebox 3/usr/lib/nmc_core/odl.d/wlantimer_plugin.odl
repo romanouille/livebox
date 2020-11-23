@@ -1,0 +1,11 @@
+using "../nmccore_wlantimer.so";
+persistent object NMC {
+persistent object WlanTimer {
+acl {
+world none;
+}
+void setActivationTimer(in string InterfaceName, in uint32 Timeout);
+uint32 getActivationTimer(in string InterfaceName);
+bool disableActivationTimer(in string InterfaceName);
+}
+}

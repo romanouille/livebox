@@ -1,0 +1,616 @@
+using "dhccd.so";
+
+/**
+ * Structure for DHCP options
+ * @version 7.0
+ */
+define dhcp_option_t {
+	uint8 Tag;
+	bool Enable;
+	variant Value;
+}
+
+/** 
+ * General DHCP IPv4 datamodel 
+ * @version V5.1
+ */
+persistent object DHCPv4 {
+
+/**
+ * General container for the DHCP IPv4 Client configuration.
+ * @version V5.1
+ */	
+	object Client {
+
+	acl {
+		world none;
+		group admin none;
+		group remoteadmin none;
+		group cwmpd read,write,execute;
+	}
+
+/**
+ * The total number of entries in the Intf table.
+ * @version V5.1
+ */
+		read-only uint32 ClientNumberOfEntries {
+			read with readNrOfClientEntries;
+		}
+
+/**
+ * This object returns statistics about the number of received DHCP packets.
+ * @version V5.1
+ */	
+		read-only object Stats {
+
+/**
+ * Number of corrupted/invalid DHCP packets.
+ * @version V5.1
+ */
+			read-only uint32 CorruptPackets {
+				read with readNrOfCorruptPackets;
+			} 
+
+/**
+ * Number of DHCP Discover messages received.
+ * @version V5.1
+ */
+			read-only uint32 Discover {
+				read with readNrOfDiscover;
+			}
+
+/**
+ * Number of DHCP Request messages received.
+ * @version V5.1
+ */
+			read-only uint32 Request {
+				read with readNrOfRequest;
+			}
+
+/**
+ * Number of DHCP Decline messages received.
+ * @version V5.1
+ */
+			read-only uint32 Decline {
+				read with readNrOfDecline;
+			}
+
+/**
+ * Number of DHCP Release messages received.
+ * @version V5.1
+ */
+			read-only uint32 Release {
+				read with readNrOfRelease;
+			}
+
+/**
+ * Number of DHCP Inform messages received.
+ * @version V5.1
+ */
+			read-only uint32 Inform {
+				read with readNrOfInform;
+			}
+
+/**
+ * Number of DHCP Inform messages received.
+ * @version V5.1
+ */
+			read-only uint32 BOOTPReplies {
+				read with readNrOfBootpReplies;
+			}
+
+/**
+ * Number of DHCP ForceRenew messages received.
+ * @version V5.2
+ */
+			read-only uint32 ForceRenew {
+				read with readNrOfForceRenew;
+			}
+/**
+ * Number of other DHCP messages received.
+ * @version V5.1
+ */
+			read-only uint32 OtherMessageTypes {
+				read with readNrOfOther;
+			}
+
+/**
+ * Number of DHCP Offer messages received.
+ * @version V5.1
+ */
+			read-only uint32 Offer {
+				read with readNrOfOffer;
+			}
+
+/**
+ * Number of DHCP Ack messages received.
+ * @version V5.1
+ */
+			read-only uint32 ACK {
+				read with readNrOfAck;
+			}
+
+/**
+ * Number of DHCP NAK messages received.
+ * @version V5.1
+ */
+			read-only uint32 NAK {
+				read with readNrOfNAK;
+			}
+
+/**
+ * Number of failed DHCP packets sent. This error occurs if the client is not able to create a DHCP packet 
+ * or is unable to send it.
+ * @version V5.1
+ */
+			read-only uint32 FailedPackets {
+				read with readNrOfFailedPackets;
+			}
+
+/** 
+ * Sets all the counters to 0.
+ * @version V5.1
+ * @return none
+ * @error none
+ */
+			void clearClientStatistics();
+			
+		}
+
+/**
+ * Describes the DHCP client configuration per interface. 
+ * @version V5.1
+ */ 
+		persistent object Intf[16] {
+			write with IntfOnWrite;
+
+/** 
+ * Descriptive interface id, mandatory parameter, must be unique.
+ * @version V5.1
+ */
+			persistent string Name {
+				write with interfaceNameOnWrite;
+				constraint maxvalue 40;
+			}
+
+/** 
+ * Enables or disables the DHCP client functionality per interface.
+ * @version V5.1
+ */
+			persistent bool Enable {
+				write with interfaceEnableOnWrite;
+				default false;
+			}
+
+/**
+ * Linux network interface name.
+ * @version V5.1
+ */
+			persistent string IPIntf {
+				write with ipIntfOnWrite;
+				default "";
+				constraint maxvalue 16;
+			}
+/**
+ * Status parameter to reflect the configuration state of the interface. This parameter is eventable.
+ * Contains Error_Misconfigured if Enable is set to true, but the client could not be started, e.g. IPIntf does not exist.
+ * @version V5.1
+ */
+			read-only string Status {
+				constraint enum["Disabled", "Enabled", "Error_Misconfigured"];
+				default "Disabled";
+			}
+
+/**
+ * Status parameter to reflect the DHCP state of the interface. This parameter is eventable.
+ * @version V5.1
+ */
+			read-only string DHCPStatus {
+				constraint enum["Invalid", "Idle", "Initreboot", "Rebooting", "Init", "Selecting", "Requesting", "Bound", "Renewing", "Rebinding", "Bootp-bound", "Informing", "InformOk", "Unknown"];
+				default "Invalid";
+			}
+
+/** 
+ * When set to true, the DHCP client will renew its DHCP lease.
+ * @version V5.1
+ */
+			persistent bool Renew;
+
+/**
+ * Assigned IP address in dotted-decimal notation, as received by the server.
+ * @version V5.1
+ */
+ 			read-only string IPAddress;
+
+/** 
+ * Assigned netmask in dotted-decimal notation, as received by the server.
+ * @version V5.1
+ */
+			read-only string SubnetMask;
+
+/** 
+ * Comma-separated list of assigned DNS Servers. Up to 5 are supported.
+ * @version V5.1
+ */
+			read-only string DNSServers;
+
+/** 
+ * Comma-separated list of IP routers, in dotted-decimal notation.
+ * Only option 3 is returned. TR-181 specifies option 33 and 121, but this is a bug in the specification.
+ * @version V5.1
+ */
+			read-only string IPRouters;
+
+/** 
+ * The IPv4 address of the current DHCP server.
+ * @version V5.1
+ */
+			read-only string DHCPServer;
+
+/**
+ * Lease time in seconds, as received by the server. 
+ * @version V5.1
+ */
+			read-only uint32 LeaseTime;
+
+/**
+ * Remaining lease time, in seconds.
+ * @version V5.1
+ */
+			read-only uint32 LeaseTimeRemaining {
+				read with leaseTimeRemainingOnRead;
+			}
+
+/** 
+ * Renew time (T1).
+ * @version V5.1
+ */
+			read-only uint32 RenewTime {
+				read with renewTimeOnRead;
+			}
+
+/** 
+ * Rebinding time (T2).
+ * @version V5.1
+ */
+			read-only uint32 RebindTime {
+				read with rebindTimeOnRead;
+			}
+
+/**
+ * AcquiringTime in seconds
+ * @version V5.1
+ */
+			read-only uint32 AcquiringTime {
+				read with acquiringTimeOnRead;
+			}
+
+/** 
+ * RetransmissionTime
+ * @version V5.1
+ */
+			read-only uint32 RetransmissionTime {
+				read with retransmissionTimeOnRead;
+			}
+
+/** 
+ * RetransmissionTimeout
+ * @version V5.1
+ */
+			read-only uint32 RetransmissionTimeout;
+
+/**
+ * Number of Retransmissions.
+ * @version V5.1
+ */
+			read-only uint32 RetransmissionCount;
+
+/** 
+ * If true, this is a pro forma lease, which means that the IP address is not set on the interface.
+ * @version V5.1
+ */
+			persistent bool Formal {
+				write with formalOnWrite;
+				default false;
+			}
+
+/** 
+ * Time since the BOUND state was entered, in seconds.
+ * @version V5.1
+ */
+			read-only uint32 Uptime {
+				read with uptimeOnRead;	
+			}
+
+/** 
+ * Error message of the last occurred error.
+ * Errors are documented in 1.4.1.5 DHCP Client Errors.
+ * @version V5.1
+ */
+			read-only string LastConnectionError {
+				read with lastErrorOnRead;
+				constraint enum["None", "LocalRelease", "RemoteNack", "RenewTimeout", "RebindTimeout", "RequestingTimeout", "InformTimeout", "XidFailure", "ServerIPFailure", "IPAddrFailure", "StateFailure", "MsgFailure", "LinkFailure", "Authentication Failure"];
+				default "None";
+			}
+
+/** 
+ * DSCP mark to be used for DHCP messages.
+ * @version V5.1
+ */
+			persistent uint32 DSCPMark {
+				write with dscpmarkOnWrite;
+				default 48;
+			}
+
+/** 
+ * PriorityMark (VLAN priority code point) to be used
+ * @version V5.1
+ */
+			persistent int32 PriorityMark {
+				constraint minvalue -1;
+				constraint maxvalue 7;
+				write with prioritymarkOnWrite;
+				default 0;
+			}
+
+/** 
+ * Retransmission strategy, space separated list, expressed in milliseconds. Every value expresses the interval since the previous transmission.
+ * up to 40 items are supported.
+ * @version V5.1
+ */
+			persistent string RetransmissionStrategy {
+				write with retransmissionStrategyOnWrite;
+				default "2000 4000 8000 16000 32000 64000 -1 0";
+			}
+
+/** 
+ * Randomize the retransmission timeouts, in milliseconds.
+ * @version V5.1
+ */ 
+			persistent uint32 RetransmissionRandomize {
+				write with retransmissionRandomizeOnWrite;
+				default 1000;
+			}
+
+			/** 
+ * Define how the renew retransmission should be done
+ * If the value is -1, then use the RFC defined behavior ()
+ * If the value is > 0, the number is interpreted as a linear backoff timeout in seconds.
+ * @version V6.0
+ */ 
+			persistent int32 RetransmissionRenewTimeout {
+				write with retransmissionRenewTimeoutOnWrite;
+				default -1;
+			}
+
+/** 
+ * Indicate if Authentication information must be checked. If true, all DHCP packets must have authentication information provided.
+ * If false, authentication will only be checked when you receive a force renew
+ * @version V5.2
+ */
+			persistent bool CheckAuthentication {
+				write with checkAuthenticationOnWrite;
+				default false;
+			}
+
+/** 
+ * Authentication information to be checked. It must not be empty when CheckAuthentication is set to true
+ * The authentication information is formatted as a string. This string must (partially) match the information in the DHCP Offer and DHCP Request.
+ * @version V5.1
+ */
+			persistent string AuthenticationInformation {
+				constraint maxvalue 40; /* AUTHINFO_LEN */
+				write with authenticationInformationOnWrite;
+				default "";
+			}
+
+/** 
+ * Bootfile as specified in DHCP packet 'file' option (bootp).
+ * @version V5.1
+ */
+			persistent string FileName;
+
+/** 
+ * Server name as specified in DHCP packet 'sname' option (bootp).
+ * @version V5.1
+ */
+			persistent string ServerName;
+
+/** 
+ * Return the number of entries in the sentOption table.
+ * @version V5.1
+ */
+			read-only uint32 SentOptionNumberOfEntries {
+				read with sentOptionNumberOfEntriesOnRead;
+			}
+
+/**
+ * Specific DHCP Client options to be sent to the server.
+ * @version V5.1
+ */
+			persistent object SentOption[16] {
+				write with txOptionOnWrite;
+				
+/**
+ * Enables or disables the TxOption entry.
+ * @version V5.1
+ */
+				persistent bool Enable = false;
+
+/** 
+ * Unique human readable name. 
+ * @version V5.1
+ */
+				persistent string Alias {
+					constraint maxvalue 64;
+				}
+
+/** 
+ * Tag, as specified in RFC 2132.
+ * @version V5.1
+ */
+				persistent uint8 Tag {
+					constraint minvalue 0;
+					constraint maxvalue 255;
+					default 0;
+				}
+
+/** 
+ * Hexbinary encoded option value.
+ * @version V5.1
+ */
+				persistent string Value {
+					constraint maxvalue 255;
+				}
+			}
+
+/** 
+ * Return the number of entries in the reqOption table.
+ * @version V5.1
+ */
+			read-only uint32 ReqOptionNumberOfEntries {
+				read with reqOptionNumberOfEntriesOnRead;
+			}
+
+/**
+ * This object specifies the option tags to be requested by the DHCP Client. Once received from the server, the client shows the value of the requested options in the data model.
+ * @version V5.1
+ */
+			persistent object ReqOption[64] {
+				write with rqOptionOnWrite;
+
+/** 
+ * Add/Not add the requested option in the ORO option.
+ * @version V5.1
+ */
+				persistent bool Enable = false;
+
+/** 
+ * Name of the requested option 
+ * @version V5.1
+ */
+				persistent string Alias;
+
+/** 
+ * Requested option, the value '0' means unconfigured, 255 is not permitted.
+ * @version V5.1
+ */
+				persistent uint8 Tag {
+					constraint minvalue 0;
+					constraint maxvalue 255;
+					default 0;
+				}
+
+/** 
+ * The value of the requested option, formatted in a hexbinary string, as received from the DHCP server.
+ * @version V5.1
+ */
+				string Value;
+			}
+
+/** 
+ * Renew function on the interface object, will be used to be mapped to NeMo, renews the DHCP lease if you are in the correct stage.
+ * @param numberOfRenew - number of renew retransmissions.
+ * @param delay - delay between two retransmissions.
+ * @error return error when the lease is not found.
+ * @version V6.2
+ */
+			void renew(int32 numberOfRenew, int32 delay);
+
+/** 
+ * Rebind function on the interface object, will be used to be mapped to NeMo, rebinds the DHCP lease if you are in the correct stage.
+ * @param numberOfRebind - number of rebind retransmissions.
+ * @param delay - delay between two retransmissions.
+ * @error return error when the lease is not found.
+ * @version V6.2
+ */
+			void rebind(int32 numberOfRebind, int32 delay);
+
+		}
+
+/**
+ * Create a new DHCP Client lease object, or modify an existing lease.
+ * @return nothing if clientLease is set correctly.
+ * @error pcb_error_invalid_parameter if one of the parameter is misconfigured.
+ * @param id - The Name parameter as shown in the data model
+ * @param interface - Mandatory parameter, Linux network interface on which you want to enable the DHCP client.
+ * @param enable - boolean parameter, enable or disable the DHCP client lease 
+ * @version V5.1
+ */ 
+		void setDHCPClientLease(mandatory string id, mandatory string interface, mandatory bool enable);
+
+/** 
+ * Force the RENEW cycle to be triggered.
+ * @return nothing if the lease is renewed successfully.
+ * @param id - name of the client interface to be retriggered.
+ * @param numberOfRenew - number of renew retransmissions.
+ * @param delay - delay between two retransmissions.
+ * @error pcb_error_invalid_parameter if there is no interface with the provided id.
+ * @version V5.1
+ */
+		void renewLease(mandatory string id, int32 numberOfRenew, int32 delay);
+
+/** 
+ * Force the REBIND cycle to be triggered.
+ * @error pcb_error_invalid_parameter if there is no interface with the provided id.
+ * @return nothing if the lease is rebound successfully.
+ * @param numberOfRebind - number of rebind retransmissions.
+ * @param delay - delay between two retransmissions.
+ * @param id - name of the client interface to be retriggered.
+ * @version V5.1
+ */
+		void rebindLease(mandatory string id, int32 numberOfRebind, int32 delay);
+
+/** 
+ * Set the DHCP option
+ * @error pcb_error_invalid_parameter if there is no interface with the provided id.
+ * @error pcb_error_invalid_parameter if the type is wrong.
+ * @return nothing
+ * @param id - name of the client interface
+ * @param type - type of the option (valid values are "req" and "sent")
+ * @param direct - Access the value of the option in direct mode without parsing it
+ * @param value - value to send (in case of "req", the value field of dhcp_option_t will be ignored; must be of type dhcp_option_t or a list thereof) 
+ * @version V7.0
+ */
+		void setOption(mandatory string id, mandatory string type, mandatory bool direct, mandatory variant value);
+
+/** 
+ * Get the DHCP option
+ * @error pcb_error_invalid_parameter if there is no interface with the provided id.
+ * @error pcb_error_invalid_parameter if the type is wrong.
+ * @return variant with the option (will be of type dhcp_option_t; if tag is 0, this will be a list thereof)
+ * @param id - name of the client interface
+ * @param type - type of the option (valid values are "req" and "sent")
+ * @param direct - Access the value of the option in direct mode without parsing it
+ * @param tag - the tag/number of the option (if 0, get all options)
+ * @version V7.0
+ */
+		variant getOption(mandatory string id, mandatory string type, mandatory bool direct, mandatory uint8 tag);
+
+/** 
+ * Get the list of defined DHCP options
+ * @error pcb_error_invalid_parameter if there is no interface with the provided id.
+ * @error pcb_error_invalid_parameter if the type is wrong.
+ * @return list with defined options
+ * @param id - name of the client interface
+ * @param type - type of the option (valid values are "req" and "sent")
+ * @version V7.0
+ */
+		list listOptions(mandatory string id, mandatory string type);
+
+/** 
+ * Set the AuthenticationInformation verification string
+ * @error pcb_error_invalid_parameter if there is no interface with the provided id.
+ * @return nothing
+ * @param id - name of the client interface
+ * @param enable - enable verification
+ * @param authinfo - the string to which option 90 will be compared
+ * @version V7.0
+ */
+		void verifyAuthInfo(mandatory string id, mandatory bool enable, string authinfo);
+
+	}
+}
+
+
+/** @location sah_services_dhcp /client/dhccd.odl */

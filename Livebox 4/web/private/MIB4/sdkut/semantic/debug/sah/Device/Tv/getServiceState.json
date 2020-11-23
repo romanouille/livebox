@@ -1,0 +1,31 @@
+{
+	"status":0,
+	"data":{
+		"serviceList":[
+						{
+							"serviceId":"VOD1",
+							"isEnabled":true,
+							"vlan":"",
+							"vpvc":"8/38"
+						},
+						{
+							"serviceId":"Zapping1",
+							"isEnabled":true,
+							"vlan":"",
+							"vpvc":"8/39"
+						},
+						{
+							"serviceId":"Multicast1",
+							"isEnabled":true,
+							"vlan":"",
+							"vpvc":"8/40"
+						},
+						{
+							"serviceId":"Multicast2",
+							"isEnabled":true,
+							"vlan":"",
+							"vpvc":"8/41"
+						}
+		]
+	}
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "expression"    : "stb",
+    "start_actions" : {
+                        "set_tags"        : "orange"
+                      }
+  }
+]

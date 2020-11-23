@@ -1,0 +1,8 @@
+<b>Customise my house:</b><br>
+<br>
+This page enables you to customise your home network. You can define rooms in your house, then use the rooms to specify where network devices are located.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

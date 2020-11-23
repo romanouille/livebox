@@ -1,0 +1,28 @@
+{
+    "Id": "sah_appmngr",
+    "Category": "Self Care",
+    "Version": "0.1",
+    "Title": "sah_appmngr.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "</div><span class=\"img appman\"></span>",
+                                            "<div class=title><span translate=sah_appmngr.installed_apps></span><br><div class=appman>N/A</div></div>"
+                                          ],
+                                "apicalls":{}
+                              }
+                }
+              ],
+    "en": {
+        "title": "My App Manager",
+        "installed_apps": "Installed apps"
+    },
+    "fr": {
+        "title": "lozDnKkL",
+        "installed_apps": "XRVahzIU"
+    }
+}

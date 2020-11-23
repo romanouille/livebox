@@ -1,0 +1,54 @@
+using "remoteaccess_plugin.so";
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+object RemoteAccess {
+write with writeRemoteAccess;
+variant get();
+bool set(variant parameters);
+persistent string PortMode {
+constraint enum ["RANDOM","DEFAULT"];
+default "RANDOM";
+}
+persistent string AllowedPorts;
+persistent uint16 Port;
+read-only string SupportedProtocols {
+default "HTTP,HTTPS";
+}
+persistent string Protocol {
+constraint enum ["HTTP","HTTPS"];
+default "HTTPS";
+}
+persistent uint32 Timeout=0;
+read-only uint32 TimeLeft {
+read with readTimeLeft;
+default 0;
+}
+persistent string Interface="data,lan,guest";
+persistent read-only datetime EnableTime;
+persistent read-only bool DisabledAtStartup = false;
+uint16 ForcePortFailure = 0;
+persistent bool EmulateHTTPService = false;
+persistent bool Enable {
+write with writeEnable;
+default 0;
+}
+uint16 enable(uint16 port,bool secure, uint32 timeout);
+bool disable();
+uint32 getTimeLeft();
+bool restartTimer();
+bool export(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool import(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}

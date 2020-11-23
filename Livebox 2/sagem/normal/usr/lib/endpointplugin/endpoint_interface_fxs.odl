@@ -1,0 +1,72 @@
+using "endpointplugin_fxs.so";
+include "dsp_plugin.odl";
+
+object EndpointInterface {
+
+    void EndPoint_register();
+
+    void sendHookOff(uint16 endpointid);
+
+    void sendHookOn(uint16 endpointid);
+
+    void sendSflNumber(uint16 endpointid);
+
+    void createEp(string name);
+
+    object EndPoint[] {
+        /**
+        Send an asynchronous signal.
+
+        @param signal Opaque byte_array containing a libvoice_signal, which gets 
+        passed to the underlying voice plugin.
+        */
+        message void signal(byte_array signal);
+
+        /**
+        Receive an event from a plugin.
+
+        @param event Opaque bytearray containing a libvoice_event.
+        @param channel_id Id of the channel.
+        */
+        message void event(byte_array event, uint32 channel_id); 
+
+        /**
+        Called when a media stream to an endpoint needs to start.
+
+        @param cnx_info     Opaque byte_array containing a libvoice_cnx_info struct.
+        @param filedesc     Array of filedescriptors. fd[0] = RTP socket, fd[1] = RTCP socket, fd[2] = UDPTL socket.
+
+         */
+        void create(byte_array cnx_info, list filedesc, int line_id);
+
+        /**
+        Called when a media stream to an endpoint is changed.
+
+        @param cnx_info     Opaque byte_array containing a libvoice_cnx_info struct.
+        @param filedesc     Array of filedescriptors. fd[0] = RTP socket, fd[1] = RTCP socket, fd[2] = UDPTL socket.
+         */
+        void modify(byte_array cnx_info, list filedesc, int line_id);
+       
+        /**
+        Called when a media stream to an endpoint needs to stop.
+        */
+        void destroy(int line_id);
+
+        /**
+        Called when the voice service requests properties or statistics.
+        
+        @param request     Opaque byte_array containing a parameter set with request properties.
+        @param reply       Opaque byte_array to contain the parameter set with reply values.
+        @return            Success or failure.
+        */
+        bool get(byte_array param_set_request, out byte_array param_set_reply);
+
+        /**
+        Called when the voice service wants to set properties.
+        
+        @param params  Opaque byte_array containing a parameter set with properties.
+        @return        Success or failure.
+        */
+        bool set(byte_array param_set_params);
+    }
+}

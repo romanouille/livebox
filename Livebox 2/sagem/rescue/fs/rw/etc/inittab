@@ -1,0 +1,9 @@
+# disaster recovery if necessary
+::wait:/etc_ro_fs/init.d/sysinit
+
+# system initialisation
+::wait:/etc_ro_fs/init.d/rc.sysinit
+
+# bash
+::askfirst:-/bin/login
+#::askfirst:-/bin/sh --login

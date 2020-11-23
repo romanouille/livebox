@@ -1,0 +1,67 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          olsrd
+# Short-Description: Start OLSR daemon at boot time
+# Description:       Luceor OLSR daemon, RFC3626 compliant
+### END INIT INFO
+
+#
+# $Id: olsr.init 854 2009-02-05 11:37:21Z benoit.papillault $
+#
+# Copyright (c) 2004-2009 Luceor SAS. All rights reserved.
+#
+# Written by Benoit PAPILLAULT <benoit.papillault@luceor.com>
+#
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/sbin/olsrd
+NAME=olsrd
+DESC=olsrd
+PIDFILE=/var/run/olsrd.pid
+
+OLSR_ARG=""
+
+if [ -f /etc/default/olsrd ]; then
+  . /etc/default/olsrd
+fi
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+	start-stop-daemon -S -x $DAEMON -- $OLSR_ARG >/dev/null 2>&1 
+	echo "$NAME."
+	;;
+  stop)
+	echo -n "Stopping $DESC: "
+	start-stop-daemon -K -x $DAEMON
+	echo "$NAME."
+	;;
+  restart|force-reload)
+	echo -n "Restarting $DESC: "
+	start-stop-daemon -K -x $DAEMON
+	sleep 1
+	start-stop-daemon -S -x $DAEMON -- $OLSR_ARG >/dev/null 2>&1
+	echo "$NAME."
+	;;
+  status)
+	echo -n "Status of $DESC: "
+	if [ ! -r "$PIDFILE" ]; then
+		echo "$NAME is not running."
+		exit 3
+	fi
+	if read pid < "$PIDFILE" && kill -0 "$pid" > /dev/null 2>&1; then
+		echo "$NAME is running."
+		exit 0
+	else
+		echo "$NAME is not running but $PIDFILE exists."
+		exit 1
+	fi
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart|force-reload|status}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

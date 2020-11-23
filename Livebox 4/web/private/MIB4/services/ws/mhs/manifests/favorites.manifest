@@ -1,0 +1,29 @@
+{
+    "Id": "favorites",
+    "Category": "Favorites",
+    "Version": "0.1",
+    "Title": "favorites.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Application": { "main": "favapp",
+                     "settings": {}
+                   },
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "greenbox_s",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<div class=title translate={{title}}></div><div><span class=\"icon icon-star\"></span></div>"
+                                          ],
+                                "apicalls":{},
+                                "nonremovable":1
+                              }
+                }
+              ],
+    "en":{
+        "title":"Manage Favorites"
+    },
+    "fr":{
+        "title":"Gérer les Favoris"
+    }
+}

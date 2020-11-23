@@ -1,0 +1,570 @@
+#array table.array {
+border-collapse:collapse;
+font-size:12px;
+padding:10px;
+table-layout:fixed;
+width:700px;
+}
+#array table.array td {
+margin:0px;
+padding:5px 0px;
+text-align:center;
+vertical-align:middle;
+}
+#array table.array  #button td.buttleft {
+margin:0px;
+padding:0px;
+text-align:center;
+vertical-align:middle;
+}
+#array table.array  #button td.buttright {
+padding-right:10px;
+}
+
+#array table.array  #button td.buttright {
+padding-right:10px;
+}
+
+#array table.array tr.aaa {
+font-weight:bold;
+height:29px;
+vertical-align:top;
+}
+#array table.array tr.aeven, table.array tr.aodd {
+padding-bottom:10px;
+padding-top:10px;
+}
+#array table.array tr.aodd td.cola {
+}
+#array table.array td.atop {
+background:transparent url(../images/array/top.gif) repeat-x scroll center top;
+padding:0px;
+}
+#array table.array td.atop_status {
+	background:transparent url(../images/array/top.gif) repeat-x scroll center top;
+	padding:0px;
+	width:65px;
+}
+#array table.array td.atop_state {
+	background:transparent url(../images/array/top.gif) repeat-x scroll center top;
+	padding:0px;
+	width:40px;
+}
+#array table.array td.atop_ipnet {
+	background:transparent url(../images/array/top.gif) repeat-x scroll center top;
+	padding:0px;                
+	width:150px;
+}
+#array table.array td.atop_ip {
+	background:transparent url(../images/array/top.gif) repeat-x scroll center top;
+	padding:0px;           
+	width:120px;
+}
+#array table.array td.atop_action {
+	background:transparent url(../images/array/top.gif) repeat-x scroll center top;     
+	padding:0px;
+	width:40px;
+}
+#array table.array td.atop_password {
+	background:transparent url(../images/array/top.gif) repeat-x scroll center top;
+	padding:0px;
+width:60px;
+}
+#array table.array td.atop_left {
+background:transparent url(../images/array/top_left.gif) repeat-x scroll center top;
+height:10px;
+padding:0px;
+width:9px;
+}
+#array table.array td.atop_col_sep {
+background:transparent url(../images/array/top_colsep.gif) repeat-x scroll center top;
+height:10px;
+padding:0px;
+width:12px;
+}
+#array table.array td.atop_right {
+background:transparent url(../images/array/top_right.gif) repeat-x scroll center top;
+height:10px;
+padding:0px;
+width:8px;
+}
+#array table.array td.aleft_row_sep {
+background:transparent url(../images/array/left_rowsep.gif) repeat-x scroll center top;
+height:1px;
+padding:0px;
+width:9px;
+}
+#array table.array td.across_sep {
+background:transparent url(../images/array/crosssep.gif) repeat-x scroll center top;
+height:1px;
+padding:0px;
+width:12px;
+}
+#array table.array td.abottom_left {
+background:transparent url(../images/array/bottom_left.gif) repeat-x scroll center top;
+padding:0px;
+}
+#array table.array td.abottom_colsep {
+background:transparent url(../images/array/bottom_colsep.gif) repeat-x scroll center top;
+padding:0px;
+}
+#array table.array td.abottom_pass {
+background:transparent url(../images/array/bottom_pass.gif) repeat-x scroll center top;
+padding:0px;
+}
+#array table.array td.abottom_right_dbl {
+background:transparent url(../images/array/bottom_right_dbl.gif) repeat-x scroll center top;
+padding:0px;
+}
+#array table.array tr.aodd td.aleft, table.array tr.ahead td.aleft {
+background:transparent url(../images/array/left_dbl.gif) repeat-y scroll left center;
+}
+#array table.array tr.aeven td.aleft {
+background:transparent url(../images/array/left_dbl.gif) repeat-y scroll left center;
+}
+#array table.array tr.aeven td.aright {
+background:transparent url(../images/array/right_dbl.gif) repeat-y scroll right center;
+}
+#array table.array tr.aeven td.amid {
+background:transparent url(../images/array/colsep.gif) repeat scroll 0% 50%;
+}
+#array table.array tr.aeven td.amiddbl {
+background:transparent url(../images/array/colsep_dbl.gif) repeat scroll 0% 50%;
+}
+#array table.array tr.aodd td.amid, table.array tr.ahead td.amid {
+background:transparent url(../images/array/colsep.gif) repeat scroll 0% 50%;
+}
+#array table.array tr.aodd td.amiddbl, table.array tr.ahead td.amiddbl {
+background:transparent url(../images/array/colsep_dbl.gif) repeat scroll 0% 50%;
+}
+#array table.array tr.aodd td.aright, table.array tr.ahead td.aright {
+background:transparent url(../images/array/right_dbl.gif) repeat scroll 0% 50%;
+}
+#array table.array tr.aeven {
+background-color:#FFFFFF;
+}
+#array table.array tr.aodd, table.array tr.ahead {
+background-color:#FFFFFF;
+}
+#array table.array td.asep_left {
+background:transparent url(../images/array/rowsep.gif) repeat scroll 0% 50%;
+height:1px;
+padding:0px;
+}
+#array table.array td.across_left {
+	background:transparent url(../images/array/rowsep.gif) no-repeat scroll right;
+	height:1px;
+	padding:0px;
+}
+#array table.array td.asep_mid {
+background:transparent url(../images/array/rowsep.gif) repeat scroll 0% 50%;
+height:1px;
+padding:0px;
+}
+#array table.array td.asep_right {
+background:transparent url(../images/array/right_rowsep.gif) repeat scroll 0% 50%;
+padding:0px;
+}
+#array table.array td.across_right {
+	background:transparent url(../images/array/right_rowsep.gif) no-repeat scroll left;
+	padding:0px;
+}
+#array table.array td.abottom_single {
+background:transparent url(../images/array/bottom.gif) repeat scroll 0% 50%;
+height:10px;
+padding:0px;
+}
+#array table.array td.abottom_double {
+background:transparent url(../images/array/bottom_dbl.gif) repeat scroll 0% 50%;
+height:10px;
+padding:0px;
+}
+#array div.trunc {
+overflow:hidden;
+}
+#array table.array tr.aeven2 {
+background-color:#EEEEEE;
+}
+#array table.arraytr.aeven2 td.aleft {
+background:transparent url(../images/array/left_dbl2.gif) repeat scroll 0% 50%;
+}
+#array table.array tr.aeven2 td.aright {
+background:transparent url(../images/array/right_dbl2.gif) repeat scroll 0% 50%;
+}
+#array table.array tr.aeven2 td.amid {
+background:transparent url(../images/array/colsep2.gif) repeat scroll 0% 50%;
+}
+#array table.array tr.aeven2 td.amiddbl {
+background:transparent url(../images/array/t2_colsep2_dbl.gif) repeat scroll 0% 50%;
+}
+#array tr.ahead {
+height:auto;
+margin:5px;
+}
+#array tr.ahead td.txtnormal {
+font-weight:bold;
+text-align:center;
+vertical-align:middle;
+height:30px;
+
+}
+#array tr.ahead td.txtnormalcenter {
+font-weight:bold;
+text-align:center;
+vertical-align:middle;
+padding-top:3px;
+padding-bottom:10px;
+
+}
+
+#array tr.ahead td.txtnormalselect {
+font-weight:bold;
+text-align:center;
+vertical-align:middle;
+height:55px;
+
+}
+
+
+#array tr.ahead td.data {
+font-weight:normal;
+text-align:center;
+vertical-align:middle;
+}
+#array center {
+padding-left:12px;
+}
+#array tr.aodd td.data {
+font-weight:normal;
+text-align:center;
+vertical-align:middle;
+}
+#array tr.ahead td.align_left center {
+padding-left:1px;
+}
+
+/*-> Obrou GNAZE - SAGEM - 20070823 - begin*/
+#array table.array_align_left {
+border-collapse:collapse;
+font-size:12px;
+padding:10px;
+table-layout:fixed;
+width:98%;
+}
+#array table.array_align_left td {
+margin:0px;
+padding:10px;
+text-align:left;
+vertical-align:middle;
+}
+/*-> Obrou GNAZE - SAGEM - 20070823 - end*/
+/* Obrou GNAZE - Sagem - 20070724 - end */
+#array table.array tr.asub_head {
+ 	font-weight: normal;
+ 	vertical-align: middle;
+ 	text-align: left;
+}
+ 
+#array tr.asub_head td.data {
+      vertical-align: middle;
+      text-align: left;
+      padding-top: 5px;
+      padding-right: 5px;
+}     
+ 
+#array table.array td.lb_ar_content {
+ 	text-align: left;
+ 	margin: 5px;
+ 	padding-left: 0px;
+ 	padding-right: 0px;
+     padding-top: 1px;
+ 	padding-bottom: 2px;
+}
+ 
+#array table.array td.lb_ar_content1 {
+ 	text-align: left;
+ 	padding-left: 35px;
+ 	padding-right: 0px;
+     padding-top: 1px;
+ 	padding-bottom: 2px;
+}
+ 
+#array table.array td.lb_ar_content_bg_gray {
+ 	background-color: #F0F0F0;
+ 	text-align: left;
+ 	margin: 5px;
+ 	padding-left: 0px;
+ 	padding-right: 0px;
+     padding-top: 1px;
+ 	padding-bottom: 2px;
+}
+ 
+#array table.array td.lb_ar_content_bg_gray1 {
+ 	background-color: #F0F0F0;
+ 	text-align: left;
+ 	padding-left: 35px;
+ 	padding-right: 0px;
+     padding-top: 1px;
+ 	padding-bottom: 2px;
+}
+ 
+#array table.array td.lb_bottom {
+ 	background: url('../images/menu/bottom.gif') repeat-x top;
+ 	width: 12px;
+ 	height: 1px;
+ 	padding: 0px;
+}
+ 
+#array tr.asub_head td.lb_hcontent {
+ 	font-style: italic;
+ 	vertical-align: middle;
+ 	text-align: left;
+ 	padding-left: 15px;
+}     
+ 
+#array tr.ahead td.lb_hcontent {
+      vertical-align: middle;
+      text-align: left;
+      padding-bottom: 11px;
+      padding-right: 5px;
+}     
+ 
+#array table.array tr.asub_head td.aleft {
+ 	background: url('../images/array/left_dbl.gif') repeat-y left;
+}
+ 
+#array table.array tr.asub_head td.amiddbl {
+ 	background: url('../images/array/colsep_dbl.gif');
+}
+ 
+#array table.array tr.asub_head td.aright {
+ 	background: url('../images/array/right_dbl.gif');
+}
+ 
+/* Obrou GNAZE - Sagem - 20070724 - end */
+#array table.array td.across_sep {
+background:transparent url(../images/array/crosssep.gif) repeat-x scroll center top;
+height:1px;
+padding:0px;
+width:12px;
+}
+#array table.array td.across_sep {
+background:transparent url(../images/array/crosssep.gif) repeat-x scroll center top;
+height:1px;
+padding:0px;
+width:12px;
+}
+#array table.array td.across_sep {
+background:transparent url(../images/array/crosssep.gif) repeat-x scroll center top;
+height:1px;
+padding:0px;
+width:12px;
+}
+#array table.array td.atop_col_sep_dbl {
+background:transparent url(../images/array/t2_top_colsep_dbl.gif) repeat-x scroll left top;
+height:1px;
+padding:0px;
+width:12px;
+}
+#array table.array td.amid_dbl {
+background:transparent url(../images/array/t2_colsep_dbl.gif) repeat scroll 0% 50%;
+}
+
+#array table.array td.amid_dbl_bottom {
+background:transparent url(../images/array/t2_br_bg_crosssep.gif) repeat scroll 0% 50%;
+}
+#array table.array td.abottom_colsep_dbl {
+background:transparent url(../images/array/t2_br_bg_crosssep.gif) repeat-x scroll center top;
+padding:0px;
+}
+#array table.array .dblbttnddns {
+background-repeat:no-repeat;
+height:56px;
+width:99px;
+}
+#array table.array .dblbttn {
+background-image:url(../images/button/dblbuttonbg.gif);
+background-repeat:no-repeat;
+height:56px;
+width:99px;
+}
+.LBButton_bg {
+background-position:center;
+background-repeat:no-repeat;
+position:relative;
+}
+#array table.array td.dbl_button{
+background:transparent url(../images/array/crosssep.gif) repeat-x scroll center bottom;
+margin:0px;
+background-color: #EEEEEE;
+padding:0px;
+text-align:center;
+vertical-align:middle;
+}
+#array table.array td.dbl_buttonddns{
+background:transparent url(../images/array/crosssep.gif) repeat-x scroll center bottom;
+margin:0px;
+/*background-color: #EEEEEE;*/
+padding:0px;
+text-align:center;
+vertical-align:middle;
+}
+
+
+
+#array table.array td.dbl_button td{
+margin:0px;
+padding:0px;
+text-align:center;
+vertical-align:middle;
+}
+
+#array tr.ahead td.list_button {
+background:transparent url(../images/array/crosssep.gif) repeat-x scroll 0% 58%;
+font-weight:normal;
+text-align:center;
+vertical-align:top;
+padding:0px;
+
+}
+#array tr.ahead td.list_button #button{
+margin-top:2px;
+margin-left:30px;
+}
+#array table.array tr.ahead td.aleft_button {
+background:transparent url(../images/array/t2_br_bg_left.gif) repeat-y scroll left center;
+}
+#array table.array tr.ahead td.aright_button {
+background:transparent url(../images/array/t2_br_bg_right.gif) repeat-y scroll left center;
+}
+#array .trunc {
+text-align:center;
+font-weight:bold;
+}
+
+#array tr.ahead td.list_button #button tr{
+font-weight:normal;
+}
+#array .button_edit {
+ padding-top: 4px; 
+ height: 26px;
+ width: 99px;
+ text-align: center;
+}
+ 
+/* Obrou GNAZE - Sagem - 20070724 - end */
+#array table.array tr.asub_head {
+	font-weight: normal;
+	vertical-align: middle;
+	text-align: left;
+}
+ 
+#array tr.asub_head td.data {
+	     vertical-align: middle;
+	     text-align: left;
+	     padding-top: 5px;
+	     padding-right: 5px;
+	}     
+
+#array  .LBButton_fg {
+background-image: url(images/button/desact.gif);
+}
+#array  table tr#newRoom_row {
+background-color:#EEEEEE;
+}
+#array  table tr#newRoom_row td.aleft {
+background:transparent url(../images/array/left_dbl2.gif) repeat scroll 0% 50%;
+}
+#array  table tr#newRoom_row td.amid_dbl {
+background:transparent url(../images/array/colsep2_dbl.gif) repeat scroll 0% 50%;
+}
+#array  table tr#newRoom_row td.amid {
+background:transparent url(../images/array/colsep2.gif) repeat-y scroll left center;
+}
+#array  table tr#newRoom_row td.aright {
+background:transparent url(../images/array/right_dbl2.gif) repeat-y scroll left center;
+}
+#array table.array td.lb_ar_content {
+	text-align: left;
+ 	margin: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+ 
+#array table.array td.lb_ar_content1 {
+	text-align: left;
+	padding-left: 35px;
+	padding-right: 0px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+ 
+#array table.array td.lb_ar_content_bg_gray {
+	background-color: #F0F0F0;
+	text-align: left;
+	margin: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+ 
+#array table.array td.lb_ar_content_bg_gray1 {
+	background-color: #F0F0F0;
+	text-align: left;
+	padding-left: 35px;
+	padding-right: 0px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+ 
+#array table.array td.lb_bottom {
+background: url('../images/menu/bottom.gif') repeat-x top;
+	width: 12px;
+	height: 1px;
+	padding: 0px;
+	}
+
+#array tr.asub_head td.lb_hcontent {
+	font-style: italic;
+	vertical-align: middle;
+	text-align: left;
+	padding-left: 15px;
+	}     
+
+#array tr.ahead td.lb_hcontent {
+	 vertical-align: middle;
+	text-align: left;
+	 padding-top: 5px;
+	 padding-right: 5px;
+	 }     
+
+ #array table.array tr.asub_head td.aleft {
+		background: url('../images/array/left_dbl.gif') repeat-y left;
+	}
+
+#array table.array tr.asub_head td.amiddbl {
+		background: url('../images/array/colsep_dbl.gif');
+	}
+
+#array table.array tr.asub_head td.aright {
+		background: url('../images/array/right_dbl.gif');
+	}
+
+/* Obrou GNAZE - Sagem - 20070724 - end */
+
+#array table.array td.dbl_button_normal{
+margin:0px;
+padding:0px;
+text-align:center;
+vertical-align:middle;
+}
+#array table.array td.dbl_button_normal td{
+margin:0px;
+padding:0px;
+text-align:center;
+vertical-align:middle;
+}
+

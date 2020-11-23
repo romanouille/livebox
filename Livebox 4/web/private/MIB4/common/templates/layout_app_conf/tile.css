@@ -1,0 +1,101 @@
+/*******/
+/* tag */
+/*******/
+body {
+  font-size: 8px;
+  
+}
+
+/***********/
+/* general */
+/***********/
+
+.no-padding{
+  padding: 0em 0em 0em 0em;
+}
+
+.no-margin{
+  margin: 0em 0em 0em 0em;
+}
+
+.greentxt{
+  color:#009900;
+}
+
+.greytxt {
+  color:#999999;
+}
+
+.redtxt {
+  color:#CC0000;
+}
+
+.orangetxt {
+  color:#FF6600;
+}
+
+.hidden {
+  display:none;
+}
+
+.tile-orange {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: moz-none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.widget {
+  position: relative;
+  top: -1.5em;
+}
+
+.widget-remove-button {
+  position: absolute;
+  display:none;
+  float:left;
+  top: -2em;
+  left: -2em;
+  cursor:pointer;  
+  background: url(../../../services/ws/wm/images/remove.png) no-repeat top left;
+  background-size : 10em 10em;
+  width: 10em;
+  height: 10em;
+}
+
+.widget-notification {
+  position: absolute;  
+  display:none;
+  font-size:2em;
+  top: 0.75em;
+  left:6.75em;
+  float:right;  
+  background: url(../../../services/ws/wm/images/t_coin_notif.png) no-repeat top right;
+  background-size : 11em 8em;
+  width: 5em;
+  height: 5em;
+}
+
+.widget-notification-count {
+  position: relative;
+  color: #FFFFFF;
+  float:right;
+  padding-top: 1.25em;
+  padding-right:0.5em;
+}
+
+.widget-content {
+  position: absolute;
+  font-size:2.5em;
+  line-height:1em;
+  clear:both;  
+  top:8em;
+  padding-left: 0.25em;  
+}
+
+.widget-content-2line {
+  top:7.5em;
+  padding-left: 0.25em;
+}

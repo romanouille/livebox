@@ -1,0 +1,15 @@
+#!/bin/sh
+
+DBNAME="/etc/config/mbus.dat"
+
+if [ -f "/fs/common/config/dbpath.cfg" ]
+then
+  DBNAME="`cat /fs/common/config/dbpath.cfg`"
+fi
+
+while [ -f "${DBNAME}-journal" ]
+do
+  sleep 1
+done
+exit 0
+

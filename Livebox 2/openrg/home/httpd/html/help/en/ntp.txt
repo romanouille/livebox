@@ -1,0 +1,9 @@
+<b>NTP:</b><br>
+<br>
+Select a time zone from the pull-down menu.<br>
+Click the Save button to take your modifications into account.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

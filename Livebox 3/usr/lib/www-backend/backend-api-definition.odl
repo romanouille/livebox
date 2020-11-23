@@ -1,0 +1,77 @@
+object sah {
+object Device {
+object Information {
+int32 getSummary(out string deviceID, out string deviceType, out string friendlyName,
+out string manufacturer, out string manufacturerURL, out string modelDescription,
+out string modelName, out string modelNumber, out string modelURL,
+out string serialNumber, out string UDN, out string UPC);
+int32 getVersion(out string deviceID, out string softwareDate,
+out string softwareVersion, out string hardwareVersion);
+}
+object PowerManagement {
+int32 restart();
+}
+object AttachedDevices {
+int32 listAll(mandatory string deviceType, out list deviceList);
+}
+object LocalStorage {
+int32 eject(mandatory string USBMassStorageID);
+}
+}
+object AccessManagement {
+object Service {
+int32 getStateSummary(out object data, out object iptv, out object voip);
+int32 getDataState(out string linkType, out string linkState, out string MACAddress,
+out string protocol, out string connectionState, out string lastConnectionError,
+out string IPAddress, out string remoteGateway, out string DNSServers);
+}
+}
+object HomeNetworkManagement {
+object NetworkMap {
+int32 listDevices(out list deviceList);
+int32 setDisplayName(mandatory string deviceID, mandatory string name) {
+acl {
+world none;
+}
+}
+}
+object InternetAccessScheduling {
+int32 setActivationState(mandatory string deviceID,
+mandatory string activationState, mandatory string base,
+mandatory string defaultState, mandatory list schedulingList);
+int32 getActivationState(mandatory string deviceID,
+out string activationState, out string base,
+out string defaultState, out list schedulingList);
+}
+}
+object WiFiManagement {
+object VirtualAccessPoint {
+int32 listAll();
+int32 toggleState(mandatory string virtualAccessPointID, mandatory bool state);
+}
+object WiFiScheduling {
+int32 setActivationState(mandatory string activationState, mandatory string base,
+mandatory string defaultState, mandatory list schedulingList);
+int32 getActivationState(out string activationState, out string base,
+out string defaultState, out list schedulingList);
+}
+}
+object Voice {
+object Trunks {
+int32 listAll(out list phoneTrunkList);
+}
+object Handsets {
+int32 listAll(out list phoneList);
+}
+object Common  {
+int32 ringAll(string lineID, int32 duration, string melody);
+}
+}
+object hgw {
+object models {
+object DeviceManager {
+void getDevices();
+}
+}
+}
+}

@@ -1,0 +1,57 @@
+object X_ORANGE-COM_DeviceDiscovery {
+object Classification[] {
+counted with ClassificationNumberOfEntries;
+string Alias;
+string MACAddress;
+string MACMask;
+string VendorID;
+string ProductID;
+string DeviceClass;
+}
+object DeviceClass[] {
+string Alias;
+read-only string DeviceClassName;
+read-only string DeviceType;
+read-only bool Orange;
+}
+}
+datamodel {
+object X_ORANGE-COM_DeviceDiscovery {
+instance of Classification(1, "") {
+parameter Alias = "cpe-7C:B7:33:00:00:00";
+parameter MACAddress = "7C:B7:33:00:00:00";
+parameter MACMask = "FF:FF:FF:00:00:00";
+parameter DeviceClass = "Device.X_ORANGE-COM_DeviceDiscovery.DeviceClass.1.";
+}
+instance of Classification(2, "") {
+parameter Alias = "cpe-E0:CE:C3:00:00:00";
+parameter MACAddress = "E0:CE:C3:00:00:00";
+parameter MACMask = "FF:FF:FF:00:00:00";
+parameter DeviceClass = "Device.X_ORANGE-COM_DeviceDiscovery.DeviceClass.2.";
+}
+instance of Classification(3, "") {
+parameter Alias = "cpe-B0:46:FC:00:00:00";
+parameter MACAddress = "B0:46:FC:00:00:00";
+parameter MACMask = "FF:FF:FF:00:00:00";
+parameter DeviceClass = "Device.X_ORANGE-COM_DeviceDiscovery.DeviceClass.2.";
+}
+instance of Classification(4, "") {
+parameter Alias = "cpe-B4:EE:B4:00:00:00";
+parameter MACAddress = "B4:EE:B4:00:00:00";
+parameter MACMask = "FF:FF:FF:00:00:00";
+parameter DeviceClass = "Device.X_ORANGE-COM_DeviceDiscovery.DeviceClass.1.";
+}
+instance of DeviceClass(1,"") {
+parameter Alias = "femtocell v2.X";
+parameter DeviceClassName = "femtocell v2.X";
+parameter DeviceType = "HNID";
+parameter Orange = true;
+}
+instance of DeviceClass(2,"") {
+parameter Alias = "femtocell v3.0";
+parameter DeviceClassName = "femtocell v3.0";
+parameter DeviceType = "HNID";
+parameter Orange = true;
+}
+}
+}

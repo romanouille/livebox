@@ -1,0 +1,37 @@
+/*expr:voice and handset*/
+
+/**
+ * MIB is loaded on all voice handset devices.
+ *
+ * All devices matching expression: "voice and handset" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib voiceHandset {
+    /**
+     * Handset directory-number : phone number ( can be internal or external)
+     *
+     * Example: "+3212345678"
+     *
+     * @version 6.0
+     */
+    string DirectoryNumber;
+    /**
+     * Endpoint-type : "FXS", "DECT GAP", "DECT CAT-iq 1.0", "DECT CAT-iq 2.0", "SIP"
+     * All DECT types will be grouped together
+     *
+     * @version 6.0
+     */
+    read-only string EndpointType;
+    /**
+     * Outgoing trunk line name
+     * Line which the handset will use for outgoing calls
+     *
+     * Example: "LINE1"
+     *
+     * @version 6.0
+     */
+    string OutgoingTrunkLine;
+}
+
+/** @location sah_services_gmap /mibs/voiceHandset.odl */

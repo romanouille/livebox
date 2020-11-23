@@ -1,0 +1,36 @@
+<div id="vpnMail" xmlns="http://www.orange.com/xhtml/engine/loose">
+   <div class="boxType3">
+   	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>   
+		<h1 class="logo_param grey" i18n="page.myNetwork.vpn.vpnMail.maintitle"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myNetwork.vpn.vpnMain.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form id="userForm">
+		<div class="boxType4 border-bottom-3">
+			<div id="userRef" style="display:none"/>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnMail.sourcemail">
+				<input id="sourcemail" type="text" dataId="Device/UserInterface/WebUI/AdminEmail" required="true" namedregex="email" i18nError="page.myNetwork.vpn.vpnMail.sourcemail.error"/>
+			</div>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnMail.destinationmail">
+				<input id="destinationmail" type="text" required="true" namedregex="email" i18nError="page.myNetwork.vpn.vpnMail.destinationmail.error"/>
+			</div>
+		</div>
+			<div class="clear"/>
+			<div widgetType="ButtonContainer" class="right" style="width: 100%">
+				<div class="btnPageBack" > 
+					<span id="backToUserVpn" widgetType="ButtonImage" i18n="common.page.back" /><!-- widgetArg="{type: 'simple'}" i18n="page.myNetwork.vpn.vpnUser.return"/> -->
+				</div>
+				<div style="float: right; position: relative;">
+					<span id="sendMail" widgetType="ButtonImage" i18n="page.myNetwork.vpn.vpnMail.sendmail"/>
+					<span id="validMail" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.valid"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

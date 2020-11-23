@@ -1,0 +1,27 @@
+#!/bin/sh
+
+
+
+case $1 in
+    start)
+        ifconfig eth6 up
+
+        # Use a VLAN to acces the Quantenna control channel
+        vconfig add eth6 2
+        ifconfig eth6.2 up
+        ifconfig eth6.2 1.1.1.1/30
+        
+
+        
+
+        ;;
+    stop)
+        ifconfig eth6 down
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+esac
+

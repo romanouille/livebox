@@ -1,0 +1,8 @@
+{
+  "status": true,
+  "data": {
+    "Enable": false,
+    "GlobalIdleTimeout": 30,
+    "EnableGlobalIdleTimeout": true
+  }
+}

@@ -1,0 +1,64 @@
+﻿<div class="col-xs-12">
+{{#each panels}}
+  {{#ifEqual @index 2}}
+  <div class="left-arrow"></div>
+  <div class="left-arrow-click"></div>
+  <div class="right-arrow"></div>
+  <div class="right-arrow-click"></div>  
+  <div class="container-panel">
+  {{else}}
+  <div class="container-panel">
+  {{/ifEqual}}
+    <div class="panel-overlay"></div>
+    <div class="title-panel">
+      <span class="title-panel-font-size">{{{title}}}</span>
+    </div>
+    <div class="main-panel">
+      <div class="big-panel">
+        <div class="big-panel-img">          
+          <img src="{{{bigPanel.img}}}" class="big-panel-img-size">
+        </div>
+        <div class="big-panel-text">
+          {{{bigPanel.content}}}
+        </div>
+      </div>
+      {{#each smallPanel}}
+      {{#ifEqual @index 0}}
+      <div class="small-panel-top-right" {{#if id}}id="{{id}}" {{/if}}>
+      {{/ifEqual}}
+      {{#ifEqual @index 1}}
+      <div class="small-panel-middle-right" {{#if id}}id="{{id}}" {{/if}}>
+      {{/ifEqual}}
+      {{#ifEqual @index 2}}
+      <div class="small-panel-bottom-left" {{#if id}}id="{{id}}" {{/if}}>
+      {{/ifEqual}}
+      {{#ifEqual @index 3}}
+      <div class="small-panel-bottom-middle" {{#if id}}id="{{id}}" {{/if}}>
+      {{/ifEqual}}
+      {{#ifEqual @index 4}}
+      <div class="small-panel-bottom-right" {{#if id}}id="{{id}}" {{/if}}>
+      {{/ifEqual}}        
+        <div class="small-panel-img">          
+          <img src="{{img}}" class="small-panel-img-size">
+        </div>
+        <div class="small-panel-img-o">
+          <img src="{{#addStateImgFileName img 'o'}}{{/addStateImgFileName}}" class="small-panel-img-size-o">
+        </div>
+        <div class="small-panel-img-w">
+          <img src="{{#addStateImgFileName img 'w'}}{{/addStateImgFileName}}" class="small-panel-img-size-w">
+        </div>
+        {{#ifEqual type 2}}
+        <div class="small-panel-2-line-padding">
+          {{{content}}}
+        {{/ifEqual}}
+        {{#ifEqual type 1}}
+        <div class="small-panel-1-line-text">
+          {{{content}}}            
+        {{/ifEqual}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+{{/each}}
+</div>

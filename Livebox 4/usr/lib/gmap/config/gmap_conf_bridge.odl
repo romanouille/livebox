@@ -1,0 +1,13 @@
+
+datamodel {
+    object Devices {
+        object Config {
+            acl {
+                world none;
+            }
+            object bridge {
+                parameter CheckWiFiInterfaces=true;
+            }
+        }
+    }
+}

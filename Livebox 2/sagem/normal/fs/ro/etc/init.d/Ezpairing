@@ -1,0 +1,72 @@
+#!/bin/sh
+
+PID_PLUGIN="/var/run/Ezpairing_plugin.pid"
+
+restore() {
+    mkdir -p /var/lib/easypairing
+    touch /var/lib/easypairing/restore
+}
+
+start() {
+    if [ -e ${PID_PLUGIN} ]; then
+        echo "Ezpairing plugin already started"
+    else
+        /bin/pcb_plugin -vv -n Ezpairing_plugin -c /usr/lib/Ezpairing/Ezpairing_plugin.odl
+    fi
+}
+
+stop() {
+    echo -n "Stopping Ezpairing plugin ..."
+    if [ -e ${PID_PLUGIN} ] ; then
+        kill $(cat ${PID_PLUGIN});
+        echo "done."
+    else
+    echo "Ezpairing plugin not running."
+    fi
+}
+
+restart() {
+    stop
+
+    while test -e ${PID_PLUGIN}; do
+        sleep 1
+    done
+
+    start
+}
+
+status() {
+    if [ -e $PID_PLUGIN ] ; then
+        echo "Ezpairing plugin: RUNNING"
+    else
+        echo "Ezpairing plugin: NOT RUNNING"
+    fi
+}
+
+case $1 in
+start)
+start
+;;
+stop)
+stop
+;;
+restart)
+restart
+;;
+status)
+status
+;;
+backup)
+    if [ -e $PID_PLUGIN ] ; then
+        pcb_cli "EasyPairing.export($2)"
+    else
+        echo "EasyPairing plugin is not running, unable to backup settings"
+    fi
+;;
+restore)
+restore
+;;
+*)
+echo "Usage : $0 [start|stop|restart|status|backup|restore]"
+;;
+esac

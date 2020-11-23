@@ -1,0 +1,10 @@
+{ 
+
+	"status": true, 
+	"data": [ { 
+				"name": "SIP-Trunk", 
+				"trunk_lines": [
+							{ "name": "LINE1", "enable": "Disabled", "status": "Disabled", "directoryNumber": "", "event_subscribe_lines": [ {} ] } ], "sip": { "subscriptionInfo": [ {} ] } }, 
+							{ "name": "H323-Trunk", "trunk_lines": [ { "name": "LINE3", "enable": "Enabled", "status": "Up", "directoryNumber": "1058", "event_subscribe_lines": [] } ], "h323": {} } 
+			] 
+}

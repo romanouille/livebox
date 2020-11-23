@@ -1,0 +1,24 @@
+<div id="auth" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<h1 class="normal_font " i18n="page.auth.common.label"/>
+	<a href="javascript:;" class="close" i18n="common.close"/>
+	<div class="content">
+		<strong class="margin-left-10 " i18n="page.auth.subtitle"/><br/>
+		<strong class="margin-left-10 normal_font" i18n="page.auth.subtitle.tip"/>
+		<form>
+			<div widgetType="FormInput" i18n="page.auth.login">
+				<input  id="uLogin" type="text" i18n="page.auth.login"></input>
+			</div>
+			<div widgetType="FormInput" i18n="page.auth.password">
+				<input  id="uPassword" type="password" i18n="page.auth.password"></input>
+			</div>
+			<div id="failedAuthMsg" i18n="page.auth.failed" class="hidden margin-left-217 bold red"></div>
+			<div widgetType="FormInput" i18n="page.auth.rememberpassword">
+				<input id="rememberpassword" type="checkbox" i18n="page.auth.rememberpassword"></input>
+			</div>
+	        <a id="forgetPassword" class="orange margin-left-80" href="javascript:;" i18n="page.auth.forgetpasslink"/>
+			<div widgetType="ButtonContainer" class="right margin-right-15">
+				<span id="btnAuth" widgetType="ButtonImage"  i18n="page.auth.validation"/>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,25 @@
+/**
+ * The NAT MIB is available on all NeMo Intfs that have the "netdev"-flag set.
+ */
+
+object NeMo { 
+	object extends MIB(0,"nat") {
+		string Flag = "netdev";
+		object DataModel {
+			/**
+			 * Indicates if Network Address Translation (NAT) is enabled for this connection. 
+			 * Intfs that have this parameter set to true, also have the "nat-enabled" flag
+			 * set, which is more convenient for querying. Furthermore NeMo has a built-in
+			 * utility to manage NATEnabled parameters: when the "nat-config"-flag is set on
+			 * an Intf, NeMo will automatically set NATEnabled to true on the first linux
+			 * network interface downwards in the dependency graph. This way, NAT can be
+			 * enabled on a virtual interface, e.g. "data", not knowing the actual interface
+			 * to be used for data in advance.
+			 */
+			bool NATEnabled;
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/nat.odl */

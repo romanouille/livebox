@@ -1,0 +1,7 @@
+﻿<b>Ayuda:</b><br>
+<br>
+<span class="boldorange">Guardar:</span> Puedes guardar tu configuración actual en caso de que en algún momento tengas que resetear tu Livebox para volver a la configuración de fábrica. Para guardar la configuración actual de tu Livebox,haz clic en el botón "Guardar".<br>
+<br>
+<span class="boldorange">Restablecer:</span> Haz clic en el botón "Buscar" para seleccionar una configuración guardada en tu ordenador. A continuación haz clic sobre el botón "Restaurar" para cambiar la configuración actual de tu Livebox por la configuración seleccionada. <br>
+-->
+

@@ -1,0 +1,33 @@
+persistent object HomeLan  {
+persistent bool Enable {
+default "0";
+write with write_handlerEnable;
+}
+persistent read-only string Status {
+constraint enum [ "Enabled", "Disabled", "Error" ];
+default "Disabled";
+read with read_status;
+}
+persistent uint32 MaxNumberOfRecords {
+default "2880";
+write with write_handlerMaxNumberOfRecords;
+}
+persistent uint32 ReadingInterval {
+default "30";
+write with write_handlerReadingInterval;
+}
+object Interface[12] {
+string FriendlyName;
+string Name;
+uint32 NumberOfStoredMeasures {
+default "0";
+}
+}
+bool getResults(uint32 Minutes, uint32 NumberOfReadings, string InterfaceName);
+bool getInterfacesNames();
+bool getMaxNumberOfRecords();
+bool getReadingInterval();
+bool getStatus();
+bool import();
+bool export();
+}

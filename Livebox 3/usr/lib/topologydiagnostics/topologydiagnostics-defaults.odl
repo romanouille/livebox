@@ -1,0 +1,7 @@
+datamodel {
+object TopologyDiagnostics {
+parameter PeriodicInterval = 864000;
+parameter UploadURL="http://karmatrack.orange.com/FR/topo/";
+parameter CustomerAuthorization = true;
+}
+}

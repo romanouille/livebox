@@ -1,0 +1,91 @@
+
+
+using "ConMon.so";
+ /**
+  * Monitoring of the WAN IP connectivity between the livebox and the default route.
+  */
+persistent object ConMon {
+    acl {
+        group admin read,write,execute;
+        group remoteadmin read,write,execute;
+        group technician read,write,execute;
+    }
+    persistent object Entry[] {
+        acl {
+            group admin read,write,execute;
+            group remoteadmin read,write,execute;
+        }
+        /**
+         * The WAN interface that is being used.
+         */
+        read-only persistent string Interface {
+            constraint maxvalue 256;
+            default "data";
+        }
+
+        /**
+         * Length of the timer of the main refresh cycle.
+         */
+        read-only persistent uint32 MainLoopTimerLength {
+            default 60;
+        }
+        /**
+         * Length of the timer after no router entry is found.
+         */
+        read-only persistent uint32 FailTimerLength {
+            default 15;
+        }
+        /**
+         * Length of the timer after ARP/NS packets are sent.
+         */
+        read-only persistent uint32 DeadlineTimerLength {
+            default 1;
+            acl {
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+        /**
+         * The number of retries when no router entry is found.
+         * This also includes the first try!
+         */
+        read-only persistent uint32 NumberOfRetries {
+            default 3;
+        }
+
+        /**
+         * Is the plugin active or not. This can be 0 when
+         * wan-connection is down, or when we have a dsl desync.
+         */
+        read-only bool Up {
+            default 1;
+            acl {
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        /**
+         * In which state of the algorithm are we.
+         * 0 : main refresh interval.
+         * >0: retrying
+         */
+        read-only uint16 State {
+            default 0;
+            acl {
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        persistent string IPVersion {
+            constraint enum ["ipv4","ipv6"];
+            default "ipv4";
+        }
+
+        /** MUST be enabled to monitor ipv4 connectivity.
+         */
+        persistent bool Enable;
+    }
+
+}

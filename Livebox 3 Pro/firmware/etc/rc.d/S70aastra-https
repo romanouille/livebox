@@ -1,0 +1,12 @@
+#!/bin/sh /etc/rc.common
+
+START=70
+
+RUN_D=/var/aastra-https
+
+start() {
+        [ -d $RUN_D ] || mkdir -p $RUN_D
+        cp /usr/lib/asterisk/provider/Aastra/* $RUN_D
+        cp /usr/lib/asterisk/provider/Ata/* $RUN_D
+}
+

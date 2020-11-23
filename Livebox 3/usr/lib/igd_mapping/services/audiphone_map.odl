@@ -1,0 +1,8 @@
+object Services {
+object X_ORANGE-COM_Audiphone;
+}
+datamodel {
+object Services {
+object X_ORANGE-COM_Audiphone from "pcb://$(PCB_MAIN_BUS)/Audiphone" recursive;
+}
+}

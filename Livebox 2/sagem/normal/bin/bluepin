@@ -1,0 +1,15 @@
+#!/bin/sh
+# execute by hcid for outgoing connection to get the pin code
+# pin codes are stored in /etc/bluetooth/pincode
+
+pincode() (
+	# pincode [bd_addr] [pin]
+	if [ "$target" = "$1" ]; then
+		echo "PIN:$2"
+		exit 0
+	fi
+)
+
+target="$2"
+. /etc/bluetooth/pincode
+

@@ -1,0 +1,7 @@
+
+
+datamodel {
+  object Conntrack {
+  }
+}
+/** @location sah_services_conntrack-plugin /conntrack_plugin-defaults.odl.m4 */

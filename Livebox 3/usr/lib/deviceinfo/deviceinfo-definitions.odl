@@ -1,0 +1,224 @@
+using "deviceinfo_plugin.so";
+acl {
+world read,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+group technician execute;
+}
+object DeviceInfo {
+variant get() {
+acl {
+world none;
+}
+}
+read-only string Manufacturer {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string ManufacturerOUI {
+constraint maxvalue 6;
+acl {
+world none;
+}
+}
+read-only string ModelName {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string Description {
+constraint maxvalue 256;
+acl {
+world none;
+}
+}
+read-only string ProductClass {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string SerialNumber {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string HardwareVersion {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string SoftwareVersion {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string RescueVersion {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string ModemFirmwareVersion {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string EnabledOptions {
+constraint maxvalue 1024;
+acl {
+world none;
+}
+}
+read-only string AdditionalHardwareVersion {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string AdditionalSoftwareVersion {
+constraint maxvalue 64;
+acl {
+world none;
+}
+}
+read-only string SpecVersion {
+constraint maxvalue 16;
+acl {
+world none;
+}
+}
+persistent string ProvisioningCode {
+constraint maxvalue 64;
+write with write_provisioningCode;
+acl {
+world none;
+}
+}
+read-only uint32 UpTime {
+read with read_upTime;
+acl {
+world none;
+}
+}
+read-only datetime FirstUseDate {
+acl {
+world none;
+}
+}
+read-only string DeviceLog {
+constraint maxvalue 32768;
+acl {
+world none;
+}
+}
+read-only uint32 VendorConfigFileNumberOfEntries {
+default 0;
+read with read_vendorConfigFileNumberOfEntries;
+acl {
+world none;
+}
+}
+read-only string ManufacturerURL {
+acl {
+world none;
+}
+}
+read-only string Country {
+acl {
+world none;
+}
+}
+read-only string ExternalIPAddress {
+acl {
+world none;
+}
+}
+bool update() {
+acl {
+world none;
+}
+}
+variant getDebugInformation() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician execute;
+}
+}
+bool addVendorConfigFile(string name, string version, string date, string description) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void removeVendorConfigFile(string name) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+string DeviceStatus {
+constraint enum ["Initializing", "Up", "Synchronized", "Error", "Disabled"];
+default "Initializing";
+write with write_deviceStatus;
+acl {
+world none;
+}
+}
+persistent read-only uint32 NumberOfReboots {
+default 0;
+acl {
+world none;
+}
+}
+read-only bool UpgradeOccurred {
+default false;
+acl {
+world none;
+}
+}
+read-only bool ResetOccurred {
+default false;
+acl {
+world none;
+}
+}
+read-only bool RestoreOccurred {
+default false;
+acl {
+world none;
+}
+}
+persistent object VendorConfigFile[] {
+acl {
+world none;
+}
+persistent read-only string Name {
+constraint maxvalue 64;
+}
+persistent read-only string Version {
+constraint maxvalue 16;
+}
+persistent read-only datetime Date;
+persistent read-only string Description {
+constraint maxvalue 256;
+}
+}
+bool export(string fileName) {
+acl {
+world none;
+}
+}
+}

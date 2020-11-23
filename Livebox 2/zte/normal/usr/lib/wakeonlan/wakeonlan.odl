@@ -1,0 +1,16 @@
+using "wakeonlan.so";
+
+persistent object WOL {
+/**
+  * Send A WakeOnLan (WOL) packet to a specified remote host
+  * @param hostID: MAC address of the host to who one wants to send the WOL packet (defined as Ethernet hex format xx:xx:xx:xx:xx:xx)
+  * @param intf: interface one chooses to send the WOL package (default nemo's default lan interface)
+  * @param password: Certain NICs support a security feature called "SecureOn". 
+  *	It allows users to store within the NIC a hexadecimal password of 6 bytes (defined as Ethernet hex format 00:22:44:66:88:aa)
+  * @param broadcast: Send wake-up packet to the broadcast address (FF:FF:FF:FF:FF:FF)
+  * @return true if OK, false if an error occurred
+*/
+  bool sendWakeOnLan(string hostID, string intf, string password, bool broadcast);
+}
+
+/** @location sah_services_wakeonlan /wakeonlan.odl */

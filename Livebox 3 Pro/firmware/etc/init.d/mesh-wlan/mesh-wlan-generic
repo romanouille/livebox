@@ -1,0 +1,88 @@
+#!/bin/sh
+##################################################################
+# Project: SagemCom Mesh WLAN Solution 
+#
+# Copyright (c) 2010-2010 Luceor SAS. All rights reserved.
+# Written by Christian DURIEUX <christian.durieux@luceor.com>
+#                                      
+# This common information parameter for mesh-wlan
+#
+#                                      
+# ----------------------------------------------------------------
+# V1.0: 2010-02-03 : CDU 
+#             - As specified in V1.2 interface 
+#               specification document
+# ----------------------------------------------------------------
+# V1.1: 2010-05-02 : CDU 
+#             - Error management preparation (as specified in V1.3/V1.4 interface 
+#               specification document)
+# ----------------------------------------------------------------
+# V1.2: 2010-05-25 : CDU 
+#             - Add IPC mechanism (as specified in V1.6 interface 
+#               file & in V1.1 architecture file)
+# ----------------------------------------------------------------
+# V1.3: 2011-09-30 : BPA
+#             - Removed IPC mechanism.
+##################################################################
+
+# Parameters
+SC_EMUL="no"
+VETH_WITH_IP="yes"
+USE_LOGGER="yes"
+USE_SUDO="no"
+TUNNEL_VIA_LINK="yes"
+
+
+# Files location
+CONFFILE="/etc/mesh-wlan/mesh-wlan.conf"
+OLSRHOOK="/etc/mesh-wlan/olsr-tunnel-mgt"
+#TCRULESFILE="/etc/init.d/tc-rules"
+OLSRFILE="/etc/init.d/mesh-wlan/olsr"
+OLSRCONFFILE="/etc/olsrd.conf"
+
+# Tunnel name
+GRENAMEPREF="lgre"
+
+if [ $USE_SUDO = "yes" ]; then
+    SUDO="sudo"
+else
+    SUDO=""
+fi
+
+
+#############################################################
+# Logger tools
+# $1 - Level
+# $2 - Information
+logInfo() {
+    local len
+    if [ $USE_LOGGER = "yes" ]; then
+        logger -p syslog.$1  -t mesh-wlan -- $2
+    fi
+    echo -e "[mesh-wlan:$1]:$2"
+}
+
+
+
+#############################################################
+# Function call tester: 
+# $1 - Stop or not : yes -> stop Wlan 
+# $2 - Information 
+# $3 - Type of error
+funcTest() {
+    if [ "$?" != "0" ]; then
+# An error occurs
+        if [ "$1" != "donotstop" ]; then
+            logInfo crit $2
+        else
+            logInfo info $2
+        fi
+        if [ "$1" = "stop" ]; then
+            stopWLAN
+            exit 1
+        fi
+        if [ "$1" = "leave" ]; then
+            exit 1
+        fi
+    fi
+}

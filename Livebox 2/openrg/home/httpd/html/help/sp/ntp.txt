@@ -1,0 +1,9 @@
+﻿<b>NTP:</b><br>
+<br>
+Selecciona la zona horaria mediante el menú desplegable.<br>
+Haz clic en el botón Guardar para salvar las modificaciones realizadas.<br>
+<!--
+<br>
+<b>
+-->
+

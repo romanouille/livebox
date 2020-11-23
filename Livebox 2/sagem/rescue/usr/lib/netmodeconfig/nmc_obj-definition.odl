@@ -1,0 +1,1026 @@
+using "nmc_pcb_plugin.so";
+
+define remoteaccess_t {
+	string username;
+	uint32 timeout;
+	uint32 timeleft;
+	uint32 port;
+}
+
+acl {
+	world read,execute;
+	group admin read,write,execute;
+	group remoteadmin read,write,execute;
+	group cwmpd read,write,execute;
+}
+
+/*
+ * Netmodeconfig root object
+ */
+persistent object NMC {
+
+	/**
+	 * List of supported WAN modes
+	 */
+	read-only string WanModeList {
+		default "DSL_PPP";
+	}
+
+	/**
+	 * Current WAN mode
+	 */
+	string WanMode {
+		constraint custom validate_wan_mode;
+		default "DSL_PPP";
+	}
+
+	/**
+	 * PPP username
+	 */
+	persistent string Username {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * PPP password
+	 */
+	persistent string Password {
+		acl {
+			world none;
+			group cwmpd read,write;
+		}
+	}
+
+	/**
+	 * IPv6 unique local address
+	 */
+	persistent string ULA {
+		constraint custom validate_ula;
+		default "$(ULA)";
+	}
+
+	/**
+	 * This parameter is set to true when
+	 * setWanMode() is called. It's specific
+	 * to the NMC implementation
+	 */
+	read-only bool SettingWanMode {
+		default false;
+	}
+
+	/**
+	 * State of the WWAN backup
+	 */
+	read-only string WWANBackupStatus {
+		constraint enum ["Idle", "TimerStarted", "WaitForConnection", "Connected"];
+		default Idle;
+	}
+
+	/**
+	 * True if VoIP must use a 
+	 * dedicated WAN interface
+	 */
+	string VoIPMode {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+		constraint enum ["Dedicated", "Internet"];
+		default Dedicated;
+	}
+
+	/**
+	 * True if IPTV must use a
+	 * dedicated WAN interface
+	 */
+	string IPTVMode {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+		constraint enum ["Dedicated", "Internet"];
+		default Dedicated;
+	}
+
+	/**
+	 * True if a VoIP call is ongoing
+	 */
+	read-only bool CallInProgress {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+		default false;
+	}
+
+	/**
+	 * Store the last StatusInfo
+	 * raised by the voice application
+	 * in case of registration error
+	 */
+	string LastVoIPError {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+	/**
+	 * True if PSTN calls are allowed
+	 */
+	persistent bool PSTNEnable {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+		default true;
+	}
+
+	/**
+	 * Settings for Orange TV
+	 */
+	persistent object OrangeTV {
+
+		/**
+		 * True if the service is enabled
+		 */
+		bool Enable {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default true;
+		}
+
+		/**
+		 * Status of the service
+		 * exposed in the TR-069 datamodel
+		 */
+		read-only string Status {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			constraint enum [ "Enabled", "Disabled", "Error" ];
+			default Disabled;
+		}
+
+		/**
+		 * define if IPTV operates in bridged or
+		 * routed mode
+		 */
+		persistent string Mode {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			constraint enum [ "Routed", "Bridged" ];
+			default Routed;
+		}
+
+		/**
+		 * Set to true if several STBs
+		 * are supported
+		 */
+		persistent bool MultiScreens {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default false;
+		}
+
+		/**
+		 * Status of the service
+		 * exposed in the GUI
+		 */
+		read-only string IPTVStatus {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			constraint enum [ "Available", "Unavailable", "Unknown" ];
+			default Unavailable;
+		}
+
+		/**
+		 * Address of the www server used by
+		 * the STB to retrieve the HTTP portal
+		 */
+		persistent string WWWServer {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+		/**
+		 * Address of the NTP server used by
+		 * the STB to retrieve the date and time
+		 */
+		persistent string NTPServer {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+		/**
+		 * Status of the service
+		 * exposed in the GUI
+		 */
+		read-only object IGDMap {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+
+			/**
+			 * True if at least one OrangeTv DHCP Client is up
+			 */
+			bool Enable {
+				default false;
+			}
+
+			/**
+			 * Is "Connected" if one OrangeTv DHCP Client, at least, is connected.
+			 */
+			string ConnectionStatus {
+				constraint enum [ "Bound", "Idle" ];
+				default "Idle";
+			}
+
+			/**
+			 * One IP Address used by bridge_iptv
+			 */
+			string ExternalIPAddress;
+		}
+
+		/**
+		 * Contains information about the
+		 * WAN client leases obtained on
+		 * the dedicated IPTV interface
+		 */
+		persistent object ClientLease[] {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+
+			/**
+			 * Lease name
+			 */
+			persistent string Name;
+
+			/**
+			 * Offset used to identify a given STB.
+			 * Increased by one for each new connected STB
+			 */
+			persistent uint8 ClientIDOffset;
+
+			/**
+			 * DHCP status of the lease
+			 */
+			string DHCPCStatus {
+				constraint enum ["Unconnected", "Connected", "Internal", "Unleased"];
+				default Unconnected;
+			}
+
+			/**
+			 * IPv4 address obtained from
+			 * the DHCP server
+			 */
+			persistent string IPAddress;
+
+			/**
+			 * Subnet mask obtained from
+			 * the DHCP server
+			 */
+			persistent string SubnetMask;
+
+			/**
+			 * Classless static routes obtained from
+			 * the DHCP server
+			 */
+			persistent object ClasslessStaticRoute[] {
+
+				/**
+				 * Route destination
+				 */
+				persistent string Destination;
+
+				/**
+				 * Route prefix length
+				 */
+				persistent string PrefixLength;
+
+				/**
+				 * Default router
+				 */
+				persistent string Router;
+			}
+
+			/**
+			 * Contains information about the
+			 * LAN server lease obtained by the STB
+			 * on the LAN interface
+			 */
+			persistent object ServerLease[] {
+
+				/**
+				 * Id of associated DHCP Client
+				 */
+				persistent string Id;
+
+				/**
+				 * DHCP pool associated to the
+				 * server lease
+				 */
+				persistent string Pool;
+
+				/**
+				 * IPv4 address obtained from the Livebox
+				 * DHCP server
+				 */
+				persistent string IPAddress;
+
+				/**
+				 * MAC address obtained from the Livebox
+				 * DHCP server
+				 */
+				persistent string MACAddress;
+
+				/**
+				 * Last known connection status
+				 */
+				persistent bool Active;
+			}
+		}
+	}
+
+	/**
+	 * Settings for Support Remote Access
+	 */
+	persistent object SupportRemoteAccess {
+
+		/**
+		 * True if the service is enabled
+		 */
+		bool Enable {
+			acl {
+				world none;
+				group admin read,write,execute;
+				group remoteadmin read,write,execute;
+				group cwmpd read,write,execute;
+			}
+			default false;
+		}
+		string Password {
+			acl {
+				world none;
+				group admin read,write,execute;
+				group remoteadmin read,write,execute;
+				group cwmpd read,write,execute;
+			}
+		}
+		string Accept {
+			acl {
+				world none;
+				group admin read,write,execute;
+				group remoteadmin read,write,execute;
+				group cwmpd read,write,execute;
+			}
+		}
+	}
+
+	/**
+	 * Settings for DHCP auto detection
+	 * on the multi-service interface
+	 */
+	object Autodetect {
+		/**
+		 * True if it's the first boot
+		 */
+		bool FirstBoot {
+			default true;
+		}
+	}
+
+	/**
+	 * Settings for the PPP session
+	 * automatic refresh
+	 */
+	object TPPP {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+
+		/**
+		 * True if the feature is enabled
+		 */
+		read-only bool Enable {
+			default false;
+		}
+
+		/**
+		 * Timeout of the current session
+		 * in sec
+		 */
+		uint32 Timeout {
+			constraint minvalue 1;
+			default 79200;
+		}
+
+		/**
+		 * Extra timeout in sec, used 
+		 * in case a voice call is ongoing
+		 */
+		uint32 ExtraTimeout {
+			constraint minvalue 1;
+			default 7200;
+		}
+	}
+
+	/**
+	 * Settings for UMA support
+	 */
+	object OnePhone {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+
+		/**
+		 * True if the feature is enabled
+		 */
+		read-only bool Enable {
+			default false;
+		}
+
+		/**
+		 * Contains information about
+		 * the UMA gateway FQDNs
+		 */
+		object UMAGW [] {
+
+			/**
+			 * UMA FQDN
+			 */
+			string FQDN;
+
+			/**
+			 * Status of the DNS resolution
+			 */
+			string Status {
+				constraint enum ["Unresolved","Resolved"];
+				default Unresolved;
+			}
+
+			/**
+			 * IPv4 address of the resolved FQDN
+			 */
+			string IP;
+		}
+	}
+
+	/**
+	 * IPv4 address of the
+	 * secure gateway
+	 */
+	string SegwIPAddress;
+
+	/**
+	 * Settings for captive portal
+	 */
+	persistent object Error {
+
+		/**
+		 * True if the current boot is
+		 * from factory defaults
+		 */
+		persistent bool FirstBoot {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default true;
+		}
+
+		/**
+		 * True if captive portal is enabled
+		 */
+		bool Enable {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default false;
+		}
+
+		/**
+		 * ID of the detected error
+		 */
+		read-only string ErrorID {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+		/**
+		 * True if an error was detected
+		 */
+		read-only bool Detected {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+		/**
+		 * Captive portal status 
+		 */
+		read-only string Status {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			constraint enum ["Enabled", "Disabled", "Error_URLEmpty", "Error"];
+			default Error;
+		}
+
+		/**
+		 * Time to wait before the error
+		 * is displayed to the user (in sec)
+		 */
+		uint32 TimeWaiting {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default 90;
+		}
+
+		/**
+		 * Duration of the error
+		 * since it was detected (in sec)
+		 */
+		read-only uint32 TotalErrorDuration {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default 0;
+		}
+
+		/**
+		 * List of STB IP addresses for excluded
+		 * from the captive portal redirection
+		 */
+		string STBList {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+		/**
+		 * Redirection URL
+		 */
+		string URL {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default "http://livebox/captivePortal.html";
+		}
+
+		/*
+        	 * Domains which rediction is not applicated
+        	 */
+		persistent string NoRedirectDomain {
+			constraint maxvalue 2000;
+        	    acl {
+        	        world none;
+        	        group admin none;
+        	        group remoteadmin none;
+	       	    }
+		}
+
+	}
+
+	/**
+	 * IPv6 parameters to be exposed
+	 * in the TR-069 datamodel
+	 */
+	object IPv6 {
+
+		/**
+		 * WAN link local address
+		 */
+		read-only string WANLocalLinkAddress {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default "";
+		}
+
+		/**
+		 * LAN link local address
+		 */
+		read-only string LANLocalLinkAddress{
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default "";
+		}
+		/**
+		 * WAN global unique address
+		 */
+		read-only string WANGlobalUniqueAddress{
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default "";
+		}
+		
+		/**
+		 * LAN global unique address
+		 */
+		read-only string LANGlobalUniqueAddress {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default "";
+		}
+
+		/**
+		 * Dslite end point server Name (CGN, AFTR)
+		 */
+		read-only string DsliteEndpointName {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default "";
+		}
+
+		/**
+		 * Dslite Status 
+		 */
+		read-only string DsliteStatus {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			constraint enum ["Enabled", "Disabled"];
+			default Disabled;
+		}
+
+		/**
+		 * Forwarding status
+		 */
+		read-only uint32 ForwardingStatus {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default 0;
+		}
+
+		/**
+		 * Force IPv4UserRequested
+		 * exposed in the GUI
+		 */
+		/**
+		 * True if ipv6 and Wan mode is up
+		 */
+		bool Enable {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default false;
+		}
+
+		/**
+		 * True if ipv4 activated
+		 */
+		bool IPv4UserRequested {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default false;
+		}
+	}
+
+	persistent object Wifi {
+		acl {
+			group admin read, write, execute;
+			group remoteadmin read, write, execute;
+		}
+
+		/**
+		 * Flag to indicate the Wi-Fi scheduler status
+		 * @version V6.0 back ported to v4.6
+		 */
+		bool SchedulingEnabled {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default "0";
+		}
+
+		/**
+		 * Flag to describe the Wi-Fi activation schedule
+		 * @version V6.0 back ported to v4.6
+		 */
+
+		string SchedulingActivationTimeSlots {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+	}
+
+	/**
+	 * Set the WAN mode and the PPP credentials
+	 * @param WanMode new WAN mode
+	 * @param Username PPP username
+	 * @param Password PPP password
+	 * @return true
+	 */
+	bool setWanMode(string WanMode, string Username, string Password);
+
+	/**
+	 * Get the status of the WAN data connection
+	 * @param LinkType type of the physical link (dsl, ftth, vdsl)
+	 * @param LinkState state of the physical link (up, down)
+	 * @param WanState 'up' or 'down'
+	 * @param MACAddress MAC address of the data interface
+	 * @param Protocol network protocol on the data interface (PPP, DHCP)
+	 * @param ConnectionState status of the data connection
+	 * @param LastConnectionError error that occured during the last connection failure
+	 * @param IPAddress IPv4 address of the data interface
+	 * @param RemoteGateway default gateway
+	 * @param DNSServers list of IPv4 and IPv6 DNS servers
+	 * @param IPv6Address IPv6 address of the data interface (obtained by DHCP)
+	 * @param IPv6DelegatedPrefix IPv6 delegated prefix from the ISP
+	 * @return true unless errors occured
+	 */
+	bool getWANStatus(out string LinkType, out string LinkState, out string WanState, out string MACAddress,
+						out string Protocol, out string ConnectionState, out string LastConnectionError,
+						out string IPAddress, out string RemoteGateway, out string DNSServers,
+						out string IPv6Address, out string IPv6DelegatedPrefix);
+
+	/**
+	 * Configure the LAN bridge
+	 * @param Address IPv4 address of the bridge interface
+	 * @param Netmask netmask of the bridge interface
+	 * @param DHCPEnable true if the DHCP server is enabled
+	 * @param DHCPMinAddress first IPv4 address that can be attributed
+	 * @param DHCPMaxAddress last IPv4 address that can be attributed
+
+	 */
+	void setLANIP(in string Address, in string Netmask, in bool DHCPEnable, in string DHCPMinAddress, in string DHCPMaxAddress) {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Retrieve the LAN bridge configuration
+	 * @param Address IPv4 address of the bridge interface
+	 * @param Netmask netmask of the bridge interface
+	 * @param DHCPEnable true if the DHCP server is enabled
+	 * @param DHCPMinAddress first IPv4 address that can be attributed
+	 * @param DHCPMaxAddress last IPv4 address that can be attributed
+
+	 */
+	void getLANIP(out string Address, out string Netmask, out bool DHCPEnable, out string DHCPMinAddress, out string DHCPMaxAddress);
+
+	/**
+	 * Add a static DHCP lease
+	 * @param MACAddress host MAC address
+	 * @param IPAddress IPv4 static address
+	 */
+	void addStaticLease(string MACAddress, string IPAddress) {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Delete a static DHCP lease
+	 * @param MACAddress host MAC address
+	 */
+	void deleteStaticLease(string MACAddress) {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Retrieve the static DHCP leases
+	 * @return list of the static DHCP leases
+	 */
+	list getStaticLeases() {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Enable remote access
+	 *
+	 * It first tries to find an existing user matching the username given. 
+	 * If the user is found and is not a system user, it updates its password
+	 * and makes sure it is in the remoteadmin group.
+	 * If it cannot be found, it creates the user.
+	 * If the user is in the system group, it errors out.
+	 * Then it enable the remote access
+	 *
+	 * @param username username to allow
+	 * @param password password to authenticate the user
+	 * @param port the port to use, 0 to choose a random port
+	 * @param timeout the timeout before closing the connection, 0 for a permanent access
+	 * @return the port number allocated
+	 */
+	uint32 enableRemoteAccess(string username, string password, uint32 port, uint32 timeout) {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Fetch the remote access parameters
+	 * @param username optional username to fetch
+	 * @return the remote acces data
+	 */
+	remoteaccess_t getRemoteAccess(string username)  {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Disable remote access
+	 * @return the port number deallocated
+	 */
+	uint32 disableRemoteAccess() {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Backup the user settings
+	 * @return true if success
+	 */
+	bool backup() {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+	/**
+	 * Restore the user settings
+	 * @return true if success
+	 */
+	bool restore() {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+	/**
+	 * Reset the user settings
+	 */
+	void reset() {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Reboot the system
+	 */
+	void reboot() {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Backup NMC's user settings
+	 * @param filename the hgwcfg filename
+	 */
+	void export(string filename) {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+	/**
+	 * Restore NMC's user settings
+	 * @param filename the hgwcfg filename
+	 */
+	void import(string filename) {
+		acl {
+			world none;
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+	/**
+	 * Populate the file that contains the version numbers
+	 */
+	void updateVersionInfo() {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Check if an upgrade is available
+	 * @return true if an upgrade is available
+	 */
+	bool checkForUpgrades() {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Enable/disable the PSTN line (FXO)
+	 * @param PSTNEnable true to enable the PSTN line, false to disable
+	 */
+	void setPSTNEnable(in bool PSTNEnable) {
+		acl {
+			world none;
+		}
+	}
+
+	/**
+	 * Retrieve the status of the PSTN line (FXO)
+	 * @param PSTNEnable true if the PSTN line is enabled, false if not
+	 */
+	void getPSTNEnable(out bool PSTNEnable) {
+		acl {
+			world none;
+		}
+	}
+}

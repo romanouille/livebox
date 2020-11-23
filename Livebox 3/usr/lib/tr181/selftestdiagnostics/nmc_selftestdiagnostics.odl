@@ -1,0 +1,22 @@
+object SelfTestDiagnostics {
+bool X_ORANGE-COM_AutoDiagnosticsEnabled {
+default false;
+}
+bool X_ORANGE-COM_DiagnosticsEnabled {
+default true;
+}
+string X_ORANGE-COM_DiagnosticsScriptFileVersion;
+string DiagnosticsState {
+constraint enum ["None", "Requested", "Cancel", "Complete","Error_Internal", "Error_Other"];
+default "None";
+}
+string X_ORANGE-COM_Diagnostics;
+read-only string Results;
+string X_ORANGE-COM_StorageUrl;
+read-only uint32 X_ORANGE-COM_StorageCounter;
+uint32 X_ORANGE-COM_StorageLimit {
+default 50000;
+}
+}
+datamodel {
+}

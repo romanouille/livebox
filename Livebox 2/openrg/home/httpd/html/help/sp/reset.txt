@@ -1,0 +1,7 @@
+﻿<b>Resetear:</b><br>
+<br>
+Haz clic en el botón "Resetear" para restablecer la configuración por defecto de fábrica de tu Livebox. Todos los parámetros que hubieras personalizado se perderán, por esta razón se recomienda guardar tu configuración personalizada antes de realizar esta acción.<br>
+<!--
+<br>
+-->
+

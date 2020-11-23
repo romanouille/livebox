@@ -1,0 +1,6 @@
+
+
+include "datamanager-definitions.odl";
+include "datamanager-defaults.odl";
+
+/** @location  commod_datahub_datamanager  add-on/frontend/pcb/datamanager.odl.m4 */

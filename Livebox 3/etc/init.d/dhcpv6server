@@ -1,0 +1,50 @@
+#!/bin/sh
+. /usr/bin/pcb_common.sh
+
+name="dhcpv6server"
+start_options="-c /usr/lib/dhcpv6server/dhcpv6server.odl"
+datamodel="DHCPv6"
+trace_zones="dhcpv6server"
+component="sah_services_dhcpv6server"
+
+start()
+{
+	mkdir -p /var/etc/dhcpdv6/ /var/db
+	touch /var/db/dhcpd6.leases
+
+	pcb_start $name $start_options
+	pcb_cli -q "Firewall.setService(dhcpdv6, lan, 547, 17, 6, true)"
+}
+
+stop()
+{
+	pcb_stop $name
+	pcb_cli -q "Firewall.deleteService(dhcpdv6)"
+}
+
+case $1 in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+		;;
+	log)
+		action=$2
+		if [ -n "$action" ]; then
+			pcb_log $name $action $trace_zones
+		else
+			pcb_log $name enable $trace_zones
+		fi
+		;;
+	*)
+		echo "Usage : $0 [start|stop|restart|debuginfo|log]"
+		;;
+esac

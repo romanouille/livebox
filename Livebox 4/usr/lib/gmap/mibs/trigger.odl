@@ -1,0 +1,7 @@
+/**
+ * @version 7.0
+ */
+mib trigger {
+    uint8 LastTriggerValue;
+}
+/** @location sah_services_gmap /mibs/trigger.odl */

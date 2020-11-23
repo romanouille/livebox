@@ -1,0 +1,354 @@
+using "wifi/nmc_wifi.so";
+object WiFi {
+object wps_DefParam;
+object Radio[] {
+counted with RadioNumberOfEntries;
+read-only string Status;
+string BaseMACAddress;
+string Alias;
+read-only string Name;
+read-only string VendorPCISig;
+read-only uint32 Index;
+read-only bool Upstream;
+read-only uint32 MaxBitRate;
+read-only string SupportedFrequencyBands;
+string OperatingFrequencyBand;
+read-only string SupportedStandards;
+string OperatingStandards;
+read-only string PossibleChannels;
+string ChannelsInUse;
+read-only bool AutoChannelSupported;
+bool AutoChannelEnable;
+uint32 AutoChannelRefreshPeriod;
+read-only bool AutoChannelSelection;
+uint32 Channel;
+string OperatingChannelBandwidth;
+string ExtensionChannel;
+string GuardInterval;
+int32 MCS;
+read-only string TransmitPowerSupported;
+int32 TransmitPower;
+read-only bool IEEE80211hSupported;
+bool IEEE80211hEnabled;
+string RegulatoryDomain;
+read-only string IEEE80211_Caps;
+bool Enable;
+object Stats {
+uint32 BytesSent;
+uint32 BytesReceived;
+uint32 PacketsSent;
+uint32 PacketsReceived;
+uint32 ErrorsSent;
+uint32 ErrorsReceived;
+uint32 DiscardPacketsSent;
+uint32 DiscardPacketsReceived;
+object X_ORANGE-COM_80211Statistics {
+read-only bool CoChannelAP;
+read-only uint32 Coexistence11b;
+read-only uint32 Coexistence11bg;
+read-only uint32 Coexistence11a;
+read-only bool WiFiInterference;
+read-only uint32 ChannelLoad;
+read-only int32 Noise;
+object SurroundingChannels[] {
+read-only int32 Channel;
+object AccessPoint[] {
+read-only string BSSID;
+read-only int32 RSSI;
+object SSID[] {
+read-only string Name;
+read-only uint32 Bandwidth;
+read-only string BSSID;
+}
+}
+}
+}
+}
+bool X_ORANGE-COM_AntennaDefect;
+bool AirtimeFairnessEnabled;
+bool X_ORANGE-COM_EnableLongWaitChannels;
+bool X_ORANGE-COM_SCSEnabled;
+bool X_ORANGE-COM_DFS2DFSEnabled;
+uint32 X_ORANGE-COM_DFS2DFS_Interf_Threshold;
+uint32 X_ORANGE-COM_DFS2DFS_Data_Threshold;
+int32 X_ORANGE-COM_DFS2DFS_RSSI_Threshold;
+uint32 X_ORANGE-COM_DFS2DFS_Init_Timer;
+uint32 X_ORANGE-COM_DFS2DFS_Max_Failure_Timer;
+uint8 X_ORANGE-COM_DFS2DFS_CleanedBand;
+object ChannelMgt;
+}
+object SSID[] {
+counted with SSIDNumberOfEntries;
+bool Enable;
+read-only string Status;
+string Alias;
+read-only string Name;
+read-only string BSSID;
+read-only string MACAddress;
+string SSID;
+object Stats;
+}
+object AccessPoint[] {
+counted with AccessPointNumberOfEntries;
+read-only string Status;
+string Alias;
+string SSIDReference;
+bool SSIDAdvertisementEnabled;
+uint32 RetryLimit;
+read-only bool WMMCapability;
+read-only bool UAPSDCapability;
+bool WMMEnable;
+bool UAPSDEnable;
+bool MCEnable;
+bool APBridgeDisable;
+int32 MaxStations;
+read-only uint32 AssociatedDeviceNumberOfEntries;
+read-only uint32 X_ORANGE-COM_ActiveAssociatedDeviceNumberOfEntries;
+object Security {
+string ModeEnabled;
+string WEPKey;
+string KeyPassphrase;
+}
+object WPS;
+object MACFiltering;
+object AssociatedDevice[] {
+string MACAddress;
+uint32 LastDataDownlinkRate;
+uint32 LastDataUplinkRate;
+int32 SignalStrength;
+uint32 Retransmissions;
+uint64 X_ORANGE-COM_PacketsReceived;
+uint64 X_ORANGE-COM_PacketsSent;
+uint64 X_ORANGE-COM_NumberOfRetries;
+}
+bool Enable;
+}
+object EndPoint[] {
+counted with EndPointNumberOfEntries;
+read-only string Status;
+string Alias;
+read-only uint32 Index;
+string ProfileReference;
+string SSIDReference;
+int32 ProfileNumberOfEntries;
+object Stats;
+object Security;
+object Profile[];
+object WPS;
+bool Enable;
+}
+object X_ORANGE-COM_Scheduler {
+bool Enable;
+string ActivationTimeSlots;
+}
+}
+datamodel {
+object WiFi {
+instance of Radio(0,"wifi0_ATH") {
+parameter Alias="RADIO2G4";
+parameter X_ORANGE-COM_AntennaDefect=false;
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/Radio/wifi0" {
+parameter Status;
+parameter BaseMACAddress;
+parameter Name;
+parameter VendorPCISig;
+parameter Index;
+parameter Upstream;
+parameter MaxBitRate;
+parameter SupportedFrequencyBands;
+parameter OperatingFrequencyBand;
+parameter SupportedStandards;
+parameter OperatingStandards;
+parameter PossibleChannels;
+parameter ChannelsInUse;
+parameter AutoChannelSupported;
+parameter AutoChannelEnable;
+parameter AutoChannelRefreshPeriod;
+parameter AutoChannelSelection;
+parameter Channel;
+parameter OperatingChannelBandwidth;
+parameter ExtensionChannel;
+parameter GuardInterval;
+parameter MCS;
+parameter TransmitPowerSupported;
+parameter TransmitPower;
+parameter IEEE80211hSupported;
+parameter IEEE80211hEnabled;
+parameter RegulatoryDomain;
+parameter IEEE80211_Caps;
+parameter Enable;
+}
+object ChannelMgt from "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wifi0_ath/ChannelMgt" recursive;
+object Stats {
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/Radio/wifi0/Stats" {
+parameter BytesSent;
+parameter BytesReceived;
+parameter PacketsSent;
+parameter PacketsReceived;
+parameter ErrorsSent;
+parameter ErrorsReceived;
+parameter DiscardPacketsSent;
+parameter DiscardPacketsReceived;
+}
+}
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wifi0_ath" {
+parameter AirtimeFairnessEnabled;
+}
+}
+instance of Radio(0,"wifi1_ATH") {
+parameter Alias="RADIO5G";
+parameter X_ORANGE-COM_AntennaDefect=false;
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/Radio/wifi1" {
+parameter Status;
+parameter BaseMACAddress;
+parameter Name;
+parameter VendorPCISig;
+parameter Index;
+parameter Upstream;
+parameter MaxBitRate;
+parameter SupportedFrequencyBands;
+parameter OperatingFrequencyBand;
+parameter SupportedStandards;
+parameter OperatingStandards;
+parameter PossibleChannels;
+parameter ChannelsInUse;
+parameter AutoChannelSupported;
+parameter AutoChannelEnable;
+parameter AutoChannelRefreshPeriod;
+parameter AutoChannelSelection;
+parameter Channel;
+parameter OperatingChannelBandwidth;
+parameter ExtensionChannel;
+parameter GuardInterval;
+parameter MCS;
+parameter TransmitPowerSupported;
+parameter TransmitPower;
+parameter IEEE80211hSupported;
+parameter IEEE80211hEnabled;
+parameter RegulatoryDomain;
+parameter IEEE80211_Caps;
+parameter Enable;
+}
+object ChannelMgt from "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wifi1_ath/ChannelMgt" recursive;
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/Radio/wifi1/Vendor" {
+parameter X_ORANGE-COM_SCSEnabled from SCSEnabled;
+parameter X_ORANGE-COM_DFS2DFSEnabled from DFS2DFSEnabled;
+parameter X_ORANGE-COM_DFS2DFS_Interf_Threshold from DFS2DFSInterfThreshold;
+parameter X_ORANGE-COM_DFS2DFS_Data_Threshold from DFS2DFSDataThreshold;
+parameter X_ORANGE-COM_DFS2DFS_RSSI_Threshold from DFS2DFSRSSIThreshold;
+parameter X_ORANGE-COM_DFS2DFS_Init_Timer from DFS2DFSInitTimer;
+parameter X_ORANGE-COM_DFS2DFS_Max_Failure_Timer from DFS2DFSMaxFailureToClearTimer;
+parameter X_ORANGE-COM_DFS2DFS_CleanedBand from DFS2DFSClearedBand;
+}
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/Radio/wifi1/ChannelMgt/ChannelSelectConfig" {
+parameter X_ORANGE-COM_EnableLongWaitChannels from EnableLongWaitChannels;
+}
+object Stats {
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/Radio/wifi1/Stats" {
+parameter BytesSent;
+parameter BytesReceived;
+parameter PacketsSent;
+parameter PacketsReceived;
+parameter ErrorsSent;
+parameter ErrorsReceived;
+parameter DiscardPacketsSent;
+parameter DiscardPacketsReceived;
+}
+}
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wifi1_ath" {
+parameter AirtimeFairnessEnabled;
+}
+}
+object wps_DefParam from "pcb://$(PCB_MAIN_BUS)/WiFiATH/wps_DefParam" recursive;
+instance of SSID(0, "wl0") {
+parameter Alias="SSID_LAN_2G4";
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/SSID/wl0" {
+parameter Enable;
+parameter Status;
+parameter Name;
+parameter BSSID;
+parameter MACAddress;
+parameter SSID;
+}
+object Stats from "pcb://$(PCB_MAIN_BUS)/WiFiATH/SSID/wl0/Stats" recursive;
+}
+instance of SSID(0, "wl1") {
+parameter Alias="SSID_LAN_5G";
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/SSID/wl1" {
+parameter Enable;
+parameter Status;
+parameter Name;
+parameter BSSID;
+parameter MACAddress;
+parameter SSID;
+}
+object Stats from "pcb://$(PCB_MAIN_BUS)/WiFiATH/SSID/wl1/Stats" recursive;
+}
+instance of AccessPoint(0, "wl0") {
+parameter Alias="AP_LAN_2G4";
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/AccessPoint/wl0" {
+parameter Status;
+parameter SSIDReference;
+parameter SSIDAdvertisementEnabled;
+parameter RetryLimit;
+parameter WMMCapability;
+parameter UAPSDCapability;
+parameter WMMEnable;
+parameter UAPSDEnable;
+parameter MCEnable;
+parameter APBridgeDisable;
+parameter MaxStations;
+parameter AssociatedDeviceNumberOfEntries;
+parameter X_ORANGE-COM_ActiveAssociatedDeviceNumberOfEntries from ActiveAssociatedDeviceNumberOfEntries;
+}
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0" {
+parameter Enable;
+}
+object Security {
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+parameter ModeEnabled;
+parameter WEPKey;
+parameter KeyPassphrase from KeyPassPhrase;
+}
+}
+object WPS from "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/WPS" recursive;
+object MACFiltering from "pcb://$(PCB_MAIN_BUS)/WiFiATH/AccessPoint/wl0/MACFiltering" recursive;
+}
+instance of AccessPoint(0, "wl1") {
+parameter Alias="AP_LAN_5G";
+destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/AccessPoint/wl1" {
+parameter Status;
+parameter SSIDReference;
+parameter SSIDAdvertisementEnabled;
+parameter RetryLimit;
+parameter WMMCapability;
+parameter UAPSDCapability;
+parameter WMMEnable;
+parameter UAPSDEnable;
+parameter MCEnable;
+parameter APBridgeDisable;
+parameter MaxStations;
+parameter AssociatedDeviceNumberOfEntries;
+parameter X_ORANGE-COM_ActiveAssociatedDeviceNumberOfEntries from ActiveAssociatedDeviceNumberOfEntries;
+}
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl1" {
+parameter Enable;
+}
+object Security {
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl1/Security" {
+parameter ModeEnabled;
+parameter WEPKey;
+parameter KeyPassphrase from KeyPassPhrase;
+}
+}
+object WPS from "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl1/WPS" recursive;
+object MACFiltering from "pcb://$(PCB_MAIN_BUS)/WiFiATH/AccessPoint/wl1/MACFiltering" recursive;
+}
+object X_ORANGE-COM_Scheduler {
+destination "pcb://$(PCB_MAIN_BUS)/NMC/Wifi" {
+parameter Enable from SchedulingEnabled;
+parameter ActivationTimeSlots from SchedulingActivationTimeSlots;
+}
+}
+}
+}

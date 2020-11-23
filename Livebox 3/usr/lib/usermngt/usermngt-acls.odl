@@ -1,0 +1,282 @@
+datamodel {
+acl {
+group cwmpd read, write, execute;
+world read, execute;
+}
+object UserManagement {
+parameter GroupNumberOfEntries {
+acl {
+world none;
+}
+}
+parameter UserNumberOfEntries {
+acl {
+world none;
+}
+}
+parameter groupRestoreFilter {
+acl {
+world none;
+}
+}
+function addUser {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function changeUser {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function changePassword {
+acl {
+world read, execute;
+}
+}
+function removeUser {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function removeUsers {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function addGroup {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function changeGroup {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function removeGroup {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function getUsers {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function getGroups {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function getUsersAndGroups {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function addUserToGroups {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function removeUserFromGroups {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+}
+function export {
+acl {
+world none;
+}
+}
+function import {
+acl {
+world none;
+}
+}
+function authenticate {
+acl {
+world read, execute;
+}
+}
+function setUserCustomData {
+acl {
+world none;
+}
+}
+function getUserCustomData {
+acl {
+world none;
+}
+}
+function removeUserCustomData {
+acl {
+world none;
+}
+}
+function getUserFromKeyValue {
+acl {
+world none;
+}
+}
+function registerCallbacks {
+acl {
+world none;
+}
+}
+function unregisterCallbacks {
+acl {
+world none;
+}
+}
+object Group {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+parameter System {
+acl {
+group remoteadmin none;
+world none;
+}
+}
+parameter LinuxGroup {
+acl {
+group remoteadmin none;
+world none;
+}
+}
+}
+object User {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+world none;
+}
+parameter Password {
+acl {
+group remoteadmin none;
+world none;
+}
+}
+parameter PasswordType {
+acl {
+group remoteadmin none;
+world none;
+}
+}
+parameter Salt {
+acl {
+group remoteadmin none;
+world none;
+}
+}
+parameter AllowFTPAccess {
+acl {
+group remoteadmin none;
+world none;
+}
+}
+parameter AllowHTTPAccess {
+acl {
+group remoteadmin none;
+world none;
+}
+}
+parameter RemoteAccessCapable {
+acl {
+group remoteadmin none;
+world none;
+}
+}
+parameter Shell {
+acl {
+group admin none;
+group remoteadmin none;
+group cwmpd none;
+world none;
+}
+}
+parameter CustomData {
+acl {
+group admin none;
+group remoteadmin none;
+group cwmpd none;
+world none;
+}
+}
+}
+instance of Group(1, "http") {
+acl {
+group admin read, write, execute;
+group remoteadmin read, write, execute;
+}
+}
+instance of Group(2, "admin") {
+acl {
+group admin read, write, execute;
+group remoteadmin read, write, execute;
+}
+}
+instance of Group(3, "remoteadmin") {
+acl {
+group admin read, write, execute;
+group remoteadmin read, write, execute;
+}
+}
+instance of Group(4, "cwmpd") {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Group(5, "technician") {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+instance of User(1, "admin") {
+acl {
+group admin read, execute;
+}
+parameter Password {
+acl {
+group admin write;
+group remoteadmin write;
+}
+}
+}
+instance of User(4, "refurbish") {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}

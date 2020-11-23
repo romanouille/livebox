@@ -1,0 +1,9 @@
+<b>DNS :</b><br>
+<br>
+Le serveur DNS sert à convertir les noms de domaine en adresses IP et inversement. Vous pouvez configurer manuellement un serveur DNS primaire et secondaire en saisissant leurs adresses IP dans le format X.X.X.X.<br>
+Si vous choisissez le mode automatique, les serveurs DNS d’Orange seront utilisés par défaut.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

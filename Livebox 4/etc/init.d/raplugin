@@ -1,0 +1,51 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="raplugin"
+datamodel="RouterAdvertisement"
+trace_zones=""
+component="sah_services_raplugin"
+
+ETC_DIR="/var/etc/ra"
+
+case $1 in 
+	start)
+		chmod o+rw /dev/null 
+		if [ ! -d "${ETC_DIR}" ]; 
+		then 
+			mkdir -p "${ETC_DIR}"
+			chown radvd:radvd "${ETC_DIR}"
+		else
+			rm -rf "${ETC_DIR}"/*
+		fi
+		pcb_cli -q 'Firewall.setService("radvd","lan","","58",6,true,133)'
+		pcb_start $name -c /usr/lib/ra/ra.odl -I /var/run/raplugin
+	;;
+	stop)
+		[ -f "/var/run/radvd/radvd.pid" ] && kill `cat /var/run/radvd/radvd.pid`
+		pcb_stop $name
+		pcb_cli -q 'Firewall.deleteService("radvd")'
+		rm -rf "${ETC_DIR}"/*
+	;;
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+		if [ -e /var/etc/ra/radvd.conf ]; then 
+			echo "radvd.conf file"
+			cat /var/etc/ra/radvd.conf
+		else 
+			echo "Warning: empty radvd config file"
+		fi
+	;;
+	log)
+		action=$2
+		if [ -n "$action" ]; then
+			pcb_log $name $action $trace_zones
+		else
+			pcb_log $name enable $trace_zones
+		fi
+	;;
+	*)
+		echo "Usage : $0 [start|stop|debuginfo|log]"
+	;;
+esac

@@ -1,0 +1,14 @@
+<b>VPN:</b><br>
+<br>
+Esta página se emplea para definir la configuración de tu conexión VPN.<br>
+<br>
+El modo de configuración sencilla es el recomendado para conectar dos Livebox si deseas mantener los parámetros de seguridad configurados por defecto.<br>
+<br>
+El modo experto se emplea para definir los parámetros de seguridad para una conexión entre dos Livebox. Este modo también se emplea para configurar un enlace entre el Livebox y otro tipo de servidor VPN.<br>
+<br>
+<span class="boldorange">Configuración del túnel en &nbsp;modo sencillo:</span><br>
+Para crear una nueva conexión debes introducir la siguiente información: el nombre del tunel, la dirección IP o DNS del host remoto, una clave secreta que deberá ser la misma para los dos Livebox, el rango de direcciones de la red local y la red remota que tendrá acceso al VPN. El rango de direcciones será introducida como una dirección IP y la máscara de subred.<br>
+<br>
+<span class="boldorange">Configuración del túnel en modo experto:</span><br>
+Para crear una nueva conexión deberás introducir la siguiente información: el nombre del túnel, la dirección IP o DNS del host remoto, una clave secreta que debe ser idéntica en los dos Livebox que forman parte de la conexión, el rango de direcciones de la red local y la red remota que tendrá acceso al VPN. Los rangos de direcciones serán introducidos como una dirección IP y una máscara de subred.<br>
+Los valores empleados por defecto pueden ser usados para el resto de parámetros de configuración. Solo los usuarios expertos deberían modificar la configuración  de los parámetros de seguridad. 

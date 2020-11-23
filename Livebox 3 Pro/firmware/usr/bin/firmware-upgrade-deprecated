@@ -1,0 +1,252 @@
+#!/bin/sh
+#
+# Copyright : (C) 2011 Sagemcom - URD2
+#
+# This software and source file is the property of Sagemcom
+# and may not be copied or used without prior written consent.
+#
+#	author:  christophe.lecanuet@sagem.com
+#	date:    20/01/2011
+#
+
+. /etc/flash-map.conf
+
+# Default configuration file
+CONFIG=/etc/flash-map.conf
+# Default partition name
+PARTITION_NAME=operational
+# Get command name
+CMD=`basename $0`
+# Default option
+QUIET=
+VERBOSE=-v
+UBIDEV=/dev/ubi0
+
+# Command help
+USAGE="
+Command usage:
+
+   $CMD ( -d <device> | -p <partition> ) [ options ] <URL>
+   $CMD ( -d <device> | -p <partition> ) [ options ] <HOST> <FILE>
+   $CMD ( -d <device> | -p <partition> ) [ options ] <FILE>
+   $CMD -h
+
+   This command loads a flash image from a network server and
+   store it in a flash partition device.
+
+   Options:
+
+      -d <device>
+         The MTD or UBI device node path of the flash partition.
+         The device path must be '/dev/mtdblockN' for MTD partition or
+         '/dev/ubi0_N' for UBI volume. Use -p to select the device by name.
+
+      -h
+         Show this help message.
+
+      -p <partition>
+         The name of the partition to be upgraded (MTD or UBI flash device).
+         If no partition is selected, then the \"$PARTITION_NAME\" partition
+         will be upgraded.
+
+      -u <username>
+         Username to use if remote server requires authentication
+
+      -w <password>
+         Password to use if remote server requires authentication
+
+      -q
+         Activate the quiet mode.
+
+      <URL>
+         The file used to upgrade the flash partition will be loaded from
+         the network using the specified URL. The URL must be one of
+         the followings:
+            http://HOST/file-path
+               The file commes from a HTTP server.
+            ftp://HOST/file-path
+               The file commes from a FTP server.
+
+      <HOST> <FILE>
+         The file used to upgrade the flash partition will be loaded from
+         the network HOST using the TFTP protocol. The FILE must be copied
+         in the TFTP directory of the HOST (/tftpboot, ...).
+
+      <FILE>
+         Upgrade the flash partition from a local file.
+"
+
+find_ubi () {
+  if [ x"$CONFIG_MTD_SECURE_UPDATE_UBI" != x"" ]; then
+    for vol in /sys/class/ubi/ubi0/ubi0_*
+    do
+      if [ `cat $vol/name` = "$1" ]; then
+        echo "$vol" | \
+          sed -e 's/^\/sys\/class\/ubi\/ubi0\/\(.*\)$/\/dev\/\1/'
+        return 0
+      fi
+    done
+    echo "Cannot find UBI volume for $1 !" >&2
+  fi
+  echo ""
+}
+
+find_mtd () {
+  (cat /proc/mtd | \
+    grep "\"$1\"" | \
+    cut -d ":" -f 1 | \
+    sed -e 's/^mtd\([0-9]*\)$/\/dev\/mtd\1/' ) 2> /dev/null \
+    || echo "" ;
+}
+
+# Find command options
+while getopts "d:hp:u:w:q" opt
+do
+  case $opt in
+    d) DEVICE_NAME="$OPTARG";;
+    h) echo "$USAGE"; exit 0;;
+    p) PARTITION_NAME="$OPTARG";;
+    u) USERNAME="$OPTARG";;
+    w) PASSWORD="$OPTARG";;
+    q) VERBOSE=""; QUIET="-q";;
+    \?) echo "$USAGE"; exit 1;;
+  esac
+done
+
+# Remove options
+shift $(($OPTIND - 1))
+
+# Check parameter count
+if [ x"$3" != x"" ]; then
+  echo "The command support a maximum of 2 parameters." >&2
+  echo "$USAGE"
+  exit 1
+fi
+
+# Get the device name if undefined
+if [ x"$DEVICE_NAME" = x"" ]; then
+  DEVICE_NAME=`find_ubi $PARTITION_NAME`
+  if [ x"$DEVICE_NAME" = x"" ]; then
+    DEVICE_NAME=`find_mtd $PARTITION_NAME`
+  fi
+fi
+
+# Check device name definition
+if [ x"$DEVICE_NAME" = x"" ]; then
+  echo "Undefined device name." >&2
+  echo "$USAGE"
+  exit 1
+elif [ ! -c "$DEVICE_NAME" ]; then
+  echo "\"$DEVICE_NAME\" is not a valid device name." >&2
+  echo "$USAGE"
+  exit 1
+fi
+
+TMP_FILE=$(mktemp -t "${PARTITION_NAME}.image.XXXXXX")
+
+if [ x"$2" != x"" ]; then
+  # Case of TFTP load
+  HOST_NAME=$1
+  REMOTE_FILE=$2
+  if [ x"$QUIET" = x"" ]; then
+    echo "TFTP get from $HOST_NAME: \"$REMOTE_FILE\""
+  fi
+  # How to pipe with tftp: tftp -g -l /proc/self/fd/1 -r "$REMOTE_FILE" "$HOST_NAME" | flashdev
+  tftp -g -l "$TMP_FILE" -r "$REMOTE_FILE" "$HOST_NAME"
+  if [ $? -ne 0 ]; then
+    rm -f "$TMP_FILE"
+    echo "Download failed !" >&2
+    exit 1
+  fi
+  IMAGE_FILE=$TMP_FILE
+elif [ x"$1" = x"" ]; then
+  echo "The command must have 1 or 2 parameters." >&2
+  echo "$USAGE"
+  exit 1
+elif [ -f $1 ]; then
+  # Case of local file
+  IMAGE_FILE=$1
+else
+  # How to pipe with ssh: ssh user@HOST 'cat myfile' | flashdev
+  # Case of wget load
+  URL="$1"
+  if [ x"$QUIET" = x"" ]; then
+    echo "Downloading from the URL: \"$URL\""
+  fi
+  if [ "$USERNAME" ] && [ "$PASSWORD" ]; then
+##    WGET_OPTS="--user=$USERNAME --password=$PASSWORD"
+    EVLP_OPTS="-l $USERNAME -p $PASSWORD"
+  else
+##    WGET_OPTS=
+	EVLP_OPTS=
+  fi
+  # XXX Temporary catch-all rules.
+  firewall-cli filter -m off
+##  wget $QUIET -O "$TMP_FILE" $WGET_OPTS "$URL"
+  evlp-download -f "$TMP_FILE" $EVLP_OPTS "$URL"
+  STATUS=$?
+  firewall-cli filter -m on
+  if [ $STATUS -ne 0 ]; then
+    rm -f "$TMP_FILE"
+    echo "Download failed !" >&2
+    exit 1
+  fi
+  IMAGE_FILE=$TMP_FILE
+fi
+
+RESULT=1
+
+if [ -x /usr/sbin/gsdf-verif ]; then
+  /usr/sbin/gsdf-verif "$IMAGE_FILE" 2> /dev/null 1> /dev/null
+
+  if [ $? -eq 0 ]; then
+    echo "Valid firmware image"
+    RESULT=0
+  else
+    echo "Invalid RSA firmware image, try DSA"
+  fi
+else
+  RESULT=2
+  echo "gsdf-verif unavailable, try checkfirmware"
+fi
+if [ $RESULT -ne 0 ]; then
+  if [ -x /usr/bin/checkfirmware ]; then
+    /usr/bin/checkfirmware "$IMAGE_FILE" 2> /dev/null 1> /dev/null
+
+    if [ $? -eq 0 ]; then
+      echo "Valid firmware image"
+      RESULT=0
+    else
+      echo "Invalid DSA firmware image"
+      RESULT=1
+    fi
+  else
+    if [ $RESULT -eq 2 ]; then
+      RESULT=0
+      echo "checkfirmware unavailable, not checking image"
+    fi
+  fi
+fi
+
+# Flashing the partition
+if [ $RESULT -eq 0 ]; then
+  if [ x"$QUIET" = x"" ]; then
+    echo "Writing to the \"$PARTITION_NAME\" partition ($DEVICE_NAME)"
+  fi
+  if [ x"$CONFIG_MTD_SECURE_UPDATE_UBI" != x"" ]; then
+    ubiupdatevol "$DEVICE_NAME" "$IMAGE_FILE"
+  else
+    flashdev $VERBOSE "$IMAGE_FILE" "$DEVICE_NAME"
+  fi
+  if [ $? -ne 0 ]; then
+    echo "Cannot flash in \"$DEVICE_NAME\" !" >&2
+    RESULT=1
+  fi
+fi
+
+# Remove the tmp file
+if [ x"$IMAGE_FILE" = x"$TMP_FILE" ]; then
+  rm -f "$IMAGE_FILE"
+fi
+
+exit $RESULT

@@ -1,0 +1,23 @@
+/**
+ * The Bridge MIB is available on all NeMo Intfs that have the "bridge"-flag set. For each enabled
+ * Intf that has the "bridge"-flag set, a Linux bridge will be created. The bridge ports that will be
+ * added to such a bridge are given by the set of direct LLIntfs that represent valid linux network
+ * interfaces (netdevs).
+ */
+
+object NeMo { 
+	object extends MIB(0,"bridge") {
+		string Flag = "bridge";
+		object DataModel {
+			/**
+			 * Timeout value in seconds that specifies when MAC-entries expire. 0 means
+			 * use the system's default.
+			 */
+
+			persistent uint32 Ageing;
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/bridge.odl */

@@ -1,0 +1,62 @@
+{
+  "status": 0,
+  "data": {
+    "protocol": "sip",
+    "isEnabled": true,
+    "deviceList": [
+      {
+        "deviceId": "Account311",
+        "deviceType": "SIP",
+        "isEnabled": true,
+        "state": "UP",
+        "userFriendlyName": "TOTO",
+        "internalPhoneNumber": "311",
+        "authenticationUserName": "toto"
+      }, {
+        "deviceId": "Account312",
+        "deviceType": "SIP",
+        "isEnabled": true,
+        "state": "UP",
+        "userFriendlyName": "TITI",
+        "internalPhoneNumber": "312",
+        "authenticationUserName": "titi"
+      }, {
+        "deviceId": "Account313",
+        "deviceType": "SIP",
+        "isEnabled": true,
+        "state": "DOWN",
+        "userFriendlyName": "TATA",
+        "internalPhoneNumber": "313",
+        "authenticationUserName": "tata"
+      }
+    ],
+    "connectionList": [
+      {
+        "connectionId": "L1",
+        "isEnabled": true,
+        "userFriendlyName": "Home",
+        "phoneNumber": "02101078342"
+      }, {
+        "connectionId": "L2",
+        "isEnabled": true,
+        "userFriendlyName": "Work",
+        "phoneNumber": "02101078344"
+      }, {
+        "connectionId": "L3",
+        "isEnabled": false,
+        "userFriendlyName": "Fax",
+        "phoneNumber": "02101078346"
+      }
+    ],
+    "incomingList": {
+      "L1": ["Account311", "Account312", "Account313"],
+      "L2": ["Account312"],
+      "L3": ["Account312"]
+    },
+    "outgoingList": {
+      "Account311": ["L1", "L2"],
+      "Account312": ["L2", "L1"],
+      "Account313": ["L1", "L2"]
+    }
+  }
+}

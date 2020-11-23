@@ -1,0 +1,9 @@
+<b>Redirection plage de port :</b><br>
+<br>
+Certaines applications nécessitent d'ouvrir des ports spécifiques pour fonctionner correctement. Il peut s'agir de certains jeux en ligne, les serveurs type FTP, messagerie, web etc ... Certaines applications Internet peuvent n'exiger aucun transfert. Quand une demande sur un port bien précis venant d'Internet se présente au niveau du routeur, celui-ci transfère les données vers l'ordinateur adéquat. En raison des problématiques de sécurité, vous pouvez activer ou désactiver les transferts de connexion quand ils ne sont pas nécessaires grâce à la case à cocher Activer.<br>
+L’icône Poubelle vous permet de supprimer les règles du tableau.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

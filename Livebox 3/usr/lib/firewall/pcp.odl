@@ -1,0 +1,46 @@
+using "fw.so";
+define pcp_result {
+uint32 protocol;
+string internalipaddress;
+uint32 internalport;
+string externalipaddress;
+uint32 externalport;
+uint32 assignedlifetime;
+}
+persistent object Firewall {
+persistent object PCP {
+write with pcpOnWrite;
+persistent string PCPServer {
+default "";
+}
+persistent string Interface {
+default "";
+}
+persistent bool Enable = false;
+read-only string WANIPAddress {
+default "";
+}
+read-only string Status {
+constraint enum[PCP_DISABLED, PCP_INIT, PCP_SUCCESS, PCP_TIMEOUT, PCP_ERROR];
+default PCP_DISABLED;
+read with statusOnRead;
+}
+bool setPCPServer(mandatory string pcpServer, mandatory bool enable);
+string getExternalIpAddress();
+pcp_result setPortForwarding(mandatory uint32 protocol,
+mandatory  string internalIpAddress, mandatory uint32 internalPort,
+mandatory uint32 requestedLifetime,
+string externalIpAddress, uint32 externalPort,
+string remoteIpAddress, uint32 remotePrefixLength, uint32 remotePort,
+bool upnp_v1_compat);
+bool deletePortForwarding(mandatory uint32 protocol,
+mandatory string internalIpAddress, mandatory uint32 internalPort);
+pcp_result setPeer(mandatory uint32 protocol, mandatory string internalIpAddress,
+mandatory uint32 internalPort, mandatory uint32 requestedLifetime,
+mandatory string remoteIpAddress, mandatory uint32 remotePort,
+string externalIpAddress, uint32 externalPort);
+bool deletePeer(mandatory uint32 protocol,
+mandatory string internalIpAddress, mandatory uint32 internalPort,
+mandatory string remoteIpAddress, mandatory uint32 remotePort);
+}
+}

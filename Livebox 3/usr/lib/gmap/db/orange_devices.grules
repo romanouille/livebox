@@ -1,0 +1,35 @@
+[
+  {
+    "expression"    : "stb",
+    "start_actions" : {
+                        "set_tags"        : "orange"
+                      }
+  },
+  {
+    "expression"    : ".PhysAddress matches \"7C:B7:33:*:*:*\" or .PhysAddress matches \"E0:CE:C3:*:*:*\" or .PhysAddress matches \"B4:EE:B4:*:*:*\"",
+    "start_actions" : {
+                        "clear_tags"      : "edev",
+                        "set_tags"        : "femto hnid orange",
+                        "add_device_type" : {
+                                              "Type"       : "femtocell v3.0"
+                                            }
+                      }
+  },
+  {
+    "expression"    : ".PhysAddress matches \"B0:46:FC:*:*:*\"",
+    "start_actions" : {
+                        "clear_tags"      : "edev",
+                        "set_tags"        : "femto hnid orange",
+                        "add_device_type" : {
+                                              "Type"       : "femtocell v2.X"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "orange and .DeviceType matches \"Homepoint\"",
+    "start_actions" : {
+                        "clear_tags"      : "edev",
+                        "set_tags"        : "hnid"
+                      }
+  }
+]

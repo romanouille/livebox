@@ -1,0 +1,13 @@
+<b>Personnalisation du Pare-feu :</b><br>
+<br>
+Cette fonctionnalité vous permet de personnaliser le Pare-feu de votre livebox.<br>
+L’option Réponse au Ping autorise la livebox à répondre aux requêtes de ping (test de l’état de la livebox sur un réseau). Cette option est activée par défaut et utile pour tous jeux en réseau.<br>
+Par défaut, le mode personnalisé reprend toutes les règles Pare-feu du mode élevé. Vous pouvez ensuite enlever ou ajouter des règles au Pare-feu en appuyant sur le bouton Ajouter.<br>
+Il est aussi possible de prioriser ces règles en modifiant leur ordre dans le tableau à l’aide des flèches orange haut et bas. De plus, vous pouvez activer ou désactiver ces règles grâce à la case à cocher Activer.<br>
+L’icône Poubelle quant à lui vous permet de supprimer les règles du tableau.
+Enfin, le bouton Réinitialiser vous permet d’effacer toutes vos modifications et de revenir à la configuration de base (mode élevé).<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

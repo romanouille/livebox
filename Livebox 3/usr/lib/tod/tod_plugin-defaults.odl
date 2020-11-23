@@ -1,0 +1,92 @@
+datamodel {
+object ToD {
+acl {
+group admin none;
+group remoteadmin none;
+group http none;
+group cwmpd read, write, execute;
+}
+function printMST {
+acl {
+group cwmpd none;
+}
+}
+function setState {
+acl {
+group http none;
+}
+}
+function export {
+acl {
+group http none;
+}
+}
+function import {
+acl {
+group http none;
+}
+}
+function configureMST {
+acl {
+group http none;
+}
+}
+function setMST {
+acl {
+group http none;
+}
+}
+function deleteMST {
+acl {
+group http none;
+}
+}
+function getMST {
+acl {
+group http none;
+}
+}
+function resetMST {
+acl {
+group http none;
+}
+}
+function listMST {
+acl {
+group http none;
+}
+}
+object MaxSurfTime {
+object Subject {
+acl {
+group http none;
+}
+parameter Subject {
+acl {
+group http none;
+}
+}
+parameter Enable {
+acl {
+group http none;
+}
+}
+parameter Status {
+acl {
+group http none;
+}
+}
+parameter TimeConsumed {
+acl {
+group http none;
+}
+}
+parameter TimeLeft {
+acl {
+group http none;
+}
+}
+}
+}
+}
+}

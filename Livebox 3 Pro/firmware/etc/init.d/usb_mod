@@ -1,0 +1,38 @@
+#!/bin/sh /etc/rc.common
+
+find_usb_modules()
+{
+    KERNEL_VERSION=$(uname -r)
+    KERNEL_MODULES_DIR="/lib/modules/$KERNEL_VERSION"
+
+    USB_MODULES=$(ls $KERNEL_MODULES_DIR/[euo]hci-hcd.ko | sed -e 's/^.*\///g' -e 's/\.ko$//' -e 's/-/_/')
+}
+
+kernel_module_path()
+{
+    echo $KERNEL_MODULES_DIR/$(echo $1 | sed -e 's/_/-/').ko
+}
+
+start() {
+    local mod
+
+    find_usb_modules
+    for mod in $USB_MODULES; do
+        insmod $(kernel_module_path $mod)
+    done
+}
+
+stop() {
+    local mod
+
+    find_usb_modules
+    for mod in $USB_MODULES; do
+        rmmod $mod
+    done
+}
+
+restart() {
+    stop
+    start
+}
+

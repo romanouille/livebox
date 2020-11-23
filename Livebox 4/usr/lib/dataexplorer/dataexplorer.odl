@@ -1,0 +1,6 @@
+
+
+include "dataexplorer-definitions.odl";
+include "dataexplorer-defaults.odl";
+
+/** @location  commod_mediahub_dataexplorer  plugin/dataexplorer.odl.m4 */

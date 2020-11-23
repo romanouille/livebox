@@ -1,0 +1,27 @@
+object Services
+{
+	object X_ORANGE-COM_MultimediaHub
+	{
+		bool Restart;
+		bool SoftReset;
+		bool CheckHardDrive;
+		bool ReinitIndex;
+		bool SendStats;
+		string RemoteActionCompletion;
+	}
+}
+
+datamodel {
+    object Services {
+    	object X_ORANGE-COM_MultimediaHub {
+        	destination "pcb://$(PCB_MAIN_BUS)/RemoteAction" {
+				parameter Restart;
+				parameter SoftReset;
+				parameter CheckHardDrive;
+				parameter ReinitIndex;
+				parameter SendStats;
+				parameter RemoteActionCompletion;
+        	}
+    	}
+    }
+}

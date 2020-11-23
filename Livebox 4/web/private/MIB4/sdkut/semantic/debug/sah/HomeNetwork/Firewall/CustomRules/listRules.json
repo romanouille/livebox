@@ -1,0 +1,20 @@
+{
+  "status": 0,
+  "data": {
+    "ruleList": [
+      {
+        "name": "myRule",
+        "isEnabled": true,
+        "protocol": "tcp",
+        "ipVersion": "4",
+        "action": "accept",
+        "externalIpAddress": "10.190.32.1",
+        "externalMask": "255.255.240.0",
+        "externalPortRange": "124",
+        "internalIpAddress": "192.168.1.10",
+        "internalMask": "255.255.255.0",
+        "internalPortRange": "145-147"
+      }
+    ]
+  }
+}

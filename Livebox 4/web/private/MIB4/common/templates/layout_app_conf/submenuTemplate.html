@@ -1,0 +1,22 @@
+﻿<div class="container sub-menu" {{#if id}}id="{{id}}" {{/if}}>
+  <div class="row no-margin"> 
+    <div class="col-xs-12 no-padding">          
+      {{#each value}}
+      <div tabindex="0" role="button" class="sub-menu-button 
+        {{#ifEqual @index ../selected}}
+          sub-menu-button-selected
+        {{/ifEqual}}" 
+        {{#if id}}
+          id="{{../id}}"
+        {{/if}}
+        >
+        {{#if link}}
+          <a href="{{../link}}">{{{../label}}}</a>
+        {{else}}
+          {{{../label}}}
+        {{/if}}
+      </div>          
+      {{/each}}
+    </div>
+  </div>
+</div>

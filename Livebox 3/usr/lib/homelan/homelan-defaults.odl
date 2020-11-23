@@ -1,0 +1,36 @@
+datamodel {
+object HomeLan {
+persistent instance of Interface(1,"wl0") {
+parameter FriendlyName = "802.11-2.4GHz";
+parameter Name = "wl0";
+}
+persistent instance of Interface(2,"wl1") {
+parameter FriendlyName = "802.11-5GHz";
+parameter Name = "wl1";
+}
+persistent instance of Interface(3,"wl2") {
+parameter FriendlyName = "Orange";
+parameter Name = "wl2";
+}
+persistent instance of Interface(4,"wl3") {
+parameter FriendlyName = "Orange_autoconnect";
+parameter Name = "wl3";
+}
+persistent instance of Interface(5,"swport1") {
+parameter FriendlyName = "Ethernet1";
+parameter Name = "swport1";
+}
+persistent instance of Interface(6,"swport2") {
+parameter FriendlyName = "Ethernet2";
+parameter Name = "swport2";
+}
+persistent instance of Interface(7,"swport3") {
+parameter FriendlyName = "Ethernet3";
+parameter Name = "swport3";
+}
+persistent instance of Interface(8,"swport4") {
+parameter FriendlyName = "Ethernet4";
+parameter Name = "swport4";
+}
+}
+}

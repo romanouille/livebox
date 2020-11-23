@@ -1,0 +1,16 @@
+<b>Zmień hasło</b><br>
+<br>
+
+
+Możesz modyfikować hasło administratora na swoim Liveboxie. Wprowadź nowe hasło, a następnie wprowadź je ponownie w polu potwierdzenia.
+
+<br>
+
+Hasło administratora jest używane do uwierzytelnienia za każdym razem, gdy użytkownik loguje się do GUI swojego modemu Livebox.
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

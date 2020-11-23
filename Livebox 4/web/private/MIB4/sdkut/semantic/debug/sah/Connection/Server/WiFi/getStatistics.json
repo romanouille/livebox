@@ -1,0 +1,39 @@
+{
+  "status": 0,
+  "data": {
+    "radioList": [
+      {
+        "radioId": "wifi0_bcm",
+        "maximumSpeed": "130"
+      }, {
+        "radioId": "wifi0_quan",
+        "maximumSpeed": "350"
+      }
+    ],
+    "accessPointList": [
+      {
+        "accessPointId": "wl0",
+        "linkType": "WIFI_2.4_PRIVATE",
+        "radioId": "wifi0_bcm",
+        "activationDuration": 7200,
+        "bytesSent": 12,
+        "packetsSent": 12,
+        "packetsSentDiscarded": 0,
+        "bytesReceived": 34,
+        "packetsReceived": 34,
+        "packetsReceivedDiscarded": 0
+      }, {
+        "accessPointId": "wl1",
+        "linkType": "WIFI_5_PRIVATE",
+        "radioId": "wifi0_quan",
+        "activationDuration": 7200,
+        "bytesSent": 12,
+        "packetsSent": 12,
+        "packetsSentDiscarded": 0,
+        "bytesReceived": 34,
+        "packetsReceived": 34,
+        "packetsReceivedDiscarded": 0
+      }
+    ]
+  }
+}

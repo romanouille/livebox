@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!-- /ht Paul Irish - http://front.ie/j5OMXi -->
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="fr"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="fr"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="fr"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="no-js" lang="fr">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title data-translation="common.headtitlelogin">Livebox Configurator - Livebox Orange</title>
+    <meta name="description" content="Livebox Configurator">
+    <meta name="author" content="SoftAtHome">
+    <meta http-equiv="cleartype" content="on">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/png" sizes="64x64" href="/services/ws/mhs/icons/favicon-64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/services/ws/mhs/icons/favicon-32.png">
+    <link rel="stylesheet" href="lib/ws/jquery-ui/css/jquery-ui.css?692a3f58">
+    <!-- CSS files from wm.min.css -->
+    <link rel="stylesheet" href="services/ws/wm/css/windowmngr.css?692a3f58">
+    <!-- End -->
+    <link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 400px)" href="services/ws/wm/css/windowmngr.small.css?692a3f58" />
+    <link rel="stylesheet" href="services/ws/widget-swiper/css/idangerous.swiper.css?692a3f58">
+    <!-- CSS files from common.min.css -->
+    <link rel="stylesheet" href="services/ws/mhs/tiles/css/pictos.css?692a3f58">
+    <!-- Removing useless CSS files
+    <link rel="stylesheet" href="services/ws/mhs/tiles/css/slider.css?692a3f58">
+    <link rel="stylesheet" href="services/ws/mhs/tiles/css/mywifi.css?692a3f58">
+    <link rel="stylesheet" href="services/ws/mhs/tiles/css/popup.css?692a3f58">
+    -->
+    <link rel="stylesheet" href="services/ws/mhs/apps/css/favorites.css?692a3f58">
+    <!-- End -->
+    <script data-main="loader.js" src="sdkut/ext/requireJS_2.1.15/require.min.js"></script>
+  </head>
+  <body>
+    <div id="wm">
+      <div id="wm3" style="display: none;">
+        <div class="sah_header">
+          <div class="sah_header_bg">
+          </div>
+          <div class="sah_header_bar">
+            <ul class="sah_action_bar">
+              <li id="action-login" class="white">
+                <span class="icon-user action_button_icon sah_icon_medium"></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="sah_main">
+          <div class="sah_category_shuffle">
+            <div class="sah_category_shuffle_grid">
+            </div>
+          </div>
+        </div>
+        <div class="sah_app">
+        </div>
+        <div class="sah_footer">
+          <div class="sah_page_selector">
+            <input class="sah_rounded sah_glowing_border" id="search-input" type="text" name="slide">
+            </input>
+            <span class="icon-undo2 sah_icon_medium sah_green_dark left"></span>
+            <span class="icon-redo2 sah_icon_medium sah_green_dark right"></span>
+          </div>
+        </div>
+        <div id="sah_dialog_changepwd" class="sah_dialog">
+          <form>
+            <div class="sah_dialog_header">
+              <ul class="sah_dialog_buttons">
+              </ul>
+            </div>
+            <div class="sah_dialog_body">
+              <div class="sah_dialog_firstlogin_title" translate="authentication.firstlogin.title"></div>
+              <div class="sah_dialog_firstlogin_body_txt" translate="authentication.firstlogin.description"></div>
+              <div class="sah_dialog_firstlogin_body_password">
+                <div class="sah_dialog_firstlogin_body_leftpart">
+                  <label translate="common.defaultpassword" id="changepwd_defaultpassword_translation" for="changepwd_password" class=""></label>
+                </div>
+                <div class="sah_dialog_firstlogin_body_centerpart">*</div>
+                <div class="sah_dialog_firstlogin_body_rightpart">
+                  <input type="text" name="defaultpassword" id="changepwd_defaultpassword" autocomplete="off">
+                </div>
+              </div>
+              <div class="sah_dialog_firstlogin_body_password">
+                <div class="sah_dialog_firstlogin_body_leftpart">
+                  <label translate="common.newpassword" id="changepwd_password_translation" for="changepwd_password" class=""></label>
+                </div>
+                <div class="sah_dialog_firstlogin_body_centerpart">*</div>
+                <div class="sah_dialog_firstlogin_body_rightpart">
+                  <input type="text" name="password" id="changepwd_password" autocomplete="off">
+                </div>
+              </div>
+              <div class="sah_dialog_firstlogin_body_password">
+                <div class="sah_dialog_firstlogin_body_leftpart">
+                  <label translate="common.confirmnewpassword" id="changepwd_confirmpassword_translation" for="changepwd_confirmpassword" class=""></label>
+                </div>
+                <div class="sah_dialog_firstlogin_body_centerpart">*</div>
+                <div class="sah_dialog_firstlogin_body_rightpart">
+                  <input type="text" name="confirmpassword" id="changepwd_confirmpassword" autocomplete="off">
+                </div>
+              </div>
+              <div translate="common.invalidpasswordchange" class="sah_error_string font165">
+              </div>              
+              <div class="font165">
+                <a href="#" id="defaultpassword_link2" tabindex="0" class="fakelink orangetxt" translate="common.defaultpasswordlocation"></a>
+              </div>
+              <div class="sah_dialog_firstlogin_notice" translate="authentication.firstlogin.notice"></div>
+              
+            </div>            
+          </form>          
+        </div>        
+        <div id="sah_dialog_defaultpassword_location" class="sah_dialog">
+          <form>
+            <div class="sah_dialog_header">
+              <ul class="sah_dialog_buttons">
+              </ul>
+            </div>
+            <div class="sah_dialog_body">
+              <div translate="common.defaultpasswordlocation" class="font180b"></div><br>
+              <div style="text-align:center;"><img style="width:300px;height:150px;" src="services/ws/wm/images/defaultpasswordlocation.png" alt=""></div><br>
+              <div translate="common.defaultpasswordlocationtxt" class="font165"></div>
+            </div>
+          </form>
+        </div>
+        <div id="sah_dialog_legal" class="sah_dialog">
+          <form>
+            <div class="sah_dialog_header">
+              <ul class="sah_dialog_buttons">
+              </ul>
+            </div>
+            <div class="sah_dialog_body">
+              <div translate="legal.title" class="font180b"></div><br>              
+              <div translate="legal.description" class="font165"></div>
+            </div>
+          </form>
+        </div>
+        <div id="sah_dialog_password_reset" class="sah_dialog">
+          <form>
+            <div class="sah_dialog_header">
+              <ul class="sah_dialog_buttons">
+              </ul>
+            </div>
+            <div class="sah_dialog_body">              
+              <div translate="common.passwordresettxt" class="font165"></div>
+            </div>
+          </form>
+        </div>
+        <div id="sah_dialog_login" class="sah_dialog">
+          <formaction="homeAuthentificationRemote.html" method="post" target="_blank">
+            <div class="sah_dialog_header">
+              <ul class="sah_dialog_buttons">
+              </ul>
+            </div>
+            <div class="sah_dialog_body">
+              <div class="sah_dialog_title" translate="authentication.title"></div>
+              <div class="sah_dialog_body_login">
+                <label translate="common.username" id="login_username_translation" for="login_username" class="axs_hidden"></label>
+                <input type="text" name="username" id="login_username">
+              </div>
+              <br>
+              <div class="sah_dialog_body_password">
+                <label translate="common.password" id="login_password_translation" for="login_password" class="axs_hidden"></label>
+                <input type="password" name="password" id="login_password">
+                <input type="submit" id="login_submit" style="display:none;">
+              </div>
+              <div translate="common.invalidpassword" class="sah_error_string font165">
+              </div>
+              <div class="sah_dialog_login_legal sah_dialog_login_legal2"><a href="#" id="sah_dialog_login_legal_link" translate="legal.title"></a></div>
+            </div>
+          </form>
+        </div>
+        <div id="sah_dialog_error" class="sah_dialog">
+          <form>
+            <div class="sah_dialog_header">
+              <ul class="sah_dialog_buttons">
+              </ul>
+            </div>
+            <div class="sah_dialog_body">
+            </div>
+          </form>
+        </div>
+        <div id="sah_dialog_timeout">
+          <form>
+            <div class="sah_dialog_header">
+              <ul class="sah_dialog_buttons">
+              </ul>
+            </div>
+            <div class="sah_dialog_body">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

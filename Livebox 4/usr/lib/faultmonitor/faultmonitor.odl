@@ -1,0 +1,73 @@
+using "faultmonitorplugin.so";
+
+acl {
+  world none;
+  group admin none;
+  group remoteadmin none;
+  group cwmpd read,write,execute;
+}
+
+object FaultMonitor {
+    acl {
+        group admin read,write,execute;
+        group remoteadmin read,write,execute;
+    }
+    /** The total number of faults detected. */
+    read-only uint32 Count {
+        read with readCount;
+    }
+    
+    /** Return the list of faults recorded.
+
+       For each recorded fault in the list :
+        <dl>
+        <dt>PID</dt>
+            <dd>Process ID of the faulty process</dd>
+        <dt>Cause</dt>
+            <dd>The signal of the cause of the fault</dd>
+        <dt>When</dt>
+            <dd>When the fault occured expressed in seconds since Epoch</dd>
+        <dt>CommandLine</dt>
+            <dd>The command line of the faulty process</dd>
+        <dt>DumpPath</dt>
+            <dd>Path to the core dump and related process information
+            when availaible. Empty when no dump has been stored.</dd>
+        </dl>
+     */
+    list listFaults();
+
+    void removeDumps() {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /** Maximum number of core dumps that can be stored. If there are
+     *  more core dumps, Fault Monitor will not store any core dumps
+     *  anymore until sufficient dumps are removed. Set this parameter to
+     *  0 to completely disable core dumps. This setting does not affect
+     *  the counting and logging of crashes. */
+    persistent uint32 MaximumCoreDumps;
+    
+    /** Minimum free space in KB on the device that must be free before 
+     *  attempting to store core dumps. This setting does not affect the 
+     *  counting and logging of crashes. */
+    persistent uint32 MinimumFreeSpace;
+
+    /** URL of the server where to upload fault dumps to.
+     *  Prefer a literal IP address in order to still be able to upload
+     *  when some components like DNS crashed.
+     *  When empty, uploads are disabled. */
+    persistent string UploadServer; 
+
+    /** Maximum time in seconds to upload a file to the server. */
+    persistent uint32 UploadTimeout {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+}
+
+/** @location sah_services_faultmonitor /faultmonitor-definitions.odl */

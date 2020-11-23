@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object DataExplorer {
+    }
+}
+/** @location commod_mediahub_dataexplorer plugin/dataexplorer-defaults.odl.m4 */

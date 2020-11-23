@@ -1,0 +1,205 @@
+
+using "cifscl.so";
+
+
+/**
+ *
+ * @version 1.0
+ */
+define users_t {
+   /**
+   * The name of the Samba user, see {SambaShare.Users.Name}
+   */
+   string name;
+         
+   /**
+   * The rights of the Samba user, see {SambaShare.Users.ReadOnly}
+   */
+   bool readonly;
+}
+
+/**
+ *
+ * @version 1.0
+ */
+define sambaShare_t {
+   /**
+   * The name of the Samba share, see {SambaShare.Name}
+   */
+   string name;
+   
+   /**
+   * The path of the Samba share, see {SambaShare.Path}
+   */
+   string path;
+   
+   /**
+   * The list of users of the samba share, see {SambaShare.Users}
+   */
+   list users;
+   
+      /**
+   * Guest policy of the share, users are ignored if set to true {SambaShare.Guest}
+   */
+   bool guest;
+}
+
+
+acl {
+ world read,write,execute;
+ group technician read,write,execute;
+}
+
+
+
+persistent object SambaService {
+  /**
+   * The general activity status of the Samba server
+   */
+  read-only string Status = "Offline";
+
+  /**
+   * Enables or disables the samba server
+   */
+  persistent bool Enable = true;
+
+  /**
+   * The Samba server name
+   */
+  persistent string ServerName = "Livebox";
+
+  /**
+   * The Samba workgroup
+   */
+  persistent string Workgroup = "WORKGROUP";
+
+  /**
+   * The Samba server description
+   */
+  persistent string ServerDescription = "Livebox"; 
+
+  /**
+   * The network interface
+   */
+  persistent string NetworkDevice = "lan";
+
+  /**
+   * The Samba User, defined at compile time
+   */
+  persistent read-only string User = "root";
+
+  bool export(string fileName);
+  bool import(string fileName);
+
+
+  /**
+   * This object provides information about each samba share
+   * created in the samba server.
+   */  
+  persistent object SambaShare[] {
+      counted with SambaShareNumberOfEntries;
+      
+      /**
+      * The name of the Samba share, see {SambaShare.Name}
+      */
+      persistent string name;
+   
+      /**
+      * The path of the Samba share, see {SambaShare.Path}
+      */
+      persistent string path;
+   
+      /**
+      * The list of users of the samba share, see {SambaShare.Users}
+      */
+      persistent object Users[] {
+         counted with UsersNumberOfEntries;
+         /**
+         * The name of the Samba user, see {SambaShare.Users.Name}
+         */
+         persistent string name;
+         
+         /**
+         * The rights of the Samba user, see {SambaShare.Users.ReadOnly}
+         */
+         persistent bool readonly;        
+      }
+      
+      persistent bool guest;
+
+    }
+  
+   /**
+   * Create a new Samba share
+   *
+   * @param name the name of the samba share to be created
+   * @param path the mount point path of the samba share to be created
+   * @param users a list of users with their associated rights
+   * @param guest the share has a guest policy, if set to true -> users are ignored, if not set -> considered false
+   * @return true if the share has been successfully created, false if an error occured
+   * @version 1.0
+   */
+   bool addShare(mandatory string name, mandatory string path, list users, bool guest);
+   
+   /**
+   * Remove an existing Samba share
+   *
+   * @param name the name of the samba share to be removed
+   * @return true if the share has been successfully created, false if an error occured
+   * @version 1.0
+   */
+   bool removeShare(mandatory string name);
+   
+   /**
+   * Update an existing Samba share
+   *
+   * @param name the name of the samba share to be modified
+   * @param users the new list of users with their associated rights
+   * @return true if the share has been successfully updated, false if an error occured
+   * @version 1.0
+   */
+   bool updateShare(mandatory string name, mandatory list users);
+   
+   /**
+   * Rename an existing Samba share
+   *
+   * @param name the name of the samba share to be renamed
+   * @param newName the new samba share name
+   * @return true if the share has been successfully renamed, false if an error occured
+   * @version 1.0
+   */
+   bool renameShare(mandatory string name, mandatory string newName);
+   
+   /**
+   * Move an existing Samba share
+   *
+   * @param name the name of the samba share to be moved
+   * @param newPath the new samba share mount path
+   * @return true if the share has been successfully moved, false if an error occured
+   * @version 1.0
+   */
+   bool moveShare(mandatory string name, mandatory string newPath);
+   
+   /**
+   * Get Samba share informations
+   *
+   * @param name the name of the samba share 
+   * @return {sambaShare_t} the samba share description corresponding to the input name
+   * @version 1.0
+   */
+   list getShareInfo(mandatory string name);
+   
+   /**
+   * Get Samba shares list
+   *
+   * @param shares the list of names of the known samba shares
+   * @return list of samba shares names
+   * @version 1.0
+   */
+   list getShareList();
+  
+
+}
+
+/** @location sah_services_cifscl /cifscl.odl.m4 */
+

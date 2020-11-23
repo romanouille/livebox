@@ -1,0 +1,22 @@
+
+
+include "acl_plugin.odl";
+include "captiveportal_plugin.odl";
+include "cfg_plugin.odl";
+include "digitmap_plugin.odl";
+include "ipv6_plugin.odl";
+include "lanip_plugin.odl";
+include "guest_plugin.odl";
+include "led_plugin.odl";
+include "networkconfig_plugin.odl";
+include "orangetv_plugin.odl";
+include "remoteaccess_plugin.odl";
+include "sensing_plugin.odl";
+include "tppp_plugin.odl";
+include "upgrade_plugin.odl";
+include "voice_plugin.odl";
+include "wlantimer_plugin.odl";
+include "wifi_plugin.odl";
+
+
+/** @location sah_services_netmodeconfig /ng/nmc_core-plugins.odl.m4 */

@@ -1,0 +1,6 @@
+#!/bin/sh
+kill `ps |grep secwl_$1 |grep hostapd |cut -c 1-5`
+# kill also the WPS stuff
+#kill `ps | grep button_test | grep -v grep| cut -c 1-5`
+#kill `ps | grep wpsbutton | grep -v grep|cut -c 1-5`
+sleep 2

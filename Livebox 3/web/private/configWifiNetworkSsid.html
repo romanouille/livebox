@@ -1,0 +1,481 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=1085"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Livebox</title>
+<script type="text/javascript">
+    appUrl = '';
+    appConfig = 'fr';
+    appUid = getEtag();
+    config = {
+        BUILD_CUSTOMER: 'ft',
+        BUILD_PROJECT: 'lbv3fr',
+        BUILD_HARDWARE: 'sagem_lbv3',
+        SESSION_DURATION: '600'
+    };
+    if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+        config.BUILD_PROJECT = "lbv2.8fr";
+    }
+    function getEtag(){
+        var req = new XMLHttpRequest();
+        req.open('GET', document.location, false);
+        req.send(null);
+        return req.getResponseHeader("etag");
+    }
+</script>
+<link href="/styles.css?v=bdbae052" rel="stylesheet" type="text/css"/>
+<script src="/scripts.js?v=bdbae052" type="text/javascript" charset="utf-8"></script>
+<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?v=bdbae052"/>
+<link rel="shortcut icon" href="/images/fr/common/favicon.ico?v=bdbae052" type="image/x-icon"/>
+</head>
+<body class="accessibility-small">
+<!-- Popup and backlayer from Cytadelle Technology Light framework -->
+<div id="ct-popup" class="fixed" style="height: 70px">
+    <div>
+        <img id="ct-popup-header" src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.general.popup.img.header" alt=""/>
+        <div id="ct-popup-header-title"></div>
+        <a id="popup-close-btn" class="nologin">
+        <img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.general.popup.img.close" alt=""/>
+        </a>
+    </div>
+    <div id="ct-popup-content">
+        <span class="translation Translations.home.authentication.label.subtitle"></span>
+    </div>
+    <img src="/images/fr/common/transparent.gif?v=bdbae052" class="png ct-popup-footer voice Voice.general.popup.img.footer" alt=""/>
+</div>
+<div id="ct-msgbox" class="fixed">
+    <img id="ct-popup-header-small" src="/images/fr/common/transparent.gif?v=bdbae052" class="png" alt=""/>
+    <div id="ct-msgbox-content">
+        <img src="/images/fr/common/transparent.gif?v=bdbae052" id="ct-msgbox-img" class="png"/>
+        <div id="ct-msgbox-msg">
+        </div>
+        <input type="button" id="ct-msgbox-button1" value="annuler" class="input-btn input-small-btn-gray translation Translations.general.btn.cancel"/><input type="button" id="ct-msgbox-button2" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/><input type="button" id="ct-msgbox-button3" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/>
+    </div>
+    <img id="ct-popup-footer" src="/images/fr/common/transparent.gif?v=bdbae052" class="png" alt=""/>
+</div>
+<div id="ct-tooltip" class="fixed">
+</div>
+<div id="ct-waiting" class="fixed">
+    <img src="/images/fr/common/transparent.gif?v=bdbae052" alt="" class="voice Voice.general.waiting.img.waiting"/>
+</div>
+<div id="ct-backlayer" class="fixed" style="display:none; top:120px">
+</div>
+<div class="devicemenu" id="deviceMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="devicemenuheader">
+            <span id="hostName"></span>
+            <br/>
+            <span id="ipaddress-device-menu" class="translation Translations.general.label.ipaddress" ></span> : <span id="ip"></span>
+        </div>
+        </lh>
+        <li><a id="accessscheduling" href="#"><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+        <li><a id="devicescustomize" href="#"><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+    </ul>
+</div>
+<div class="devicemenu" id="catIqMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="catIqdevicemenuheader">
+            <span id="catIqName"></span>
+            <br/>
+            <span id="model" style="font-weight: normal"></span>
+            <br/>
+            <span id="lastupdate" style="font-weight: normal"></span>
+
+        </div>
+        </lh>
+        <li><a id="catIqCustomize" href="#"><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+    </ul>
+</div>
+<div class="devicemenu" id="disconnectedDeviceMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="disconnectedDevicemenuheader">
+            <span id="dHostName"></span>
+        </div>
+        </lh>
+        <li><a id="dAccessscheduling" href="#"><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+        <li><a id="dDevicescustomize" href="#"><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+        <!--        <li><span id="deletedevicemenuitem" class="translation Translations.notconnecteddevices.label.deletedevice"></span></li> -->
+    </ul>
+</div>
+<div class="devicemenu" id="usbDeviceMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="UdbDevicemenuheader">
+        </div>
+        </lh>
+        <li><a id="usbBrowse" href="#" onclick="return false;"><span id="usbBrowse" class="first active translation Translations.general.btn.files"></span></a></li>
+        <li><a id="usbEject" href="#" onclick="return false;"><span class="first active translation Translations.general.btn.eject"></span></a></li>
+    </ul>
+</div>
+<div class="devicemenu" id="contextualMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="open">
+             Open
+        </div>
+        </lh>
+        <li><a id="copy" href="#"><span class="auth-required first translation Translations.filesbrowser.label.copy"></span></a></li>
+        <li><a id="paste" href="#"><span class="auth-required translation Translations.filesbrowser.label.paste" style="display: none"></span></a></li>
+        <li><a id="rename" href="#"><span class="auth-required translation Translations.filesbrowser.label.rename"></span></a></li>
+    </ul>
+</div>
+<!-- Scrollable document container -->
+<div id="document-container">
+    <div id="document-background-header">
+        <div id="document-background-footer">
+            <div id="document">
+                <div id="header">
+                    <a href="/" ><div id="header-logo-livebox">
+                    </div></a>
+                    <div id="header-controls-login">
+                        <div id="authenticationerrors">
+                            <span id="emptyauthfields" style="display: none" class="translation Translations.home.authentication.error.empty"></span>
+                            <span id="emptyauthinvalid" style="display: none" class="translation Translations.home.authentication.error.invalid"></span>
+                        </div>
+                        <div id="header-controls-login-interactions" style=" vertical-align: top;">
+                            <form name="Home/Accessibility"></form>
+                            <form name="Login" id="Login">
+                                <div id="login-inputs-div">
+                                    <input name="username" type="hidden" id="Username"/>
+                                    <input name="password" type="hidden" id="Password"/>
+                                    <input type="text" style="width:100px;" id="PopupUsername" class="input-text input-text-gray" maxlength="32" value="" disabled="disabled"/>
+                                    <input type="password" style="width:100px;" id="PopupPassword" class="input-text input-text-gray " value="" maxlength="32"/>
+                                    <input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.authenticate" value="" id="bt_authenticate"/>
+                                </div>
+                                <div id="logout-link-div" style="display: none;">
+                                    <span id="logged_in_username"></span>: <a href="#" id="logout_link"><span class="translation Translations.general.label.logout"></span></a>
+                                </div>
+                            </form>
+                            <form name="ForgottenPassword" id="ForgottenPassword">
+                                <div id="forgotten-password-link-div"style="white-space:nowrap">
+                                    <a href="#" id="header-controls-forgotten-password-link"><span  class="translation Translations.general.label.forgottenpassword"></span></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="header-controls">
+                        <form name="Admin/UserInterface/Language" action="">
+                            <div id="header-controls-languages">
+                                <select id="Language-select" name="Language-select">
+                                </select>
+                            </div>
+                        </form>
+                        <div id="header-controls-accessibility-minus" class="header-controls-accessibility">
+                            <a href="#" class="nologin "><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.fontsize.img.decrease" alt=""/></a>
+                        </div>
+                        <div id="header-controls-accessibility-plus" class="header-controls-accessibility">
+                            <a href="#" class="nologin "><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.fontsize.img.increase" alt=""/></a>
+                        </div>
+                        <div id="header-controls-accessibility-contrast1" class="header-controls-accessibility">
+                            <a href="#" class="nologin "><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.contrast.img.level1" alt=""/></a>
+                        </div>
+                        <div id="header-controls-accessibility-contrast2" class="header-controls-accessibility">
+                            <a href="#" class="nologin "><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.contrast.img.level2" alt=""/></a>
+                        </div>
+                        <div id="header-controls-accessibility-contrast3" class="header-controls-accessibility">
+                            <a href="#" class="nologin voice Voice.accessibility.contrast.link.level3"><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.contrast.img.level3" alt=""/></a>
+                        </div>
+                        <form name="Home/Information">
+                        </form>
+                        <form name="Home/RemoteBackup">
+                        </form>
+                    </div>
+                    <div id="header-hmenu">
+                        <ul class="hmenu">
+                            <li onclick="return Sah.redirect('/');" id="hmenu-home" class="first active"><a href="/"><span class="first active translation Translations.general.label.vmenu.home.title"></span></a></li>
+                            <li onclick="return Sah.redirect('/configWifi.html');" id="hmenu-wifi" class="normal auth-required"><a href="/configWifi.html" class="auth-required"><span class="translation Translations.general.label.vmenu.config.title"></span></a></li>
+                            <li onclick="return Sah.redirect('/myFiles.html');" id="hmenu-myfiles" class="normal auth-required"><a href="/myFiles.html" class="auth-required"><span class="translation Translations.general.label.vmenu.files.title"></span></a></li>
+                            <!--<li id="hmenu-myipphone" class="normal auth-required"><a href="/phonebook.html" onclick="return Sah.redirect('/phonebook.html');" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li> -->
+                            <li onclick="return Sah.redirect('/phoneRingTest.html');" id="hmenu-myipphone" class="normal auth-required"><a href="/phoneRingTest.html" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li>
+                            <li onclick="return Sah.redirect('/supportLedsStatus.html');" id="hmenu-support" class="normal auth-required"><a href="/supportLedsStatus.html" class="auth-required"><span class="translation Translations.general.label.vmenu.support.title"></span></a></li>
+                            <li onclick="return Sah.redirect('/advConfigNetworkDhcp.html');" id="hmenu-advconfig" class="last gray auth-required"><a href="/advConfigNetworkDhcp.html" class="auth-required"><span class="translation Translations.general.label.vmenu.advconfig.title"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="content">
+                    
+<div id="content-left">
+	<ul id="content-left-vmenu" class="lbx2vmenu">
+
+		<li id="left-wifi-link" class="auth-required">
+			<a href="/configWifi.html"><span class="translation Translations.general.label.vmenu.config.wifi"></span></a>
+		</li>
+
+		<li id="orange-wifi-link" style="display:none" class="auth-required">
+			<a href="/configOrangeWifi.html"><span class="translation Translations.general.label.vmenu.config.wificom"></span></a>
+		</li>
+
+		<li id="left-advwifi-link" class="auth-required">
+			<a href="/advConfigWifi.html"><span class="translation Translations.general.label.vmenu.config.advancedwifi"></span></a>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	$("left-wifi-link").observe("click",function(e){Sah.redirect('/configWifi.html')});
+	$("orange-wifi-link").observe("click",function(e){Sah.redirect('/configOrangeWifi.html')});
+	$("left-advwifi-link").observe("click",function(e){Sah.redirect('/advConfigWifi.html')});
+</script>
+
+<div id="content-center">
+    <script type="text/javascript">
+        // Vertical menu
+        var oVMenuItem = $CYT('#content-left-vmenu span.Translations.general.label.vmenu.config.wifi')[0];
+        ctl.style.klass.Add(oVMenuItem.parentNode.parentNode,"current");
+        // Horizontal menu
+        ctl.style.klass.Remove($CYT('#header-hmenu li.active'),"active");
+        ctl.style.klass.Add($CYT('#hmenu-wifi'),"active");
+    </script>
+    <form name="Wifi/Ssid">
+        <a href="/configWifi.html"><span class="translation Translations.general.label.vmenu.config.title translated"></span></a> > <a id="wifi-sourcepage" href="/configWifi.html"><span class="translation Translations.general.label.vmenu.config.wifi translated"></span></a> > <span class="translation Translations.config.wifi.ssid.label.title"></span>
+	<div class="hr hr-orange"></div>
+	<br/>
+        <h1><span class="translation Translations.config.wifi.ssid.label.title"></span></h1>
+        <div class="hr">
+        </div>
+        <h2><span class="translation Translations.config.wifi.ssid.label.subtitle"></span></h2>
+        <br/>
+        <span class="translation Translations.config.wifi.ssid.label.description"></span>
+        <div id="config.wifi.ssiderror" style="display: none">
+            <br/>
+            <img src="/images/fr/common/transparent.gif?v=bdbae052" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?v=bdbae052'); margin-right:10px;" class="png voice Voice.general.icon.error" alt=""/>
+            <div id="ssid_error" style="padding-top:8px;">
+							<div id="orangeprefix" class="translation Translations.config.wifi.ssid.label.error.orangeprefix" style="float:left;"></div>
+							<div id="orangessid"  style="float:left;padding:0px 5px 0px 5px;"></div>
+							<div id="orangesuffix" class="translation Translations.config.wifi.ssid.label.error.orangesuffix" style="float:left;"></div>
+            </div>
+        </div>
+        <br/>
+        <input type="text" id="wlan_ssid" class="input-text input-text-gray voice Voice.config.wifi.ssid" style="width:365px;" maxlength="32"/>
+        <br/>
+        <span class="translation Translations.config.wifi.ssid.info.comment"></span><br/>
+        <br/>
+        <div id="config.wifi.ssid.warning">
+            <br><img alt="" class="png voice Voice.general.icon.error" style="float: left; width: 43px; height: 43px; background-image: url('/images/fr/icons/icons-error.png?v=bdbae052'); margin-right: 10px;" src="/images/fr/common/transparent.gif?v=bdbae052">
+            <div style="padding-top: 8px;"><span style="" class="translation Translations.config.wifi.ssid.label.warning"></span></div>
+        </div>      
+        <br/>
+        <div style="float:right">
+            <input type="button" id="bt_ssid_discard" value="annuler" class="input-btn input-btn-gray translation Translations.general.btn.cancel"/>
+            <input type="button" id="bt_ssid_save" value="enregistrer" class="input-btn input-btn-orange translation Translations.general.btn.save"/>
+        </div>
+        <br/>
+        <script language="text/javascript">
+            document.fire("wlan:ssidPopupLoaded");
+        </script>
+    </form>
+</div>
+
+<div id="content-right">
+    <div class="input-info-help">
+        <div class="header"><h6><span class="translation Translations.general.label.help"></span></h6></div>
+        <div class="content translation Translations.config.wifi.general.text.help"><h6></div>
+        <div class="footer"></div>
+    </div>
+</div>
+
+                </div>
+                <div id="footer">
+                    <div id="footer-logo-ft">
+                    </div>
+                    <div id="footer-menu">
+                        <a href="/legal.html" onclick="return Sah.redirect('/legal.html');"><span class="translation Translations.legal.label.title"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        EXPIRY_DATE_ID=-1;
+        function bindReady(handler){
+            var called = false
+            function ready() {
+                if (called) return
+                called = true
+                handler()
+            }
+            if ( document.addEventListener ) { // native event
+                document.addEventListener( "DOMContentLoaded", ready, false )
+            } else if ( document.attachEvent ) {  // IE
+                try {
+                    var isFrame = window.frameElement != null
+                } catch(e) {}
+                // IE, the document is not inside a frame
+                if ( document.documentElement.doScroll && !isFrame ) {
+                    function tryScroll(){
+                        if (called) return
+                        try {
+                            document.documentElement.doScroll("left")
+                            ready()
+                        } catch(e) {
+                            setTimeout(tryScroll, 10)
+                        }
+                    }
+                    tryScroll()
+                }
+                // IE, the document is inside a frame
+                document.attachEvent("onreadystatechange", function(){
+                    if ( document.readyState === "complete" ) {
+                        ready()
+                    }
+                })
+            }
+            // Old browsers
+            if (window.addEventListener)
+                window.addEventListener('load', ready, false)
+            else if (window.attachEvent)
+                window.attachEvent('onload', ready)
+            else {
+                var fn = window.onload // very old browser, copy old onload
+                window.onload = function() { // replace by new onload and call the old one
+                    fn && fn()
+                    ready()
+                }
+            }
+        }
+        bindReady(function() {
+            var login = Cookie.get('login');
+            if (login != null && login.length > 24){
+                Cookie.unset('sessid');
+                Cookie.unset('expirydate');
+                Cookie.unset('login');
+                Cookie.unset('context');
+
+                new Ajax.Request("/logout", {
+                    onComplete: function(){Sah.redirect('/');},
+                    method: "get"
+                });
+            }
+
+            if (Cookie.get('expirydate') !== undefined && Cookie.get('expirydate') !== null){
+
+                var expiryValue = Cookie.get('expirydate'),
+                    expiryDate = new Date(expiryValue);
+
+                if ( Object.prototype.toString.call(expiryDate) !== '[object Date]' || !isFinite(expiryDate) )
+                    expiryDate = new Date(parseInt(expiryValue));
+
+                var currentDate = new Date(),
+                    remainingTime = expiryDate.getTime() - currentDate.getTime();
+
+                if(remainingTime < 0 ){
+                    Cookie.unset('expirydate');
+                } else {
+                    clearTimeout(EXPIRY_DATE_ID);
+                    EXPIRY_DATE_ID=setTimeout(function(){
+                        Cookie.unset('sessid');
+                        Cookie.unset('expirydate');
+                        Cookie.unset('login');
+                        Cookie.unset('context');
+
+                        new Ajax.Request("/logout", {
+                            onComplete: function(){Sah.redirect('/');},
+                            method: "get"
+                        });
+                    }, remainingTime);
+                }
+
+            }
+
+            if ( appConfig === 'fr' ) {
+                $('hmenu-myfiles').remove();
+                if ( $('advConfigPorts') !== null ) {
+                    $('advConfigPorts').remove();
+                }
+                if ( $('left-fxo-link') !== null ) {
+                    $('left-fxo-link').remove();
+                }
+            }
+            if (config.BUILD_PROJECT.indexOf("2.8") < 0) {
+                if ( $('left-fxo-link') !== null ) {
+                    $("left-fxo-link").show();
+                }
+            }
+            $('Login').observe("submit",function(e){
+                Event.stop(e);
+                $('Username').setValue($F('PopupUsername'));
+                $('Password').setValue($F('PopupPassword'));
+                return true;
+            }.bind(this));
+
+            $("popup-close-btn").observe("click",function(e){
+                ctl.popup.Close();
+                return false;
+            });
+
+            $$('.hmenu li a').each(function (el) {
+                Event.observe(el, 'mouseup', function(event) {
+                    Sah.redirect(el.href);
+                });
+            });
+        });
+            
+            
+        Event.observe(document, "click", function (event) {
+             var sessionDuration = (config.SESSION_DURATION ? parseInt(config.SESSION_DURATION) : 600000);
+                
+             if (sessionDuration !== 0){                
+             var d = new Date();
+             d.setTime(d.getTime() + (sessionDuration * 1000));
+             Cookie.set('expirydate', d);
+                    
+            }
+
+            var login = Cookie.get('login');
+                if (login != null && login.length > 24){
+                    Cookie.unset('sessid');
+                    Cookie.unset('expirydate');
+                    Cookie.unset('login');
+                    Cookie.unset('context');
+
+                    new Ajax.Request("/logout", {
+                        onComplete: function(){Sah.redirect('/');},
+                        method: "get"
+                    });
+                }
+            
+                if (Cookie.get('expirydate') !== undefined && Cookie.get('expirydate') !== null){
+                
+                    var expiryValue = Cookie.get('expirydate'), 
+                        expiryDate = new Date(expiryValue);
+                                    
+                    if ( Object.prototype.toString.call(expiryDate) !== '[object Date]' || !isFinite(expiryDate) )
+                        expiryDate = new Date(parseInt(expiryValue));           
+                    
+                    var currentDate = new Date(),
+                        remainingTime = expiryDate.getTime() - currentDate.getTime();
+
+                    if(remainingTime < 0 ){
+                        Cookie.unset('expirydate');
+                    } else {
+                        clearTimeout(EXPIRY_DATE_ID);
+                        EXPIRY_DATE_ID=setTimeout(function(){
+                            Cookie.unset('sessid');
+                            Cookie.unset('expirydate');
+                            Cookie.unset('login');
+                            Cookie.unset('context');
+
+                            new Ajax.Request("/logout", {
+                                onComplete: function(){Sah.redirect('/');},
+                                method: "get"
+                            });
+                        }, remainingTime);
+                    }
+
+                }
+        });
+        
+</script>
+</body>
+</html>

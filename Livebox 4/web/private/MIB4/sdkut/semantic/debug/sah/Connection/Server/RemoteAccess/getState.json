@@ -1,0 +1,13 @@
+{
+  "status": 0,
+  "data": {
+    "isActivated": true,
+    "url": "https://193.253.160.3:12332",
+    "login": "manuel",
+    "ipIpv4": "193.253.160.3",
+    "protocol": "https",
+    "portNumber": 12332,
+    "timeout": 900,
+    "timeLeft": 0
+  }
+}

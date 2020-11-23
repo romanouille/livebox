@@ -1,0 +1,490 @@
+PETT-12;Asia/Kamchatka;International Date Line West
+SST11;US/Samoa;Midway Island, Samoa
+HST10;US/Hawaii;Hawaii
+AKST9AKDT,M3.2.0,M11.1.0;US/Alaska;Alaska
+PST8PDT,M3.2.0,M11.1.0;US/Pacific;Pacific Time (US/Canada), Tijuana
+MST7;US/Arizona;Arizona
+MST7MDT,M3.2.0,M11.1.0;US/Mountain;Mountain Time (US/Canada)
+MST7MDT,M4.1.0,M10.5.0;America/Chihuahua;Chihuahua, Mazatlan
+CST6CDT,M3.2.0,M11.1.0;US/Central;Central America
+CST6CDT,M3.2.0,M11.1.0;Canada/Central;Central Time (US/Canada)
+CST6CDT,M4.1.0,M10.5.0;America/Monterrey;Guadalajara, Mexico City, Monterrey
+CST6;Canada/Saskatchewan;Saskatchewan
+COT5;America/Bogota;Bogota, Lima, Quito
+EST5EDT,M3.2.0,M11.1.0;US/Eastern;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;US/East-Indiana;Indiana (East)
+AST4ADT,M3.2.0,M11.1.0;Canada/Atlantic;Atlantic Time (Canada)
+BOT4;America/La_Paz;Caracas, La Paz
+CLT4;America/Santiago;Santiago
+NST3:30NDT,M3.2.0,M11.1.0;Canada/Newfoundland;Newfoundland
+BRT3;America/Araguaina;Brasilia
+ART3;America/Argentina/Buenos_Aires;Buenos Aires, GeorgetownT
+BRT3;America/Recife;GreenlandT
+GST2;America/Godthab;Mid-AtlantiT
+AZOT1AZOST,M3.5.0/0,M10.5.0/1;Atlantic/Azores;Azores, Cape Verde Is.
+WET0WEST,M3.5.0/1,M10.5.0;Europe/Lisbon;Casablanca, Lisbon, Monrovia
+GMT0BST,M3.5.0/1,M10.5.0;Europe/London;GMT: Dublin, Edinburgh, London
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Paris;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Amsterdam;Amsterdam, Bern, Rome, Stockholm
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Belgrade;Belgrade, Berlin, Budapest, Ljubljana
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Brussels;Brussels, Copenhagen, Madrid
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Bratislava;Bratislava, Prague, Vienna
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Sarajevo;Sarajevo, Skopje, Warsaw, Zagreb
+CET-1;Africa/Algiers;West Central Africaa
+EET-2;Africa/Cairo;Bucharest, Cairo
+CAT-2;Africa/Harare;Harare, Pretoria
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Helsinki;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+IST-2;Asia/Jerusalem;Jerusalem
+AST-3;Asia/Baghdad;Baghdad, Kuwait, Riyadh
+MSK-4;Europe/Moscow;Moscow, St. Petersburg, Volgograd
+EAT-3;Indian/Mayotte;Mayotte
+EAT-3;Africa/Nairobi;Nairobi
+IRST-3:30;Asia/Tehran;Tehran
+GST-4;Asia/Dubai;Abu Dhabi, Muscat
+GET-4;Asia/Tbilisi;Baku, Tbilisi, Yerevan
+AFT-4:30;Asia/Kabul;Kabul
+YEKT-6;Asia/Yekaterinburg;Ekaterinburg
+PKT-5;Asia/Karachi;Islamabad, Karachi, Tashkent
+IST-5:30;Asia/Kolkata;Chennay, Kolkata, Mumbal, New Delhi
+NPT-5:45;Asia/Katmandu;Katmandu
+ALMT-6;Asia/Almaty;Almaty, Novosibirsko
+BDT-6;Asia/Dhaka;Astana, Dhaka
+MMT-6:30;Asia/Rangoon;Rangoon
+ICT-7;Asia/Bangkok;Bangkok, Hanoi, Jakarta
+KRAT-8;Asia/Krasnoyarsk;Krasnoyarsk
+HKT-8;Asia/Hong_Kong;Beijing, Chongqing, Hong Kong, Urumqi
+IRKT-9;Asia/Irkutsk;Irkutsk, Ulaan Bataar
+SGT-8;Asia/Singapore;Kuala Lumpur, Singapore
+CST-8;Asia/Taipei;Perth, Taipei
+JST-9;Asia/Tokyo;Osaka, Sapporo, Tokyo
+KST-9;Asia/Seoul;Seoul, Yakutsk
+CST-9:30;Australia/Darwin;Adelaide, Darwin
+EST-10;Australia/Brisbane;Brisbane
+EST-10EST,M10.1.0,M4.1.0/3;Australia/Sydney;Canberra, Melbourne, Sydney
+EST-10EST,M10.1.0,M4.1.0/3;Australia/Hobart;Hobart, Vladivosto
+ChST-10;Pacific/Guam;Guam, Port Moresby
+VUT-11;Pacific/Efate;Magadan, Solomon Is., New Caledonia
+NZST-12NZDT,M9.5.0,M4.1.0/3;Pacific/Auckland;Auckland, Wellington
+FJT-12;Pacific/Fiji;Fiji, Kamchatka, Marshall Is.
+GMT0;Africa/Abidjan;GMT: Dublin, Edinburgh, London
+GMT0;Africa/Accra;GMT: Dublin, Edinburgh, London
+EAT-3;Africa/Addis_Ababa;Nairobi
+EAT-3;Africa/Asmara;Nairobi
+GMT0;Africa/Bamako;GMT: Dublin, Edinburgh, London
+WAT-1;Africa/Bangui;West Central Africaa
+GMT0;Africa/Banjul;GMT: Dublin, Edinburgh, London
+GMT0;Africa/Bissau;GMT: Dublin, Edinburgh, London
+CAT-2;Africa/Blantyre;Harare, Pretoria
+WAT-1;Africa/Brazzaville;West Central Africaa
+CAT-2;Africa/Bujumbura;Harare, Pretoria
+WET0;Africa/Casablanca;GMT: Dublin, Edinburgh, London
+CET-1CEST,M3.5.0,M10.5.0/3;Africa/Ceuta;Paris
+GMT0;Africa/Conakry;GMT: Dublin, Edinburgh, London
+GMT0;Africa/Dakar;GMT: Dublin, Edinburgh, London
+EAT-3;Africa/Dar_es_Salaam;Nairobi
+EAT-3;Africa/Djibouti;Nairobi
+WAT-1;Africa/Douala;West Central Africaa
+WET0;Africa/El_Aaiun;GMT: Dublin, Edinburgh, London
+GMT0;Africa/Freetown;GMT: Dublin, Edinburgh, London
+CAT-2;Africa/Gaborone;Harare, Pretoria
+SAST-2;Africa/Johannesburg;Harare, Pretoria
+EAT-3;Africa/Juba;Nairobi
+EAT-3;Africa/Kampala;Nairobi
+EAT-3;Africa/Khartoum;Nairobi
+CAT-2;Africa/Kigali;Harare, Pretoria
+WAT-1;Africa/Kinshasa;West Central Africaa
+WAT-1;Africa/Lagos;West Central Africaa
+WAT-1;Africa/Libreville;West Central Africaa
+GMT0;Africa/Lome;GMT: Dublin, Edinburgh, London
+WAT-1;Africa/Luanda;West Central Africaa
+CAT-2;Africa/Lubumbashi;Harare, Pretoria
+CAT-2;Africa/Lusaka;Harare, Pretoria
+WAT-1;Africa/Malabo;West Central Africaa
+CAT-2;Africa/Maputo;Harare, Pretoria
+SAST-2;Africa/Maseru;Harare, Pretoria
+SAST-2;Africa/Mbabane;Harare, Pretoria
+EAT-3;Africa/Mogadishu;Nairobi
+GMT0;Africa/Monrovia;GMT: Dublin, Edinburgh, London
+WAT-1;Africa/Ndjamena;West Central Africaa
+WAT-1;Africa/Niamey;West Central Africaa
+GMT0;Africa/Nouakchott;GMT: Dublin, Edinburgh, London
+GMT0;Africa/Ouagadougou;GMT: Dublin, Edinburgh, London
+WAT-1;Africa/Porto-Novo;West Central Africaa
+GMT0;Africa/Sao_Tome;GMT: Dublin, Edinburgh, London
+GMT0;Africa/Timbuktu;GMT: Dublin, Edinburgh, London
+EET-2;Africa/Tripoli;Bucharest, Cairo
+CET-1;Africa/Tunis;West Central Africaa
+WAT-1WAST,M9.1.0,M4.1.0;Africa/Windhoek;West Central Africaa
+HAST10HADT,M3.2.0,M11.1.0;America/Adak;Hawaii
+AKST9AKDT,M3.2.0,M11.1.0;America/Anchorage;Alaska
+AST4;America/Santo_Domingo;Antilles
+AST4;America/Anguilla;Caracas, La Paz
+AST4;America/Antigua;Caracas, La Paz
+ART3;America/Argentina/Catamarca;Buenos Aires, GeorgetownT
+ART3;America/Argentina/ComodRivadavia;Buenos Aires, GeorgetownT
+ART3;America/Argentina/Cordoba;Buenos Aires, GeorgetownT
+ART3;America/Argentina/Jujuy;Buenos Aires, GeorgetownT
+ART3;America/Argentina/La_Rioja;Buenos Aires, GeorgetownT
+ART3;America/Argentina/Mendoza;Buenos Aires, GeorgetownT
+ART3;America/Argentina/Rio_Gallegos;Buenos Aires, GeorgetownT
+ART3;America/Argentina/Salta;Buenos Aires, GeorgetownT
+ART3;America/Argentina/San_Juan;Buenos Aires, GeorgetownT
+ART3;America/Argentina/San_Luis;Buenos Aires, GeorgetownT
+ART3;America/Argentina/Tucuman;Buenos Aires, GeorgetownT
+ART3;America/Argentina/Ushuaia;Buenos Aires, GeorgetownT
+AST4;America/Aruba;Caracas, La Paz
+PYT4PYST,M10.1.0/0,M4.2.0/0;America/Asuncion;Caracas, La Paz
+EST5;America/Atikokan;Bogota, Lima, Quito
+HAST10HADT,M3.2.0,M11.1.0;America/Atka;Hawaii
+CST6CDT,M4.1.0,M10.5.0;America/Bahia_Banderas;Guadalajara, Mexico City, Monterrey
+BRT3;America/Bahia;Brasilia
+AST4;America/Barbados;Caracas, La Paz
+BRT3;America/Belem;Brasilia
+CST6;America/Belize;Saskatchewan
+AST4;America/Blanc-Sablon;Caracas, La Paz
+AMT4;America/Boa_Vista;Caracas, La Paz
+MST7MDT,M3.2.0,M11.1.0;America/Boise;Mountain Time (US/Canada)
+ART3;America/Buenos_Aires;Buenos Aires, GeorgetownT
+MST7MDT,M3.2.0,M11.1.0;America/Cambridge_Bay;Mountain Time (US/Canada)
+AMT4AMST,M10.3.0/0,M2.3.0/0;America/Campo_Grande;Caracas, La Paz
+CST6CDT,M4.1.0,M10.5.0;America/Cancun;Guadalajara, Mexico City, Monterrey
+VET4:30;America/Caracas;Caracas, La Paz
+ART3;America/Catamarca;Buenos Aires, GeorgetownT
+GFT3;America/Cayenne;Guyane
+EST5;America/Cayman;Bogota, Lima, Quito
+CST6CDT,M3.2.0,M11.1.0;America/Chicago;Central America
+EST5;America/Coral_Harbour;Bogota, Lima, Quito
+ART3;America/Cordoba;Buenos Aires, GeorgetownT
+CST6;America/Costa_Rica;Saskatchewan
+AMT4AMST,M10.3.0/0,M2.3.0/0;America/Cuiaba;Caracas, La Paz
+AST4;America/Curacao;Caracas, La Paz
+GMT0;America/Danmarkshavn;GMT: Dublin, Edinburgh, London
+MST7;America/Dawson_Creek;Arizona
+PST8PDT,M3.2.0,M11.1.0;America/Dawson;Pacific Time (US/Canada), Tijuana
+MST7MDT,M3.2.0,M11.1.0;America/Denver;Mountain Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Detroit;Eastern Time (US/Canada)
+AST4;America/Dominica;Caracas, La Paz
+MST7MDT,M3.2.0,M11.1.0;America/Edmonton;Mountain Time (US/Canada)
+AMT4;America/Eirunepe;Caracas, La Paz
+CST6;America/El_Salvador;Saskatchewan
+PST8PDT,M3.2.0,M11.1.0;America/Ensenada;Pacific Time (US/Canada), Tijuana
+BRT3;America/Fortaleza;Brasilia
+EST5EDT,M3.2.0,M11.1.0;America/Fort_Wayne;Eastern Time (US/Canada)
+AST4ADT,M3.2.0,M11.1.0;America/Glace_Bay;Atlantic Time (Canada)
+AST4ADT,M3.2.0,M11.1.0;America/Goose_Bay;Atlantic Time (Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Grand_Turk;Eastern Time (US/Canada)
+AST4;America/Grenada;Caracas, La Paz
+AST4;America/Guadeloupe;Caracas, La Paz
+CST6;America/Guatemala;Saskatchewan
+ECT5;America/Guayaquil;Bogota, Lima, Quito
+GYT4;America/Guyana;Caracas, La Paz
+AST4ADT,M3.2.0,M11.1.0;America/Halifax;Atlantic Time (Canada)
+CST5CDT,M3.2.0/0,M10.5.0/1;America/Havana;Eastern Time (US/Canada)
+MST7;America/Hermosillo;Arizona
+EST5EDT,M3.2.0,M11.1.0;America/Indiana/Indianapolis;Eastern Time (US/Canada)
+CST6CDT,M3.2.0,M11.1.0;America/Indiana/Knox;Central America
+EST5EDT,M3.2.0,M11.1.0;America/Indiana/Marengo;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Indiana/Petersburg;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Indianapolis;Eastern Time (US/Canada)
+CST6CDT,M3.2.0,M11.1.0;America/Indiana/Tell_City;Central America
+EST5EDT,M3.2.0,M11.1.0;America/Indiana/Vevay;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Indiana/Vincennes;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Indiana/Winamac;Eastern Time (US/Canada)
+MST7MDT,M3.2.0,M11.1.0;America/Inuvik;Mountain Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Iqaluit;Eastern Time (US/Canada)
+EST5;America/Jamaica;Bogota, Lima, Quito
+ART3;America/Jujuy;Buenos Aires, GeorgetownT
+AKST9AKDT,M3.2.0,M11.1.0;America/Juneau;Alaska
+EST5EDT,M3.2.0,M11.1.0;America/Kentucky/Louisville;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Kentucky/Monticello;Eastern Time (US/Canada)
+CST6CDT,M3.2.0,M11.1.0;America/Knox_IN;Central America
+AST4;America/Kralendijk;Caracas, La Paz
+PET5;America/Lima;Bogota, Lima, Quito
+PST8PDT,M3.2.0,M11.1.0;America/Los_Angeles;Pacific Time (US/Canada), Tijuana
+EST5EDT,M3.2.0,M11.1.0;America/Louisville;Eastern Time (US/Canada)
+AST4;America/Lower_Princes;Caracas, La Paz
+BRT3;America/Maceio;Brasilia
+CST6;America/Managua;Saskatchewan
+AMT4;America/Manaus;Caracas, La Paz
+AST4;America/Marigot;Caracas, La Paz
+AST4;America/Martinique;Caracas, La Paz
+CST6CDT,M3.2.0,M11.1.0;America/Matamoros;Central America
+MST7MDT,M4.1.0,M10.5.0;America/Mazatlan;Chihuahua, Mazatlan
+ART3;America/Mendoza;Buenos Aires, GeorgetownT
+CST6CDT,M3.2.0,M11.1.0;America/Menominee;Central America
+CST6CDT,M4.1.0,M10.5.0;America/Merida;Guadalajara, Mexico City, Monterrey
+MeST8;America/Metlakatla;Pacific Time (US/Canada), Tijuana
+CST6CDT,M4.1.0,M10.5.0;America/Mexico_City;Guadalajara, Mexico City, Monterrey
+PMST3PMDT,M3.2.0,M11.1.0;America/Miquelon;Canada/Newfoundland
+AST4ADT,M3.2.0,M11.1.0;America/Moncton;Atlantic Time (Canada)
+UYT3UYST,M10.1.0,M3.2.0;America/Montevideo;Brasilia
+EST5EDT,M3.2.0,M11.1.0;America/Montreal;Eastern Time (US/Canada)
+AST4;America/Montserrat;Caracas, La Paz
+EST5EDT,M3.2.0,M11.1.0;America/Nassau;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/New_York;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Nipigon;Eastern Time (US/Canada)
+AKST9AKDT,M3.2.0,M11.1.0;America/Nome;Alaska
+FNT2;America/Noronha;Mid-AtlantiT
+CST6CDT,M3.2.0,M11.1.0;America/North_Dakota/Beulah;Central America
+CST6CDT,M3.2.0,M11.1.0;America/North_Dakota/Center;Central America
+CST6CDT,M3.2.0,M11.1.0;America/North_Dakota/New_Salem;Central America
+MST7MDT,M3.2.0,M11.1.0;America/Ojinaga;Mountain Time (US/Canada)
+EST5;America/Panama;Bogota, Lima, Quito
+EST5EDT,M3.2.0,M11.1.0;America/Pangnirtung;Eastern Time (US/Canada)
+SRT3;America/Paramaribo;Brasilia
+MST7;America/Phoenix;Arizona
+EST5;America/Port-au-Prince;Bogota, Lima, Quito
+AMT4;America/Porto_Acre;Caracas, La Paz
+AST4;America/Port_of_Spain;Caracas, La Paz
+AMT4;America/Porto_Velho;Caracas, La Paz
+AST4;America/Puerto_Rico;Caracas, La Paz
+CST6CDT,M3.2.0,M11.1.0;America/Rainy_River;Central America
+CST6CDT,M3.2.0,M11.1.0;America/Rankin_Inlet;Central America
+CST6;America/Regina;Saskatchewan
+CST6CDT,M3.2.0,M11.1.0;America/Resolute;Central America
+AMT4;America/Rio_Branco;Caracas, La Paz
+ART3;America/Rosario;Buenos Aires, GeorgetownT
+PST8PDT,M4.1.0,M10.5.0;America/Santa_Isabel;Pacific Time (US/Canada), Tijuana
+BRT3;America/Santarem;Brasilia
+BRT3BRST,M10.3.0/0,M2.3.0/0;America/Sao_Paulo;Brasilia
+EGT1EGST,M3.5.0/0,M10.5.0/1;America/Scoresbysund;Azores, Cape Verde Is.
+MST7MDT,M3.2.0,M11.1.0;America/Shiprock;Mountain Time (US/Canada)
+AKST9AKDT,M3.2.0,M11.1.0;America/Sitka;Alaska
+AST4;America/St_Barthelemy;Caracas, La Paz
+NST3:30NDT,M3.2.0,M11.1.0;America/St_Johns;Newfoundland
+AST4;America/St_Kitts;Caracas, La Paz
+AST4;America/St_Lucia;Caracas, La Paz
+AST4;America/St_Thomas;Caracas, La Paz
+AST4;America/St_Vincent;Caracas, La Paz
+CST6;America/Swift_Current;Saskatchewan
+CST6;America/Tegucigalpa;Saskatchewan
+AST4ADT,M3.2.0,M11.1.0;America/Thule;Atlantic Time (Canada)
+EST5EDT,M3.2.0,M11.1.0;America/Thunder_Bay;Eastern Time (US/Canada)
+PST8PDT,M3.2.0,M11.1.0;America/Tijuana;Pacific Time (US/Canada), Tijuana
+EST5EDT,M3.2.0,M11.1.0;America/Toronto;Eastern Time (US/Canada)
+AST4;America/Tortola;Caracas, La Paz
+PST8PDT,M3.2.0,M11.1.0;America/Vancouver;Pacific Time (US/Canada), Tijuana
+AST4;America/Virgin;Caracas, La Paz
+PST8PDT,M3.2.0,M11.1.0;America/Whitehorse;Pacific Time (US/Canada), Tijuana
+CST6CDT,M3.2.0,M11.1.0;America/Winnipeg;Central America
+AKST9AKDT,M3.2.0,M11.1.0;America/Yakutat;Alaska
+MST7MDT,M3.2.0,M11.1.0;America/Yellowknife;Mountain Time (US/Canada)
+WST-8;Antarctica/Casey;Krasnoyarsk
+DAVT-7;Antarctica/Davis;Bangkok, Hanoi, Jakarta
+DDUT-10;Antarctica/DumontDUrville;Brisbane
+MIST-11;Antarctica/Macquarie;Magadan, Solomon Is., New Caledonia
+MAWT-5;Antarctica/Mawson;Islamabad, Karachi, Tashkent
+NZST-12NZDT,M9.5.0,M4.1.0/3;Antarctica/McMurdo;Auckland, Wellington
+CLT4;Antarctica/Palmer;Santiago
+ROTT3;Antarctica/Rothera;Brasilia
+NZST-12NZDT,M9.5.0,M4.1.0/3;Antarctica/South_Pole;Auckland, Wellington
+SYOT-3;Antarctica/Syowa;Nairobi
+VOST-6;Antarctica/Vostok;Almaty, Novosibirsko
+CET-1CEST,M3.5.0,M10.5.0/3;Arctic/Longyearbyen;Paris
+AST-3;Asia/Aden;Baghdad, Kuwait, Riyadh
+EET-2;Asia/Amman;Bucharest, Cairo
+ANAT-12;Asia/Anadyr;International Date Line West
+AQTT-5;Asia/Aqtau;Islamabad, Karachi, Tashkent
+AQTT-5;Asia/Aqtobe;Islamabad, Karachi, Tashkent
+TMT-5;Asia/Ashgabat;Islamabad, Karachi, Tashkent
+TMT-5;Asia/Ashkhabad;Islamabad, Karachi, Tashkent
+AST-3;Asia/Bahrain;Baghdad, Kuwait, Riyadh
+AZT-4AZST,M3.5.0/4,M10.5.0/5;Asia/Baku;Baku, Tbilisi, Yerevan
+EET-2EEST,M3.5.0/0,M10.5.0/0;Asia/Beirut;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+KGT-6;Asia/Bishkek;Ekaterinburg
+BNT-8;Asia/Brunei;Krasnoyarsk
+IST-5:30;Asia/Calcutta;Chennay, Kolkata, Mumbal, New Delhi
+CHOT-8;Asia/Choibalsan;Krasnoyarsk
+CST-8;Asia/Chongqing;Perth, Taipei
+CST-8;Asia/Chungking;Perth, Taipei
+IST-5:30;Asia/Colombo;Chennay, Kolkata, Mumbal, New Delhi
+BDT-6;Asia/Dacca;Astana, Dhaka
+EET-2EEST,M4.1.5/0,M10.5.5/0;Asia/Damascus;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+TLT-9;Asia/Dili;Irkutsk, Ulaan Bataar
+TJT-5;Asia/Dushanbe;Islamabad, Karachi, Tashkent
+EET-2EEST,M3.5.6/0:01,M9.1.5;Asia/Gaza;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CST-8;Asia/Harbin;Perth, Taipei
+ICT-7;Asia/Ho_Chi_Minh;Bangkok, Hanoi, Jakarta
+HOVT-7;Asia/Hovd;Bangkok, Hanoi, Jakarta
+EET-2EEST,M3.5.0/3,M10.5.0/4;Asia/Istanbul;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+WIT-7;Asia/Jakarta;Bangkok, Hanoi, Jakarta
+EIT-9;Asia/Jayapura;Irkutsk, Ulaan Bataar
+CST-8;Asia/Kashgar;Perth, Taipei
+MYT-8;Asia/Kuala_Lumpur;Krasnoyarsk
+MYT-8;Asia/Kuching;Krasnoyarsk
+AST-3;Asia/Kuwait;Baghdad, Kuwait, Riyadh
+CST-8;Asia/Macao;Perth, Taipei
+CST-8;Asia/Macau;Perth, Taipei
+MAGT-12;Asia/Magadan;International Date Line West
+CIT-8;Asia/Makassar;Krasnoyarsk
+PHT-8;Asia/Manila;Krasnoyarsk
+GST-4;Asia/Muscat;Abu Dhabi, Muscat
+EET-2EEST,M3.5.0/3,M10.5.0/4;Asia/Nicosia;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+NOVT-7;Asia/Novokuznetsk;Bangkok, Hanoi, Jakarta
+NOVT-7;Asia/Novosibirsk;Bangkok, Hanoi, Jakarta
+OMST-7;Asia/Omsk;Bangkok, Hanoi, Jakarta
+ORAT-5;Asia/Oral;Islamabad, Karachi, Tashkent
+ICT-7;Asia/Phnom_Penh;Bangkok, Hanoi, Jakarta
+WIT-7;Asia/Pontianak;Bangkok, Hanoi, Jakarta
+KST-9;Asia/Pyongyang;Seoul, Yakutsk
+AST-3;Asia/Qatar;Baghdad, Kuwait, Riyadh
+QYZT-6;Asia/Qyzylorda;Almaty, Novosibirsko
+AST-3;Asia/Riyadh;Baghdad, Kuwait, Riyadh
+ICT-7;Asia/Saigon;Bangkok, Hanoi, Jakarta
+SAKT-11;Asia/Sakhalin;Magadan, Solomon Is., New Caledonia
+UZT-5;Asia/Samarkand;Islamabad, Karachi, Tashkent
+CST-8;Asia/Shanghai;Perth, Taipei
+UZT-5;Asia/Tashkent;Islamabad, Karachi, Tashkent
+IST-2;Asia/Tel_Aviv;Jerusalem
+BTT-6;Asia/Thimbu;Ekaterinburg
+BTT-6;Asia/Thimphu;Ekaterinburg
+CIT-8;Asia/Ujung_Pandang;Krasnoyarsk
+ULAT-8;Asia/Ulaanbaatar;Krasnoyarsk
+ULAT-8;Asia/Ulan_Bator;Krasnoyarsk
+CST-8;Asia/Urumqi;Perth, Taipei
+ICT-7;Asia/Vientiane;Bangkok, Hanoi, Jakarta
+VLAT-11;Asia/Vladivostok;Magadan, Solomon Is., New Caledonia
+YAKT-10;Asia/Yakutsk;Guam, Port Moresby
+AMT-4AMST,M3.5.0,M10.5.0/3;Asia/Yerevan;Abu Dhabi, Muscat
+AST4ADT,M3.2.0,M11.1.0;Atlantic/Bermuda;Atlantic Time (Canada)
+WET0WEST,M3.5.0/1,M10.5.0;Atlantic/Canary;Casablanca, Lisbon, Monrovia
+CVT1;Atlantic/Cape_Verde;Azores, Cape Verde Is.
+WET0WEST,M3.5.0/1,M10.5.0;Atlantic/Faeroe;Casablanca, Lisbon, Monrovia
+WET0WEST,M3.5.0/1,M10.5.0;Atlantic/Faroe;Casablanca, Lisbon, Monrovia
+CET-1CEST,M3.5.0,M10.5.0/3;Atlantic/Jan_Mayen;Paris
+WET0WEST,M3.5.0/1,M10.5.0;Atlantic/Madeira;Casablanca, Lisbon, Monrovia
+GMT0;Atlantic/Reykjavik;GMT: Dublin, Edinburgh, London
+GST2;Atlantic/South_Georgia;Mid-AtlantiT
+FKT4FKST,M9.1.0,M4.3.0;Atlantic/Stanley;Caracas, La Paz
+GMT0;Atlantic/St_Helena;GMT: Dublin, Edinburgh, London
+EST-10EST,M10.1.0,M4.1.0/3;Australia/ACT;Canberra, Melbourne, Sydney
+CST-9:30CST,M10.1.0,M4.1.0/3;Australia/Adelaide;Adelaide, Darwin
+CST-9:30CST,M10.1.0,M4.1.0/3;Australia/Broken_Hill;Adelaide, Darwin
+EST-10EST,M10.1.0,M4.1.0/3;Australia/Canberra;Canberra, Melbourne, Sydney
+EST-10EST,M10.1.0,M4.1.0/3;Australia/Currie;Canberra, Melbourne, Sydney
+CWST-8:45;Australia/Eucla;Perth, Taipei
+LHST-10:30LHST-11,M10.1.0,M4.1.0;Australia/LHI;Canberra, Melbourne, Sydney
+EST-10;Australia/Lindeman;Brisbane
+LHST-10:30LHST-11,M10.1.0,M4.1.0;Australia/Lord_Howe;Canberra, Melbourne, Sydney
+EST-10EST,M10.1.0,M4.1.0/3;Australia/Melbourne;Canberra, Melbourne, Sydney
+CST-9:30;Australia/North;Adelaide, Darwin
+EST-10EST,M10.1.0,M4.1.0/3;Australia/NSW;Canberra, Melbourne, Sydney
+WST-8;Australia/Perth;Perth, Taipei
+EST-10;Australia/Queensland;Brisbane
+CST-9:30CST,M10.1.0,M4.1.0/3;Australia/South;Adelaide, Darwin
+EST-10EST,M10.1.0,M4.1.0/3;Australia/Tasmania;Canberra, Melbourne, Sydney
+EST-10EST,M10.1.0,M4.1.0/3;Australia/Victoria;Canberra, Melbourne, Sydney
+WST-8;Australia/West;Perth, Taipei
+CST-9:30CST,M10.1.0,M4.1.0/3;Australia/Yancowinna;Adelaide, Darwin
+AMT4;Brazil/Acre;Caracas, La Paz
+FNT2;Brazil/DeNoronha;Mid-AtlantiT
+BRT3BRST,M10.3.0/0,M2.3.0/0;Brazil/East;Brasilia
+AMT4;Brazil/West;Caracas, La Paz
+EST5EDT,M3.2.0,M11.1.0;Canada/Eastern;Eastern Time (US/Canada)
+CST6;Canada/East-Saskatchewan;Saskatchewan
+MST7MDT,M3.2.0,M11.1.0;Canada/Mountain;Mountain Time (US/Canada)
+PST8PDT,M3.2.0,M11.1.0;Canada/Pacific;Pacific Time (US/Canada), Tijuana
+PST8PDT,M3.2.0,M11.1.0;Canada/Yukon;Pacific Time (US/Canada), Tijuana
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Andorra;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Athens;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+GMT0BST,M3.5.0/1,M10.5.0;Europe/Belfast;GMT: Dublin, Edinburgh, London
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Berlin;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Bucharest;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Budapest;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Chisinau;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Copenhagen;Paris
+GMT0IST,M3.5.0/1,M10.5.0;Europe/Dublin;GMT: Dublin, Edinburgh, London
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Gibraltar;Paris
+GMT0BST,M3.5.0/1,M10.5.0;Europe/Guernsey;GMT: Dublin, Edinburgh, London
+GMT0BST,M3.5.0/1,M10.5.0;Europe/Isle_of_Man;GMT: Dublin, Edinburgh, London
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Istanbul;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+GMT0BST,M3.5.0/1,M10.5.0;Europe/Jersey;GMT: Dublin, Edinburgh, London
+KALT-3;Europe/Kaliningrad;Baghdad, Kuwait, Riyadh
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Kiev;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Ljubljana;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Luxembourg;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Madrid;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Malta;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Mariehamn;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+EET-2EEST,M3.5.0,M10.5.0/3;Europe/Minsk;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Monaco;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Nicosia;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Oslo;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Podgorica;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Prague;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Riga;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Rome;Amsterdam, Bern, Rome, Stockholm
+SAMT-4;Europe/Samara;Moscow, St. Petersburg, Volgograd
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/San_Marino;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Simferopol;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Skopje;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Sofia;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Stockholm;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Tallinn;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Tirane;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Tiraspol;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Uzhgorod;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Vaduz;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Vatican;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Vienna;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Vilnius;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+VOLT-4;Europe/Volgograd;Moscow, St. Petersburg, Volgograd
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Warsaw;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Zagreb;Paris
+EET-2EEST,M3.5.0/3,M10.5.0/4;Europe/Zaporozhye;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+CET-1CEST,M3.5.0,M10.5.0/3;Europe/Zurich;Paris
+EAT-3;Indian/Antananarivo;Nairobi
+IOT-6;Indian/Chagos;Ekaterinburg
+CXT-7;Indian/Christmas;Bangkok, Hanoi, Jakarta
+CCT-6:30;Indian/Cocos;Ekaterinburg
+EAT-3;Indian/Comoro;Nairobi
+TFT-5;Indian/Kerguelen;Islamabad, Karachi, Tashkent
+SCT-4;Indian/Mahe;Baku, Tbilisi, Yerevan
+MVT-5;Indian/Maldives;Islamabad, Karachi, Tashkent
+MUT-4;Pacific/Apia;Baku, Tbilisi, Yerevan
+RET-4;Indian/Reunion;Reunion, Yerevan
+PST8PDT,M3.2.0,M11.1.0;Mexico/BajaNorte;Pacific Time (US/Canada), Tijuana
+MST7MDT,M4.1.0,M10.5.0;Mexico/BajaSur;Chihuahua, Mazatlan
+CST6CDT,M4.1.0,M10.5.0;Mexico/General;Guadalajara, Mexico City, Monterrey
+WST-13;Pacific/Apia;Fiji, Kamchatka, Marshall Is.
+CHAST-12:45CHADT,M9.5.0/2:45,M4.1.0/3:45;Pacific/Chatham;International Date Line West
+CHUT-10;Pacific/Chuuk;Brisbane
+EAST+6;Pacific/Easter;Saskatchewan
+PHOT-13;Pacific/Enderbury;Fiji, Kamchatka, Marshall Is.
+TKT10;Pacific/Fakaofo;Hawaii
+TVT-12;Pacific/Funafuti;International Date Line West
+GALT6;Pacific/Galapagos;Saskatchewan
+GAMT9;Pacific/Gambier;Alaska
+SBT-11;Pacific/Guadalcanal;Magadan, Solomon Is., New Caledonia
+HST10;Pacific/Honolulu;Hawaii
+HST10;Pacific/Johnston;Hawaii
+LINT-14;Pacific/Kiritimati;Fiji, Kamchatka, Marshall Is.
+KOST-11;Pacific/Kosrae;Magadan, Solomon Is., New Caledonia
+MHT-12;Pacific/Kwajalein;International Date Line West
+MHT-12;Pacific/Majuro;International Date Line West
+MART9:30;Pacific/Marquesas;Alaska
+SST11;Pacific/Midway;Midway Island, Samoa
+NRT-12;Pacific/Nauru;International Date Line West
+NUT11;Pacific/Niue;Midway Island, Samoa
+NFT-11:30;Pacific/Norfolk;Magadan, Solomon Is., New Caledonia
+NCT-11;Pacific/Noumea;Magadan, Solomon Is., New Caledonia
+SST11;Pacific/Pago_Pago;Midway Island, Samoa
+PWT-9;Pacific/Palau;Osaka, Sapporo, Tokyo
+PST8;Pacific/Pitcairn;Pacific Time (US/Canada), Tijuana
+PONT-11;Pacific/Pohnpei;Magadan, Solomon Is., New Caledonia
+PONT-11;Pacific/Ponape;Magadan, Solomon Is., New Caledonia
+PGT-10;Pacific/Port_Moresby;Brisbane
+CKT10;Pacific/Rarotonga;Hawaii
+ChST-10;Pacific/Saipan;Guam, Port Moresby
+SST11;Pacific/Samoa;Midway Island, Samoa
+TAHT10;Pacific/Tahiti;Hawaii
+GILT-12;Pacific/Tarawa;International Date Line West
+TOT-13;Pacific/Tongatapu;Fiji, Kamchatka, Marshall Is.
+CHUT-10;Pacific/Truk;Brisbane
+WAKT-12;Pacific/Wake;International Date Line West
+WFT-12;Pacific/Wallis;International Date Line West
+CHUT-10;Pacific/Yap;Brisbane
+HAST10HADT,M3.2.0,M11.1.0;US/Aleutian;Hawaii
+CST6CDT,M3.2.0,M11.1.0;US/Indiana-Starke;Central America
+EST5EDT,M3.2.0,M11.1.0;US/Michigan;Eastern Time (US/Canada)
+PST8PDT,M3.2.0,M11.1.0;US/Pacific-New;Pacific Time (US/Canada), Tijuana

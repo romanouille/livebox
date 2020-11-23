@@ -1,0 +1,20 @@
+datamodel {
+	object RouterAdvertisement {
+		instance of InterfaceSetting(1, "lan") {
+			parameter Interface = lan;
+			parameter MaxRtrAdvInterval = 60;
+			parameter MinRtrAdvInterval = 30;
+			parameter AdvOtherConfigFlag = true;
+			parameter AdvDefaultLifetime = 180;
+			parameter AdvRDNSSLifetime = 60;
+			parameter AdvDNSSLLifetime = 60;
+			parameter AdvLinkMTU = 1500;
+			parameter Enable = true;
+			object Prefix {
+				parameter AdvValidLifetime = 900;
+				parameter AdvPreferredLifetime = 300;
+			}
+		}
+		parameter Enable = true;
+	}
+}

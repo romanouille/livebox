@@ -1,0 +1,63 @@
+datamodel {
+    object "$(XDSL_ROOT)" {
+        object Config {
+            parameter SRA=true;
+            parameter T1p413_ghs=true;
+            parameter Bitswap=true;
+            parameter Tx_power_cutback=true;
+            parameter Digital_echo_canceller=true;
+            parameter Hw_agc=true;
+            parameter Hw_time_track=true;
+            parameter dsl_trellis=true;
+            parameter Sw_timer_err_detect=true;
+            parameter PHY_REXMT_DS=true;
+            parameter 24kbytes_Interleaving=true;
+            parameter Retrain_on_SES=true;
+            parameter Disable_SyncFastUpdate=true;
+            parameter CI_Policy2=true;
+            parameter phy_ginp_us=true;
+            parameter phy_ginp_ds=true;
+            parameter FT_Feature_Bit=true;
+            parameter G994_prefer_decide=true;
+            parameter G994_prefer_exchange=true;
+            parameter CI_Policy2_Default_VDSL=true;
+            parameter Telecom_Poland_Interop=true;
+            parameter Disable_MEQ_IGNP_REIN=true;
+            parameter V43_autonomous=true;
+            parameter Err_sample_packet_counter=true;
+            parameter Disable_dynamic_feature=true;
+            parameter Raw_ethernet_ds=true;
+            parameter CPE_RNC_QLN_test=false;
+            parameter tpstc_ptm_vdsl=true;
+            parameter tpstc_atm_adsl=true;
+            parameter tpstc_ptm_adsl=true;
+            parameter demod_cap2_on=true;
+            parameter mod_vdsl2_only=true;
+            parameter mod_adsl2p_only=true;
+            parameter mod_adsl2_only=true;
+            parameter demod_cap_on=true;
+            parameter trellis_on=true;
+            parameter extra_data=true;
+            parameter mod_t1413_only=true;
+            parameter mod_glite_only=true;
+            parameter mod_gdmt_only=true;
+            parameter reach_ex_on=true;
+            parameter us0_mask_17a=true;
+            parameter us0_mask_12b=true;
+            parameter us0_mask_12a=true;
+            parameter us0_mask_8d=true;
+            parameter us0_mask_8c=true;
+            parameter us0_mask_8b=true;
+            parameter us0_mask_8a=true;
+            parameter profile_30a=true;
+            parameter profile_17a=true;
+            parameter profile_12b=true;
+            parameter profile_12a=true;
+            parameter profile_8d=true;
+            parameter profile_8c=true;
+            parameter profile_8b=true;
+            parameter profile_8a=true;
+        }
+    }
+}
+

@@ -1,0 +1,265 @@
+
+using "message_plugin.so";
+
+acl {
+    world none;
+    group admin execute;
+    group remoteadmin execute;
+    group cwmpd read,write,execute;
+    group technician read,write,execute;
+}
+
+/**
+ * root object of the Generic Message Service
+ * @version 5.1
+ */
+object Message {
+
+    /**
+     * Maximum number of finished messages
+     * @version 5.1
+     */
+    persistent uint32 MaxNumberOfFinishedMessages = 20;
+
+    /**
+     * Message queue containing the incoming and outgoing messages
+     * @version 5.1
+     */
+    object Queue [] {
+        acl {
+            group admin read,execute;
+            group remoteadmin read,execute;
+        }
+        /**
+         * Indicates if this is an incoming or outgoing message
+         * @version 5.1
+         */
+        bool IsOutgoing;
+        /**
+         * Unique ID for this message
+         * @version 5.1
+         */
+        uint32 ID;       
+        /**
+         * The URI of this message
+         *  - in case of outgoing: the target address
+         *  - in case of incoming: the source address
+         * @version 5.1
+         */
+        read-only string URI;
+        /**
+         * The message to send
+         * @version 5.1
+         */
+        read-only string Message;
+        /**
+         * The status of the message
+         * @version 5.1
+         */ 
+        read-only string Status {
+            constraint enum ["Initial","Sending","Error","Finished","FinishedError"];
+            default "Initial";
+        }
+        /**
+         * Human readable string with extended information about the status
+         *  e.g. during 'sending': Profile XXX is trying to send the message
+         *              'finished': Message delivered @ XX:xx:xx
+         * @version 5.1
+         */ 
+        read-only string StatusInfo;
+
+        /**
+         * The profile that is being used to send/receive the message
+         * @version 5.1
+         */
+        read-only string CurrentProfile;
+    }
+
+    /**
+     * List of profiles that are currently available
+     * @version 5.1
+     */
+    object Profiles [] {
+        /**
+         * Unique Name of the profile
+         * @version 5.1
+         */
+        string Name;
+        /**
+         * Object name of the service that will be used when trying to send a message using this profile
+         * @version 5.1
+         */
+        string PreferredService;
+        /**
+         * Priority of this profile
+         * @version 5.1
+         */
+        uint32 Priority = 0;
+
+    }
+
+    /**
+     * List of services that are currently available
+     * @version 5.1
+     */
+    object Services [] {
+        /**
+         * Unique Name of the service
+         * @version 5.1
+         */
+        string Name;
+        /**
+         * Profile type e.g. 'sms' 'mailto'
+         * @version 5.1
+         */
+        string Type;
+    }
+
+    /**
+     * Register a new profile
+     *
+     * @param preferredService Object name of the service that will be used when trying to send a message using this profile
+     * @param profilemap a variant_map holding key_value pair parameters of the profile (each message-service has his own profilemap)
+     * @version 5.1
+     * 
+     */
+    void registerProfile(mandatory string preferredService, mandatory object profilemap );
+
+    /**
+     * Deregister the specified profile
+     *
+     * @param preferredService Object name of the service that will be used when trying to send a message using this profile
+     * @param name The profile name
+     * @version 5.1
+     * 
+     */
+    void deregisterProfile(mandatory string preferredService, mandatory string name);
+
+    /**
+     * List the existing profiles
+     *
+     * @param preferredService Object name of the service that will be used when trying to send a message using this profile
+     * @return a list of existing profiliemaps (each message-service has his own profilemap)
+     * @version 5.1
+     * 
+     */
+    list listProfiles(mandatory string preferredService);
+
+    /**
+     * Register a service
+     *
+     * @param preferredService the service name
+     * @param type service type
+     * @version 5.1
+     * 
+     */
+    void registerService(mandatory string preferredService, string type) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Deregister the specified service
+     *
+     * @param preferredService the service name
+     * @version 5.1
+     * 
+     */
+    void deregisterService(mandatory string preferredService) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * List the existing services
+     *
+     * @version 5.1
+     * @return a string list of existing servicenames
+     * 
+     */
+    list listServices()  {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Send a message
+     *
+     * @param uri The uri to which to send the message
+     * @param message UTF8 encoded message content
+     * @version 5.1
+     * 
+     */
+    void send(mandatory string uri, mandatory string message);     
+
+    /**
+     * Add a receive message to the queue
+     *
+     * @param uri The uri from which the message was received
+     * @param message UTF8 encoded message content
+     * @version 5.1
+     * 
+     * @return the message id
+     */
+    uint32 addReceivedMessage(mandatory string uri, mandatory string message)  {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * List of the messages in the message queue (each ellement in the list is a structure containing all
+     * information)
+     * @version 5.1
+     *
+     * @return a list of messages
+     * 
+     */
+    list listMessages();
+
+    /**
+     * delete the messages in the message queue.
+     * @version 5.1
+     * @return 
+     * 
+     */
+    void deleteMessages();
+
+    /**
+     * Update a message status
+     *
+     * @param id The id of the message that has to be updated
+     * @param status The new status of the message
+     * @param statusInfo Human readable string with extended information about the status
+     * @version 5.1
+     * 
+     */
+    void updateMessageStatus(mandatory uint32 id, mandatory string status, mandatory string statusInfo)  {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+}
+
+
+/*
+ * Message format is UTF8 encoded:
+ * <HEADER><NEWLINE><NEWLINE><BODY>
+ */
+
+/*
+ * URI encoding:
+ *  <PROFILE>://<ADDRESS>
+ */
+
+
+
+/** @location sah_services_message /core/message-definition.odl */

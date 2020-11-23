@@ -1,0 +1,539 @@
+using "dns.so";
+
+/** 
+WT-181: Device.DNS. 
+	type: object 
+	write: - 
+	description: 
+		Properties for Domain Name Service (DNS). It contains the Client, Relay, 
+		and Diagnostics objects. 
+	version: 2.0
+*/
+persistent object DNS {
+	/* -- WT-181 data model for Device.DNS */
+
+	/**
+	 WT-181: SupportedRecordTypes 
+		type: string 
+		write: - 
+		description:
+			Comma-separated list of strings. The DNS record types that are supported 
+			by the device. Each list item is an enumeration of:
+				* A ([RFC1035])
+				* AAAA ([RFC3596])
+				* SRV ([RFC2782])
+				* PTR ([RFC1035])
+		version: 2.2
+	*/
+
+
+        /**
+        Export the dns settings to hgwcfg.
+
+        @param fileName The filename to which to save.
+        @return Success or failure.
+        */
+        bool export(string fileName);
+
+        /**
+        Import the dns settings from hgwcfg.
+
+        @param fileName The filename from which to load.
+        @return Success or failure.
+        */
+        bool import(string fileName);
+
+
+	/**
+	WT-181: Device.DNS.Client. 
+		type: object
+		write: - 
+		description:
+			Client properties for Domain Name Service (DNS). 
+			The DNS client resolves FQDN on behalf of device internal (client) applications.
+		version: 2.0
+	*/
+
+	persistent object Client {
+
+		/**
+		 WT-181: Device.DNS.Client.Server.{i}.
+			type: object
+			write: W
+			description: 
+				This table contains the DNS Server IP address to be used by the DHCP Client
+				(it does not model a DNS Server). Entries are either automatically created 
+				as result of DHCP (v4 or v6), IPCP, or RA received DNS server information, 
+				or are statically configured by the ACS.
+				
+				At most one entry in this table (regardless of whether or not it is enabled) 
+				can exist with a given value for Alias. On creation of a new table entry, 
+				the CPE MUST choose an initial value for Alias such that the new entry 
+				does not conflict with any existing entries.
+
+				At most one enabled entry in this table can exist with a given value for DNSServer.
+			version: 2.0
+		*/
+
+		persistent object Server[] {
+			/**
+			WT-181: DNSServer
+				type: string
+				write: W
+				description:
+					[IPAddress] DNS server IP addresses.
+					Note: DNSServer is only writable when Type is Static; 
+					otherwise, DNSServer is automatically configured as result of 
+					DHCP, IPCP, or RA received DNS server information.
+				version: 2.0
+			*/
+
+			persistent string DNSServer;
+
+			/**
+			WT-181: Interface
+				type: string­(256)
+				write: W
+				description:
+					The value MUST be the path name of a row in the IP.Interface table. 
+					If the referenced object is deleted, the parameter value MUST be set 
+					to an empty string. This parameter specifies the IP interface over which 
+					the DNS query is sent.
+					If an empty string is specified, the CPE MUST use its routing policy 
+					(Forwarding table entries), if necessary, to determine the 
+					appropriate interface.
+
+					Note: Interface is only writable when Type is Static; otherwise, 
+					Interface is automatically configured as result of DHCP, IPCP, 
+					or RA received DNS server information.
+				version: 2.0
+			*/
+			
+			persistent string Interface;
+
+			/**
+			WT-181: Type	
+				type: string
+				write: -
+				description:
+					Method used to assign the DNSServer address. Enumeration of:
+						* DHCP (Replaced by DHCPv4, DEPRECATED)
+						* DHCPv4
+						* DHCPv6
+						* RouterAdvertisement
+						* IPCP
+						* Static
+					Table entries that are automatically created as result of DHCP, IPCP, 
+					or RA received DNS server information will have Type set to 
+					DHCPv4, DHCPv6, IPCP, or RouterAdvertisement, as the case may be. 
+					Manually created table entires will have their Type set to Static.
+			*/
+
+			persistent string Type {
+				constraint enum ["DHCP", "DHCPv4", "DHCPv6", "RouterAdvertisement", "IPCP", "Static"];
+				default "Static";
+			}
+
+            /**
+            Enable flag to signal completeness of this object.
+
+            Setting this to true will trigger a reconfigure of dnsmasq
+            */
+
+            persistent bool Enable;
+		}
+	}
+
+	/**
+	WT-181: Device.DNS.Relay. 
+		type: object
+		write: - 
+		description:
+			DNS Relay object. The DNS proxy (or relay) function allows the forwarding 
+			of local network DNS queries to local or external DNS server(s) [RFC5625].
+		version: 2.0
+	*/
+
+	persistent object Relay {
+
+		/**
+		WT-181: Device.DNS.Relay.Forwarding.{i}.
+			type:  object
+			write:	W	
+			description:
+				DNS Server forwarding policy to be used by the DNS Relay. 
+				Entries are either automatically created as result of DHCP (v4 or v6), 
+				IPCP, or RA received DNS server information, or are statically configured 
+				by the ACS.
+				Note: Management of re-directing queries to the device embedded DNS server 
+				is not defined in this version of the specification.
+
+				At most one entry in this table (regardless of whether or not it is enabled) 
+				can exist with a given value for Alias. On creation of a new table entry, 
+				the CPE MUST choose an initial value for Alias such that the new entry does 
+				not conflict with any existing entries.
+
+				At most one enabled entry in this table can exist with a given value for DNSServer.
+			version: 2.0
+		*/
+
+		persistent object Forwarding[] {
+            write with forwardingOnWrite;
+            delete with forwardingOnDelete;
+
+			/** 
+			WT-181: DNSServer
+				type: string
+				write:	W
+				decsription:
+					[IPAddress] DNS server IP addresses.
+					Note: DNSServer is only writable when Type is Static; 
+					otherwise, DNSServer is automatically configured as result of 
+					DHCP, IPCP, or RA received DNS server information.
+				version: 2.0
+			*/
+	
+			persistent string DNSServer;
+
+
+			/**
+			WT-181: Interface
+				type: string­(256)	
+				write: W
+				description:
+					The value MUST be the path name of a row in the IP.Interface table. 
+					If the referenced object is deleted, the parameter value MUST be set
+					to an empty string. Specifies the IP interface over which the DNS 
+					query is sent.
+					If an empty string is specified, the CPE MUST use its routing policy
+					(IP Forwarding table entries), if necessary, to determine the appropriate
+					interface.
+					Note: Interface is only writable when Type is Static; otherwise, 
+					Interface is automatically configured as result of DHCP, IPCP, 
+					or RA received DNS server information.
+				version: 2.0
+			*/
+
+			persistent string Interface;
+
+			/** 
+			WT-181: Type	
+				type: string
+				write:	-
+				description:
+					Method used to assign the DNSServer address. Enumeration of:
+						* DHCP (Replaced by DHCPv4, DEPRECATED)
+						* DHCPv4
+						* DHCPv6
+						* RouterAdvertisement
+						* IPCP
+						* Static
+					Table entries that are automatically created as result of 
+					DHCP, IPCP, or RA received DNS server information will have Type
+					set to DHCPv4, DHCPv6, IPCP, or RouterAdvertisement, as the case may be. 
+					Manually created table entires will have their Type set to Static.
+				version: 2.0
+			*/
+
+			persistent string Type {
+				constraint enum ["DHCP", "DHCPv4", "DHCPv6", "RouterAdvertisement", "IPCP", "Static"];
+				default "Static";
+			}
+
+            /**
+            Enable flag to signal completeness of this object.
+            */
+
+            persistent bool Enable;
+		}
+	}
+    
+    persistent object Server {
+        /** 
+        Add or change a host in the hosts file maintained by dnsmasq.
+
+        @param name Name of the host
+        @param ip_address_v4 List of IPv4 addresses supplied.
+        @param ip_address_v6 List of IPv6 addresses supplied.
+        @param type How this Host was obtained, one from DHCP, DHCPv4, DHCPv6, RouterAdvertisement, IPCP, Static
+        @param commit Indicates immediate commit of the changes, defaults to false.
+        @return Success or failure.
+        */
+        bool setHost(string name, list ip_address_v4, list ip_address_v6, string type, bool commit);
+
+        /**
+        Remove a host from the hosts file maintained by dnsmasq.
+
+        A tuple of name and ip address is provided, this way we can delete an ip address from a host and leave
+        the other ip adresses assigned to this host intact.
+
+        @param name Name of the host
+        @param commit Immedialtely activate the changes.
+        @return Success or failure
+        */
+        bool deleteHost(string name, bool commit);
+
+        /**
+        Add an IP address to a host. If the host does not exist, create it.
+        
+        @param name Name of the host
+        @param ip_address IP address of the host, v4 or v6.
+        @param type How this host was obtained, one from DHCP, DHCPv4, DHCPv6, RouterAdvertisement, IPCP, Static
+        @param commit Immediate activation of change
+        @return Success or failure
+        */
+        bool setHostIPAddress(string name, string ip_address, string type, bool commit);
+         
+        /**
+        Delete an IP address from a host.
+
+        Removes an IP address from a host and removes the host when last IP address got removed.   
+        
+        @param name Name of the host.
+        @param ip_address IP address to remove.
+        @param commit Immediate activation of change
+        */
+        bool deleteHostIPAddress(string name, string ip_address, bool commit);
+
+        /**
+        Add or change a route.
+
+        Adds a route if it does not yet exists. Otherwise, change the existing route with the new parameters.
+
+        @param id Uniquely identify this route.
+        @param dns IP address (v4 or v6) of a DNS server.
+        @param src Only DNS queries from machines with matching IP address will be forwarded.
+        @param srcmask Mask for the above source prefix.
+        @param domain Domain matching string.
+        @param metric Metric for the DNS entry.
+        @param intf Interface associated with the DNS entry or DNS template.
+        @param commit Apply changes immediately
+        @return Success or failure.
+        */
+        bool setRoute(string id, string dns, string src, uint8 srcmask, string domain, uint8 metric, string intf, bool commit);
+
+        /**
+        Delete a Route.
+
+        @param id Uniquely identify the route to be deleted.
+        @param dns Delete this DNS server
+        @param commit Apply changes immediately
+        @return Success or failure.
+        */
+        bool deleteRoute(string id, string dns, bool commit);
+
+        /**
+        Commit the changes.
+
+        If you want to add/remove hosts in bulk, the overhead of restarting dnsmasq can get big.
+        Therefore, we provided the commit flag in the functions above and the commit function.
+        This way we can add/remove hosts in bulk and only restart the service once.
+
+        @return Success or failure.
+        */
+        bool commit();
+
+        /**
+        Save the data model to a file.
+
+        This saves the data model to the dnsplugin-defaults.odl for persistence.
+
+        @return Success or failure.
+        */ 
+        bool save();
+
+        /**
+        Reset the dnsplugin to its default state.
+
+        The default state is detrmined by the contents of the dnsplugin-defaults.odl. Using the {Server.save} method
+        changes the default behavior.
+
+        @return Success or failure.
+        */
+        bool reset();
+
+        /**
+        The DNS server domain name. 
+         */
+        persistent string Domain;
+
+        /**
+        The forwarded DNS query timeout. 
+        */
+        persistent uint32 Timeout;
+
+        /**
+        Suppress not more than specified amount of remote DNS server errors. 
+        */
+        persistent bool Suppress;
+
+        /**
+        Enable/disable Syslog for DNS events.
+
+        This enables dnsmasq logging to the syslog facility. It also enables query logging.
+        */
+        persistent bool Syslog;
+
+        /**
+        Enable/disable DNS spoofing when no applicable forwarding route present. 
+        */
+        persistent bool WDSpoofing {
+		    write with serverWDSpoofingOnWrite;
+	    }
+
+        /**
+        IPv4 address used for spoofing when WANDownSpoofing enabled. 
+        */
+        persistent string WDSpoofedIPAddress;
+        /**
+        IPv6 address used for spoofing when WANDownSpoofing enabled. 
+        */
+	    persistent string WDSpoofedIPAddressV6;
+
+        /**
+        Caching in dnsmasq is always enabled.
+        */
+        persistent bool EnableCaching; 
+        persistent uint16 MaxCachedEntries; 
+        persistent uint16 MaxUnresolvedEntries;
+        
+        /**
+        Time, expressed in milliseconds, before the next DNS request gets relayed to the fallback (secondary) DNS server.
+        A value greater than 0 enables the fallbask feature of dnsmasq.   
+        */
+        persistent uint16 FallbackTimeout;  // Expressed in milliseconds
+        /**
+        Minimal amount of time to wait before trying the primary DNS server again.
+
+        After the secondary kicked in, wait an arbitrary amount of seconds, defined with the interval FallbackResetMin and
+        FallbaskResetMax, before switching back to the primary server.
+
+        Expressed in seconds.
+        */
+        persistent uint16 FallbackResetMin;
+        /**
+        Minimal amount of time to wait before trying the primary DNS server again.
+
+        After the secondary kicked in, wait an arbitrary amount of seconds, defined with the interval FallbackResetMin and
+        FallbaskResetMax, before switching back to the primary server.
+
+        Expressed in seconds.
+        */
+        persistent uint16 FallbackResetMax;
+        persistent uint32 TTL;
+
+        /**
+         Interface to bind to on the LAN side
+        */ 
+        persistent string Interface;
+
+        /**
+        Enable/disable the local DNS server/forwarder.
+        */
+        persistent bool Enable {
+            write with serverEnableOnWrite;            
+        }
+		
+		/**
+		Status of DNS Server.
+		
+		This is set to true when DNS is enabled, DNS servers are configured and WDSpoofing is disabled.
+		TODO: check if route to DNS server exist before setting this.
+		*/
+		read-only bool Status;
+	
+        /**
+         The Host object contains the translation of a LAN hostname to an IP address.
+         */
+        persistent object Host[] {
+           write with hostOnWrite;
+           delete with hostOnDelete;
+
+           /**
+            Host name of the host.
+           */ 
+           persistent string Name;
+
+           /**
+            IPv4 addresses associated with this host.
+           */ 
+           persistent  string IPv4;
+
+           /**
+            IPv6 addresses associated with this host.
+           */ 
+           persistent string IPv6;
+
+           /**
+            How this host was obtained, one from DHCP, DHCPv4, DHCPv6, RouterAdvertisement, IPCP, Static
+           */ 
+           persistent string Type;
+        }
+
+        /**
+        The Route object describes a DNS forwarding entry 
+         */
+        persistent object Route[] {
+            /**
+            The IP address of a DNS server. If 0.0.0.0 is used, 
+            the entry becomes a DNS-Template which is 
+            instantiated if DNS Server IPs are configured on 
+            an IP interface. 
+
+            REQUIRED
+            */
+            persistent string DNS;
+
+            /**            
+            If specified, only DNS queries from machines of 
+            which the source IP address matches the source 
+            prefix of the DNS entry will be forwarded to the 
+            corresponding DNS server.
+
+            OPTIONAL
+            */
+            persistent string SRC;
+
+            /**
+            The IP address mask for the source prefix. 
+
+            OPTIONAL
+            */
+            persistent uint8 Srcmask;
+
+            /**
+            Domain matching string. If configured, only 
+            those DNS queries of which the domain name in 
+            the query matches with the string configured for 
+            the entry will be forwarded to the corresponding 
+            DNS Server. Maximum string length: 62 
+            characters
+
+            OPTIONAL
+            */
+            persistent string Domain;
+
+            /**
+            The metric for the DNS entry. The DNS Entry List 
+            is sorted on DNS Metric; the lower the metric, 
+            the higher the priority of the entry. 
+
+            OPTIONAL
+            */
+            persistent uint8 Metric;
+
+            /**
+            The interface associated with the DNS entry or 
+            DNS Template. 
+
+            OPTIONAL
+            */
+            persistent string Intf;
+
+            /**
+            Flags to identify type of entry.
+             */
+            persistent uint32 Flags;
+        }
+    }        
+}

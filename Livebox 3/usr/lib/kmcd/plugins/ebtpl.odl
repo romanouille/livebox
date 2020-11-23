@@ -1,0 +1,6 @@
+object KMCD {
+object Intf[] {
+bool EBTPortLearnEnable;
+bool NoForwardEnable;
+}
+}

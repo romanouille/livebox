@@ -1,0 +1,44 @@
+#!/bin/sh
+
+
+
+AVAHI_CFG=/etc/avahi/avahi-daemon.conf
+AVAHI_PID=/var/run/avahi-daemon/pid
+
+cfg_avahi() 
+{
+	echo -e "[server]" > ${AVAHI_CFG}
+	echo -e "use-ipv4=yes" >> ${AVAHI_CFG}
+	echo -e "use-ipv6=yes" >> ${AVAHI_CFG}
+	echo -e "allow-interfaces=bridge" >> ${AVAHI_CFG}
+	echo -e "" >> ${AVAHI_CFG}
+	echo -e "[rlimits]" >> ${AVAHI_CFG}
+	echo -e "rlimit-nofile=300" >> ${AVAHI_CFG}
+}
+
+case $1 in
+	start)
+		
+		mkdir -p /cfg/system/avahi/services
+		ln -sf /cfg/system/avahi/ /etc/avahi/
+		cp /usr/lib/avahi/services/http.service /etc/avahi/services
+		chown avahi:avahi /cfg/system/avahi/
+		touch ${AVAHI_CFG}
+		
+		cfg_avahi
+
+		/sbin/avahi-daemon -f ${AVAHI_CFG} -D 
+		pcb_cli -q 'Firewall.setService("mdns","lan","5353","17",0,true)'
+	;;
+	stop)
+		killall avahi-daemon
+		rm -rf ${AVAHI_PID}
+		pcb_cli -q 'Firewall.deleteService("mdns")'
+	;;
+	restart)
+	$0 stop
+	$0 start
+	;;
+	*)
+esac
+

@@ -1,0 +1,9 @@
+object NeMo { 
+	object extends MIB(0,"alias") {
+		string Flag = "";
+		object DataModel {
+			persistent string Alias;
+		}
+	}
+}
+

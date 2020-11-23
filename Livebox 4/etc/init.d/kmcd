@@ -1,0 +1,47 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="kmcd"
+start_options="-c /usr/lib/kmcd/kmcd.odl"
+datamodel="KMCD"
+trace_zones=""
+component="sah_services_kmcd_core"
+
+
+
+run_scripts() {
+	for script in /usr/lib/kmcd/init.d/S*; do
+		[ ! -f $script ] && continue
+		sh $script $1
+	done
+}
+
+case $1 in
+	start)
+		modprobe kmcd_core
+		modprobe kmcd_pc
+		run_scripts start
+		pcb_start $name $start_options
+		;;
+	stop)
+		pcb_stop $name
+		run_scripts stop
+		modprobe -r kmcd_pc
+		modprobe -r kmcd_core
+		;;
+
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+		;;
+	log)
+		action=$2
+		if [ -n "$action" ]; then
+			pcb_log $name $action $trace_zones
+		else
+			pcb_log $name enable $trace_zones
+		fi
+		;;
+	*)
+		echo "Usage: $0 [start|stop|restart|debuginfo|log]"
+esac

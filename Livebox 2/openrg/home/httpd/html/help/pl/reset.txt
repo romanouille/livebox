@@ -1,0 +1,14 @@
+<b>Ustawienia fabryczne</b><br>
+<br>
+
+
+
+Kliknij przycisk <b>"Resetuj"</b>, aby przywrócić domyślne wartości ustawień modemu Livebox. Wszystkie ustawienia, które zostały zmienione, zostaną utracone po przywróceniu ustawień fabrycznych. Z tego powodu zalecamy utworzenie kopii zapasowej wszystkich Twoich niestandardowych ustawień.
+
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

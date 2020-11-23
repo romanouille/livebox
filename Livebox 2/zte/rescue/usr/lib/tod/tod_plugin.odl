@@ -1,0 +1,72 @@
+using "tod_plugin.so";
+
+/**
+ *
+ * ToD (TimeOfDay)plugin
+ * -------------------------------
+ * At startup the ToD plugin registers itself with the scheduling plugin.
+ * From that point on the Tod plugin will wait for ToD.SetState("00:11:22:33:44:55,UserFriendlyScheduleName","Disable") RPC call to come in.
+ * - On Enable, the MAC address will be cleared from iptables so all traffic is possible
+ * - On Disable, the MAC address will be added to iptables, blocking all traffic
+ *
+ */
+
+
+/**
+ * 
+ *  Example interactions between a client plugin and the schedule plugin
+ *
+ *  Tod PLUGIN                                                                         SCHEDULE PLUGIN             
+ *  ===========                                                                        ===============            
+ *      --- Scheduler.registerScheduleType("ToD","ToD",["Enable","Disable"],NULL) -------------> Activate ToD schedules
+ *    
+ *      <-- ToD.setState("00:11:22:33:44:55,ChildPCOff","Enable") ----------------------------------------------
+ *                     
+ *                              ...
+ *  
+ *      <-- ToD.setState("00:11:22:33:44:55,ChildPCOff","Disable") ---------------------------------------------
+ *
+ *
+ *
+ *  Example interactions between the scheduler and the webui
+ *
+ *  WEBUI                                                                                                  SCHEDULE PLUGIN             
+ *  =====                                                                                                  ===============    
+ *      --- Scheduler.addSchedule("ToD",{"00:11:22:33:44:55,ChildPCOff",true,"Weekly","Disable","",  ----> Enable PC on wed, sat + sun
+ *               [{ "state": "Enable", "begin": 3*24*60*60, "end": 4*24*60*60},
+ *                { "state": "Enable", "begin:" 5*24*60*60, "end": 7*24*60*60]})
+ *
+ *      --- Scheduler.addSchedule("ToD",{"00:11:22:33:44:56,PapaGoToSleep",true,"Daily","Enable","", ----> Disable PC between 22:00->7:00
+ *               [{ "state": "Disable", "begin": 0, "end": 7*60*60},
+ *                { "state": "Disable", "begin:" 22*60*60, "end": 24*60*60]})
+ *
+ *  
+ */
+
+
+object ToD {
+ /**
+  * Register a scheduler, the function calling this routine should implement
+  * the setState() RPC to handle state changes.
+  * - ID: The unique ID. In this case the ID will consist of <COLUMN:SEPARATED:MAC,UserFriendlyName> e.g. "00:11:22:33:44:56,PapaGoToSleep"
+  * - state: The new state
+  */
+  bool setState(string ID, string state);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

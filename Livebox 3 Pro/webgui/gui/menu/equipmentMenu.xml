@@ -1,0 +1,15 @@
+<div id="pageBody" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<!--**********************
+	     USING B9 MENU in GWT 
+	    **********************
+	<div class="leftMenu">
+		<ul>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m3.m30'" i18n="menuEquipments.environment"></a></li>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m3.m31'" i18n="menuEquipments.userEquipment"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m3.m32'" i18n="menuEquipments.officeCustomization"></a></li>
+		</ul>
+	</div>
+	-->
+	<div id="content"></div>
+	<div class="clear"/>
+</div>

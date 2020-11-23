@@ -1,0 +1,24 @@
+include "../wld.odl";
+
+/*
+ * Copyright (c) 2011 SoftAtHome
+ *
+ * The information and source code contained herein is the exclusive
+ * property of SoftAtHome and may not be disclosed, examined, or
+ * reproduced in whole or in part without explicit written authorization
+ * of the copyright owner.
+ *
+ */
+
+persistent object "$(WIFIROOT)" {
+	persistent object Radio[] {
+		persistent object Vendor {
+			/* string format SupportedFrequencyBands: "2.4GHz,5GHz" */
+			string SupportedFrequencyBands;
+			/* string format - vendor specific command */
+			string RegulatoryDomain;
+			uint32 Interference;
+		}
+	}
+}
+

@@ -1,0 +1,287 @@
+
+using "usbhost-plugin.so";
+
+define usbdev_t {
+  string USBVersion;
+  uint16 DeviceClass;
+  uint16 DeviceSubClass;
+  uint16 ProductID;
+  uint16 VendorID;
+  string Manufacturer;
+  string ProductClass;
+  string SerialNumber;
+  string Rate;
+  list   Classes;
+}
+
+acl {
+    world read,execute;
+    group admin read,execute;
+    group remoteadmin read,execute;
+    group cwmpd read,write,execute;
+}
+
+/**
+ * TR-181 Object definition:
+ * This object models the CPE's USB Host controllers.
+ */
+object USBHosts {
+
+    /**
+     * Number of entries in the Host table
+     */
+    read-only uint32 HostNumberOfEntries;
+
+    /**
+     * Fetch devices
+     *
+     * @return a list of usbdev_t
+     */
+    list getDevices(list deviceClass);
+
+    /**
+     * Fetch a device
+     */
+    usbdev_t getDevice(string id);
+
+    /**
+     * Fetch USB topology of devices
+     */
+    list getTopology();
+
+
+    /**
+     * Table of port names
+     * Assigns a logical name to known usb ports
+     */
+    read-only object PortName[] {
+        /**
+         * This is a reference to the USB device (e.g. hub device).
+         * The value MUST be the path name of a row in the USBHosts.Host.{i} or USBHosts.Host.{i}.Device.{i} table.
+         */
+        read-only string DevicePath;
+
+        /**
+         * Hub port on device
+         */
+        read-only uint8 Port;
+
+        /**
+         * Logical name
+         */
+        read-only string Name;
+    }
+
+    read-only string RootDevices = "";
+
+    /**
+     * Table of CPE USB Host controllers
+     * At most one entry in this table can exist with a given value for Name
+     */
+    object Host[] {
+
+        /**
+         * User-readable host controller name
+         */
+        read-only string Name {
+          constraint maxvalue 64;
+        }
+        
+
+        /**
+         * Table of connected USB devices
+         * At most one entry in this table can exist with a given value for DeviceNumber
+         */
+        read-only object Device[] {
+             counted with DeviceNumberOfEntries;
+
+            /**
+             * Device unique id
+             */
+            read-only string DeviceUID;
+
+
+            /**
+             * Device number on USB bus
+             */
+            read-only uint32 DeviceNumber;
+
+            /**
+             * USB specification version with which the device complies
+             * Example: "1.1"
+             */
+            read-only string USBVersion {
+              constraint maxvalue 4;
+            }
+
+            /**
+             * Class Code as assigned by USB-IF
+             * When 0x00, each device specifies its own class code. When 0xFF, the class code is vendor specified
+             */
+            read-only string DeviceClass {
+              constraint maxvalue 4;
+            }
+
+            /**
+             * Subclass code (assigned by USB-IF)
+             */
+            read-only string DeviceSubClass {
+              constraint maxvalue 4;
+            }
+
+            /**
+             * Device release number
+             */
+            read-only uint16 DeviceVersion;
+
+            /**
+             * Protocol code (assigned by USB-IF)
+             */
+            read-only string DeviceProtocol {
+              constraint maxvalue 4;
+            }
+
+            /**
+             * Product ID (assigned by manufacturer)
+             */
+            read-only uint16 ProductID;
+
+            /**
+             * Vendor ID (assigned by USB-IF)
+             */
+            read-only uint16 VendorID;
+
+            /**
+             * Device Manufacturer string descriptor
+             */
+            read-only string Manufacturer {
+              constraint maxvalue 64;
+            }
+
+            /**
+             * Device Product Class string descriptor
+             */
+            read-only string ProductClass {
+              constraint maxvalue 64;
+            }
+
+            /**
+             * Device SerialNumber string descriptor
+             */
+            read-only string SerialNumber {
+              constraint maxvalue 64;
+            }
+
+            /**
+             * Hub port on parent device
+             * 0 when no parent
+             */
+            read-only uint8 Port;
+
+            /**
+             * Physical port name, taken from PortName object or empty
+             */
+            read-only string PhysicalPort;
+
+            /**
+             * Speed of the USB device. Enumeration of:
+             * - Low (1.5 Mbits/sec (187.5 KB/sec) defined in [USB1.0])
+             * - Full (12 Mbits/sec (1.5 MB/sec) defined in [USB1.0])
+             * - High (480 Mbits/sec (60 MB/sec) defined in [USB2.0])
+             * - Super (5.0 Gbits/sec (625 MB/sec) defined in [USB3.0])
+             *
+             * Internal signaling between the connected USB device and the USB Host Controller
+             * provide the information needed to determine the negotiated rate.
+             */
+            read-only string Rate {
+              constraint enum ["Low","Full","High","Super"];
+              default "Low";
+            }
+
+            /**
+             * This is a reference to the parent USB device (e.g. hub device).
+             * The value MUST be the path name of a row in the USBHosts.Host.{i}.Device.{i} table.
+             * If the referenced object is deleted, the parameter value MUST be set to an empty string.
+             * Example: "USBHosts.Host.2.Device.3"
+             *
+             * This is an empty string for a device connected to the Host controller (root hub).
+             */
+            read-only string Parent;
+
+            /**
+             * This is the DeviceUID of the parent, see {Parent}.
+             *
+             * This is an empty string for a device connected to the Host controller (root hub).
+             */
+            read-only string ParentUID;
+
+            /**
+             * Number of ports. Only applies for hub device, equal to 0 for other devices
+             */
+            read-only uint32 MaxChildren;
+
+            /**
+             * Eject the Device
+             */
+            bool Eject=0;
+
+            /**
+             * Number of entries in the Configuration table
+             */
+            read-only uint32 ConfigurationNumberOfEntries;
+
+            /**
+             * Table of device configurations
+             * At most one entry in this table can exist with a given value for ConfigurationNumber
+             */
+            read-only object Configuration[] {
+                /**
+                 * The identifier for each Device Configuration
+                 */
+                read-only uint32 ConfigurationNumber;
+
+                /**
+                 * Number of entries in the Interface table
+                 */
+                read-only uint32 InterfaceNumberOfEntries;
+
+                /**
+                 * Table of device interface descriptors
+                 * At most one entry in this table can exist with a given value for InterfaceNumber
+                 */
+                read-only object Interface[] {
+
+                    /**
+                     * Number of this interface (from USB interface descriptor)
+                     */
+                    read-only uint8 InterfaceNumber;
+
+                    /**
+                     * Class Code as assigned by USB-IF
+                     * When 0x00, each interface specifies its own class code
+                     * When 0xFF, the class code is vendor specified
+                     */
+                    read-only string InterfaceClass {
+                      constraint maxvalue 4;
+                    }
+
+                    /**
+                     * Subclass code (assigned by USB-IF)
+                     */
+                    read-only string InterfaceSubClass {
+                      constraint maxvalue 4;
+                    }
+
+                    /**
+                     * Protocol code (assigned by USB-IF)
+                     */
+                    read-only string InterfaceProtocol {
+                      constraint maxvalue 4;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** @location sah_services_usb /usbhosts-definition.odl */

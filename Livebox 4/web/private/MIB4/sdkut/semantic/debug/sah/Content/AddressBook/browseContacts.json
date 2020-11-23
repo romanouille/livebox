@@ -1,0 +1,89 @@
+{
+  "status": 0,
+  "data": {
+    "TotalMatches": 2,
+    "contactList": [
+      {
+        "contactId": "urn:uuid:71d3d259-b3c6-42a8-ad8c-a8d43cb47314",
+        "modificationDate": "2013-01-10T19:06:53Z",
+        "familyName": "Man",
+        "givenName": "Super",
+        "additionalNameList": [],
+        "honorificPrefixes": "",
+        "honorificSuffixes": "",
+        "formattedName": "Super Man",
+        "birthday": "0001-01-01T00:00:00Z",
+        "title": "Mr",
+        "organisationName": "SoftAtHome",
+        "organisationUnitList": ["S&A"],
+        "url": "http://www.softathome.com",
+        "addressList": [
+          {
+            "address": "81, av François Arago 92000 Nanterre",
+            "type": "WORK",
+            "isPreferred": false
+          }
+        ],
+        "phoneNumberList": [
+          {
+            "number": "012345678",
+            "type": "HOME",
+            "preferred": false
+          }, {
+            "number": "234567890",
+            "type": "CELL",
+            "preferred": false
+          }, {
+            "number": "456789012",
+            "type": "WORK",
+            "preferred": false
+          }
+        ],
+        "ringtoneId": "1",
+        "emailList": [
+          {
+            "email": "super.man@softahome.com",
+            "type": "INTERNET",
+            "preferred": false
+          }
+        ]
+      }, {
+        "contactId": "urn:uuid:71d3d259-b3c6-42a8-ad8c-a8d43cb47312",
+        "modificationDate": "2013-01-10T19:06:56Z",
+        "familyName": "Woman",
+        "givenName": "Super",
+        "additionalNameList": [],
+        "honorificPrefixes": "",
+        "honorificSuffixes": "",
+        "formattedName": "Super Woan",
+        "birthday": "0001-01-01T00:00:00Z",
+        "title": "Ms",
+        "organisationName": "SoftAtHome",
+        "organisationUnitList": ["S&A"],
+        "url": "http://www.softathome.com",
+        "addressList": [
+          {
+            "address": "81, av François Arago 92000 Nanterre",
+            "type": "WORK",
+            "isPreferred": false
+          }
+        ],
+        "phoneNumberList": [
+          {
+            "number": "456789012",
+            "type": "WORK",
+            "preferred": false
+          }
+        ],
+        "ringtoneId": "1",
+        "emailList": [
+          {
+            "email": "super.man@softahome.com",
+            "type": "INTERNET",
+            "preferred": false
+          }
+        ]
+      }
+    ]
+  }
+}

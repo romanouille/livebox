@@ -1,0 +1,73 @@
+datamodel {
+    object DeviceManagement {
+        /*
+         * SSH on the LAN and on the WAN are explictly disabled (regardless of
+         * the default value specified in "devicemngt-definitions.odl").
+         * Their port is set to the Orange-specific value 50222.
+         */
+        instance of SSH(0, "local") {
+            parameter AccessType="lan";
+            parameter Enable=0;
+            parameter PersistentEnable=0;
+            parameter IPVersion=4;
+            parameter Ports=50222;
+            parameter AllowRootLogin=1;
+            parameter ActivationDuration=30;
+        }
+
+        instance of SSH(0, "remote") {
+            parameter AccessType="wan";
+            parameter Enable=0;
+            parameter PersistentEnable=1;
+            parameter IPVersion=4;
+            parameter Ports=50222;
+            parameter AllowRootLogin=1;
+            parameter ActivationDuration=30;
+            parameter SourcePrefix="161.106.2.11,161.106.2.17,81.253.142.128/25";
+            parameter SourcePrefixNonEmpty=1;
+        }
+
+        /*
+         * Telnet is activated on the LAN
+         * and uses the default port
+         */
+        object Telnet {
+            parameter LANPorts="23";
+            parameter WANPorts="";
+        }
+
+        /*
+         * Default syslogd values are used
+         * Note : these values MUST
+         * be kept in the defaults to allow
+         * dynamic generation of the syslog.conf
+         */
+        object Syslog {
+            parameter PersistentFiles=false;
+            parameter MaxFileSize=80;
+            parameter NumberOfFiles=1;
+        }
+
+        /*
+         * Email functionalities are disabled
+         * by default
+         */
+        object Email {
+            parameter Daily=false;
+            parameter IPAddressChange=false;
+            parameter WritableContent=false;
+        }
+
+        object BulkData {
+            parameter MinReportingInterval=3600;
+
+            instance of Profile(0, "Default") {
+                parameter ReportingInterval=21600;
+                parameter ProfileType="bulkdata_debuginfo";
+                parameter FileTransferURL="http://karmatrack.orange.com/FR/log";
+            }
+        }
+    }
+}
+
+/** @location sah_services_system /devicemngt/devicemngt-defaults.odl */

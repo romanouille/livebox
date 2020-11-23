@@ -1,0 +1,127 @@
+
+
+using "conntrack_plugin.so";
+
+acl {
+  world none;
+  group admin read,write,execute;
+  group remoteadmin read,write,execute;
+  group cwmpd read,write,execute;
+}
+
+persistent object Conntrack {
+    /**
+     * The status of conntrack.
+     *
+     * @version 6.0
+     */
+    read-only string Status {
+        default "Conntrack is not running";
+    }
+
+    /**
+     * Contains the list of opened queries
+     *
+     * Queries can be opened and used to get notifications when a conntrack matches the provided arguments.
+     * For each call to {Conntrack.openQuery} a matching call to {Conntrack.closeQuery} must be done.
+     *
+     * @version 7.0
+     */
+    read-only object Query[] {
+        /**
+         * The subscriber.
+         *
+         * @version 7.0
+         */
+        read-only string Subscriber;
+
+        /**
+         * The expression used to match conntrack events.
+         *
+         * @version 7.0
+         */
+        read-only string Expression;
+    }
+
+    /**
+     * Opens a query
+     *
+     * This function creates a instance of the query template object.
+     *
+     * Each call to this function must have a matching call to {Conntrack.closeQuery}
+     *
+     * @param subscriber a string identifying the subscriber
+     * @param expression the expression of the query
+     *
+     * @return the id of the query
+     *
+     * @version 7.0
+     */
+    string openQuery(mandatory string subscriber, string expression) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Closes a query
+     *
+     * Closes a query that was opened with {Conntrack.openQuery}.
+     *
+     * @param id the id of the query as returned by the {Conntrack.openQuery} function
+     *
+     * @version 7.0
+     */
+    void closeQuery(mandatory string id) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Counts connections matching the expression
+     *
+     * @param expression the expression used to search for connections
+     *
+     * @return the number of matching connections
+     *
+     * @error pcb_error_no_memory,
+     *        ct_error_invalid_expression
+     *
+     * @version 7.0
+     */
+    uint32 count(string expression);
+
+    /**
+     * Searches connections matching the expression and returns a list containing detailed information of matching connections
+     *
+     * @param expression the expression used to search for connections
+     *
+     * @return a list of matching connections
+     *
+     * @error pcb_error_no_memory,
+     *        ct_error_invalid_expression
+     *
+     * @version 7.0
+     */
+    list get(string expression);
+
+    /**
+     * Removes connections that match the expression
+     *
+     * @param expression the expression used to search for connections
+     *
+     * @return number of connections removed
+     *
+     * @error pcb_error_no_memory,
+     *        ct_error_invalid_expression
+     *
+     * @version 7.0
+     */
+    uint32 remove(string expression);
+}
+
+
+/** @location sah_services_conntrack-plugin /conntrack_plugin-definitions.odl.m4 */

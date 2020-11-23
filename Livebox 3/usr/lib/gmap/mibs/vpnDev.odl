@@ -1,0 +1,20 @@
+/*expr:ap and vpn */
+
+/**
+ * MIB is loaded on all ap vpn decives.
+ *
+ * All devices matching expression: "ap vpn" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib vpnDev {
+    /**
+     * The active state of the VPN client
+     *
+     * Is the VPN client active.
+     * @version 6.1
+     */
+    read-only bool VPNClientActive;
+}
+
+/** @location sah_services_gmap /mibs/vpnDev.odl */

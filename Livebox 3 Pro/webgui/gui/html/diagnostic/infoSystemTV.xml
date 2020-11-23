@@ -1,0 +1,125 @@
+<div id="infoSystemTV" class="infoSystemPage" xmlns="http://www.orange.com/xhtml/engine/loose">  
+	 <div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_diagnostic">
+			<span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;<span i18n="menuDiagnostic.infoSystemTV"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.diagnostic.infosystem.subtitle"/>
+			<br/>
+			<div class="center" widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.lb">
+				<span id="routerlist" widgetType="EnumInput" widgetArg="'select'"/>
+			</div>
+		</div>	
+	  </div>
+	<div class="maindiv">		
+		<form action="#">			
+			<div id="MASTERBOX">
+				<div class="headBoxType1 margin-top-10" >
+					<span class="moins" >
+						<span class="h3Text margin-left-30" dataId="Device/DeviceInfo/RouterName"/>
+					</span>	
+				</div>		
+				<div class="sysinfo">
+					<div class="boxType4 border-bottom-1">
+						<span class="h2Text orange" i18n="page.diagnostic.infosystem.tv.channel1"/>
+						<span id="print">
+							<a href="javascript:window.print()" i18n="common.print"/>
+						</span>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.channel1.5.1">
+							<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL1']/Enable" i18nPrefix="data.diagnostic.infosystem.tv.status"/>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.channel1.5.2">
+								<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL1']/DSL/VP"/>/<span class="bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL1']/DSL/VC"/>
+							</div>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'DISABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.channel1.5.2_ftth">
+								<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL1']/FTTH/VLANID"/>/<span class="bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL1']/FTTH/PRI"/>
+							</div>
+						</div>
+						<div  class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.channel1.5.3">
+							<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL1']/LinkStatus" i18nPrefix="data.diagnostic.infosystem.tv.linkstatus"/>
+						</div>
+					</div>
+					
+					<div class="boxType5 border-bottom-1">
+						<div class="h2Text orange" i18n="page.diagnostic.infosystem.tv.channel2"/>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.channel2.5.4">
+							<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL2']/Enable"  i18nPrefix="data.diagnostic.infosystem.tv.status"/>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.channel2.5.5">
+								<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL2']/DSL/VP"/>/<span class="bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL2']/DSL/VC"/>
+							</div>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'DISABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.channel2.5.5_ftth">
+								<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL2']/FTTH/VLANID"/>/<span class="bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL2']/FTTH/PRI"/>
+							</div>
+						</div>
+						<div  class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.channel2.5.6">
+							<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='CHANNEL2']/LinkStatus"  i18nPrefix="data.diagnostic.infosystem.tv.linkstatus"/>
+						</div>
+					</div>
+					
+					<div class="boxType5 border-bottom-1">
+						<div class="h2Text orange" i18n="page.diagnostic.infosystem.tv.vod"/>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.vod.5.7">
+							<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='VOD']/Enable"  i18nPrefix="data.diagnostic.infosystem.tv.status"/>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.vod.5.8">
+								<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='VOD']/DSL/VP"/>/<span class="bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='VOD']/DSL/VC"/>
+							</div>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'DISABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div  class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.vod.5.8_ftth">
+								<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='VOD']/FTTH/VLANID"/>/<span class="bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='VOD']/FTTH/PRI"/>
+							</div>
+						</div>
+						<div  class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.vod.5.9">
+							<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='VOD']/LinkStatus"  i18nPrefix="data.diagnostic.infosystem.tv.linkstatus"/>
+						</div>
+					</div>
+					
+					<div class="boxType5 border-bottom-3">
+						<div class="h2Text orange" i18n="page.diagnostic.infosystem.tv.zapping"/>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.zapping.5.10">
+							<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='ZAPPING']/Enable"  i18nPrefix="data.diagnostic.infosystem.tv.status"/>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.zapping.5.11">
+								<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='ZAPPING']/DSL/VP"/>/<span class="bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='ZAPPING']/DSL/VC"/>
+							</div>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'DISABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.zapping.5.11_ftth">
+								<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='ZAPPING']/FTTH/VLANID"/>/<span class="bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='ZAPPING']/FTTH/PRI"/>
+							</div>
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.tv.zapping.5.12">
+							<span class="margin-left-100 bold_font" dataId="Device/TVService/ChannelsInfo/ChannelInfo[@Name='ZAPPING']/LinkStatus"  i18nPrefix="data.diagnostic.infosystem.tv.linkstatus"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

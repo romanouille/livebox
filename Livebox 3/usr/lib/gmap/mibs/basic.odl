@@ -1,0 +1,30 @@
+/*expr:basic*/
+
+/**
+ * MIB is loaded on all units that are able to set a value on a device.
+ * All devices matching expression: "basic" are extended with this MIB
+ * @version 7.1
+ */
+mib basic {
+
+    /**
+     * This command is used for turning something On
+     */
+    void set_on();
+
+    /**
+     * This command is used for turning something Off
+     */
+    void set_off();
+
+    /**
+     * Sets a certain value of the basic functionality. Any value between 0 and 255 can be used. 
+     */
+    void setValue(uint8 value);
+
+    /**
+     * returns the current value of the basic functionality.
+     */
+    uint32 getValue();
+}
+/** @location sah_services_gmap /mibs/basic.odl */

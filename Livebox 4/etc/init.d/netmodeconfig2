@@ -1,0 +1,69 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+case $1 in
+    backup)
+        if pcb_is_running nmc_core; then
+            pcb_cli -l "NMC.export($2)"
+        else
+            echo "NMC is not running, not able to backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/netmodeconfig
+        touch /var/lib/netmodeconfig/restore
+        ;;
+    start)
+        if pcb_is_running nmc_client; then
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_acl.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_button.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_captiveportal.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_dhcp.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_host.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_ipv6.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_networkconfig.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_ntp.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_orangetv.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_pairing.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_qos.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_voice.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_voiceactivation.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_voiceportal.so
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_wifi.so
+            [ -e "/usr/lib/nmc_core/nmcclient_figaro.so" ] && mtk_load nmc_client /usr/lib/nmc_core/nmcclient_figaro.so
+            [ -e "/usr/lib/nmc_core/nmcclient_wwan.so" ] && mtk_load nmc_client /usr/lib/nmc_core/nmcclient_wwan.so
+        fi
+        if [ -f /etc/init.d/nbr_cancel ]; then
+            /etc/init.d/nbr_cancel stop
+        fi
+        ;;
+    stop)
+        if pcb_is_running nmc_client; then
+            mtk_unload nmc_client nmcclient_acl
+            mtk_unload nmc_client nmcclient_button
+            mtk_unload nmc_client nmcclient_captiveportal
+            mtk_unload nmc_client nmcclient_dhcp
+            mtk_unload nmc_client nmcclient_host
+            mtk_unload nmc_client nmcclient_ipv6
+            mtk_unload nmc_client nmcclient_networkconfig
+            mtk_unload nmc_client nmcclient_ntp
+            mtk_unload nmc_client nmcclient_orangetv
+            mtk_unload nmc_client nmcclient_pairing
+            mtk_unload nmc_client nmcclient_qos
+            mtk_unload nmc_client nmcclient_voice
+            mtk_unload nmc_client nmcclient_voiceactivation
+            mtk_unload nmc_client nmcclient_voiceportal
+            mtk_unload nmc_client nmcclient_wifi
+            [ -e "/usr/lib/nmc_core/nmcclient_figaro.so" ] && mtk_unload nmc_client nmcclient_figaro
+            [ -e "/usr/lib/nmc_core/nmcclient_wwan.so" ] && mtk_unload nmc_client nmcclient_wwan
+        fi
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 [start|stop|restart|backup|restore]"
+        ;;
+esac

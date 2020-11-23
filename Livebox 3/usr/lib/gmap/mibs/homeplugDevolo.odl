@@ -1,0 +1,29 @@
+/*expr:homeplug_devolo*/
+
+/**
+ * MIB is loaded on all network devices that are indicated as a homeplug (devolo specific)
+ *
+ * All devices matching expression: "homeplugDevolo" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib homeplugDevolo {
+    /**
+     * The version of the product (hardware version)
+     */
+    read-only string ProductVersion;
+    /**
+     * The version of the software running on the home plug
+     */
+    read-only string SoftwareVersion;
+    /**
+     * Name of the manufacturer
+     */
+    read-only string Manufacturer;
+    /**
+     * Name of the product
+     */
+    read-only string ProductName;
+}
+
+/** @location sah_services_gmap /mibs/homeplugDevolo.odl */

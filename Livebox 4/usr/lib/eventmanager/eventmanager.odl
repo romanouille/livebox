@@ -1,0 +1,63 @@
+/**
+  Plug-in: eventmanager
+  The eventmanager can be used by the webservices to collect events.
+*/
+using "eventmanager.so";
+
+define event {
+    string service;
+    string event;
+    list data;
+}
+
+define notification {
+    uint32 channelid;
+    event objects;
+}
+
+acl {
+    world read,execute;
+    group admin read,execute;
+    group remoteadmin read,execute;
+}
+/**
+  Root object of the eventmanager
+*/
+object eventmanager {
+    /**
+      This function is asynchronous.
+      When no channel exists with the specified channelid or channelid is 0 a new channel is created:
+      Events will be collected as specified in the subscription list.
+
+      When a channel exists with the specified channelid the subscriptions will be ignored.
+      When events are already available, a response is generated immediatly, otherwise a response is generated when events come available.
+    */
+    notification get_events(uint32 channelid, list events);
+
+    /**
+      This object will keep a list of all existing channels and theire subscriptions.
+      When no active request comes available for more then 20 seconds the channel is removed.
+    */
+    read-only object channels[] {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    /**
+      The list of subscriptions for a channel.
+    */
+        read-only object events[] {
+            /**
+              Object path of the subscription
+            */
+            read-only string service;
+            /**
+              Events that will be monitored for the subscription.
+            */
+            read-only string event;
+        }
+    }
+}
+
+/** @location sah_services_pcb /eventmanager/eventmanager.odl */

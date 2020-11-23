@@ -1,0 +1,46 @@
+<div id="installation_step_3" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" alt="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+
+	<div id="barnav" class="margin-bottom-30 steps3">
+		<div class="floatLeft steps first">
+			<strong class="black">1</strong> - <span i18n="page.page0.barnav.step1"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">2</strong> - <span i18n="page.page0.barnav.step2"/>
+		</div>
+		<div class="floatLeft steps active">
+			<strong>3</strong> - <span i18n="page.page0.barnav.step3"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">4</strong> - <span i18n="page.page0.barnav.step4"/>
+		</div>
+	</div>
+	
+	<div id="container2">
+		<div id="displayedaswait">
+			<div class="h2_install" i18n="page.page0.step3.label"/>
+			<div id="connectionWait" class="centered margin-top-60">
+				<div widgetType="RunnerBar" widgetArg="{duration:3000, width:678, height:38}"/>
+			</div>
+		</div>
+		<div id="displayedasconnexionerror" style="display:none">
+			<div class="h2_install erroricon orangered" i18n="page.page0.step3.connexionerror.label"/>
+			<br/>
+			<div class="padding-left-40" i18n="page.page0.step3.whatwouldyoudo.label"/>
+			<div class="liner margin-left-40 margin-right-40 margin-top-30">
+				<a href="javascript:;" class="restest installstart installbutton margin-right-20"><img class="puce_arrow" align="absmiddle" src="theme/webCorporate/image/installation/puce_arrow.gif" widgetType="Image"/></a>
+				<a href="javascript:;" class="restest installlink" i18n="page.page0.step3.erroroption.retest"/>
+			</div>
+			<div class="liner margin-left-40 margin-right-40 margin-top-30">
+				<a href="javascript:;" class="stopinstall installbutton margin-right-20"><img class="puce_arrow" align="absmiddle" src="theme/webCorporate/image/installation/puce_arrow.gif" widgetType="Image"/></a>
+				<a href="javascript:;" class="stopinstall installlink" i18n="page.page0.step3.erroroption.stopinstall"/>
+			</div>
+		</div>
+	</div>
+	<input type="text" id="bdConnectionStatus" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus" style="display:none"/>
+</div>

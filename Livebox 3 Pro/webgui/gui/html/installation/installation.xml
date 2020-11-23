@@ -1,0 +1,42 @@
+<div id="installation" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" alt="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+	<div class="alignCenter">
+		<img class="margin-bottom-10" alt="installation de la Livebox" src="theme/webCorporate/image/installation/ill_livebox.png"/>
+	</div>
+	<div id="container2">
+		<div class="h2_install" i18n="page.page0.step0.label"/>
+		<div class="padding-left-40" i18n="page.page0.step0.label0"/>
+		<div class="padding-left-40" i18n="page.page0.step0.label1"/>
+
+		<div class="liner margin-left-40 margin-right-40 margin-top-30">
+			<a href="javascript:;" class="installstart installbutton margin-right-20"><img class="puce_arrow" align="absmiddle" alt="installer la livebox" src="theme/webCorporate/image/installation/puce_arrow.gif"/></a>
+			<a href="javascript:;" class="installstart installlink" i18n="page.page0.step0.installoption.FIRSTINSTALL"/>
+		</div>
+
+		<div class="liner margin-left-40 margin-right-40 margin-top-10">
+			<a href="javascript:;" class="reinstallstart installbutton margin-right-20"><img class="puce_arrow" align="absmiddle" alt="installer la livebox" src="theme/webCorporate/image/installation/puce_arrow.gif"/></a>
+			<a href="javascript:;" class="reinstallstart installlink" i18n="page.page0.step0.installoption.REINSTALL"/>
+			<a class="myInfo" href="#infosBulle"><img class="iconinfo" align="absmiddle" src="theme/webCorporate/image/installation/ico_info.gif" widgetType="Image"/></a>
+			<div id="infosBulle" class="tooltip">
+				<div class="bubbleTop">
+    				<img src="theme/webCorporate/image/installation/infoBubble.gif" class="floatLeft margin-right-10 margin-top-20" widgetType="Image"/>
+    				<p>
+    					<span i18n="page.page0.step0.bubbletext"></span>
+    					<span id="extrabubbletext" i18n="page.page0.step0.bubbletext.hasnocard"></span>
+    				</p>
+				</div>
+    			<div class="bubbleBottom"></div>
+			</div>
+		</div>
+		
+		<div class="centered margin-top-10">
+			<span i18n="page.page0.jump2home"/>&#160;<a href="javascript:;" class="jump2home orange menuItemLink" i18n="page.page0.step0.thislink" onclick="installation_clickOnThisLink();"/>.
+		</div>
+	</div>
+	<input style="display:none" type="text" id="memoryCardStatus" dataId="Device/DeviceInfo/SmartCard/Status"/>
+</div>

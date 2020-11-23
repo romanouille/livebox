@@ -1,0 +1,12 @@
+mib wifi {
+persistent bool Enable;
+persistent bool CsmEnable;
+persistent uint32 StationStatsInterval;
+persistent uint32 ScriptStatsInterval;
+persistent object Scan {
+persistent bool Enable;
+persistent bool Opportunistic;
+persistent uint32 Interval;
+persistent uint32 MaxChannelLoad;
+}
+}

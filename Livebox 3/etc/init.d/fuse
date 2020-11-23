@@ -1,0 +1,79 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          fuse
+# Required-Start:    
+# Should-Start:      udev
+# Required-Stop:     
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: Start and stop fuse.
+# Description:       Load the fuse module and mount the fuse control
+#	filesystem.
+### END INIT INFO
+
+set -e
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+MOUNTPOINT=/sys/fs/fuse/connections
+
+# Gracefully exit if the package has been removed.
+# which fusermount &>/dev/null || exit 5
+
+case "$1" in
+    start|restart|force-reload)
+	if ! grep -qE "\bfuse\b" /proc/filesystems; then
+		if ! modprobe fuse >/dev/null 2>&1; then
+			echo "Load Fuse control filesystem failed."
+			exit 1
+		fi
+	fi
+	if grep -qE "\bfusectl\b" /proc/filesystems && \
+	   ! grep -qE " $MOUNTPOINT\b" /proc/mounts; then
+		if ! mount -t fusectl fusectl $MOUNTPOINT >/dev/null 2>&1; then
+			echo "Mount Fuse control filesystem failed."
+			exit 1
+		fi
+	fi
+	;;
+    stop)
+	if ! grep -qE "\bfuse\b" /proc/filesystems; then
+		echo "Fuse filesystem not loaded."
+		exit 7
+	fi
+	if grep -qE " $MOUNTPOINT\b" /proc/mounts; then
+		echo -n "Unmounting fuse control filesystem"
+		if ! umount $MOUNTPOINT >/dev/null 2>&1; then
+			echo " failed!"
+		else
+			echo "."
+		fi
+	else
+		echo "Fuse control filesystem not mounted."
+	fi
+	if grep -qE "^fuse\b" /proc/modules; then
+		echo -n "Unloading fuse module"
+		if ! rmmod fuse >/dev/null 2>&1; then
+			echo " failed!"
+		else
+			echo "."
+		fi
+	else
+		echo "Fuse module not loaded."
+	fi
+	;;
+    status)
+	echo -n "Checking fuse filesystem"
+	if ! grep -qE "\bfuse\b" /proc/filesystems; then
+		echo " not available."
+		exit 3
+	else
+		echo " ok."
+	fi
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|force-reload|status}"
+	exit 1
+	;;
+esac
+
+exit 0

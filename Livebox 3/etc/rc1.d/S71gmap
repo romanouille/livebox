@@ -1,0 +1,123 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="gmap"
+datamodel="Devices"
+component="sah_services_gmap"
+trace_zones="
+dev_type
+upnpDev
+waninfo
+selfhgw selflan
+selfusb usb_dev usb_storage
+voice_handsets
+bridge
+name_select
+dns
+neighborhood dhcp_neigh
+wifi_bridge
+mme_av
+mme_devolo
+assoc_dev
+
+"
+RESTORE="/var/lib/gmap/restore"
+
+start()
+{
+    pcb_start $name -I /var/run/gmap Interfaces="lan"
+    if pcb_is_available Devices 20; then
+      echo "Loading gmap modules ...";
+        mtk_load $name "/usr/lib/gmap/modules/gmap_mod_device_type.so" &
+        mtk_load $name "/usr/lib/gmap/modules/gmap_mod_upnp.so" &
+        mtk_load $name "/usr/lib/gmap/modules/gmap_mod_wan.so" &
+    else
+        echo "Timeout: gmap not started, extra gmap modules not loaded"
+    fi;
+    echo "Starting gmap module processes ...";
+    pcb_start gmap_db /usr/lib/gmap/modules/gmap_mod_device_db.so
+    pcb_start gmap_lltd /usr/lib/gmap/modules/gmap_mod_lltd.so
+}
+
+stop()
+{
+    pcb_stop $name
+    pcb_stop gmap_db
+    pcb_stop gmap_lltd
+}
+
+debuginfo()
+{
+    pcb_debug_info $name $component $datamodel
+    pcb_debug_info gmap_db $component
+    pcb_debug_info gmap_lltd $component
+}
+
+log()
+{
+    action=$1
+    shift 1
+
+    pcb_log $name $action $trace_zones
+    pcb_log gmap_db $action dev_db dev_db_actions
+    pcb_log gmap_lltd $action lltd
+}
+
+test()
+{
+    # since the scriptname itself is also called 'gmap' we check here if there is more then one pid returned
+    if [ "$(pidof gmap)" == "$$" ]; then exit 1; fi
+    if [[ -z $(pidof gmap_db) ]]; then exit 1; fi
+    if [[ -z $(pidof gmap_lltd) ]]; then exit 1; fi
+  exit 0
+}
+
+fail()
+{
+    # if gmap fails, restart all. Otherwise just restart the process
+    if [ "$(pidof gmap)" == "$$" ]; then stop; start; /usr/lib/debug/devdisc_tod_restart.sh; return; fi
+
+    if [[ -z $(pidof gmap_db) ]]; then pcb_start gmap_db /usr/lib/gmap/modules/gmap_mod_device_db.so; fi
+    if [[ -z $(pidof gmap_lltd) ]]; then pcb_start gmap_lltd /usr/lib/gmap/modules/gmap_mod_lltd.so; fi
+    /usr/lib/debug/devdisc_tod_restart.sh
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    debuginfo)
+        debuginfo
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            log $action
+        else
+            log enable
+        fi
+        ;;
+    backup)
+        if [ -e $PID ]; then
+            pcb_cli "Devices.export()"
+        else
+            echo "gmap plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p $(dirname "${RESTORE}") && touch "${RESTORE}"
+        ;;
+    test)
+        test
+        ;;
+    fail)
+        fail
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo]"
+        ;;
+esac

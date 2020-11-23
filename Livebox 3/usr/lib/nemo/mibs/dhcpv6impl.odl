@@ -1,0 +1,9 @@
+object NeMo {
+object extends MIB(0,"dhcpv6impl") {
+string Flag = "dhcpv6";
+object DataModel {
+void receiveOptions();
+void flushOptions();
+}
+}
+}

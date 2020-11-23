@@ -1,0 +1,17 @@
+<b>Profile grup VPN</b><br><br>
+
+Na tej stronie możesz tworzyć nowe profile grup VPN, a także defniować podstawowe oraz zaawansowane funkcje dla każdej grupy.<br><br>
+
+<b><span class="boldorange">Ustawienia podstawowe:</span></b><br>
+Zdefiniuj nazwę grupy, do której przypiszesz użytkowników.<br>
+<br>
+
+
+<b><span class="boldorange">Ustawienia użytkownika:</span></b><br>
+Możesz wybrać sposób przydzielania adresów IP użytkownikom oraz określić, w jaki sposób będą oni uzyskiwali dostęp do Internetu.<br>
+<br>
+
+
+
+<b><span class="boldorange">Ustawienia tunelu:</span></b><br>
+Ustawienia te są analogiczne do ustawień, które znajdują się na stronie konfiguracji tunelu VPN w trybie ekspert. Należy tutaj wpisać klucz współdzielony, a ponadto można zmienić domyślne wartości pozostałych parametrów.<br>

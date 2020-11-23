@@ -1,0 +1,24 @@
+#!/bin/sh /etc/rc.common
+# (C) 2008 openwrt.org
+
+START=98
+
+
+start()
+	{
+	echo drv_gpio mknod
+
+	mknod /dev/led c 150 0
+	mknod /dev/but1 c 150 1
+	mknod /dev/but2 c 150 2
+	mknod /dev/but3 c 150 3
+	mknod /dev/but4 c 150 4
+	mknod /dev/but5 c 150 5
+	mknod /dev/but6 c 150 6
+	}
+	
+stop()
+	{
+	echo drv_gpio stop
+	}
+	

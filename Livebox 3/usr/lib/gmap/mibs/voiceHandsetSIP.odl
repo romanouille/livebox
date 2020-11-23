@@ -1,0 +1,19 @@
+/*expr:voice and handset and sip*/
+
+/**
+ * MIB is loaded on all sip-extension handset devices.
+ *
+ * All devices matching expression: "voice and handset and sip" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib voiceHandsetSIP {
+    /**
+     * External IpAddress of the SIP-Extension
+     *
+     * @version 6.0
+     */
+    string IpAddress;
+}
+
+/** @location sah_services_gmap /mibs/voiceHandsetSIP.odl */

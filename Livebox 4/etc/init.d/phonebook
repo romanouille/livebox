@@ -1,0 +1,47 @@
+#!/bin/sh
+
+
+. /usr/bin/pcb_common.sh
+
+name="phonebook_plugin"
+start_options="-c /usr/lib/phonebook/phonebook.odl -I /var/run/pb_ipc_sock --priority=-17"
+datamodel="Phonebook"
+trace_zones=""
+component="sah_services_phonebook"
+
+PID="/var/run/phonebook_plugin.pid"
+PB_SOCKET= # to be filled in at install time
+
+case $1 in
+    start)
+        pcb_start $name $start_options
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    backup)
+        if pcb_is_running $name ; then
+            pcb_cli "Phonebook.export($2)"
+        else
+            echo "Phonebook plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/phonebook
+        touch /var/lib/phonebook/restore
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore|debuginfo|log]"
+        ;;
+esac

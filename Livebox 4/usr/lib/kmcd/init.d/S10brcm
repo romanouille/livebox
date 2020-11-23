@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		modprobe kmcd_brcm
+		;;
+	stop) 
+		modprobe -r kmcd_brcm
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac

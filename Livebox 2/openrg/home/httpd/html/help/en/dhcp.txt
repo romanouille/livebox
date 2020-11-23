@@ -1,0 +1,19 @@
+<b>DHCP server:</b><br>
+<br>
+You can use the router as a DHCP server for your network. A DHCP server is used to automatically assign IP addresses to each computer on your network.<br>
+<span class="boldorange">LAN IP address:</span><br>
+Determines the IP address of your livebox and the address used for your home network. By default, this address is 192.168.1.1.<br>
+<span class="boldorange">Subnet mask:</span><br>
+A subnet mask is used to identify a sub-network, namely your home network.<br>
+<span class="boldorange">DHCP start address:</span><br>
+Enter a start value for the IP addresses issued by the DHCP server.<br>
+<span class="boldorange">DHCP end address:</span><br>
+Determines the maximum number of DHCP users. Enter the maximum number of computers to which the DHCP server may assign IP addresses. This number may not be greater than 253.<br>
+<br>
+<span class="boldorange">Static IP addresses:</span><br>
+You can reserve an IP address on your home network for a particular machine. This machine will then always have the same IP address on your network. This feature is useful in particular if you need to define NAT/PAT rules for this machine.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

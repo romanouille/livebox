@@ -1,0 +1,58 @@
+{
+  "status":true,
+  "data":[
+				{
+					"remoteNumber"    : 1070,
+					"remoteName"      : "",
+					"terminal"        : "G1012",
+					"startTime"       : "2015-01-02T15:16:31Z",
+					"duration"        : 0,
+					"callType"        : "missed",
+					"callOrigin"      : "SIP",
+					"callDestination" : "local",
+					"trunkLineNumber" : 1012,
+					"viewed"          : 0,
+					"callId"          : 1
+				},
+				{
+					"remoteNumber"    : 1070,
+					"remoteName"      : "",
+					"terminal"        : "G1012",
+					"startTime"       : "2015-01-02T15:38:49Z",
+					"duration"        : 0,
+					"callType"        : "missed",
+					"callOrigin"      : "SIP",
+					"callDestination" : "local",
+					"trunkLineNumber" : 1012,
+					"viewed"          : 0,
+					"callId"          : 2
+				},
+				{
+					"remoteNumber"    : 1070,
+					"remoteName"      : "",
+					"terminal"        : "FXS1",
+					"startTime"       : "2015-01-06T07:52:51Z",
+					"duration"        : 872,
+					"callType"        : "succeeded",
+					"callOrigin"      : "SIP",
+					"callDestination" : "local",
+					"trunkLineNumber" : 1012,
+					"viewed"          : 0,
+					"callId"          : 3
+				},
+				{
+					"remoteNumber"    : 1011,
+					"remoteName"      : "",
+					"terminal"        : "FXS1",
+					"startTime"       : "2015-01-09T08:58:21Z",
+					"duration"       : 12,
+					"callType"        : "succeeded",
+					"callOrigin"      : "SIP",
+					"callDestination" : "local",
+					"trunkLineNumber" : 1012,
+					"viewed"          : 0,
+					"callId"          : 4
+				}
+
+	]
+}

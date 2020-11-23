@@ -1,0 +1,59 @@
+{
+  "status": 0,
+  "data": {
+    "deviceList": [
+      {
+        "deviceId": "1",
+        "name": "HDD",
+        "vendor": "SoftAtHome",
+        "model": "Big",
+        "serialNumber": "10",
+        "connectionType": "HDD",
+        "isRemovable": false,
+        "capacity": 1024,
+        "volumeList": [
+          {
+            "volumeId": "10",
+            "name": "HDD1",
+            "fileSystem": "ext3",
+            "totalSpace": 1024,
+            "usedSpace": 512,
+            "freeSpace": 512,
+            "isMounted": true,
+            "mountPoint": "/mnt/sahdisk/sda1"
+          }
+        ]
+      }, {
+        "deviceId": "2",
+        "name": "USB",
+        "vendor": "SoftAtHome",
+        "model": "Small",
+        "serialNumber": "20",
+        "connectionType": "USB",
+        "isRemovable": false,
+        "capacity": 512,
+        "volumeList": [
+          {
+            "volumeId": "20",
+            "name": "USB1",
+            "fileSystem": "ext3",
+            "totalSpace": 512,
+            "usedSpace": 256,
+            "freeSpace": 256,
+            "isMounted": true,
+            "mountPoint": "/tmp/mnt/USB/USB1"
+          }, {
+            "volumeId": "21",
+            "name": "USB2",
+            "fileSystem": "fs32",
+            "totalSpace": 512,
+            "usedSpace": 256,
+            "freeSpace": 256,
+            "isMounted": false,
+            "mountPoint": "/tmp/mnt/USB/USB2"
+          }
+        ]
+      }
+    ]
+  }
+}

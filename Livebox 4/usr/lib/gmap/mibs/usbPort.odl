@@ -1,0 +1,26 @@
+/*expr:self and usb and port*/
+
+/**
+ * MIB is loaded on all decives representing an USB port of the HGW
+ *
+ * All devices matching expression: "self and usb and port" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib usbPort {
+    /**
+     * Port number of the HGW
+     *
+     * The port number of the USB host to which this port belongs. See {usbPort.USBHost}
+     * @version 6.0
+     */
+    read-only uint8 Port;
+    /**
+     * Reference to the USB host part in the data model
+     *
+     * @version 6.0
+     */
+    read-only string USBHost;
+}
+
+/** @location sah_services_gmap /mibs/usbPort.odl */

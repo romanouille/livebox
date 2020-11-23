@@ -1,0 +1,29 @@
+datamodel {
+object DeviceInfo {
+function get {
+acl {
+world read,execute;
+}
+}
+parameter ProductClass {
+acl {
+world read,execute;
+}
+}
+parameter AdditionalSoftwareVersion {
+acl {
+world read,execute;
+}
+}
+parameter SoftwareVersion {
+acl {
+world read,execute;
+}
+}
+parameter SerialNumber {
+acl {
+world read,execute;
+}
+}
+}
+}

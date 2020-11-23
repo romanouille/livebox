@@ -1,0 +1,39 @@
+#!/bin/sh
+
+if [ $# -ne 2 ]
+then exit 1
+fi
+cd /dev
+if [ `fdisk -l | grep -c "/dev/$1 "` -eq 0 ]
+then exit 2
+fi
+if [ `grep -c $1 /etc/mtab` -gt 0 ]
+then exit 4
+fi
+case $2 in
+ext3) ;;
+vfat) ;;
+*) exit 8;;
+esac
+
+report=/tmp/part_format_activate.txt
+(
+	echo "part_format progress" > $report
+	part_format $1 $2
+	res=$?
+	if [ $res -ne 0 ]
+		then 
+			echo "part_format $res" > $report
+			exit $res
+	fi
+	echo "part_activate progress" > $report
+	part_activate $1
+	res=$?
+	if [ $res -ne 0 ]
+		then 
+			echo "part_activate $res" > $report
+			exit $res
+	fi
+	echo "part_activate 0" > $report
+) > /dev/ttyS0 2>&1 &
+	

@@ -1,0 +1,63 @@
+using "";
+
+/**
+ * A codec contains a type, packetzation time and bitrate
+ */
+define codec_t {
+    uint16 codec_type;
+    uint16 packetization_time;
+    uint16 bitrate;
+}
+
+object VoiceCmdVoicePlugin {
+    /**
+    Get the country code as defined by the voice configuration.
+
+    @returns country code
+    */
+    string get_countrycode();
+
+    /**
+    Register a plugin and adds a Plugin object to the list.
+
+    @param plugin_name     Name of the plugin.
+
+    @returns True on success.
+    */
+    bool register_plugin(string plugin_name);
+
+	object Plugin[] {
+        /**
+        Deregister a plugin. Removes the object from the Plugin array.
+
+        */
+        void deregister_plugin();
+
+        /**
+        Register an endpoint. This adds an object to the Endpoint list.
+
+        @param name        Name of the endpoint to register.
+        @param type        Type of the endpoint to register (FXS , DECT_PP ...).
+        @param codeclist   The list of supported codecs.
+        
+        @return Endpoint index.
+        */
+        int register_endpoint(string name, uint16 type, bytearray /* codec_t */ codeclist); 
+
+		object Endpoint[] {
+            /**
+            Deregister an endpoint. Removes the object from Endpoint list.
+			*/
+            void deregister_endpoint();
+
+            /**
+            Receive an event from the endpoint.
+
+            @param event Bytearray containing the event structure as defined in the libvoice plugin.
+            */
+        	message void event(bytearray event);
+		} 
+	} 
+}
+
+/** @location sah_services_voice /voice_application/scripts/voice_service_plugin.odl */

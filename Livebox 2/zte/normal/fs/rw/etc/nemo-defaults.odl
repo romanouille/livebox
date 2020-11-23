@@ -1,0 +1,760 @@
+datamodel {
+	object NeMo {
+		instance of Intf(0, "lo") {
+			parameter Flags="enabled up netdev";
+		}
+		instance of Intf(0, "swport1") {
+			parameter Flags="physical eth switch lanled";
+		}
+		instance of Intf(0, "swport2") {
+			parameter Flags="physical eth switch lanled";
+		}
+		instance of Intf(0, "swport3") {
+			parameter Flags="physical eth switch lanled";
+		}
+		instance of Intf(0, "swport4") {
+			parameter Flags="physical eth switch lanled";
+		}
+		instance of Intf(0, "eth1") {
+			parameter Flags="enabled netdev switch up";
+			instance of LLIntf(0, "swport4");
+		}
+		instance of Intf(0, "eth0") {
+			parameter Flags="enabled netdev switch up";
+			instance of LLIntf(0, "swport1");
+			instance of LLIntf(0, "swport2");
+			instance of LLIntf(0, "swport3");
+		}
+		instance of Intf(0, "dsl0") {
+			parameter Flags="enabled dsl physical";
+		}
+		instance of Intf(0, "wifi0_ath") {
+			parameter Flags="wlanradio penable physical";
+		}
+		instance of Intf(0, "wl0") {
+			parameter Flags="wlanvap penable netdev lanled";
+			instance of LLIntf(0, "wifi0_ath");
+		}
+		instance of Intf(0, "wl1") {
+			parameter Flags="wlanvap netdev ipv4";
+			instance of LLIntf(0, "wifi0_ath");
+		}
+		instance of Intf(0, "wl2") {
+			parameter Flags="wlanvap penable netdev ipv4";
+			instance of LLIntf(0, "wifi0_ath");
+		}
+		instance of Intf(0, "wl3") {
+			parameter Flags="wlanvap netdev ipv4";
+			instance of LLIntf(0, "wifi0_ath");
+		}
+		instance of Intf(0, "wfc") {
+			instance of LLIntf(0, "wl1");
+		}
+		instance of Intf(0, "ezp") {
+			instance of LLIntf(0, "wl2");
+		}
+		instance of Intf(0, "wfcsec") {
+			instance of LLIntf(0, "wl3");
+		}
+		instance of Intf(0, "bridge") {
+			parameter Flags="enabled bridge netdev ipv4 ipv6";
+			instance of LLIntf(0, "eth0");
+			instance of LLIntf(0, "wl0");
+		}
+		instance of Intf(0, "vlan_data") {
+			parameter Flags="enabled vlan netdev";
+			instance of LLIntf(0, "eth1");
+		}
+		instance of Intf(0, "vlan_multi") {
+			parameter Flags="enabled vlan netdev vod-iptv mcast-iptv zap-iptv";
+			instance of LLIntf(0, "eth1");
+		}
+		instance of Intf(0, "bridge_vmulti") {
+			parameter Flags="enabled bridge netdev";
+			instance of LLIntf(0, "vlan_multi");
+		}
+		instance of Intf(0, "vlan_voip") {
+			parameter Flags="enabled vlan netdev ipv4";
+			instance of LLIntf(0, "eth1");
+		}
+		instance of Intf(0, "vlan_iptv1") {
+			parameter Flags="enabled vlan netdev igmp-filter vod-iptv";
+			instance of LLIntf(0, "eth1");
+		}
+		instance of Intf(0, "vlan_iptv2") {
+			parameter Flags="enabled vlan netdev zap-iptv mcast-iptv";
+			instance of LLIntf(0, "eth1");
+		}
+		instance of Intf(0, "bridge_viptv") {
+			parameter Flags="enabled bridge netdev ipv4";
+			instance of LLIntf(0, "vlan_iptv1");
+			instance of LLIntf(0, "vlan_iptv2");
+		}
+		instance of Intf(0, "atm_data") {
+			parameter Flags="enabled atm netdev";
+			instance of LLIntf(0, "dsl0");
+		}
+		instance of Intf(0, "atm_multi") {
+			parameter Flags="enabled atm netdev zap-iptv vod-iptv mcast-iptv";
+			instance of LLIntf(0, "dsl0");
+		}
+		instance of Intf(0, "atm_voip") {
+			parameter Flags="enabled atm netdev ipv4";
+			instance of LLIntf(0, "dsl0");
+		}
+		instance of Intf(0, "atm_iptv1") {
+			parameter Flags="enabled atm netdev vod-iptv";
+			instance of LLIntf(0, "dsl0");
+		}
+		instance of Intf(0, "atm_iptv2") {
+			parameter Flags="enabled atm netdev zap-iptv";
+			instance of LLIntf(0, "dsl0");
+		}
+		instance of Intf(0, "atm_iptv3") {
+			parameter Flags="enabled atm netdev mcast-iptv";
+			instance of LLIntf(0, "dsl0");
+		}
+		instance of Intf(0, "atm_iptv4") {
+			parameter Flags="enabled atm netdev mcast-iptv";
+			instance of LLIntf(0, "dsl0");
+		}
+		instance of Intf(0, "bridge_aiptv") {
+			parameter Flags="enabled bridge netdev ipv4";
+			instance of LLIntf(0, "atm_iptv1");
+			instance of LLIntf(0, "atm_iptv2");
+			instance of LLIntf(0, "atm_iptv3");
+			instance of LLIntf(0, "atm_iptv4");
+		}
+		instance of Intf(0, "ppp_data") {
+			parameter Flags="ppp netdev logical";
+		}
+		instance of Intf(0, "dhcp_voip") {
+			parameter Flags="dhcp logical";
+		}
+		instance of Intf(0, "dhcp_iptv") {
+			parameter Flags="dhcp logical";
+		}
+		instance of Intf(0, "dhcp_multi") {
+			parameter Flags="dhcp logical";
+		}
+		instance of Intf(0, "dhcpv6_multi") {
+			parameter Flags="dhcpv6";
+		}
+		instance of Intf(0, "lan") {
+			parameter Flags="enabled up wlanconfig";
+			instance of LLIntf(0, "bridge");
+		}
+		instance of Intf(0, "primdata");
+		instance of Intf(0, "data") {
+			parameter Flags="enabled up nat-config";
+			instance of LLIntf(0, "primdata");
+		}
+		instance of Intf(0, "voip") {
+			parameter Flags="nat-config";
+		}
+		instance of Intf(0, "iptv") {
+			parameter Flags="";
+		}
+		instance of Intf(0, "wwan") {
+			parameter Flags="enabled wwan physical logical";
+		}
+		instance of Intf(0, "gretap_wfc1") {
+			parameter Flags="gretap netdev gretapwfc";
+		}
+		instance of Intf(0, "gretap_wfc2") {
+			parameter Flags="gretap netdev gretapwfc";
+		}
+		instance of Intf(0, "wfc_vlan") {
+			parameter Flags="vlan netdev vlanwfc";
+		}
+		instance of Intf(0, "wfcsec_vlan") {
+			parameter Flags="vlan netdev vlanwfc";
+		}
+		instance of Intf(0, "bridge_wfc") {
+			parameter Flags="bridge netdev";
+			instance of LLIntf(0, "wfc_vlan");
+			instance of LLIntf(0, "wl1");
+		}
+		instance of Intf(0, "bridge_wfcsec") {
+			parameter Flags="bridge netdev";
+			instance of LLIntf(0, "wfcsec_vlan");
+			instance of LLIntf(0, "wl3");
+		}
+	}
+}
+
+datamodel {
+	object NeMo {
+		instance of Intf(0, "lo") {
+			transient instance of IPv4Addr(0, "lo") {
+				parameter Address="127.0.0.1";
+				parameter PrefixLen=8;
+				parameter Enable=1;
+			}
+			parameter IPv6Disable=0;
+		}
+		instance of Intf(0, "swport1") {
+			parameter SwitchIndex=0;
+			parameter SwitchGroup=0;
+			parameter CurrentBitRate=100;
+			parameter CurrentDuplexMode="Full";
+		}
+		instance of Intf(0, "swport2") {
+			parameter SwitchIndex=1;
+			parameter SwitchGroup=0;
+			parameter CurrentBitRate=100;
+			parameter CurrentDuplexMode="Full";
+		}
+		instance of Intf(0, "swport3") {
+			parameter SwitchIndex=2;
+			parameter SwitchGroup=0;
+			parameter CurrentBitRate=100;
+			parameter CurrentDuplexMode="Full";
+		}
+		instance of Intf(0, "swport4") {
+			parameter SwitchIndex=3;
+			parameter SwitchGroup=1;
+			parameter CurrentBitRate=100;
+			parameter CurrentDuplexMode="Full";
+		}
+		instance of Intf(0, "eth1") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter IPv6ActAsRouter=false;
+			parameter NetDevFlags="up broadcast allmulti multicast";
+			parameter SwitchIndex=17;
+			parameter SwitchGroup=1;
+			parameter TxQueueLen=100;
+		}
+		instance of Intf(0, "eth0") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter NetDevFlags="up broadcast multicast";
+			parameter SwitchIndex=16;
+			parameter SwitchGroup=0;
+			parameter TxQueueLen=100;
+		}
+		instance of Intf(0, "wifi0_ath") {
+			parameter PersistentEnable=1;
+			parameter AutoChannelEnable=1;
+			parameter GuardInterval="800nsec";
+		}
+		instance of Intf(0, "wl0") {
+			parameter WMMEnable=1;
+			parameter UAPSDEnable=1;
+			parameter PersistentEnable=1;
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter BSSID="$(WAN_ADDR)";
+			parameter SSID="$(SSID)";
+			parameter SSIDAdvertisementEnabled=1;
+			object Security {
+				parameter ModeEnabled="WPA-WPA2-Personal";
+				parameter KeyPassPhrase="$(WLAN_KEY)";
+				parameter WEPKey="$(WLAN_KEY)";
+			}
+			object WPS {
+				parameter Enable=1;
+				parameter ConfigMethodsEnabled="PushButton,Label,Ethernet";
+			}
+		}
+		instance of Intf(0, "wl1") {
+			parameter WMMEnable=1;
+			parameter UAPSDEnable=1;
+			parameter APBridgeDisable=1;
+			parameter SSIDAdvertisementEnabled=1;
+			object WPS {
+				parameter Enable=0;
+			}
+		}
+		instance of Intf(0, "wl2") {
+			parameter BSSID="$(WAN_ADDR)";
+			parameter SSID="orange-pairing";
+			parameter WMMEnable=1;
+			parameter APBridgeDisable=1;
+			parameter SSIDAdvertisementEnabled=0;
+			object WPS {
+				parameter Enable=0;
+			}
+			object Security {
+				parameter ModeEnabled="None";
+			}
+			instance of IPv4Addr(0, "wl2") {
+				parameter Address="192.168.128.1";
+				parameter PrefixLen=24;
+				parameter Enable=1;
+			}
+		}
+		instance of Intf(0, "wl3") {
+			parameter WMMEnable=1;
+			parameter UAPSDEnable=1;
+			parameter APBridgeDisable=1;
+			parameter SSIDAdvertisementEnabled=1;
+			object WPS {
+				parameter Enable=0;
+			}
+		}
+		instance of Intf(0, "bridge") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter Ageing=300;
+			parameter IPv6OptimisticDAD=1;
+			parameter NetDevFlags="up broadcast promisc multicast";
+			instance of IPv4Addr(0, "lan"){
+				parameter PrefixLen="$(IPV4BRIDGEMASK)";
+				parameter Address="$(IPV4BRIDGEADDR)";
+				parameter Enable=1;
+			}
+			transient instance of IPv4Route(0, "localmc") {
+				parameter DstLen=16;
+				parameter Dst="239.255.0.0";
+				parameter Enable=1;
+			}
+			transient instance of IPv4Route(0, "zeroconf") {
+				parameter DstLen=16;
+				parameter Dst="169.254.0.0";
+				parameter Enable=1;
+			}
+			transient instance of IPv6Route(0, "mdns") {
+				parameter DstLen=16;
+				parameter Dst="ff02::";
+				parameter Enable=1;
+			}
+			transient instance of IPv6Route(0, "ssdp") {
+				parameter DstLen=16;
+				parameter Dst="ff05::";
+				parameter Enable=1;
+			}
+		}
+		instance of Intf(0, "vlan_data") {
+			parameter IPv6ActAsRouter=false;
+			parameter NetDevFlags="up broadcast allmulti multicast";
+			parameter VLANID=835;
+			parameter VLANPriority=0;
+		}
+		instance of Intf(0, "vlan_multi") {
+			parameter NetDevFlags="up broadcast multicast";
+			parameter VLANID=832;
+			parameter VLANPriority=-1;
+		}
+		instance of Intf(0, "bridge_vmulti") {
+			parameter IPv6ActAsRouter=false;
+			parameter IPv6MaxRtrSolicitations=15;
+			parameter IPv6RtrSolicitationInterval=5000;
+			parameter NetDevFlags="up broadcast allmulti multicast";
+		}
+		instance of Intf(0, "vlan_voip") {
+			parameter NetDevFlags="up broadcast multicast";
+			parameter VLANID=851;
+			parameter VLANPriority=6;
+		}
+		instance of Intf(0, "vlan_iptv1") {
+			parameter NetDevFlags="up broadcast multicast";
+			parameter VLANID=838;
+			parameter VLANPriority=4;
+		}
+		instance of Intf(0, "vlan_iptv2") {
+			parameter NetDevFlags="up broadcast multicast";
+			parameter VLANID=840;
+			parameter VLANPriority=5;
+		}
+		instance of Intf(0, "bridge_viptv") {
+			parameter NetDevFlags="up broadcast multicast";
+			parameter IPv4ForceIGMPVersion=2;
+		}
+		instance of Intf(0, "atm_data") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter IPv6ActAsRouter=false;
+			parameter NetDevFlags="up broadcast allmulti multicast";
+			parameter Encapsulation="LLC";
+			parameter LinkType="EoA";
+			parameter DestinationAddress="8/35";
+			parameter QoSClass="UBR";
+			parameter PeakCellRate=3000;
+		}
+		instance of Intf(0, "atm_multi") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter IPv6ActAsRouter=false;
+            parameter IPv6MaxRtrSolicitations=15;
+            parameter IPv6RtrSolicitationInterval=5000;
+			parameter NetDevFlags="up broadcast allmulti multicast";
+			parameter Encapsulation="LLC";
+			parameter DestinationAddress="8/32";
+			parameter QoSClass="UBR";
+			parameter PeakCellRate=3000;
+		}
+		instance of Intf(0, "atm_voip") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter NetDevFlags="up broadcast multicast";
+			parameter Encapsulation="LLC";
+			parameter DestinationAddress="8/51";
+			parameter QoSClass="CBR";
+			parameter PeakCellRate=754;
+		}
+		instance of Intf(0, "atm_iptv1") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter NetDevFlags="up broadcast multicast";
+			parameter Encapsulation="LLC";
+			parameter DestinationAddress="8/38";
+			parameter QoSClass="VBR-nrt";
+			parameter PeakCellRate=302;
+			parameter SustainableCellRate=302;
+			parameter MaximumBurstSize=75;
+		}
+		instance of Intf(0, "atm_iptv2") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter NetDevFlags="up broadcast multicast";
+			parameter Encapsulation="LLC";
+			parameter DestinationAddress="8/39";
+			parameter QoSClass="CBR";
+			parameter PeakCellRate=75;
+		}
+		instance of Intf(0, "atm_iptv3") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter NetDevFlags="up broadcast multicast";
+			parameter Encapsulation="LLC";
+			parameter DestinationAddress="8/40";
+			parameter QoSClass="VBR-rt";
+			parameter PeakCellRate=50;
+			parameter SustainableCellRate=50;
+			parameter MaximumBurstSize=75;
+		}
+		instance of Intf(0, "atm_iptv4") {
+			parameter LLAddress="$(WAN_ADDR)";
+			parameter NetDevFlags="up broadcast multicast";
+			parameter Encapsulation="LLC";
+			parameter DestinationAddress="8/41";
+			parameter QoSClass="VBR-rt";
+			parameter PeakCellRate=50;
+			parameter SustainableCellRate=50;
+			parameter MaximumBurstSize=75;
+		}
+		instance of Intf(0, "bridge_aiptv") {
+			parameter NetDevFlags="up broadcast multicast";
+			parameter IPv4ForceIGMPVersion=2;
+		}
+		instance of Intf(0, "ppp_data") {
+			parameter MaxMRUSize=1492;
+			parameter LCPEcho=30;
+			parameter LCPEchoRetry=3;
+		}
+		instance of Intf(0, "dhcp_voip") {
+			instance of ReqOption(0, "1");
+			instance of ReqOption(0, "51");
+			instance of ReqOption(0, "58");
+			instance of ReqOption(0, "59");
+			instance of ReqOption(0, "120");
+			instance of ReqOption(0, "121");
+
+			instance of SentOption(0, "60") {
+				parameter Value="46545f566f49505f536167656d5f426f7865725f31363076312e30";
+			}
+			parameter DSCPMark=48;
+		}
+		instance of Intf(0, "dhcp_iptv") {
+			instance of ReqOption(0, "1");
+			instance of ReqOption(0, "3");
+			instance of ReqOption(0, "42");
+			instance of ReqOption(0, "72");
+			instance of ReqOption(0, "121");
+
+			instance of SentOption(0, "57") {
+				parameter Value="0256";
+			}
+			instance of SentOption(0, "60") {
+				parameter Value="7a7465";
+			}
+			instance of SentOption(0, "77") {
+				parameter Value="2746535644534c5f6c697665626f782e4d4c54562e736f66746174686f6d652e4c697665626f7832";
+			}
+			parameter DSCPMark=48;
+		}
+		instance of Intf(0, "dhcp_multi") {
+			parameter AuthenticationInformation="dhcpliveboxfr250";
+			instance of ReqOption(0, "1");
+			instance of ReqOption(0, "3");
+			instance of ReqOption(0, "6");
+			instance of ReqOption(0, "15");
+			instance of ReqOption(0, "28");
+			instance of ReqOption(0, "51");
+			instance of ReqOption(0, "58");
+			instance of ReqOption(0, "59");
+			instance of ReqOption(0, "90");
+			instance of ReqOption(0, "119");
+			instance of ReqOption(0, "120");
+
+			instance of SentOption(0, "60") {
+				parameter Value="7a7465";
+			}
+			instance of SentOption(0, "77") {
+				parameter Value="2b46535644534c5f6c697665626f782e496e7465726e65742e736f66746174686f6d652e4c697665626f7832";
+			}
+			parameter DSCPMark=48;
+			parameter PriorityMark=6;
+		}
+		instance of Intf(0, "dhcpv6_multi") {
+			parameter RequestAddresses=false;
+			parameter RequestPrefixes=true;
+			parameter RequestedOptions="11,23";
+			parameter AuthenticationInfo="dhcpliveboxfr250";
+			instance of SentOption(0,"15") {
+				parameter Tag=15;
+				parameter Value="002b46535644534c5f6c697665626f782e496e7465726e65742e736f66746174686f6d652e6c697665626f7832";
+			}
+			instance of SentOption(0,"16") {
+				parameter Tag=16;
+				parameter Value="00000f3e00037a7465";
+			}
+		}
+		instance of Intf(0, "gretap_wfc1") {
+			parameter NetDevFlags="up broadcast multicast";
+		}
+		instance of Intf(0, "gretap_wfc2") {
+			parameter NetDevFlags="up broadcast multicast";
+		}
+		instance of Intf(0, "wfc_vlan") {
+			parameter VLANID=100;
+			parameter VLANPriority=0;
+			parameter NetDevFlags="up broadcast multicast";
+		}
+		instance of Intf(0, "wfcsec_vlan") {
+			parameter VLANID=200;
+			parameter VLANPriority=0;
+			parameter NetDevFlags="up broadcast multicast";
+		}
+		instance of Intf(0, "bridge_wfc") {
+			parameter NetDevFlags="up broadcast promisc multicast";
+			parameter Enable=1;
+		}
+		instance of Intf(0, "bridge_wfcsec") {
+			parameter NetDevFlags="up broadcast promisc multicast";
+			parameter Enable=1;
+		}
+	}
+}
+
+// Access rights
+
+datamodel {
+	acl {
+		group cwmpd read,write,execute;
+	}
+	object NeMo {
+		instance of Intf(0, "lan") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "dsl0") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "lo") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "data") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "voip") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "iptv") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "ppp_data") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+			parameter Password {
+				acl {
+					group admin read;
+					group remoteadmin read;
+				}
+			}
+		}
+		instance of Intf(0, "dhcp_multi") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "bridge") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "atm_data") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "atm_voip") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "atm_iptv1") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "atm_iptv2") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "atm_iptv3") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "atm_iptv4") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "atm_multi") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "vlan_data") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "vlan_multi") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "swport1") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "swport2") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "swport3") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "swport4") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "eth0") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "dhcpv6_multi") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+		}
+		instance of Intf(0, "wifi0_ath") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+			}
+			parameter PersistentEnable {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+			parameter Enable {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+			parameter Channel {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+			parameter AutoChannelEnable {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+		}
+		instance of Intf(0, "wl0") {
+			acl {
+				group admin read,execute;
+				group remoteadmin read,execute;
+				world read,execute;
+			}
+			parameter SSID {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+			parameter SSIDAdvertisementEnabled {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+			object Security {
+				acl {
+					world none;
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+			object WPS {
+				acl {
+					world none;
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+			object MACFiltering {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+		}
+	}
+}
+

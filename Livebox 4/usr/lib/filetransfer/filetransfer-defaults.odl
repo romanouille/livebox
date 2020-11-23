@@ -1,0 +1,9 @@
+
+
+datamodel {
+  object FileTransfer {
+    parameter AnnounceUrlPort = 6969;
+    parameter AnnounceUrlPath = "announce";
+  }
+}
+/** @location sah_services_filetransfer /filetransfer-defaults.odl.m4 */

@@ -1,0 +1,455 @@
+
+
+
+using "lan/lan.so";
+
+object LANDevice[] {
+  object LANHostConfigManagement {
+    object IPInterface[] {
+      read-only object X_ORANGE-COM_IPv6Address[] {
+        read-only string IPAddress = "";
+      }
+    }
+  }
+
+  object WLANConfiguration [] {
+     object X_ORANGE-COM_Scheduler {
+     bool Enable;
+     string ActivationTimeSlots;
+
+   }
+ }
+
+
+}
+
+datamodel {
+    instance of LANDevice(1,"bridge") {
+        parameter LANEthernetInterfaceNumberOfEntries = 1;
+        parameter LANUSBInterfaceNumberOfEntries = 0;
+        parameter LANWLANConfigurationNumberOfEntries = 1;
+
+        object LANHostConfigManagement {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/bridge" {
+                parameter MACAddress from LLAddress;
+            }
+            parameter DHCPServerConfigurable = true;
+            destination "pcb://$(MBUS_ATOMIC)/DHCP/Server" {
+                parameter DHCPServerEnable from Enable;
+            }
+            parameter DHCPRelay = false;
+            destination "pcb://$(MBUS_ATOMIC)/DHCP/Server/Pool/bridge_default" {
+                parameter MinAddress;
+                parameter MaxAddress;
+                parameter SubnetMask;
+                parameter DNSServers from PrimDNSServer;
+                parameter DomainName;
+            }
+            parameter ReservedAddresses = "";
+            parameter IPRouters = "";
+            parameter IPInterfaceNumberOfEntries = 1;
+
+            instance of IPInterface(1,"default") {
+                parameter Enable = true;
+                destination "pcb://$(MBUS_ATOMIC)/DHCP/Server/Pool/bridge_default" {
+                    parameter IPInterfaceIPAddress from Server;
+                    parameter IPInterfaceSubnetMask from SubnetMask;
+                }
+                parameter IPInterfaceAddressingType = "DHCP";
+            }
+
+            instance of DHCPConditionalServingPool(1,"mltv_stb") {
+                destination "pcb://$(MBUS_ATOMIC)/DHCP/Server/Pool/mltv_stb" {
+                    parameter Enable from State;
+                    parameter PoolOrder from Index;
+                    parameter MinAddress;
+                    parameter MaxAddress;
+                    parameter SubnetMask;
+                    parameter DNSServers from PrimDNSServer;
+                    parameter DomainName;
+                    parameter IPRouters from Gateway;
+                    parameter DHCPLeaseTime from LeaseTime;
+                    parameter DHCPServerIPAddress from Server;
+                }
+                parameter LocallyServed = true;
+            }
+
+            instance of DHCPConditionalServingPool(2,"mltv_pc") {
+                destination "pcb://$(MBUS_ATOMIC)/DHCP/Server/Pool/mltv_pc" {
+                    parameter Enable from State;
+                    parameter PoolOrder from Index;
+                    parameter MinAddress;
+                    parameter MaxAddress;
+                    parameter SubnetMask;
+                    parameter DNSServers from PrimDNSServer;
+                    parameter DomainName;
+                    parameter IPRouters from Gateway;
+                    parameter DHCPLeaseTime from LeaseTime;
+                    parameter DHCPServerIPAddress from Server;
+                }
+                parameter LocallyServed = true;
+            }
+        }
+
+        instance of LANEthernetInterfaceConfig(0,"swport1") {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+                parameter MACAddress from LLAddress;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/swport1" {
+                parameter Enable;
+                parameter Status from Enable, Status translate with translate_LANEthernetInterfaceConfig_Status; 
+                parameter Name;
+            }
+            parameter MACAddressControlEnabled = false;
+            parameter MaxBitRate = "auto";
+            parameter DuplexMode = "Full";
+            // TODO : Stats
+        }
+        instance of LANEthernetInterfaceConfig(0,"swport2") {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+                parameter MACAddress from LLAddress;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/swport2" {
+                parameter Enable;
+                parameter Status from Enable, Status translate with translate_LANEthernetInterfaceConfig_Status; 
+                parameter Name;
+            }
+            parameter MACAddressControlEnabled = false;
+            parameter MaxBitRate = "auto";
+            parameter DuplexMode = "Full";
+            // TODO : Stats
+        }
+        instance of LANEthernetInterfaceConfig(0,"swport3") {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+                parameter MACAddress from LLAddress;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/swport3" {
+                parameter Enable;
+                parameter Status from Enable, Status translate with translate_LANEthernetInterfaceConfig_Status; 
+                parameter Name;
+            }
+            parameter MACAddressControlEnabled = false;
+            parameter MaxBitRate = "auto";
+            parameter DuplexMode = "Full";
+            // TODO : Stats
+        }
+
+        instance of WLANConfiguration(0,"wl0") {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wifi0_ath" {
+                parameter Channel;
+                parameter AutoChannelEnable;
+                parameter PossibleChannels;
+                parameter RadioEnabled from Enable;
+                parameter TransmitPowerSupported;
+                parameter TransmitPower;
+                parameter MaxBitRate;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0" {
+                parameter Enable;
+                parameter Status from VAPStatus; // Needs translation function
+                parameter Name;
+                parameter BSSID;
+                parameter SSID;
+                parameter SSIDAdvertisementEnabled;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                parameter KeyPassphrase from KeyPassPhrase;
+                parameter BeaconType from ModeEnabled translate with wificonfg_translate_beaconType; // 
+                parameter WEPEncryptionLevel from ModeEnabled translate with wificonfg_translate_wepEncryptionLevel; // WEP-64 = 40 bit, WEP-128=104 bit, WEP-128iv=128 bit, all other disabled
+                parameter BasicEncryptionModes from ModeEnabled translate with wificonfg_translate_basicEncryptionModes; // WEP-64,WEP-128,WEP-128iv = WEPEncryption, all other None
+                parameter BasicAuthenticationMode from ModeEnabled translate with wificonfg_translate_basicAuthenticationMode; // WEP-128iv=EAPAuthentication, WEP-64,WEP-128=SharedAuthentication, others = None 
+                parameter WPAEncryptionModes from ModeEnabled translate with wificonfg_translate_WPAEncryptionModes; // WPA-Personal=TKIPEncryption WPA2-Personal=AESEncryption,WPA-WPA2-Personal=TKIPandAESEncryption
+                parameter WPAAuthenticationMode from ModeEnabled translate with wificonfg_translate_WPAAuthenticationMode; // WPA-Personal=PSKAuthentication WPA2-Personal=EAPAuthentication,WPA-WPA2-Personal=EAPAuthentication
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/SSID/wl0/Stats" {
+                parameter TotalBytesSent from BytesSent;
+                parameter TotalBytesReceived from BytesReceived;
+                parameter TotalPacketsSent from PacketsSent;
+                parameter TotalPacketsReceived from PacketsReceived;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/AccessPoint/wl0" {
+                parameter TotalAssociations from AssociatedDeviceNumberOfEntries;
+            }
+
+            parameter MACAddressControlEnabled = false;
+            parameter WEPKeyIndex = 1;
+            parameter BasicDataTransmitRates = "54";
+            parameter OperationalDataTransmitRates = "54";
+            parameter PossibleDataTransmitRates = "1,2,5.5,11,22,48,54,56,96,108,130";
+            parameter AutoRateFallBackEnabled = true;
+
+            object WPS {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/WPS" {
+                    parameter Enable;
+                    parameter ConfigMethodsSupported;
+                    parameter ConfigMethodsEnabled;
+                }
+                destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/wps_DefParam" {
+                    parameter DeviceName from DevName;
+                    parameter DevicePassword from DefaultPin;
+                    parameter UUID;
+                    parameter Version from wpsSupVer;
+                }
+            }
+
+	    object X_ORANGE-COM_Scheduler {
+			destination "pcb://$(PCB_MAIN_BUS)/NMC/Wifi" {
+				parameter Enable from SchedulingEnabled;
+				parameter ActivationTimeSlots from SchedulingActivationTimeSlots;
+			}
+	    }
+
+            object Stats {
+                destination "pcb://$(PCB_MAIN_BUS)/WiFiATH/SSID/wl0/Stats" {
+                    parameter ErrorsSent;
+                    parameter ErrorsReceived;
+                    parameter UnicastPacketsSent;
+                    parameter UnicastPacketsReceived;
+                    parameter DiscardPacketsSent;
+                    parameter DiscardPacketsReceived;
+                    parameter MulticastPacketsSent;
+                    parameter MulticastPacketsReceived;
+                    parameter BroadcastPacketsSent;
+                    parameter BroadcastPacketsReceived;
+                    parameter UnknownProtoPacketsReceived;
+                }
+            }
+
+            object AssociatedDevice from "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/AssociatedDevice" recursive {
+                accept parameter "AssociatedDeviceMACAddress|MACAddress" {
+                    rename with rename_associatedDevice_MACAddress;
+                }
+                accept parameter "AssociatedDeviceAuthenticationState|AuthenticationState" {
+                    rename with rename_associatedDevice_authenticationState;
+                }
+                drop parameter ".*";
+                accept object ".*" {
+                    accept parameter "AssociatedDeviceMACAddress|MACAddress" {
+                        rename with rename_associatedDevice_MACAddress;
+                    }
+                    accept parameter "AssociatedDeviceAuthenticationState|AuthenticationState" {
+                        rename with rename_associatedDevice_authenticationState;
+                    }
+                    drop parameter ".*";
+                }
+            }
+
+            instance of WEPKey(1,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter WEPKey;
+                }
+            }
+            instance of WEPKey(2,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter WEPKey;
+                }
+            }
+            instance of WEPKey(3,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter WEPKey;
+                }
+            }
+            instance of WEPKey(4,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter WEPKey;
+                }
+            }
+            instance of PreSharedKey(1,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(2,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(3,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(4,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(5,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(6,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(7,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(8,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(9,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+            instance of PreSharedKey(10,"") {
+                destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/wl0/Security" {
+                    parameter PreSharedKey;
+                    parameter KeyPassphrase from KeyPassPhrase;
+                }
+            }
+        }
+
+        object Hosts from "pcb://$(PCB_MAIN_BUS)/Hosts" recursive {
+            accept request parameter "X_ORANGE-COM_MaximumHosts" {
+                rename with translate_MaximumHosts;
+            }
+            accept object parameter "MaximumHosts" {
+                rename with rename_MaximumHosts;
+            }
+            drop parameter "^ManageableDeviceNumberOfEntries$";
+            drop function ".*";
+            drop object "(Config|ManageableDevice)";
+            accept object "^Host$" {
+                accept parameter "(IPAddress|AddressSource|LeaseTimeRemaining|VendorClassID|ClientID|userClassID|ManufacturerOUI|ProductClass|SerialNumber|HostName|InterfaceType|Active|DeviceNamesNumberOfEntries|IPv4AddressNumberOfEntries|IPv6AddressNumberOfEntries|Tags)";
+                accept request parameter "X_ORANGE-COM_DetectedTypes" {
+                    rename with rename_DetectedTypes;
+                }
+                accept object parameter "DetectedTypes" {
+                    rename with rename_DetectedTypes;
+                }
+                accept request parameter "X_ORANGE-COM_mDNSServiceNumberOfEntries" {
+                    rename with rename_mDNSServiceNumberOfEntries;
+                }
+                accept object parameter "mDNSServiceNumberOfEntries" {
+                    rename with rename_mDNSServiceNumberOfEntries;
+                }
+                accept request parameter "X_ORANGE-COM_LastChange" {
+                    rename with rename_LastConnection;
+                }
+                accept object parameter "LastConnection" {
+                    rename with rename_LastConnection;
+                }
+                accept request parameter "MACAddress" {
+                    rename with translate_HostsPhysAddress_Name;
+                }
+                accept object parameter "PhysAddress" {
+                    rename with translate_HostsPhysAddress_Name;
+                }
+                accept parameter "Layer2Interface" {
+                    translate with translate_HostsLayer2Interface;
+                }
+                drop parameter ".*";
+                accept object "IPv4Address" {
+                    accept parameter "IPAddress";
+                    accept parameter "AddressSource";
+                    drop parameter ".*";
+                }
+                accept object "IPv6Address" {
+                    accept parameter "IPAddress";
+                    accept parameter "AddressSource";
+                    accept parameter "Scope";
+                    drop parameter ".*";
+                }
+                accept object "mDNSService";
+                accept object "UPnP" {
+                    accept object "Device";
+                    drop object ".*";
+                }
+                accept object ".*" {
+                    accept parameter "(IPAddress|AddressSource|LeaseTimeRemaining|VendorClassID|ClientID|UserClassID|ManufacturerOUI|ProductClass|SerialNumber|HostName|InterfaceType|Active|DeviceNamesNumberOfEntries|IPv4AddressNumberOfEntries|IPv6AddressNumberOfEntries|Tags)";
+                    accept request parameter "X_ORANGE-COM_DetectedTypes" {
+                        rename with rename_DetectedTypes;
+                    }
+                    accept object parameter "DetectedTypes" {
+                        rename with rename_DetectedTypes;
+                    }
+                    accept request parameter "X_ORANGE-COM_mDNSServiceNumberOfEntries" {
+                        rename with rename_mDNSServiceNumberOfEntries;
+                    }
+                    accept object parameter "mDNSServiceNumberOfEntries" {
+                        rename with rename_mDNSServiceNumberOfEntries;
+                    }
+                    accept request parameter "X_ORANGE-COM_LastChange" {
+                        rename with rename_LastConnection;
+                    }
+                    accept object parameter "LastConnection" {
+                        rename with rename_LastConnection;
+                    }
+                    accept request parameter "MACAddress" {
+                        rename with translate_HostsPhysAddress_Name;
+                    }
+                    accept object parameter "PhysAddress" {
+                        rename with translate_HostsPhysAddress_Name;
+                    }
+                    accept parameter "Layer2Interface" {
+                        translate with translate_HostsLayer2Interface;
+                    }
+                    drop parameter ".*";
+                    accept object "IPv4Address" {
+                        accept parameter "IPAddress";
+                        accept parameter "AddressSource";
+                        drop parameter ".*";
+                        accept object ".*" {
+                            accept parameter "IPAddress";
+                            accept parameter "AddressSource";
+                            drop parameter ".*";
+                        }
+                    }
+                    accept object "IPv6Address" {
+                        accept parameter "IPAddress";
+                        accept parameter "AddressSource";
+                        accept parameter "Scope";
+                        drop parameter ".*";
+                        accept object ".*" {
+                            accept parameter "IPAddress";
+                            accept parameter "AddressSource";
+                            accept parameter "Scope";
+                            drop parameter ".*";
+                        }
+                    }
+                    accept object "mDNSService";
+                    accept object "UPnP" {
+                        accept object "^Device$" {
+                            accept parameter "(Status|UUID|USN|Location|Server|DeviceType|FriendlyName|Manufacturer|ManufacturerURL|ModelName|ModelURL|PresentationURL)";
+                            drop parameter ".*";
+                            accept object ".*" {
+                                accept parameter "(Status|UUID|USN|Location|Server|DeviceType|FriendlyName|Manufacturer|ManufacturerURL|ModelName|ModelURL|PresentationURL)";
+                                drop parameter ".*";
+                                accept object "^Icon$" {
+                                    accept parameter "(URL|MimeType)";
+                                    drop parameter ".*";
+                                    accept object ".*" {
+                                        accept parameter "(URL|MimeType)";
+                                        drop parameter ".*";
+                                    }
+                                }
+                            }
+                        }
+                        drop object ".*";
+                    }
+                }
+            }
+        }
+    }
+
+    object LANInterfaces {
+        parameter LANEthernetInterfaceNumberOfEntries = 1;
+    }
+}

@@ -1,0 +1,12 @@
+<b>NTP</b><br>
+<br>
+
+Wybierz strefę czasową z rozwijanego menu. Kliknij przycisk <b>"Zapisz"</b>, aby zachować zmiany.
+
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

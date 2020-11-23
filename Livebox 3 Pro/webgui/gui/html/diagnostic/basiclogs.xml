@@ -1,0 +1,70 @@
+<div id="basiclogs" xmlns="http://www.orange.com/xhtml/engine/loose">
+  <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_diagnostic" i18n="page.diagnostic.logs.basiclogs.title"/>
+		<div class="margin-left-40 margin-top-m8">
+		 	<strong i18n="page.diagnostic.logs.basiclogs.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 margin-top-10 border-bottom-1">
+			<span class="h3Text" i18n="page.diagnostic.logs.basiclogs.general"/>
+			<div ><!-- class="sysinfo status-block logs" -->
+				<div widgetType="FormInput" class="right" i18n="page.diagnostic.logs.basiclogs.general.date">
+					<span class="bold_font" dataId="Device/Time/CurrentLocalTime" widgetType="Timestamp" widgetArg="'dddd dd mmmm yyyy, HH:MM:ss'"/>
+				</div>
+				<div widgetType="FormInput" i18n="page.diagnostic.logs.basiclogs.general.laststart">
+					<span class="bold_font" dataId="Device/DeviceInfo/Logs/AdvancedLogs/AdvancedLog/StartRebootLog/DateTime" widgetType="Timestamp" widgetArg="'dddd dd mmmm yyyy, HH:MM:ss'"/>
+				</div>
+				<div widgetType="FormInput" i18n="page.diagnostic.logs.basiclogs.general.uptime">
+					<span class="bold_font" dataId="Device/DeviceInfo/Logs/AdvancedLogs/AdvancedLog/StartRebootLog/DateTime" widgetType="ElapsedTime" i18nPrefix="page.diagnostic.logs.basiclogs.general.uptime.format"/>
+				</div>
+			</div>
+		</div>
+		<div class="boxType5 border-bottom-1">
+			<span class="h3Text" i18n="page.diagnostic.logs.basiclogs.lastusers"/>
+			<div dataId="Device/DeviceInfo/Logs/Connections/Connection" style="margin-top:10px" widgetType="Table"
+				widgetArg="{deletable: false}" i18n="page.diagnostic.logs.basiclogs.lastusers">
+				<span i18n="common.id" widgetType="TableColumn" widgetArg="{attr: 'uid'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.lastusers.user" widgetType="TableColumn" widgetArg="{attr: 'Login'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.lastusers.acesstype" widgetType="TableColumn" widgetArg="{attr: 'Type'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.lastusers.ip" widgetType="TableColumn"	widgetArg="{attr: 'IPAddress'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.lastusers.start" widgetType="TableColumn"	widgetArg="{attr: 'ConnectionTime', viewWidgetType: 'Timestamp', viewWidgetArg: 'dddd dd mmmm yyyy HH:MM:ss'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.lastusers.end" widgetType="TableColumn"	widgetArg="{attr: 'ConnectionTime', viewWidgetType: 'TimestampOperation', viewWidgetArg: ['dddd dd mmmm yyyy HH:MM:ss', '+', 'ConnectionDuration']}" />
+			</div>
+		</div>	
+		<div class="boxType5 border-bottom-1">
+			<span class="h3Text" i18n="page.diagnostic.logs.basiclogs.firewall"/>
+			<div widgetType="FormInput" i18n="page.diagnostic.logs.basiclogs.firewall.level">
+				<span class="bold_font" dataId="Device/Firewall/Config" i18nPrefix="page.diagnostic.logs.basiclogs.firewall.level"/>
+			</div>
+			<!-- <div class="forminput" i18n="page.diagnostic.logs.basiclogs.firewall.top5"/> -->
+			<br/>
+			<div dataId="Device/Firewall/TopServices/TopService" widgetType="Table"
+				widgetArg="{deletable: false}" i18n="page.diagnostic.logs.basiclogs.firewall.top5">
+				<span i18n="common.id" widgetType="TableColumn" widgetArg="{attr: 'uid'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.firewall.service" widgetType="TableColumn" widgetArg="{attr: 'ServiceName'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.firewall.rulenb" widgetType="TableColumn" widgetArg="{attr: 'Rulenumber'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.firewall.ipprotocol" widgetType="TableColumn"	widgetArg="{attr: 'IPProtocol'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.firewall.blocnb" widgetType="TableColumn"	widgetArg="{attr: 'NumberOfBlocks'}" />
+				<span i18n="page.diagnostic.logs.basiclogs.firewall.lastblocdate" widgetType="TableColumn"	widgetArg="{attr: 'LastBlock', viewWidgetType: 'Timestamp', viewWidgetArg: 'dddd dd mmmm yyyy HH:MM:ss'}" />
+			</div>
+		</div>
+		<div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.diagnostic.logs.basiclogs.dosprotection"/>
+			<div id="dosprotection_table" style="margin-top:10px" widgetType="Table"
+				widgetArg="{deletable: false}" i18n="page.diagnostic.logs.basiclogs.dosprotection">
+				<span i18n="common.id" widgetType="TableColumn" widgetArg="{attr: ''}" />
+				<span i18n="page.diagnostic.logs.basiclogs.dosprotection.protection" widgetType="TableColumn" widgetArg="{attr: ''}" />
+				<span i18n="page.diagnostic.logs.basiclogs.dosprotection.status" widgetType="TableColumn" widgetArg="{attr: ''}" i18nPrefix="data.dhcpstatus"/>
+				<span i18n="page.diagnostic.logs.basiclogs.dosprotection.hitnb" widgetType="TableColumn"	widgetArg="{attr: ''}" />
+			</div>
+		</div>
+		</form>
+	</div>
+</div>

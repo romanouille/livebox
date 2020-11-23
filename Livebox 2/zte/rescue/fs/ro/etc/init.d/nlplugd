@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case $1 in
+    start)
+ 	echo "nlplugd start ..."
+	nlplugd -d 
+	;;
+    stop)
+    	killall nlplugd
+	;;
+    *)
+esac

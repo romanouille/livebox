@@ -1,0 +1,31 @@
+#!/bin/sh
+
+NBR_PID="/var/run/nbr_cancel.pid"
+
+start() {
+    if [ -e ${NBR_PID} ]; then
+        logger -t nbr_cancel "nbr_cancel already started"
+    else
+        logger -t nbr_cancel "Starting nbr_cancel"
+        /usr/bin/nbr_cancel &
+    fi
+}
+
+stop() {
+    if [ -e ${NBR_PID} ] ; then
+        kill $(cat $NBR_PID)
+        rm -f ${NBR_PID}
+    fi
+}
+
+case $1 in
+start)
+start
+;;
+stop)
+stop
+;;
+*)
+echo "Usage : $0 [start|stop]"
+;;
+esac

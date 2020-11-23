@@ -1,0 +1,29 @@
+using "dhcpv6/nmc_dhcpv6.so";
+object DHCPv6 {
+object Client[] {
+string Alias;
+read-only string X_ORANGE-COM_DHCPv6Status;
+object SentOption[] {
+string Alias;
+bool Enable;
+}
+}
+object Server;
+}
+datamodel {
+object DHCPv6 {
+object Server from "pcb://$(PCB_MAIN_BUS)/DHCPv6/Server" recursive;
+instance of Client(0,"Client1") {
+parameter Alias = "DHCLIENTv6_DATA";
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dhcpv6_data" {
+parameter X_ORANGE-COM_DHCPv6Status from Status translate with translate_dhcpv6_status;
+}
+instance of SentOption(0,"SentOption1") {
+parameter Alias = "OPTv6_17";
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dhcpv6_data/SentOption/17" {
+parameter Enable;
+}
+}
+}
+}
+}

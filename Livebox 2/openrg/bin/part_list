@@ -1,0 +1,78 @@
+#!/bin/sh
+proc_list () {
+	disk=$2
+	if [ -f /tmp/devices/$1 ]
+	then	
+		fstatus=$(cat /tmp/devices/$1)
+	else 
+		fstatus="OK"
+	fi
+	line=`grep "$1 " /etc/mtab`
+	if [ ${#line} -eq 0 ]
+	then 
+		
+		mpoint=$(blkid -s LABEL -o value /dev/$1)
+		if [ -z "$mpoint" ]
+		then
+		  	mpoint="other"
+		fi
+		fstype=$(blkid -s TYPE -o value /dev/$1)
+		if [ -z "$fstype" ]
+		then
+		  	fstype="other"
+			fstatus="NOT_SUPPORT"
+		fi
+		
+	else
+		fstype=`echo ${line} | cut -d' ' -f3`		
+		mpoint=`echo ${line} | cut -d' ' -f2 | cut -d '/' -f4` 
+	fi
+	line=`df | grep "$1 "`
+	if [ ${#line} -eq 0 ]
+	then 
+		fsfree=0
+	else
+		#fssize=`echo ${line} | cut -d' ' -f2`
+		fsfree=`echo ${line} | cut -d' ' -f4`
+	fi
+	if [ -d /sys/block/$disk/$1 ]
+	then	
+		block_size=$(cat /sys/block/$disk/$1/size)
+		fssize=$(expr $block_size / 2)
+	elif  [ -d /sys/block/$disk ]
+	then	
+		block_size=$(cat /sys/block/$disk/size)
+		fssize=$(expr $block_size / 2)
+	else
+		fssize=0
+	fi
+	echo $1:${fstype}:${fstatus}:${fssize}:${fsfree}:$mpoint	>> /tmp/disk_listpart.txt
+}
+
+rm -f /tmp/disk_listpart.txt
+if [ $# -ne 1 ]
+then exit 1
+fi
+if [ ! -e /sys/block/$1 ]
+then exit 2
+fi
+
+found=0			
+	cd /sys/block/$1
+	for dev in `ls -d $1* 2>&-`; do
+		proc_list $dev $1
+		found=1
+	done
+
+# begin bug 6155 - Daniel - 20070817
+if [ $found -eq 0 ]
+then
+	line=`grep "$1 " /etc/mtab`
+	if [ ${#line} -ne 0 ]
+	then 
+		proc_list $1 $1
+	fi
+fi
+# end bug 6155 - Daniel - 20070817
+
+exit 0

@@ -1,0 +1,712 @@
+using "hosts.so";
+
+define address_t {
+    string ipAddress;
+    string addressSource;
+    string family;
+    string scope;
+    bool routable;
+}
+
+define name_t {
+    string name;
+    string source;
+}
+
+define icon_t {
+    string icon;
+    string URL;
+    string source;
+}
+
+define device_t {
+    string physAddress;
+    string ipAddress;
+    string addressSource;
+    string detectedTypes;
+    string deviceType;
+    int32 leaseTimeRemaining;
+    string vendorClassID;
+    string clientID;
+    string userClassID;
+    string hostName;
+    bool active;
+    datetime lastConnection;
+    string icon;
+    string deviceLocation;
+    string tags;
+    string layer2Interface;
+    string interfaceType;
+    string manufacturerOUI;
+    string serialNumber;
+    string productClass;
+    list addresses;
+    list names;
+    list icons;
+}
+
+acl {
+    world read,execute;
+    group admin read,execute;
+    group remoteadmin read,execute;
+    group cwmpd read,write,execute;
+}
+
+/**
+Hosts object
+*/
+persistent object Hosts {
+
+    /** Fetch one device.
+
+    Fetch the device info and return exactly one device structure.
+    The information in the structure depends on the flags given.
+    The flags is a string containing zero, one or more of the following string separated with '|'
+    - basic_info
+    - ipv4_addresses
+    - ipv6_addresses
+    - hostnames
+    - icons
+    - ip_addresses
+
+    @param physAddress The mac address of the device.
+    @param flags Specifies which information must be returned in the structure
+
+    @return A device information structure
+    */
+    device_t getDevice( mandatory string physAddress, string flags );
+
+    /** Fetches a lists of devices matching the given filter.
+
+    Fetch a list of devices matching a given filter. Each item in the list will contain a device structure
+    The information in the structure depends on the flags given.
+    The flags is a string containing zero, one or more of the following string separated with '|'
+    - basic_info
+    - ipv4_addresses
+    - ipv6_addresses
+    - hostnames
+    - icons
+    - ip_addresses
+
+     Filtering can be done on the parameters in the data model:
+     Example:
+        getDevices("Layer2Interface","eth1_2");
+        Will return all devices connected on layer 2 interface "eth1_2"
+
+
+    @param paramName Parameter name to filter on.
+    @param paramValue The value that must be matched
+    @return A list of device_t structures
+    */
+    list getDevices( string paramName, variant paramValue, string flags );
+
+    /** Set a device.
+
+    Update a device using a device_t structure. Only the writable fields will be updated.
+    All other fields will be ignored.
+    The fields that will be updated in the data model are:
+    - DeviceLocation
+    - DeviceType
+    - Name (for the webui instance only)
+    - Icon (for the webui instance only)
+
+    @param device A device_t structure with all fields in it..
+    */
+    bool setDevice( mandatory device_t device ) {
+        acl {
+            world none;
+        }
+    }
+
+    /** Add a host.
+
+    @param physAddress  Physical address of the device.
+    @param interfaceType  interface type of the device
+    @param hostName  (optional) Name of the discovered host
+    @param source  (optional) The ID of the discovery client or method
+    @return true when the host is added, false otherwise
+    */
+    bool addHost( mandatory string physAddress, mandatory string interfaceType, string hostName, string source )  {
+        acl {
+            world none;
+        }
+    }
+
+    /** Delete a host.
+    @param physAddress  Physical address of the device.
+    @return true when the host is deleted, false otherwise
+    */
+    bool delHost( mandatory string physAddress )  {
+        acl {
+            world none;
+        }
+    }
+
+    /** Adds a name for the host.
+
+    If a name already exists for the same source, the name will be overwritten.
+
+    @param physAddress  Physical address of the device.
+    @param hostName  the new name
+    @param source  (optional) The source of the name.
+    @return true when the name is added, false otherwise
+    */
+    bool setName( mandatory string physAddress, mandatory string hostName, string source )  {
+        acl {
+            world none;
+        }
+    }
+
+    /** removes a name from the host.
+
+    If the there is no name from the specified source, nothing happens and the function will return true.
+
+    @param physAddress  Physical address of the device.
+    @param source  The source of the name.
+    @return true when the name is removed, false otherwise
+    */
+    bool delName( mandatory string physAddress, mandatory string source )  {
+        acl {
+            world none;
+        }
+    }
+
+    /** Adds an icon to the icon table
+
+    If there is already an icon for the source, the icon will be overwritten
+
+    @param physAddress  Physical address of the device.
+    @param icon  The icon name
+    @param URL  The URL to retrieve the icon from
+    @param source  The discovery source of the icon
+    @returns true when the icon is added, false otherwise
+    */
+    bool addIcon( mandatory string physAddress, string icon, string URL, string source ) {
+        acl {
+            world none;
+        }
+    }
+
+    /** removes an icon from the host.
+
+    If the there is no icon from the specified source, nothing happens and the function will return true.
+
+    @param physAddress  Physical address of the device.
+    @param source  The source of the icon.
+    @return true when the icon is removed, false otherwise
+    */
+    bool delIcon( mandatory string physAddress, mandatory string source )  {
+        acl {
+            world none;
+        }
+    }
+
+    /** Adds one or more tags to the device
+
+    @param physAddress  Physical address of the device.
+    @param tags  list of strings  the tag(s) to add
+    @return true when the tags are added, false otherwise
+    */
+    bool addTag( mandatory string physAddress, mandatory list tags)  {
+        acl {
+            world none;
+        }
+    }
+
+    /** Deletes one or more tags from the device
+
+    @param physAddress  Physical address of the device.
+    @param tags  list of strings  the tag(s) to delete
+    @return true when the tags are deleted, false otherwise
+    */
+    bool delTag( mandatory string physAddress, mandatory list tags)  {
+        acl {
+            world none;
+        }
+    }
+
+    /** Trigger the plug-in to immediately verify whether a host is active.
+
+    The Hosts.Host.i.Active parameter will be updated with the result.
+
+    @param physAddress  MAC address of the device.
+    @param ipAddress  (optional) Use the given address to verify whether the host is reachable
+    @param return true if the device is active
+    */
+    bool verifyActive( mandatory string physAddress, string ipAddress ) {
+        acl {
+            world none;
+        }
+    }
+
+    /** Sets the device as a managed device
+
+    This function will add the "manageable" tag to the tags.
+
+    @param physAddress  Physical address of the device.
+    @param manufacturerOUI  the manufacturer OUI
+    @param serialNumber  The device serial number
+    @param productClass  The product class
+    */
+    bool setManageable( mandatory string physAddress, mandatory string manufacturerOUI, mandatory string serialNumber, mandatory string productClass ) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /** Adds an ip address for the device.
+
+    If the address already exists, all other parameters are updated.
+
+    @param physAddress  Physical address of the device.
+    @param ipAddress  the new ipaddress
+    @param addressSource  (optional) The ID of the discovery client or method
+    @param state  state of the address, see NetDev.Link.i.Neigh.j.State
+    @returns true when the address is added, false otherwise
+    */
+    bool addAddress( mandatory string physAddress, mandatory string ipAddress, mandatory string addressSource, string state ) {
+        acl {
+            world none;
+        }
+    }
+
+    /** Removes an ip address.
+
+    @param physAddress  Physical address of the device.
+    @param ipAddress  the IP address to remove
+    @returns true when the address is deleted, false otherwise
+    */
+    bool delAddress( mandatory string physAddress, mandatory string ipAddress ) {
+        acl {
+            world none;
+        }
+    }
+
+    /** Add a mDNS Service.
+
+    @param physAddress  Physical address of the device.
+    @param name
+    @param type
+    @param domain
+    @returns true when the service is added, false otherwise
+    */
+    bool addmDNSService( mandatory string physAddress, mandatory string name, mandatory string type, mandatory string domain) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+        }
+    }
+
+    /** Delete a mDNS Service.
+
+    @param physAddress  Physical address of the device.
+    @param name
+    @param type
+    @param domain
+    @returns true when the service is deleted, false otherwise
+    */
+    bool delmDNSService( mandatory string physAddress, mandatory string name, mandatory string type, mandatory string domain) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+        }
+    }
+
+    /** Link a sub-object of a host to an object in the data model
+
+    @param physAddress  Physical address of the device.
+    @param subobject  sub-object of the device
+    @param path  the full object path to link to
+    @returns true when the link is created, false otherwise.
+    */
+    bool link( mandatory string physAddress, mandatory string subobject, mandatory string linkPath) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+        }
+    }
+
+    /** Unlink a sub-object of a host
+
+    @param physAddress  Physical address of the device.
+    @param subobject  sub-object of the device
+    @param path  the full object path of the link to remove
+    @returns true when the link is removed, false otherwise.
+    */
+    bool unlink( mandatory string physAddress, mandatory string linkedObject) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+        }
+    }
+
+    /** Backup the user settings for device discovery
+
+    @param filename The backup file name
+    */
+    bool export( string fileName ) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+        }
+    }
+
+    /** Restore the user settings for device discovery
+
+    @param filename The backup file name
+    */
+    bool import( string fileName ) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+        }
+    }
+
+    /** The number of instances currently in Host. */
+    read-only uint32 HostNumberOfEntries {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+        }
+    }
+
+    /** Number of manageable devices available. */
+    read-only uint32 ManageableDeviceNumberOfEntries {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+        }
+    }
+
+    /** Maximum Hosts entries */
+    persistent uint32 MaximumHosts {
+        acl {
+            world none;
+        }
+        constraint custom validateMax;
+        default 50;
+    }
+
+    /** Config options. These are typically config-specific defaults and are not dynamically modified */
+    persistent object Config {
+        acl {
+            world none;
+        }
+        /** Priority setting for interface type. This is a space separated list of interface types. The priority increases from left to right */
+        persistent string InterfaceTypeOrder;
+        /** Priority setting for ip address family. This is a space separated list of address sources. The priority increases from left to right */
+        persistent string IPAddressOrder;
+        /** Priority setting for address source. This is a space separated list of name sources. The priority increases from left to right  */
+        persistent string AddrSourceOrder;
+        /** Priority setting for name source. This is a space separated list of name sources. The priority increases from left to right */
+        persistent string NameSourceOrder;
+        /** Priority setting for dns name source. This is a space separated list of name sources. The priority increases from left to right */
+        persistent string DnsNameSourceOrder = "webui dns";
+        /** Priority setting for icon source. This is a space separated list of icon sources. The priority increases from left to right */
+        persistent string IconSourceOrder;
+        /** List of DHCP RX option 77 ID's with custom tags.
+
+          This field can be used by clients to determine which tags to add to a device.
+          The format must be "ID1:TAG1:TAG2:TAG3,ID2:TAG1:TAG2". An ID is a hex string representation of RFC 3004 Opaque-Data
+        */
+        persistent string UserClassTags {
+            write with config_userClassChanged;
+        }
+    }
+
+    /** Host object table
+
+    This object will contain all discovered devices
+    */
+    read-only persistent object Host[] {
+        acl {
+            world none;
+        }
+        delete with host_delete;
+        add with host_add;
+        read with host_update;
+
+        /** Physical address of the host */
+        read-only persistent string PhysAddress {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** Preferred ip address of the host */
+        read-only string IPAddress;
+        /** Address source of the preferred ip address */
+        read-only string AddressSource {
+            constraint enum ["DHCP","Static","AutoIP", "None"];
+            default "None";
+        }
+        /** List of detected device types */
+        read-only persistent string DetectedTypes;
+        /** Auto detected type */
+        read-only string DeviceType = "Computer";
+        /** DHCP leaste time remaining
+
+          This field is declared deprecated in TR-181.
+          This field has a dummy implentation to satisfy the need for TR-098.
+          If the ip address source is DHCP it will contain the lease time remaining.
+          Currently set to -1 in case of a DHCP assigned address, set to 0 otherwise.
+          This will be changed when the DHCP server is rewritten
+        */
+        read-only int32 LeaseTimeRemaining {
+            constraint minvalue -1;
+            default 0;
+        }
+        /** */
+        persistent string VendorClassID {
+            write with verifyDeviceType;
+        }
+        /** */
+        persistent string ClientID {
+            write with verifyDeviceType;
+        }
+        /** */
+        persistent string UserClassID {
+            write with verifyDeviceType;
+        }
+        /** Preferred host name */
+        read-only string HostName {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** Preferred host dns name */
+        read-only string DnsName {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** UPnP Friendly names */
+        read-only persistent string UPnPNames;
+        /** mDNS names */
+        read-only persistent string mDNSNames;
+        /** Is the device LLTD capable */
+        read-only bool LLTDDevice;
+        /** The ssid the device is connected to */
+        read-only string SSID;
+        /** Is the host active? */
+        read-only bool Active;
+        /** Last time the host was active */
+        volatile read-only persistent datetime LastConnection;
+        /** List of space separated tags, these are used to easily identify special devices */
+        read-only persistent string Tags;
+        /** Name of the interface on which the device is connected.
+
+          On some platforms (using a switch) this field will always be empty.
+        */
+        read-only string Layer2Interface {
+            constraint maxvalue 256;
+            default "";
+        }
+        /** Interface type on which the host is detected */
+        read-only persistent string InterfaceType {
+            constraint enum ["Ethernet","USB","802.11","HomePNA","HomePlug","MoCA","Other"];
+            default "Other";
+        }
+        /** The manufacturer OUI.*/
+        read-only persistent string ManufacturerOUI {
+            constraint range [6,6];
+            default "000000";
+        }
+        /** Host serial number */
+        read-only persistent string SerialNumber {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** Host product class */
+        read-only persistent string ProductClass {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** Number of ipv4 addresses */
+        read-only uint32 IPv4AddressNumberOfEntries {
+            read with numberOfEntries;
+        }
+        /** Number of ipv6 addresses */
+        read-only uint32 IPv6AddressNumberOfEntries {
+            read with numberOfEntries;
+        }
+        /** Number of host names */
+        read-only uint32 DeviceNamesNumberOfEntries {
+            read with numberOfEntries;
+        }
+        /** Number of mDNS Services */
+        read-only uint32 mDNSServiceNumberOfEntries {
+            read with numberOfEntries;
+        }
+        /** Number of UPnP devices */
+        read-only uint32 UPnPDeviceNumberOfEntries {
+            read with numberOfEntries;
+        }
+
+        persistent object UserInfo {
+            /** Preferred icon of the host */
+            volatile read-only string DeviceIcon;
+            /** The location of the device */
+            persistent string DeviceLocation;
+            /** Device type set by end-user */
+            persistent string DeviceType = "";
+        }
+
+        /** Host IPv4 Address object */
+        read-only object IPv4Address[] {
+            /** IP address of the host */
+            read-only string IPAddress;
+            /** Address source of the ip address */
+            read-only string AddressSource {
+                constraint enum ["DHCP","Static","AutoIP", "None"];
+                default "None";
+            }
+            /** Address state */
+            volatile read-only string State;
+            /** Address scope */
+            read-only string Scope;
+            /** Is the address routable */
+            read-only bool   Routable;
+        }
+
+        /** Host IPv6 Address object */
+        read-only object IPv6Address[] {
+            /** IP address of the host */
+            read-only string IPAddress;
+            /** Address source of the ip address */
+            read-only string AddressSource {
+                constraint enum ["DHCP","Static","AutoIP", "None"];
+                default "None";
+            }
+            /** Address state */
+            volatile read-only string State;
+            /** Address scope */
+            read-only string Scope;
+            /** Is the address routable */
+            read-only bool   Routable;
+        }
+
+        /** Host Name table */
+        read-only persistent object DeviceNames[] {
+            /** A name for the host */
+            read-only persistent string Name;
+            /** Source of the name */
+            read-only persistent string Source;
+        }
+
+        /** Host Icon table */
+        read-only persistent object Icon[] {
+            /** An icon for the host */
+            read-only persistent string Icon;
+            /** URL of the icon */
+            read-only persistent string URL;
+            /** Source of the icon */
+            read-only persistent string Source;
+        }
+
+        /** mDNS Service table */
+        read-only object mDNSService[] {
+            /** Complete mDNS local service name, including domain */
+            read-only string Service;
+            /** mDNS service type */
+            read-only string ServiceType;
+            /** mDNS service name without domain and service type */
+            read-only string ServiceName;
+        }
+
+        /** LLTD table */
+        read-only persistent object LLTD {
+            /** ? */
+            read-only string SSID;
+        }
+
+        /** UPnP related data
+        The UPnP part of the Hosts data model is here as a place holder.
+        The device discovery plug-in will create links to the real UPnP part of the data model.
+        The definition is here only for the sake of documentation completeness.
+        For doucmentation of the parameters and objects underneath this please see the UPnP part.
+        */
+        read-only object UPnP {
+            /** Number of UPnP devices */
+            read-only uint32 DeviceNumberOfEntries {
+                read with numberOfEntries;
+            }
+            /** Placeholder object, each instace of this object will be linked to an instance of UPnP.RootDevice
+                For documentation about this object see the UPnP data model
+            */
+            read-only object RootDevice[50];
+            /** Placeholder object, each instace of this object will be linked to an instance of UPnP.Device
+                For documentation about this object see the UPnP data model
+            */
+            read-only object Device[50] {
+                read-only string Status;
+                read-only string UUID;
+                read-only string USN;
+                read-only string LeaseTime;
+                read-only string Location;
+                read-only string Server;
+                read-only string Host;
+                read-only datetime LastConnection;
+                read-only string IPAddress;
+
+                read-only string SpecVersion;
+                read-only string URLBase;
+                read-only string DeviceType;
+                read-only string FriendlyName;
+                read-only string Manufacturer;
+                read-only string ManufacturerURL;
+                read-only string ModelName;
+                read-only string ModelNumber;
+                read-only string ModelURL;
+                read-only string SerialNumber;
+                read-only string UDN;
+                read-only string UPC;
+                read-only string PresentationURL;
+
+                read-only object Icon;
+            }
+            /** Placeholder object, each instace of this object will be linked to an instance of UPnP.Service
+                For documentation about this object see the UPnP data model
+            */
+            read-only object Service[50];
+        }
+    }
+
+    /** This object is used to do mapping from TR-111 or TR-098 */
+    read-only object ManageableDevice[] {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+        /** An unique Alias */
+        string Alias {
+            constraint maxvalue 64;
+        }
+        /** TR-111 - Organizationally unique identifier of the Device manufacturer as provided to the Gateway by the Device. */
+        read-only string ManufacturerOUI {
+            constraint range [6,6];
+            default "000000";
+        }
+        /** TR-111 - Serial number of the Device as provided to the Gateway by the Device. */
+        read-only string SerialNumber {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** TR-111 - Identifier of the class of product for which the Device’s serial number applies as provided to the Gateway by the Device. */
+        read-only string ProductClass {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** TR-098 - Reference to the Host table */
+        read-only string Host {
+            constraint maxvalue 1024;
+        }
+    }
+}

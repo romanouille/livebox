@@ -1,0 +1,24 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+START=42
+
+start() {
+	echo "Disable IPv6"
+	echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+	echo 1 > /proc/sys/net/ipv6/conf/default/disable_ipv6
+
+        ip6tables -P INPUT DROP
+        ip6tables -P OUTPUT DROP
+        ip6tables -P FORWARD DROP
+}
+
+stop() {
+	echo "Enable IPv6"
+	echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+	echo 0 > /proc/sys/net/ipv6/conf/default/disable_ipv6 
+
+        ip6tables -P INPUT ACCEPT
+        ip6tables -P OUTPUT ACCEPT
+        ip6tables -P FORWARD ACCEPT
+}
+

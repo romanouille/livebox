@@ -1,0 +1,12 @@
+﻿<b>DynDNS :</b><br>
+<br>
+El servicio DynDNS se emplea para asignar un nombre de dominio fijo y el Nombre del Equipo a una dirección IP de Internet dinámica. Esto puede ser útil en el caso de que desees utilizar un servidor web personal, un servidor FTP o cualquier servidor al que esté asociado tu Livebox. <br>
+<span class="boldorange">Servicio:</span> Selecciona el proveedor de DynDNS del cual has contratado un nombre DynDNS.<br>
+<span class="boldorange">Nombre del equipo: </span> Introduce el nombre de tu equipo.<br>
+<span class="boldorange">Nombre de usuario/e-mail:</span> Introduce el nombre de usuario correspondiente a tu cuenta DynDNS.<br>
+<span class="boldorange">Contraseña:</span> Introduce la contraseña correspondiente a su cuenta DynDNS.<br>
+<!--
+<br>
+-->
+
+

@@ -1,0 +1,48 @@
+<b>Połączenie internetowe</b><br>
+<br>
+
+<b><span class="boldorange">Konfiguracja połączenia WAN:</span></b><br>
+Kiedy zostałeś klientem Orange, w umowie otrzymałeś nazwę użytkownika i hasło, które są konieczne do nawiązania połączenia z Internetem.
+
+<br>
+<br>
+<b><span class="boldorange">Nazwa użytkownika:</span></b><br> 
+Ten identyfikator pozwala serwerom Orange rozpoznać Cię jako klienta i umożliwić dostęp do sieci. Jest wymagany, aby skonfigurować dostęp do Internetu. Schowaj go w bezpiecznym miejscu, gdyż będzie niezbędny w razie zmian w konfiguracji Twojego połączenia (zmiana komputera etc.). Wielkość liter ma znaczenie. Przy wpisywaniu zwróć uwagę, żeby nie pomylić litery O i cyfry 0.<br>
+<br>
+
+
+<b><span class="boldorange">Hasło:</span></b><br> 
+
+Przypisane do Twojej nazwy użytkownika, jest kluczem, który zapewnia poufność Twojego połączenia z Internetem.
+<br>
+<br>
+
+<b><span class="boldorange">Problemy z połączeniem ADSL:</b><br>
+
+W zależności od statusu połączenia z Internetem, mogą być wyświetlane różne komunikaty:
+
+<ul><li><u>Linia ADSL nie jest zsynchronizowana</u></li></ul>
+Dioda <b>@</b> na modemie szybko miga na czerwono. <br>
+Synchronizacja linii ADSL nastąpi wtedy, kiedy Twój modem Livebox rozpozna sygnał ADSL z linii telefonicznej. Jest to konieczne, aby uzyskać połączenie z Internetem. <br>Przyczyną problemów z synchronizacją może być sieć ADSL Orange lub instalacja telefoniczna w Twoim domu. Ważne jest, aby określić źródło problemu. Kiedy zostanie on rozwiązany, Livebox szybko się zsynchronizuje. Zwykle nie zajmuje to więcej niż kilkadziesiąt sekund, w najgorszym wypadku kilka minut.
+<br>
+Fazę synchronizacji rozpoznasz po wolnym miganiu pomarańczowej diody <b>@</b> na Liveboxie. Jeśli synchronizacja zajmuje więcej niż kilka minut, sprawdź następujące punkty:
+<br>
+- Jeśli masz kilka linii telefonicznych, sprawdź czy Livebox jest podłączony do linii z numerem, na który założono usługę ADSL.
+<br>- Sprawdź, czy kabel telefoniczny jest prawidłowo podłączony (powinieneś usłyszeć charakterystyczny "klik" przy podłączaniu wtyczki) do odpowiedniego gniazda.
+
+<br>
+
+- Upewnij się, że do gniazdka telefonicznego, z którego korzysta Twój Livebox, podłączony jest tylko jeden filtr.
+
+<ul><li><u>Konfiguracja ADSL</u></li></ul> 
+Dioda <b>@</b> na Twoim Liveboxie wolno miga na pomarańczowo.
+<br>
+Linia ADSL jest zsynchronizowana, ale nie jest prawidłowo skonfigurowana. (DOPISAĆ INFORMACJĘ JAK SKONFIGUROWAC TĘ LINIĘ!)
+
+
+<ul><li><u>Livebox nie jest zsynchronizowany</u></li></ul>
+Dioda <b>@</b> na Liveboxie szybko miga na czerwono.
+<br>
+Oznacza to, że Livebox nie jest prawidłowo skonfigurowany.
+Musisz wpisać swoją nazwę użytkownika i hasło.
+

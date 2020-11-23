@@ -1,0 +1,41 @@
+#!/bin/sh
+
+INIT_SCRIPT_PATH="/etc/init.d"
+
+export TRACKER_BUS_TYPE=system
+
+_perform()
+{
+    $INIT_SCRIPT_PATH/dataservice $1
+}
+
+
+_setcgroups()
+{
+    if [ -d /sys/fs/cgroup/cpumemory ] ; then
+        mkdir -p /sys/fs/cgroup/cpumemory/datahub
+        echo $$  > /sys/fs/cgroup/cpumemory/datahub/tasks
+        echo 512 > /sys/fs/cgroup/cpumemory/datahub/cpu.shares
+        echo 900M > /sys/fs/cgroup/cpumemory/datahub/memory.limit_in_bytes
+     fi
+}
+
+case $1 in
+    start)
+        _setcgroups
+        _perform start
+        ;;
+    stop)
+        _perform stop
+        $INIT_SCRIPT_PATH/datahub_services.sh stop
+        ;;
+    restart)
+        _perform stop
+        $INIT_SCRIPT_PATH/datahub_services.sh stop
+        sleep 1
+        _perform start
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart]"
+        ;;
+esac

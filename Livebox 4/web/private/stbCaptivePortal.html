@@ -1,0 +1,110 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-EN">
+        <head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta name="viewport" content="width=1085" />
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+			<title>Livebox</title>
+			<script type="text/javascript">
+				appUrl = '';
+				appConfig ='fr';
+				appUid = getEtag();
+
+				config = {
+						BUILD_CUSTOMER: 'ft',
+						BUILD_PROJECT: 'mib4',
+						BUILD_HARDWARE: 'sagem-mib4',
+						SESSION_DURATION: '600'
+				};
+
+				if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+					config.BUILD_PROJECT = "lbv2.8fr";
+				        config.BUILD_HARDWARE = "sagem_lbv28";
+				}
+                function getEtag(){
+                    var req = new XMLHttpRequest();
+                    req.open('GET', document.location, false);
+                    req.send(null);
+                    return req.getResponseHeader("etag");
+                }
+                
+                function checkLang(){
+					if(Cookie.get("language")) {
+						var langToSet = Cookie.get("language");
+						document.documentElement.lang = langToSet + "-" + langToSet.toUpperCase();
+					}
+				}
+            </script>
+            <link href="/styles.css?30d0a8ef" rel="stylesheet" type="text/css"/>
+			<script src="/scripts.js?30d0a8ef" type="text/javascript" charset="utf-8"></script>
+			<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?30d0a8ef"/>
+			<link rel="shortcut icon" href="/images/fr/common/favicon.ico?30d0a8ef" type="image/x-icon"/>
+
+        </head>
+
+        <body class="accessibility-normal" onLoad="checkLang();">
+                <div style="display: none">
+                        <img src="/images/fr/common/transparent.gif?30d0a8ef" style="display: none;"/>
+                        <img src="/images/fr/common/header-accessibility-minus.png?30d0a8ef" style="display: none;"/>
+                        <img src="/images/fr/common/header-accessibility-plus.png?30d0a8ef" style="display: none;"/>
+                </div>
+
+                <!-- Popup and backlayer from Cytadelle Technology Light framework -->
+                <div id="ct-popup" class="fixed"><img id="ct-popup-header" src="/images/fr/common/transparent.gif?30d0a8ef" class="png" alt=""/><div id="ct-popup-header-title"><h4>My PopUp</h4></div><a href="#" onclick="ctl.popup.Close(); return false;"><img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?30d0a8ef" class="png" alt=""/></a><div id="ct-popup-content"><br/></div><img id="ct-popup-footer" src="/images/fr/common/transparent.gif?30d0a8ef" class="png" alt=""/></div>
+                <div id="ct-tooltip" class="fixed"></div>
+                <div id="ct-waiting" class="fixed"><img src="/images/fr/common/transparent.gif?30d0a8ef"/></div>
+                <div id="ct-backlayer" class="fixed"></div>
+
+
+                <!-- Scrollable document container -->
+                <div id="document-container">
+                        <div id="document-background-header">
+                                <div id="document-background-footer">
+                                        <div id="document">
+                                                <div id="header">
+                                                       <a href="/" > <div id="header-logo-livebox"><img src="/images/fr/common/transparent.gif?30d0a8ef" alt="" class="config-fr png"/></div></a>
+                                                        <div id="header-controls"></div>
+                                                </div>
+
+                                                <div id="content">
+                                                        
+<div style="text-align: left;">
+    <form name="Captive/StbCaptivePortal" >
+	<div id="errorContainer">
+		<h5><span id="errorDescription"></span></h5>
+		<br>
+		<h6><span id="errorActions"></span></h6>
+		<br>
+		<h6 style="color: #8D8B8B;"><span id="errorMessages"></span></h6>
+	</div>
+
+	<div style="width: 400px; margin: 20px auto;">
+		<img class="png voice Voice.home.devices.nodevice.img.tip voice Voice.general.icon.tip" style="float: left; width: 400px; height: 200px;" src="/images/fr/common/transparent.gif?30d0a8ef"></img>
+	</div>
+    </form>
+</div>
+<script type="text/javascript">
+	document.observe("dom:loaded", function() {
+		if (config.BUILD_PROJECT.indexOf("2.8") < 0) {			
+			$("livebox-img").setStyle({backgroundImage: 'url(/images/'+appConfig+'/home/Livebox2.png)',backgroundRepeat : "no-repeat"});
+		}else{
+			$("livebox-img").setStyle({backgroundImage: 'url(/images/'+appConfig+'/home/Livebox_2.8.png)',backgroundRepeat : "no-repeat"});
+		}	
+	});
+	
+</script>
+                                                </div>
+
+                                                <div id="footer">
+                                                        <div id="footer-menu"></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </body>
+</html>

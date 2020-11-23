@@ -1,0 +1,12 @@
+#!/bin/sh
+
+/bin/echo 1 > /proc/sys/vm/panic_on_oom
+
+return $?
+
+
+
+
+
+
+

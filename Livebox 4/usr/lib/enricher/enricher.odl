@@ -1,0 +1,6 @@
+
+
+include "enricher-definitions.odl";
+include "enricher-defaults.odl";
+
+/** @location  commod_datahub_dataenricher  add-on/frontend/pcb/enricher.odl.m4 */

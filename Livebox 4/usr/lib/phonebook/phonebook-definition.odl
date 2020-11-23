@@ -1,0 +1,618 @@
+using "phonebook.so";
+
+/**
+ * An address book contact
+ *
+ * This will be extended in C-code to contain the multi-instance objects
+ */
+define contact_t {
+  /** 
+   * The data model path of the Entry object relative to the Phonebook path.
+   * Ignored when setting/changing.
+   */
+  string path;
+
+  /**
+   * Specifies a value that represents a persistent, globally unique identifier
+   * associated with the contact  (vCard: UID)
+   * 
+   * If not specified on creation by addContact/addContacts, the format of RFC 4122 is used:
+   * "urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6". A UID will be automatically generated 
+   * for newly created contacts but can be overwritten afterwards. It must, however, be unique
+   * throughout the whole collection of entries.
+   */
+  string uniqueID;
+
+  /**
+   * Combination of the calendar date and time of day of the last update to the contact (vCard: REV)
+   *
+   * If not specified, set automatically on creation through addContact/addContacts. 
+   * This value is updated automatically when a writable field (other then this one) 
+   * is modified, although it can manually be overwritten.
+   */
+  string lastRevision;
+
+  /**
+   * The name of the contact (vCard: N)
+   *
+   * Semicolon seperated list of names, see the vard spec for the precise format.
+   * This name field is machine readable because each type of name (first, last, middle)
+   * has a well-defined location in the string. The "N:" prefix from the vcard is implicit.
+   */
+  string name;
+
+  /**
+   * Human readable equivalent of the Name field (vCard: FN)
+   *
+   * Used to be used as unique ID but this was not compliant with the vcard spec so now UniqueID
+   * is the unique id. This field contains the human readable equivalent of the Name field.
+   * This formatted name is not machine readable because all names are separated by spaces which
+   * makes it impossible to infer the type of name from it's location within the string because
+   * there can be multiple names of some types and not all types of names are mandatory.
+   */
+  string formattedName;
+  
+  /**
+   * Date of birth of the contact (vCard: BDAY)
+   */
+  datetime birthDay;
+
+  /**
+   * Title of the contact (vCard: TITLE)
+   *
+   * Specifies the job title, functional position or function of the individual
+   * associated with the vCard object within an organization.
+   */
+  string title;
+
+  /**
+   * Organisation of the contact (vCard: ORG)
+   *
+   * The name and optionally the unit(s) of the organization associated with the contact.
+   * This property is based on the X.520 Organization Name attribute and the X.520 Organization
+   * Unit attribute.
+   */
+  string organisation;
+
+  /**
+   * A URL pointing to a website that represents the person in some way (vCard: URL)
+   */
+  string url;
+
+  /**
+   * The ringtone that should be played when this contact is calling
+   */
+  string ringtone;
+
+  /**
+   * List of {property_t} holding the addresses of the contact (vCard: ADR)
+   */
+  list addresses;
+
+  /**
+   * List of {property_t} holding the formatted addresses of contact (vCard: LABEL)
+   */
+  list labels;
+
+  /**
+   * List of {property_t} holding the telephone numbers of the contact (vCard: TEL)
+   */
+  list telephoneNumbers;
+  
+  /**
+   * List of {property_t} holding the emails of the contact (vCard: EMAIL)
+   */
+  list emails;
+
+  /**
+   * List of {property_t} holding the URIs of the photo of the contact (vCard: PHOTO)
+   */
+  list photos;
+
+  /**
+   * Space-separated list of tags for classification purposes
+   */
+  string tags;
+}
+
+/**
+ * Generic property type that can contain data for all property objects in Phonebook.
+ */
+define property_t {
+  /**
+   * The value of this property. It can be an address, a number, a URI, … depending on the context
+   */
+  string name;
+
+  /**
+   * The type of the relation of this property to its owner, for example personnal or professionnal
+   */
+  string type;
+
+  /**
+   * Whether this property is the preferred one for a contact
+   */
+  bool preferred;
+}
+
+acl {
+    group admin read,execute;
+    group remoteadmin read,execute;
+    group phonebook read,execute;
+}
+
+
+
+
+/**
+ * Manages all phonebook related data
+ */
+persistent object Phonebook {
+    /**
+     * The number of entries currently in the Phonebook
+     */
+    read-only uint32 NumberOfEntries {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            group phonebook none;
+        }
+        read with numberOfEntries_read_handler;
+    }
+
+    persistent uint32 MaxNumberOfEntries {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            group phonebook none;
+        }
+    }
+
+    /**
+     * A phonebook contact
+     */
+    persistent object Entry[] {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            group phonebook none;
+        }
+
+        /**
+         * Combination of the calendar date and time of day of the last update
+         * to the contact (vCard: REV)
+         *
+         * If not specified, set automatically on creation through addContact/addContacts. 
+         * This value is updated automatically when a writable field (other then this one) 
+         * is modified, although it can manually be overwritten.
+         */
+        persistent datetime LastRevision {
+          read with lastRevision_read_handler;
+        }
+
+        /**
+         * Specifies a value that represents a persistent, globally unique identifier
+         * associated with the contact  (vCard: UID)
+         * 
+         * If not specified on creation by addContact/addContacts, the format of RFC 4122 is used:
+         * "urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6". A UID will be automatically generated 
+         * for newly created contacts but can be overwritten afterwards. It must, however, be unique
+         * throughout the whole collection of entries.
+         */
+        persistent string UniqueID {
+          /*read with uniqueID_read_handler;*/
+          constraint maxvalue 45;
+          constraint custom unique_string_value_constraint;
+        }
+
+        /**
+         * The name of the contact (vCard: N)
+         *
+         * Semicolon seperated list of names, see the vard spec for the precise format.
+         * This name field is machine readable because each type of name (first, last, middle)
+         * has a well-defined location in the string. The "N:" prefix from the vcard is implicit.
+         */
+        persistent string Name {
+            constraint maxvalue 60;
+        }
+
+        /**
+         * Human readable equivalent of the Name field (vCard: FN)
+         *
+         * Used to be used as unique ID but this was not compliant with the vcard spec so now UniqueID
+         * is the unique id. This field contains the human readable equivalent of the Name field.
+         * This formatted name is not machine readable because all names are separated by spaces which
+         * makes it impossible to infer the type of name from it's location within the string because
+         * there can be multiple names of some types and not all types of names are mandatory.
+         */
+        persistent string FormattedName {
+            constraint maxvalue 60;
+        }
+
+        /**
+         * Date of birth of the contact (vCard: BDAY)
+         */
+        persistent datetime BirthDay;
+
+        /**
+         * Title of the contact (vCard: TITLE)
+         *
+         * Specifies the job title, functional position or function of the individual
+         * associated with the vCard object within an organization.
+         */
+        persistent string Title {
+            constraint maxvalue 40;
+        }
+
+        /**
+         * Organisation of the contact (vCard: ORG)
+         *
+         * The name and optionally the unit(s) of the organization associated with the contact.
+         * This property is based on the X.520 Organization Name attribute and the X.520 Organization
+         * Unit attribute.
+         */
+        persistent string Organisation {
+            constraint maxvalue 50;
+        }
+
+        /**
+         * A URL pointing to a website that represents the person in some way (vCard: URL)
+         */
+        persistent string URL {
+            constraint maxvalue 256;
+        }
+
+        /**
+         * The ringtone that should be played when this contact is calling
+         */
+        persistent string Ringtone {
+            constraint maxvalue 50;
+        }
+ 
+        /**
+         * List of addresses of the contact
+         */
+       persistent object Address[] {
+
+            /**
+             * Machine-parseable geographical address (vCard: ADR)
+             */
+            persistent string Address {
+                constraint maxvalue 256;
+            }
+
+            /**
+             * Type of this address
+             */
+            persistent string Type {
+                constraint enum ["","WORK","HOME","POSTAL","PARCEL"];
+                default "";
+            }
+
+            /**
+             * Whether this instance indicates the preferred address
+             */
+            persistent bool Preferred = false;
+        }
+
+        /**
+         * List of formatted addresses of the contact
+         */
+        persistent object Label[] {
+
+           /**
+             * Human-readable geographical address (vCard: LABEL)
+             */
+            persistent string Address {
+                constraint maxvalue 256;
+            }
+
+            /**
+             * Type of this address
+             */
+             persistent string Type {
+                constraint enum ["","WORK","HOME","POSTAL","PARCEL"];
+                default "";
+            }
+
+            /**
+             * Whether this instance indicates the preferred address
+             */
+            persistent bool Preferred = false;
+        }
+
+        /**
+         * List of telephone numbers of the contact
+         */
+        persistent object TelephoneNumber[] {
+
+            /**
+             * Telephone number (vCard: TEL)
+             */
+            persistent string Number {
+                write with write_handler_Number;
+                constraint maxvalue 30;
+            }
+
+            /**
+             * Type of telephone number
+             */
+            persistent string Type {
+                constraint enum ["","WORK","HOME","CELL","VOICE","FAX","MSG","VIDEO","CAR"];
+                default "";
+            }
+
+            /**
+             * Whether this instance indicates the preferred telephone number
+             */
+            persistent bool Preferred = false;
+        }
+
+        /**
+         * List of email addresses of the contact
+         */
+        persistent object Email[] {
+
+            /**
+             * Email address (vCald: EMAIL)
+             */
+            persistent string Address {
+                constraint maxvalue 256;
+            }
+
+            /**
+             * Type of email
+             */
+            persistent string Type {
+                constraint enum ["","INTERNET"];
+                default "INTERNET";
+            }
+
+            /**
+             * Whether this instance indicates the preferred email address
+             */
+            persistent bool Preferred;
+        }
+
+        /**
+         * List of photos associated to thi contact
+         */
+        persistent object Photo[] {
+            /**
+             * Photo image URI (vCard: PHOTO)
+             */
+            persistent string URI {
+                constraint maxvalue 256;
+            }
+
+            /**
+             * Type of photo
+             */
+            persistent string Type {
+                constraint enum ["JPEG","BMP","PNG"];
+                default "JPEG";
+            }
+        }
+
+        /**
+         * Space-separated list of tags for classification purposes
+         */
+        persistent string Tags {
+            constraint maxvalue 128;
+        }
+    }
+
+    /**
+     * Add a contact to the Phonebook.
+     *
+     * Adds a contacts and generates a uuid for it's uniqueID.
+     * If the uniqueID is set it is ignored.
+     *
+     * @param contact the contact_t to be added
+     * @return the uuid if it has been added, else null
+     */
+    string addContactAndGenUUID(mandatory contact_t contact);
+
+    /**
+     * Add a contact to the Phonebook.
+     *
+     * We are assuming that the contact's formatted name constitutes a unique ID for a contact.
+     * If a contact with the same formatted name already exists nothing will change.
+     *
+     * @param contact the contact to be added
+     * @return true if contact has been added, false otherwise
+     */
+    bool addContact(mandatory contact_t contact);
+
+    /**
+     * Add multiple contacts to the phonebook.
+     *
+     * This function is equivalent to atomically calling {addContact}
+     * for each contact in the list, in list order.
+     *
+     * @param contacts a list of {contact_t} that will be added
+     * @param result a list of {contact_t} that could not be added to the phonebook.
+     * @return true if the contacts were added correctly, false otherwise.
+     */
+    list addContacts(mandatory list contacts, out list result);
+
+    /**
+     * This removes the contact indentified by {uniqueID} from the phonebook.
+     *
+     * @param uniqueID the unique identifier of the contact
+     * @return true if the contact was found and removed, false otherwise
+     */
+    bool removeContactByUniqueID(mandatory string uniqueID);
+
+    /**
+     * This removes a contact from the phonebook with the given formattedName.
+     *
+     * There can be multiple contacts with the same formattedName in the Phonebook
+     * but only one will be removed.
+     * 
+     * @param formattedName the unique ID of the contact
+     * @return true if a contact was found and removed, false otherwise
+     */
+    bool removeContactByFormattedName(mandatory string formattedName);
+
+    /**
+     * This removes a contact from the phonebook with the given formattedName.
+     *
+     * There can be multiple contacts with the same formattedName in the Phonebook
+     * but only one will be removed.
+     *
+     * @deprecated see {removeContactByFormattedName}
+     * @param formattedName the unique ID of the contact
+     * @return true if a contact was found and removed, false otherwise
+    */
+    bool removeContact(mandatory string formattedName);
+
+    /**
+     * Removes all the contacts from the phonebook.
+     *
+     * This function is equivalent to atomically calling (@ref removeContact)
+     * for each contact in the list.
+     *
+     * @return true if all contacts were removed, false otherwise
+     */
+    bool removeAllContacts();
+
+    /**
+     *  Finds the contact uniquely identified by the given UniqueID.
+     *
+     * @param uniqueID the unique identifier of the contact
+     * @return the {contact_t} matching the unique id if found, null otherwise.
+     */
+    contact_t getContactByUniqueID(mandatory string uniqueID);
+
+    /**
+     *  Finds a contact with a given formattedName.
+     *
+     * There can be multiple contacts with the same formattedName.
+     * This procedure replaces {getContact}.
+     *
+     * @param formattedName the contact's formatted name
+     * @return the {contact_t} matching the formatted name if found, null otherwise
+     */
+    contact_t getContactByFormattedName(mandatory string formattedName);
+
+    /**
+     * Finds a contact with a given formattedName.
+     *
+     * There can be multiple contacts with the same formattedName.
+     *
+     * @deprecated see {getContactByFormattedName}
+     * @param formattedName the contact's formatted name
+     * @return the {contact_t} matching the formatted name if found, null otherwise
+     */
+    contact_t getContact(mandatory string formattedName);
+
+    /**
+     * Finds a contact containing a given telephone number.
+     *
+     * This will lookup all the contacts that are associated to the telephone number. 
+     * This will return the first contact found with a number attribute whose
+     * right-hand side maximally matches the right hand side of the number parameter.
+     *
+     * @param number the phone number that will be searched for
+     * @return the {contact_t} matching the telephone number if found, null otherwise
+     */
+    contact_t getContactByNumber(mandatory string number);
+
+    /**
+     * This returns all contacts in the phonebook.
+     *
+     * @return A list of {contact_t} all contacts in the phonebook
+     */
+    list getAllContacts();
+
+    /**
+     * This returns the number of contacts in the phonebook
+     *
+     * @return The number of contacts in the list
+     */
+    uint32 getNumberOfContacts();
+
+    /**
+     * This returns the maximum number of contacts the phonebook can store.
+     * This number should equal the lowest maximum any of the supported handsets can store.
+     *
+     * @return The maximum number of contacts in the list
+     */
+    uint32 getMaxNumberOfContacts();
+
+    /**
+     * This changes the entry uniquely identified by uniqueID to the value of the
+     * contact structure.
+     *
+     * This is equivalent to an atomic {removeContactByUniqueID} and conditional
+     * {addContact} call. If no contact with the give uniqueID exists the new contact
+     * will not be added.
+     *
+     * @param uniqueID the current unique identifier of the entry
+     * @param contact the new contact
+     * @return true if the contact could be found and was modified, false otherwise
+     */
+    bool modifyContactByUniqueID(mandatory string uniqueID, mandatory contact_t contact);
+
+    /**
+     * This changes an entry with the given formattedName to the value of the
+     * contact structure.
+     *
+     * This is equivalent to an atomic {removeContact} and conditional {addContact} call.
+     * If no contact with the give formattedName exists the new contact will not be added. 
+     * If multiple contacts with the same formattedName exist only one will be modified.
+     *
+     * This procedure replaces {modifyContact}.
+     *
+     * @param formattedName the current formattedName of the entry
+     * @param contact the new contact
+     * @return true if a contact could be found and was modified, false otherwise
+     */
+    bool modifyContactByFormattedName(mandatory string formattedName, mandatory contact_t contact);
+
+    /**
+     * This changes an entry with the given formattedName to the value of the
+     * contact structure.
+     *
+     * This is equivalent to an atomic {removeContact} and conditional {addContact} call. If no
+     * contact with the give formattedName exists the new contact will not be added. If
+     * multiple contacts with the same formattedName exist only one will be modified.
+     *
+     * @deprecated see {modifyContactByFormattedName}
+     * @param formattedName the current formattedName of the entry
+     * @param contact the new contact
+     * @return true if a contact could be found and was modified, false otherwise
+     */
+    bool modifyContact( string formattedName, contact_t contact );
+
+    /**
+     * Export the phonebook settings to hgwcfg.
+     *
+     * @param fileName The filename to which to
+     * @return Success or failure.
+     */
+    bool export(string fileName) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            group phonebook none;
+        }
+    }
+
+    /**
+     * Import the phonebook settings from hgwcfg.
+     *
+     * @param fileName The filename from which to load.
+     * @return Success or failure.
+     */
+    bool import(string fileName) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            group phonebook none;
+        }
+    }
+}
+
+/** @location sah_services_phonebook /phonebook-definition.odl */

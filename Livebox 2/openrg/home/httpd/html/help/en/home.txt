@@ -1,0 +1,19 @@
+<b>Home page:</b><br>
+This page shows the overall status of your livebox.<br>
+<br>
+<span class="boldorange">General:</span> This section shows you the status of your livebox: name, firmware version, current WAN IP Address. If you have selected the Telephone over Internet option, the Internet telephone number is displayed. Lastly, the configuration of the Ethernet ports on your livebox is shown (Internet, TV or Internet + TV).<br>
+<br>
+<span class="boldorange">WiFi:</span> This section shows the configuration of your wireless network: name, WiFi channel used and above all the security type. You must know the security key to log on to the wireless network. To find the key, log on to the livebox and go to the WiFi configuration page.<br>
+<br>
+<span class="boldorange">Services:</span> This section shows the status of Orange services and your livebox (enabled or disabled).<br>
+<br>
+<span class="boldorange">Devices connected:</span> This section shows the list of devices connected to your livebox. It shows the IP address and type of connection&nbsp;(Ethernet, USB or WiFi) for each device.<br>
+<br>
+<b>Configure:</b><br>
+<br>
+You must log on to your livebox to configure it. To do this, enter the livebox administration username and password (by default the identifier is admin and the password admin). Then click the <b>Access</b> button. Once you have successfully logged on, you can configure your livebox using the configuration pages under the Preferences tab.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

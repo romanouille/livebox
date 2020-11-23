@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object MagicFolder {
+    }
+}
+/** @location commod_datahub_magicfolder add-on/frontend/pcb/magicfolder-defaults.odl.m4 */

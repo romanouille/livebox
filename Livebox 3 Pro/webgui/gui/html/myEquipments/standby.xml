@@ -1,0 +1,20 @@
+<div xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		  <h1 class="logo_EnvLiveBox" i18n="page.myEquipments.standby.title"/>
+		  <div class="margin-left-40 margin-top-m8">
+		  	<strong i18n="page.myEquipments.standby.subtitle"/>
+		  </div>
+	</div>
+	<div class="maindiv">
+		
+		<form action="#">
+		</form>
+	</div>
+</div>

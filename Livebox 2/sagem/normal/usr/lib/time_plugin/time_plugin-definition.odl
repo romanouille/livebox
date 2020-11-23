@@ -1,0 +1,552 @@
+
+using "time_plugin.so";
+
+/* TR-098 compliant time datamodel */
+
+
+/**
+ * TR-098 time datamodel. Controls the operation of the NTP daemon. 
+ * 
+ * You can customize the path to the ntpd using
+ *   -P path-to-ntpd : override the ntpd path with your custom one
+*/
+
+acl {
+	group admin read,execute;
+	group remoteadmin read,execute;
+	group cwmpd read,write,execute;
+}
+
+persistent object Time {
+
+    /**
+     * Enables/disables the NTP daemon.
+     */
+    persistent bool Enable {               
+      write with set_enable;   
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }                
+    }
+
+    /**
+     * Describes the synchronziation status, one of : "Disabled", "Unsynchronized", "Synchronized", "Error_FailedToSynchronize","Error".
+     */
+    read-only string Status {               // "error" status is optional
+      constraint enum ["Disabled", "Unsynchronized", "Synchronized", "Error_FailedToSynchronize","Error"];
+      default "Disabled";   
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**************************************************************************************
+      "Disabled" --(Enable=1)-|--> "Unsynchronized" --|--> "Synchronized"
+          ^                   |               |       |--> "Error_FailedToSynchronize"
+          |                   |--> "error"    |                |
+          |--------(Enable=0)---------|-------|----------------|
+    ***************************************************************************************/
+
+    /**
+     * First NTP server.
+     * This is the hostname or IP address of the ntp server.
+     * This hostname will only be used if the NTPServer1IP is empty.
+     */
+    persistent string NTPServer1 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+ 
+    /**
+     * Second NTP server
+     * This is the hostname or IP address of the ntp server.
+     * This hostname will only be used if the NTPServer2IP is empty.
+     */
+    persistent string NTPServer2 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }           
+
+    /**
+     * Third NTP server
+     * This is the hostname or IP address of the ntp server.
+     * This hostname will only be used if the NTPServer3IP is empty.
+     */
+    persistent string NTPServer3 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }                      
+    
+    /**
+     * Fourth NTP server
+     * This is the hostname or IP address of the ntp server.
+     * This hostname will only be used if the NTPServer4IP is empty.
+     */
+    persistent string NTPServer4 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }                      
+    /**
+     * Fifth NTP server
+     * This is the hostname or IP address of the ntp server.
+     * This hostname will only be used if the NTPServer5IP is empty.
+     */
+    persistent string NTPServer5 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }                      
+
+    /**
+     * First NTP server IP
+     * If filled in, this IP address will be used as NTP server 1.
+     * This parameter was added for supporting asynchronous DNS resolving as
+     * specified in some customer specifications.
+     */
+    string NTPServer1IP {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }           
+
+    /**
+     * Second NTP server IP
+     * If filled in, this IP address will be used as NTP server 1.
+     * This parameter was added for supporting asynchronous DNS resolving as
+     * specified in some customer specifications.
+     */
+    string NTPServer2IP {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }           
+
+    /**
+     * Third NTP server IP
+     * If filled in, this IP address will be used as NTP server 1.
+     * This parameter was added for supporting asynchronous DNS resolving as
+     * specified in some customer specifications.
+     */
+    string NTPServer3IP {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }           
+
+    /**
+     * Fourth NTP server IP
+     * If filled in, this IP address will be used as NTP server 1.
+     * This parameter was added for supporting asynchronous DNS resolving as
+     * specified in some customer specifications.
+     */
+    string NTPServer4IP {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }           
+
+    /**
+     * Fifth NTP server IP
+     * If filled in, this IP address will be used as NTP server 1.
+     * This parameter was added for supporting asynchronous DNS resolving as
+     * specified in some customer specifications.
+     */
+    string NTPServer5IP {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }           
+
+    /**
+     * Retry mechanism for NTP server 1. 
+     * A description of the retry mechanism to use in the form of [RETRYMECHANISM]:[COMMA SEPERATED LIST OF INTERVAL TIMES]
+     * Currently 2 retry mechanisms are supported, REPEAT and FIXED. To illustrate this with an example:
+     * REPEAT:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,3,6,15,24,48,96,192,3,6,....
+     * FIXED:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,192,192,192
+     * More mechanisms can be specified for custom customer ntp behavior.
+     * An empty string means openntp can use it's own retry policy.
+     */    
+    persistent string Retry1 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }           
+
+    /**
+     * Retry mechanism for NTP server 2. 
+     * A description of the retry mechanism to use in the form of [RETRYMECHANISM]:[COMMA SEPERATED LIST OF INTERVAL TIMES]
+     * Currently 2 retry mechanisms are supported, REPEAT and FIXED. To illustrate this with an example:
+     * REPEAT:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,3,6,15,24,48,96,192,3,6,....
+     * FIXED:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,192,192,192
+     * More mechanisms can be specified for custom customer ntp behavior.
+     * An empty string means openntp can use it's own retry policy.
+     */
+    persistent string Retry2 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }           
+
+    /**
+     * Retry mechanism for NTP server 3. 
+     * A description of the retry mechanism to use in the form of [RETRYMECHANISM]:[COMMA SEPERATED LIST OF INTERVAL TIMES]
+     * Currently 2 retry mechanisms are supported, REPEAT and FIXED. To illustrate this with an example:
+     * REPEAT:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,3,6,15,24,48,96,192,3,6,....
+     * FIXED:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,192,192,192
+     * More mechanisms can be specified for custom customer ntp behavior.
+     * An empty string means openntp can use it's own retry policy.
+     */    
+    persistent string Retry3 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+
+    /**
+     * Retry mechanism for NTP server 4. 
+     * A description of the retry mechanism to use in the form of [RETRYMECHANISM]:[COMMA SEPERATED LIST OF INTERVAL TIMES]
+     * Currently 2 retry mechanisms are supported, REPEAT and FIXED. To illustrate this with an example:
+     * REPEAT:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,3,6,15,24,48,96,192,3,6,....
+     * FIXED:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,192,192,192
+     * More mechanisms can be specified for custom customer ntp behavior.
+     * An empty string means openntp can use it's own retry policy.
+     */
+    persistent string Retry4 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+
+    /**
+     * Retry mechanism for NTP server 5. 
+     * A description of the retry mechanism to use in the form of [RETRYMECHANISM]:[COMMA SEPERATED LIST OF INTERVAL TIMES]
+     * Currently 2 retry mechanisms are supported, REPEAT and FIXED. To illustrate this with an example:
+     * REPEAT:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,3,6,15,24,48,96,192,3,6,....
+     * FIXED:3,6,15,24,48,96,192 --> The retry will occur after 3,6,15,24,48,96,192,192,192,192
+     * More mechanisms can be specified for custom customer ntp behavior.
+     * An empty string means openntp can use it's own retry policy.
+     */
+    persistent string Retry5 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+
+    /**
+     * Comma seperated list of preferred servers.
+     *  - If only one server should be used for synchronization (e.g. for FT) this will be "3" for using NTPServer3
+     *  - If using the first three servers for synchronization, this will be "1,2,3"
+     *  - If empty, all servers will be used
+     */    
+    persistent string PreferredServer {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+
+    /**
+     * Poll interval in seconds. If 0, the default openntp poll interval will be used.
+     */    
+    persistent uint32 NTPReqInterval {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+      default 0;
+    }  
+
+    /**
+     * First address to listen for incoming NTP client requests. 
+     */    
+    persistent string ListenOn1 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+
+    /**
+     * Second address to listen for incoming NTP client requests.
+     */
+    persistent string ListenOn2 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+    /**
+     * Third address to listen for incoming NTP client requests.
+     */
+    persistent string ListenOn3 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+    /**
+     * Fourth address to listen for incoming NTP client requests.
+     */
+    persistent string ListenOn4 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+    /**
+     * Fifth address to listen for incoming NTP client requests.
+     */
+    persistent string ListenOn5 {
+      write with parameter_changed;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }  
+
+
+    /**
+     * WAN interface name
+     */
+    persistent string Interface {
+      write with writeInterface;
+      default "data";
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }     
+    }
+
+
+    /**
+     * Current date and time in CPE's local time zone.
+     */
+    read-only datetime CurrentLocalTime {    
+      read with get_local_time;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }     
+    }
+
+    /**
+     * TR-098 Amendment 2: OBSELETE, added to be compliant with cdrouter profile tests
+     * Fetches the local time zone from the system.
+     * WRITING TO IT HAS NO EFFECT
+     */
+    string LocalTimeZone {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**
+     * Local time zone name, this can be either:
+     *  - a POSIX compliant string, e.g.Local time zone name and daylight saving time, encoded as an IEEE 1003.1 encoded string. e.g. “EST+5EDT,M4.1.0/2,M10.5.0/2”.
+     *    See http://tools.ietf.org/html/draft-ietf-dhc-timezone-01 .
+        - the customer specific time zone name
+     */ 
+    persistent string LocalTimeZoneName {
+      write with set_local_time_zone_name;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }     
+    }
+
+    /**
+     * TR-098 Amendment 2: OBSELETE, added to be compliant with cdrouter profile tests
+     * Returns true if daylight saving time is used on the system. 
+     * WRITING TO IT HAS NO EFFECT
+     */
+    bool DaylightSavingsUsed {
+      read with get_daylight_savings_used;
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }     
+    }
+
+    /**
+     * TR-098 Amendment 2: OBSELETE, added to be compliant with cdrouter profile tests
+     * CURRENTLY NOT IMPLEMENTED
+     */
+    datetime DaylightSavingsStart {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**
+     * TR-098 Amendment 2: OBSELETE, added to be compliant with cdrouter profile tests
+     * CURRENTLY NOT IMPLEMENTED
+     */
+    datetime DaylightSavingsEnd {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**
+     * The amount of seconds of the last time adjustmend (+ for forward time jumps, - for going back in time)
+     */
+    int32 LastTimeAdjustment {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**
+     * function to set the time manually, make sure the Time.Enable flag is set to false before calling this routine
+     * @param time the time that has to be set
+     */
+    void setTime(mandatory datetime time) {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**
+     * function to get the current local time
+     * @param time the current local time
+     * @return Success or failure.
+     */
+    bool getTime(out string time);
+
+    /**
+     * function to get the current UTC time
+     * @param time the current UTC time
+     */
+    void getUTCTime(out string time);
+
+    /**
+     * function to get the current UTC time
+     * @param status the current status
+     */
+    void getStatus(out string status);
+
+    /**
+     * function to set the ntp servers, this function automatically restarts openntpd
+     * @param servers variant map of NTP Server index / value Only hostnames, dotted-decimal IPv4/colon-hex IPv6 are supported.
+     */
+    void setNTPServers(mandatory variant servers);
+
+    /**
+     * function to get the current list of configured ntp servers
+     * @param servers variant map of NTP Server index / value Only hostnames, dotted-decimal IPv4/colon-hex IPv6 are supported.
+     */
+    void getNTPServers(out variant servers);
+
+    /**
+     * Export the time settings to hgwcfg.
+     * @param fileName The filename to which to
+     */
+    void export(string fileName) {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**
+     * Import the time settings from hgwcfg.
+     * @param fileName The filename from which to load.
+     */
+    void import(string fileName) {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**
+     * Get the local time zone name.
+     * @param timezone The local time zone name that is currently set, this is an output argument, the customer specific time format is returned
+     * @return Success or failure.
+     */
+    bool getLocalTimeZoneName(out string timezone);
+
+    /**
+     * Set the local time zone name.
+     * @param timezone The local time zone name you want to set, this is either the POSIX format or the customer specific time format
+     * @return Success or failure.
+     */
+    bool setLocalTimeZoneName(mandatory string timezone);
+
+    /**
+     * Get a list of valid local time zone names.
+     * @param timezone A list of valid timezones
+     * @return Success or failure.
+     */
+    bool listLocalTimeZoneNames(out list timezones);
+
+
+    /**
+     * When this routine is called, the status will go from "Unsynchronized"
+     * to "Synchronized" only when a new succesfull ntp sync with a server
+     * has occurred.
+     * Only call this RPC when ntp synchronization is disabled.
+     * @return Success or failure.
+     */
+    bool resetStatus();
+
+    /**
+     * Update the time adjustment parameter. An RPC is needed
+     * because the previous delta might be the same with the new one
+     * @return Success or failure.
+     */
+    bool updateLastTimeAdjustment(mandatory int32 delta) {
+      acl {
+        group admin none;
+        group remoteadmin none;
+      }
+    }
+
+}

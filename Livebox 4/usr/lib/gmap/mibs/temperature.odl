@@ -1,0 +1,18 @@
+/*expr:temperature*/
+
+/**
+ * MIB is loaded on all units that are able to give temperature.
+ *
+ * All devices matching expression: "temperature" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib temperature {
+
+    /**
+      * @brief: Temperature attribute gives temperature measured by temperature detector device.
+      * The stored value has the basic unit of Celsius
+      */
+    string Temperature;
+}
+/** @location sah_services_gmap /mibs/temperature.odl */

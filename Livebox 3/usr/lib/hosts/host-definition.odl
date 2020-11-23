@@ -1,0 +1,99 @@
+using "hosts.so";
+acl {
+world read,execute;
+group technician read,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+object Hosts {
+uint32 X_ORANGE-COM_MaximumHosts {
+read with maxhostsOnRead;
+write with maxhostsOnWrite;
+}
+read-only uint32 HostNumberOfEntries {
+acl {
+group admin none;
+group remoteadmin none;
+world none;
+group technician none;
+}
+}
+read-only uint32 ManageableDeviceNumberOfEntries {
+acl {
+group admin none;
+group remoteadmin none;
+world none;
+group technician none;
+}
+}
+read-only object Host[] {
+read-only string IPAddress;
+read-only string AddressSource {
+constraint enum ["DHCP","Static","AutoIP", "None"];
+default "None";
+}
+read-only int32 LeaseTimeRemaining {
+constraint minvalue -1;
+default 0;
+}
+read-only persistent string MACAddress {
+constraint maxvalue 64;
+default "";
+}
+read-only string Layer2Interface {
+constraint maxvalue 256;
+default "";
+}
+persistent string VendorClassID;
+persistent string ClientID;
+persistent string UserClassID;
+read-only string HostName {
+constraint maxvalue 64;
+default "";
+}
+read-only string     InterfaceType {
+constraint custom validate_InterfaceType;
+default "Other";
+}
+read-only bool Active;
+read-only persistent string ManufacturerOUI {
+constraint range [6,6];
+default "000000";
+}
+read-only persistent string SerialNumber {
+constraint maxvalue 64;
+default "";
+}
+read-only persistent string ProductClass {
+constraint maxvalue 64;
+default "";
+}
+}
+read-only object ManageableDevice[] {
+acl {
+world none;
+group technician none;
+group admin none;
+group remoteadmin none;
+}
+string Alias {
+constraint maxvalue 64;
+}
+read-only string ManufacturerOUI {
+constraint range [6,6];
+default "000000";
+}
+read-only string SerialNumber {
+constraint maxvalue 64;
+default "";
+}
+read-only string ProductClass {
+constraint maxvalue 64;
+default "";
+}
+read-only string Host {
+constraint maxvalue 1024;
+}
+}
+}

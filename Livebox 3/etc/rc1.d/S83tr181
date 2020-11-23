@@ -1,0 +1,47 @@
+
+
+#!/bin/sh
+PIDFILE="/var/run/tr181.pid"
+TR181="/bin/pcb_app -I /var/run/tr181 -vv -n tr181 -N Device -c /usr/lib/tr181/tr181.odl"
+
+start() {
+    if [ -e ${PIDFILE} ]; then
+        echo "pcb tr181 mapper already started"
+    else
+        export CONFIG_PREFIX_NON_STANDARD=X_ORANGE-COM_
+        NEMO_IPC="ipc:{/var/run/nemo}" PCB_MAIN_BUS="ipc:{/var/run/pcb_sys}" ${TR181};
+        pcb_cli -q "Bus.setAcl(\"Process\",\"cwmpd\", 0x07)";
+    fi
+}
+
+stop() {
+    if [ -e ${PIDFILE} ]; then
+        kill $(cat ${PIDFILE});
+    else
+        echo "pcb tr181 mapper already stopped"
+    fi
+
+}
+
+restart() {
+    stop
+    while test -e ${PIDFILE}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+    ;;
+    stop)
+        stop
+    ;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac
+

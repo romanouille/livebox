@@ -1,0 +1,20 @@
+echo 0 > /tmp/format_progress
+if [ $# -ne 2 ]
+then exit 1
+fi
+cd /dev
+if [ `fdisk -l | grep -c "/dev/$1 "` -eq 0 ]
+then exit 2
+fi
+if [ `grep -c $1 /etc/mtab` -gt 0 ]
+then exit 4
+fi
+case $2 in
+ext3) echo mkfs $2 on $1; mkfs.ext2 -j $1 ;;
+vfat) echo  mkfs $2 on $1; mkdosfs $1 ;;
+*) exit 8;;
+esac
+if [ $? -ne 0 ]
+then exit 16
+fi
+echo 100 > /tmp/format_progress

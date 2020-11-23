@@ -1,0 +1,131 @@
+using "libcaptiveportal.so";
+define httpconnprop_t {
+string srcMAC;
+string srcIP;
+string dstIP;
+string targetURL;
+}
+acl {
+group cwmpd read,write,execute;
+group technician read,write,execute;
+}
+persistent object CaptivePortal {
+bool Enabled {
+default false;
+write with writeHandler_Enabled;
+}
+read-only string Status {
+default "";
+constraint enum ["","ENABLED","DISABLED","INTERCEPTING"];
+read with readHandler_Status;
+}
+object RedirectTarget[] {
+add with addHandler_RedirectTarget;
+delete with delHandler_RedirectTarget;
+write with writeHandler_RedirectTarget;
+string BaseURL;
+}
+object RemoteDecisionHandler[] {
+add with addHandler_RemoteDecisionHandler;
+delete with delHandler_RemoteDecisionHandler;
+write with writeHandler_RemoteDecisionHandler;
+string Callback;
+uint32 Timeout_ms {
+default 5000;
+}
+read-only bool Available;
+}
+bool addRedirectTarget( string redirectTargetID, string baseURL );
+bool delRedirectTarget( string redirectTargetID );
+bool setRedirectTarget( string redirectTargetID, string baseURL );
+read-only object ChainLink[] {
+read with readHandler_ChainLink;
+delete with deleteHandler_ChainLink;
+read-only string RedirectRule;
+read-only int32 Index;
+read-only bool LocalRedirect;
+}
+bool chainInsert( string redirectRuleID, int32 index, bool localRedirect );
+bool chainRemove( string redirectRuleID );
+object RedirectRule[] {
+add with addHandler_RedirectRule;
+delete with delHandler_RedirectRule;
+string Target {
+default "FORWARD";
+constraint custom constraint_valid_Target;
+write with writeHandler_RedirectRule_Target;
+}
+string RedirectTarget {
+default "";
+constraint custom constraint_valid_Target;
+write with writeHandler_RedirectRule_RedirectTarget;
+}
+read-only bool Active {
+read with readHandler_RedirectRule_Active;
+}
+read-only string RequiredCustomConditions {
+read with readHandler_RedirectRule_RequiredCustomConditions;
+}
+read-only string ProhibitedCustomConditions {
+read with readHandler_RedirectRule_ProhibitedCustomConditions;
+}
+read-only bool SrcMACMatchType {
+read with readHandler_RedirectRule_SrcMACMatchType;
+}
+read-only string SrcMACs {
+read with readHandler_RedirectRule_SrcMACs;
+}
+read-only bool SrcIPMatchType {
+read with readHandler_RedirectRule_SrcIPMatchType;
+}
+read-only string SrcIPs {
+read with readHandler_RedirectRule_SrcIPs;
+}
+read-only bool DstIPMatchType {
+read with readHandler_RedirectRule_DstIPMatchType;
+}
+read-only string DstIPs {
+read with readHandler_RedirectRule_DstIPs;
+}
+read-only bool DomainNameMatchType {
+read with readHandler_RedirectRule_DomainNameMatchType;
+}
+read-only string DomainNames {
+read with readHandler_RedirectRule_DomainNames;
+}
+bool setCustomConditions( list trueConditions, list falseConditions );
+bool setSrcMACCondition( list srcMACs, bool match );
+bool setSrcIPCondition( list srcIPs, bool match );
+bool setDstIPCondition( list dstIPs, bool match );
+bool setURLDomainNameCondition( list hosts, bool match );
+}
+bool addRedirectRule( string redirectRuleID, string target, string redirectTarget );
+bool delRedirectRule( string redirectRuleID );
+bool setRedirectRule( string redirectRuleID, string target, string redirectTarget );
+object CustomCondition[] {
+delete with delHandler_CustomCondition;
+bool Value {
+default false;
+write with writeHandler_CustomCondition_Value;
+}
+}
+bool addCustomCondition( string customConditionID, bool value );
+bool delCustomCondition( string customConditionID );
+bool modCustomCondition( string customConditionID, bool value );
+bool getRedirectDecision( httpconnprop_t connproperties, out string redirect_url );
+persistent object HTTPS {
+persistent uint32 DataLimitConnection {
+default 10000;
+write with writeHandler_HTTPS_DataLimitConnection;
+}
+persistent uint32 DataLimitTotal {
+default 100000;
+write with writeHandler_HTTPS_DataLimitTotal;
+}
+persistent string DefaultDecision {
+constraint enum ["Forward","Redirect"];
+default "Forward";
+write with writeHandler_HTTPS_DefaultDecision;
+}
+}
+}

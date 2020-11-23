@@ -1,0 +1,4 @@
+<b>Dodawanie i edycja użytkowników VPN</b><br>
+<br>
+
+Ta strona umożliwia dodawanie nowych użytkowników, konfigurowanie haseł oraz przypisywanie danego użytkownika do wcześniej zdefiniowanego profilu grupy VPN.

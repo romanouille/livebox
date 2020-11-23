@@ -1,0 +1,57 @@
+object NeMo {
+object extends MIB(0,"dsl") {
+string Flag = "dsl";
+object DataModel {
+read-only uint32 LastChangeTime;
+volatile read-only uint32 LastChange;
+uint32 UpstreamCurrRate;
+uint32 DownstreamCurrRate;
+string LinkStatus {
+constraint enum [ "Up", "Down", "Unknown", "NotPresent", "LowerLayerDown", "Error" ];
+default "Down";
+}
+uint32 UpstreamMaxRate;
+uint32 DownstreamMaxRate;
+int32 UpstreamAttenuation;
+int32 DownstreamAttenuation;
+int32 DownstreamLineAttenuation;
+int32 UpstreamLineAttenuation;
+int32 UpstreamNoiseMargin;
+int32 DownstreamNoiseMargin;
+int32 UpstreamPower;
+int32 DownstreamPower;
+string FirmwareVersion {
+constraint maxvalue 64;
+}
+string StandardsSupported;
+string StandardUsed {
+constraint enum [ "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_L", "G.992.3_Annex_M", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B", "G.993.2_Annex_C", "" ];
+default "";
+}
+string DataPath {
+constraint enum [ "Interleaved", "Fast", "None" ];
+default "Interleaved";
+}
+uint32 InterleaveDepth = 0;
+string ModulationType {
+constraint enum ["ADSL" , "ADSL_G.dmt", "ADSL_G.lite", "ADSL_G.dmt.bis", "ADSL_re-adsl", "ADSL_2plus", "ADLS_four", "ADSL_ANSI_T1.413", "G.shdsl", "IDSL", "HDSL", "SDSL", "VDSL", "" ];
+default "";
+}
+string ChannelEncapsulationType {
+constraint enum["", "G.992.3_Annex_K_ATM", "G.992.3_Annex_K_PTM", "G.993.2_Annex_K_ATM", "G.993.2_Annex_K_PTM", "G.994.1"];
+default "";
+}
+persistent string ModulationHint {
+constraint enum [ "Auto", "ADSL", "VDSL" ];
+default "Auto";
+}
+string CurrentProfile {
+constraint enum [ "", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a" ] ;
+default "";
+}
+uint32 UPBOKLE {
+constraint range [ 0, 1280 ];
+}
+}
+}
+}

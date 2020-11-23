@@ -1,0 +1,6 @@
+object HTTPService {
+	object WebDav {
+		persistent bool Enabled = true;
+		persistent string SharedDir = "/common";
+	}
+}

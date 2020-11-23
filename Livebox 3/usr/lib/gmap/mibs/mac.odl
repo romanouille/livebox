@@ -1,0 +1,17 @@
+mib mac {
+persistent string PhysAddress {
+acl {
+group technician read,write,execute;
+group cwmpd read,write,execute;
+}
+}
+volatile read-only bool Ageing;
+persistent read-only string Layer2Interface;
+persistent read-only string InterfaceName;
+persistent string MACVendor {
+acl {
+group technician read,execute;
+group cwmpd read,write,execute;
+}
+}
+}

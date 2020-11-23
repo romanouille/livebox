@@ -1,0 +1,10 @@
+{
+  "status": 0,
+  "data": {
+    "isRunning": false,
+    "lastError": 0,
+    "progress": 100,
+    "nbServicesFound": 64,
+    "nbServicesSelected": 36
+  }
+}

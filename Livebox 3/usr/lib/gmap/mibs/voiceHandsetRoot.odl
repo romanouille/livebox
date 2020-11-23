@@ -1,0 +1,20 @@
+/*expr:voice and (handset or interface)*/
+using "impl/mib_voice.so";
+
+/**
+ * MIB is loaded on all handset devices and on the voice root interface.
+ *
+ * All devices matching expression: "voice and (handset or root)" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib voiceHandsetRoot {
+    /**
+     * Ring a/multiple handset(s)
+     *
+     * @version 6.0
+     */
+    void ring();
+}
+
+/** @location sah_services_gmap /mibs/voiceHandsetRoot.odl */

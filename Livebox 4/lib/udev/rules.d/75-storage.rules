@@ -1,0 +1,2 @@
+SUBSYSTEM=="block", KERNEL=="sd*", RUN+="/usr/lib/storage/storage-udev.sh %k"
+SUBSYSTEM=="usb", RUN+="/usr/lib/storage/storage-udev.sh %k"

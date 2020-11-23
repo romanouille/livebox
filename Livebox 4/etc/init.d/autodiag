@@ -1,0 +1,54 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="autodiag"
+datamodel="AutoDiag"
+trace_zones=""
+component="sah_services_autodiag"
+
+RESTORE="/var/lib/autodiag/restore"
+
+case $1 in
+    start)
+        if ! test -d /ext/autodiag; then
+            mkdir /ext/autodiag
+        fi
+        sahenv -f /var/etc/environment pcb_app -n $name -c /usr/lib/autodiag/autodiag.odl -vv
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    backup)
+        if pcb_is_running $name ; then
+            pcb_cli "AutoDiag.export()"
+        else
+            echo "autodiag plugin is not running, impossible to backup it"
+        fi
+        ;;
+    restore)
+        mkdir -p $(dirname "${RESTORE}") && touch "${RESTORE}"
+        ;;
+    reset)
+        rm -f /etc/config/autodiag
+        if pcb_is_running $name ; then
+            pcb_cli "AutoDiag.flushReport()"
+        else
+            echo "autodiag plugin is not running, impossible to reset it"
+        fi
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore|reset|debuginfo|log]"
+        ;;
+esac

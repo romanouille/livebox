@@ -1,0 +1,86 @@
+<div id="phone" xmlns="http://www.orange.com/xhtml/engine/loose">
+
+ 	<div class="boxType3"> 		
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+
+		<h1 class="logo_phone" i18n="menuServices.phone"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong  i18n="page.myServices.phone.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">		
+		<div class="boxType4 border-bottom-1">			
+			<span class="h3Text"  i18n="common.status"/>
+			<div widgetType="FormInput" i18n="page.myServices.phone.status.service">
+				<span dataId="Device/VOIPService/Enable" i18nPrefix="data.voipservice.enable"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.phone.status.servicestatus">
+				<span dataId="Device/VOIPService/Status" i18nPrefix="data.voipservice.status"/>
+			</div>			
+			<div widgetType="FormInput" i18n="page.myServices.phone.status.phonenumber">
+				<span id="phonenumber" class="bold" dataId="Device/VOIPService/Lines/Line/@number"/>
+			</div>
+			<div class="forminput bold" id="phonenumberMsg" i18n="page.myServices.phone.status.phonenumbernotassigned.msg"/>
+			<br/>
+			<div ><!-- class="forminput" -->
+				<a class="forminput-label orange" href="http://r.orange.fr/r/Omoncompteinternet_telillimite" target="_blank" i18n="page.myServices.phone.status.link"/>
+			</div>
+			<br/>
+		</div>
+		<div class="boxType5 border-bottom-1">
+			<span class="h3Text" i18n="page.myServices.phone.options"/>
+			<div widgetType="FormInput" i18n="page.myServices.phone.options.waitingmessages">
+				<span class="bold" dataId="Device/VOIPService/MessageWaiting" i18nPrefix="data.voipservice.waitingmessages"/>
+			</div>
+				
+			<div widgetType="FormInput" i18n="page.myServices.phone.options.waitingmessagesindicator">
+				<span dataId="Device/VOIPService/MWIEnable" i18nPrefix="data.boolean"/>
+			</div>
+		</div>	
+		<div class="boxType5 border-bottom-1">
+			<span class="h3Text" i18n="page.myServices.phone.simultring"/>
+			<br/>
+			<div>  
+				<div i18n="page.myServices.phone.simultring.label"/>
+				<div class="clear"/>
+			</div>
+			<div id="ringWidget" class="margin-left-100" widgetType="FormInput" i18n="page.myServices.phone.simultring.radioslabel">
+			<input  id="ftthEnable" type="text" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable" style="display: none" />
+				<span id="simultring" widgetType="EnumInput" enumerated="[true, false]" widgetArg="'radio'" dataId="Device/VOIPService/SimultaneousRinging" i18nPrefix="data.simultring"/>
+			</div>
+		</div>	
+		<div class="userSupport border-bottom-1">
+			<span class="h3Text" i18n="page.myServices.phone.voipsupport"/>			
+			<br/>
+			<div widgetType="FormInput" i18n="page.myServices.phone.voipsupport.select">
+				<span widgetType="EnumInput" widgetArg="'radio'" dataId="Device/VOIPService/SignalingProtocol" i18nPrefix="data.signalingprotocol"/>
+				<div class="clear"/>
+			</div>
+		</div>
+		<div class="boxType5 border-bottom-3"> 
+			<span class="h3Text" i18n="page.myServices.phone.tests"/>
+			<br/>
+			<div ><!-- class="forminput" -->				
+				<span class="forminput-label" i18n="page.myServices.phone.tests.label"/>
+				<div class="alignRight">
+					<div widgetType="ButtonContainer" >
+					<!--  margin-left: 260px; -->
+						<span id="testPhonesButton" widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'm1.m11.m111'}" i18n="page.myServices.phone.tests.button"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+			</div>	
+		</form>
+	</div>
+</div>

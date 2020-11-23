@@ -1,0 +1,6 @@
+persistent object NMC {
+persistent string ProvisioningState {
+constraint enum ["reset", "upgrade", "restore", "done"];
+default "reset";
+}
+}

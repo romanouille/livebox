@@ -1,0 +1,29 @@
+/**
+ * MIB is loaded on all units that are able to command a dimmable device.
+ *
+ * All devices matching expression: "dimmer" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib dimmer {
+
+    /**
+     * This command is used for turning something On
+     */
+    void on();
+
+    /**
+     * This command is used for turning something Off
+     */
+    void off();
+
+    /**
+     * This command is used for toggling.
+     * If it was off it will change to On and if it was On it will change to off
+     */
+    void toggle();
+
+    uint32 getLevel();
+    void setLevel(mandatory uint32 level);
+}
+/** @location sah_services_gmap /mibs/dimmer.odl */

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        # load voice drivers here with modprobe
+        /sbin/modprobe dspvoice
+        /sbin/modprobe thomson_upper_dect_driver
+        /sbin/modprobe sagem_dect_ctrl 
+        ;;
+    stop)
+        echo "Voice part 1 stop ..."
+        # unload voice drivers here with modprobe -r
+        ;;
+    *)
+        echo "Usage: /etc/init.d/voice1 {start|stop}"
+        exit 1
+        ;;
+esac

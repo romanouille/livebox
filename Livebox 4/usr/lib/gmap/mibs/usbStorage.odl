@@ -1,0 +1,39 @@
+/*expr:usb and logical and volume*/
+
+/**
+ * MIB is loaded on all usb storage devices.
+ *
+ * All devices matching expression: "usb and logical and volume" are extended with this MIB
+ * Devices representing a partition of a disk are extended with this MIB.
+ * The information is taken from the storage service.
+ *
+ * @version 6.0
+ */
+mib usbStorage {
+    /**
+     * The file system used on the partition
+     *
+     * This parameter contains the name of the file system used.
+     *
+     * @version 6.0
+     */
+    string FileSystem;
+    /**
+     * The total capacity of the partition
+     *
+     * @version 6.0
+     */
+    uint32 Capacity;
+    /**
+     * The total used space of the partition
+     *
+     * @version 6.0
+     */
+    uint32 UsedSpace;
+    /**
+     * The logical volume index of the partition. This index is only used as a reference to the storage service
+     *
+     * @version 6.0
+     */
+    uint32 LogicalVolumeIndex;
+}

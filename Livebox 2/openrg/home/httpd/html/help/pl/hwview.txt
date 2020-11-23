@@ -1,0 +1,15 @@
+<b>Konfiguracja</b><br>
+<br>
+
+Wyświetla listę urządzeń, które są lub były połączone z Twoim Liveboxem. Wybierz jedno z urządzeń, aby uzyskać dostęp do jego ustawień lub wprowadzić ograniczenie dostępu do Internetu.
+<br>
+
+Możesz wyświetlić tylko urządzenia podłączone za pomocą wybranego typu połączenia (Ethernet, Wi-Fi, USB).
+
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,8 @@
+{
+  "status": 0,
+  "data": {
+    "isAvailable": true,
+    "firmwareFile": "VF_Vox2.0_Build2.4.4_2015_05_07",
+    "firmwarePath": "/tmp/mnt/USB/VF_Vox2.0_Build2.4.4_2015_05_07.upd"
+  }
+}

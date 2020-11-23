@@ -1,0 +1,334 @@
+datamodel
+{
+acl {
+world execute;
+group admin execute;
+group remoteadmin execute;
+group cwmpd read,write,execute;
+group technician read,write,execute;
+}
+object VoiceService {
+// reset acl rules for VoiceService to errase the rules in voiceplugin_app-definition.odl
+acl {
+world execute;
+}
+parameter  X_ORANGE-COM_Status {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_RingTestStatus {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_Name {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_Enabled {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_UserAgent {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter VoiceProfileNumberOfEntries {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_EnableCoreDump {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_NumberOfGroups {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_PlayWarningTone {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function listTrunks {
+acl {
+world execute;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function setTrunk {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function setTrunkLineName {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function listHandsets {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function setHandsetName {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function setHandset {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function deleteHandset {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function getCallList {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function clearCallList {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function setViewedCallList {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function listGroups {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function setGroups {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function quiesceAllTrunkLines {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function getStatus {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function listCallControlServices {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function addHandsetToGroup {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function removeHandsetFromGroup {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function getSipExtensionsStatus {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function setSipExtensionsStatus {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+function ring {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function setAutoDial {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function getAutoDial {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+function save {
+acl {
+world none;
+group admin execute;
+group remoteadmin execute;
+}
+}
+object X_ORANGE-COM_CallList {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_ClickToDial {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_CALL_CONTROL_SERVICES {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_Group {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_VoiceMonitoring {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_VoicePortal {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_ToneFileGenerator {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_CnipChange {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object Capabilities {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object PhyInterface {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+object VoiceProfile {
+object Line {
+object SIP {
+parameter AuthPassword {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}
+object Session {
+object X_ORANGE-COM_Conn {
+function reject {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}
+}
+}
+}
+}

@@ -1,0 +1,34 @@
+<div id="routing" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param grey" i18n="menuNetwork.routing"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myNetwork.routing.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">
+		<form action="#">
+		<div class="boxType4 margin-top-10 border-bottom-3">
+			<span class="h3Text" i18n="page.myNetwork.routing.table"/>
+			<br/><br/>
+			<div id="routingTable" dataId="Device/RoutesInfo/RouteInfo" widgetType="Table" widgetArg="{extendable: true, deletable: true}" i18n="page.myNetwork.routing.table">
+				<span i18n="page.myNetwork.routing.destnetwork" widgetType="TableColumn" widgetArg="{attr: 'DestIPAddress', editable: true, sortable: false, editNodeAttrs: {errnodeparent: 'routingTableErr'}}" i18nError="page.myNetwork.routing.destnetwork.error" required="true" namedregex="ipaddress"/>
+				<span i18n="page.myNetwork.routing.destsubnetmask" widgetType="TableColumn" widgetArg="{attr: 'DestSubnetMask', editable: true, sortable: false, editNodeAttrs: {errnodeparent: 'routingTableErr'}}"  i18nError="page.myNetwork.routing.destsubnetmask.error" required="true" namedregex="strictmaskaddress"/>
+				<span i18n="page.myNetwork.routing.gateway" widgetType="TableColumn" widgetArg="{attr: 'GatewayIPAddress', editable: true, sortable: false, editNodeAttrs: {errnodeparent: 'routingTableErr'}}"  i18nError="page.myNetwork.routing.gateway.error" required="true" namedregex="ipaddress"/>
+				<span i18n="page.myNetwork.routing.interface" widgetType="TableColumn"	widgetArg="{attr: 'Network', editable: true, sortable: false, editNodeName: 'select'}" enumerated="['LAN', 'WAN']" i18nPrefix="page.myNetwork.routing.interface"/>
+				<span i18n="page.myNetwork.routing.metric" widgetType="TableColumn" widgetArg="{attr: 'ForwardingMetric', editable: true, sortable: false, editNodeAttrs: {errnodeparent: 'routingTableErr'}}" i18nError="page.myNetwork.routing.metrics.error" required="true" namedregex="integer" minvalue="-1"/>
+				<span i18n="common.activate" widgetType="TableColumn"	widgetArg="{attr: 'Enable', editable: true, booleanSetAll: true, sortable: false, editNodeAttrs: {type: 'checkbox'}}" i18nPrefix="page.myNetwork.routing.activate"/>
+			</div>
+			<div id="routingTableErr" class="error table"/>
+		</div>		
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myNetwork.routing.save"/>
+			</div>
+		</form>
+	</div>
+</div>

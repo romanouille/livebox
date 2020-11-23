@@ -1,0 +1,28 @@
+<div id="page0forget1" class="forgetPassword status-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<p class="blockTitle bold_font" i18n="page.page0.common.label"/>
+	<form class="page0_container">
+		<div class="rightBlockTitle">
+			<div i18n="page.page0.common.step1" class="currentStep_1"/>
+		</div>
+		<h2 class="nobold">
+			<span class="bold" i18n="page.forgetPassword.title"/><br/>
+			<span i18n="page.forgetPassword.label1"/>
+		</h2>
+		<input type="text" id="login" style="display:none" value="admin"/>
+		<div widgetType="FormInput" i18n="page.forgetPassword.secretquery">
+			<input type="text" dataId="Device/UserAccounts/ManagedUsers/ManagedUser[Login='admin']/SecretQuery" readonly="readonly"/>
+		</div>
+
+		<div widgetType="FormInput" i18n="page.forgetPassword.answer">
+			<input id="SecretAnswer" type="text" i18n="page.forgetPassword.answer"/>
+		</div>
+		
+		<div widgetType="ButtonContainer" class="center">
+			<span id="backBtn" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.forgetPassword.back"/>
+			<span id="cancelBtn" widgetType="Button" widgetArg="{type: 'simple'}" i18n="data.cancel"/>
+			<span id="validateBtn" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.forgetPassword1.valid"/>
+		</div>
+	</form>
+	<div class="error" style="display:none" i18n="page.forgetPassword.failed"/>
+	<br/>
+</div>

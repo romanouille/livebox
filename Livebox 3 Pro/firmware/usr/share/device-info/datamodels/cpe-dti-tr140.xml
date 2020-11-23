@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dt:document xmlns:dt="urn:broadband-forum-org:cwmp:devicetype-1-1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:broadband-forum-org:cwmp:devicetype-1-1 http://www.broadband-forum.org/cwmp/cwmp-devicetype-1-1.xsd"
+    deviceType="cpe-dt-tr140.xml">
+
+  <import file="tr-140-1-1-0.xml" spec="urn:broadband-forum-org:tr-140-1-1-0">
+    <model name="StorageService:1.1"/>
+  </import>
+
+  <feature name="X_NAS"/>
+
+</dt:document>

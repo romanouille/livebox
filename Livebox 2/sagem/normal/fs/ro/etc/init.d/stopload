@@ -1,0 +1,20 @@
+#!/bin/sh
+
+MBUSD_LOADPHASE_DONE=10
+PHASEFILE='/var/run/mbusd_loading'
+
+mbusd_phase_get()
+{
+	if [ -f ${PHASEFILE} ]; then
+		cat ${PHASEFILE} 
+	else
+		echo -1
+	fi
+}
+
+PHASE=`mbusd_phase_get`
+while [ ${PHASE} -lt ${MBUSD_LOADPHASE_DONE} ]; do
+	echo "Wait until configuration load reaches phase ${MBUSD_LOADPHASE_DONE} (now ${PHASE})"
+	sleep 1
+	PHASE=`mbusd_phase_get`
+done

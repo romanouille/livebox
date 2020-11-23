@@ -1,0 +1,40 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="conntrack_plugin"
+start_options="-I /var/run/conntrack"
+datamodel="Conntrack"
+trace_zones=""
+component="sah_services_conntrack-plugin"
+
+RESTORE="/var/lib/conntrack_plugin/restore"
+
+case $1 in
+    start)
+        echo 1 > /proc/sys/net/netfilter/nf_conntrack_timestamp 2> /dev/null
+        echo 1 > /proc/sys/net/netfilter/nf_conntrack_acct 2> /dev/null
+        modprobe -q nfnetlink_acct
+        pcb_start $name $start_options
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    restart)
+        pcb_restart $name $start_options
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo|log|backup|restore]"
+        ;;
+esac

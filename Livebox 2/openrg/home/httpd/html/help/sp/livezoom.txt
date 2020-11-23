@@ -1,0 +1,8 @@
+﻿<b>Livezoom:</b><br>
+<br>
+Para utilizar tu cámara livezoom, habilita el servicio marcando la casilla de selección correspondiente.<br>
+<!--
+<br>
+<b>
+-->
+

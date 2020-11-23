@@ -1,0 +1,118 @@
+/**
+  * Mapping according to FT spec 
+  */
+
+/**
+  * This object allows the CPE to be configured to perform the UDP Echo Service 
+  * defined in [RFC862] and UDP Echo Plus Service defined in [Appendix A.1/TR-143].
+  */
+object UDPEchoConfig {
+
+
+  /** The value MUST be the path name of IP-layer interface 
+    * over which the CPE MUST listen and receive UDP echo requests on.
+    *
+    * The value of this parameter MUST be either a valid interface or an empty string.
+    * An attempt to set this parameter to a different value MUST be rejected as an invalid parameter value.
+    *
+    * If an empty string is specified, the CPE MUST listen and receive UDP echo requests on all interfaces.
+    *
+    * Note: Interfaces behind a NAT MAY require port forwarding rules 
+    * configured in the Gateway to enable receiving the UDP packets.
+    */
+  string Interface {
+    constraint maxvalue 256;
+  }
+ 
+  /**
+   * FQDN of Network Test Server to use in IPv4.
+   */
+  string "$(CONFIG_PREFIX_NON_STANDARD)SourceV4HostName";
+  
+  /**
+  * FQDN of Network Test Server to use in IPv6.
+  */
+  string "$(CONFIG_PREFIX_NON_STANDARD)SourceV6HostName";
+
+
+  /**
+   * IPv4 address of Network Test Server resolved using DNS.
+   */
+  read-only string "$(CONFIG_PREFIX_NON_STANDARD)SourceV4Ip" {
+    constraint maxvalue 256;
+  }
+  
+  /**
+   * IPv6 address of Network Test Server resolved using DNS.
+   */
+  read-only string "$(CONFIG_PREFIX_NON_STANDARD)SourceV6Ip" {
+    constraint maxvalue 256;
+  }
+    
+  /** The UDP port on which the UDP server MUST listen and respond to UDP echo requests. */
+  uint32 UDPPort;
+
+  /** If true the CPE will perform necessary packet processing for UDP Echo Plus packets. */
+  bool EchoPlusEnabled;
+
+  /** true if UDP Echo Plus is supported. */
+  read-only bool EchoPlusSupported;
+
+  /** Incremented upon each valid UDP echo packet received. */
+  read-only uint32 PacketsReceived;
+
+  /** Incremented for each UDP echo response sent. */
+  read-only uint32 PacketsResponded;
+
+  /** The number of UDP received bytes including payload and 
+    * UDP header after the UDPEchoConfig is enabled.
+    */
+  read-only uint32 BytesReceived;
+
+  /** The number of UDP responded bytes, including payload and 
+    * UDP header sent after the UDPEchoConfig is enabled.
+    */
+  read-only uint32 BytesResponded;
+
+  /** Time in UTC, which MUST be specified to microsecond precision.
+    * For example: 2008-04-09T15:01:05.123456,
+    * The time that the server receives the first UDP echo packet after the UDPEchoConfig is enabled.
+    */
+  read-only string TimeFirstPacketReceived;
+
+  /** Time in UTC, which MUST be specified to microsecond precision.
+    * For example: 2008-04-09T15:01:05.123456
+    * The time that the server receives the most recent UDP echo packet.
+    */
+  read-only string TimeLastPacketReceived;
+
+  /** MUST be enabled to receive UDP echo. 
+    * When enabled from a disabled state all related timestamps, 
+    * statistics and UDP Echo Plus counters are cleared.
+    */
+  bool Enable;
+
+}
+
+datamodel {
+    object UDPEchoConfig {
+        destination "pcb://$(PCB_MAIN_BUS)/UDPEchoConfig" {
+          parameter Enable;
+          parameter Interface;
+		  parameter "$(CONFIG_PREFIX_NON_STANDARD)SourceV4HostName" from SourceV4HostName;
+		  parameter "$(CONFIG_PREFIX_NON_STANDARD)SourceV6HostName" from SourceV6HostName;
+		  parameter "$(CONFIG_PREFIX_NON_STANDARD)SourceV4Ip" from SourceIPAddress;
+		  parameter "$(CONFIG_PREFIX_NON_STANDARD)SourceV6Ip" from SourceIPv6Address;
+          parameter SourceIPAddress;
+          parameter UDPPort;
+          parameter PacketsReceived;
+          parameter PacketsResponded;
+          parameter BytesReceived;
+          parameter BytesResponded;
+          parameter TimeFirstPacketReceived;
+          parameter TimeLastPacketReceived;
+          parameter EchoPlusSupported;
+          parameter EchoPlusEnabled;
+       }
+    }
+}

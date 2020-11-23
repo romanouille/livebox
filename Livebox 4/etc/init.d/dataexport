@@ -1,0 +1,52 @@
+
+#!/bin/sh
+
+PID="/var/run/dataexport.pid"
+
+
+
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "data-export plugin already started"
+    else
+        echo "data-export starting ..."
+        glib-app -n dataexport
+    fi
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        echo "kill data-export daemon"
+        kill $(cat $PID)
+        rm $PID
+    else
+        echo "data-export plugin not running"
+    fi
+}
+
+
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+
+    restart)
+        stop
+        start
+        ;;
+    debuginfo)
+        if [ -f "${PID}" ]; then
+            echo "dataexport is running, pid=$(cat ${PID})"
+        else
+            echo "dataexport is not running"
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo]"
+        ;;
+esac

@@ -1,0 +1,24 @@
+﻿<div class="button-container">
+  <div class="button-label">
+    {{#if label}}
+      <label for="{{#if id}}{{id}}{{/if}}">{{{label}}}</label> :<br>
+    {{/if}}
+    <select class="select" {{#if id}}id="{{id}}" {{/if}}>
+      {{#each options}}
+        {{#ifEqual @index ../selected}}
+          {{#if this.[2]}}
+            <option value="{{this.[0]}}" class="Translation" data-translation="{{this.[2]}}" selected></option>
+          {{else}}
+            <option value="{{this.[0]}}" selected>{{this.[1]}}</option>
+          {{/if}}
+        {{else}}
+          {{#if this.[2]}}
+            <option value="{{this.[0]}}" class="Translation" data-translation="{{this.[2]}}"></option>
+          {{else}}
+            <option value="{{this.[0]}}">{{this.[1]}}</option>
+          {{/if}}
+        {{/ifEqual}}
+      {{/each}}
+    </select>
+  </div>      
+</div>

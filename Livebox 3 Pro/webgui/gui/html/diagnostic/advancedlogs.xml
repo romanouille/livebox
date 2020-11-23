@@ -1,0 +1,65 @@
+<div id="advancedlogs" xmlns="http://www.orange.com/xhtml/engine/loose">
+   <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_diagnostic" i18n="page.diagnostic.logs.advancedlogs.title"/>
+		<div class="margin-left-40 margin-top-m8">
+			 <strong i18n="page.diagnostic.logs.advancedlogs.subtitle"/>
+		</div>
+    </div>
+	<div class="maindiv">		
+		<form action="#">
+	    <div class="boxType4 margin-top-10 border-bottom-1">
+			<span class="h3Text" i18n="page.diagnostic.logs.advancedlogs.savehisto"/>
+			<div class="margin-left-60" widgetType="FormInput" i18n="page.diagnostic.logs.advancedlogs.savehisto.type">
+				<span id="ckAll" class="radioBR"  widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"    i18nPrefix="page.diagnostic.logs.advancedlogs.showsort.type.ALL"/>				
+			</div>
+		<!-- 	<div class="forminput" i18n="page.diagnostic.logs.advancedlogs.savehisto.type"/>
+			<div class="forminput">
+				<input id="ckAll" type="checkbox"/><span i18n="page.diagnostic.logs.advancedlogs.showsort.type.ALL"/><br/>
+			</div> -->
+			<div class="forminput margin-left-255"  id="ckList">
+				<input type="checkbox"/><span i18n="page.diagnostic.logs.advancedlogs.showsort.type.START_REBOOT"/>&#160;&#160;&#160;&#160;
+				<input type="checkbox"/><span i18n="page.diagnostic.logs.advancedlogs.showsort.type.CONNECTIONS"/>&#160;&#160;&#160;&#160;
+				<input type="checkbox"/><span i18n="page.diagnostic.logs.advancedlogs.showsort.type.PASSWORD"/>&#160;&#160;&#160;&#160;
+				<input type="checkbox"/><span i18n="page.diagnostic.logs.advancedlogs.showsort.type.TIME"/>&#160;&#160;&#160;&#160;<br/>
+				<input type="checkbox"/><span i18n="page.diagnostic.logs.advancedlogs.showsort.type.SECURITY"/>&#160;&#160;&#160;&#160;
+				<input type="checkbox"/><span i18n="page.diagnostic.logs.advancedlogs.showsort.type.DOS"/>&#160;&#160;&#160;&#160;
+				<input type="checkbox"/><span i18n="page.diagnostic.logs.advancedlogs.showsort.type.IPSEC"/>
+			</div>
+		 </div>
+		 <div class="boxType5 border-bottom-1" >	
+			<span class="h3Text" i18n="page.diagnostic.logs.advancedlogs.save"/>
+			<br/><br/>
+			<div i18n="page.diagnostic.logs.advancedlogs.save.label"/><!--  class="forminput" -->
+			<div widgetType="ButtonContainer" class="right">
+				<span id="saveLog" widgetType="ButtonImage" i18n="page.diagnostic.logs.advancedlogs.save.button"/>
+  				<iframe id="syslogFrame" src="" style="width:0;height:0;border:0px solid #fff;" title="log systeme"></iframe>
+			</div>
+			
+		</div>
+		<div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.diagnostic.logs.advancedlogs.showsort"/>
+			<div class="margin-left-100" widgetType="FormInput" i18n="page.diagnostic.logs.advancedlogs.showsort.type">
+				<span id="type" widgetType="EnumInput" widgetArg="'select'" enumerated="['ALL', 'START_REBOOT', 'CONNECTIONS', 'PASSWORD', 'TIME', 'SECURITY', 'DOS', 'IPSEC']" i18n="page.diagnostic.logs.advancedlogs.showsort.type" i18nPrefix="page.diagnostic.logs.advancedlogs.showsort.type"/>
+			</div>
+			<br/>
+			<!--
+			<div widgetType="FormInput" i18n="page.diagnostic.logs.advancedlogs.showsort.date">
+				<span id="date" widgetType="EnumInput" widgetArg="'select'" enumerated="['FIRST', 'LAST']" i18n="page.diagnostic.logs.advancedlogs.showsort.date" i18nPrefix="page.diagnostic.logs.advancedlogs.showsort.date"/>
+			</div>
+			-->
+		 <!-- <h3><span i18n="page.diagnostic.logs.advancedlogs.table"/></h3>  -->
+			<div id="advancedlogs_table" widgetType="Table"
+				widgetArg="{deletable: false}" i18n="page.diagnostic.logs.advancedlogs.table">
+				<span i18n="page.diagnostic.logs.advancedlogs.table.date" widgetType="TableColumn" widgetArg="{attr: 'DateTime', viewWidgetType: 'Timestamp', viewWidgetArg: 'dd mmmm yyyy HH:MM:ss'}" />
+				<span i18n="page.diagnostic.logs.advancedlogs.table.type" widgetType="TableColumn" widgetArg="{attr: 'Type'}" i18nPrefix="page.diagnostic.logs.advancedlogs.table.type" />
+				<span i18n="page.diagnostic.logs.advancedlogs.table.detail" widgetType="TableColumn"	widgetArg="{attr: 'MSG', sortable: false}" />
+			</div>
+		 </div>	
+		</form>
+	</div>
+</div>

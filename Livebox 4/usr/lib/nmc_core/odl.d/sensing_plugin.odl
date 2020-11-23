@@ -1,0 +1,113 @@
+persistent object NMC {
+    /**
+     * Settings for access
+     * technology discovery
+     */
+    persistent object Discovery {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+
+        /**
+         * True if the feature is enabled
+         */
+        persistent bool Enable {
+            default true;
+        }
+
+        /**
+         * Timeout for xDSL detection in sec
+         */
+        persistent uint32 Timer {
+            constraint minvalue 1;
+            default 60;
+        }
+    }
+
+    /**
+     * Settings for DHCP auto detection
+     * on the multi-service interface
+     */
+    persistent object Autodetect {
+        /**
+         * True if it's the first boot
+         */
+        persistent bool FirstBoot {
+            default true;
+        }
+
+        /**
+         * True if the feature is enabled
+         */
+        persistent bool Enable {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default false;
+        }
+
+        /**
+         * Number of OAM pings to send
+         * before giving up ADSL detection
+         */
+        persistent uint32 nbOAM {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            constraint minvalue 1;
+            default 3;
+        }
+
+        /**
+         * Time in sec to wait for
+         * a DHCP offer in FTTH/VDSL
+         */
+        persistent uint32 Timer {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            constraint minvalue 1;
+            default 16;
+        }
+
+        /**
+         * Default getter function to retrieve all values
+         */
+        variant get();
+    }
+    /**
+     * Determine if VoIP must use a
+     * dedicated WAN interface
+     */
+    persistent string VoIPMode {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+        constraint enum ["Dedicated", "Internet"];
+        default "Dedicated";
+    }
+
+    /**
+     * Determine if IPTV must use a
+     * dedicated WAN interface
+     */
+    persistent string IPTVMode {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+        constraint enum ["Dedicated", "Internet"];
+        default "Dedicated";
+    }
+}

@@ -1,0 +1,56 @@
+#!/bin/sh
+
+PCB_PLUGIN="/bin/pcb_plugin"
+TIME_PLUGIN_ODL="/usr/lib/time_plugin/time_plugin.odl"
+PID="/var/run/openntpd_plugin.pid"
+ETC_DIR="/var/etc/ntp"
+CHROOT_DIR="/var/ntp/"
+
+case $1 in
+    start)
+         echo "Starting openntpd plugin"
+         if [ ! -d "${ETC_DIR}" ]; then 
+             mkdir -p "${ETC_DIR}"
+             chown ntpd:ntpd "${ETC_DIR}"
+         else
+             rm -rf "${ETC_DIR}"/*
+         fi
+
+	       mkdir -p ${CHROOT_DIR}
+
+        export SAH_TRACE_ZONES=time_plugin
+        time_plugin=200 $PCB_PLUGIN -n openntpd_plugin -c $TIME_PLUGIN_ODL -a -L
+        pcb_cli -q 'Firewall.setService("ntp","lan","123","17",0,true)'
+        ;;
+    stop)
+        echo -n "Stopping openntpd plugin ..."
+        pcb_cli -q 'Firewall.deleteService("ntp")'
+        if [ -e $PID ] ; then 
+            kill $(cat $PID)
+            echo "done."
+        else 
+            echo "not running."
+        fi
+        ;;
+    status)
+        if [ -e $PID ] ; then 
+            echo "openntpd plugin is running."
+        else 
+            echo "openntpd plugin is not running."
+        fi 
+        ;;
+    backup)
+        if [ -e $PID ] ; then 
+            pcb_cli "Time.export($2)"
+        else 
+            echo "Time plugin is not running, impossible to make a backup"
+        fi                 
+        ;;
+    restore)
+        mkdir -p /var/lib/openntpd
+        touch /var/lib/openntpd/restore
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status|backup|restore]"
+        ;;
+esac

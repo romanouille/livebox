@@ -1,0 +1,28 @@
+#!/bin/sh
+
+case $1 in
+
+    start)
+        if [ -f /var/run/pkitoken.pid ]
+        then
+          echo "pkitoken appears to be already started (PID file is present)"
+        else
+          /sbin/udevadm trigger --action=add --property-match=ID_VENDOR_ID="08e6" --property-match=ID_MODEL_ID="3438"	
+          pcb_plugin -vv --name=pkitoken --config=/usr/lib/pkitoken/pkitoken-definitions.odl --foreground &
+        fi
+        ;;
+
+    stop)
+        if [ ! -f /var/run/pkitoken.pid ]
+        then
+          echo "pkitoken doesn't appear to be running (no PID file)"
+        fi
+        killall pkitoken
+        rm -f /var/run/pkitoken.pid
+        ;;
+
+    *)
+        echo "Usage : $0 [start|stop]"
+        ;;
+esac
+

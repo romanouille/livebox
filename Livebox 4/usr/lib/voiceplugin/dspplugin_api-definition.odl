@@ -1,0 +1,69 @@
+object DSPPlugin {
+    void createDsp(string name); 
+    object DSP[] {
+        void createDspChannel(string name);
+
+        object DSP_CHANNEL[] {
+            /**
+            Type of the object can be TDM, FT_USB_DECT.
+            */
+            string Type {
+                constraint enum [ "TDM", "FT_USB_DECT" ];
+                default "TDM";
+            }
+
+            /**
+            Send an asynchronous signal.
+            @param signal Opaque byte_array containing a libvoice_signal, which gets
+            passed to the underlying voice plugin.
+            */
+            message void signal(byte_array signal);
+
+            /**
+            Called when a media stream to an endpoint needs to start.
+            @param cnx_info Opaque byte_array containing a libvoice_cnx_info struct.
+            @param filedesc Array of filedescriptors. fd[0] = RTP socket,
+            fd[1] = RTCP socket, fd[2] = UDPTL socket.
+            @param endpoint_path Path of the endpoint.
+            @param ep_line_id Line identifier
+            */
+            void create(byte_array cnx_info, list filedesc, string endpoint_path, uint32 ep_line_id);
+
+            /**
+            Called when a media stream to an endpoint is changed.
+            
+            @param cnx_info Opaque byte_array containing a libvoice_cnx_info struct.
+            @param filedesc Array of filedescriptors. fd[0] = RTP socket,
+            fd[1] = RTCP socket, fd[2] = UDPTL socket.
+            @param ep_line_id Line identifier
+            */
+            void modify(byte_array cnx_info, list filedesc, uint32 ep_line_id);
+
+            /**
+            Called when a media stream to an endpoint needs to stop.
+            
+            @param ep_line_id Line identifier
+            */
+            void destroy(uint32 ep_line_id);
+
+            /**
+            Called when we request properties or statistics.
+            
+            @param request Opaque byte_array containing a parameter set with request properties.
+            @param reply Opaque byte_array to contain the parameter set with reply values.
+            @return Success or failure.
+            */
+            bool get(byte_array param_set_request, byte_array param_set_reply);
+
+            /**
+            Called when we want to set properties.
+            
+            @param request Opaque byte_array containing a parameter set with properties.
+            @return Success or failure.
+            */
+            bool set(byte_array param_set_params);
+        }
+    }
+}
+
+/** @location sah_lib_voiceplugin /dspplugin_api-definition.odl */

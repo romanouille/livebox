@@ -1,0 +1,13 @@
+[
+  {
+    "expression"    : "not self and usb and physical and .VendorID==\"0x08e6\" && .ProductID==\"0x3438\"",
+    "start_actions" : {
+                        "set_tags" : "pki",
+                        "add_device_type" : {
+                                              "Type"       : "PKI Dongle",
+                                              "TypeSource" : "usb"
+                                            }
+                      }
+  }
+]
+

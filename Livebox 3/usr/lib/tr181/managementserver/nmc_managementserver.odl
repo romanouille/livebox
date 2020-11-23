@@ -1,0 +1,14 @@
+object ManagementServer {
+uint32 X_ORANGE-COM_MaxConnectionRequest;
+uint32 X_ORANGE-COM_FreqConnectionRequest;
+string X_ORANGE-COM_AllowConnectionRequestFromAddress;
+}
+datamodel {
+object ManagementServer {
+destination "pcb://$(PCB_MAIN_BUS)/ManagementServer" {
+parameter X_ORANGE-COM_MaxConnectionRequest from MaxConnectionRequest;
+parameter X_ORANGE-COM_FreqConnectionRequest from FreqConnectionRequest;
+parameter X_ORANGE-COM_AllowConnectionRequestFromAddress from AllowConnectionRequestFromAddress;
+}
+}
+}

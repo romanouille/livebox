@@ -1,0 +1,146 @@
+
+:root {
+  --videochat: 16;
+}
+
+span.img {
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size:3200% 100%;
+  display:block;
+  height: 50%;
+  margin:8% 0 0 0;
+  border: none;
+  content:' ';
+}
+.sah_ui_slide span.img{
+  margin:5% 0 0 0;
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  width: 50%;
+  background-image: url(../images/pictomap.png);
+}
+.sah_ui_slide span.wide{
+  margin:8% 0 0 0;
+}
+.sah_ui_slide span.special{
+  margin:0 0 0 0;
+}
+.sah_ui_slide span.big{
+  height: 30%;
+  margin:8% 0 0 0;
+}
+
+span.appman{
+  background-position: calc(100%*0/31) 0px;
+}
+span.config{
+  background-position: calc(100%*1/31) 0px;
+}
+span.contacts{
+  background-position: calc(100%*2/31) 0px;
+}
+span.energyg{
+  background-position: calc(100%*3/31) 0px;
+}
+span.family{
+  background-position: calc(100%*4/31) 0px;
+}
+span.homeauto_green{
+  background-position: calc(100%*5/31) 0px;
+}
+span.homectrl_green{
+  background-position: calc(100%*6/31) 0px;
+}
+span.homemap{
+  background-position: calc(100%*7/31) 0px;
+}
+span.mail{
+  background-position: calc(100%*8/31) 0px;
+}
+span.voicemail{
+  background-position: calc(100%*8/31) 0px;
+}
+span.notification{
+  background-position: calc(100%*9/31) 0px;
+}
+span.parental{
+  background-position: calc(100%*10/31) 0px;
+}
+span.phone_green{
+  background-position: calc(100%*11/31) 0px;
+}
+span.premiumTV{
+  background-position: calc(100%*12/31) 0px;
+}
+span.security{
+  background-position: calc(100%*13/31) 0px;
+}
+span.sharing{
+  background-position: calc(100%*14/31) 0px;
+}
+span.socialTV{
+  background-position: calc(100%*15/31) 0px;
+}
+span.videochat{
+  background-position: calc(100%*16/31) 0px;
+}
+span.vod{
+  background-position: calc(100%*17/31) 0px;
+}
+span.wakeup{
+  background-position: calc(100%*18/31) 0px;
+}
+span.wifi{
+  background-position: calc(100%*19/31) 0px;
+}
+span.access{
+  background-position: calc(100%*20/31) 0px;
+}
+span.energy{
+  background-position: calc(100%*21/31) 0px;
+}
+span.games{
+  background-position: calc(100%*22/31) 0px;
+}
+span.homeauto{
+  background-position: calc(100%*23/31) 0px;
+}
+span.homectrl{
+  background-position: calc(100%*24/31) 0px;
+}
+span.media{
+  background-position: calc(100%*25/31) 0px;
+}
+span.music{
+  background-position: calc(100%*26/31) 0px;
+}
+span.phone{
+  background-position: calc(100%*28/31) 0px;
+}
+span.pictures{
+  background-position: calc(100%*29/31) 0px;
+}
+span.video{
+  background-position: calc(100%*30/31) 0px;
+}
+span.fourg{
+  background-position: calc(100%*31/31) 0px;
+}
+.sah_ui_slide span.moon{
+  background-size: initial;
+  background-image: url(../images/picto-lune.png);
+}
+
+.sah-logo-white{
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA0CAYAAADBjcvWAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHooAACAhQAA+f4AAH+sAAB6XAAA86gAADmTAAAephw4VTMAAAS6SURBVHja7Fo9jttWEP5mkSowIOYEYto0YgA1qiSdwNoTLH2ClU+w1AnCVEkX7gnMnCDPlRoBoRAgLk2VKYJwgRguJ8334vEzpeVK62QlaABhpcd5o/e9+Z8VsCep6kSfDtWqmtnzXeA0qA/gRlUrVY0AQA7QWAwgfQKgYgAzAD1+XotIchLqUtWI2vKU4VSI4BrvczglUtXCq+wCp0X1qUXFT+hkgX3xH9r/HEDEj4WI1EcPTFUdgLFZalR1BgAiMukqZ7lCDiABUIyGKJ6CxjyoO+DfA433kJNwn3sypkhKRaRU1cnn/iJRVeX7hYhkYdIDkIclC4BMREpTWmUtPHOuJUY7awANfW3AtdfeJJcrJJT1nM82AEoAFcu3hN+xYWifj4aozHkzADddNObMATwNALxS1UsKdwaQ5fmFptcL1lvNdLlC3CKrD+B6S9HbN8Goe7inuQzMTU8BfMv3oEZyc5CXAL4CcGl4evwMwzPlX09TvubkvwNwORpC+H0b8t0aubfcUx3qYw5ALSK1quY0i8aYzEJEcr4vWav9aqpvT5WIuA/WD4iIo8ZmNMtyNERpKomG2qmNrHo03B1AdiXoytzWNYC3PPCEmsoNb/mR44pU5najLjc3GmLOC4uWK7jlCjWAv7aY7/55TEQamqMNDH0AV3ytAyAhNSZEd8lRKYCfguUNL6b3aCUVo10MIBeRiPb+0mhxYHhnW3IOdvlBQLnx58vREDIaIn7A/s6mmDKylV4r9KO8hXfeUj71ugDzrbzhz72PLVeIzAVZk472NkUbWulbBU3S2vwtzXLMsslRy1emTS9tsAjMFABqVa1++/2bv9+9f/MMQMbQH/FyPWBrFdfLFSYAUpvH9omKfZ/4DL0QkYKHvmI+Ggf+kW7x30pVN5TbAzB+9uX49t37N1ct3/WacvvGDbwrRIdobE1tJRRU2epcRFJVLRgtJyZplyLiNbMIG0Hyzvzhvo5/KP7480crxwFwoyEctTMzdeasRd4nNt46AFHVjOvOzBQmbXWefcZXtGMu4XliG6h27VXV5D7ZwZm1C7CKs4QmGFAm5EuDZ55y37IYOSFfbucUhlIDyAXPmm1TqIcCs2DsiMsRlAZrTXBwdw+PXbcUB3zhvvljAMu2rDdGG5ExtzK4EE+J0YR97vdOWvY1Zp+V3ewC1mXmcRe0M7ZG86E484GCf+dBRAWAW1+hBJVKYfa6ln0OQETfTkz51tvV13WJivdmft+bmc+1qq6DnLfvjOO5Kbbbqhv3FDrofWiz41KazzoaUNWZ1RpD+eCRgDkRSUNfanGLR50r3vn6zuclBoIyuPF9NQUAV7bIZjS8aamEHhXY3Dj6Wybz2mjr+wN8KzMX98qnGwDfce3nXbPJg4CJSAHghTnA2ETKhYjMDxDvm9qNuTw7AEr3re4L2nDTEiWnAbgiCL2VqRP9BDi83emWaDkNZMQm1Ddcr7o4/sn8s+yhCfoo6QzsDOwM7AzsDOwM7FSAxSeAJ7ZliJ0tREdcTn30k6MLfBhC9gC4YwTHMzvTWRTCB5VpCe7YKNZHZH4zBD/rkwDx4Mh9bA1gIiLNBXuqhj9eXBzQyv+ftGFjm/g+8J8BACP42LdS28grAAAAAElFTkSuQmCC);
+    display: inline-block;
+    background-size: contain;
+}
+
+.sah_ui_slide span.bluetooth{
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2NDAgOTc2Jz48cmVjdCByeT0nMjkxJyBoZWlnaHQ9Jzk3Nicgd2lkdGg9JzY0MCcgZmlsbD0nI0ZGRicvPjxwYXRoIGQ9J20xNTcsMzMwLDMwNSwzMDctMTQ3LDE3OHYtNjM2bDE0NywxNzAtMzA1LDI5OScgc3Ryb2tlPScjYTBiODI4JyBzdHJva2Utd2lkdGg9JzUzJyBmaWxsPSdub25lJy8+PC9zdmc+");
+}
+
+

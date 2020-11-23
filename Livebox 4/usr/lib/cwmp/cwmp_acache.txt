@@ -1,0 +1,8 @@
+Device.PPP.Interface.[PPP_DATA].Username,2,
+Device.Services.X_ORANGE-COM_TopologyDiagnostics.TopologyLastResultIndex,1,
+Device.Services.X_ORANGE-COM_TopologyDiagnostics.DiagnosticsState,1,
+Device.DeviceInfo.VendorConfigFile.1.Version,3,
+Device.Services.X_ORANGE-COM_AutoBackupRestore.Enable,2,
+Device.DeviceInfo.X_ORANGE-COM_CustomerConfigFile.1.Name,2,
+Device.Services.X_ORANGE-COM_MultimediaHub.RemoteActionCompletion,2,
+Device.SelfTestDiagnostics.X_ORANGE-COM_DiagnosticScriptFileVersion,3

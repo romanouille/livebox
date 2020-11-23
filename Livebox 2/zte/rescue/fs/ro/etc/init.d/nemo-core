@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		sahenv -f /etc/environment mafia --nothreads pcb_plugin -n nemo-core -I /var/run/nemo -c /usr/lib/nemo/nemo.odl
+		;;
+	stop)
+		[ -e /var/run/nemo-core.pid ] && kill `cat /var/run/nemo-core.pid`
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac
+

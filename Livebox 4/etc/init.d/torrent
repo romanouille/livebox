@@ -1,0 +1,38 @@
+#!/bin/sh
+PID="/var/run/torrent_plugin.pid"
+
+case $1 in
+	start)
+
+		mount -t tmpfs -o size=500k tmpfs /web/private/torrents/
+		export torrent=400
+		logger -t torrent "Start torrent service"
+		pcb_plugin -vv -n torrent_plugin -I /var/run/torrent_plugin -c /usr/lib/torrent/torrent-definitions.odl
+	;;
+	stop)
+		logger -t torrent "Stop torrent service"
+		[ -e ${PID} ] && kill `cat ${PID}`
+		rm -f ${PID}
+		umount -l /web/private/torrents/
+	;;
+	restart)
+		$0 stop
+		$0 start
+	;;
+	backup)
+		logger -t opentracker "Backup for torrent not supported"
+	;;
+	restore)
+		logger -t opentracker "Export for torrent not supported"
+	;;
+	debuginfo)
+		if [ -f "${PID}" ]; then 
+			echo "torrent is running, pid=$(cat ${PID})"
+		else
+			echo "torrent is not running"
+		fi
+	;;
+	*)
+		echo "[$1] not supported" 
+	;;
+esac

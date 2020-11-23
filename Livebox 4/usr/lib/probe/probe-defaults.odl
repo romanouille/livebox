@@ -1,0 +1,5 @@
+datamodel {
+  object Probe {
+        parameter Enable="false";
+  }
+}

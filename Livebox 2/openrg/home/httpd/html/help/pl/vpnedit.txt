@@ -1,0 +1,13 @@
+<b>VPN</b><br>
+<br>
+
+
+Na tej stronie możesz zmienić ustawienia Twojego połączenia VPN.
+
+<br><br><b>Tryb podstawowy</b> jest preferowany dla połączeń pomiędzy dwoma modemami Livebox, jeśli chcesz pozostawić domyślne ustawienia bezpieczeństwa. <br>Aby utworzyć nowe połączenie należy podać następujące dane: nazwę tunelu, adres IP drugiej strony, klucz współdzielony (musi być taki sam dla obu urządzeń tworzących połączenie), zakres adresów sieci lokalnej oraz sieci zdalnej, która będzie miała dostęp do sieci lokalnej poprzez VPN. Adresy sieci lokalnej, zdalnej oraz maski sieciowe należy wprowadzić w zapisie bitowym.<br>
+
+
+
+
+<br><b>Tryb ekspert</b> pozwala na zdefiniowanie zaawansowanych reguł bezpieczeństwa.<br>Tryb ten może być również wykorzystany do konfigurowania połączenia pomiędzy modemem Livebox oraz innym typem serwera VPN. Aby utworzyć nowe połączenie należy podać te same dane jak w przypadku konfiguracji w trybie podstawowym. Istnieje również możliwość zmiany wielu domyślnych parametrów, takich jak szyfrowanie, czas ważności lub tryb uwierzytelniania.<br>
+

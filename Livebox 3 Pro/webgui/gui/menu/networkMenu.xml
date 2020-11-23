@@ -1,0 +1,28 @@
+<div id="pageBody" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<!--**********************
+	     USING B9 MENU in GWT 
+	    **********************
+	<div class="leftMenu">
+		<ul>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m31'" i18n="menuNetwork.caiq"></a></li>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m20'" i18n="menuNetwork.wifi"></a></li>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m21'" i18n="menuNetwork.firewall"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m22'" i18n="menuNetwork.dhcpdns"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m23'" i18n="menuNetwork.natpat"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m24'" i18n="menuNetwork.ntp"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m25'" i18n="menuNetwork.upnp"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m26'" i18n="menuNetwork.dmz"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m27'" i18n="menuNetwork.vpn"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m28'" i18n="menuNetwork.dyndns"></a></li>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m29'" i18n="menuNetwork.routing"></a></li>
+ 			<li  widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}" >
+ 				<span class="parentDependent" widgetType="VisibleDependent" widgetArg="{value: true}" dataId="Device/MESH/Enable">
+ 					<a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m30'" i18n="menuNetwork.meshLb"></a>
+ 				</span>
+ 			</li>
+		</ul>
+	</div>
+	-->
+	<div id="content"></div>
+	<div class="clear"/>
+</div>

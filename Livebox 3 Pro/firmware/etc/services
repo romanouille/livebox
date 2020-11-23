@@ -1,0 +1,21 @@
+# Internet network services list
+#
+tcpmux   1/tcp          # port service multiplexer
+udpmux   1/udp          # port service multiplexer
+ssh      22/tcp         # SSH
+ssh      22/udp         # SSH
+domain   53/tcp         # DNS
+domain   53/udp         # DNS
+bootps   67/tcp         # BOOTP
+bootps   67/udp         # BOOTP
+http     80/tcp         # WorldWideWeb HTTP
+http     80/udp         # HyperText Transfer Protocol
+https    443/tcp        # MCom
+https    443/udp        # MCom
+ntp      123/udp        # NTP
+isakmp   500/tcp        # IKE
+isakmp   500/udp        # IKE
+l2tp     1701/tcp  l2f  # L2TP
+l2tp     1701/udp  l2f  # L2TP
+shivavpn 2233/udp       # Intel/Shiva VPN
+

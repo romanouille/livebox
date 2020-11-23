@@ -1,0 +1,50 @@
+/*expr:ieee1905 */
+
+/**
+ * MIB is loaded on all ieee1905 decives.
+ *
+ * All devices matching expression: "ieee1905" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib ieee1905Dev {	
+	
+	/**
+	 * List of interfaces for this 1905 device
+	 *
+	*/
+	object 1905Interfaces[] {
+		/**
+		 * Hardware address of the interface (MAC address)
+		 */
+		read-only string PhysAddress;
+		
+		/**
+		 * The interface type
+		 */
+		read-only string Type {      
+			constraint enum ["ETH","WIFI","POWER","CABLE"];
+			default "ETH";
+		} 
+		
+        read-only string InterfaceDescription;
+		
+        object SpecificInfo[] {
+			read-only string BSSID;
+            read-only string Role {
+                /*constraint enum ["AP","non-AP/non-PCP STA","Wi-Fi P2P Client","Wi-Fi P2P Group Owner", "802.11adPCP"];*/
+                default "AP";
+            }
+        }
+    }
+
+  /**
+   * Query the link metric information of a 1905 link between a specific device pair.
+   * @param metricType - possible values are Rx, Tx, RxTx (optional: default is RxTx).
+   * @param neighborAlMac - the ALMAC of the neigbor 1905 device (optional).
+   * @function_return indicates success or failure.
+   */
+	void get1905LinkMetrics(string metricType, string neighborAlMac);
+}
+
+/** @location sah_services_gmap /mibs/ieee1905Dev.odl */

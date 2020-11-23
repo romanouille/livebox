@@ -1,0 +1,54 @@
+/*expr:on_off*/
+
+/**
+ * MIB is loaded on all units that are able to switch a device On and Off.
+ * All devices matching expression: "on_off" are extended with this MIB
+ * @version 7.1 
+ */
+mib onOff {
+
+    /**
+     * This command is used for turning something On
+     *
+     * @param id id of the OnOff object. if the id parameter is omitted, 
+     *           all instances will be turned on
+     */
+    void on(string id);
+
+    /**
+     * This command is used for turning something Off
+     *
+     * @param id id of the OnOff object. if the id parameter is omitted, 
+     *           all instances will be turned off
+     */
+    void off(string id);
+
+    /**
+     * This command is used for toggling. 
+     * If it was off it will change to On and if it was On it will change to off
+     *
+     * @param id id of the OnOff object. if the id parameter is omitted, 
+     *           all instances will be toggled 
+     */
+    void toggle(string id);
+    
+    object OnOff[] {
+        
+        /**
+         * Name for representation to the user. 
+         */
+        string Name;    
+        
+        /**
+         * Type of on/off switch
+         */
+        string Type;
+        
+        /**
+         * State of the switch. True for On, False for Off.
+         */
+        read-only bool State;
+    }
+}
+
+/** @location sah_services_gmap /mibs/OnOff.odl */

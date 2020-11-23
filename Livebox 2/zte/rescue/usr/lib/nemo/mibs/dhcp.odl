@@ -1,0 +1,39 @@
+object NeMo { 
+	object extends MIB(0,"dhcp") {
+		string Flag = "dhcp";
+		object DataModel {
+			read-only string DHCPStatus="Idle";
+			read-only string LastConnectionError="ERROR_NONE";
+			bool Renew;
+			read-only string IPAddress;
+			read-only string SubnetMask;
+			read-only string IPRouters;
+			read-only string DNSServers;
+			read-only string DHCPServer;
+			read-only int32 LeaseTime;
+			volatile read-only int32 LeaseTimeRemaining;
+			volatile read-only uint32 Uptime;
+			persistent int8 DSCPMark=-1;
+			persistent int8 PriorityMark=-1;
+			bool Formal;
+			persistent string AuthenticationInformation;
+			persistent int32 ResetOnPhysDownTimeout;
+
+			void renew();
+			
+			persistent object SentOption[] {
+				persistent bool Enable=true;
+				persistent string Alias;
+				persistent uint8 Tag;
+				persistent string Value;
+			}
+			persistent object ReqOption[] {
+				persistent bool Enable=true;
+				persistent string Alias;
+				persistent uint8 Tag;
+				read-only string Value;
+			}
+		}
+	}
+}
+

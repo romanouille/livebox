@@ -1,0 +1,8 @@
+<b>Livebox password:</b><br>
+<br>
+You can modify the administration password on your livebox. Enter a new password and enter it again in the confirmation field.<br>The administration password is used to authenticate whenever you log on to your livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

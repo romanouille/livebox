@@ -1,0 +1,97 @@
+object NeMo {
+	object extends MIB(0,"wlanvap") {
+		string Flag = "wlanvap";
+		object DataModel {
+			read-only string VAPStatus {
+				constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+				default "NotPresent";
+			}
+			read-only uint32 LastChangeTime;
+			read-only uint32 LastChange;
+			persistent string BSSID;
+			persistent string SSID;
+			persistent bool SSIDAdvertisementEnabled;
+			persistent uint32 RetryLimit;
+			read-only bool WMMCapability;
+			read-only bool UAPSDCapability;
+			persistent bool WMMEnable;
+			persistent bool UAPSDEnable;
+			persistent int32 MaxStations=-1;
+			persistent bool APBridgeDisable;
+			void kickStation(string macaddress);
+			persistent object Security {
+				read-only string ModesSupported;
+				persistent string ModeEnabled {
+					constraint enum ["None", "WEP-64", "WEP-128", "WPA-Personal", "WPA2-Personal", "WPA-WPA2-Personal",
+							"WPA-Enterprise", "WPA2-Enterprise", "WPA-WPA2-Enterprise"];
+					default "None";
+				}
+				persistent string WEPKey;
+				persistent string PreSharedKey;
+				persistent string KeyPassPhrase;
+				persistent uint32 RekeyingInterval = 3600;
+				persistent string RadiusServerIPAddr;
+				persistent uint32 RadiusServerPort = 1812;
+				persistent string RadiusSecret;
+				persistent uint32 RadiusDefaultSessionTimeout;
+				persistent string RadiusOwnIPAddress;
+				persistent string RadiusNASIdentifier;
+				persistent string RadiusCalledStationId;
+				persistent bool RadiusChargeableUserId;
+			}
+			persistent object WPS {
+				persistent bool Enable = true;
+				read-only string ConfigMethodsSupported;
+				persistent string ConfigMethodsEnabled = "Label,Display,PushButton";
+				string SelfPIN;
+				bool Configured = true;
+				read-only bool PairingInProgress;
+				void pushButton(/*optional*/ string clientPIN);
+				string generateSelfPIN();
+				void cancelPairing();
+			}
+			persistent object MACFiltering {
+				persistent string Mode {
+					constraint enum [ "Off", "WhiteList", "BlackList" ];
+					default "Off";
+				}
+				persistent object Entry[] {
+					persistent string MACAddress;
+				}
+			}
+			read-only uint32 AssociatedDeviceNumberOfEntries;
+			read-only object AssociatedDevice[]{
+				string ChargeableUserId;
+				string MACAddress;
+				bool AuthenticationState;
+				uint32 LastDataDownlinkRate{
+					constraint range[0,1600000];
+				}
+				uint32 LastDataUplinkRate{
+					constraint range[0,1600000];
+				}
+				int32 SignalStrength{
+					constraint range[-200,0];
+				}
+				uint32 Retransmissions{
+					constraint range[0,100];
+				}
+				bool Active;
+
+				volatile read-only int32 SignalNoiseRatio;
+				volatile read-only int32 Noise;
+				volatile read-only uint32 Inactive; 
+				volatile read-only uint32 RxPacketCount;
+				volatile read-only uint32 TxPacketCount;
+
+				volatile read-only uint32 UplinkMCS;
+				volatile read-only bool UplinkIs40mhz;      
+				volatile read-only bool UplinkShortGuard;
+
+				volatile read-only uint32 DownlinkMCS;
+				volatile read-only bool DownlinkIs40mhz;
+				volatile read-only bool DownlinkShortGuard;
+			}
+		}
+	}
+}

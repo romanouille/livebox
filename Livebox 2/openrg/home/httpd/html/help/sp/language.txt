@@ -1,0 +1,8 @@
+﻿<b>Idioma:</b><br>
+<br>
+Esta opción te permite seleccionar el idioma de las páginas de configuración de tu Livebox.<br>
+<!--
+<br>
+<b>
+-->
+

@@ -1,0 +1,27 @@
+<!-- TODO: TO BE DELETED: GWT PAGE EXISTING!! -->
+<div id="network_meshLb" xmlns="http://www.orange.com/xhtml/engine/loose">
+	 <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param grey"  i18n="menuNetwork.meshLb"/>
+		<div class="margin-left-40 margin-top-m8">
+			<span i18n="page.myNetwork.routing.meshlb.subtitle"/>
+		</div>
+	 </div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4  border-bottom-1">
+			<span class="h3Text" i18n="page.myNetwork.routing.meshlb.part1"/>
+			<br/>
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnDisableMesh" widgetType="ButtonImage" i18n="page.myNetwork.routing.meshlb.part1.btn"/>
+			</div>
+		</div>
+		 <!-- This DIV is a container for the GWT MeshWidget -->
+ 		<div id="gwt.widget.myNetwork.routing.meshlb.part2" class="boxType5 border-bottom-3"></div>
+		</form>
+	</div>
+</div>

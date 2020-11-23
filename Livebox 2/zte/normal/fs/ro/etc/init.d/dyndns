@@ -1,0 +1,47 @@
+#!/bin/sh
+
+PCB_PLUGIN="/bin/pcb_plugin"
+PLUGIN_ODL="/usr/lib/dyndns/dyndns.odl"
+PID_PLUGIN="/var/run/dyndns_plugin.pid"
+
+case $1 in
+    start)
+        if [ -e ${PID_PLUGIN} ]; then
+            echo "dyndns plug-in already started"
+        else
+            echo "Starting dyndns plug-in"
+            ${PCB_PLUGIN} -n dyndns_plugin -c ${PLUGIN_ODL}
+        fi
+        pcb_cli -l -w -1 "DynDNS"
+        ;;
+    stop)
+        if [ -e ${PID_PLUGIN} ]; then
+            echo "Stopping dyndns plug-in"
+            kill $(cat ${PID_PLUGIN})
+        else
+            echo "dyndns plug-in not running"
+        fi
+        ;;
+    restart)
+        $0 stop
+        while [ -e ${PID_PLUGIN} ]; do
+            sleep 1
+        done
+        $0 start
+        ;;
+    backup)
+        if [ -e ${PID_PLUGIN} ]; then
+            pcb_cli "DynDNS.export($2)"
+        else
+            echo "dyndns plug-in not running, unable to backup settings"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/dyndns
+        touch /var/lib/dyndns/restore
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|backup|restore]"
+        ;;
+esac
+

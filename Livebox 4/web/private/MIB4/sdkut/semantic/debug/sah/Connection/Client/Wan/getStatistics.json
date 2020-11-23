@@ -1,0 +1,40 @@
+{
+  "status": 0,
+  "data": {
+    "linkMode": "DSL",
+    "linkType": "DSL_PPP",
+    "DSL": {
+      "connectionDuration": 850,
+      "connectionStatus": "good",
+      "dataPath": "fast",
+      "standard": "G.992.1_Annex_A",
+      "modulationType": "ADSL",
+      "uploadBandwidth": 21235,
+      "downloadBandwidth": 68000,
+      "uploadAttenuation": 12000,
+      "downloadAttenuation": 8654,
+      "uploadNoiseMargin": 17987,
+      "downloadNoiseMargin": 23879,
+      "noiseLevel": 8,
+      "downloadErrorDuration": 20,
+      "downloadFailureDuration": 20,
+      "crcErrors": 2,
+      "fecCorrections": 1
+    },
+    "FTTH": {
+      "connectionDuration": 950,
+      "uploadBandwidth": 21587,
+      "downloadBandwidth": 68698,
+      "noiseLevel": 4,
+      "downloadErrorDuration": 10,
+      "downloadFailureDuration": 10
+    },
+    "protocol": "ppp",
+    "PPP": {
+      "lastConnectionTime": 0,
+      "connectionDuration": 0,
+      "lastDisconnectionTime": 0,
+      "lastError": "ERROR_NONE"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+﻿<b>Telefonía sobre Internet:</b><br>
+<br>
+Esta página muestra el estado de tu servicio de telefonía por Internet.<br>
+Si el servicio está habilitado, la luz de telefonía del Livebox estará encendida de color verde y el estado del servicio de telefonía aparecerá como “activo”, informando que el servicio está operativo.<br>
+Si no fuera así, la luz de telefonía del Livebox estaría apagada y el estado del servicio de telefonía aparecería como “inactivo”.<br>
+Si el servicio no se activa automáticamente, prueba a reiniciar tu Livebox. Si el problema persiste, por favor, contacta con el Servicio de Atención al Cliente.<br>
+Si el servicio está habilitado, se mostrará tu número de teléfono del servicio en esta página.<br>
+También puedes usar el botón Test para probar el estado del teléfono conectado a tu Livebox.<br>
+<!--
+<br>
+-->
+

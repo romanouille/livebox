@@ -1,0 +1,21 @@
+{
+    "status": true,
+    "data": {
+        "DiagnosticsState": "Complete",
+        "DiscoveryMode": "Absolute",
+        "Timeout": 60,
+        "LLTDQuickDiscovery": true,
+        "LLTDIcon": true,
+        "MMEEnable": true,
+        "SSDPEnable": true,
+        "BonjourEnable": true,
+        "PeriodicEnable": false,
+        "PeriodicTopologyInterval": 30,
+        "LastUpdate": "2015-04-01T14:29:44Z",
+        "AutomaticUpload": "Remote",
+        "UploadURL": "http://karmatrack.orange.com/FR/topo/",
+        "TopologyLastResultIndex": 3,
+        "CustomerAuthorization": false,
+        "TopologyNumberOfEntries": 3
+    }
+}

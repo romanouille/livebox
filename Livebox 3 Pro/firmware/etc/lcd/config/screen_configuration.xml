@@ -1,0 +1,3781 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+  <!--****************************************************************-->
+  <!--*                                                              *-->
+  <!--*                       PARAMETERS                             *-->
+  <!--*                                                              *-->
+  <!--****************************************************************-->
+  <parameters>
+    <customer>   <!-- customer data -->
+      <customer_service_number>3901</customer_service_number>
+      <website>http://www.orange.fr</website>
+      <boxguiaddr>http://livebox</boxguiaddr>
+    </customer>
+    <widgets>
+      <default>
+        <fontname>         <!-- fonts library used for text rendering -->
+          <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>       <!-- Relative path from exe directory -->
+        </fontname>
+        <fontcolor>(255,255,102,102)</fontcolor>   <!-- (A,R,G,B) -->
+        <yalignement>top</yalignement>
+        <xalignement>left</xalignement>
+      </default>
+    </widgets>
+    <timers>  <!-- in seconde -->
+      <t1>5</t1>      <!-- automatic go back to main - after process success -->
+      <t2>15</t2>     <!-- automatic go back to root of process launch - after process failure -->
+      <t3>60</t3>     <!-- automatic go back to main - no action launched in the menu -->
+      <t4>60</t4>     <!-- automatic go back sleep - after manual wake up -->
+      <t5>60</t5>     <!-- automatic go back sleep - after new alarm -->
+      <t6>60</t6>     <!-- automatic go on process - if requested action not done -->
+      <t7>30</t7>     <!-- automatic menu/root - if requested action not done -->
+      <t8>3</t8>       <!-- minimum display time of process screen -->
+      <t9>120</t9>     <!-- minimum display time technical information screen -->
+      <t10>1800</t10>  <!-- automatic go back sleep - after new blocking situation -->
+    </timers>
+    <stimulus>
+      <!--
+        Stimulus with predefined functions: They are meant to be used in the pages layout description. The stimulus are ended by the "_stim" keyword and can be used:
+        - As raw widget markups in page with static widget, like any other classic widget (<label>, <picture>, etc...). The only
+          thing that must be defined is the size and position plus some other optional parameter like font for label, etc...
+          Ex: displaying of the Internet status picture using the "gwsinternetpict_stim" stimulus as raw widget.
+              <gwsinternetpict_stim>
+                 <posx>15</posx>
+                 <posy>101</posy>
+                 <width>74</width>
+                 <height>74</height>
+               </gwsinternetpict_stim>
+        - As widget parameter, like any other parameter (<width>, <font>, etc...). The stimulus is affected to a widget by using the
+          relevant stimulus markup: "<img_stim>" for image stimulus, "<text_stim>" for text stimulus.
+          Using stimulus as widget parameter is useful in page which content can change dynamically (a picture widget can in turn,
+          display Internet status, voip status, mesh status...).
+          Ex: displaying of the Internet status in a picture widget using the "gwsinternetpict_stim" stimulus as widget parameter. The
+          "<img_stim>" markup here replaces the "<path>" markup used to declare path to the picture file.
+              <picture>
+                <posx>15</posx>
+                <posy>101</posy>
+                <width>74</width>
+                <height>74</height>
+                <img_stim>gwsinternetpict_stim</img_stim>
+              </picture>
+        -->
+
+<!-- PROCESS Stimulus:
+	
+	<process>	
+stimulus related to process
+
+		<proc_name  level="blocking"/"normal"/"critical">
+The level of a process will determine the authority to interrupt what it is currently displayed on the screen:
+
+			- "normal" : lowest level. The process is displayed when manually launch from the screen interface 
+                         or if in sleep mode/homePage when lauched from remote HTML GUI.
+	
+			- "blocking" : Middle level. Same level as for "normal" level + can interrupt the displaying of the menu.
+ 
+			- "critical" : Highest level. Same level as for "blocking" level + can interrupt other process.
+
+			<icon>  
+Icon associated to process launching. A process is either launchable or not (deactivated from GUI) and there is one icon associated to each of these two states. These stimulus are typicaly used as item in listbox in which they are associated to the corresponding process using command stimulus (PROCESS_ADDING_LIVEPHONE, PROCESS_WIFI_PAIRING, etc...)
+			</icon>
+
+			<steps>
+In process steps: Each step of a process is automatically associated with a page layout described at "screen/page/process/process_name". The id used to identify a step are in the 50 last id of the associated range of ID (see below):
+                      - Wifi: Identifier between [0;99] => [50;99] for process steps.
+          - Mesh: Identifier between [100;199] => [150;199] for process steps.
+          - Voip: Identifier between [200;299] => [250;299] for process steps.
+          - USB:  Identifier between [400;499] => [450;499] for process steps.
+		    </steps>
+
+			<alarm>
+Process Failure Alarms:
+Each process Failure alarm has a unique identifier (pre-assigned) from its affected interval of ID and is associated to a stimulus that can be used in label to filter alarms from a specific process. Each process is related to a service of the gateway, so two different process can share process alarm from the same interval of ID:
+
+         - Wifi: Process Failure Alarm identifier between [0;99] and stimulus name "procwifipairingfailurealarm_stim", "procwifiinfofailurealarm_stim".
+         - Mesh: Process Failure Alarm identifier between [100;199] and stimulus name "procaddliveboxfailurealarm_stim".
+         - Voip: Process Failure Alarm identifier between [200;299] and stimulus name "procaddlivephonefailurealarm_stim", "procphoneringfailurealarm_stim".
+         - USB: Process Failure Alarm identifier between [400;499] and stimulus name "procejectdiskfailurealarm_stim".
+
+         NB: GW Failure, GW Events and Process Failure alarms share the same interval of identifier!!!
+		        <failure>
+		        </failure>
+		        <success>
+			    </success>
+		    </alarm>
+
+		<proc_name>
+
+	</process>
+-->
+      <process>
+		<wifipairing level="normal">
+	      <icon> 
+          	<procwifipairingico_stim> <!-- Wifi pairing process icon stimulus, can only be affected to an icon widget! -->
+          	  <procwifipairingicoimg_stim> <!-- Wifi pairing process icon image only stimulus -->
+          	    <path>
+          	      <enabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_wifi_3.png</enabled>
+          	      <disabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_wifi_3.png</disabled>
+          	    </path>
+          	  </procwifipairingicoimg_stim>
+          	  <procwifipairingicocpt_stim> <!-- Wifi pairing process icon caption only stimulus -->
+          	    <!-- One caption for each image -->
+          	    <enabled>
+          	      <text>
+          	        <fr>Associer un équipement\nWifi à la Livebox</fr>
+          	        <en>Pairing a WiFi device\nwith the Livebox</en>
+          	      </text>
+          	    </enabled>
+          	    <disabled>
+          	      <text>
+          	        <fr>Associer un équipement\nWifi à la Livebox</fr>
+          	        <en>Pairing a WiFi device\nwith the Livebox</en>
+          	      </text>
+          	    </disabled>
+          	  </procwifipairingicocpt_stim>
+         	</procwifipairingico_stim>
+		  </icon>
+ 		  <steps>
+       	     <procwifipairingsteps_stim> <!-- Wifi pairing process step stimulus -->
+                <procwifipairing_confirm>
+        	      <id>50</id> <!-- process start step -->
+        	    </procwifipairing_confirm>
+        	    <procwifipairing_ongoing>
+        	      <id>51</id> <!-- process ongoing step -->
+        	    </procwifipairing_ongoing>
+        	    <procwifipairing_success>
+        	      <id>52</id> <!-- process success step -->
+        	    </procwifipairing_success>
+        	    <procwifipairing_failure>
+        	      <id>53</id> <!-- process failure step -->
+        	    </procwifipairing_failure>
+        	    <procwifipairing_wifidisabled>
+        	      <id>54</id> <!-- Use procwifipairingfailurealarm_stim instead??? -->
+        	    </procwifipairing_wifidisabled>
+        	    <procwifipairing_wpsdisabled>
+        	      <id>55</id> <!-- Use procwifipairingfailurealarm_stim instead??? --> -->
+        	    </procwifipairing_wpsdisabled>
+        	 </procwifipairingsteps_stim>
+ 		  </steps>
+          <alarm>
+          	<failure>  <!-- process failure alarm -->
+            	<procwifipairingfailurealarm_stim> <!-- Wifi pairing process alarm stimulus, logically affected to a process failure screen! -->
+            	</procwifipairingfailurealarm_stim>
+	          </failure>
+	          <success>  <!-- process success alarm -->
+            	<procwifipairingsuccessalarm_stim> <!-- Wifi pairing process alarm stimulus, logically affected to a process failure screen! -->
+            	</procwifipairingsuccessalarm_stim>
+	          </success>
+	      </alarm>
+		</wifipairing>
+		<wifiinfos level="normal">
+	      <icon>
+          	<procwifiinfosico_stim> <!-- Wifi ssid process icon stimulus, can only be affected to an icon widget! -->
+            	<procwifiinfosicoimg_stim> <!-- Wifi ssid process icon image only stimulus -->
+            	  <path>
+            	    <enabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_info_3.png</enabled>
+            	    <disabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_info_3.png</disabled>
+            	  </path>
+            	</procwifiinfosicoimg_stim>
+            	<procwifiinfosicocpt_stim> <!-- Wifi ssid process icon caption only stimulus -->
+            	  <!-- One caption for each image -->
+            	  <enabled>
+            	    <text>
+            	      <fr>Informations WiFi</fr>
+            	      <en>WiFi Informations</en>
+            	    </text>
+            	  </enabled>
+            	  <disabled>
+            	    <text>
+            	      <fr>Informations WiFi</fr>
+            	      <en>WiFi Informations</en>
+            	    </text>
+            	  </disabled>
+            	</procwifiinfosicocpt_stim>
+          	</procwifiinfosico_stim>
+		  </icon>
+ 		  <steps>
+	        <procwifiinfossteps_stim> <!-- wifi informations step -->
+	            <procwifiinfos_step0>
+	              <id>60</id> 
+	            </procwifiinfos_step0>
+	        </procwifiinfossteps_stim>
+		  </steps>
+          <alarm>
+          	<failure>
+	          </failure>
+	          <success>
+	          </success>
+	      </alarm>
+		</wifiinfos>
+		<addlivebox level="normal">
+	     <icon>
+       	   <procaddliveboxico_stim> <!-- Add Livebox process icon stimulus, can only be affected to an icon widget! -->
+        	    <procaddliveboxicoimg_stim> <!-- Add Livebox process icon image only stimulus -->
+        	      <path>
+        	        <enabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_lb_5.png</enabled>
+        	        <disabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_lb_5.png</disabled>
+        	      </path>
+        	    </procaddliveboxicoimg_stim>
+        	    <procaddliveboxicocpt_stim> <!-- Add Livebox process icon caption only stimulus -->
+        	      <!-- One caption for each image -->
+        	      <enabled>
+        	        <text>
+        	          <fr>Ajouter une nouvelle\nLivebox au réseau</fr>
+        	          <en>Adding a new Livebox\nto the network</en>
+        	        </text>
+        	      </enabled>
+        	      <disabled>
+        	        <text>
+        	          <fr>Ajouter une nouvelle\nLivebox au réseau</fr>
+        	          <en>Adding a new Livebox\nto the network</en>
+        	        </text>
+        	      </disabled>
+        	    </procaddliveboxicocpt_stim>
+        	  </procaddliveboxico_stim>
+					</icon>
+ 					<steps>
+       	  	<procaddliveboxsteps_stim> <!-- Add Livebox process step stimulus -->
+          	  <procaddlivebox_step0>
+          	    <id>150</id> <!-- process start step -->
+          	  </procaddlivebox_step0>
+          	  <procaddlivebox_step1>
+          	    <id>151</id> <!-- process ongoing step -->
+          	  </procaddlivebox_step1>
+          	  <procaddlivebox_success>
+          	    <id>152</id> <!-- process success step -->
+          	    <msg>
+          	    	<brief>
+          	      	<text>
+          	        	<fr></fr>
+          	          <en></en>
+          	        </text>
+          	      </brief>
+          	      <long>
+          	        <gw>
+          	          <text>
+          	        		<fr>Succès de l'ajout de\nla nouvelle Livebox\nau réseau.</fr>
+          	        		<en>Successful adding\nof the new Livebox\ninto the network.</en>
+          	          </text>
+          	        </gw>
+          	        <gwc>
+          	          <text>
+          	        		<fr>Succès de l'ajout de\nla nouvelle Livebox\nau réseau.</fr>
+          	        		<en>Successful adding\nof the new Livebox\ninto the network.</en>
+          	          </text>
+          	        </gwc>
+          	        <ap>
+          	          <text>
+          	        		<fr>Succès de l'ajout de\nla nouvelle Livebox\nau réseau.\nRedémarrage...</fr>
+          	        		<en>Successful adding\nof the new Livebox\ninto the network.\nReboot...</en>
+          	          </text>
+          	        </ap>
+          	    	</long>
+          	  	</msg>
+          	  </procaddlivebox_success>
+          	  <procaddlivebox_failure>
+          	    <id>153</id> <!-- process failure step -->
+          	  </procaddlivebox_failure>
+          	</procaddliveboxsteps_stim>
+ 					</steps>
+        	<alarm>
+          	<failure>
+            	<procaddliveboxfailurealarm_stim> <!-- Add Livebox process alarm stimulus, logically affected to a process failure screen! -->
+            	</procaddliveboxfailurealarm_stim>
+	          </failure>
+	          <success>
+            	<procaddliveboxsuccessalarm_stim> <!-- Add Livebox process alarm stimulus, logically affected to a process failure screen! -->
+            	</procaddliveboxsuccessalarm_stim>
+	          </success>
+	        </alarm>
+				</addlivebox>
+				<addlivephone level="normal">
+	        <icon>
+          	<procaddlivephoneico_stim> <!-- Add Livephone process icon stimulus, can only be affected to an icon widget! -->
+            	<procaddlivephoneicoimg_stim> <!-- Add Livephone process icon image only stimulus -->
+            	  <path>
+            	    <enabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_4.png</enabled>
+            	    <disabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_4.png</disabled>
+            	  </path>
+            	</procaddlivephoneicoimg_stim>
+            	<procaddlivephoneicocpt_stim> <!-- Add Livephone process icon caption only stimulus -->
+            	  <!-- One caption for each image -->
+            	  <enabled>
+            	    <text>
+            	      <fr>Ajouter un livephone\nà la Livebox</fr>
+            	      <en>Adding livehone\nto the Livebox</en>
+            	    </text>
+            	  </enabled>
+            	  <disabled>
+            	    <text>
+            	      <fr>Ajouter un livephone\nà la Livebox</fr>
+            	      <en>Adding livehone\nto the Livebox</en>
+            	    </text>
+            	  </disabled>
+            	</procaddlivephoneicocpt_stim>
+          	</procaddlivephoneico_stim>
+					</icon>
+ 					<steps>
+     	     	<procaddlivephonesteps_stim> <!-- Add Livephone process step stimulus -->
+            	<procaddlivephone_step0>
+            	  <id>250</id> <!-- process start step -->
+            	</procaddlivephone_step0>
+            	<procaddlivephone_step1>
+            	  <id>251</id> <!-- process ongoing step -->
+            	</procaddlivephone_step1>
+            	<procaddlivephone_success>
+            	  <id>252</id> <!-- process success step -->
+            	</procaddlivephone_success>
+            	<procaddlivephone_failure>
+            	  <id>253</id> <!-- process failure step -->
+            	</procaddlivephone_failure>
+        	    <procaddlivephone_forbiddenfromap>
+        	      <id>254</id> <!-- forbidden from AP --> -->
+        	    </procaddlivephone_forbiddenfromap>
+        	    <procaddlivephone_nbmaxhandsetreached>
+        	      <id>255</id> <!-- forbidden from AP --> -->
+        	    </procaddlivephone_nbmaxhandsetreached>
+          	</procaddlivephonesteps_stim>
+ 					</steps>
+        	<alarm>
+          	<failure>
+            	<procaddlivephonefailurealarm_stim> <!-- Add Livephone process alarm stimulus, logically affected to a process failure screen! -->
+           		</procaddlivephonefailurealarm_stim>
+	          </failure>
+	          <success>
+            	<procaddlivephonesuccessalarm_stim> <!-- Add Livephone process alarm stimulus, logically affected to a process failure screen! -->
+            	</procaddlivephonesuccessalarm_stim>
+	          </success>
+	        </alarm>
+				</addlivephone>
+				<phonering level="normal">
+	        <icon>
+        	  <procphoneringico_stim> <!-- Phone ringing test process icon stimulus, can only be affected to an icon widget! -->
+          	  <procphoneringicoimg_stim> <!-- Phone ringing test process icon image only stimulus -->
+          	    <path>
+          	      <enabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_action_3.png</enabled>
+          	      <disabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_action_3.png</disabled>
+          	    </path>
+          	  </procphoneringicoimg_stim>
+          	  <procphoneringicocpt_stim> <!-- Phone ringing test process icon caption only stimulus -->
+          	    <!-- One caption for each image -->
+          	    <enabled>
+          	      <text>
+          	        <fr>Lancer le test de mes\ntéléphones</fr>
+          	        <en>Launch the phones\nringing test</en>
+          	      </text>
+          	    </enabled>
+          	    <disabled>
+          	      <text>
+          	        <fr>Lancer le test de mes\ntéléphones</fr>
+          	        <en>Launch the phones\nringing test</en>
+          	      </text>
+          	    </disabled>
+          	  </procphoneringicocpt_stim>
+          	</procphoneringico_stim>
+					</icon>
+ 					<steps>
+    	      <procphoneringsteps_stim> <!-- Phone ringing test process step stimulus -->
+      	      <procphonering_step0>
+      	        <id>260</id> <!-- Process success step -->
+      	      </procphonering_step0>
+      	    </procphoneringsteps_stim>
+ 					</steps>
+        	<alarm>
+          	<failure>
+            	<procphoneringfailurealarm_stim> <!-- Phone ringing test process alarm stimulus, logically affected to a process failure screen! -->
+            	</procphoneringfailurealarm_stim>
+	          </failure>
+	          <success>
+  	          <procphoneringsuccessalarm_stim> <!-- Phone ringing test process alarm stimulus, logically affected to a process failure screen! -->
+	            </procphoneringsuccessalarm_stim>
+	          </success>
+	        </alarm>
+				</phonering>
+				<installvoip level="normal">
+	        <icon>
+					</icon>
+ 					<steps>
+         		<procinstallvoipsteps_stim>
+          	  <procinstallvoip_step0>
+          	    <id>270</id> <!-- process ongoing step -->
+          	  </procinstallvoip_step0>
+          	  <procinstallvoip_step1>
+          	    <id>271</id> <!-- process success step -->
+          	  </procinstallvoip_step1>
+          	  <procinstallvoip_step2>
+          	    <id>272</id> <!-- process failure step -->
+          	  </procinstallvoip_step2>
+          	</procinstallvoipsteps_stim>
+ 					</steps>
+        	<alarm>
+          	<failure>
+	          </failure>
+	          <success>
+	          </success>
+	        </alarm>
+				</installvoip>
+        <installinternet level="normal">
+	        <icon>
+					</icon>
+ 					<steps>
+        	  <procinstallinternetsteps_stim>
+          	  <procinstallinternet_step0>
+          	    <id>350</id> <!-- process ongoing step -->
+          	  </procinstallinternet_step0>
+          	  <procinstallinternet_step1>
+          	    <id>351</id> <!-- process success step -->
+          	  </procinstallinternet_step1>
+          	  <procinstallinternet_step2>
+          	    <id>352</id> <!-- process failure step -->
+          	  </procinstallinternet_step2>
+          	</procinstallinternetsteps_stim>
+ 					</steps>
+        	<alarm>
+          	<failure>
+	          </failure>
+	          <success>
+	          </success>
+	        </alarm>
+        </installinternet>
+				<ejectdisk level="normal">
+	        <icon>
+            <procejectdiskico_stim> <!-- Eject Disk process icon stimulus, can only be affected to an icon widget! -->
+              <procejectdiskicoimg_stim> <!-- Eject Disk process icon image only stimulus -->
+                <path>
+                  <enabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_eject_USB.png</enabled>
+                  <disabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_eject_USB.png</disabled>
+                </path>
+              </procejectdiskicoimg_stim>
+              <procejectdiskicocpt_stim> <!-- Eject Disk process icon caption only stimulus -->
+                <!-- One caption for each image -->
+                <enabled>
+                	<text>
+                	  <fr>Retirer un équipement\nUSB</fr>
+                	  <en>Ejecting disk</en>
+                	</text>
+              	</enabled>
+              	<disabled>
+                	<text>
+                	  <fr>Retirer un équipement\nUSB</fr>
+                	  <en>Ejecting disk</en>
+                	</text>
+              	</disabled>
+            	</procejectdiskicocpt_stim>
+          	</procejectdiskico_stim>
+					</icon>
+ 					<steps>
+      	    <procejectdisksteps_stim> <!-- Eject Disk process step stimulus -->
+        	    <procejectdisk_disklist>
+        	      <id>450</id> <!-- disk list step -->
+        	    </procejectdisk_disklist>
+        	    <procejectdisk_ejectconfirm>
+        	      <id>451</id> <!-- eject confirm step -->
+        	    </procejectdisk_ejectconfirm>
+        	    <procejectdisk_ejectongoing>
+        	      <id>452</id> <!-- process ongoing step -->
+        	    </procejectdisk_ejectongoing>
+        	    <procejectdisk_ejectsuccess>
+        	      <id>453</id> <!-- process success step -->
+        	    </procejectdisk_ejectsuccess>
+        	    <procejectdisk_ejectfailure>
+        	      <id>454</id> <!-- process success step -->
+        	    </procejectdisk_ejectfailure>
+        	  </procejectdisksteps_stim>
+ 					</steps>
+        	<alarm>
+          	<failure>
+            	<procejectdiskfailurealarm_stim> <!-- Eject Disk process alarm stimulus, logically affected to a process failure screen! -->
+            	</procejectdiskfailurealarm_stim>
+	          </failure>
+	          <success>
+           		<procejectdisksuccessalarm_stim> <!-- Eject Disk process alarm stimulus, logically affected to a process failure screen! -->
+           		</procejectdisksuccessalarm_stim>
+	          </success>
+	        </alarm>
+				</ejectdisk>
+				<restoredefreboot level="blocking">
+	        <icon>
+					</icon>
+ 					<steps>
+						<procrestoredefrebootsteps_stim>
+      	      <procrestoredefreboot_simconfcopysuccess> <!-- case 29 -->
+                <id>550</id> <!-- unique identifier -->
+              </procrestoredefreboot_simconfcopysuccess>
+              <procrestoredefreboot_simconfcopyfailed> <!-- case 30 -->
+                <id>551</id> <!-- unique identifier -->
+              </procrestoredefreboot_simconfcopyfailed>
+              <procrestoredefreboot_simnotpresent> <!-- case 26 -->
+                <id>552</id> <!-- unique identifier -->
+              </procrestoredefreboot_simnotpresent>
+              <procrestoredefreboot_simlocked> <!-- case 32 -->
+                <id>553</id> <!-- unique identifier -->
+              </procrestoredefreboot_simlocked>
+              <procrestoredefreboot_simpartialconfcopysuccess>  <!-- case 27 -->
+                <id>554</id> <!-- unique identifier -->
+              </procrestoredefreboot_simpartialconfcopysuccess>
+              <procrestoredefreboot_fullsimreadongoing>
+                <id>555</id> <!-- unique identifier -->
+              </procrestoredefreboot_fullsimreadongoing>
+              <procrestoredefreboot_partialsimreadongoing>
+                <id>556</id> <!-- unique identifier -->
+              </procrestoredefreboot_partialsimreadongoing>
+              <procrestoredefreboot_simcheckongoing>
+                <id>557</id> <!-- unique identifier -->
+              </procrestoredefreboot_simcheckongoing>
+              <procrestoredefreboot_simwriteongoing>
+                <id>558</id> <!-- unique identifier -->
+              </procrestoredefreboot_simwriteongoing>
+              <procrestoredefreboot_frommenufailsimnotpresent>
+                <id>559</id> <!-- unique identifier -->
+              </procrestoredefreboot_frommenufailsimnotpresent>
+              <procrestoredefreboot_simfwupstarted>
+                <id>560</id> <!-- unique identifier -->
+              </procrestoredefreboot_simfwupstarted>
+              <procrestoredefreboot_simfwupsuccess>
+                <id>561</id> <!-- unique identifier -->
+              </procrestoredefreboot_simfwupsuccess>
+
+		</procrestoredefrebootsteps_stim>
+      </steps>
+        	<alarm>
+          	<failure>
+	          </failure>
+	          <success>
+	          </success>
+	        </alarm>
+		</restoredefreboot>
+		<switchoffconfirm  level="blocking">
+	      <icon>
+		  </icon>
+ 		  <steps>
+			<procswitchoffconfirmsteps_stim>
+              <procswitchoffconfirm_menu>
+                <id>650</id> <!-- unique identifier -->
+              </procswitchoffconfirm_menu>
+              <procswitchoffconfirm_failure>
+                <id>651</id> <!-- unique identifier -->
+              </procswitchoffconfirm_failure>
+			</procswitchoffconfirmsteps_stim>
+ 		  </steps>
+          <alarm>
+            <failure>
+	        </failure>
+	        <success>
+	        </success>
+	      </alarm>
+		</switchoffconfirm>
+		<generic level="normal">
+	      <icon>
+		  </icon>
+ 		  <steps>
+			<procgenericsteps_stim>
+              <procgeneric_disabled>
+                <id>660</id> <!-- unique identifier -->
+              </procgeneric_disabled>
+			</procgenericsteps_stim>
+ 		  </steps>
+          <alarm>
+              <failure>
+	          </failure>
+	          <success>
+	          </success>
+	      </alarm>
+		</generic>
+        <systeminfos level="normal">
+	      <icon>
+		  </icon>
+ 		  <steps>
+			<procsysteminfossteps_stim>
+              <procsysteminfos_step0>
+                <id>670</id> <!-- unique identifier -->
+              </procsysteminfos_step0>
+			</procsysteminfossteps_stim>
+ 		  </steps>
+          <alarm>
+              <failure>
+	          </failure>
+	          <success>
+	          </success>
+	      </alarm>
+		</systeminfos>
+				<enablesshaccess level="normal">
+	        <icon>
+        	  <procenablesshaccessico_stim> <!-- Phone ringing test process icon stimulus, can only be affected to an icon widget! -->
+          	  <procenablesshaccessicoimg_stim> <!-- Phone ringing test process icon image only stimulus -->
+          	    <path>
+          	      <enabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_SAV_menu.png</enabled>
+          	      <disabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_SAV_menu.png</disabled>
+          	    </path>
+          	  </procenablesshaccessicoimg_stim>
+          	  <procenablesshaccessicocpt_stim> <!-- Phone ringing test process icon caption only stimulus -->
+          	    <!-- One caption for each image -->
+          	    <enabled>
+          	      <text>
+          	        <fr>Activer l'accès SAV</fr>
+          	        <en>Enable SAV access</en>
+          	      </text>
+          	    </enabled>
+          	    <disabled>
+          	      <text>
+          	        <fr>Activer l'accès SAV</fr>
+          	        <en>Enable SAV access</en>
+          	      </text>
+          	    </disabled>
+          	  </procenablesshaccessicocpt_stim>
+          	</procenablesshaccessico_stim>
+					</icon>
+				</enablesshaccess>
+      </process>
+      <gwstatus> <!-- stimulus related to gateway services status -->
+        <!-- A Service is in enabled state when no alarm are present for this service and is in disabled state when it has been disabled from GUI. Degraded and inactive state are met depending on encountered alarms. The alarms list describe in "screen/parameters/stimulus/alarm" informs of the service status to apply (degraded or inactive) for each possible gw alarm -->
+        <picture>
+          <gwspict_stim> <!-- Gather all the gateway services status picture stimulus in one with priority fixed by current alarm -->
+            <gwsinternetpict_stim> <!-- Internet status picture stimulus -->
+              <path>
+                <active></active>
+                <degraded></degraded>
+                <inactive></inactive>
+                <disabled></disabled>
+              </path>
+            </gwsinternetpict_stim>
+            <gwsvoippict_stim> <!-- Voip status picture stimulus -->
+              <path>
+                <active></active>
+                <degraded></degraded>
+                <inactive></inactive>
+                <disabled></disabled>
+              </path>
+            </gwsvoippict_stim>
+            <gwswifipict_stim>  <!-- Wifi status picture stimulus -->
+              <path>
+                <active></active>
+                <degraded></degraded>
+                <inactive></inactive>
+                <disabled></disabled>
+              </path>
+            </gwswifipict_stim>
+            <gwsmeshpict_stim> <!-- Mesh status picture stimulus -->
+              <path>
+                <active>
+                  <gw></gw>
+                  <gwc></gwc>
+                  <ap></ap>
+                </active>
+                <degraded>
+                  <gw></gw>
+                  <gwc></gwc>
+                  <ap></ap>
+                </degraded>
+                <inactive>
+                  <gw></gw>
+                  <gwc></gwc>
+                  <ap></ap>
+                </inactive>
+                <disabled></disabled>
+              </path>
+            </gwsmeshpict_stim>
+          </gwspict_stim>
+          <gwslinkqualitypict_stim> <!-- link quality (between GWC and AP) picture stimulus -->
+            <path>
+              <level0>/etc/lcd/img/Icones/IconeSignal/PNG/icone_signal_1.png</level0>
+              <level1>/etc/lcd/img/Icones/IconeSignal/PNG/icone_signal_2.png</level1>
+              <level2>/etc/lcd/img/Icones/IconeSignal/PNG/icone_signal_3.png</level2>
+              <level3>/etc/lcd/img/Icones/IconeSignal/PNG/icone_signal_4.png</level3>
+              <level4>/etc/lcd/img/Icones/IconeSignal/PNG/icone_signal_5.png</level4>
+              <level5></level5>
+            </path>
+          </gwslinkqualitypict_stim>
+        </picture>
+        <icon>
+          <gwsico_stim> <!-- Gather all the gateway services status icon (img+caption) stimulus in one with priority fixed by current alarm, can only be affected to an icon widget! -->
+            <gwsinternetico_stim> <!-- Internet status icon stimulus, can only be affected to an icon widget! -->
+              <gwsinterneticoimg_stim> <!-- Internet status icon image only stimulus -->
+                <path>
+                  <active>
+                    <adsl>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_internet_1.png</adsl>
+                    <ftth>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_internet_1.png</ftth>
+                    <vdsl>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_internet_1.png</vdsl>
+                  </active>
+                  <degraded>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_internet_2.png</degraded> <!-- with backup -->
+                  <inactive>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_internet_3.png</inactive> <!-- without backup -->
+                  <disabled></disabled>
+                </path>
+              </gwsinterneticoimg_stim>
+              <gwsinterneticocpt_stim> <!-- Internet status icon caption only stimulus -->
+                <!-- One caption for each image -->
+                <active>
+                  <adsl>
+                    <text>
+                      <fr>Internet ADSL</fr>
+                      <en>Internet ADSL</en>
+                    </text>
+                  </adsl>
+                  <ftth>
+                    <text>
+                      <fr>Internet Fibre</fr>
+                      <en>Internet Fiber</en>
+                    </text>
+                  </ftth>
+                  <vdsl>
+                    <text>
+                      <fr>Internet VDSL</fr>
+                      <en>Internet VDSL</en>
+                    </text>
+                  </vdsl>
+                </active>
+                <degraded>
+                  <text>
+                    <fr>Secours 3G</fr>
+                    <en>Emergency 3G</en>
+                  </text>
+                </degraded>
+                <inactive>
+                  <text>
+                    <fr>Indisponible</fr>
+                    <en>Unavailable</en>
+                  </text>
+                </inactive>
+              </gwsinterneticocpt_stim>
+            </gwsinternetico_stim>
+            <gwsvoipico_stim> <!-- Voip status icon stimulus, can only be affected to an icon widget! -->
+              <gwsvoipicoimg_stim> <!-- Voip status icon image only stimulus -->
+                <path>
+                  <active>
+                    <mono>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_1.png</mono>
+                    <multi>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_5.png</multi>
+                  </active>
+                  <degraded>
+                    <mono>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_2.png</mono>
+                    <multi>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_6.png</multi>
+                  </degraded>
+                  <inactive>
+                    <mono>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_3.png</mono>
+                    <multi>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_6.png</multi>
+                  </inactive>
+                  <disabled></disabled>
+                </path>
+              </gwsvoipicoimg_stim>
+              <gwsvoipicocpt_stim> <!-- Voip status icon caption only stimulus -->
+                <active>
+                  <mono>
+                    <text>
+                      <fr>Tél. Internet</fr>
+                      <en>Pho. Internet</en>
+                    </text>
+                  </mono>
+                  <multi>
+                    <text>
+                      <fr>Téléphonie</fr>
+                      <en>Phone</en>
+                    </text>
+                  </multi>
+                </active>
+                <degraded>
+                  <mono>
+                    <text>
+                      <fr>Secours RTC</fr>
+                      <en>Emergency RTC</en>
+                    </text>
+                  </mono>
+                  <multi>
+                    <text>
+                      <fr>Indisponible</fr>
+                      <en>Unavailable</en>
+                    </text>
+                  </multi>
+                </degraded>
+                <inactive>
+                  <mono>
+                    <text>
+                      <fr>Indisponible</fr>
+                      <en>Unavailable</en>
+                    </text>
+                  </mono>
+                  <multi>
+                    <text>
+                      <fr>Indisponible</fr>
+                      <en>Unavailable</en>
+                    </text>
+                  </multi>
+                </inactive>
+              </gwsvoipicocpt_stim>
+            </gwsvoipico_stim>
+            <gwswifiico_stim> <!-- Wifi status icon stimulus, can only be affected to an icon widget! -->
+              <gwswifiicoimg_stim> <!-- Wifi status icon image only stimulus -->
+                <path>
+                  <active>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_wifi_1.png</active>
+                  <degraded></degraded>
+                  <inactive></inactive>
+                  <disabled>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_wifi_2.png</disabled>
+                </path>
+              </gwswifiicoimg_stim>
+              <gwswifiicocpt_stim> <!-- Wifi status icon caption only stimulus -->
+                <active>
+                  <text>
+                    <fr>WiFi</fr>
+                    <en>WiFi</en>
+                  </text>
+                </active>
+                <disabled>
+                  <text>
+                    <fr>Désactivé</fr>
+                    <en>Disabled</en>
+                  </text>
+                </disabled>
+              </gwswifiicocpt_stim>
+            </gwswifiico_stim>
+            <gwsmeshico_stim> <!-- Mesh status icon stimulus, can only be affected to an icon widget! -->
+              <gwsmeshicoimg_stim> <!-- Mesh status icon image only stimulus -->
+                <path>
+                  <active>
+                    <gw></gw>
+                    <gwc>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_lb_1.png</gwc>
+                    <ap>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_lb_2.png</ap>
+                  </active>
+                  <degraded>
+                    <gw></gw>
+                    <gwc></gwc>
+                    <ap></ap>
+                  </degraded>
+                  <inactive>
+                    <gw></gw>
+                    <gwc>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_lb_3.png</gwc>
+                    <ap>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_lb_4.png</ap>
+                  </inactive>
+                  <disabled></disabled>
+                </path>
+              </gwsmeshicoimg_stim>
+              <gwsmeshicocpt_stim> <!-- Mesh status icon caption only stimulus -->
+                <active>
+                  <gwc>
+                    <text>
+                      <fr>Extension</fr>
+                      <en>Extension</en>
+                    </text>
+                  </gwc>
+                  <ap>
+                    <text>
+                      <fr>Extension</fr>
+                      <en>Extension</en>
+                    </text>
+                  </ap>
+                </active>
+                <inactive>
+                  <gwc>
+                    <text>
+                      <fr>Indisponible</fr>
+                      <en>Unavailable</en>
+                    </text>
+                  </gwc>
+                  <ap>
+                    <text>
+                      <fr>Indisponible</fr>
+                      <en>Unavailable</en>
+                    </text>
+                  </ap>
+                </inactive>
+              </gwsmeshicocpt_stim>
+            </gwsmeshico_stim>
+          </gwsico_stim>
+        </icon>
+        <alarm>
+          <!-- Failure alarms (service failure or alarm that cause a failure situation of the GW) are ordered
+               by priority in the list below. The first entry has the highest priority and the last has the lowest
+               priority. Each alarm has a unique identifier (pre-assigned) from its affected interval of ID and is
+               associated to a stimulus that can be used in label to filter failure alarm from a specific service
+               (see below). Otherwise, the stimulus "gwsfailurealarm_stim" can be used to display the failure alarms
+               by priority (text or image, depending on type of widget it is affected).
+
+                - Wifi: Failure identifier between [0;99] and stimulus name "gwswififailurealarm_stim".
+                - Mesh: Failure identifier between [100;199] and stimulus name "gwsmeshfailurealarm_stim".
+                - Voip: Failure identifier between [200;299] and stimulus name "gwsvoipfailurealarm_stim".
+                - Internet: Failure identifier between [300;399] and stimulus name "gwsinternetfailurealarm_stim".
+                - USB: Failure identifier between [400;499] and stimulus name "gwsusbfailurealarm_stim".
+                - SIM: Failure identifier between [500;599] and stimulus name "gwssimfailurealarm_stim".
+                - Middleware: Failure identifier between [600;699] and stimulus name "gwsmiddlewarefailurealarm_stim".
+
+               NB: GW Failure, GW Events and Process Failure alarms share the same interval of identifier!!!
+
+               <level> is to set the alarm level that that determines the authority to interrupt what it is currently displayed on the 
+                screen. If the alarm is coupled to <has_popup>,a popup screen will be displayed till end of failure. The popup screen
+                must then be defined in the "screen/popup" section using the alarm id as reference:
+
+																								- "normal" : lowest level. The process is displayed when manually launch from the screen interface 
+                                                                   or if in sleep mode/homePage when lauched from remote HTML GUI.
+	
+																								- "blocking" : Middle level. Same level as for "normal" level + can interrupt the displaying of the menu.
+
+																							 	- "critical" : Highest level. Same level as for "blocking" level + can interrupt other process.
+
+								By default the alarm level is set to "normal"
+
+               <has_popup> is for alarm that cause a popup screen appear for a defined time. The popup screen must be defined
+               in the "screen/popup" section using the alarm id as reference.
+
+	       <is_visible> is to prevent wake up of the screen when event is received except if the event is associate to a transition
+                in the state machine. For example if "INTERNET_GET_SYNCHRO" is received while the LCD FSM is in homePage state, the
+                FSM will transition to "Initialisation en cours" even if <is_visible> is False for that event because it is a hardcoded transition
+               of the state machine, and the screen will wake up. On the contrary if "WIFI_SSID_CYHANGE" is received while the LCD FSM 
+               is in the homePage state, the screen will wake up only if <is_visible> is set to 255 and FSM will transition (start a timer), otherwise
+               it will stay off and  event will have no effect on the state machine. So there is alarm for which this parameter don't make sense...
+               By default the alarm are all set to be fully visible (255). 
+               <is_visible> can be set to the following value:
+                  
+                  - 0 : invisible, e.g don't wake up screen when it occurs and don't cause screen refresh.
+                  - 1 : semi-visible, e.g don't wake up screen but cause a refresh if the screen is awaked.
+                  - 255: default value. Always refresh screen (wake up if in sleep mode).
+
+               -->
+          <failure>
+            <gwsfailurealarm_stim>
+              <!-- Alarm naming policy is free to user (<alarm0>, <alarm1>, <alarm2>, etc... or explicit name like below...) -->
+              <simconfcopyfailed>
+                <id>508</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_alert_1.png</path>
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Livebox : non configurée</fr>
+                      <en>Livebox : not configured</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Continuer l’installation depuis\nl’interface de configuration\n%boxguiaddr%.</fr>
+                      <en>Please continue installation\nfrom the configuration\ninterface %boxguiaddr%.</en>
+                    </text>
+                  </long>
+                </msg>
+              </simconfcopyfailed>
+              <simlocked>
+                <id>506</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_alert_1.png</path>
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Carte : Configuration\nsécurisée</fr>
+                      <en>Card: Secure configuration</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Continuer l’installation depuis\nl’interface de configuration\n%boxguiaddr%.</fr>
+                      <en>Please continue installation\nfrom the configuration\ninterface %boxguiaddr%.</en>
+                    </text>
+                  </long>
+                </msg>
+              </simlocked>
+              <meshgwcoffline>
+                <id>115</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Internet! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Extension : indisponible</fr>
+                      <en>Extension : not available</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr></fr>
+                        <en></en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr></fr>
+                        <en></en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale\nqui n'est plus détectée.</fr>
+                        <en>Check the main Livebox\nwhich is no longer detected.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </meshgwcoffline>
+              <adslnotsynchwithbu>
+                <id>304</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>degraded</service_status> <!-- Status of Internet! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Internet : pas de signal</fr>
+                      <en>Internet : no signal</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nADSL puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the ADSL outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nADSL puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the ADSL outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </adslnotsynchwithbu>
+              <ontnotreachablewithbu>
+                <id>305</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>degraded</service_status> <!-- Status of Internet! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Internet : pas de signal</fr>
+                      <en>Internet : no signal</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nFibre puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the Fiber outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nFibre puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the Fiber outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </ontnotreachablewithbu>
+              <adslnotsynchnobu>
+                <id>308</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Internet! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Internet : pas de signal</fr>
+                      <en>Internet : no signal</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nADSL puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the ADSL outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nADSL puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the ADSL outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </adslnotsynchnobu>
+              <vdslnotsynchnobu>
+                <id>318</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Internet! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Internet : pas de signal</fr>
+                      <en>Internet : no signal</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nVDSL puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the VDSL outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nVDSL puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the VDSL outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </vdslnotsynchnobu>
+              <ontnotreachablenobu>
+                <id>309</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Internet! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Internet : pas de signal</fr>
+                      <en>Internet : no signal</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nFibre puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the Fiber outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Vérifier le branchement entre\nla Livebox et la prise murale\nFibre puis redémarrer votre\nLivebox.</fr>
+                        <en>Please check connection\nbetween your Livebox\nand the Fiber outlet then\nrestart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </ontnotreachablenobu>
+              <ftinotconfigured>
+                <id>312</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_alert_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Voip! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Livebox : non configurée</fr>
+                      <en>Livebox : not configured</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Continuer l’installation depuis\nl’interface de configuration\n%boxguiaddr%.</fr>
+                      <en>Please continue installation\nfrom the configuration\ninterface %boxguiaddr%.</en>
+                    </text>
+                  </long>
+                </msg>
+              </ftinotconfigured>
+              <ftiincorrectwithbu>
+                <id>307</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_alert_1.png</path>
+                <service_status>degraded</service_status> <!-- Status of Voip! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Livebox : non configurée</fr>
+                      <en>Livebox : not configured</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Continuer l’installation depuis\nl’interface de configuration\n%boxguiaddr%.</fr>
+                      <en>Please continue installation\nfrom the configuration\ninterface %boxguiaddr%.</en>
+                    </text>
+                  </long>
+                </msg>
+              </ftiincorrectwithbu>
+              <ftiincorrectnobu>
+                <id>311</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_alert_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Voip! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Livebox : non configurée</fr>
+                      <en>Livebox : not configured</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Continuer l’installation depuis\nl’interface de configuration\n%boxguiaddr%.</fr>
+                      <en>Please continue installation\nfrom the configuration\ninterface %boxguiaddr%.</en>
+                    </text>
+                  </long>
+                </msg>
+              </ftiincorrectnobu>
+              <pppsessioncannotgoupwithbu>
+                <id>306</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>degraded</service_status> <!-- Status of Internet! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Internet : pas de connexion</fr>
+                      <en>Internet : no connection</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </pppsessioncannotgoupwithbu>
+              <pppsessioncannotgoupnobu>
+                <id>310</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Internet! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Internet : pas de connexion</fr>
+                      <en>Internet : no connection</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </pppsessioncannotgoupnobu>
+              <voipnotregistered> <!-- specific voip error -->
+                <id>202</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Voip! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Téléphone par internet :\nindisponible</fr>
+                      <en>Voice over internet :\nunavailable</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </voipnotregistered>
+              <voipdown>  <!-- voip down for any reasons -->
+                <id>203</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Voip! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Téléphone par internet :\nindisponible</fr>
+                      <en>Voice over internet :\nunavailable</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </voipdown>
+              <voipmultidown>  <!-- voip down for any reasons -->
+                <id>204</id>  <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                <service_status>inactive</service_status> <!-- Status of Voip! For icon display in status bar and picture in msg area -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Téléphonie d'entreprise\nindisponible</fr>
+                      <en>Entreprise voice  :\nunavailable</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <gw>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gw>
+                    <gwc>
+                      <text>
+                        <fr>Redémarrer votre Livebox.</fr>
+                        <en>Please restart your Livebox.</en>
+                      </text>
+                    </gwc>
+                    <ap>
+                      <text>
+                        <fr>Vérifier la Livebox principale.</fr>
+                        <en>Check the main Livebox.</en>
+                      </text>
+                    </ap>
+                  </long>
+                </msg>
+              </voipmultidown>
+              <simrobbery> <!-- case 28 in screen spec B8_V1.10 -->
+                <id>502</id> <!-- unique identifier -->
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_alert_1.png</path>
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Carte mémoire absente</fr>
+                      <en>Memory card not present</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Insérer la carte ou confirmer\nla désactivation depuis\nl'interface de configuration\n%boxguiaddr%.</fr>
+                      <en>Please insert the card or\nconfirm the deactivation from\nthe configuration interface\n%boxguiaddr%.</en>
+                    </text>
+                  </long>
+                </msg>
+              </simrobbery>
+              <simfwupfailed>
+                <id>518</id> <!-- unique identifier -->
+                 <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_blocking_1.png</path>
+                 <msg>
+                  <brief>
+                    <text>
+                      <fr>Récupération partielle\nde la configuration</fr>
+                      <en>Livebox : not configured</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Continuer sur %boxguiaddr%\nNe pas retirer la carte\nmémoire.</fr>
+                      <en>Please continue installation\nfrom the configuration\ninterface %boxguiaddr%.</en>
+                    </text>
+                  </long>
+                </msg>
+              </simfwupfailed>
+            </gwsfailurealarm_stim>
+          </failure>
+          <!-- Gateway Events that not put the GW in failure state but has to be notified to user. They
+              are not to be classified by priority because they are displayed/processed in the order
+              that they occur. Each events has a unique identifier (pre-assigned) from its affected
+              interval of ID and is associated to a stimulus that can be used in label to filter events
+              from a specific service (see below). Otherwise, the stimulus "gwseventalarm_stim" can be
+              used to display all the alarms :
+              - Wifi: Event identifier between [0;99] and stimulus name "gwswifieventalarm_stim".
+              - Mesh: Event identifier between [100;199] and stimulus name "gwsmesheventalarm_stim".
+              - Voip: Event identifier between [200;299] and stimulus name "gwsvoipeventalarm_stim".
+              - Internet: Event identifier between [300;399] and stimulus name "gwsinterneteventalarm_stim".
+              - USB: Event identifier between [400;499] and stimulus name "gwsusbeventalarm_stim".
+              - SIM: Event identifier between [500;599] and stimulus name "gwssimeventalarm_stim".
+              - Middleware: Event identifier between [600;699] and stimulus name "gwsmiddlewareeventalarm_stim".
+
+              NB: GW Failure, GW Events and Process Failure alarms share the same interval of identifier!!!
+
+              <has_popup> is for events that cause a popup screen appear for a defined time. The popup screen must be defined
+                in the "screen/popup" section using the events id as reference.
+                -->
+          <event>
+            <gwseventalarm_stim>
+              <wifion>
+                <id>0</id>  <!-- unique identifier -->
+                <has_popup>1</has_popup>
+                <service_status>active</service_status>
+                <msg>
+                  <brief>
+                    <text>
+                      <fr></fr>
+                      <en></en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>WiFi activé</fr>
+                      <en>WiFi enabled</en>
+                    </text>
+                  </long>
+                </msg>
+              </wifion>
+              <wifioff>
+                <id>1</id>  <!-- unique identifier -->
+                <has_popup>1</has_popup>
+                <service_status>disabled</service_status>
+                <msg>
+                  <brief>
+                    <text>
+                      <fr></fr>
+                      <en></en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>WiFi désactivé</fr>
+                      <en>WiFi disabled</en>
+                    </text>
+                  </long>
+                </msg>
+              </wifioff>
+              <wifissidchange>
+                <id>2</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifissidchange>
+              <wifiwepkeychange>
+                <id>3</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifiwepkeychange>
+              <wifiwpakeychange>
+                <id>4</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifiwpakeychange>
+              <wifisecuritymodewpa>
+                <id>5</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifisecuritymodewpa>
+              <wifisecuritymodewep>
+                <id>6</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifisecuritymodewep>
+              <wifisecuritymodeopen>
+                <id>7</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifisecuritymodeopen>
+              <wifikeyhidden>
+                <id>8</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifikeyhidden>
+              <wifikeyvisible>
+                <id>9</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifikeyvisible>
+              <wifiwpsenabled>
+                <id>10</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifiwpsenabled>
+              <wifiwpsdisabled>
+                <id>11</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </wifiwpsdisabled>
+              <wifiwpsstarted>
+                <id>12</id>  <!-- unique identifier -->
+              </wifiwpsstarted>
+              <wifiwpsstopped>
+                <id>13</id>  <!-- unique identifier -->
+                <is_visible>1</is_visible>
+              </wifiwpsstopped>
+              <meshactive>
+                <id>100</id>  <!-- unique identifier -->
+                <service_status>active</service_status>
+              </meshactive>
+              <meshoff>
+                <id>101</id>  <!-- unique identifier -->
+                <service_status>disabled</service_status>
+              </meshoff>
+              <meshingwmode>
+                <id>102</id>  <!-- unique identifier -->
+              </meshingwmode>
+              <meshingwcmode>
+                <id>103</id>  <!-- unique identifier -->
+              </meshingwcmode>
+              <meshinapmode>
+                <id>104</id>  <!-- unique identifier -->
+              </meshinapmode>
+              <meshinactive>
+                <id>105</id> <!-- unique identifier -->
+                <service_status>inactive</service_status> <!-- Status of Mesh! For icon display in status bar and picture in msg area -->
+              </meshinactive>
+              <meshrssilevel0>
+                <id>106</id>  <!-- unique identifier -->
+                <is_visible>1</is_visible>
+              </meshrssilevel0>
+              <meshrssilevel1>
+                <id>107</id>  <!-- unique identifier -->
+                <is_visible>1</is_visible>
+              </meshrssilevel1>
+              <meshrssilevel2>
+                <id>108</id>  <!-- unique identifier -->
+                <is_visible>1</is_visible>
+              </meshrssilevel2>
+              <meshrssilevel3>
+                <id>109</id>  <!-- unique identifier -->
+                <is_visible>1</is_visible>
+              </meshrssilevel3>
+              <meshrssilevel4>
+                <id>110</id>  <!-- unique identifier -->
+                <is_visible>1</is_visible>
+              </meshrssilevel4>
+              <meshrssilevel5>
+                <id>111</id>  <!-- unique identifier -->
+                <is_visible>1</is_visible>
+              </meshrssilevel5>
+              <meshoneaponline>
+                <id>112</id>  <!-- unique identifier -->
+              </meshoneaponline>
+              <meshnoaponline>
+                <id>113</id>  <!-- unique identifier -->
+              </meshnoaponline>
+              <meshgwconline>
+                <id>114</id>  <!-- unique identifier -->
+              </meshgwconline>
+              <meshgwcipaddresschange>
+                <id>116</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </meshgwcipaddresschange>
+              <voipactive>
+                <id>200</id>  <!-- unique identifier -->
+                <service_status>active</service_status>
+              </voipactive>
+              <voipoff>
+                <id>201</id>  <!-- unique identifier -->
+                <service_status>disabled</service_status>
+              </voipoff>
+              <voipisprovisioning>
+                <id>205</id>  <!-- unique identifier -->
+                <service_status>inactive</service_status>
+              </voipisprovisioning>
+              <internetactive>
+                <id>300</id>  <!-- unique identifier -->
+                <service_status>active</service_status>
+              </internetactive>
+              <internetoff>
+                <id>301</id>  <!-- unique identifier -->
+                <service_status>disabled</service_status>
+              </internetoff>
+              <internetaccesstypeftth>
+                <id>302</id>  <!-- unique identifier -->
+              </internetaccesstypeftth>
+              <internetaccesstypeadsl>
+                <id>303</id>  <!-- unique identifier -->
+              </internetaccesstypeadsl>
+              <internetsynchronised>
+                <id>313</id>  <!-- unique identifier -->
+              </internetsynchronised>
+              <internetconfigured>
+                <id>314</id>  <!-- unique identifier -->
+              </internetconfigured>
+              <pppup>
+                <id>315</id>  <!-- unique identifier -->
+              </pppup>
+              <pppsessionauthenticated>
+                <id>316</id>  <!-- unique identifier -->
+              </pppsessionauthenticated>
+              <internetaccesstypevdsl>
+                <id>317</id>  <!-- unique identifier -->
+              </internetaccesstypevdsl>
+              <simpresent>
+                <id>500</id>  <!-- unique identifier -->
+              </simpresent>
+              <simnotpresent>
+                <id>501</id>  <!-- unique identifier -->
+              </simnotpresent>
+              <simconfcopyauthorized> <!-- case 33 in screen spec B8_V1.10 -->
+                <id>503</id>
+                <has_popup>1</has_popup>
+                <msg>
+                  <brief>
+                    <text>
+                      <fr></fr>
+                      <en></en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Accès à la carte\nsécurisée autorisé.</fr>
+                      <en>Access to the secure\ncard allowed.</en>
+                    </text>
+                  </long>
+                </msg>
+              </simconfcopyauthorized>
+              <simempty>
+                <id>504</id>  <!-- unique identifier -->
+              </simempty>
+              <simnotempty>
+                <id>505</id>  <!-- unique identifier -->
+              </simnotempty>
+              <simunlocked>
+                <id>507</id>  <!-- unique identifier -->
+              </simunlocked>
+              <simenabled>
+                <id>509</id>  <!-- unique identifier -->
+              </simenabled>
+              <simdisabled>
+                <id>510</id>  <!-- unique identifier -->
+              </simdisabled>
+              <simfullrestoreprocessstarted>
+                <id>511</id>  <!-- unique identifier -->
+              </simfullrestoreprocessstarted>
+              <simpartialrestoreprocessstarted>
+                <id>512</id>  <!-- unique identifier -->
+              </simpartialrestoreprocessstarted>
+              <simwritestart>
+                <id>513</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </simwritestart>
+              <simwritestop>
+                <id>514</id>  <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </simwritestop>
+              <simabsentalarmhidden>
+                <id>515</id>  <!-- unique identifier -->
+              </simabsentalarmhidden>
+              <simabsentalarmvisible>
+                <id>516</id>  <!-- unique identifier -->
+              </simabsentalarmvisible>
+              <simidle>
+                <id>517</id>  <!-- unique identifier -->
+              </simidle>
+              <firmupgradeongoing>
+                <id>600</id>  <!-- unique identifier -->
+                <level>critical</level>
+                <msg>
+                  <brief>
+                    <text>
+                      <fr></fr>
+                      <en></en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Veuillez patienter\npendant la mise à\njour de votre Livebox.</fr>
+                      <en>Please wait while\nuyour Livebox is updated.</en>
+                    </text>
+                  </long>
+                </msg>
+              </firmupgradeongoing>
+              <firmupgradesuccess>
+                <id>601</id>  <!-- unique identifier -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr></fr>
+                      <en></en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Mise à jour de votre\nLivebox réussie.</fr>
+                      <en>Updating successful.</en>
+                    </text>
+                  </long>
+                </msg>
+              </firmupgradesuccess>
+              <gwinsleepmode>
+                <id>602</id> <!-- unique identifier -->
+                <has_popup>1</has_popup>
+                <msg>
+                  <brief>
+                    <text>
+                      <fr></fr>
+                      <en></en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Mode veille activé</fr>
+                      <en>Standby mode activated</en>
+                    </text>
+                  </long>
+                </msg>
+              </gwinsleepmode>
+              <gwawakened>
+                <id>603</id> <!-- unique identifier -->
+              </gwawakened>
+              <firmupfail>
+                <id>604</id> <!-- unique identifier -->
+                <msg>
+                  <brief>
+                    <text>
+                      <fr>Livebox : erreur de mise à jour</fr>
+                      <en>Livebox: upgrade failure</en>
+                    </text>
+                  </brief>
+                  <long>
+                    <text>
+                      <fr>Échec de la mise à\njour. Faite un reset ou\ncontactez le %customer_service_number%.</fr>
+                      <en>Upgrade failed.\nReset your Livebox\nor call %customer_service_number%.</en>
+                    </text>
+                  </long>
+                </msg>
+              </firmupfail>
+              <languagefrenchset>
+                <id>605</id> <!-- unique identifier -->
+              </languagefrenchset>
+              <languageenglishset>
+                <id>606</id> <!-- unique identifier -->
+              </languageenglishset>
+              <switchoffconfirm>
+                <id>607</id> <!-- unique identifier -->
+              </switchoffconfirm>
+              <factorystatusbrandnewgw>
+                <id>608</id> <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </factorystatusbrandnewgw>
+              <factorystatususedgw>
+                <id>609</id> <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </factorystatususedgw>
+              <rebootinprogress>
+                <id>610</id> <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </rebootinprogress>
+              <dhcpserverenabled>
+                <id>611</id> <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </dhcpserverenabled>
+              <dhcpserverdisabled>
+                <id>612</id> <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </dhcpserverdisabled>
+              <guifirmwareversionchange>
+                <id>613</id> <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </guifirmwareversionchange>
+              <externalfirmwareversionchange>
+                <id>614</id> <!-- unique identifier -->
+                <is_visible>0</is_visible>
+              </externalfirmwareversionchange>
+            </gwseventalarm_stim>
+          </event>
+        </alarm>
+      </gwstatus>
+    </stimulus>
+  </parameters>
+  <!--****************************************************************-->
+  <!--*                                                              *-->
+  <!--*                       PAGES                                  *-->
+  <!--*                                                              *-->
+  <!--****************************************************************-->
+  <pages>
+    <!--****************************************************************-->
+    <!--*                       HOME                                   *-->
+    <!--****************************************************************-->
+    <home>
+      <contents>
+        <static> <!-- position of widget don't change -->
+          <window>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>320</width>
+            <height>240</height>
+            <bgpicture>/etc/lcd/img/Screen_elements/main_screen_skin.bmp</bgpicture>
+          </window>
+          <gwstatusbar> <!-- A groupment of service status icon  -->
+            <!-- Zone 1: icons -->
+            <!-- if a service is not activated at boot time, it will not be displayed and status bar will re-arrange (left shift). A caption is appended below each status icon of the status bar. The icon are assigned in the status bar by the order they are declared and not from their position (for example here icon0 = gwsinternetico_stim, icon1 = gwsvoipico_stim, icon2 = gwswifiico_stim, ...). -->
+            <assignment>
+              <gwsinternetico_stim> <!-- Internet status icon -->
+                <image>
+                  <posx>19</posx>
+                  <posy>10</posy>
+                  <width>48</width>
+                  <height>48</height>
+                </image>
+                <caption>
+                  <posx>0</posx>
+                  <posy>58</posy>
+                  <width>83</width>
+                  <height>20</height>
+                  <font>
+                    <name>
+                      <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                      <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+                    </name>
+                    <size>12</size>
+                    <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+                  </font>
+                  <yalignement>center</yalignement>
+                  <xalignement>center</xalignement>
+                </caption>
+              </gwsinternetico_stim>
+              <gwsvoipico_stim> <!-- VOIP status icon -->
+                <image>
+                  <posx>97</posx>
+                  <posy>10</posy>
+                  <width>48</width>
+                  <height>48</height>
+                </image>
+                <caption>
+                  <posx>83</posx>
+                  <posy>58</posy>
+                  <width>76</width>
+                  <height>20</height>
+                  <font>
+                    <name>
+                      <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                      <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+                    </name>
+                    <size>12</size>
+                    <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+                  </font>
+                  <yalignement>center</yalignement>
+                  <xalignement>center</xalignement>
+                </caption>
+              </gwsvoipico_stim>
+              <gwswifiico_stim> <!-- WIFI status icon -->
+                <image>
+                  <posx>174</posx>
+                  <posy>10</posy>
+                  <width>48</width>
+                  <height>48</height>
+                </image>
+                <caption>
+                  <posx>159</posx>
+                  <posy>58</posy>
+                  <width>77</width>
+                  <height>20</height>
+                  <font>
+                    <name>
+                      <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                      <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+                    </name>
+                    <size>12</size>
+                    <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+                  </font>
+                  <yalignement>center</yalignement>
+                  <xalignement>center</xalignement>
+                </caption>
+              </gwswifiico_stim>
+              <gwsmeshico_stim> <!-- Mesh status icon -->
+                <image>
+                  <posx>254</posx>
+                  <posy>10</posy>
+                  <width>48</width>
+                  <height>48</height>
+                </image>
+                <caption>
+                  <posx>242</posx>
+                  <posy>58</posy>
+                  <width>77</width>
+                  <height>20</height>
+                  <font>
+                    <name>
+                      <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                      <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+                    </name>
+                    <size>12</size>
+                    <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+                  </font>
+                  <yalignement>center</yalignement>
+                  <xalignement>center</xalignement>
+                </caption>
+              </gwsmeshico_stim>
+            </assignment>
+          </gwstatusbar>
+        </static>
+        <dynamic> <!-- the layout of this part of the page can change -->
+          <layoutmodel>  <!-- page layout description -->
+            <!-- Zone 2: icon + text -->
+            <msgpict> <!--user defined layout name -->
+              <picture>
+                <posx>15</posx>
+                <posy>101</posy>
+                <width>48</width>
+                <height>48</height>
+              </picture>
+              <label>
+                <posx>104</posx>
+                <posy>101</posy>
+                <width>196</width>
+                <height>115</height>
+                <font>
+                  <name>
+                    <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                    <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+                  </name>
+                  <size>19</size>
+                  <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+                </font>
+                <yalignement>top</yalignement>
+                <xalignement>left</xalignement>
+                <linespacing>26</linespacing>
+              </label>
+            </msgpict>
+          </layoutmodel>
+          <casestree>
+            <if cond1="gwfailurestatusnofailure" cond2="gwmeshmodegwc"> <!-- conditions provided by sagem -->
+              <layoutmodelpath>screen/pages/home/contents/dynamic/layoutmodel/msgpict</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/IconeLiveBoxBig/icone_main_lb.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Livebox principale\nPour accéder au\nmenu, appuyer sur\nle bouton ok</fr>
+                  <en>Main Livebox\nPress ok to\naccess the menu</en>
+                </text>
+              </label>
+            </if>
+            <if cond1="gwfailurestatusnofailure" cond2="gwmeshmodeap"> <!-- conditions provided by sagem -->
+              <layoutmodelpath>screen/pages/home/contents/dynamic/layoutmodel/msgpict</layoutmodelpath>
+              <picture>
+                <img_stim>gwslinkqualitypict_stim</img_stim> <!-- link quality picture stimulus -->
+              </picture>
+              <label>
+                <text>
+                  <fr>Livebox secondaire.\nQualité du signal\nextension</fr>
+                  <en>Secondary Livebox.\nNetwork link\nquality</en>
+                </text>
+              </label>
+            </if>
+            <if cond1="gwsavaccessenabled"> <!-- conditions provided by sagem -->
+              <layoutmodelpath>screen/pages/home/contents/dynamic/layoutmodel/msgpict</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/IconeLiveBoxBig/icone_sav_illustration.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Livebox principale\nAccès à distance activé pour\nle SAV d'Orange</fr>
+                  <en>Main Livebox\nRemote access activated\nfor Orange SAV</en>
+                </text>
+              </label>
+            </if>
+            <if cond="gwfailurestatusfailure"> <!-- conditions provided by sagem -->
+              <layoutmodelpath>screen/pages/home/contents/dynamic/layoutmodel/msgpict</layoutmodelpath>
+              <picture>
+                <img_stim>gwsfailurealarm_stim</img_stim>  <!-- display picture associated to the currently set alarm having the highest priority -->
+              </picture>
+              <label>
+                <text_stim>gwsfailurealarm_stim(long)</text_stim>  <!-- display msg associated to the currently set alarm having the highest priority -->
+              </label>
+            </if>
+          </casestree>
+        </dynamic>
+      </contents>
+    </home>
+    <!--****************************************************************-->
+    <!--*                       MENU                                   *-->
+    <!--****************************************************************-->
+    <menu>
+      <contents>
+      	<static>
+      	  <listbox>
+          	<layoutmodel>
+							<default> <!-- default is a page with 3 items -->
+						   	<window>
+						   	  <posx>0</posx>
+					     	  <posy>0</posy>
+					     	  <width>320</width>
+					     	  <height>240</height>
+					     	  <bgpicture>/etc/lcd/img/Screen_elements/menu_screen_skin.bmp</bgpicture>
+					    	</window>
+								<button0> <!-- special widget used to reflect the push on the UP button -->
+	        	 	  	<posx>144</posx>
+	           	  	<posy>0</posy>
+	           	  	<width>33</width>
+	           	  	<height>15</height>
+									<path>
+										<clicked>/etc/lcd/img/Screen_elements/menu_screen_up_01.png</clicked>
+										<released>/etc/lcd/img/Screen_elements/menu_screen_up_02.png</released>
+									</path>
+								</button0>
+								<button1> <!-- special widget used to reflect the push on the DOWN button -->
+	          	  	<posx>144</posx>
+	           	  	<posy>225</posy>
+	           	  	<width>33</width>
+	           	  	<height>15</height>																	
+									<path>
+										<clicked>/etc/lcd/img/Screen_elements/menu_screen_down_01.png</clicked>
+										<released>/etc/lcd/img/Screen_elements/menu_screen_down_02.png</released>
+									</path>
+								</button1>
+<!-- An item = window + picture + Label. The number of items declared here will be considered
+		 as the maximum number of visibles items that listbox pages could contains -->
+	   	       		<item0>     
+	          	   	<window> <!-- Used to apply some graphic effect on focused/disabled items. Transparent otherwise -->
+	           	    	<posx>0</posx>
+	           	     	<posy>15</posy>
+	           	  	  <width>320</width>
+	           	    	<height>70</height>
+	           	     	<bgcolor>(0,0,0,0)</bgcolor> <!-- transparent by default -->
+	           	 		</window>  
+									<icon>                         
+	              		<image> 
+	              	  	<posx>15</posx>   <!-- Position of the first item icon -->
+	              	   	<posy>26</posy>
+	              	  	<width>48</width>
+	              	 		<height>48</height>
+	              	 	</image>
+	              	 	<caption>  
+	              	 		<posx>78</posx>   <!-- Position of the first item label -->
+	              	 		<posy>26</posy>
+	              	 		<width>237</width>
+	              	 		<height>48</height>
+	              	 		<font>  <!-- Applied to item enabled/unselected -->
+	              	 		  <name>
+	              	 				<fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+	              	 				<en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+	              	 			</name>
+	              	 			<size>19</size>
+	              				<color>(255,255,255,255)</color>
+	              	 		</font>
+	              	   	<yalignement>middle</yalignement>
+	              	   	<xalignement>left</xalignement>
+	              	   	<linespacing>21</linespacing>
+	              	 	</caption>
+									</icon>
+	              </item0>
+	              <item1>
+	              	<window> <!-- Used to apply some graphic effect on focused/disabled items. Transparent otherwise -->
+	              		<posx>0</posx>
+	               		<posy>85</posy>
+	               		<width>320</width>
+	               		<height>70</height>
+	               		<bgcolor>(0,0,0,0)</bgcolor> <!-- transparent by default -->
+	               	</window>  
+									<icon> 
+		                <image> 
+		                	<posx>15</posx>   <!-- Position of the second item icon -->
+		                	<posy>96</posy>
+		                 	<width>48</width>
+		                  <height>48</height>
+		             		</image>
+		             		<caption>  
+		             	  	<posx>78</posx>   <!-- Position of the second item label -->
+		                	<posy>96</posy>
+		                 	<width>237</width>
+		                 	<height>48</height>
+		                 	<font> <!-- Applied to item enabled/unselected -->
+		                 		<name>
+		                		  <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+		                			<en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+		                 		</name>
+		                 		<size>19</size>
+		                 		<color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+		                 	</font>
+		                  <yalignement>middle</yalignement>
+		                  <xalignement>left</xalignement>
+		                  <linespacing>21</linespacing>
+		                </caption>
+									</icon>
+	              </item1>
+	              <item2> 
+	              	<window> <!-- Used to apply some graphic effect on focused/disabled items. Transparent otherwise -->
+	              		<posx>0</posx>
+	               		<posy>155</posy>
+	               		<width>320</width>
+	               		<height>70</height>
+	               		<bgcolor>(0,0,0,0)</bgcolor> <!-- transparent by default -->
+	               	</window>                                       
+									<icon>
+		               	<image> 
+		                 	<posx>15</posx>   <!-- Position of the third item icon -->
+		                 	<posy>166</posy>
+		                 	<width>48</width>
+		                 	<height>48</height>
+		              	</image>
+		                <caption>  
+		                	<posx>78</posx>   <!-- Position of the third item label -->
+		                	<posy>166</posy>
+		                 	<width>237</width>
+		                 	<height>48</height>
+		                	<font> <!-- Applied to item enabled/unselected -->
+		                 		<name>
+		                     	<fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+		                     	<en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+		                    </name>
+		                    <size>19</size>
+		                    <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+		                  </font>
+		                  <yalignement>middle</yalignement>
+		                  <xalignement>left</xalignement>
+		                  <linespacing>21</linespacing>
+		                </caption>
+									</icon>
+	              </item2>
+							</default>
+            </layoutmodel>
+						<itemeffects>
+							<!-- TODO: Add a tags pair "is_circularlist", so that the menu can be circular (top to bottom or bottom to top) or not (stop on top or on bottom) -->
+            	<focuseditem> <!-- the selected item in the listbox -->
+								<format>
+   	        	  	<icon>	<!-- listbox items always have icon in her layout -->
+		           	    <caption>
+   	        	   			<font>
+   	        	   				<color>(255,255,153,0)</color> <!-- Focused item color (A,R,G,B) -->
+   	        	   			</font>
+		           	    </caption>
+   	        	   	</icon>
+<!-- A window or picture widget must have been declared in pages items layout to handle the selection effect (window border, picture, etc...). Specify the path of the selection effect picture or of the background window border color/width...here a rectangle generated by drawing window border -->
+									<picture>  <!-- selection rectangle is rendered from a PNG file -->
+										<path>/etc/lcd/img/Screen_elements/menu_screen_select.png</path>
+    					  	</picture>
+								</format>
+            	</focuseditem>
+						</itemeffects>
+						<menuitems>
+ <!-- Content of the items (img+caption) + associated action -->
+		        	<managemyequipments>
+								<id>1</id>
+		        	  <contents>	
+  	  				   	<icon>
+  	        	   	  <image>
+  	        	   	   	<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_action_1.png</path>
+  	                </image>
+  	      	     		<caption>
+  	              	 	<text>
+  	                 		<fr>Gérer mes équipements</fr>
+  	                 		<en>Manage my equipments</en>                               
+  	                 	</text>
+  	              	</caption>
+									</icon>
+  	            </contents>                     
+  	          </managemyequipments>
+  	        	<launchmaintenanceaction>
+								<id>1</id>
+  	          	<contents>
+								 	<icon>
+  	             	  <image>
+  	             	   	<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_action_2.png</path>
+  	                </image>
+  	             		<caption>
+  	             	  	<text>
+  	             	   		<fr>Lancer des actions\nde maintenance</fr>
+  	                 		<en>Launch maintenance actions</en>                               
+  	                 	</text>
+  	            		</caption>
+									</icon>
+  	            </contents>                     
+  	          </launchmaintenanceaction>
+		          <ejectdisk>
+		            <contents>	
+  	  				   	<icon>
+										<image>
+							   			<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_eject_USB.png</path>
+										</image>
+										<caption>
+		   	  			     	<text>
+												<fr>Retirer un équipement\nUSB</fr>
+          			        <en>Ejecting disk</en> 
+					 		    		</text>
+										</caption>
+									</icon>
+  	            </contents>                     
+  	            <cmdid>470</cmdid> <!-- when selected and validated -->
+  	          </ejectdisk>
+  	          <wifipairing>
+  	          	<contents>
+								 	<icon>
+										<image>
+								  		<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_wifi_3.png</path>
+										</image>
+										<caption>
+		   	  			     	<text>
+												<fr>Associer un équipement\nWifi à la Livebox</fr>
+					              <en>Pairing a WiFi device\nwith the Livebox</en>
+					 		    		</text>
+										</caption>
+									</icon>
+                </contents>                     
+	 	            <cmdid>80</cmdid> <!-- when selected and validated -->
+  	          </wifipairing>
+  	          <addlivephone>
+  	          	<contents>
+								 	<icon>
+										<image>
+								   		<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_tel_4.png</path>
+										</image>
+										<caption>
+	     	    			   	<text>
+												<fr>Ajouter un livephone\nà la Livebox</fr>
+            			      <en>Adding livehone\nto the Livebox</en>
+	     	    					</text>
+										</caption>
+							   	</icon>
+  	            </contents>                     
+  	            <cmdid>280</cmdid> <!-- when selected and validated -->
+  	          </addlivephone>
+  	          <addlivebox>
+  	          	<contents>
+								 	<icon>
+										<image>
+								  		<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_lb_5.png</path>
+										</image>
+										<caption>
+	     	  			     	<text>
+          			       	<fr>Ajouter une nouvelle\nLivebox au réseau</fr>
+          			      	<en>Adding a new Livebox\nto the network</en>
+						      		</text>
+										</caption>
+							    </icon>
+  	            </contents>  
+  	            <cmdid>170</cmdid> <!-- when selected and validated -->
+  	          </addlivebox>
+		          <phonering>
+		            <contents>	
+  	  				   	<icon>
+										<image>
+							   			<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_action_3.png</path>
+										</image>
+										<caption>
+	     	  			     	<text>
+          			      	<fr>Lancer le test de mes\ntéléphones</fr>
+          			       	<en>Launch the phones\nringing test</en>
+						      		</text>
+										</caption>
+									</icon>
+  	            </contents>                     
+  	            <cmdid>281</cmdid> <!-- when selected and validated -->
+  	          </phonering>
+  	          <restoredefault>
+  	           	<contents>
+								 	<icon>
+										<image>
+								   		<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_action_4.png</path>
+										</image>
+										<caption>
+								     	<text>
+				               	<fr>Réinitialiser la\nconfiguration</fr>
+				               	<en>Launch basic\nconfiguration</en>
+						      		</text>
+										</caption>
+									</icon>
+  	            </contents>                     
+  	            <cmdid>650</cmdid> <!-- when selected and validated -->
+  	          </restoredefault>
+  	          <wifissid>
+  	          	<contents>
+								 	<icon>
+										<image>
+								   		<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_info_2.png</path>
+										</image>
+										<caption>
+	     	      				<text>
+              					<fr>Nom de la Livebox\n(SSID)</fr>
+          			       	<en>Livebox name\n(SSID)</en>
+						      		</text>
+										</caption>
+							   	</icon>
+  	            </contents>                     
+  	            <cmdid>81</cmdid> <!-- when selected and validated -->
+  	          </wifissid> 
+  	          <wifikey>
+  	          	<contents>
+								 	<icon>
+										<image>
+								   		<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_info_3.png</path>
+										</image>
+										<caption>
+	     	  			     	<text>
+          			       	<fr>Clé WiFi</fr>
+          			       	<en>WiFi key</en>
+						      		</text>
+										</caption>
+							   	</icon>
+  	            </contents>                     
+  	            <cmdid>82</cmdid> <!-- when selected and validated -->
+  	          </wifikey> 
+  	          <back>
+  	           	<contents>
+									<icon>
+  	             	  <image>
+  	             	   	<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_back.png</path>
+  	                </image>
+  	             		<caption>
+  	             	  	<text>
+  	             	   		<fr>Retour</fr>
+  	                 		<en>Back</en>                               
+  	                 	</text>
+  	             		</caption>
+									</icon>
+  	            </contents>
+	            </back>
+						</menuitems>
+            <menutree>
+	            <rootmenu>  <!-- first page of menu -->
+								<itemlist>
+									
+								</itemlist>
+	            </rootmenu>
+	            <submenu1>  <!-- Accessed from item1 of root menu -->
+              </submenu1> 
+	            <submenu2>  <!-- Accessed from item2 of root menu -->
+              </submenu2>
+	            <submenu3>  <!-- Accessed from item3 of root menu -->
+              </submenu3>
+            </menutree>
+ 	        </listbox>
+  			</static>
+      </contents>
+    </menu> 
+    <!--****************************************************************-->
+    <!--*                       POPUP                                  *-->
+    <!--****************************************************************-->
+    <popup> <!-- page that appear unexpectedly -->
+      <layoutmodel>
+        <default>
+          <window>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>320</width>
+            <height>240</height>
+            <bgpicture>/etc/lcd/img/Screen_elements/info_process_screen_skin.bmp</bgpicture>
+          </window>
+          <picture>
+            <posx>15</posx>
+            <posy>60</posy>
+            <width>74</width>
+            <height>74</height>
+          </picture>
+          <label>
+            <posx>104</posx>
+            <posy>60</posy>
+            <width>210</width>
+            <height>175</height>
+            <font>
+              <name>
+                <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+              </name>
+              <size>19</size>
+              <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+            </font>
+            <yalignement>top</yalignement>
+            <xalignement>left</xalignement>
+            <linespacing>0</linespacing>
+          </label>
+        </default>
+      </layoutmodel>
+      <wifi>
+        <popup_0>      <!-- (WiFi active) -->
+          <contents>  <!-- expire automatically after timeout T7 or ok -->
+            <static>
+              <layoutmodelpath>screen/pages/popup/layoutmodel/default</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(0)</text_stim>
+              </label>
+            </static>
+          </contents>
+        </popup_0>
+        <popup_1>      <!-- (WiFi disabled) -->
+          <contents>  <!-- expire automatically after timeout T7 or ok -->
+            <static>
+              <layoutmodelpath>screen/pages/popup/layoutmodel/default</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(1)</text_stim>
+              </label>
+            </static>
+          </contents>
+        </popup_1>
+      </wifi>
+      <sim>
+        <popup_503>      <!-- case 33 in screen spec B8_V1.10: simconfcopyauthorized -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/popup/layoutmodel/default</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(503)</text_stim>
+              </label>
+            </static>
+          </contents>
+        </popup_503>
+      </sim>
+      <middleware>
+        <popup_600> <!-- (Firmware upgrade ongoing) -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/popup/layoutmodel/default</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(600)</text_stim>
+              </label>
+            </static>
+          </contents>
+        </popup_600>
+        <popup_601> <!-- (Firmware upgrade success) -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/popup/layoutmodel/default</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(601)</text_stim>
+              </label>
+            </static>
+          </contents>
+        </popup_601>
+        <popup_602> <!-- (Sleep mode activated) -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/popup/layoutmodel/default</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(602)</text_stim>
+              </label>
+            </static>
+          </contents>
+        </popup_602>
+        <popup_604> <!-- (Firmware upgrade failure) -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/popup/layoutmodel/default</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(604)</text_stim>
+              </label>
+            </static>
+          </contents>
+        </popup_604>
+        <popup_609> <!-- case 31 in screen spec B8_V1.10: incompleteinstallationcardlocked -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/popup/layoutmodel/default</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(609)</text_stim>
+              </label>
+            </static>
+          </contents>
+        </popup_609>
+      </middleware>
+    </popup>
+    <!--****************************************************************-->
+    <!--*                       PROCESS                                *-->
+    <!--****************************************************************-->
+    <process>   <!-- Processes launch from menus -->
+      <layoutmodel>      <!-- layout of the pages displayed during workflow -->
+        <!--user defined layout model name -->
+        <process_screen>  <!-- icon + label -->
+          <window>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>320</width>
+            <height>240</height>
+            <bgpicture>/etc/lcd/img/Screen_elements/info_process_screen_skin.bmp</bgpicture>
+          </window>
+          <picture>
+            <posx>15</posx>
+            <posy>60</posy>
+            <width>74</width>
+            <height>74</height>
+          </picture>
+          <label>
+            <posx>104</posx>
+            <posy>54</posy>
+            <width>216</width>
+            <height>175</height>
+            <font>
+              <name>
+                <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+              </name>
+              <size>19</size>
+              <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+            </font>
+            <yalignement>top</yalignement>
+            <xalignement>left</xalignement>
+            <linespacing>0</linespacing>
+          </label>
+        </process_screen>
+        <process_screen_small>  <!-- icon + label0 + label1 (small) -->
+          <window>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>320</width>
+            <height>240</height>
+            <bgpicture>/etc/lcd/img/Screen_elements/info_process_screen_skin.bmp</bgpicture>
+          </window>
+          <picture>
+            <posx>15</posx>
+            <posy>60</posy>
+            <width>74</width>
+            <height>74</height>
+          </picture>
+          <label0>
+            <posx>104</posx>
+            <posy>50</posy>
+            <width>216</width>
+            <height>70</height>
+            <font>
+              <name>
+                <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+              </name>
+              <size>19</size>
+              <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+            </font>
+            <yalignement>top</yalignement>
+            <xalignement>left</xalignement>
+            <linespacing>0</linespacing>
+          </label0>
+          <label1>
+            <posx>104</posx>
+            <posy>115</posy>
+            <width>216</width>
+            <height>70</height>
+            <font>
+              <name>
+                <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+              </name>
+              <size>19</size>
+              <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+            </font>
+            <yalignement>top</yalignement>
+            <xalignement>left</xalignement>
+            <linespacing>0</linespacing>
+          </label1>
+        </process_screen_small>
+        <info_screen>  <!-- used by the ongoing and failure pages -->
+          <window>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>320</width>
+            <height>240</height>
+            <bgpicture>/etc/lcd/img/Screen_elements/info_process_screen_skin.bmp</bgpicture>
+          </window>
+          <picture>
+            <posx>123</posx>
+            <posy>20</posy>
+            <width>74</width>
+            <height>74</height>
+          </picture>
+          <label0>
+            <posx>1</posx>
+            <posy>95</posy>
+            <width>318</width>
+            <height>115</height>
+            <font>
+              <name>
+                <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+              </name>
+              <size>19</size>
+              <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+            </font>
+            <yalignement>top</yalignement>
+            <xalignement>center</xalignement>
+            <linespacing>0</linespacing>
+          </label0>
+          <label1>
+            <posx>5</posx>
+            <posy>210</posy>
+            <width>310</width>
+            <height>30</height>
+            <font>
+              <name>
+                <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+              </name>
+              <size>17</size>
+              <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+            </font>
+            <yalignement>top</yalignement>
+            <xalignement>center</xalignement>
+            <linespacing>0</linespacing>
+          </label1>
+        </info_screen>
+      </layoutmodel>
+      <!--******************************** PROCESS_WIFI_PAIRING ********************************-->
+      <wifipairing>
+        <step_50>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>La Livebox est prête\npour l'installation.\nEffectuer l'opération\n"association" sur\nl'équipement WiFi.</fr>
+                  <en>The Livebox is ready\nfor installation.\nPerform the operation\n"pairing" on the WiFi\ndevice.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_50>
+        <step_51>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>En attente de\nl'association de votre\néquipement WiFi\npendant 2 minutes.\nAppuyer sur ok pour\nrelancer.</fr>
+                  <en>Pending the pairing of\nyour WiFi device\nduring 2 minutes.\nPress ok to restart.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_51>
+        <step_52>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Installation équipement\nWiFi réussie.</fr>
+                  <en>Successful installation\nof the WiFi device.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_52>
+        <step_53>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Échec de l'association\nde l'équipement WiFi.\nAppuyer sur ok\npour revenir au menu.</fr>
+                  <en>Failed installation of\nWiFi device.\nPress ok to return\nto the menu.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_53>
+        <step_54>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Le WiFi est actuellement\ndésactivé et nécessite\nune modification depuis\nl'interface de\nconfiguration %boxguiaddr%.</fr>
+                  <en>WiFi is currently\ndisabled and requires\nchange from the\nconfiguration interface\n%boxguiaddr%.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_54>
+        <step_55>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Le WPS est actuellement\ndésactivé et nécessite\nune modification depuis\nl'interface de\nconfiguration %boxguiaddr%.</fr>
+                  <en>WPS is currently\ndisabled and requires\nchange from the\nconfiguration interface\n%boxguiaddr%.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_55>
+      </wifipairing>
+      <!--******************************** PROCESS_WIFI_INFOS ********************************-->
+      <wifiinfos>
+        <step_60>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/info_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_info_4.png</path>
+              </picture>
+              <label0>
+                <text>
+                  <fr>Livebox SSID:\n$ssid$\nClé WiFi:\n$wifikey$</fr> <!-- texte à rendu dynamique! -->
+                  <en>Livebox SSID:\n$ssid$\nWiFi key:\n$wifikey$</en>
+                </text>
+                <font>
+                  <name>
+                    <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+                    <en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+                  </name>
+                  <size>18</size>
+                  <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+                </font>
+              </label0>
+              <label1>
+                <text>
+                  <fr>Appuyer sur ok pour sortir.</fr> <!-- texte à rendu dynamique! -->
+                  <en>Press ok to exit.</en>
+                </text>
+              </label1>
+            </static>
+          </contents>
+        </step_60>
+      </wifiinfos>
+      <!--******************************** PROCESS_ADDING_LIVEBOX ********************************-->
+      <addlivebox>
+        <step_150>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>La Livebox est prête\npour l'installation.\nRenouveler l'opération\nsur l'autre Livebox\npuis appuyez sur ok.</fr>
+                  <en>The Livebox is ready\nfor installation.\nRepeat the operation\non the distant Livebox\nthen press ok.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_150>
+        <step_151>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>En attente de\nl'installation du\nréseau de Livebox\npendant 2 minutes.</fr>
+                  <en>Pending installation of\nthe Livebox network\nfor 2 minutes.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_151>
+        <step_152>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text_stim>singlealarm_stim(152)</text_stim> <!-- Take long text in the process step message section -->
+              </label>
+            </static>
+          </contents>
+        </step_152>
+        <step_153>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Échec de l'installation\nde la nouvelle Livebox.\nAppuyer sur ok pour\nrevenir au menu.</fr>
+                  <en>Failed installation of\nthe new Livebox.\nPress ok to return\nto the menu.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_153>
+      </addlivebox>
+      <!--******************************** PROCESS_ADDING_LIVEPHONE ********************************-->
+      <addlivephone>
+        <step_250> <!-- 2xx = step ID -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>La Livebox est prête\npour l'installation.\nEffectuer l'opération\n"ajout" sur le téléphone HD\npuis appuyez sur ok.</fr>
+                  <en>The Livebox is ready\nfor installation.\nPerform the operation\n"adding" on the HD phone\nthen press ok.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_250>
+        <step_251> <!-- 2xx = step ID -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>En attente de\nl'installation de votre\ntéléphone HD pendant\n2 minutes.</fr>
+                  <en>Pending installation\nof your HD phone\nduring 2 minutes.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_251>
+        <step_252>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Installation du\ntéléphone HD\nréussie.</fr>
+                  <en>Successful installation\n of the HD phone.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_252>
+        <step_253>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Échec de l'installation\ndu téléphone HD.\nAppuyer sur ok\npour revenir au menu.</fr>
+                  <en>Failed installation of\nHD phone. Press ok to\nreturn to the menu.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_253>
+        <step_254>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Cette action doit\nêtre lancée depuis\nvotre Livebox\nprincipale.</fr>
+                  <en>This action must\nbe launched from\nthe main Livebox.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_254>
+        <step_255>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>La limite est atteinte,\nsupprimer un téléphone\ndepuis %boxguiaddr%.</fr>
+                  <en>The threshold has\nbeen reached,\nplease remove a\nphone from\n%boxguiaddr%</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_255>
+      </addlivephone>
+      <!--******************************** PROCESS_PHONE_RINGING_TEST ********************************-->
+      <phonering>
+        <step_260>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Cette action est\nincompatible avec\nvotre offre de\ntéléphonie d’entreprise.</fr>
+                  <en>This action is not\napplicable with\nyour phone offer.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_260>
+      </phonering>
+      <!--******************************** PROCESS_INSTALL_VOIP ********************************-->
+      <installvoip>
+      	<step_270>
+          <contents>
+            <static>
+		          <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+    		      <picture>
+    		        <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+    		      </picture>
+    		      <label>
+    		        <text>
+    		          <fr>Veuillez patienter,\ninstallation téléphone\npar internet en cours...</fr>
+    		          <en>Please wait while\nvoip is being\ninstalled...</en>
+    		        </text>
+    		      </label>
+            </static>
+          </contents>
+        </step_270>
+        <step_271>
+          <contents>
+            <static>
+        		  <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+          		<picture>
+     			      <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+        		  </picture>
+        		  <label>
+        		    <text>
+        		      <fr>Installation téléphone\n par internet réussie.</fr>
+        		      <en>Successful installation of voip.</en>
+        		    </text>
+        		  </label>
+            </static>
+          </contents>
+       	</step_271>
+        <step_272>
+          <contents>
+            <static>
+      		    <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+          		<picture>
+          		  <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+          		</picture>
+          		<label>
+          		  <text>
+          		    <fr>Échec de l'installation\nde la voip.</fr>
+          		    <en>Installation of voip\nfailed.</en>
+          		  </text>
+          		</label>
+            </static>
+          </contents>
+        </step_272>
+      </installvoip>
+      <!--******************************** PROCESS_INSTALL_INTERNET ********************************-->
+      <installinternet>
+        <step_350>
+          <contents>
+            <static>
+     		    	<layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+          		<picture>
+          		  <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+          		</picture>
+          		<label>
+          		  <text>
+          		    <fr>Veuillez patienter,\ninstallation internet\nen cours...</fr>
+          		    <en>Please wait while\ninternet is being\ninstalled...</en>
+          		  </text>
+          		</label>
+            </static>
+          </contents>
+        </step_350>
+        <step_351>
+          <contents>
+            <static>
+		          <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+    		      <picture>
+    		        <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+    		      </picture>
+    		      <label>
+    		        <text>
+    		          <fr>Installation internet\nréussie.</fr>
+    		          <en>Successful installation\nof internet access.</en>
+    		        </text>
+    		      </label>
+            </static>
+          </contents>
+        </step_351>
+        <step_352>
+          <contents>
+            <static>
+		          <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+    		      <picture>
+    		        <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+    		      </picture>
+    		      <label>
+    		        <text>
+    		          <fr>Échec de l'installation\nd'internet.</fr>
+    		          <en>Installation of internet\naccess failed.</en>
+    		        </text>
+    		      </label>
+    		    </static>
+          </contents>
+        </step_352>
+      </installinternet>
+      <!--******************************** PROCESS_EJECT_DISK ********************************-->
+      <ejectdisk>
+				<step_450>   <!-- Disk list -->
+ <!-- disk list is variable so items cannot be explicitly listed, only default parameters are specified here, depending on the type of disk -->
+	     	  <listbox>
+           	<layoutmodel>
+							<default> <!-- default is a page with 3 items -->
+			        	<window>
+			        	  <posx>0</posx>
+			        	  <posy>0</posy>
+			        	  <width>320</width>
+			        	  <height>240</height>
+			        	  <bgpicture>/etc/lcd/img/Screen_elements/menu_screen_skin.bmp</bgpicture>
+			        	</window>
+								<button0> <!-- special widget used to reflect the push on the UP button -->
+             	  	<posx>144</posx>
+             	  	<posy>0</posy>
+             	  	<width>33</width>
+             	  	<height>15</height>
+									<path>
+										<clicked>/etc/lcd/img/Screen_elements/menu_screen_up_01.png</clicked>
+										<released>/etc/lcd/img/Screen_elements/menu_screen_up_02.png</released>
+									</path>
+								</button0>
+								<button1> <!-- special widget used to reflect the push on the DOWN button -->
+             	  	<posx>144</posx>
+             	  	<posy>225</posy>
+             	  	<width>33</width>
+             	  	<height>15</height>																	
+									<path>
+										<clicked>/etc/lcd/img/Screen_elements/menu_screen_down_01.png</clicked>
+										<released>/etc/lcd/img/Screen_elements/menu_screen_down_02.png</released>
+									</path>
+								</button1>
+<!-- An item = window + picture + Label. The number of items declared here will be considered
+		 as the maximum number of visibles items that listbox pages could contains -->
+            		<item0>     
+             	   	<window> <!-- Used to apply some graphic effect on focused/disabled items. Transparent otherwise -->
+             	    	<posx>0</posx>
+             	     	<posy>15</posy>
+             	  	  <width>320</width>
+             	    	<height>70</height>
+             	     	<bgcolor>(0,0,0,0)</bgcolor> <!-- transparent by default -->
+            	 		</window>  
+									<icon>                         
+             	  		<image> 
+             	  	  	<posx>15</posx>   <!-- Position of the first item icon -->
+             	      	<posy>26</posy>
+             	  	  	<width>48</width>
+             	    		<height>48</height>
+             	    	</image>
+             	    	<caption>  
+             	    		<posx>78</posx>   <!-- Position of the first item label -->
+             	    		<posy>26</posy>
+             	    		<width>237</width>
+             	    		<height>48</height>
+             	     		<font>  <!-- Applied to item enabled/unselected -->
+             	     		  <name>
+             	     				<fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+             	     				<en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+             	     			</name>
+             	     			<size>19</size>
+             	     			<color>(255,255,255,255)</color>
+             	     		</font>
+             	      	<yalignement>middle</yalignement>
+             	      	<xalignement>left</xalignement>
+             	      	<linespacing>21</linespacing>
+             	    	</caption>
+									</icon>
+             	  </item0>
+             	  <item1>
+             	  	<window> <!-- Used to apply some graphic effect on focused/disabled items. Transparent otherwise -->
+             	  		<posx>0</posx>
+             	  		<posy>85</posy>
+             	  		<width>320</width>
+             	  		<height>70</height>
+             	  		<bgcolor>(0,0,0,0)</bgcolor> <!-- transparent by default -->
+             	  	</window>  
+									<icon> 
+	             	    <image> 
+	             	    	<posx>15</posx>   <!-- Position of the second item icon -->
+	             	    	<posy>96</posy>
+	             	     	<width>48</width>
+	             	      <height>48</height>
+	             	 		</image>
+	             	 		<caption>  
+	             	 	  	<posx>78</posx>   <!-- Position of the second item label -->
+	             	    	<posy>96</posy>
+	             	     	<width>237</width>
+	             	     	<height>48</height>
+	             	     	<font> <!-- Applied to item enabled/unselected -->
+	             	     		<name>
+	             	    		  <fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+			          	   			<en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+			               		</name>
+			               		<size>19</size>
+			               		<color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+		                 	</font>
+		                  <yalignement>middle</yalignement>
+		                  <xalignement>left</xalignement>
+		                  <linespacing>21</linespacing>
+		                </caption>
+									</icon>
+	            	</item1>
+	           	  <item2> 
+	           	  	<window> <!-- Used to apply some graphic effect on focused/disabled items. Transparent otherwise -->
+	           	  		<posx>0</posx>
+	           	  		<posy>155</posy>
+	           	   		<width>320</width>
+	           	   		<height>70</height>
+	           	   		<bgcolor>(0,0,0,0)</bgcolor> <!-- transparent by default -->
+	           	  	</window>                                       
+									<icon>
+	             	   	<image> 
+	             	     	<posx>15</posx>   <!-- Position of the third item icon -->
+	             	     	<posy>166</posy>
+	             	     	<width>48</width>
+	             	     	<height>48</height>
+	             	  	</image>
+	             	    <caption>  
+	             	    	<posx>78</posx>   <!-- Position of the third item label -->
+	             	    	<posy>166</posy>
+	             	     	<width>237</width>
+	             	     	<height>48</height>
+	             	     	<font> <!-- Applied to item enabled/unselected -->
+	             	     		<name>
+	             	         	<fr>/etc/lcd/fonts/OrangeSans55.ttf</fr>
+	             	         	<en>/etc/lcd/fonts/OrangeSans55.ttf</en>
+	             	        </name>
+	             	        <size>19</size>
+	             	        <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+	             	      </font>
+	             	      <yalignement>middle</yalignement>
+	             	      <xalignement>left</xalignement>
+	             	      <linespacing>21</linespacing>
+	             	    </caption>
+									</icon>
+	           	  </item2>
+							</default>
+         		</layoutmodel>
+						<itemeffects>
+							<is_circularlist>1</is_circularlist> <!-- Circular menu (top to bottom or bottom to top) or not (stop on top or on bottom) -->
+            	<focuseditem> <!-- the selected item in the listbox -->
+								<format>
+   	        	  	<icon>	<!-- listbox items always have icon in her layout -->
+		           	    <caption>
+   	        	   			<font>
+   	        	   				<color>(255,255,153,0)</color> <!-- Focused item color (A,R,G,B) -->
+   	        	   			</font>
+		           	    </caption>
+   	        	   	</icon>
+<!-- A window or picture widget must have been declared in pages items layout to handle the selection effect (window border, picture, etc...). Specify the path of the selection effect picture or of the background window border color/width...here a rectangle generated by drawing window border -->
+									<picture>  <!-- selection rectangle is rendered from a PNG file -->
+										<path>/etc/lcd/img/Screen_elements/menu_screen_select.png</path>
+    					  	</picture>
+								</format>
+            	</focuseditem>
+  					</itemeffects>
+           	<menutree>
+	         	  <rootmenu>  <!-- first page of menu -->
+								<itemslist>
+    	     	    	<if cond="disktypekey">  <!-- Dynamic list of items: items in list depends on type of device plugged in the USB ports  -->
+	 	       	  	 	  <contents>
+											<icon>
+	 	       	  	       	<image>
+	 	       	  	 	    	 	<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_eject_USB.png</path>
+   	       	           	</image>
+   	       	     	    	<caption>
+	 	       	  	 	    	  <text>
+	 	       	  	 		  	    <fr>Clé</fr>
+	 	       	          	    <en>Key</en>
+	 	       	           	 	</text>
+   	       	           	</caption>
+											</icon>
+   	       	        </contents>
+   	       	        <action>EJECT_DISK</action> <!-- Action lauched for any of selected items -->
+    	     	      </if>		
+    	     	    	<if cond="disktypehdd">  <!-- Dynamic list of items: items in list depends on type of device plugged in the USB ports  -->	
+   	       	      	<contents>
+   	       	      	  <label>
+   	       	      	    <text>
+   	       	      	      <fr>Disque dur</fr>
+   	       	      				<en>HDD</en>                
+   	       	      			</text>
+   	       	         	</label>
+   	       	          <picture>
+   	       	          	<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_eject_USB.png</path>
+   	       	          </picture>
+   	       	        </contents>
+	 	       	        <action>EJECT_DISK</action> <!-- Action lauched for any of selected items -->
+    	     	      </if>			
+								</itemslist>
+	         	  </rootmenu>	
+           	</menutree>
+	     		</listbox>
+				</step_450>
+        <step_451>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_eject_USB.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Retirer équipement?\nAppuyez sur ok\npour confirmer.</fr>
+                  <en>Ejecting disk?\nPress ok to confirm.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_451>
+        <step_452>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Veuillez patienter,\néjection en cours...</fr>
+                  <en>Please wait while\nejecting disk...</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_452>
+        <step_453>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>L'équipement USB\npeut être retiré.</fr>
+                  <en>The USB device\ncan be removed.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_453>
+        <step_454>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Ne pas retirer :\nL'équipement est en cours\nd'utilisation. Appuyer sur\n ok pour revenir au\nmenu.</fr>
+                  <en>Do not remove:\nThe device\nis being used. Press\nok to come back\nto the hoem page.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_454>
+      </ejectdisk>
+      <!--******************************** PROCESS_RESTOREDEFAULT_REBOOT ********************************-->
+			<restoredefreboot>
+      	<step_550> <!-- case 29 -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+    		        <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text>
+                 	<fr>Succès de la\nrécupération de\nvotre configuration.\nRedémarrage...</fr>
+                	<en>Retrieving of your\nconfiguration\nsuccessful.\nRestarting...</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_550>
+      	<step_551> <!-- case 30 -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Échec de la\nrécupération de\nvotre configuration.</fr>
+                	<en>Retrieving of your\nconfiguration failed.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_551>
+        <step_552>  <!-- case 26 -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Insérer votre carte\nmémoire pour récupérer\nvotre configuration ou\nappuyer sur ok.</fr>
+                	<en>Please insert your\nmemory card to retrieve\nyour configuration or\npress ok.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_552>
+        <step_553> <!-- case 32 -->
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Accès à la carte\nsécurisée impossible.</fr>
+                  <en>Access to the secure\ncard denied.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_553>
+        <step_554>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+    		        <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Succès de la\nrécupération des\nparamètres de\nconnexion internet.\nRedémarrage...</fr>
+                	<en>Retrieving of the\ninternet connection\nparameters successfull.\nRestarting...</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_554>
+        <step_555>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Restauration de votre\nconfiguration en cours.\nLa Livebox va\nredémarrer\nautomatiquement.</fr>
+                	<en>Restore of your\nconfiguration. The\n Livebox will restart\nautomatically.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_555>
+        <step_556>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Restauration des\nparamètres de\nconnexion internet en\ncours. La Livebox va\nredémarrer\nautomatiquement.</fr>
+                	<en>Restore of the\ninternet connection\nparameters. The\n Livebox will restart\nautomatically.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_556>
+        <step_557>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Vérification de la\ncarte en cours...</fr>
+                	<en>Card check on going...</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_557>
+        <step_558>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Sauvegarde de votre\nconfiguration sur la carte.</fr>
+                	<en>Backup of your\configuration on the card.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_558>
+        <step_559>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Cette action\nnécessite l’insertion\nde la carte mémoire\nde sauvegarde.</fr>
+                	<en>This action require\nthe insertion of the\nbackup memory card.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_559>
+        <step_560>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen_small</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_waiting_1.png</path>
+              </picture>
+              <label0>
+                <text>
+                       <fr>Mise à jour logicielle\nen cours...</fr>
+                       <en>Firmware upgrade\nin progress...</en>
+                </text>
+              </label0>
+              <label1>
+                <text>
+                       <fr>Ne pas éteindre votre\nlivebox</fr>
+                       <en>Don't shutdown your livebox</en>
+                </text>
+              </label1>
+            </static>
+          </contents>
+        </step_560>
+        <step_561>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_confirm_2.png</path>
+              </picture>
+              <label>
+                <text>
+                	<fr>Mise à jour\effectuée avec\nsuccès.\nRedémarrage\nen cours...</fr>
+                	<en>Firmware upgrade success.\nReboot in progress...</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_561>
+	</restoredefreboot>
+      <!--******************************** PROCESS_SWITCHOFF_CONFIRM ********************************-->
+			<switchoffconfirm>
+		    <step_650> <!-- Switch OFF confirmation menu -->
+					<contents>
+						<static>
+		          <label>
+  	            <posx>5</posx>
+		            <posy>5</posy>
+		            <width>310</width>
+		            <height>70</height>
+		            <font>
+  	              <name>
+		                <fr>/etc/lcd/fonts/OrangeSans65.ttf</fr>
+		                <en>/etc/lcd/fonts/OrangeSans65.ttf</en>
+  	              </name>
+  	              <size>23</size>
+  	              <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+		            </font>
+		            <yalignement>middle</yalignement>
+		            <xalignement>center</xalignement>
+  	    				<text>
+  	            	<fr>Votre Livebox va s'éteindre.</fr>
+  	            	<en>Your Livebox is about to turn off.</en>
+  	            </text>
+		         	</label>
+			   	  	<listbox>
+	   				   	<layoutmodel>
+									<default> <!-- default is a page with 3 items -->
+					        	<window>
+					        	  <posx>0</posx>
+				        	  	<posy>0</posy>
+							        <width>320</width>
+							        <height>240</height>
+							        <bgpicture>/etc/lcd/img/Screen_elements/menu_screen_off_on_skin.bmp</bgpicture>
+							      </window>
+										<button0> <!-- special widget used to reflect the push on the UP button -->
+		     		        	<posx>144</posx>
+		     		        	<posy>75</posy>
+		     		         	<width>33</width>
+		     		         	<height>15</height>
+											<path>
+												<clicked>/etc/lcd/img/Screen_elements/menu_screen_up_01.png</clicked>
+												<released>/etc/lcd/img/Screen_elements/menu_screen_up_02.png</released>
+											</path>
+										</button0>
+										<button1> <!-- special widget used to reflect the push on the DOWN button -->
+		     		         	<posx>144</posx>
+		     		         	<posy>225</posy>
+		     		         	<width>33</width>
+		     		         	<height>15</height>																	
+											<path>
+												<clicked>/etc/lcd/img/Screen_elements/menu_screen_down_01.png</clicked>
+												<released>/etc/lcd/img/Screen_elements/menu_screen_down_02.png</released>
+											</path>
+										</button1>
+<!-- An item = window + picture + Label. The number of items declared here will be considered
+		 as the maximum number of visibles items that listbox pages could contains -->
+		   	 			      <item0>     
+		     			       	<window> <!-- Used to apply some graphic effect on focused/disabled items. Transparent otherwise -->
+		     			         	<posx>0</posx>
+		     			         	<posy>85</posy>
+		     			      	  <width>320</width>
+		     			         	<height>70</height>
+		     			         	<bgcolor>(0,0,0,0)</bgcolor> <!-- transparent by default -->
+		     			      	</window>  
+											<icon>                         
+		     		       			<image> 
+  	     		           		<posx>15</posx>   <!-- Position of the first item icon -->
+  	                 		  <posy>102</posy>
+  	                 		  <width>48</width>
+  	                 		  <height>48</height>
+		             	  		</image>
+		             	  		<caption>  
+  	                  	  <posx>78</posx>   <!-- Position of the first item label -->
+  	                  	  <posy>102</posy>
+  	                  	  <width>237</width>
+  	                  	  <height>48</height>
+  	                  	  <font>
+		                  	    <name>
+		                  	      <fr>/etc/lcd/fonts/OrangeSans65.ttf</fr>
+  	                  	      <en>/etc/lcd/fonts/OrangeSans65.ttf</en>
+  	                  	    </name>
+  	                  	    <size>21</size>
+  	                  	    <color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+  	                  	  </font>
+  	                  	  <yalignement>middle</yalignement>
+  	                  	  <xalignement>left</xalignement>
+  	                  	  <linespacing>21</linespacing>
+		             	  		</caption>
+											</icon>
+		             	  </item0>
+		              	<item1>
+		              		<window> <!-- Used to apply some graphic effect on focused/disabled items. Transparent otherwise -->
+		              			<posx>0</posx>
+		              			<posy>155</posy>
+		              			<width>320</width>
+		              			<height>70</height>
+		              			<bgcolor>(0,0,0,0)</bgcolor> <!-- transparent by default -->
+				             	</window>  
+											<icon> 
+					              <image> 
+					               	<posx>15</posx>   <!-- Position of the second item icon -->
+					               	<posy>172</posy>
+					               	<width>48</width>
+					                <height>48</height>
+					           		</image>
+					           		<caption>  
+					           	  	<posx>78</posx>   <!-- Position of the second item label -->
+					               	<posy>172</posy>
+					               	<width>237</width>
+					               	<height>48</height>
+					               	<font> <!-- Applied to item enabled/unselected -->
+					               		<name>
+					               		  <fr>/etc/lcd/fonts/OrangeSans65.ttf</fr>
+					               			<en>/etc/lcd/fonts/OrangeSans65.ttf</en>
+					               		</name>
+					               		<size>19</size>
+					               		<color>(255,255,255,255)</color> <!-- (A,R,G,B) -->
+					               	</font>
+					                <yalignement>middle</yalignement>
+					                <xalignement>left</xalignement>
+					                <linespacing>21</linespacing>
+					              </caption>
+											</icon>
+		  		          </item1>
+									</default>
+  	  		     	</layoutmodel>
+								<itemeffects>
+									<is_circularlist>1</is_circularlist> <!-- Circular menu (top to bottom or bottom to top) or not (stop on top or on bottom) -->
+    		        	<focuseditem> <!-- the selected item in the listbox -->
+										<format>
+   			        	  	<icon>	<!-- listbox items always have icon in her layout -->
+				           	    <caption>
+   			        	   			<font>
+   			        	   				<color>(255,255,153,0)</color> <!-- Focused item color (A,R,G,B) -->
+   			        	   			</font>
+				           	    </caption>
+   			        	   	</icon>
+<!-- A window or picture widget must have been declared in pages items layout to handle the selection effect (window border, picture, etc...). Specify the path of the selection effect picture or of the background window border color/width...here a rectangle generated by drawing window border -->
+											<picture>  <!-- selection rectangle is rendered from a PNG file -->
+												<path>/etc/lcd/img/Screen_elements/menu_screen_select.png</path>
+    							  	</picture>
+										</format>
+		            	</focuseditem>
+								</itemeffects>
+  	          	<menutree>
+		          	  <rootmenu>  <!-- first page of menu -->
+										<itemslist>
+ <!-- Content of the items (img+caption) + associated action -->
+			        	      <it1>         <!-- First entry of the list -->
+			        	        <contents>	
+  			  					       	<icon>
+  		        	        	  <image>
+  		        	        	   	<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_confirm_1.png</path>
+  		        	            </image>
+  		        		       		<caption>
+  	          	            	<text>
+  	          	                <fr>Confirmer</fr>
+  	          	            	  <en>Confirm</en>
+		          	            	</text>
+  		        	        		</caption>
+													</icon>
+  		        	        </contents>                     
+  		        	        <action>GW_SWITCH_OFF_CONFIRM</action>
+  		        	      </it1>
+  		        	      <it2>
+  		        	      	<contents>
+												 	<icon>
+  		        	        	  <image>
+  		        	        	   	<path>/etc/lcd/img/Icones/Icones_48x48/PNG/icone_back.png</path>
+  		        	            </image>
+  		        	        		<caption>
+  	          	              <text>
+		          	                <fr>Annuler</fr>
+		          	                <en>Cancel</en>
+		          	              </text>
+  		        	        		</caption>
+													</icon>
+  		        	        </contents>    
+  		        	        <action>GW_SWITCH_OFF_CANCEL</action>                 
+  		        	        <action>GOTO_MAIN</action>
+  		        	      </it2>
+										</itemslist>
+		          	  </rootmenu>
+  	          	</menutree>
+ 		      		</listbox>
+						</static>
+					</contents>
+  	    </step_650>
+        <step_651>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Échec de l'exctinction\nde la Livebox.\nAppuyer sur ok pour\nrevenir au menu</fr>
+                  <en>Failed to switch off\nthe Livebox.\nPress ok to return\nto the menu.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_651>
+	  </switchoffconfirm>
+      <!--******************************** PROCESS_GENERIC ********************************-->
+      <generic>
+        <step_660>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/process_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_alert_2.png</path>
+              </picture>
+              <label>
+                <text>
+                  <fr>Cette action est\nactuellement interdite\net nécessite une\nmodification de\nconfiguration.</fr>
+                  <en>This action is currently\ndisabled and requires\ncmodification of the\nconfiguration.</en>
+                </text>
+              </label>
+            </static>
+          </contents>
+        </step_660>
+      </generic>
+      <!--******************************** PROCESS_SYSTEM_INFOS ********************************-->
+      <systeminfos>
+        <step_670>
+          <contents>
+            <static>
+              <layoutmodelpath>screen/pages/process/layoutmodel/info_screen</layoutmodelpath>
+              <picture>
+                <path>/etc/lcd/img/Icones/Icones_74x74/PNG/icone_info_4.png</path>
+              </picture>
+              <label0>
+                <text>
+                  <fr>Version logicielle:\n$externalfirmwareversion$\nVersion interface utilisateur:\n$guifirmwareversion$</fr>
+                  <en>Software Version:\n$externalfirmwareversion$\nUser interface version:\n$guifirmwareversion$</en>
+                </text>
+              </label0>
+              <label1>
+                <text>
+                  <fr>Appuyer sur ok pour sortir.</fr> <!-- texte à rendu dynamique! -->
+                  <en>Press ok to exit.</en>
+                </text>
+              </label1>
+            </static>
+          </contents>
+        </step_670>
+      </systeminfos>
+    </process>
+  </pages>
+</screen>

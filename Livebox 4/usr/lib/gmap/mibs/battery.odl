@@ -1,0 +1,62 @@
+mib battery {
+    /** 
+     *    Battery Voltage
+     *    The BatteryVoltage attribute specifies the current actual (measured) battery voltage, in units of 100mV.
+     *    0x00-0XFE : Battery Voltage
+     *    0xFF : Invalid
+     */
+    read-only uint8 Batteryvoltage;
+
+    /**
+     * The BatteryManufacturer attribute specifies the name of the battery manufacturer.
+     */ 
+    string BatteryManufacturer {
+        constraint maxvalue 17; // including the '\0
+    }
+
+    /**
+      The BatteryType attribute is an enumeration which specifies the type of battery being used by the device.
+      0x00 No Battery
+      0x01 Built In
+      0x02 Other
+      0x03 AA
+      0x04 AAA
+      0x05 C
+      0x06 D
+      0x07-0xFE Reserved
+      0xDD Unknown
+     */
+    uint8 BatteryType;
+
+    /**
+     * The BatteryAHrRating attribute specifies the Ampere-hour rating of the battery, measured in units of 10mAHr.
+
+     */
+    uint16 BatteryAHrRating;
+
+    /**
+      The BatteryQuantity attribute specifies the number of battery cells used to power the device.
+     */
+    uint8 BatteryQuantity;
+
+    /**
+     * The BatteryRatedVoltage attribute specifies the rated voltage of the battery being used in the device,
+     measured in units of 100mV.
+     */
+    uint8 BatteryRatedVoltage;
+
+    /**
+     * The BatteryStatus attribute specifies if the battery voltage is low or not.
+     0x00 battery voltage is low
+     0x01 battery OK
+     */
+    read-only uint8 BatteryStatus;
+
+    /**
+     * The BatteryVoltageMinThreshold attribute specifies the low voltage notification threshold, measured in
+     units of 100mV, for the BatteryVoltage attribute.
+     If the value of BatteryVoltage drops below the threshold specified by BatteryVoltageMinThreshold a
+     notification shall be generated.
+     */
+    uint8 BatteryVoltageMinThreshold;
+}

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+HOSTNAME=$(cat /etc/hostname)
+
+case $1 in
+    start)
+	hostname $HOSTNAME
+
+	;;
+    stop)
+	;;
+    restart_mvc)
+	;;
+    *)
+	echo "Usage ..."
+	;;
+
+esac
+

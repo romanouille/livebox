@@ -1,0 +1,26 @@
+@media print {
+
+/*body {
+	visibility:hidden;
+}
+
+#content {
+	visibility:visible;
+	position:absolute;
+	top:0;
+	left:0;
+}*/
+
+#header_container, #mainMenu, .leftMenu, #footer_container {
+	display:none !important;
+}
+
+#header_container, #mainMenu, .leftMenu, #footer_container {
+	display:none !ie;
+}
+
+#content {
+	width:100%;
+}
+
+} /* @media print */

@@ -1,0 +1,21 @@
+<div xmlns="http://www.orange.com/xhtml/engine/loose">
+    <div class="boxType3">
+		<h1 class="logo_generic grey" i18n="menuServices.wifiaccess"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myServices.wifiaccessformsuivi.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form>
+		 <div class="boxType4 border-bottom-3">
+			<span i18n="page.myServices.wifiaccesserror.label"/><br/>
+			<span dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='HotspotWiFi']/Enable"/><br/><br/>
+			<span dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='HotspotWiFi']/HotspotStatus"/><br/><br/>
+			<span i18n="page.myServices.wifiaccesserror.label2"/>
+		  </div>
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="MenuItem,Button" widgetArg="{MenuItem: 'm1.m13.m131'}" i18n="page.myServices.wifiaccesserror.back"/>
+			</div>
+		</form>
+	</div>
+</div>

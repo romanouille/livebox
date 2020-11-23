@@ -1,0 +1,136 @@
+using "libnemo_core.so";
+persistent object NeMo {
+persistent object Intf[] {
+read-only string Name;
+bool Enable;
+bool Status;
+string Flags;
+object ULIntf[] {
+read-only string Name;
+}
+object LLIntf[] {
+read-only string Name;
+}
+bool isUp(string flag, string traverse) {
+acl {
+world none;
+}
+}
+bool hasFlag(string flag, string condition, string traverse) {
+acl {
+world none;
+}
+}
+void setFlag(string flag, string condition, string traverse) {
+acl {
+world none;
+}
+}
+void clearFlag(string flag, string condition, string traverse) {
+acl {
+world none;
+}
+}
+bool isLinkedTo(string target, string traverse) {
+acl {
+world none;
+}
+}
+list getIntfs(string flag, string traverse) {
+acl {
+world none;
+}
+}
+string luckyIntf(string flag, string traverse) {
+acl {
+world none;
+}
+}
+string getFirstParameter(string name, string flag, string traverse)  {
+acl {
+world none;
+}
+}
+void setFirstParameter(string name, string value, string flag, string traverse)  {
+acl {
+world none;
+}
+}
+string getParameters(string name, string flag, string traverse) {
+acl {
+world none;
+}
+}
+void setParameters(string name, string value, string flag, string traverse) {
+acl {
+world none;
+}
+}
+void getMIBs(string mibs, string flag, string traverse)  {
+acl {
+world none;
+}
+}
+void setMIBs(string mibs) {
+acl {
+world none;
+}
+}
+read-only object Query[] {
+read-only string Description;
+read-only string Subscribers;
+read-only string ResultString;
+void getResult();
+}
+uint32 openQuery(string subscriber) {
+acl {
+world none;
+}
+}
+void closeQuery(string subscriber) {
+acl {
+world none;
+}
+}
+void csiRegister(string func)  {
+acl {
+world none;
+}
+}
+void csiUnregister(string func)  {
+acl {
+world none;
+}
+}
+void csiFinish(uint32 id)  {
+acl {
+world none;
+}
+}
+}
+void linkIntfs(string ulintf, string llintf) {
+acl {
+world none;
+}
+}
+void unlinkIntfs(string ulintf, string llintf)  {
+acl {
+world none;
+}
+}
+void loadMIB(string odlfile)  {
+acl {
+world none;
+}
+}
+void unloadMIB(string odlfile) {
+acl {
+world none;
+}
+}
+read-only object MIB[] {
+read-only string OdlFile;
+read-only string Flag;
+read-only object DataModel;
+}
+}

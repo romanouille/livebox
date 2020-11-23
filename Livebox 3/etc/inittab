@@ -1,0 +1,5 @@
+# disaster recovery if necessary
+::wait:/etc/init.d/sysinit
+
+# shutdown scripts to run
+::shutdown:/etc/init.d/rc 6 K stop

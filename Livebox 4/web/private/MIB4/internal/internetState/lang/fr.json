@@ -1,0 +1,2 @@
+
+{"internetState":{"header":{"title":"Internet"},"description":"Détails de la connexion Internet","state":{"label":"Statut","disponible":"disponible","indisponible":"indisponible"},"lastConnection":"Connecté depuis le","at":"à","hour":"h","minute":"mn","downflow":"Débit descendant","upflow":"Débit montant","typeConnection":"Type de connexion"}}

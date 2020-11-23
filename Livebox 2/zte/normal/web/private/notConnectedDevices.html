@@ -1,0 +1,556 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=1085"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Livebox</title>
+<script type="text/javascript">
+	appUrl = '';
+	appConfig = 'fr';
+	appUid = '7c9c85ce';
+	config = {
+		BUILD_CUSTOMER: 'ft',
+		BUILD_PROJECT: 'lbv2fr',
+		BUILD_HARDWARE: 'zte_h202n',
+		SESSION_DURATION: '600'
+	};
+	if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+		config.BUILD_PROJECT = "lbv2.8fr";
+	}
+
+</script>
+<link href="/styles.css?7c9c85ce" rel="stylesheet" type="text/css"/>
+<script src="/scripts.js?7c9c85ce" type="text/javascript" charset="utf-8"></script>
+<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?7c9c85ce"/>
+<link rel="shortcut icon" href="/images/fr/common/favicon.ico?7c9c85ce" type="image/x-icon"/>
+</head>
+<body class="accessibility-small">
+<!-- Popup and backlayer from Cytadelle Technology Light framework -->
+<div id="ct-popup" class="fixed" style="height: 70px">
+	<div>
+		<img id="ct-popup-header" src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.general.popup.img.header" alt=""/>
+		<h4>
+		<div id="ct-popup-header-title" class="translation Translations.home.authentication.header"></div>
+		</h4>
+		<a id="popup-close-btn" class="nologin">
+		<img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.general.popup.img.close" alt=""/>
+		</a>
+	</div>
+	<div id="ct-popup-content">
+		<span class="translation Translations.home.authentication.label.subtitle"></span>
+	</div>
+	<img src="/images/fr/common/transparent.gif?7c9c85ce" class="png ct-popup-footer voice Voice.general.popup.img.footer" alt=""/>
+</div>
+<div id="ct-msgbox" class="fixed">
+	<img id="ct-popup-header-small" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/>
+	<div id="ct-msgbox-content">
+		<img src="/images/fr/common/transparent.gif?7c9c85ce" id="ct-msgbox-img" class="png"/>
+		<div id="ct-msgbox-msg">
+		</div>
+		<input type="button" id="ct-msgbox-button1" value="annuler" class="input-btn input-small-btn-gray translation Translations.general.btn.cancel"/><input type="button" id="ct-msgbox-button2" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/><input type="button" id="ct-msgbox-button3" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/>
+	</div>
+	<img id="ct-popup-footer" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/>
+</div>
+<div id="ct-tooltip" class="fixed">
+</div>
+<div id="ct-waiting" class="fixed">
+	<img src="/images/fr/common/transparent.gif?7c9c85ce" alt="" class="voice Voice.general.waiting.img.waiting"/>
+</div>
+<div id="ct-backlayer" class="fixed" style="display:none; top:120px">
+</div>
+<div class="devicemenu" id="deviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="devicemenuheader">
+			<span id="hostName"></span>
+			<br/>
+			<span id="ipaddress-device-menu" class="translation Translations.general.label.ipaddress" style="display: none"></span> : <span id="ip"></span>
+		</div>
+		</lh>
+		<li><a id="accessscheduling" href=""><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+		<li><a id="devicescustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="catIqMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="catIqdevicemenuheader">
+			<span id="catIqName"></span>
+		</div>
+		</lh>
+		<li><a id="catIqCustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="disconnectedDeviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="disconnectedDevicemenuheader">
+			<span id="dHostName"></span>
+		</div>
+		</lh>
+		<li><a id="dAccessscheduling" href=""><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+		<li><a id="dDevicescustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+		<!-- 		<li><span id="deletedevicemenuitem" class="translation Translations.notconnecteddevices.label.deletedevice"></span></li> -->
+	</ul>
+</div>
+<div class="devicemenu" id="usbDeviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="UdbDevicemenuheader">
+		</div>
+		</lh>
+		<li><a id="usbBrowse" href="" onclick="return false;"><span id="usbBrowse" class="first active translation Translations.general.btn.files"></span></a></li>
+		<li><a id="usbEject" href="" onclick="return false;"><span class="first active translation Translations.general.btn.eject"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="contextualMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="open">
+			 Open
+		</div>
+		</lh>
+		<li><a id="copy" href=""><span class="auth-required first translation Translations.filesbrowser.label.copy"></span></a></li>
+		<li><a id="paste" href=""><span class="auth-required translation Translations.filesbrowser.label.paste" style="display: none"></span></a></li>
+		<li><a id="rename" href=""><span class="auth-required translation Translations.filesbrowser.label.rename"></span></a></li>
+	</ul>
+</div>
+<!-- Scrollable document container -->
+<div id="document-container">
+	<div id="document-background-header">
+		<div id="document-background-footer">
+			<div id="document">
+				<div id="header">
+				<a href="/" ><div id="header-logo-livebox">
+					</div></a>
+					<div id="header-controls-login" style="overflow: visible">
+						<div id="authenticationerrors" style=" position: absolute; top:6px; right: 350px; width: 300px; color: red; text-align: right;">
+							<span id="emptyauthfields" style="display: none" class="translation Translations.home.authentication.error.empty"></span>
+							<span id="emptyauthinvalid" style="display: none" class="translation Translations.home.authentication.error.invalid"></span>
+						</div>
+						<form name="Home/Accessibility"></form>
+						<form name="Login" id="Login">
+							<div id="login-inputs-div">
+								<input name="username" type="hidden" id="Username"/>
+								<input name="password" type="hidden" id="Password"/>
+								<input type="text" style="width:100px;" id="PopupUsername" class="input-text input-text-gray" maxlength="32" value="" disabled="disabled"/>
+								<input type="password" style="width:100px;" id="PopupPassword" class="input-text input-text-gray " value="" maxlength="32"/>
+								<input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.authenticate" value="" id="bt_authenticate"/>
+							</div>
+							<div id="logout-link-div" style="display: none;">
+								<span id="logged_in_username"></span>: <a href="#" id="logout_link"><span class="translation Translations.general.label.logout"></span></a>
+							</div>
+						</form>
+					</div>
+					<div id="header-controls">
+						<form name="Admin/UserInterface/Language" action="">
+							<div id="header-controls-languages">
+								<select id="Language-select" name="Language-select">
+								</select>
+							</div>
+						</form>
+						<div id="header-controls-accessibility-minus" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.fontsize.img.decrease" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-plus" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.fontsize.img.increase" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast1" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level1" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast2" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level2" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast3" class="header-controls-accessibility">
+							<a href="" title="" class="nologin voice Voice.accessibility.contrast.link.level3"><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level3" alt=""/></a>
+						</div>
+						<form name="Home/Information">
+						</form>
+						<form name="Home/RemoteBackup">
+						</form>
+					</div>
+					<div id="header-hmenu">
+						<ul class="hmenu">
+							<li onclick="return Sah.redirect('/');" id="hmenu-home" class="first active"><a href="/"><span class="first active translation Translations.general.label.vmenu.home.title"></span></a></li>
+							<li onclick="return Sah.redirect('/configWifi.html');" id="hmenu-wifi" class="normal auth-required"><a href="/configWifi.html" class="auth-required"><span class="translation Translations.general.label.vmenu.config.title"></span></a></li>
+							<li onclick="return Sah.redirect('/myFiles.html');" id="hmenu-myfiles" class="normal auth-required"><a href="/myFiles.html" class="auth-required"><span class="translation Translations.general.label.vmenu.files.title"></span></a></li>
+							<!--<li id="hmenu-myipphone" class="normal auth-required"><a href="/phonebook.html" onclick="return Sah.redirect('/phonebook.html');" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li> -->
+							<li onclick="return Sah.redirect('/phoneRingTest.html');" id="hmenu-myipphone" class="normal auth-required"><a href="/phoneRingTest.html" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li>
+							<li onclick="return Sah.redirect('/supportLedsStatus.html');" id="hmenu-support" class="normal auth-required"><a href="/supportLedsStatus.html" class="auth-required"><span class="translation Translations.general.label.vmenu.support.title"></span></a></li>
+							<li onclick="return Sah.redirect('/advConfigNetworkDhcp.html');" id="hmenu-advconfig" class="last gray auth-required"><a href="/advConfigNetworkDhcp.html" class="auth-required"><span class="translation Translations.general.label.vmenu.advconfig.title"></span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="content">
+					
+<div id="content-left">
+	<ul id="content-left-vmenu" class="lbx2vmenu">
+		<li id="left-home-link" >
+			<a href="/">
+				<span class="translation Translations.general.label.vmenu.connecteddevices.title"></span>
+			</a>
+		</li>
+		<li id="left-discondevices-link">
+			<a href="/notConnectedDevices.html" >
+				<span class="translation Translations.general.label.vmenu.notconnecteddevices.title"></span>
+			</a>
+		</li>
+		<li id="left-datarate-link">
+			<a href="/datarate.html" >
+				<span class="translation Translations.general.label.vmenu.datarate.title"></span>
+			</a>
+		</li>
+	</ul>
+</div>
+<script type="text/javascript">
+	$("left-home-link").observe("click",function(e){Sah.redirect('/')});
+	$("left-discondevices-link").observe("click",function(e){Sah.redirect('/notConnectedDevices.html')});
+	$("left-datarate-link").observe("click",function(e){Sah.redirect('/datarate.html')});
+	
+</script>
+
+<style type="text/css">
+	table.notconndevices {
+		border-collapse: collapse;
+		border-spacing: 0;
+		table-: fixed;
+	}
+
+	table.notconndevices tbody tr.row td {
+		height: 90px;
+		overflow: hidden;
+		padding: 0;
+		text-align: center;
+		width: 175px;
+		background-color: #F3F2F2;
+	}
+
+	table.notconndevices tbody tr td div.internet-restriction-icon {
+
+		height: 27px;
+		position: absolute;
+		right: 20px;
+		top: 0;
+		width: 27px;
+	}
+
+	table.notconndevices thead th {
+		background-color: #939292;
+		color: white;
+	}
+
+	table.notconndevices {
+		border-collapse: collapse;
+		border-spacing: 0;
+		width: 100%;
+	}
+
+	table.notconndevices td,table.notconndevices th {
+		border: 1px solid white;
+		overflow: hidden;
+		padding: 1px;
+	}
+
+	table.notconndevices thead th {
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: left;
+	}
+
+	table.notconndevices thead th.first {
+		border-left: medium none;
+	}
+
+	table.notconndevices thead th.last {
+		border-right: medium none;
+	}
+
+	table.notconndevices tr.subheader {
+		vertical-align: top;
+	}
+
+	table.notconndevices tr.subheader th {
+		background-color: #E1E0E0;
+		color: black;
+		text-align: center; 
+		font-weight: normal;
+		font-size: 0.9em;
+	}
+
+	table.notconndevices tbody td {
+		font-size: 0.9em;
+		text-align: center;
+	}
+
+	table.notconndevices tbody td.first {
+		border-left: medium none;
+	}
+
+	table.notconndevices tbody td.last {
+		border-right: medium none;
+	}
+
+	table.notconndevices tbody td .input-text {
+		font-size: 0.8em;
+		height: 15px;
+		padding: 0;
+		text-align: center;
+		width: 60px;
+	}
+
+	table.notconndevices tbody td select {
+		font-size: 0.8em;
+		height: 15px;
+		padding: 0;
+		text-align: center;
+		width: 60px;
+	}
+
+	/* Specific styles for 2.8 configurations */
+	table.adjusted  tbody td div.deviceName {
+		width: 130px;
+		margin-left: 45px;
+	}
+
+
+	table.adjusted tbody td div.icon {
+		margin-left: 85px;
+	}
+
+
+	#notconnecteddevices_table td div.title {
+		font-size: 1em;
+		font-weight: bold;
+		height: 25px;
+		left: 0;
+		line-height: 1.2em;
+		text-align: center;
+		width: 100%;
+		color: black;
+
+	}
+
+	#notconnecteddevices_table a {
+		display: block;
+		height: 70%;
+		width: 50%;
+		margin-left: 60px;
+		text-decoration: none;
+	}
+
+        #notconnecteddevices_table td a div.icon {
+		width:auto;
+		height: auto;
+		cursor: pointer;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	#notconnecteddevices_table td div {
+		cursor: pointer;
+		text-align: center;
+		margin: 0 auto;
+	}
+	#notconnecteddevices_table td,#notconnecteddevices_table th {
+		width: 170px;
+	}		
+
+	body.accessibility-contrast3 #notconnecteddevices_table td div.title {
+		color: white;
+	}
+
+</style>
+
+<div id="content-center">
+	<a href="/"><span class="translation Translations.general.label.vmenu.home.title"></span></a> > <span class="translation Translations.general.label.vmenu.notconnecteddevices.title"></span>
+	<div class="hr hr-orange"></div>
+	<br/>
+
+	<h1><span class="translation Translations.notconnecteddevices.label.title"></span></h1>
+	<div class="hr"></div>
+	<h2><span class="translation Translations.notconnecteddevices.label.subtitle"></span></h2>
+<br>
+	<form name="EventListner/ObserveDisconnected">
+		<table cellspacing="0" cellpadding="10" class="notconndevices" id="notconnecteddevices_table" style="table-:fixed;">
+			<thead>
+				<tr>
+					<th class="first last" colspan="4" style="width:100%"><span class="translation Translations.notconnecteddevices.label.table.title"></span></th>
+				</tr>
+				<tr class="subheader">
+					<th>
+						<span class="translation Translations.notconnecteddevices.label.table.header.wired"></span>
+					</th>
+					<th>
+						<span class="translation Translations.notconnecteddevices.label.table.header.wireless"></span>
+					</th>
+					<th>
+						<span class="translation Translations.notconnecteddevices.label.table.header.usb"></span>
+					</th>
+
+					<th class="dectphone">
+						<span class="translation Translations.notconnecteddevices.label.table.header.dect"></span>
+					</th>
+				</tr>
+
+			</thead>
+			<tbody></tbody>
+		</table>
+	</form>
+</div>
+
+<div id="content-right">
+	<div id="home-refresh-button">
+		<input type="button" id="bt_refresh" value="rafraichir" class="input-btn input-btn-orange-refresh translation Translations.general.btn.refresh"/>
+	</div>
+	<div style="clear:both;"></div>
+	<div class="input-info-help">
+		<!-- Help -->
+		<div class="header"><h6><span class="translation Translations.general.label.help"></span></h6></div>
+		<div class="content translation Translations.notconnecteddevices.label.help"></div>
+		<div class="footer"></div>
+	</div>
+</div>
+
+				</div>
+				<div id="footer">
+					<div id="footer-logo-ft">
+					</div>
+					<div id="footer-menu">
+						<a href="/legal.html" onclick="return Sah.redirect('/legal.html');"><span class="translation Translations.legal.label.title"></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+		function bindReady(handler){
+			var called = false
+			function ready() {
+				if (called) return
+				called = true
+				handler()
+			}
+			if ( document.addEventListener ) { // native event
+				document.addEventListener( "DOMContentLoaded", ready, false )
+			} else if ( document.attachEvent ) {  // IE
+				try {
+					var isFrame = window.frameElement != null
+				} catch(e) {}
+				// IE, the document is not inside a frame
+				if ( document.documentElement.doScroll && !isFrame ) {
+					function tryScroll(){
+						if (called) return
+						try {
+							document.documentElement.doScroll("left")
+							ready()
+						} catch(e) {
+							setTimeout(tryScroll, 10)
+						}
+					}
+					tryScroll()
+				}
+				// IE, the document is inside a frame
+				document.attachEvent("onreadystatechange", function(){
+					if ( document.readyState === "complete" ) {
+						ready()
+					}
+				})
+			}
+			// Old browsers
+			if (window.addEventListener)
+				window.addEventListener('load', ready, false)
+			else if (window.attachEvent)
+				window.attachEvent('onload', ready)
+			else {
+				var fn = window.onload // very old browser, copy old onload
+				window.onload = function() { // replace by new onload and call the old one
+					fn && fn()
+					ready()
+				}
+			}
+		}
+		bindReady(function() {		
+			var login = Cookie.get('login');
+			  if (login != null && (!login.match(/^[A-Za-z0-9 ]+$/) || login.length > 24)){
+				Cookie.unset('sessid');
+				Cookie.unset('expirydate');
+				Cookie.unset('login');
+				Cookie.unset('context');
+
+				new Ajax.Request("/logout", {
+					onComplete: function(){Sah.redirect('/');},
+					method: "get"
+				});
+			}
+			
+			if (Cookie.get('expirydate') !== undefined && Cookie.get('expirydate') !== null){
+				
+				var expiryValue = Cookie.get('expirydate'),	
+					expiryDate = new Date(expiryValue);
+									
+				if ( Object.prototype.toString.call(expiryDate) !== '[object Date]' || !isFinite(expiryDate) )
+					expiryDate = new Date(parseInt(expiryValue));			
+					
+				var currentDate = new Date(),
+					remainingTime = expiryDate.getTime() - currentDate.getTime();
+				
+				if(remainingTime < 0 ){
+					Cookie.unset('expirydate');
+				} else {
+					setTimeout(function(){
+						Cookie.unset('sessid');
+						Cookie.unset('expirydate');
+						Cookie.unset('login');
+						Cookie.unset('context');
+						
+						new Ajax.Request("/logout", {
+							onComplete: function(){Sah.redirect('/');},
+							method: "get"
+						});
+					}, remainingTime);
+				}
+
+			}
+			
+			if ( appConfig === 'fr' ) {
+				$('hmenu-myfiles').remove();
+				if ( $('advConfigPorts') !== null ) {
+					$('advConfigPorts').remove();
+				}
+				if ( $('left-fxo-link') !== null ) {
+					$('left-fxo-link').remove();
+				}
+			}
+			if (config.BUILD_PROJECT.indexOf("2.8") < 0) {
+				if ( $('left-fxo-link') !== null ) {
+					$("left-fxo-link").show();
+				}
+			}
+			$('Login').observe("submit",function(e){
+				Event.stop(e);
+				$('Username').setValue($F('PopupUsername'));
+				$('Password').setValue($F('PopupPassword'));
+				return true;
+			}.bind(this));
+			
+			$("popup-close-btn").observe("click",function(e){
+				ctl.popup.Close();
+				return false;
+			});
+			
+			$$('.hmenu li a').each(function (el) {
+				Event.observe(el, 'mouseup', function(event) {
+					Sah.redirect(el.href);
+				});
+			});
+		});
+</script>
+</body>
+</html>

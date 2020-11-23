@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# The root dir is used for testing purposes. When running a test it expands to ${STAGINGDIR}
+
+PCB_PLUGIN="/bin/pcb_plugin"
+NAME=captiveportal
+COMPONENT_DIR="/usr/lib/${NAME}"
+ODL="${COMPONENT_DIR}/${NAME}.odl"
+PID="/var/run/${NAME}.pid"
+
+URLMON_CHAINS=/etc/init.d/hook_captiveportal
+
+case $1 in
+    start)
+	${URLMON_CHAINS} start
+        if [ $? -eq 0 ]; then # We best not start it when setting up the iptables failed 
+            # this needs to run in the foreground because on livebox v2.8 daemonizing goes horribly wrong
+            # and a thread hangs in pthread_create. (don't know why)
+            $PCB_PLUGIN -n ${NAME} -c $ODL -o syslog
+            echo "$!" > /var/run/${NAME}.pid
+        else 
+            echo "ERROR: Setting up ip chains for ${NAME} plugin failed!" >&2
+        fi;
+        ;;
+    stop)
+        if [ -e $PID ] ; then 
+        	kill $(cat $PID)
+                sleep 2
+	        ${URLMON_CHAINS} stop
+        	echo "done."
+        else 
+            echo "${NAME} not running."
+        fi
+        ;;
+    status)
+    	if [ -e $PID ] ; then 
+        	echo "${NAME} is running."
+        else 
+            echo "${NAME} is not running."
+        fi 
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status]"
+        ;;
+esac
+

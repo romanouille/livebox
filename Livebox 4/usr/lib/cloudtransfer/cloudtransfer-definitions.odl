@@ -1,0 +1,195 @@
+using "cloudtransfer.so";
+
+define shareParams_t {
+    string  universe;
+    string  name;
+    string  description;
+    list    recipients;
+}
+
+define status_t {
+   string name;
+   string status;
+   uint32 progress;
+   uint32 remaining_time;
+}
+
+/*  */
+object CloudTransfer {
+    acl {
+        world none;
+        group "mediahub" read, execute;
+    }
+
+    int32 getTransfers(mandatory list transferIds, out uint32 nbFiles, out list transferFiles);
+    int32 listTransfers(list transferIds, out uint32 nbTransfers, out list transfers);
+    int32 setTransfer(mandatory uint32 transferId, mandatory string transferAction, out string transferStatus);
+
+    /* "uploadContent()" API can only be called from another Process (no TCP Request) */
+    int32 uploadContent(mandatory string origin, mandatory list fileList, mandatory string dstFolderId, out uint32 transferId);
+    
+    int32 putContent(string transferName, mandatory string origin, mandatory list contentList, mandatory string dstFolderId, out string transferStatus, out uint32 transferId);
+    int32 setContent(mandatory uint32 transferId, mandatory string contentId, mandatory string contentAction, out string contentStatus);
+    int32 shareContent(string transferName, mandatory string origin, mandatory list contentList, mandatory list extraContentList, mandatory string dstFolderId, mandatory variant shareParams, mandatory string shareType, out string transferStatus, out uint32 transferId);
+
+
+    persistent uint32 MaxTransfers {
+        acl {
+            group "mediahub" none;
+        }
+        default 50;
+    }
+
+    persistent uint32 MaxContentsPerTransfer {
+        acl {
+            group "mediahub" none;
+        }
+        default 1024;
+    }
+
+    persistent uint32 MaxUploads {
+        acl {
+            group "mediahub" none;
+        }
+        default 10;
+    }
+
+    persistent uint32 MaxUploadPartSize {
+        acl {
+            group "mediahub" none;
+        }
+        constraint minvalue 1048576;
+        default 1048576;
+    }
+
+    persistent read-only object Transfers[] {
+
+        persistent read-only string Owner;
+
+        persistent read-only string Origin;
+
+        persistent read-only string DstFolderId;
+
+        persistent read-only string Name;
+
+        persistent read-only string Status {
+            constraint enum ["idle", "starting", "ongoing", "done" , "paused", "destroyed", "error"];
+            default "idle";
+        }
+
+        persistent read-only string Type {
+            constraint enum ["copy", "share", "upload"];
+            default "copy";
+        }
+
+        persistent read-only datetime StartDate;
+
+        persistent read-only datetime EndDate;
+
+        persistent read-only uint32 TotalFiles;
+
+        persistent read-only uint32 FilesOk {
+            default 0;
+        }
+
+        persistent read-only uint32 FilesError {
+            default 0;
+        }
+
+        persistent read-only uint32 FilesPending;
+
+        persistent read-only uint32 PartSize {
+            constraint minvalue 1048576;
+            default 1048576;
+        }
+
+        persistent read-only object Share {
+        
+            persistent read-only string Type {
+                constraint enum ["cloud", "socialNetwork"];
+                default "cloud";
+            }
+
+            persistent read-only string Params {
+                constraint minvalue 2;
+                default "{}";
+            }
+
+            persistent read-only object Contents[] {
+                persistent read-only string Id;
+            }
+        }
+
+        persistent read-only object Contents[] {
+
+            persistent read-only string Id;
+
+            persistent read-only string Name;
+
+            persistent read-only string Path;
+
+            persistent read-only string MimeType;
+
+            persistent read-only datetime StartDate;
+
+            persistent read-only datetime EndDate;
+
+            persistent read-only string Status {
+                constraint enum ["pending", "ongoing", "done", "destroyed", "errorFileTooBig", "errorInterrupted", "errorNoMoreCloudSpace", "errorUnknown"];
+                default "pending";
+            }
+
+            persistent read-only uint32 TotalSize;
+
+            persistent read-only uint32 UploadedSize {
+                default 0;
+            }
+
+            persistent read-only string UploadData {
+                constraint minvalue 2;
+                default "{}";
+            }
+        }
+    }
+
+    read-only object Stats {
+
+        read-only object Global {
+            acl {
+                group "mediahub" none;
+            }
+
+            read-only uint32 TransfersRunning {
+                default 0;
+            }
+
+            read-only uint32 TransfersPending {
+                default 0;
+            }
+
+            read-only uint32 TransfersOnError {
+                default 0;
+            }
+        }
+
+        read-only object Users[] {
+
+            read-only int32 AvailableTransferSlots {
+                default 0;
+            }
+
+            read-only uint32 TransfersRunning {
+                default 0;
+            }
+
+            read-only uint32 TransfersPending {
+                default 0;
+            }
+
+            read-only uint32 TransfersOnError {
+                default 0;
+            }
+        }
+    }
+}
+/** @location commod_mediahub_cloudtransfer add-on/frontend/pcb/cloudtransfer-definitions.odl.m4 */

@@ -1,0 +1,47 @@
+#!/bin/sh
+
+PLUGIN_NAME="dnsplugin"
+
+PLUGIN_ODL="/usr/lib/${PLUGIN_NAME}/${PLUGIN_NAME}.odl"
+LOG_LEVEL=400
+PID_FILE="/var/run/${PLUGIN_NAME}.pid"
+PCB_PLUGIN="/bin/pcb_plugin"
+
+mkdir -p /var/etc/dnsplugin
+mkdir -p /etc/dnsplugin
+
+command=$1
+
+case $command in 
+	start)
+		export ${PLUGIN_NAME}=${LOG_LEVEL}
+		$PCB_PLUGIN -n $PLUGIN_NAME -c $PLUGIN_ODL -a -L
+		pcb_cli -q 'Firewall.setService("dns","lan","53","6,17",0,true)'
+	;;
+
+	stop)
+		[ -f $PID_FILE ] && kill $(cat $PID_FILE)
+		pcb_cli -q 'Firewall.deleteService("dns")'
+	;;
+	status)
+		if [ -e $PID_FILE ] ; then 
+		    echo "$PLUGIN_NAME plugin is running."
+		else 
+		    echo "$PLUGIN_NAME plugin is not running."
+		fi 
+	;;
+	backup)
+		if [ -e $PID_FILE ] ; then 
+		    pcb_cli "DNS.export($2)"
+		else 
+		    echo "$PLUGIN_NAME plugin is not running, impossible to make a backup"
+		fi                 
+	;;
+	restore)
+		mkdir -p /var/lib/dnsplugin
+		touch /var/lib/dnsplugin/restore
+	;;
+	*)
+ 		echo "Usage : $0 [start|stop|status|backup|restore]"
+	;;
+esac

@@ -1,0 +1,82 @@
+using "wmbusplugin.so";
+
+acl {
+    group admin read,write,execute;
+    group remoteadmin read,write,execute;
+    group technician read,write,execute;
+    group cwmpd read,write,execute;
+    world none;
+}
+
+persistent object Wmbus {
+
+    acl {
+        group admin none;
+        group remoteadmin none;
+    }
+
+    void openNetwork(uint32 duration);
+    void closeNetwork();
+    string getNetworkStatus();
+    void addDongle(mandatory string intfName, mandatory string dongleId) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+    void deleteDongle(mandatory string dongleId) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+    string getDongleDescription();
+    bool addDevice(mandatory string deviceId, string encryptionKey, string applicationList) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+    bool removeDevice(mandatory string deviceId)  {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+    string getvalue(mandatory string deviceId, string applicationId, string interfaceId, string attributeId);
+    list getDevices();
+    list getDongles();
+
+    persistent object HAN {
+        persistent read-only object Dongle[] {
+            persistent read-only string Id;
+            persistent read-only string HardwareVersion;
+            persistent read-only string FirmwareVersion;
+            persistent read-only string ManufacturerId;
+            read-only string NetworkStatus;
+            read-only string Status {
+                constraint enum [ "Plugged", "Unplugged" ];
+                default "Unplugged";
+            }
+        }
+        read-only object Device[] {
+            read-only string Id;
+            read-only string Dongle;
+            read-only string ManufacturerId;
+            read-only string ModelId;
+             /**
+             * @brief: The Device Enable specifies if the device Enable or Disable, there is option to Enable/Disable the device by Device
+             * Enable field
+             */
+            bool DeviceEnable;
+            read-only object ApplicationList[] {
+                read-only uint16 ApplicationId;
+                read-only object Interfaces[] {
+                    read-only string InterfaceId;
+                }
+            }
+        }
+    }
+}
+
+/** @location sah_drivers_wmbus /wmbusplugin.odl */

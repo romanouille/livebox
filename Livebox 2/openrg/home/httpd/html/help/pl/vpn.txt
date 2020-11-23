@@ -1,0 +1,14 @@
+<b>VPN</b><br>
+
+<br>
+
+Opcja VPN umożliwia poszerzenie sieci lokalnej. Usługa ta pozwala bezpiecznie połączyć się obu stronom przez sieć publiczną (np. Internet). Kiedy usługa VPN jest aktywna, pomiędzy dwoma stronami tworzone jest bezpieczne połączenie, tzw. tunel. Przesyłane dane są szyfrowane, gdy wchodzą do tunelu i deszyfrowane na drugim końcu przez odbiorcę. Modem Livebox może utworzyć połączenie VPN pomiędzy dwoma modemami Livebox (tryb podstawowy), pomiędzy modemem Livebox oraz innym typem servera VPN (tryb zaawansowany) lub pomiędzy modemem Livebox oraz użytkownikiem mobilnym (tryb serwera). Livebox może maksymalnie ustanowić cztery połączenia VPN w tym samym czasie.<br>
+
+<br>
+<b><span class="boldorange">Włącz IPSec:</span></b><br>
+Zaznaczenie tego pola powoduje włączenie usługi VPN. Tabela pokazuje listę połączeń skonfigurowanych wraz z ich stanem połączenia. Aby skonfigurować nowe połączenie kliknij przycisk <b>"Dodaj"</b>.<br>
+<br>
+
+
+<b><span class="boldorange">Włącz serwer IPSec:</span></b><br>
+Zaznacz to pole, aby włączyć usługę serwera VPN. Umożliwia ona mobilnym użytkownikom logowanie się do sieci lokalnej modemu Livebox. Tabela pokazuje nazwę użytkownika wraz z odpowiadającym mu profilem grupy oraz stanem połączenia. Aby skonfigurować nowy profil grupy lub dodać nowego użytkownika kliknij przycisk <b>"Zarządzanie użytkownikami i profilami"</b>. Dzięki temu uzyskasz dostęp do ustawień serwera VPN</b>.<br>

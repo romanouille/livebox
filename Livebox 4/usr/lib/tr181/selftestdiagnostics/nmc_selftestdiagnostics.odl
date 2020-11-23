@@ -1,0 +1,45 @@
+
+
+
+object SelfTestDiagnostics {
+
+    bool X_ORANGE-COM_AutoDiagnosisEnabled {
+        default "false";
+    }
+
+    string X_ORANGE-COM_DiagnosticScriptFileVersion;
+
+    string DiagnosticsState {
+        constraint enum ["None", "Requested", "Cancel", "Complete","Error_Internal", "Error_Other"];
+        default "None";
+    }
+
+    string X_ORANGE-COM_Diagnosis;
+
+    read-only string Results;
+
+    string X_ORANGE-COM_StorageUrl;
+
+    read-only uint32 X_ORANGE-COM_StorageCounter;
+
+    uint32 X_ORANGE-COM_StorageLimit {
+        default 9999;
+    }
+}
+
+datamodel {
+
+    object SelfTestDiagnostics {
+        destination "pcb://$(PCB_MAIN_BUS)/AutoDiag" {
+            parameter X_ORANGE-COM_AutoDiagnosisEnabled from AutoDiagnosisEnabled;
+            parameter X_ORANGE-COM_DiagnosticScriptFileVersion from DiagnosticScriptFile;
+            parameter DiagnosticsState from DiagnosticsState;
+            parameter X_ORANGE-COM_Diagnosis from Diagnosis;
+            parameter Results from Results;
+            parameter X_ORANGE-COM_StorageUrl from StorageUrl;
+            parameter X_ORANGE-COM_StorageCounter from StorageCounter;
+            parameter X_ORANGE-COM_StorageLimit from StorageLimit;
+        }
+    }
+
+}

@@ -1,0 +1,32 @@
+{
+    "Id": "sah_presence",
+    "Category": "Family Protection",
+    "Version": "0.1",
+    "Title": "sah_presence.title",
+    "Application": { "main": "iframeapp",
+                     "settings": { "target": "apps/mywifi/wifi_home.html"
+                                 }
+                   },
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider_wificount",
+                  "settings": { "slides": [ "<span class=\"img family\"></span><div class=status><span class=caption><span class=\"black\"><span translate=common.devices></span>:</span> <span class=\"sah_green_dark conndevs\">?</span></span></div>",
+                                            "<div class=title><span translate=sah_presence.num_wifi_devs></span><br><div class=conndevs></div></div>"
+                                          ],
+                                "apicalls":{"class":"conndevs", 
+                                            "ws":"Devices.Device", "event": ["wifi_device_added","wifi_device_updated","wifi_device_removed"]}
+                              }
+                }
+              ],
+    "en":{
+        "title": "My Family Presence",
+        "num_wifi_devs": "Number of Wifi devices"
+    },
+    "fr": {
+        "title": "pymLSRtD",
+        "num_wifi_devs": "hNHUinAC"
+    }
+}

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="nemo-core"
+datamodel="NeMo"
+trace_zones=""
+component="sah_lib_nemo"
+
+case $1 in
+    start)
+        if pcb_is_running $name; then
+            echo $name "already started"
+        else
+            sahenv -f /etc/environment pcb_app  -vv -n $name -I /var/run/nemo -c /usr/lib/nemo/nemo.odl
+            pcb_cli -q -w -1 'NeMo'
+            mtk_load $name /usr/lib/nemo/modules/built-in.so
+        fi
+        ;;
+    stop)
+        mtk_unload $name built-in
+        pcb_stop $name
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo|log]"
+        ;;
+esac

@@ -1,0 +1,70 @@
+<div id="customEquipmentStd" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<span style="display:none">XpathDevice</span>
+	<div class="boxType3">
+    <!-- 
+		<div id="helpPage">
+			<a  onclick="ouvrir_popup()" href="#">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 -->
+	 <h1 class="logo_EnvLiveBox grey">
+		<span i18n="page.myEquipments.customEquipmentUsb.title"/>&#160;<span  dataId="XpathRouter/RouterName"/>
+	</h1>
+	</div>
+	<div class="maindiv">
+		<form action="#">
+		<div class="boxType4 margin-top-10">
+			<span class="h3Text" i18n="page.myEquipments.customEquipmentEth.config"/>
+			<div widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.config.name">
+				<input type="text" dataId="XpathDevice/UserFriendlyName" i18n="page.myEquipments.customEquipmentEth.config.name"/>
+			</div>
+
+			<div widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.config.dns">
+				<input type="text" dataId="XpathDevice/HostName" i18n="page.myEquipments.customEquipmentEth.config.dns"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.config.mac">
+				<span dataId="XpathDevice/PhysAddress"/>
+			</div>
+
+			<div widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.config.type">
+				<span widgetType="EnumInput" widgetArg="'select'" dataId="XpathDevice/DeviceType" enumerated="['MISCELLANEOUS', 'COMPUTER', 'PHONE', 'UNIK', 'NETWORKACCESSPOINT', 'AUDIOVIDEO', 'PERIPHERAL', 'IMAGING', 'NOTEBOOKS', 'GAMECONSOLE', 'PRINTER', 'STORAGE']" i18nPrefix="page.myEquipments.userEquipment.filtre.type"/>
+			</div>
+			
+			<div id="equiconParent" widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.config.icon">
+				<span id="equicon" class="icon-carousel" widgetType="EnumInput" widgetArg="'icons'" dataId="XpathDevice/Icon" enumerated="['ico_devices_antennesatellite.png','ico_devices_cleusb.png','ico_devices_consoledejeu.png','ico_devices_cpl.png','ico_devices_decodeur.png','ico_devices_desktop.png','ico_devices_homelibrary.png','ico_devices_laptop.png','ico_devices_livephone.png','ico_devices_liveplug.png','ico_devices_liveradio.png','ico_devices_netbook.png','ico_devices_ont.png','ico_devices_printer.png','ico_devices_routeur.png','ico_devices_screen.png','ico_devices_serveur.png','ico_devices_smartphone.png','ico_devices_switch.png','ico_devices_tablet.png','ico_devices_telephoneparinternet.png','ico_devices_television.png','ico_devices_unik.png','ico_devices_usbhdd.png','ico_devices_wifiaccess.png','ico_devices_wifiaccessorange.png']" i18nPrefix="data.device.icon"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.config.location">
+				<span id="location"/>
+			</div>
+		</div>
+		<div class="boxType5 border-bottom-3">	
+			<span class="h3Text" i18n="page.myEquipments.customEquipmentEth.connection"/>	
+			<div widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.connection.type">
+				<span i18n="page.myEquipments.customEquipmentEth.connection.usb"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.connection.status">
+				<span dataId="XpathDevice/Active" i18nPrefix="data.device.connectionstatuslabel"/>
+			</div>
+			<div  id="connectionstatuslabel" style="display:none" dataId="XpathDevice/Active" widgetType="Input"/> 
+			
+			<div widgetType="FormInput" i18n="page.myEquipments.customEquipmentEth.connection.hide">
+				<span class="radioBR" widgetType="EnumInput" widgetArg="'radio'" enumerated="[false, true]" dataId="XpathDevice/Hide" i18nPrefix="data.device.hide"/>
+				<div class="clear"/>
+			</div>
+		</div>
+			<div widgetType="ButtonContainer" class="right" style="width: 100%">
+				<!-- <div style="float: left">
+					<span id="btnBack" widgetType="ButtonImage" i18n="common.page.back"/>
+				</div> -->
+				<div style="float: right">
+					<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="page.myEquipments.customEquipmentEth.cancel"/>
+					<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myEquipments.customEquipmentEth.save"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

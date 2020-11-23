@@ -1,0 +1,769 @@
+
+
+
+
+using "netmaster.so";
+
+define interface_config_t {
+    uint32 VLANID;      /* A number in the range[0-4095]. */
+    int32 VLANPriority;    /* A number in the range[-1:7] */
+    string DestinationAddress;
+    string Encapsulation;   /* Either 'VCMUX' or 'LLC' */
+    string QoSClass;    /* "UBR", "CBR", "GFR", "VBR-nrt", "VBR-rt", "UBR+", "ABR" */
+    uint32 PeakCellRate;
+    uint32 MaximumBurstSize;
+    uint32 SustainableCellRate;
+    string Mode; /* "DHCP", "PPP" and "None" are currently supported */
+    uint32 IPVersion; /* 4, 6, 0 are currently supported */
+    bool DialOnPlug; /* DialOnPlug on this interface */
+    uint32 DialOnPlugIdleTimeout; /* DoP Idle Timeout on this interface */
+}
+
+/**
+ * Structure for DHCP options
+ * @version 7.0
+ */
+define dhcp_option_t {
+    uint8 Tag;
+    bool Enable;
+    variant Value;
+}
+
+acl {
+    world none;
+    group admin read, execute;
+    group remoteadmin read, execute;
+    group technician read, write, execute;
+    group cwmpd read, write, execute;
+} 
+
+/**
+ * Advanced network description model.
+ * IPv4, IPv6 specific configuration.
+ * @version V5.2
+*/
+persistent object NetMaster {
+
+/** 
+ * When changing a WAN mode, keep all interfaces disabled by default. NMC is responsible for enabling the interfaces one by one.
+ * @version V5.2
+ */
+    persistent bool EnableInterfaces {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+        write with enableInterfacesOnWrite;
+        default true;
+    }
+
+/** 
+ * WAN interface configuration model, the name of the instance must be the WAN mode name.
+ * @version V5.2
+ */
+
+/** 
+ * This function set all the WAN QoS parameters at once. The function parameters can contain the VLAN configuration for FTTH and VDSL, the VC configuration for DSL/ATM networks and the IP mode. The configuration must contain a configuration for "data", "voip", "iptv" and "mgmt" or a subset of these. 
+ * @param name Name of the WAN mode.
+ * @param interfacetype 'Ethernet', 'VDSL' and 'ADSL' is supported.
+ * @param configs A map of interface_config_t objects.
+ * @error none, if the configuration is correctly set. pcb_error_invalid_value is returned if one of the parameters has an invalid value, pcb_error_element_not_found is returned when a configuration is set for a non-existing interface.
+ * @return none, if the configuration is correctly set. An error is returned if something goes wrong. 
+ * @version V5.2
+ */
+    void setInterfaceConfig(mandatory string name, mandatory string interfacetype, mandatory map configs);
+
+/** 
+ * Get all the WAN QoS parameters in one function call. The return value is a map of interface configurations. It contains the VLAN configuration for FTTH and VDSL setups, the VC configuration for ATM/DSL networks. 
+ * @param name Name of the WAN mode.
+ * @error None, if the configuration can be correctly listed. pcb_error_not_found ("object not found") is returned when an invalid wanmode parameter is returned.
+ * @return A map of interface_config_t objects, typically for "data", "voip", "iptv" and "mgmt".
+ * @version V5.2
+*/
+    map getInterfaceConfig(mandatory string name);
+
+    object WAN[] {
+        write with WANModeOnWrite;
+        delete with WANModeOnDelete;
+
+/** 
+ * This function returns the full configuration of this WAN mode.
+ * @return list of interface and service configuration.
+ * @param flag optional, filter configuration based on special interface type (vlan, vc, dhcp, firewall, ...)
+ * @error none
+ * @version V5.2
+ */
+        list getConfig(string flag);
+
+/** 
+ * Descriptive name of the WAN mode.
+ * @version V5.2
+ */
+        string Name;
+
+/**
+ * Physical interface type of the WAN mode.
+ * @version V5.2
+ */
+        string PhysicalInterface {
+            constraint enum ["Ethernet", "ADSL", "VDSL"];
+            default "Ethernet";
+        }
+ 
+/** 
+ * Interface definition. We support up to four interfaces. Possible names are: 'data', 'voip', 'iptv' and 'mgmt'.
+ * @version V5.2
+ */
+        object Intf[4] {
+            write with WANIntfOnWrite;
+
+/** 
+ * Returns a list of service configuration for this interface.
+ * @return list of service configurations
+ * @param flag optional, filter configuration based on special interface type (vlan, vc, dhcp(6), firewall, ...)
+ * @error none
+ * @version V5.2
+ */
+            list getConfig(string flag);
+
+/**
+ * This function configures a 'reference' interface, i.e. the interface is a reference to another high_level interface. 
+ * This is used to link iptv interface with the data interface.
+ * @param lowerInterface the lower layer interface where the interface points to.
+ * @error no errors are defined.
+ * @return void
+ * @version V5.2
+ */
+            void setReferenceConfig(mandatory string lowerInterface);
+
+/**
+ * This function configures an untagged interface, the physical interface type must be 'Ethernet' or 'VDSL'.
+ * @param ipversion supported values are IPv4(4), IPv6(6) or both(0). If the value is not specified, 0 is assumed.
+ * @param apply Apply the changes or not.
+ * @error pcb_error_value_range, if ipversion is out of range.
+ * @return void
+ * @version V5.2
+ */
+            void setUNTAGGEDConfig(uint32 ipversion, bool apply);
+
+/**
+ * This function configures a VLAN interface, the physical interface type must be 'Ethernet' or 'VDSL'.
+ * @return void
+ * @param vlanid vlan id, number between 0 and 4096
+ * @param vlanpriority vlan priority, number between -1 and 7
+ * @param ipversion supported values are IPv4(4), IPv6(6) or both(0). If the value is not specified, 0 is assumed.
+ * @param apply Apply the changes or not.
+ * @error pcb_error_value_range, if vlanid, vlanpriority or ipversion are out of range, pcb_error_invalid_parameter indicates an internal error(user data is NULL).
+ * @version V5.2
+ */
+            void setVLANConfig(mandatory uint32 vlanid, mandatory int32 vlanpriority, uint32 ipversion, bool apply);
+
+/**
+ * This function configures a ATM interface, the physical interface type should be ADSL.
+ * @return void
+ * @param destinationAddress ATM PVC address.
+ * @param encapsulation The encapsulation type, 'LLC' or 'VCMUX' are supported.
+ * @param qosclass QoS class, 'UBR', 'CBR', 'GFR', 'VBR-nrt', 'VBR-rt', 'UBR+' and 'ABR' are supported values. Supported values can be depending on the hardware.
+ * @param peakCellRate Peak cellrate.
+ * @param maximumBurstSize Maximum burstsize.
+ * @param sustainableCellRate Sustainable cellrate.
+ * @param ipversion supported values are IPv4(4), IPv6(6) or both(0). If the value is not specified, 0 is assumed.
+ * @param apply Apply the changes or not.
+ * @error pcb_error_invalid_parameter indicates an internal error(user data is NULL), it can also indicate an unsupported encapsulation type or an unsupported qosClass.
+ * @version V5.2
+ */
+            void setVCConfig(mandatory string destinationAddress, mandatory string encapsulation, mandatory string qosclass, uint32 peakCellRate, uint32 maximumBurstSize, uint32 sustainableCellRate, uint32 ipversion, bool apply);
+
+/**
+ * This function configures a VLAN-over-ATM interface, the physical interface type should be ADSL.
+ * @return void
+ * @param vlanid vlan id, number between 0 and 4096
+ * @param vlanpriority vlan priority, number between -1 and 7
+ * @param destinationAddress ATM PVC address.
+ * @param encapsulation The encapsulation type, 'LLC' or 'VCMUX' are supported.
+ * @param qosclass QoS class, 'UBR', 'CBR', 'GFR', 'VBR-nrt', 'VBR-rt', 'UBR+' and 'ABR' are supported values. Supported values can be depending on the hardware.
+ * @param peakCellRate Peak cellrate.
+ * @param maximumBurstSize Maximum burstsize.
+ * @param sustainableCellRate Sustainable cellrate.
+ * @param ipversion supported values are IPv4(4), IPv6(6) or both(0). If the value is not specified, 0 is assumed.
+ * @param apply Apply the changes or not.
+ * @error pcb_error_value_range, if vlanid, vlanpriority or ipversion are out of range, pcb_error_invalid_parameter indicates an internal error(user data is NULL), it can also indicate an unsupported encapsulation type or an unsupported qosClass.
+ * @version V7.0
+ */
+            void setVLANoVCConfig(mandatory uint32 vlanid, mandatory int32 vlanpriority, mandatory string destinationAddress, mandatory string encapsulation, mandatory string qosclass, uint32 peakCellRate, uint32 maximumBurstSize, uint32 sustainableCellRate, uint32 ipversion, bool apply);
+
+/**
+ * @return void
+ * This function configures the PPP interface. 
+ * @param username PPP username.
+ * @param password PPp password.
+ * @param ipversion possible values are '4', '6', or 0 (both)
+ * @param enable true or false;
+ * @param ppptype 'PPPoE' or 'PPPoA', the latter is only supported in ADSL mode. (TODO)
+ * @param no_export Set this parameter to true if you want this service not to be saved.
+ * @param maxmrusize Set the maximum MRU size.
+ * @error pcb_error_invalid_value: if the ipversion is not correctly set, pcb_error_max_instances_reached, if the maximum number of ppp instances is reached.
+ * @version V7.0
+ */
+            void setPPPConfig(mandatory string username, mandatory string password, uint32 ipversion, string ppptype, bool enable, bool no_export, uint32 maxmrusize);
+
+/**
+ * This function enables the DHCPv4 client functionality.
+ * @return void
+ * @param enable Enable or disable DHCP client.
+ * @param name set NeMo name of the DHCP client interface.
+ * @param no_export Set this parameter to true if you want this service not to be saved.
+ * @param dialonplug enable, disable the dial on plug feature.
+ * @param dialonplugidletimeout define the idle timeout.
+ * @param option_req request options as a comma-separated string
+ * @param option_sent sent options as a list of dhcp_option_t structures (the Value field should be a hexified string)
+ * @param check_authentication enable, disable the authentication check
+ * @param authentication_info the authentication string to match
+ * @error pcb_error_invalid_parameter, internal error (userdata is NULL), pcb_error_max_instances_reached is set if no service instance can be created anymore. 
+ * @version V7.0
+ */
+            void setDHCP4ClientConfig(mandatory bool enable, string name, bool no_export, bool dialonplug, uint32 dialonplugidletimeout, string option_req, list option_sent, bool check_authentication, string authentication_info);
+
+/**
+ * This function enables the DHCPv6 client functionality.
+ * @return void
+ * @param enable Enable or disable DHCPv6 client.
+ * @param name set NeMo name of the DHCPv6 client interface.
+ * @param no_export Set this parameter to true if you want this service not to be saved.
+ * @param dialonplug enable, disable the dial on plug feature.
+ * @param dialonplugidletimeout define the idle timeout.
+ * @param option_req request options as a comma-separated string
+ * @param option_sent sent options as a list of dhcp_option_t structures (the Value field should be a hexified string)
+ * @param check_authentication enable, disable the authentication check
+ * @param authentication_info the authentication string to match
+ * @error pcb_error_invalid_parameter, internal error (userdata is NULL), pcb_error_max_instances_reached is set if no service instance can be created anymore. 
+ * @version V7.0
+ */
+            void setDHCP6ClientConfig(mandatory bool enable, string name, bool no_export, bool dialonplug, uint32 dialonplugidletimeout, string option_req, list option_sent, bool check_authentication, string authentication_info);
+
+/**
+ * This function configures the firewall policy level.
+ * @return void
+ * @param destinationInterface Firewall level applicable between this interface and the NeMo interface specified in destinationInterface. 
+ * @param ipversion Supported values are '0'(both), '4'(ipv4 only) and '6'(ipv6 only).
+ * @param level level to be configured between this interface and the destinationInterface.
+ * @error pcb_error_invalid_value, if the ipversion or the firewall level is wrong. The error 'pcb_error_max_instances_reached' is set when it is impossible to create the (firewall) service, 
+ * @version V5.2
+ */
+            void setFirewallConfig(mandatory string destinationInterface, mandatory uint32 ipversion, mandatory string level);
+
+/**
+ * This function configures bridge functionality.
+ * @return void
+ * @param ipversion Supported values are '0'(both), '4'(ipv4 only) and '6'(ipv6 only).
+ * @param dialonplug 
+ * @param dialonplugidletimeout
+ * @param alias overwrite the default name generation, useful to use in combination with the nemo defaults. 
+ * @param apply Apply the changes or not.
+ * @error pcb_error_invalid_value, if the ipversion is wrong. 
+ * @version V5.2.1
+ */
+            void setBridgeConfig(mandatory uint32 ipversion, string alias, bool apply);
+
+/**
+ * This function configures a VLAN as a bridge sub interface.
+ * @return void
+ * @param alias overwrite the default name generation, useful to use in combination with the nemo defaults. 
+ * @param vlanid vlan id, number between 0 and 4096
+ * @param vlanpriority vlan priority, number between -1 and 7
+ * @param apply Apply the changes or not.
+ * @error pcb_error_invalid_value, if the VLAN id or VLAN priority are wrong. 
+ * @version V5.2.1
+ */
+            void setBridgeVLANConfig(mandatory string alias, mandatory uint32 vlanid, mandatory int32 vlanpriority, bool apply);
+
+/**
+ * This function configures a VC as a bridge sub interface.
+ * @return void
+ * @param alias overwrite the default name generation, useful to use in combination with the nemo defaults. 
+ * @param destinationAddress ATM PVC address.
+ * @param encapsulation The encapsulation type, 'LLC' or 'VCMUX' are supported.
+ * @param qosclass QoS class, 'UBR', 'CBR', 'GFR', 'VBR-nrt', 'VBR-rt', 'UBR+' and 'ABR' are supported values. Supported values can be depending on the hardware.
+ * @param peakCellRate Peak cellrate.
+ * @param maximumBurstSize Maximum burstsize.
+ * @param sustainableCellRate Sustainable cellrate.
+ * @param apply Apply the changes or not.
+ * @error pcb_error_invalid_value, if the ipversion or the firewall level is wrong. The error 'pcb_error_max_instances_reached' is set when it is impossible to create the (firewall) service, 
+ * @version V5.2.1
+ */
+            void setBridgeVCConfig(mandatory string alias, mandatory string destinationAddress, mandatory string encapsulation, mandatory string qosclass, uint32 peakCellRate, uint32 maximumBurstSize, uint32 sustainableCellRate, bool apply);
+
+/**
+ * This function deletes a service. supported types are 'dhcp', 'dhcpv6', 'firewall', 'ppp'. If the service matches the type, the service is deleted.
+ * @return void
+ * @param type, parameter to decide with service must be deleted.
+ * @error pcb_error_invalid_value, if the flag type is not supported. 
+ * @version V5.2
+ */
+            void deleteService(mandatory string type);
+
+/**
+ * This function sets the parameters for a Static Route.
+ * If the static Route was not yet available, it will be created.
+ * @return void
+ * @param name The route to manipulate.
+ * @param enable Enable the static route.
+ * @param dst The route destination.
+ * @param dstlen The destination length.
+ * @param gateway The gateway for the static route.
+ * @param table The routing table for this static route (default: main).
+ * @version V7.0
+ */
+            void setStaticRoute(mandatory string name, bool enable, string dst, uint16 dstlen, string gateway, string table);
+
+/**
+ * This function deletes a Static Route.
+ * @return void
+ * @param name The route to delete.
+ * @version V7.0
+ */
+            void deleteStaticRoute(mandatory string name);
+
+/**
+ * Name (reference to NeMo Interface)
+ * @version V5.2
+ */
+            persistent string Name;
+
+/**
+ * This parameter defines the kind of interface (untagged, vlan, ppp or vc) or the type of service.
+ * @version V5.2
+ */
+            string Flags = "untagged";
+
+/**
+ * This parameter defines wether the Interface is IPv4 only(4), IPv6 only(6) or supports both(0).
+ * @version V5.2
+ */
+            uint32 IPVersion = 0;
+
+
+/**
+ * This parameter defines wether the Interface has DialOnPlug enabled or not.
+ * @version V5.2
+ */
+            bool DialOnPlug = false;
+
+
+/**
+ * This parameter defines the DoP Idle Timeout.
+ * @version V5.2
+ */
+            uint32 DialOnPlugIdleTimeout = 30;
+
+/**
+ * Static routes.
+ * @version V7.0
+ */
+            object StaticRoute[10] {
+                write with StaticRouteOnWrite;
+
+/**
+ * Enable static route.
+ * @version V7.0
+ */
+                bool Enable;
+
+/**
+ * Destination.
+ * The destination of the static route.
+ * @version V7.0
+ */
+                string Dst;
+
+/**
+ * Destination length.
+ * The destination length of the static route.
+ * @version V7.0
+ */
+                uint32 DstLen;
+
+/**
+ * Gateway.
+ * The gateway to use.
+ * If not set, the default gateway of the interface is used.
+ * Ignored if the interface is configured with PPPv4.
+ * @version V7.0
+ */
+                string Gateway;
+
+/**
+ * Routing table.
+ * The routing table into which to put the route, by default table 'main'.
+ * @version V7.0
+ */
+                string Table = main;
+            }
+
+/** 
+ * Services to implement on this interface, a number of interface can be active at the same time, a number of similar services can be active at the same time.
+ * (currently all service types must be unique.)
+ * @version V5.2
+ */
+            object Service[12] {
+                write with ServiceOnWrite;
+
+ /** 
+ * This function returns the configuration of the service.
+ * @return list of service configurations
+ * @param flag filters the configuration of a specific service. (It is not really useful here, as there is only one service.)
+ * @error none
+ * @version V5.2
+ */
+                list getConfig(string flag);
+
+/** 
+ * Enables or disable the service.
+ * @version V5.2
+ */
+                bool Enable;
+
+/** 
+ * Give the service a descriptive name.
+ * @version V5.2
+ */
+                string Name;
+
+/** 
+ * Indicates the type of service, vlan, untagged, dhcp, firewall.
+ * @version V5.2
+ */
+                string Flags;
+
+/**
+ * This parameter defines wether the Interface is IPv4 only(4), IPv6 only(6) or supports both(0).
+ * @version V5.2
+ */
+                uint32 IPVersion = 0;
+
+
+/**
+ * This parameter defines wether the Interface has DialOnPlug enabled or not.
+ * @version V5.2
+ */
+                bool DialOnPlug = false;
+
+
+/**
+ * This parameter defines wether the DoP Idle Timeout.
+ * @version V5.2
+ */
+                uint32 DialOnPlugIdleTimeout = 30;
+            }
+
+/** 
+ * PPP to implement on this interface, A number of PPP nterface can be active at the same time.(not supported yet)
+ * @version V5.2
+ */
+            object PPP[] {
+                write with PPPIntfOnWrite;
+
+ /** 
+ * returns a list of configuration from PPP services.
+ * @return list of service configurations
+ * @param flag Filters configuration from a certain type.
+ * @error none
+ * @version V5.2
+ */
+                list getConfig(string flag);
+
+/*
+ * @version V5.2
+ */
+                bool Enable;
+
+/*
+ * @version V5.2
+ */
+                string Name;
+
+/*
+ * @version V5.2
+ */
+                string Username;
+
+/*
+ * @version V5.2
+ */
+                string Password;
+
+/*
+ * @version V5.2
+ */
+                uint32 IPVersion;
+
+/*
+ * @version V5.2
+ */
+                bool DialOnPlug = false;
+
+/*
+ * @version V5.2
+ */
+                uint32 DialOnPlugIdleTimeout = 30;
+
+/*
+ * MaxMRUSize of PPP connection.
+ * @version V7.0
+ */
+                uint32 MaxMRUSize = 1492;
+
+/** 
+ * Services to implement on top of PPP.
+ * @version V5.2
+ */
+                object Service[12] {
+                    write with ServiceOnWrite;
+
+/** 
+ * returns a configuration from the ppp service.
+ * @return list of service configurations
+ * @param flag Filter configuration from a certain type.
+ * @error none
+ * @version V5.2
+ */
+                    list getConfig(string flag);
+
+/**
+ * @version V5.2
+ */
+                    bool Enable;
+
+/**
+ * @version V5.2
+ */
+                    string Name;
+
+/**
+ * @version V5.2
+ */
+                    string Flags;
+/**
+ * This parameter defines wether the Interface is IPv4 only(4), IPv6 only(6) or supports both(0).
+ * @version V5.2
+ */
+                    uint32 IPVersion = 0;
+
+/**
+ * This parameter defines wether the Interface has DialOnPlug enabled or not.
+ * @version V5.2
+ */
+                    bool DialOnPlug = false;
+
+/**
+ * This parameter defines wether the DoP Idle Timeout.
+ * @version V5.2
+ */
+                    uint32 DialOnPlugIdleTimeout = 30;
+                }
+
+/**
+ * Add firewall service (forwarding policy) for the ppp interface.
+ * @return void or an error if something goes wrong.
+ * @param destinationInterface Firewall level applicable between this interface and the NeMo interface specified in destinationInterface. 
+ * @param ipversion 0(both), 4(ipv4 only) and 6(ipv6 only) are supported values.
+ * @param level level to be configured between this interface and the destinationInterface.
+ * @error pcb_error_invalid_value, if ipversion or firewall level is wrong. pcb_error_max_instances_reached when it is impossible to create an extra firewall service, 
+ * @version V5.2
+ */
+                void setFirewallConfig(mandatory string destinationInterface, mandatory uint32 ipversion, mandatory string level);
+
+/**
+ * This function enables the DHCPv4 client functionality.
+ * @return void
+ * @param enable Enable or disable DHCP client.
+ * @param name set NeMo name of the DHCP client interface.
+ * @error pcb_error_invalid_parameter, internal error (userdata is NULL), pcb_error_max_instances_reached is set if no service instance can be created anymore. 
+ * @version V5.2
+ */
+                void setDHCP4ClientConfig(mandatory bool enable, string name);
+
+/**
+ * This function enables the DHCPv6 client functionality.
+ * @return void
+ * @param enable Enable or disable DHCP client.
+ * @param name set NeMo name of the DHCP client interface.
+ * @error pcb_error_invalid_parameter, internal error (userdata is NULL), pcb_error_max_instances_reached is set if no service instance can be created anymore. 
+ * @version V5.2
+ */
+                void setDHCP6ClientConfig(mandatory bool enable, string name);
+
+/**
+ * This function deletes a service. supported types are 'dhcp', 'dhcpv6', 'firewall', 'ppp'. If the service matches the type, the service is deleted.
+ * @return void
+ * @param type, parameter to decide with service must be deleted.
+ * @error pcb_error_invalid_value, if the flag type is not supported. 
+ * @version V5.2
+ */
+                void deleteService(mandatory string type);
+            }
+        }
+    }
+
+/** 
+ * Current and active WAN mode 
+ * @version V5.2
+ */
+    string WANMode {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+/**
+ * @return Current WAN mode
+ * @param none
+ * @error none
+ * @version V5.2
+ */
+    string getWANMode();
+
+/**
+ * setWANMode sets new WAN mode
+ * @return none
+ * @param wanmode Configured WAN mode, check getWANModeList() to have a comma-separated list of the valid WAN modes.
+ * @param username ppp username to be used. (parameter is optional)
+ * @param password ppp password to be used. (parameter is optional)
+ * @error pcb_error_invalid_value if the WAN mode is not found.
+ * @version V5.2
+ */
+    void setWANMode(mandatory string wanmode, string username, string password);
+
+/**
+ * shutdownWANMode bring down the active WAN mode, do not start a new one.
+ * @return none
+ * @param none
+ * @error none
+ * @version V5.2
+ */
+    void shutdownWANMode();
+
+/**
+ * getWANModeList: return a list of defined WAN modes.
+ * @return list of WAN modes
+ * @param none
+ * @error none
+ * @version V5.2
+*/
+    list getWANModeList();
+
+/**
+ * addWANMode: add a WANMode
+ * @return none
+ * @param wanmode the name of the wanmode to add
+ * @error none
+ * @version V7.0
+*/
+    void addWANMode(mandatory string wanmode) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+/**
+ * delWANMode: delete a WANMode
+ * @return none
+ * @param wanmode the name of the wanmode to delete
+ * @error none
+ * @version V7.0
+*/
+    void delWANMode(mandatory string wanmode) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+/**
+ * renameWANMode: rename a WANMode
+ * @return none
+ * @param wanmode the name of the wanmode to delete
+ * @param new_wanmode the new name of the wanmode
+ * @error none
+ * @version V7.0
+*/
+    void renameWANMode(mandatory string wanmode, string new_wanmode) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+/** 
+ * Backup the user/isp settings for netmaster
+ * @param filename optional filename to save configuration to. 
+ * @error none
+ * @return none
+ * @version V5.2
+ */
+    void export(string filename) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+/** 
+ * Restore the user/isp settings.
+ * @param none
+ * @error none
+ * @return none
+ * @version V5.2
+ */
+    void import() {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * DialOnPlug settings
+     * @version V5.2
+     */
+    persistent object DialOnPlug {
+        acl {
+            group admin read, write, execute;
+            group remoteadmin read, write, execute;
+            group technician read, write, execute;
+        } 
+
+        write with DoPOnWrite;
+
+        /**
+         * Enable/disable DialOnPlug
+         * @version V5.2
+         */
+        persistent bool Enable = false;
+
+        /**
+         * Global DialOnPlug idle timeout
+         * This value is the idle timeout for all DOP-enabled interfaces when EnableGlobalIdleTimeout is true.
+         * When active, this overwrites the interface's own DialOnPlugIdleTimeout value.
+         * @version V5.2
+         */
+        persistent uint32 GlobalIdleTimeout = 30;
+
+        /**
+         * Enable/disable the global idle timeout
+         * @version V5.2
+         */
+        persistent bool EnableGlobalIdleTimeout = true;
+
+        /**
+         * Setters/Getters for this object
+         * @version V5.2
+         */
+        variant get();
+        bool set(variant parameters);
+    }
+}
+
+/** @location sah_services_netmaster /netmaster-definitions.odl */

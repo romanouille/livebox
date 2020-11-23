@@ -1,0 +1,81 @@
+
+span.bigtxt {
+    font-size: 3em;
+    padding: 5%;
+    display: block;
+    font-weight:bold;
+    color: #000;
+    line-height: 1em;
+}
+
+span.smalltxt {
+    font-size: 1em;
+    line-height: 1.3em;
+    padding: 5%;
+    display: block;
+}
+
+div.tall {
+    position: relative;
+    background: none;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 14% 0 0 0;
+    margin: 0;
+}
+
+.widget {
+    width: 100%;
+    height: 100%;
+}
+
+.widget .slider {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.widget .slider-item {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.widget .slider-item div div{
+    margin-top: 10px;
+    font-weight: bolder;
+}
+.widget .empty{
+    margin-top: 10px;
+}
+.sah_ui_page .tile.bgvideo,
+.sah_ui_page .tile.bgpictures,
+.sah_ui_page .tile.bgmusic,
+.sah_ui_page .tile.bggames,
+.sah_ui_page .tile.bghomeauto{
+    background-image: url(../images/fondmap.jpg);
+    background-repeat: no-repeat;
+    background-size:500% 100%;
+    color: #fff;
+}
+
+.sah_ui_page .tile.bgvideo {
+    background-position: 100% 0px;
+}
+
+.sah_ui_page .tile.bgpictures {
+    background-position: 75% 0px;
+}
+
+.sah_ui_page .tile.bgmusic {
+    background-position: 50% 0px;
+}
+
+.sah_ui_page .tile.bggames {
+    background-position: 0px 0px;
+}
+
+.sah_ui_page .tile.bghomeauto {
+    background-position: 25% 0px;
+}

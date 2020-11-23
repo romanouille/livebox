@@ -1,0 +1,18 @@
+<b>Reboot</b>
+
+<br>
+<br>
+
+
+<b><span class="boldorange">Reboot:</span></b><br>
+Możesz ponownie uruchomić modem Livebox klikając przycisk <b>"Reboot"</b></b>.
+
+<br>
+<br>
+<b><span class="boldorange">Restartuj Wi-Fi:</span></b><br>
+Możesz ponownie uruchomić usługę Wi-Fi w modemie Livebox klikając przycisk <b>"Restartuj Wi-Fi"</b>.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

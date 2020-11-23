@@ -1,0 +1,18 @@
+object "$(SAH_VOICE_PLUGIN_NAME)" {
+bool init(string country);
+void exit(unint reason);
+bool create_ctx(uint32 ctx_id);
+bool add_stream(int ep_id, uint32 ctx_id, byte_array stream_info, list filedesc, uint32 line_id);
+bool modify_stream(uint32 ctx_id, byte_array stream_info);
+bool remove_stream(uint32 ctx_id, uint32 line_id);
+bool destroy_ctx(uint32 ctx_id);
+object EndPoint[] {
+message void signal(byte_array signal);
+message void event(byte_array event, uint32 channel_id);
+void create(byte_array cnx_info, list filedesc, int line_id);
+void modify(byte_array cnx_info, list filedesc, int line_id);
+void destroy(int line_id);
+bool get(byte_array param_set_request, out byte_array param_set_reply);
+bool set(byte_array param_set_params);
+}
+}

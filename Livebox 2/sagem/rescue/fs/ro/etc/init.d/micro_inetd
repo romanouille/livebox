@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# micro_inetd start
+#/bin/echo "Starting micro_inetd with ftpd (port 21)..."
+#/usr/sbin/micro_inetd 21 /usr/sbin/ftpd &
+case $1 in
+    stop)
+	echo "Stopping bftpd"
+	killall bftpd
+	;;
+     *)
+	echo "Starting bftpd"
+	bftpd -d
+	;;
+esac

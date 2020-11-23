@@ -1,0 +1,64 @@
+<div id="installation_step_4" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" alt="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+
+	<div id="barnav" class="margin-bottom-30 steps4">
+		<div class="floatLeft steps first">
+			<strong class="black">1</strong> - <span i18n="page.page0.barnav.step1"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">2</strong> - <span i18n="page.page0.barnav.step2"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">3</strong> - <span i18n="page.page0.barnav.step3"/>
+		</div>
+		<div class="floatLeft steps active">
+			<strong>4</strong> - <span i18n="page.page0.barnav.step4"/>
+		</div>
+	</div>
+	
+	<div id="container2">
+		<div class="h2_install" i18n="page.page0.step4.label"/>
+		<div class="padding-left-40" i18n="page.page0.step4.label0"/>
+		
+		<div class="liner margin-left-40 margin-right-40 margin-top-10">
+			<a href="javascript:;" class="gosecure installbutton margin-right-20"><img widgetType="Image" class="puce_arrow" align="absmiddle" src="theme/webCorporate/image/installation/puce_arrow.gif"/></a>
+			<a href="javascript:;" class="gosecure installlink" i18n="page.page0.step4.gosecure"/>
+			<a class="myInfo" href="#infosBullegosecure"><img widgetType="Image" class="iconinfo" align="absmiddle" src="theme/webCorporate/image/installation/ico_info.gif"/></a>
+			<div id="infosBullegosecure" class="tooltip">
+				<div class="bubbleTop">
+    				<img src="theme/webCorporate/image/installation/infoBubble.gif" class="floatLeft margin-right-10 margin-top-20" widgetType="Image"/>
+    				<p>
+    					<span class="bold_font" i18n="page.page0.step4.gosecure.bubblettexttitle"></span><br/>
+    					<span i18n="page.page0.step4.gosecure.bubbletext"></span>
+    				</p>
+				</div>
+    			<div class="bubbleBottom"></div>
+			</div>
+		</div>
+		<div class="liner margin-left-40 margin-right-40 margin-top-10">
+			<a href="javascript:;" class="gohome installbutton margin-right-20"><img class="puce_arrow" align="absmiddle" src="theme/webCorporate/image/installation/puce_arrow.gif" widgetType="Image"/></a>
+			<a href="javascript:;" class="gohome installlink" i18n="page.page0.step4.gohome"/>
+			<a class="myInfo" href="#infosBullegohome"><img class="iconinfo" align="absmiddle" src="theme/webCorporate/image/installation/ico_info.gif" widgetType="Image"/></a>
+			<div id="infosBullegohome" class="tooltip">
+				<div class="bubbleTop">
+    				<img src="theme/webCorporate/image/installation/infoBubble.gif" class="floatLeft margin-right-10 margin-top-20" widgetType="Image"/>
+    				<p>
+    					<span class="bold_font" i18n="page.page0.step4.gohome.bubblettexttitle"></span><br/>
+    					<span i18n="page.page0.step4.gohome.bubbletext"></span>
+    				</p>
+				</div>
+    			<div class="bubbleBottom"></div>
+			</div>
+		</div>	
+		<div class="liner margin-left-40 margin-right-40 margin-top-30">
+			<a href="javascript:;" class="gonet installbutton margin-right-20"><img widgetType="Image" class="puce_arrow" align="absmiddle" src="theme/webCorporate/image/installation/puce_arrow.gif"/></a>
+			<a href="javascript:;" class="gonet installlink" i18n="page.page0.step4.gonet"/>
+		</div>
+	</div>
+	<input style="display:none" type="text" id="memoryCardStatus" dataId="Device/DeviceInfo/SmartCard/Status"/>
+</div>

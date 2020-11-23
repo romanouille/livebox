@@ -1,0 +1,94 @@
+datamodel {
+acl {
+world none;
+group admin read, execute;
+group remoteadmin read, execute;
+group cwmpd read, write, execute;
+}
+object Probe {
+function enable {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function disable {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function get {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function trigger {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function logEvents {
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+}
+}
+parameter InputLocation {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter OutputLocation {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Trigger {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Compression {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Mode {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Enable {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Module {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function export {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function import {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}

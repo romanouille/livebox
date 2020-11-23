@@ -1,0 +1,22 @@
+datamodel {
+    object DNS {
+        object Client;
+        object Relay;
+        object Server {
+            parameter Enable=true;
+            parameter Domain="home";
+            parameter Timeout=15;
+            parameter Suppress=false;
+            parameter WDSpoofing=false;
+            parameter WDSpoofedIPAddress="192.168.1.1";
+            parameter WDSpoofedIPAddressV6="";
+            parameter EnableCaching=true;
+            parameter MaxCachedEntries=100;
+            parameter MaxUnresolvedEntries=10;
+            parameter FallbackTimeout=800;
+            parameter FallbackResetMin=300;
+            parameter FallbackResetMax=600;
+            // parameter TTL=300;
+        }
+    }
+}

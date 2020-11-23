@@ -1,0 +1,178 @@
+using "voipaad_plugin.so";
+
+acl {
+    group cwmpd read,write,execute;
+}
+/**
+ * Voice Activation Object
+ * Mapped to InternetGatewayDevice.Services.X_ORANGE-COM_VoiceProvisioning
+ */
+persistent object VoiceActivation {
+
+    /**
+     * Enable/disable the daemon
+     */
+    persistent bool Enable {
+        write with EnableOnWrite;
+    }
+    
+    /**
+     * Status of the daemon
+     */
+    read-only string Status {
+        constraint enum ["Idle", "Busy"];
+        default "Idle";
+    }
+
+    /**
+     * VoIP interface
+     */
+    string Interface {
+        constraint enum ["", "voip", "data"];
+        default "";
+    }
+
+    /**
+     * Event
+     */
+    read-only string event {
+        constraint enum ["1 BOOT","2 PERIODIC","3 SCHEDULED","4 VALUE CHANGE","6 CONNECTION REQUEST"];
+        default "1 BOOT";
+    }
+
+    /**
+     * Trigger a connection request to the FCPE server
+     */
+    bool ConnectionRequest {
+        write with ConnectionRequestOnWrite;
+        default false;
+    }
+
+    /**
+     * URL or IP of FCPE
+     */
+    persistent string FCPE_ADDRESS;
+
+    /**
+     * The duration in seconds of the interval
+     * for which the Livebox must notify the FCPE
+     */
+    persistent read-only uint32 CPE_ALIVE_DELAY {
+        default 21600;
+        constraint minvalue 1;
+    }
+
+    /**
+     * H323 VoIP identifier
+     */
+    persistent string CPE_PROFIL_ID {
+        default "00:00:00:00:00:00";
+    }
+
+    /**
+     * Number of CPE_ALIVE for which a FTP must be
+     * done when H323 stack is activated. Number of CPE_ALIVE
+     * for which a HTTP SIP Request (PARAMETER_REQUEST)
+     * must be done when SIP stack is activated
+     */
+    persistent read-only uint32 N;
+
+    /**
+     * Address of the H323 FTP server
+     */
+    persistent string FTP {
+        default "conf.orange.fr";
+    }
+
+    /**
+     * Configuration version for the SIP service
+     * provisioned on the Livebox
+     */
+    persistent uint32 CONFVERSION {
+        default 0;
+    }
+
+    /**
+     * URL of the SIP configuration server
+     */
+    persistent string URL_CONF_FCPE {
+        default "http://karma-sip.orange.com:80/fr/parameter_request";
+    }
+
+    /**
+     * Fault code
+     */
+    persistent read-only uint32 faultCode {
+        constraint enum [0,9001,9002,9003];
+        default 0;
+    }
+
+    /**
+     * Indicates the type of the active VoIP stack
+     */
+    persistent string provisioningCode {
+        constraint enum ["NULL", "SIP", "H323", "SIP_H323", "H323_SIP"];
+        default "NULL";
+    }
+
+    /**
+     * Type of access
+     */
+    string accessType {
+        constraint enum ["", "NULL", "SIP", "H323"];
+        default "";
+    }
+
+    /**
+     * H235 key of the Livebox
+     */
+    read-only string H235;
+
+    /**
+     * Fake profile for TR-104
+     */
+    persistent object VoiceProfile {
+        persistent string Enable {
+            constraint enum ["Enabled", "Disabled"];
+            default "Disabled";
+        }
+        persistent object LINE1 {
+            persistent string Enable {
+                write with LineEnableOnWrite;
+                constraint enum ["Enabled", "Disabled"];
+                default "Disabled";
+            }
+        }
+    }
+
+    /**
+     * Outbound Proxy of the config if setted, empty otherwise
+     */
+    persistent string SIPOutboundProxy {
+        write with SIPOutboundProxyOnWrite;
+    }
+
+    /**
+     * Events coming from NMC
+     */
+    string NMCEvent {
+        write with NMCEventOnWrite;
+        constraint enum ["None", "ProvCode", "AccessType", "VoIPCycle", "RegistrationCycle", "NTPCycle", "FullCycle"];
+        default "None";
+    }
+
+    /**
+     * Some stuff here to monitor the status of the provisioning
+     */
+    read-only string ProvStatus {
+        constraint enum ["Init", "NoConfig", "ConfigKO", "ConfigOK"];
+        default "Init";
+    }
+    read-only string ProvLastError {
+        constraint enum ["", "Init", "Boot", "Install", "Uninstall", "NewConfig", "SameAsLocal", "IncorrectFile", "NoFileOnServer", "ServerUnreachable", "HttpErrorCode", "DnsError", "UriError", "ServerKO", "ParsingKO", "NothingToDo"];
+        default "Init";
+    }
+
+}
+
+/** @location ext_ft_services_voipaad /voipaad-definition.odl */

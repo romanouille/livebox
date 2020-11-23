@@ -1,0 +1,41 @@
+/*expr:physical*/
+
+mib location {
+    persistent string Location {
+        acl {
+            world read, execute;
+            group admin read, execute;
+            group technician read, execute;
+            group gmap read, execute;
+        }
+        default "";
+    }
+    object Locations[] {
+        acl {
+            world none;
+            group admin read, execute;
+            group technician read, execute;
+            group gmap read, execute;
+        }
+        string Location;
+    }
+
+    bool setLocation(mandatory string location) {
+        acl {
+            world none;
+            group admin read, execute;
+            group technician read, execute;
+            group gmap read, execute;
+        }
+    }
+    void clearLocations() {
+        acl {
+            world none;
+            group admin none;
+            group technician read, execute;
+            group gmap none;
+        }
+    }
+
+}
+/** @location sah_services_gmap /mibs/info.odl */

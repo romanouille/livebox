@@ -1,0 +1,17 @@
+/**
+ * Audiphone Object
+ * Mapping to InternetGatewayDevice.Services.X_ORANGE-COM_Audiphone
+ * mapping of the entire object (at least for now)
+ */
+
+object Services {
+    object X_ORANGE-COM_Audiphone;
+}
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_Audiphone from "pcb://$(PCB_MAIN_BUS)/Audiphone" recursive;
+    }
+}
+
+/** @location ext_ft_services_audiphone /audiphone_map.odl */

@@ -1,0 +1,31 @@
+/*expr:netdev_stats and lan and not self*/
+
+/**
+ * MIB is loaded on devices for which network traffic is monitored.
+ * All devices matching expression: "netdev_stats and lan and not self" are extended with this MIB
+ * @version 7.0
+ */
+mib rateShaping {
+
+    /**
+     * @brief Store the Shaping rate per device, 0 means disabled
+     * @version 7.0
+     */
+    persistent read-only uint64 ShapingRate;
+
+    /**
+     * @brief Enable or disable shaping
+     * @param 
+     * @version 7.0
+     */
+    bool throttle(mandatory uint64 rate) {
+        acl {
+            world none;
+            group admin read, execute;
+            group technician read, execute;
+            group gmap read, execute;
+        }
+    }
+}
+
+/** @location sah_services_gmap /mibs/rateShaping.odl */

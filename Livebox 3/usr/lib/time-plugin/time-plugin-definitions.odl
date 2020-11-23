@@ -1,0 +1,325 @@
+using "time-plugin.so";
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+group technician read,write,execute;
+}
+persistent object Time {
+persistent bool Enable {
+write with writeEnable;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+read-only string Status {               // "error" status is optional
+constraint enum ["Disabled", "Unsynchronized", "Synchronized", "Error_FailedToSynchronize","Error"];
+default "Disabled";
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string NTPServer1 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string NTPServer2 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string NTPServer3 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string NTPServer4 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string NTPServer5 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+string NTPServer1IP {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+string NTPServer2IP {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+string NTPServer3IP {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+string NTPServer4IP {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+string NTPServer5IP {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string Retry1 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string Retry2 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string Retry3 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string Retry4 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string Retry5 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string PreferredServer {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent uint32 NTPReqInterval {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician read,write,execute;
+}
+default 0;
+}
+persistent string ListenOn1 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string ListenOn2 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string ListenOn3 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string ListenOn4 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string ListenOn5 {
+write with parameter_changed;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string Interface {
+write with writeInterface;
+default "data";
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+read-only datetime CurrentLocalTime {
+read with readCurrentLocalTime;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+string LocalTimeZone {
+constraint custom checkLocalTimeZone;
+write with writeLocalTimeZone;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string LocalTimeZoneName {
+constraint custom checkLocalTimeZone;
+write with writeLocalTimeZone;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+bool DaylightSavingsUsed {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+datetime DaylightSavingsStart {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+datetime DaylightSavingsEnd {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+int32 LastTimeAdjustment {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+read-only string SyncModeList {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string SyncMode {
+constraint custom checkSyncMode;
+write with writeSyncMode;
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+void setTime(mandatory datetime time) {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+bool getTime(out string time);
+void getUTCTime(out string time);
+void getStatus(out string status);
+void setNTPServers(mandatory variant servers);
+void getNTPServers(out variant servers);
+void export(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+void import(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+bool getLocalTimeZoneName(out string timezone);
+bool setLocalTimeZoneName(mandatory string timezone);
+bool listLocalTimeZoneNames(out list timezones);
+bool resetStatus() {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+bool updateLastTimeAdjustment(mandatory int32 delta) {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+}

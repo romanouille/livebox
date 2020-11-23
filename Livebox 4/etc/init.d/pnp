@@ -1,0 +1,38 @@
+#!/bin/sh
+
+ODL="/usr/lib/pnp/pnp.odl"
+PID="/var/run/pnp.pid"
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "plug and play service already started"
+        exit 1;
+    fi
+    sahenv -f /etc/environment pcbs_app -l -n pnp -c "${ODL}" -vv
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID)
+    else
+        echo "plug and play not running"
+        exit 1
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart]"
+        ;;
+esac

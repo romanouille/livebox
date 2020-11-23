@@ -1,0 +1,72 @@
+/**
+ * The NetDev API MIB is available on all NeMo Intfs. It contains some query functions for which it makes
+ * sense to support them on non-netdev Intfs as well, which is why these query functions are put in a
+ * separate MIB. These functions have "query support", meaning that their names can be passed successfully
+ * to the openQuery function of NeMo. This way the return value of these functions is eventable.
+ */
+object NeMo { 
+	object extends MIB(0,"netdev-api") {
+		string Flag = "";
+		object DataModel {
+			/**
+			 * list getAddrs(string flag, string traverse) 
+			 * Get all active Addr objects (Status is bound or dynamic) that occur in the
+			 * traverse tree. 
+			 * @param flag Only Addrs for which this flag is set (or this flag expression evaluates
+			 * to true) are returned. An Addr's flag set is defined by the union of the Flags
+			 * parameter, the Scope parameter and the address family ("ipv4" or "ipv6"), so
+			 * you could call getAddrs("ipv6 and global", "all") to get all global IPv6
+			 * addresses for example. 
+			 * 
+			 * @param traverse Traverse mode to build the traverse tree. 
+			 * @return A list of object maps.
+			 */
+			list getAddrs(string flag, string traverse) {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/**
+			 * map luckyAddr(string flag, string traverse) 
+			 * Get the first active Addr (Status is bound or dynamic) that occurs in the
+			 * traverse tree. 
+			 * @param flag Only Addrs for which this flag is set (or this flag expression evaluates
+			 * to true) are considered. An Addr's flag set is defined by the union of the
+			 * Flags parameter, the Scope parameter and the address family ("ipv4" or "ipv6"),
+			 * so you could call luckyAddr("ipv6 and global", "all") to get any global IPv6
+			 * addresses for example. 
+			 * 
+			 * @param traverse Traverse mode to build the traverse tree. 
+			 * @return An object map.
+			 */
+			/*map*/void luckyAddr(string flag, string traverse) {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/**
+			 * string luckyAddrAddress(string flag, string traverse) 
+			 * Get only the Address parameter of the first active Addr (Status is bound or
+			 * dynamic) that occurs in the traverse tree. 
+			 * @param flag Only Addrs for which this flag is set (or this flag expression evaluates
+			 * to true) are considered. An Addr's flag set is defined by the union of the
+			 * Flags parameter, the Scope parameter and the address family ("ipv4" or "ipv6"),
+			 * so you could call luckyAddrAddress("ipv6 and global", "all") to get any global
+			 * IPv6 addresses for example. 
+			 * 
+			 * @param traverse Traverse mode to build the traverse tree. 
+			 * @return An IP-address in standard notation.
+			 */
+			string luckyAddrAddress(string flag, string traverse) {
+			    acl {
+			        world none;
+			    }
+			}
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/netdev-api.odl */

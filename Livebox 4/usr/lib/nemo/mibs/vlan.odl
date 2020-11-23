@@ -1,0 +1,40 @@
+/**
+ * The VLAN MIB is available on all NeMo Intfs that have the "vlan"-flag set.
+ */
+object NeMo { 
+	object extends MIB(0,"vlan") {
+		string Flag = "vlan";
+		object DataModel {
+			/**
+			 * Timestamp of the last operational state change, measured in seconds since power
+			 * on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current operational
+			 * state.
+			 */
+			volatile read-only uint32 LastChange;
+
+			/**
+			 * The VLANID of this Intf.
+			 */
+			persistent uint16 VLANID {
+				constraint range [0, 4095];
+			}
+
+			/**
+			 * If non-negative, the VLAN priority bits are overruled with this value for each
+			 * outgoing packet. Keep the value assigned by classification process otherwise
+			 * (or undefined if packet not explicitly marked by classification process).
+			 */
+			persistent int8 VLANPriority {
+				constraint range [-1, 7];
+			}
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/vlan.odl */

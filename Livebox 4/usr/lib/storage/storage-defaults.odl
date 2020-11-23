@@ -1,0 +1,13 @@
+datamodel {
+    object StorageService {
+        persistent instance of Rules(1,"1") {
+            parameter Condition="LogicalVolume.URI=.*datahub$";
+            persistent instance of Target(1,"1") {
+              parameter Path="StorageService.LogicalVolume.PreferredMountPoint";
+              parameter Value="/var/usbmount/hubmmdisk";
+            }
+        }
+    }
+}
+
+/** @location sah_services_storage /storage-defaults.odl */

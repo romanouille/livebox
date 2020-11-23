@@ -1,0 +1,388 @@
+using "dhcpd.so";
+define lease_t {
+string IPAddress;
+string MACAddress;
+string LeasePath;
+}
+acl {
+group cwmpd read,write,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+persistent object DHCPv4 {
+persistent object Server {
+persistent bool Enable {
+default true;
+write with enableOnWrite;
+}
+persistent bool VerifyFirst {
+default true;
+write with verifyOnWrite;
+}
+persistent bool TrustClient {
+default true;
+write with trustClientOnWrite;
+}
+persistent string RtBehaviour {
+constraint enum ["traditional", "standard", "msft"];
+default "traditional";
+}
+persistent bool AckInform {
+default false;
+write with ackInformOnWrite;
+}
+volatile read-only uint32 PoolNumberOfEntries {
+read with poolNumberOfEntriesOnRead;
+}
+persistent object Pool[8] {
+write with poolOnWrite;
+void addStaticLease(mandatory string MACAddress, mandatory string IPAddress) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+void deleteStaticLease(mandatory string MACAddress) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+list getStaticLeases() {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+void addLease(mandatory string MACAddress, mandatory string IPAddress, list options, bool internal) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+list getLeases(string rule) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+persistent bool Enable {
+default false;
+write with poolEnableOnWrite;
+}
+persistent string Name {
+constraint maxvalue 32;
+write with nameOnWrite;
+}
+read-only string Status {
+constraint enum["Disabled", "Enabled", "Error_Misconfigured"];
+default "Disabled";
+}
+persistent string Allocation {
+constraint enum ["dynamic", "auto"];
+default "dynamic";
+write with poolAllocationOnWrite;
+}
+persistent bool PersistentLeases {
+default false;
+write with persistentLeasesOnWrite;
+}
+persistent bool LeasesOnHold {
+default false;
+write with leasesOnHoldOnWrite;
+}
+persistent bool ARPProtect {
+default true;
+write with ARPProtectOnWrite;
+}
+persistent string Interface {
+constraint maxvalue 16;
+write with poolInterfaceOnWrite;
+}
+persistent string MinAddress {
+write with poolMinAddressOnWrite;
+}
+persistent string MaxAddress {
+write with poolMaxAddressOnWrite;
+}
+persistent string SubnetMask {
+write with poolSubnetMaskOnWrite;
+}
+persistent string IPRouters {
+write with poolGatewayOnWrite;
+}
+persistent string Server {
+write with poolServerOnWrite;
+}
+persistent uint32 MinLeaseTime {
+write with poolMinLeaseTimeOnWrite;
+}
+persistent uint32 LeaseTime {
+default 86400;
+write with poolDefaultLeaseTimeOnWrite;
+}
+persistent uint32 MaxLeaseTime {
+write with poolMaxLeaseTimeOnWrite;
+}
+persistent string DNSServers {
+write with poolDNSOnWrite;
+}
+persistent string DomainName {
+constraint maxvalue 72;
+write with poolDomainOnWrite;
+}
+persistent bool Unnumbered {
+default false;
+write with poolUnnumberedOnWrite;
+}
+persistent bool IncludeOption125 {
+default false;
+write with poolOption125OnWrite;
+}
+volatile read-only uint32 Flags {
+read with poolFlagOnRead;
+}
+persistent string ServerHostName {
+constraint maxvalue 63;
+write with serverHostNameOnWrite;
+}
+persistent string FileName {
+constraint maxvalue 127;
+write with fileNameOnWrite;
+}
+persistent object Authentication {
+write with authenticationOnWrite;
+persistent int32 Protocol {
+constraint minvalue -1;
+constraint maxvalue 1;
+default -1;
+}
+persistent uint8 Algorithm = 0;
+persistent string ConfigurationToken {
+constraint maxvalue 40;
+}
+}
+volatile read-only uint32 LeaseNumberOfEntries {
+read with poolLeaseNumberOfEntriesOnRead;
+}
+volatile read-only uint32 RuleNumberOfEntries {
+read with poolRuleNumberOfEntriesOnRead;
+}
+void setLeaseTime(mandatory uint32 leasetime);
+volatile read-only uint32 OptionNumberOfEntries {
+read with poolOptionNumberOfEntriesOnRead;
+}
+persistent object Option[16] {
+write with optionOnWrite;
+persistent bool Enable = false;
+persistent string Name {
+constraint maxvalue 64;
+}
+persistent uint8 Tag {
+constraint minvalue 0;
+constraint maxvalue 255;
+default 0;
+}
+persistent string Value;
+persistent string Policy {
+constraint enum["requested", "always"];
+default "always";
+}
+}
+persistent object Rule[16] {
+write with ruleOnWrite;
+persistent string Name {
+constraint maxvalue 32;
+}
+persistent string VendorClassID {
+constraint maxvalue 255;
+}
+persistent bool VendorClassIDExclude = false;
+persistent string VendorClassIDMode {
+constraint enum["Exact", "Prefix", "Suffix", "Substring"];
+default "Exact";
+}
+persistent string ClientID {
+constraint maxvalue 255;
+}
+persistent bool ClientIDExclude {
+default false;
+}
+persistent string UserClassID {
+constraint maxvalue 255;
+}
+persistent bool UserClassIDExclude {
+default false;
+}
+persistent string UserClassIDMode {
+constraint enum["Exact", "Prefix", "Suffix", "Substring"];
+default "Substring";
+}
+persistent string Chaddr;
+persistent string ChaddrMask {
+default "ff:ff:ff:ff:ff:ff";
+}
+persistent string ChaddrExclude {
+default false;
+}
+volatile uint32 Criteria {
+read with ruleCriteriaOnRead;
+}
+object Lease[256] {
+write with leaseOnWrite;
+persistent string ClientID;
+persistent string IPAddress;
+persistent string MACAddress;
+volatile read-only int32 LeaseTimeRemaining {
+read with leaseLeaseTimeRemainingOnRead;
+}
+persistent uint32 LeaseTime;
+persistent string Gateway;
+volatile read-only bool WaitingForPing {
+read with leaseWaitingForPingOnRead;
+}
+volatile read-only bool StoppedWaitingForPing {
+read with leaseStoppedWaitingForPingOnRead;
+}
+volatile read-only bool Active {
+read with leaseInUseOnRead;
+}
+volatile read-only bool StopLease {
+read with leaseStopLeaseonRead;
+}
+volatile read-only bool NullTermination {
+read with leaseNullTerminationOnRead;
+}
+persistent bool MsftClasslessRt;
+persistent bool Reserved;
+persistent bool Internal;
+persistent bool OnHold;
+persistent string FriendlyName;
+volatile read-only uint32 Flags {
+read with leaseFlagsOnRead;
+}
+volatile read-only uint32 TransactionID {
+read with leaseTransactionIDOnRead;
+}
+volatile read-only string CIAddr {
+read with leaseCIAddrOnRead;
+}
+volatile read-only string GIAddr {
+read with leaseGIAddrOnRead;
+}
+volatile read-only uint32 OptionNumberOfEntries {
+read with leaseOptionNumberOfEntries;
+}
+void forceRenew();
+object Option[32] {
+uint8 Tag {
+constraint minvalue 0;
+constraint maxvalue 255;
+default 0;
+}
+string Value;
+}
+}
+}
+}
+object Stats {
+string State {
+constraint enum ["Running"];
+default "Running";
+}
+volatile read-only uint32 CorruptPackets {
+read with corruptPacketsOnRead;
+}
+volatile read-only uint32 Discover {
+read with discoverOnRead;
+}
+volatile read-only uint32 Request {
+read with requestOnRead;
+}
+volatile read-only uint32 Decline {
+read with declineOnRead;
+}
+volatile read-only uint32 Release {
+read with releaseOnRead;
+}
+volatile read-only uint32 Inform {
+read with informOnRead;
+}
+volatile read-only uint32 BOOTP {
+read with bootpOnRead;
+}
+volatile read-only uint32 OtherMessageTypes {
+read with otherOnRead;
+}
+volatile read-only uint32 Offer {
+read with offerOnRead;
+}
+volatile read-only uint32 ACK {
+read with ackOnRead;
+}
+volatile read-only uint32 NAK {
+read with nakOnRead;
+}
+volatile read-only uint32 ForceRenew {
+read with forceRenewOnRead;
+}
+volatile read-only uint32 TxFailure {
+read with txfailureOnRead;
+}
+volatile read-only uint32 RelayOptionDropped {
+read with relayOptionDroppedOnRead;
+}
+volatile read-only bool SecondServerDetected {
+read with secondDHCPServerOnRead;
+}
+}
+void clearStatistics() {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+void setDHCPServerPool(mandatory string id, mandatory string interface, mandatory string dhcpserver, mandatory bool enable, mandatory string minaddress, mandatory string maxaddress, mandatory string netmask, uint32 leasetime, string dnsservers, string iprouters, bool onHold) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+void getDHCPServerPool(string id) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+void deleteDHCPServerPool(mandatory string id) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+void setDHCPServerPoolRange(mandatory string id, mandatory string ipaddress, mandatory string minaddress, mandatory string maxaddress, mandatory string netmask, string dnsservers, string iprouters) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+bool export( string fileName ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool import( string fileName ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+map getServerLease(mandatory string ipaddress, string pool) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}

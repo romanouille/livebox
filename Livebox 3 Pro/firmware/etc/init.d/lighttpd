@@ -1,0 +1,20 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+
+start() {
+  # Create default SMU config
+  mkdir -p /tmp/www/download
+  mkdir -p /tmp/www/upload
+  # Start server
+  /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf
+}
+
+stop() {
+  kill -term `cat /var/run/lighttpd.pid`
+}
+
+restart() {
+  stop
+  start
+}
+

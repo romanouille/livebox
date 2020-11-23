@@ -1,0 +1,5 @@
+include "smtp-definition.odl";
+include "smtp-defaults.odl";
+
+
+/** @location sah_services_message /plugins/smtp/smtp_plugin.odl */

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+case $1 in
+    start)
+        if pcb_is_running nmc_client; then
+            mtk_load nmc_client /usr/lib/nmc_core/nmcclient_wifi.so
+        fi
+        ;;
+    stop)
+        if pcb_is_running nmc_client; then
+            mtk_unload nmc_client nmcclient_wifi
+        fi
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 [start|stop|restart]"
+        ;;
+esac

@@ -1,0 +1,64 @@
+#!/bin/sh
+
+. /etc_ro_fs/init.d/common
+. /etc_ro_fs/autoconf.conf
+readconf /etc/bluedsl.conf IP_0 NETMASK_0 FIREWALL_LEVEL DMZ_HOST
+
+if [ $# != "1" ] ; then 
+    echo "Usage : /etc/ppp/start_nat pppx"
+    exit 127
+fi
+net_device=$1
+
+readconf /var/run/ppp_ip IP
+
+/bin/echo "start_nat on interface $net_device" 
+
+/usr/sbin/iptables -t nat -A POSTROUTING -o $net_device -j MASQUERADE
+/usr/sbin/iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+/bin/echo "add forwarding rules"
+
+IFS="
+"
+
+for i in $(cat /etc/port_forward.conf) ; do
+    proto=$(echo $i | cut -d" " -f 2)
+    sport=$(echo $i | cut -d" " -f 3)
+    dport=$(echo $i | cut -d" " -f 4)
+    addr=$(echo $i | cut -d" " -f 5)
+    type=$(echo $i | cut -d" " -f 6)
+    
+    if [ "$type" = "disable" ] ; then
+	continue
+    fi
+    /usr/sbin/iptables -t nat -A PREROUTING -p $proto --dport $sport -d $IP -j DNAT --to $addr:$dport
+
+    dport=$(echo $dport | sed -e 's/-/:/')
+    /usr/sbin/iptables -A FORWARD -p $proto --dest $addr --dport $dport -j ACCEPT
+    /usr/sbin/iptables -t nat -A POSTROUTING -p $proto --dport $dport -d $addr -s $IP_0/$NETMASK_0 -j SNAT --to-source $IP
+done
+
+
+if [ "$FIREWALL_LEVEL" = "0" -a ! -z "$DMZ_HOST" ] ; then 
+    /usr/sbin/iptables -t nat -A PREROUTING -d $IP -j DNAT --to-destination $DMZ_HOST
+elif [ "$CONFIG_WEB_AOLBOX" = "y" -a ! -z "$DMZ_HOST" ] ; then 
+    /usr/sbin/iptables -P FORWARD ACCEPT
+    /usr/sbin/iptables -t nat -A PREROUTING -d $IP -j DNAT --to-destination $DMZ_HOST
+    #/usr/sbin/iptables -A FORWARD --dest $DMZ_HOST -j ACCEPT
+fi
+
+[ -f /etc/autoconf.conf ] && . /etc/autoconf.conf 
+if [ ! -z "$CONFIG_REMOTE_MGT_STATIC" ] ; then 
+    proto=tcp
+    sport=${CONFIG_REMOTE_MGT_STATIC_PORT:-8920}
+    dport=80
+    subnet=${CONFIG_REMOTE_MGT_STATIC_SUBNET:-0.0.0.0/32}
+    subnet2=$CONFIG_REMOTE_MGT_STATIC_SUBNET2
+
+    /usr/sbin/iptables -t nat -A PREROUTING -p $proto --dport $dport -d $IP -j DROP
+    /usr/sbin/iptables -t nat -A PREROUTING -p $proto --dport $sport -d $IP -s $subnet -j REDIRECT --to $dport    
+    [ ! -z "$subnet2" -a "$subnet2" != "NO" ] && /usr/sbin/iptables -t nat -A PREROUTING -p $proto --dport $sport -d $IP -s $subnet2 -j REDIRECT --to $dport    
+    
+    /usr/sbin/iptables -A INPUT -p $proto --dport $dport -d $IP -s $subnet -j ACCEPT
+    [ ! -z "$subnet2" -a "$subnet2" != "NO" ] && /usr/sbin/iptables -A INPUT -p $proto --dport $dport -d $IP -s $subnet2 -j ACCEPT
+fi

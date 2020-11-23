@@ -1,0 +1,8 @@
+<b>DMZ :</b><br>
+<br>
+Quand vous configurez cette option, l'ordinateur sélectionné sera exposé à internet. Tous les ports vont être accessibles depuis Internet et redirigés vers l’adresse IP de l’équipement (recommandé pour experts seulement).<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

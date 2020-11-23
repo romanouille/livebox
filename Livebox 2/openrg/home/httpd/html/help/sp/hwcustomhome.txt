@@ -1,0 +1,8 @@
+﻿<b>Personalizar mi casa:</b><br>
+<br>
+Esta página te permite personalizar la red de tu hogar. Podrás definir distintas ubicaciones en tu casa y posteriormente emplear esas ubicaciones para especificar la localización de los dispositivos de tu red.<br>
+<!--
+<br>
+<b>
+-->
+

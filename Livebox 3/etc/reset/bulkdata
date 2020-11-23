@@ -1,0 +1,47 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="bulkdata"
+start_options=""
+datamodel="BulkData"
+trace_zones="bulkdata"
+component="sah_services_bulkdata"
+
+RESTORE="/var/lib/bulkdata/restore"
+
+case $1 in
+    start)
+        pcb_start $name $start_options
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    backup)
+        if pcb_is_running $name ; then
+            pcb_cli "TemplateService.export($2)"
+        else
+            echo "template plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p $(dirname "${RESTORE}") && touch "${RESTORE}"
+        ;;
+    reset)
+        rm -f "/etc/config/bulkdata"
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore|reset|debuginfo|log]"
+        ;;
+esac

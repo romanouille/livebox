@@ -1,0 +1,64 @@
+
+using "smbmanager.so";
+
+
+acl {
+ world read,write,execute;
+}
+
+
+persistent object SambaManager {
+
+
+
+  /**
+   * Add a new user.
+   *
+   * @param name the name of the user account to create
+   * @param password the password of the user account
+   * @param groups a list of groups to which the user belongs
+   * @param enable true to enable the user
+   * @param usertype system or limited user
+   * @param salt the password salt, if set, the password is interpreted as hashed by this
+   * @param uid use this uid for the user
+   * @param linux_user true to also create a linux user
+   * @param friendlyname friendly name for this user
+   * @param shell The shell for this unix user
+   * @return true if the user account as been created correctly
+   */
+  bool addUser(string name, string password, list groups, bool enable, string usertype, string salt, uint32 uid, bool linux_user, string friendlyname, string shell);
+
+  /**
+   * Delete a user
+   * 
+   * @param name the name or uid of the user account to delete 
+   * @return true if the user account as been deleted correctly
+   */
+  bool removeUser(string name);
+
+  /**
+   * Modify a user
+   *
+   * If the password is left blank, the previous password will remain.
+   * 
+   * @param name the name or uid of the user account to modify
+   * @param password the password of the user account
+   * @param groups a list of groups to which the user belongs
+   * @param enable true to enable the user
+   * @param usertype system or limited user
+   * @param friendlyname friendly name for the user
+   * @return true if the user account as been modified correctly
+   */
+  bool changeUser(string name, string password, list groups, bool enable, string usertype, string friendlyname);
+
+  /**
+   * change the user password
+   */
+  bool changePassword(string name, string password);
+
+
+
+}
+
+/** @location sah_services_smbmanager /smbmanager.odl.m4 */
+

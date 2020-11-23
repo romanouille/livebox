@@ -1,0 +1,32 @@
+datamodel {
+object HTTPService {
+parameter SSLCertificate = "/usr/share/certificates/srv.pem";
+instance of Server(0, "lan-http") {
+parameter Interface = "lan";
+parameter Port = "80";
+}
+instance of Server(0, "lan-https") {
+parameter Interface = "lan";
+parameter Port = "443";
+parameter UseSSL = true;
+}
+instance of Matcher(0, "webuiupgrade") {
+extend using mib MatchPath;
+parameter Match = "path";
+parameter MatchPath = "^/firmware-upgrade";
+parameter Test = "regexp";
+}
+instance of Route(0, "webuiupgrade") {
+extend using mib TargetPlugin;
+parameter Matcher = "webuiupgrade";
+parameter Target = "plugin";
+parameter TargetPlugin = "webuiupgrade";
+}
+object BruteForceDetection {
+parameter Enable = 1;
+parameter Retries = 5;
+parameter Interval = 15;
+parameter Exponential = 0;
+}
+}
+}

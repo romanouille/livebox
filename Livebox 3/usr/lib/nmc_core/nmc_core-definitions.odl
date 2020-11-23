@@ -1,0 +1,108 @@
+using "nmccore.so";
+acl {
+world read, execute;
+group admin read, execute;
+group remoteadmin read, execute;
+group cwmpd read, write, execute;
+}
+persistent object NMC {
+variant get();
+bool set(variant parameters) {
+acl {
+world none;
+}
+}
+read-only string WanModeList {
+read with wanModeListOnRead;
+acl {
+world none;
+}
+}
+persistent string WanMode;
+bool setWanMode(mandatory string WanMode, string Username, string Password);
+string getWanModeList();
+bool getWANStatus(out string LinkType, out string LinkState, out string WanState, out string MACAddress,
+out string Protocol, out string ConnectionState, out string LastConnectionError,
+out string IPAddress, out string RemoteGateway, out string DNSServers);
+persistent string Username {
+acl {
+world none;
+}
+}
+persistent string Password {
+acl {
+world none;
+group cwmpd read, write;
+}
+}
+read-only bool FactoryResetScheduled {
+default false;
+acl {
+world none;
+group cwmpd read;
+}
+}
+void strip_AdminPassword() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd none;
+}
+}
+bool backup(bool nocrypt) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool restore(bool nocrypt) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void reset() {
+acl {
+world none;
+}
+}
+void reboot() {
+acl {
+world none;
+}
+}
+void export() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void import() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void factoryReset() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void saveflush() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool ConnectionError {
+default false;
+}
+}

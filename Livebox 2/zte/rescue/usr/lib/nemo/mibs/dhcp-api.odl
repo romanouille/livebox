@@ -1,0 +1,9 @@
+object NeMo { 
+	object extends MIB(0,"dhcp-api") {
+		string Flag = "";
+		object DataModel {
+			variant getDHCPOption(string type, uint8 tag, string traverse);
+		}
+	}
+}
+

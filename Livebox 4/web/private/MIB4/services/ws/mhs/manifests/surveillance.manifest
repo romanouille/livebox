@@ -1,0 +1,29 @@
+{
+    "Id": "sah_home_surv",
+    "Category": "Smart Home",
+    "Version": "0.1",
+    "Title": "sah_home_surv.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Application": { "main": "iframeapp",
+                     "settings": { "target": "https://homemonitor.ch/app/?locale=en"
+                                 }
+                   },
+    "Applet": [
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img homectrl\"></span>"
+                                          ],
+                                "apicalls":{}
+                              }
+                }
+              ],
+    "en":{
+        "title": "My Home Surveillance"
+    },
+    "fr":{
+        "title": "My Home Surveillance"
+    }
+}

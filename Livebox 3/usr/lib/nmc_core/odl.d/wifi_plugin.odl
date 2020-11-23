@@ -1,0 +1,106 @@
+using "../nmccore_wifi.so";
+persistent object NMC {
+persistent object Wifi {
+acl {
+group admin read, write, execute;
+group remoteadmin read, write, execute;
+}
+persistent bool Enable {
+default true;
+acl {
+world none;
+}
+}
+bool Status {
+default false;
+}
+persistent bool ConfigurationMode {
+default true;
+acl {
+world none;
+}
+}
+string PINCode {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default "";
+}
+string PairingStatus {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+constraint enum ["Idle", "Pairing", ""];
+default "Idle";
+}
+persistent string BGNUserBandwidth {
+acl {
+world none;
+}
+constraint enum [ "20MHz", "40MHz", "Auto" ];
+default "Auto";
+}
+bool SchedulingEnabled {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+string SchedulingActivationTimeSlots {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+persistent bool SchedulingOverride {
+default false;
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool TriggerAutoChannelSelection {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+write with triggerACSOnWrite;
+default false;
+}
+void startPairing(string clientPIN) {
+acl {
+world none;
+}
+}
+void stopPairing() {
+acl {
+world none;
+}
+}
+void startAutoChannelSelection() {
+acl {
+world none;
+}
+}
+void getStats(out uint32_t RxBytes, out uint32_t TxBytes) {
+acl {
+world none;
+}
+}
+variant get();
+bool set(variant parameters) {
+acl {
+world none;
+}
+}
+}
+}

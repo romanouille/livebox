@@ -1,0 +1,8 @@
+{
+  "status": 0,
+  "data": {
+    "isActivated": true,
+    "isActivatedIpv6": true,
+    "isInIpv6Mode" : true
+  }
+}

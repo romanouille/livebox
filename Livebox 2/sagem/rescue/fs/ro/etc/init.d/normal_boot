@@ -1,0 +1,444 @@
+#!/bin/sh
+
+# Common
+. /fs/ro/etc/init.d/common
+. /fs/ro/etc/autoconf.conf
+
+userpart=$(cat /proc/mtd | grep -i user | sed -n "s/\(mtd\)\(.*\):\(.\)*/\2/p")
+if [ -d /dev/mtd ]; then userpart="/$userpart"; fi
+
+FORMAT_JFFS2()
+{
+
+   if [ ! -f /mnt/jffs2/jffs2_3/formatted -o ! -z "$CONFIG_GENERATION_INTERMEDIATE" ]
+   then  
+        echo
+        echo "*********************** Formatting /mnt/jffs2/jffs2_3/"
+        echo
+       umount /mnt/jffs2/jffs2_3
+
+       /usr/sbin/eraseall /dev/mtd$userpart
+       mount -t jffs2  /dev/mtdblock$userpart /mnt/jffs2/jffs2_3
+
+       touch /mnt/jffs2/jffs2_3/formatted
+   fi
+}
+
+COMPUTE_0073AFxxxxx()  # parameters : mac_eth0 / bluetooth_addr_selector
+{ 
+        a0=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\10\2/p" )  #blue -> 0
+        a1=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\1E\2/p" )  #eth1 -> E
+        a2=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\13\2/p" )  #usb0 -> 3
+        a3=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\14\2/p" )  #usb1 -> 4
+        a4=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\15\2/p" )  #adsl -> 5
+        a5=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\16\2/p" )  #wifi -> 6
+        
+        # swap blue addr with selected addr
+        eval "tmp=\$a$2"
+        eval "a$2=$a0"
+        a0=$tmp
+        
+        BLUETOOTH_ADDR=$a0
+        ETH1_ADDR=$a1
+        USB0_ADDR=$a2
+        USB1_ADDR=$a3
+        ADSL_ADDR=$a4
+        WIFI_ADDR=$a5
+}
+
+COMPUTE_0073ADxxxxx()  # parameters : mac_eth0 / bluetooth_addr_selector
+{ 
+        a0=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\18\2/p" )  #blue -> 8
+        a1=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\1C\2/p" )  #eth1 -> C
+        a2=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\1B\2/p" )  #usb0 -> B
+        a3=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\1A\2/p" )  #usb1 -> A
+        a4=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\19\2/p" )  #adsl -> 9
+        a5=$(  echo $1 | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\17\2/p" )  #wifi -> 7
+        
+        # swap blue addr with selected addr
+        eval "tmp=\$a$2"
+        eval "a$2=$a0"
+        a0=$tmp
+        
+        BLUETOOTH_ADDR=$a0
+        ETH1_ADDR=$a1
+        USB0_ADDR=$a2
+        USB1_ADDR=$a3
+        ADSL_ADDR=$a4
+        WIFI_ADDR=$a5
+}
+
+
+COMPUTE_OTHER_MAC()  # not 00:07:3A:Fxxx nor 00:07:3A:Dxxx, parameters : mac_eth0 / bluetooth_addr_selector
+{ 
+        local bd_selector=$2
+        set $(echo $1 | sed -e 's/:/ /g')
+        hax=$1:$2:$3
+        lad=$(( (0x$4<<16) | (0x$5<<8) | (0x$6) ))
+
+        a1=$hax:$(printf %06X $(($lad+1)) | sed -e 's/\(..\)\(..\)\(..\)/\1:\2:\3/') #eth1 -> base+1
+        a2=$hax:$(printf %06X $(($lad+2)) | sed -e 's/\(..\)\(..\)\(..\)/\1:\2:\3/') #usb0 -> base+2
+        a3=$hax:$(printf %06X $(($lad+3)) | sed -e 's/\(..\)\(..\)\(..\)/\1:\2:\3/') #usb1 -> base+3
+        a4=$hax:$(printf %06X $(($lad+4)) | sed -e 's/\(..\)\(..\)\(..\)/\1:\2:\3/') #adsl -> base+4
+        a0=$hax:$(printf %06X $(($lad+5)) | sed -e 's/\(..\)\(..\)\(..\)/\1:\2:\3/') #blue -> base+5
+        a5=$hax:$(printf %06X $(($lad+6)) | sed -e 's/\(..\)\(..\)\(..\)/\1:\2:\3/') #wifi -> base+6
+        
+        # swap blue addr with selected addr
+        eval "tmp=\$a$bd_selector"
+        eval "a$bd_selector=$a0"
+        a0=$tmp
+        
+        BLUETOOTH_ADDR=$a0
+        ETH1_ADDR=$a1
+        USB0_ADDR=$a2
+        USB1_ADDR=$a3
+        ADSL_ADDR=$a4
+        WIFI_ADDR=$a5
+}
+
+POPULATE_HARDWARE_FILES()
+{
+
+    # Il faut maintenant modifier les paramtres et mettre l'adresse mac au bons endroits.
+    # Dans un root_fs original (tlcharg et flash), les adresses mac peuvent tre remplaces par la chane : XX:YY:XX:YY:XX:YY
+
+    #
+    # --dimm. Fix me!
+    # 
+    # Other parts of this script must be reworked as well.
+    # e.g. redboot_fconfig_get and company shouldn't be called anymore.
+    #
+    # echo "@@@ WARNING: Fix [normal_boot] script! (--dimm) @@@"
+
+    MAC_BASE=00:07:3A:FF:FF:FF    
+    if [ -n "$REDBOOT_LOADER_MTD" ] ; then
+        eval `get_param`
+    else
+        if [ "$CONFIG_GENERATION_SAGEM_MINI" = "y" -o "$CONFIG_SAGEM_LB2" = "y" ] ; then
+            MAC_BASE=`get_rip_eth_addr 0  2>/dev/null`
+        else
+            eval `get_param`
+        fi
+    fi
+    ETHER_ADDR=$MAC_BASE
+    echo "MAC ADDRESS after get_param:" $MAC_BASE
+                
+    #
+    # --dimm. bdaddr_select - How do we get it on Mini?
+    #
+
+    # selection de l'adresse blue
+    if [ -n "$REDBOOT_LOADER_MTD" ]; then
+        bdaddr_select=$(redboot_fconfig_get --bdaddr_select)
+        bdaddr_select=${bdaddr_select:-0}
+        if ! [ "$bdaddr_select" -ge 0 -a "$bdaddr_select" -le 5 ]; then
+            echo "CHOIX DE LA BDADDR NON OU MAL CONFIGUREE ..."
+            bdaddr_select=0
+        fi
+    else
+        bdaddr_select=0
+    fi
+    
+    case "$msq" in
+        00:07:3A:F) 
+          COMPUTE_0073AFxxxxx $ETHER_ADDR $bdaddr_select
+          ;;
+        00:07:3A:D)
+          COMPUTE_0073ADxxxxx $ETHER_ADDR $bdaddr_select
+          ;;
+        *)
+#          COMPUTE_OTHER_MAC $ETHER_ADDR $bdaddr_select
+          ;;
+    esac
+    
+        #       
+        # CPE_P00024445 eth0 & eth1 mac-addresses should be the same.
+        #
+    echo ETHER_0=$ETHER_ADDR > /etc/hardware.conf
+    echo ETHER_1=$ETHER_ADDR >> /etc/hardware.conf 
+    echo USB_ETHER_0=$USB0_ADDR >> /etc/hardware.conf
+    echo "USB_ETHER_1=$USB1_ADDR  # Address for host " >> /etc/hardware.conf
+    echo ADSL_ETHER_0=$ADSL_ADDR >> /etc/hardware.conf
+    echo BLUETOOTH_ADDR_0=$BLUETOOTH_ADDR >> /etc/hardware.conf 
+    echo WIFI_ADDR_0=$WIFI_ADDR >> /etc/hardware.conf 
+    
+    # echo SERIAL_NUMBER=$BL_SERIAL_NUMBER >> /etc/hardware.conf
+    
+
+    if [ "$CONFIG_TARGET_NAME_ALTERNATE" = "y" ] ; then
+
+        #
+        # Mini?
+        #
+            
+      # selection du target name en fonction de target_name_index
+      
+      # --dimm
+      target_name_index=${target_name_index:-1}
+
+      if [ "$target_name_index" = "0" ] ; then
+        TARGET_NAME=$CONFIG_TARGET_NAME_ALTERNATE_NAME
+      else
+        TARGET_NAME=$CONFIG_TARGET_NAME
+      fi
+    else
+      TARGET_NAME=$CONFIG_TARGET_NAME
+    fi
+
+    # Perso de bluedsl.conf
+    if [ "$TARGET_NAME" = "LIVEBOX" ] ; then
+      NAME=$TARGET_NAME
+    else
+      NAME=$TARGET_NAME-$( echo $ETHER_ADDR | sed  -n "s/\(00:..:..:\).\(.\):\(..\):\(..\)/\3\4/p" )
+    fi
+    cat /etc/bluedsl.conf | sed -e "s/HOSTNAME=.*/HOSTNAME=$NAME/" > /tmp/__tmp ; cat /tmp/__tmp > /etc/bluedsl.conf
+    
+    # Perso de bluez.conf
+    BD_ADDR=$(  echo $ETHER_ADDR | sed  -n "s/\(00:..:..:\).\(.:..:..\)/\10\2/p" )
+    if [ -e /etc/bluez.conf ] ; then
+      cat /etc/bluez.conf | sed -e "s/BD_ADDR.*/BD_ADDR=$BD_ADDR/" > /tmp/__tmp ; cat /tmp/__tmp > /etc/bluez.conf
+    fi
+    
+    if [ "$CONFIG_ADDRESS_192_168" != "y" ] ; then 
+        # Perso de bluedsl.conf : IP_0 est forcment 10.0.0.1
+        cat $bluedsl_conf_file | sed -e "s/IP_0.*/IP_0=10\.0\.0\.1 #force/" > /tmp/bluedsl.conf ; cat /tmp/bluedsl.conf > $bluedsl_conf_file
+        rm /tmp/bluedsl.conf
+    fi;
+
+    # Perso de bluedsl.conf si on est tiscali : 
+    if [ "$CONFIG_SUPPORT_EXOTIC_PASSWORD" = "y" ] ; then 
+            PASSWORD=$(echo "$ETHER_ADDR - INVENTEL" | md5sum | cut -b 1-15)
+            cat $bluedsl_conf_file | sed -e "s/AUTH_PASS.*/AUTH_PASS=$PASSWORD/" > /tmp/bluedsl.conf ; cat /tmp/bluedsl.conf > $bluedsl_conf_file
+            rm /tmp/bluedsl.conf
+    fi;
+    
+    # Perso de wifi.conf
+    cat /etc/wifi.conf | sed -e "s/WIFI_KEY_13.*/WIFI_KEY_13=$WEP_KEY/" > /tmp/wifi.conf ; cp /tmp/wifi.conf /etc/wifi.conf 
+    cat /etc/wifi.conf | sed -e "s/WIFI_KEY_63.*/WIFI_KEY_63=$WEP_KEY/" > /tmp/wifi.conf ; cp /tmp/wifi.conf /etc/wifi.conf 
+    cat /etc/wifi.conf | sed -e "s/WIFI_ESSID.*/WIFI_ESSID=$NAME/" > /tmp/wifi.conf ; cp /tmp/wifi.conf /etc/wifi.conf 
+    
+    # Perso du code pin bluetooth
+    if [ -z "$BT_PIN" ]; then
+        BT_PIN=0000
+    fi;
+    echo $BT_PIN > /etc/bluetooth/pin
+
+    # Boot loader build id
+    echo BOOT_LOADER_BUILD_ID=\"$BOOT_LOADER_BUILD_ID\" > /etc/issue.boot_loader
+    # Clean up de /tmp
+    rm -rf /tmp/*
+
+    # Fix some things
+    [ -f /sbin/fix ] && /sbin/fix
+
+}
+
+POPULATE_COMMON_CONFIG()
+{
+
+  if [ ! -f /etc/config/${FIRMTYPE} ]
+  then  
+    echo
+    echo "*********************** Populating /mnt/jffs2/jffs2_3/common/config"
+    echo
+
+     if [ ! -f /etc/config/${ALT_FIRMTYPE} ]
+     then  
+        echo
+        echo "*********************** Erase /mnt/jffs2/jffs2_3/common/config before population"
+        echo
+        rm -f -r /mnt/jffs2/jffs2_3/common/config 
+     fi
+
+     mkdir -p /mnt/jffs2/jffs2_3/common/config
+
+    if [ "$FIRMTYPE" = "system" ]
+    then
+        cp -f -a /fs/common/config/* /mnt/jffs2/jffs2_3/common/config
+    else
+        for i in `cd /fs/common/config ; find .;`
+        do
+           if ! test -e /mnt/jffs2/jffs2_3/common/config/$i
+           then
+               cp -f -r /fs/common/config/$i /mnt/jffs2/jffs2_3/common/config/
+           fi
+        done;
+    fi
+    echo
+    echo "*********************** /mnt/jffs2/jffs2_3/common/config Populated"
+    echo
+    cp /fs/rw/version /etc/config/$FIRMTYPE
+  
+  fi
+
+}
+
+DEBUG_ACTIVE=debug_active
+REAL_RC_BASE=/fs/rw/etc
+
+SYNC_RC_DIR()
+{
+    RC_DIR=/etc/rc$1.d
+    REAL_RC_DIR=$REAL_RC_BASE/rc$1.d
+
+    if [ ! -h $RC_DIR ]
+    then
+        echo
+        echo "*********************** Sync $RC_DIR files"
+
+        if [ ! -e $RC_DIR/$DEBUG_ACTIVE ]
+	then
+            if [ -d $REAL_RC_DIR ]
+	    then
+		rm -rf $RC_DIR
+		ln -s $REAL_RC_DIR $RC_DIR
+	        [ -h $RC_DIR ] && echo "*** OK!" || echo "*** Failed!"
+	    else
+	        echo "*** $REAL_RC_DIR doesn't exist. Can't sync!"
+	    fi
+	else
+	    echo "*** $DEBUG_ACTIVE is in place. Skip syncing!"
+	fi
+    fi
+}
+
+SYNC_ETC_FILES()
+{
+    SYNC_RC_DIR 1
+    SYNC_RC_DIR 6
+}
+
+SYNC_DL_FILES()
+{
+  if [ ! -e /mnt/jffs2/jffs2_3/${FIRMTYPE}/dl/tls/cert0201.pem ]
+  then
+    mkdir -p /mnt/jffs2/jffs2_3/${FIRMTYPE}/dl/tls
+    cp /fs/rw/dl/tls/cert0201.pem /mnt/jffs2/jffs2_3/${FIRMTYPE}/dl/tls
+  fi
+}
+
+POPULATE_JFFS2()
+{
+   if [ ! -n "$CONFIG_GENERATION_RESC" ]; then
+       if [ -f /etc/config/db_ready ] && [ -f /mnt/jffs2/jffs2_3/${FIRMTYPE}/version ]
+       then
+           CONFIGVERSION=`cat /web/version.txt | grep CONFIG_VERSION_NAME_MAJOR`
+           DBREADYVERSION=`cat /etc/config/db_ready`                                  
+           echo "## CV=$CONFIGVERSION DB=$DBREADYVERSION"
+           if [ "$DBREADYVERSION" != "$CONFIGVERSION" ]
+           then
+               rm -f /mnt/jffs2/jffs2_3/${FIRMTYPE}/populated
+               rm -f /etc/config/db_ready
+           fi
+       fi
+   fi
+
+   if [ ! -e /mnt/jffs2/jffs2_3/${FIRMTYPE}/version -o ! -e /mnt/jffs2/jffs2_3/${FIRMTYPE}/populated ] 
+   then
+       rm -f /mnt/jffs2/jffs2_3/${FIRMTYPE}/populated
+   fi
+
+   if [ ! -e /mnt/jffs2/jffs2_3/${FIRMTYPE}/populated ]
+   then
+       echo
+       echo "*********************** Populating /mnt/jffs2/jffs2_3/${FIRMTYPE}"
+       echo
+       local bluedsl_conf_file
+       bluedsl_conf_file=/etc/bluedsl.conf
+
+       # PUT FACTORY PARAMETERS IN JFFS2
+
+       rm -f -r /mnt/jffs2/jffs2_3/${FIRMTYPE}
+       cp -f -a /fs/rw /mnt/jffs2/jffs2_3/${FIRMTYPE}
+
+       POPULATE_HARDWARE_FILES
+
+       sync
+       # If the root fs contains a fonske, telnet and CLI must be enabled by default
+       if [ -f /etc/defaults/fonske ]; then
+           touch /mnt/jffs2/jffs2_3/fonske
+       fi
+
+       echo
+       echo "*********************** /mnt/jffs2/jffs2_3/${FIRMTYPE} Populated"
+       echo
+
+       touch /mnt/jffs2/jffs2_3/${FIRMTYPE}/populated
+   fi
+}
+
+REMOVE_VERSION_FILE()
+{
+    if [ -n "$CONFIG_GENERATION_RESC" ]; then
+        bootmode=rescue
+    else
+        bootmode=system
+    fi
+    if [ -e /etc/mbus_ng.dat ]
+    then
+        rm /mnt/jffs2/jffs2_3/system/version
+        rm -f /mnt/jffs2/jffs2_3/$bootmode/version
+
+        # Remove current configuration database
+        rm -f /etc/config/db_ready
+        rm -f /etc/config/mbus_sah.dat*
+        touch /etc/do_import
+
+        # Remove rescue configuration files
+        rm -f /etc/ppp.cfg
+        rm -f /etc/cwmp.cfg
+        rm -f /etc/cwmp_server.cfg
+        rm -f /etc/config/system
+    fi
+}
+
+# BEGIN OF MAIN PROCESS
+
+unset FIRMTYPE
+unset ALT_FIRMTYPE
+
+[ -z "$CONFIG_GENERATION_RESC" ] && FIRMTYPE=system && ALT_FIRMTYPE=rescue
+[ ! -z "$CONFIG_GENERATION_RESC" ] && FIRMTYPE=rescue && ALT_FIRMTYPE=system
+
+mount -t jffs2 -o rw /dev/mtdblock$userpart /mnt/jffs2/jffs2_3
+
+if [ -z "$CONFIG_GENERATION_RESC" ]
+then
+   echo "> BOOT SYSTEM <"
+elif [ -z "$CONFIG_GENERATION_INTERMEDIATE" ]
+then
+   echo "> BOOT RESCUE <"
+else
+   echo "> BOOT INTERMEDIATE <"
+fi
+
+echo "Create /dev/button files"
+button_major=`sed -n 's/\(.*\) lb_button$/\1/p' /proc/devices`
+if [ -z "$button_major" ]; then 
+	echo "Error: no /dev/button could be created"
+else
+	for f in 0 1 2; do
+		mknod /dev/button$f c $button_major $f
+	done
+fi
+
+if button_test getbuttonstate sysget reset | grep PUSHED 
+	then  rm -f /mnt/jffs2/jffs2_3/formatted
+fi
+
+FORMAT_JFFS2
+
+REMOVE_VERSION_FILE
+
+POPULATE_JFFS2
+
+POPULATE_COMMON_CONFIG
+
+SYNC_ETC_FILES
+
+SYNC_DL_FILES
+
+mkdir -p /mnt/jffs2/jffs2_3/common/var/lib
+ln -sf /mnt/jffs2/jffs2_3/common/var/lib /var/state
+mkdir -p /var/lib
+

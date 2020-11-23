@@ -1,0 +1,10 @@
+<b>Grupo VPN:</b><br>
+<br>
+Esta página se emplea para crear nuevos perfiles de usuario y definir parámetros de configuración básicos y avanzados.<br>
+<br>
+<span class="boldorange">Basic&nbsp;configuraciones:</span><br>
+Puedes definir la forma en que usuarios remotos acceden a internet: vía tu propia conexión, mediante tu Livebox o se les denega el acceso a Internet.<br>
+<br>
+<span class="boldorange">Parámetros de seguridad:</span><br>
+Estos parámetros son los mismos que los vistos en la página de configuración del túnel VPN en modo experto.<br>
+

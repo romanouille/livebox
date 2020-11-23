@@ -1,0 +1,51 @@
+<b>Type de connexion :</b><br>
+<br>
+Votre livebox est conçue pour fonctionner à la fois sur le réseau ADSL et sur le réseau Fibre (FTTH). Un seul des deux modes de connexion est disponible à la fois. Si vous avez un abonnement ADSL, la case « connexion Internet par ADSL » doit être cochée, si vous avez un abonnement Fibre, la case « connexion Internet par FTTH » doit être cochée.<br>
+<br>
+<b>Paramètres de connexion :</b><br>
+Lors de votre souscription à Orange il vous a été fourni votre numéro de compte et quatre identifiants personnels. Parmi ceux-ci, figurent votre identifiant de connexion et votre mot de passe de connexion indispensables pour vous connecter à Internet avec Orange.<br>
+<br>
+<span class="boldorange">Votre identifiant de connexion :</span> Cet identifiant permet aux serveurs de Orange de vous reconnaître en tant que client et vous permet de bénéficier de l'accès à Internet.<br>
+Il est nécessaire à la configuration de votre accès à Internet. Il commence par fti/ (ex. fti/wwpfiz7). Conservez-le précieusement, il pourra vous servir si vous devez reconfigurer votre connexion (changement d'ordinateur ...). Veillez à bien respecter les majuscules et minuscules, et à ne pas confondre la lettre O avec le chiffre 0.<br>
+<br>
+<span class="boldorange">Votre mot de passe de connexion :</span> Associé à votre identifiant de connexion, c'est la 'clé' qui garantit la confidentialité de votre connexion à Internet.<br>
+<br>
+<b>Diagnostic des problèmes de connexion ADSL :</b><br>
+Plusieurs messages peuvent s’afficher suivant l’état de la connexion Internet :<br>
+<br>
+<span class="boldorange">Ligne ADSL non synchronisée :</span> Le voyant <b>@</b> de la livebox clignote en rouge rapidement.<br>
+La synchronisation ADSL de votre livebox est la phase de reconnaissance du signal ADSL fourni par votre ligne téléphonique. Le signal envoyé à la livebox est utilisé pour établir une connexion Internet. Cette synchronisation est indispensable pour pouvoir profiter de l'ADSL.<br>
+La cause d'éventuels problèmes de synchronisation peut provenir tant du réseau ADSL Orange que de l'installation des équipements à votre domicile.<br>
+Il est donc important de vérifier avant tout ce qui est l'origine du problème. La création de votre ligne ADSL peut prendre jusqu’à 15 jours, votre livebox sera toujours en phase de synchronisation.<br>
+Une fois la ligne construite, la phase de synchronisation de votre livebox est tout à fait temporaire et n'excède pas quelques dizaines de secondes ou minutes.<br>
+Cette phase est signalée par le clignotement rapide du voyant adsl de votre livebox.<br>
+Si la synchronisation est toujours en cours, il est nécessaire de vérifier les points suivants sur votre installation.<br>
+Si vous disposez de plusieurs lignes de téléphone, vérifiez que la livebox est bien branchée sur la ligne de téléphone correspondant au numéro de téléphone sur lequel l'ADSL a été raccordé.<br>
+Vérifiez que le câble téléphonique est bien branché (un petit clic doit se faire entendre lors du branchement) sur la bonne prise (prise non indiquée par un autocollant blanc).<br>
+Assurez vous qu'un filtre (et un seul) est présent sur la prise téléphonique utilisée pour la livebox.<br>
+<span class="boldorange">Configuration ATM :</span> Le voyant <b>@</b> de la livebox clignote en orange lentement.<br>
+La ligne ADSL est synchronisée, mais pas correctement configurée.<br>
+<br>
+<span class="boldorange">Livebox non configurée :</span> Le voyant <b>@</b> de la livebox clignote en orange lentement.<br>
+Dans ce cas, la livebox n'est pas configurée pour la connexion internet. Autrement dit, vous devez entrer votre identifiant et votre mot de passe de connexion.<br>
+<br>
+<span class="boldorange">Echec d’authentification PPP :</span> Le voyant <b>@</b> de la livebox clignote en orange lentement.<br>
+La ligne ADSL fonctionne et est synchronisée, mais une erreur d'authentification PPP s'est produite. Dans ce cas, ressaisissez votre identifiant et votre mot de passe de connexion en les comparant à ceux indiqués sur votre courrier de bienvenue.<br>
+<br>
+<span class="boldorange">Le serveur d'authentification (BAS) ne répond pas :</span> Le voyant <b>@</b> de la livebox clignote en orange lentement.<br>
+La ligne ADSL fonctionne et est synchronisée, mais le serveur d'authentification de France Télécom ne répond pas. Dans ce cas, patientez ou appelez la Hotline.<br>
+<br>
+<span class="boldorange">Livebox connectée + Uptime PPP session :</span> Le voyant <b>@</b> de la livebox est vert.<br>
+Votre livebox est correctement connectée à Internet.<br>
+<br>
+<b>Diagnostic des problèmes de connexion Fibre :</b><br>
+<br>
+<span class="boldorange">Pas de raccordement à l’ONT :</span> Le voyant <b>@</b> de la livebox clignote en rouge rapidement.<br>
+Pour accéder à Internet par la Fibre il faut connecter l’ONT sur le port blanc de votre livebox. L’ONT est le boitier qui assure la liaison entre le réseau Fibre et la livebox.<br>
+<br>
+Il faut noter que si le port blanc de votre livebox est raccordé à un autre équipement que l’ONT, le voyant <b>@</b> ne clignotera pas rouge mais orange. En effet la livebox détectera un équipement sur le port blanc mais elle ne sera pas en mesure d’établir une session PPP.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,9 @@
+{
+  "status": 0,
+  "data": {
+    "flashTotalSize": 64,
+    "ramTotalSize": 256,
+    "ramFreeSize": 0,
+    "ramUsage": 99
+  }
+}

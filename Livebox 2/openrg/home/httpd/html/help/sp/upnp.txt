@@ -1,0 +1,10 @@
+﻿<b>UPnP :</b><br>
+<br>
+El servicio UPnP se encuentra habilitado por defecto. Puedes deshabilitarlo si no deseas que se produzcan redireccionamientos automáticos por parte de las aplicaciones.<br>
+<br>
+Una vez que hayas habilitado o deshabilitado este servicio, recuerda que debes pulsar el botón Guardar.<br>
+<!--
+<br>
+
+-->
+

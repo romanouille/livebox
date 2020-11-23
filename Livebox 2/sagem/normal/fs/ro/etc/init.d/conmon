@@ -1,0 +1,43 @@
+#!/bin/sh
+PIDCONMON_PLUGIN="/var/run/ConMon.pid"
+CONMON_PLUGIN="/bin/pcb_plugin -vv -n ConMon -c /usr/lib/conmon/ConMon.odl"
+
+start() {
+
+    if [ -e ${PIDCONMON_PLUGIN} ]; then
+        echo "Connectivity Monitor (ConMon) plug-in already started"
+    else
+        ${CONMON_PLUGIN};
+    fi
+}
+
+stop() {
+    if [ -e ${PIDCONMON_PLUGIN} ]; then
+        kill $(cat ${PIDCONMON_PLUGIN});
+    else
+        echo "ConMon plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${CONMON_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac
+

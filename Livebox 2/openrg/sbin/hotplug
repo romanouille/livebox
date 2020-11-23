@@ -1,0 +1,59 @@
+#!/bin/sh
+
+cd /tmp
+
+if [ "$ACTION" = "add" ] || [ "$ACTION" = "remove" ]
+then
+	case $1 in
+	  scsi_generic)
+		if [ $MAJOR -eq 21 ]
+		then
+			# Dongle Icon plugged / Dongle Huawei (un)plugged
+			/sbin/hsdpa.hotplug
+		fi
+		;;
+	  tty)
+		if [ $MAJOR -eq 253 ];
+		then
+			# Dongle Icon unplugged
+			/sbin/hsdpa.hotplug
+		fi
+		;;
+	  block)
+		if [ "$PHYSDEVDRIVER" = "sd" ] && [ "$PHYSDEVBUS" = "scsi" ]
+		then
+			# On attend si mount.hotplug est déjà lancé
+			###########################################
+			while [ -e /tmp/waitMount ]; do
+				sleep 1;
+			done
+			/sbin/mount.hotplug
+			# Bug 21615: NPn => On kill twonky pour éviter d'avoir trop d'erreur sur arrache d'un clef
+			#####################################################################################
+			if [ "$ACTION" = "remove" ]
+			then
+				`killall twonkymediaserver`
+			fi
+		fi
+		;;
+	  usb-serial)
+		if [ "$PHYSDEVBUS" = "usb-serial" ]
+		then
+			/sbin/serial.hotplug $1
+		fi
+		;;
+	  usb)
+		if [ "$PHYSDEVDRIVER" = "usblp" ]
+		then
+			/sbin/printer.hotplug
+		elif [ "$PHYSDEVBUS" = "usb" ]
+		then
+			/sbin/serial.hotplug $1
+		fi
+
+		;;
+	  *) exit 0
+		;;
+	esac
+fi
+

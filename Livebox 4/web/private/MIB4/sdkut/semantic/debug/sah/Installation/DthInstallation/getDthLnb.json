@@ -1,0 +1,12 @@
+{
+  "status": 0,
+  "data": {
+    "lnb_id": "lnb0",
+    "pointed_pos": "11.1E",
+    "control_index": 1,
+    "cutoff_freq": "111",
+    "lo_freq_low": "11111",
+    "lo_freq_high": "11119",
+    "pol_type": "linear"
+  }
+}

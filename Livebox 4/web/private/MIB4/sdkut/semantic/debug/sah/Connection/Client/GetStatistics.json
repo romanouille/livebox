@@ -1,0 +1,20 @@
+{
+    "status": 0,
+    "data": {
+        "linkModeList": [
+            {
+    			"linkMode": "ETHERNET",
+                "linkType": "ETHERNET_DHCP",
+    			"connectionDuration": 125,
+    			"signalStrength": 100,
+    			"noiseLevel": 0,
+    			"bytesSent": 2048,
+    			"packetsSent": 16,
+    			"packetsSentDiscarded": 2,
+    			"bytesReceived": 1024,
+    			"packetsReceived": 8,
+    			"packetsReceivedDiscarded": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+﻿<div class="return-button">
+	<div class="header-logo">
+	  <img class="header-logo-img" src="./img/first_install/logo_orange.png" alt="">
+	</div> 
+</div>   
+<div class="header-access">
+ <div class="header-access-element"><a href="#"><img id="header_translate_fr" src="./img/first_install/acces_fr.svg" class="Translation" data-translation="first_install.lang.fr"></a></div>
+ <div class="header-access-element"><a href="#"><img id="header_translate_en" src="./img/first_install/acces_eng.svg" class="Translation" data-translation="first_install.lang.en"></a></div>
+</div>
+<div class="header-title">
+    <h1>{{{page.title}}}</h1>
+</div>  

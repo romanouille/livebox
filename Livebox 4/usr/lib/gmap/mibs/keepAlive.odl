@@ -1,0 +1,19 @@
+/*expr:keep_alive*/
+
+/**
+ * MIB is loaded on all DECTULE Alert units.
+ *
+ * All devices matching expression: "keep_alive" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib keepAlive{
+    /**
+      * This interface is used by any devices wishes to send keep alive
+      */
+
+    /**
+      * Keep alive period in milliseconds
+      */
+    uint32 Interval;
+}

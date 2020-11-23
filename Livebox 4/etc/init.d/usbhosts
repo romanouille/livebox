@@ -1,0 +1,59 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="usbhosts"
+start_options="-c /usr/lib/usb/usbhosts.odl"
+datamodel="USBHosts"
+trace_zones=""
+component="sah_services_usb"
+
+PIDUDPE_PLUGIN="/var/run/usbhosts.pid"
+UDPE_PLUGIN="/bin/pcb_plugin -vv -n usbhosts -c /usr/lib/usb/usbhosts.odl"
+
+start() {
+    if ! mount | grep -q usbfs; then
+        mount -t usbfs none /proc/bus/usb
+    fi
+
+    pcb_start $name $start_options
+}
+
+stop() {
+    if [ -e ${PIDUDPE_PLUGIN} ]; then
+        kill $(cat ${PIDUDPE_PLUGIN});
+    else
+        echo "usbhosts plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDUDPE_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+    ;;
+    stop)
+        pcb_stop $name
+    ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo|log]"
+        ;;
+esac

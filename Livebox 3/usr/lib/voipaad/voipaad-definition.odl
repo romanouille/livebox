@@ -1,0 +1,83 @@
+using "voipaad_plugin.so";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read,write,execute;
+}
+persistent object VoiceActivation {
+persistent bool Enable {
+write with EnableOnWrite;
+}
+read-only string Status {
+constraint enum ["Idle", "Busy"];
+default "Idle";
+}
+string Interface {
+constraint enum ["", "voip", "data", "primdata"];
+default "";
+}
+read-only string event {
+constraint enum ["1 BOOT","2 PERIODIC","3 SCHEDULED","4 VALUE CHANGE","6 CONNECTION REQUEST"];
+default "1 BOOT";
+}
+bool ConnectionRequest {
+write with ConnectionRequestOnWrite;
+default false;
+}
+persistent string FCPE_ADDRESS;
+persistent read-only uint32 CPE_ALIVE_DELAY {
+default 21600;
+constraint minvalue 1;
+}
+persistent string CPE_PROFIL_ID {
+default "00:00:00:00:00:00";
+}
+persistent read-only uint32 N;
+persistent string FTP {
+default "conf.orange.fr";
+}
+persistent uint32 CONFVERSION {
+default 0;
+}
+persistent string URL_CONF_FCPE {
+default "http://karma-sip.orange.com:80/fr/parameter_request";
+}
+persistent read-only uint32 faultCode {
+constraint enum [0,9001,9002,9003];
+default 0;
+}
+persistent string provisioningCode {
+constraint enum ["NULL", "SIP", "H323", "SIP_H323", "H323_SIP"];
+default "NULL";
+}
+string accessType {
+constraint enum ["", "NULL", "SIP", "H323"];
+default "";
+}
+persistent object VoiceProfile {
+persistent string Enable {
+constraint enum ["Enabled", "Disabled"];
+default "Disabled";
+}
+persistent object LINE1 {
+persistent string Enable {
+write with LineEnableOnWrite;
+constraint enum ["Enabled", "Disabled"];
+default "Disabled";
+}
+}
+}
+persistent string SIPOutboundProxy {
+write with SIPOutboundProxyOnWrite;
+}
+void setNMCEvent(mandatory string event, string parameter);
+read-only string ProvStatus {
+constraint enum ["Init", "NoConfig", "ConfigKO", "ConfigOK"];
+default "Init";
+}
+read-only string ProvLastError {
+constraint enum ["", "Init", "Boot", "Install", "Uninstall", "NewConfig", "SameAsLocal", "IncorrectFile", "NoFileOnServer", "ServerUnreachable", "HttpErrorCode", "DnsError", "UriError", "ServerKO", "ParsingKO", "NothingToDo"];
+default "Init";
+}
+}

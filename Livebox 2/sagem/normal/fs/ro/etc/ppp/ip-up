@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export PATH="/sbin:/usr/sbin:/bin:/usr/bin"
+
+for script in /etc/ppp/ip-up.d/* ; do
+	$script $*
+done
+

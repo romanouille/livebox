@@ -1,0 +1,56 @@
+#!/bin/sh
+
+VOIP_ZONES="all:100,CAC:200,EVENT:200,FXO:200,H323:200,MAIN:200,MDMEXT:200,MEDIA:200,SIGNAL:200,SIPT:200,VOIPCFG:200,APPLI:200,APPSM:200,FAX:200,REGISTRAR:200,DIALPLAN:200,LIBV:200,RVFD=200,PROXY:200,LCONF:200"
+
+case $1 in
+	enable_coredump)
+		# Create Dir that will be used for generating core dump
+		mkdir -p /ext/dump/
+		chmod a+rw /ext/dump
+		cat /proc/sys/kernel/core_pattern > /ext/dump/voip_prev_core_pattern
+		echo "/ext/dump/core-%e-pid=%p-t=%t" > /proc/sys/kernel/core_pattern
+		;;
+
+	disable_coredump)
+		cat /ext/dump/voip_prev_core_pattern > /proc/sys/kernel/core_pattern
+		;;
+
+    start)
+        if [ -e "/var/lib/voice/restore" ]; then
+            /bin/hgwcfg_voice restore
+            rm -f /var/lib/voice/restore
+        fi
+
+        if [ -e "/etc/config/callList" ]; then
+            /bin/callList restore
+        fi
+
+        export SAH_TRACE_ZONES=$VOIP_ZONES
+        /usr/bin/voipapp -d 200 -s &
+        
+        # Wait for VoiceService object to be present in datamodel
+        # workaround for plugin registration race-condition (fxs ...)
+        pcb_cli -w 60 VoiceService
+    	;;
+
+    stop)
+        /bin/callList backup
+        killall -TERM voipapp
+    	;;
+
+    restore)
+        mkdir -p /var/lib/voice
+        touch /var/lib/voice/restore
+        ;;
+
+    backup)
+        echo "backing up voice settings"
+        /bin/hgwcfg_voice backup
+        ;;
+
+    *)
+        echo "Usage: /etc/init.d/voipapp {start|stop|backup|restore|enable_coredump|disable_coredump}"
+        exit 1
+        ;;
+esac
+

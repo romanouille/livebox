@@ -1,0 +1,412 @@
+using "pppd_plugin.so";
+
+object PPP {
+  object Intf [20] {
+    write with writeIntf;
+    /**
+     * The object identifier
+     */
+    string Name {
+       constraint maxvalue 31;
+       read with readName;
+    }
+    /**
+     * The status of the PPP Interface
+     */
+    read-only string Status {
+       constraint enum ["Unknown","Used","Listening","Retrying","Resolving","Connecting","Connected","Recovering","Trigger"];
+       default "Unknown";
+    }
+    /**
+     * The status of the actual PPP connection
+     */
+    read-only string PPPStatus {
+       constraint enum ["Disconnected","Connecting","Authenticating","Connected","Unconfigured"];
+       default "Unconfigured";
+    }
+    /**
+     * The local IPv4 address as received/negotiated with the PPP server
+     */
+    read-only string ReceivedLocalAddress {
+		default "0.0.0.0";
+	}
+    /**
+     * The remote IPv4 address as received/negotiated with the PPP server
+     */
+    read-only string ReceivedRemoteAddress {
+		default "0.0.0.0";
+	}
+    /**
+     * A comma separated list of DNS servers as received from the PPP server
+     */
+    read-only string DNSServers;
+    /**
+     * The lower interface on top of which the PPP interface will be created
+     */
+    string LowerIntf {
+       constraint maxvalue 31;
+    }
+    /**
+     * The username for PPP authentication
+     */
+    string UserName {
+       constraint maxvalue 64;
+    }
+    /**
+     * The password for PPP authentication
+     */
+    string Password {
+       constraint maxvalue 80;
+    }
+    /**
+     * The PPP connection failure reason
+     *   - ERROR_NONE : no error has occured
+     *   - ERROR_USER_DISCONNECT : PPP is disabled by the user
+     *   - ERROR_ISP_DISCONNECT : PPP is disabled by the remote PPP server
+     *   - ERROR_IDLE_DISCONNECT : PPP is automatically disconnected because the Idle timer has expired
+     *   - ERROR_ISP_TIMEOUT :
+     *   - ERROR_UNKNOWN : LCP failure
+     *   - ERROR_AUTHENTICATION_FAILURE : PPP authentication failed, incorrect username and/or password
+     *   - ERROR_IP_CONFIGURATION : IPCP failure
+     */
+    read-only string LastConnectionError {
+       constraint enum ["ERROR_NONE","ERROR_USER_DISCONNECT","ERROR_ISP_DISCONNECT","ERROR_IDLE_DISCONNECT","ERROR_ISP_TIMEOUT","ERROR_UNKNOWN","ERROR_AUTHENTICATION_FAILURE","ERROR_IP_CONFIGURATION"];
+       default "ERROR_NONE";
+    }
+    /**
+     * How long has the PPP connection been up
+     */
+    read-only uint32 Uptime {
+       read with readUptime;
+    }
+    /**
+     * Received PPPoE Access Concentrator
+     *   - Leave empty before enabling the PPP Interface when you do not want to filter on this parameter
+     *   - Change this value to a requested access concentrator name before enabling the interface to filter on the PPPoEACName
+     */
+    string PPPoEACName {
+       constraint maxvalue 64;
+       write with writePPPoEACName;
+    }
+    /**
+     * Received PPPoE Service Name:
+     *   - Leave empty before enabling the PPP Interface when you do not want to filter on this parameter
+     *   - Change this value to a requested PPP server PPPoE Service name before enabling the interface
+     */
+    string PPPoEServiceName {
+       constraint maxvalue 64;
+       write with writePPPoEServiceName;
+    }
+    /**
+     * PPPoE session ID as received from the PPP server
+     */
+    read-only uint32 PPPoESessionID;
+    /**
+     * Act as a PPPoE server (value is true) or client (value is false)
+     */
+    bool PPPoEAC {
+		default false;
+	}
+    string ACName {
+       constraint maxvalue 64;
+       write with writeACName;
+    }
+    string ServiceName {
+       constraint maxvalue 64;
+       write with writeServiceName;
+    }
+    /**
+     * Select the authentication method:
+     * - PAP: send LCP packets to request the PPP server to use the Password Authentication Protocol
+     * - CHAP: send LCP packets to requiest the PPP server to use the Challenge Handshake Authentication Protocol
+     * - Auto: accept the authentication method suggested by the PPP server
+     */
+    string Authentication {
+       constraint enum ["PAP","CHAP","Auto"];
+       default "Auto";
+    }
+    /**
+     * Negotiate the HDLC Protocol Field Compression with the PPP server
+     */
+    bool Pcomp {
+		default false;
+	}
+    /**
+     * Restart the PPP Interface in case the connection went down
+     */
+    bool Restart {
+		default true;
+	}
+    /**
+     * The amount of time to wait before retrying to setup the PPP connection again when it failed
+     * - Parameter Restart has to be enabled for this one to be taken into account
+     */
+    uint32 RetryInterval {
+       constraint maxvalue 65535;
+		default 10;
+    }
+    /**
+     * Don't die if we don't get a response
+     */
+    bool Passive {
+		default false;
+	}
+    /**
+     * Wait for the other end to start first
+     */
+    bool Silent {
+		default false;
+	}
+    /**
+     * Maximum Receive Unit to be negotiated with the PPP server
+     */
+    uint32 MRU {
+       constraint range [293,8192];
+       default 1492;
+    }
+    /**
+     * Requested LocalAdress
+     *   - Leave empty before enabling the PPP Interface when you do not want to filter on this parameter
+     *   - Change this value to a requested local IPv4 address before enabling the interface
+     */
+    string LocalAddress;
+    /**
+     * Requested RemoteAddress
+     *   - Leave empty before enabling the PPP Interface when you do not want to filter on this parameter
+     *   - Change this value to a requested remote IPv4 address before enabling the interface
+     */
+    string RemoteAddress;
+    /**
+     * Request netmask
+     *   - Leave empty before enabling the PPP Interface when you do not want to filter on this parameter
+     *   - Change this value to a requested netmask before enabling the interface
+     */
+    string NetMask;
+    /**
+     * The format in which the NetMask parameter is written
+     */
+    string NetMaskFormat {
+       constraint enum ["cidr","dotted","none"];
+       default "none";
+    }
+    bool SavePassword {
+		default true;
+	}
+    /**
+     * Enable the Dial on demand feature
+     * - the PPP interface will remain in the trigger state, when the interface is enabled (parameter Enable), untill IP traffic is detected on the PPP interface
+     *   this will trigger the PPP connection to be setup
+     */
+    bool DialOnDemand {
+		default false;
+	}
+    /**
+     * Dial On Demand Delay value:
+     * - wait this amount of time (in seconds) before starting to detect IP traffic in case the Dial On Demand option is selected
+     */
+    uint32 DoDDelay {
+       constraint maxvalue 3600;
+        default 0;
+    }
+    /**
+     * Value does not appear to be used for the moment
+     */
+    uint32 DNSMetric {
+       constraint maxvalue 100;
+		default 0;
+    }
+    /**
+     * Interval timer value (in seconds) to check for traffic before the PPP connection  (after authentication has succeeded) will be brought down in case no traffic has been received
+     * - a value of 0 means that the idle option is disabled
+     * - make sure to disable the Restart parameter, otherwise this value will be ignored
+     */
+    uint32 IdleTimeout {
+       constraint maxvalue 1000000;
+		default 0;
+    }
+    /**
+     * The trigger to bring down the PPP connection
+     *  - RxTx : monitor the received and transmitted packets
+     *  - Rx : only recieved the traffic is taken into account
+     *  - Tx: only transmitted traffic is taken into account
+     */
+    string IdleTrigger {
+       constraint enum ["RxTx","Rx","Tx"];
+       default "RxTx";
+    }
+    /**
+     * The maximum timeout value before a LCP Echo Reply has to be recieved from the Peer (Tolerance to unanswered echo-requests)
+     */
+    uint32 EchoTolerance {
+       constraint range [1,100];
+       default 3;
+    }
+    /**
+     * Setup an unnumbered PPP connection (PPP connection for which no unique local address is provided)
+     */
+    bool Unnumbered {
+		default false;
+	}
+    /**
+     * The total tolerance time
+     */
+    uint32 EchoTotalToleranceTime {
+		default 90;
+	}
+    /**
+     * HDLC Address/Control Field Compression = omit the HDLC Address and Control fields from the frames
+     */
+    string ACcomp {
+       constraint enum ["disabled","enabled","negotiate"];
+       default "enabled";
+    }
+    /**
+     * Log every packet that is send by the PPP server
+     */
+    bool Trace {
+		default false;
+	}
+    /**
+     * The time value (in seconds) between every PPP LCP Echo request to the Peer
+     */
+    uint32 Echo {
+		default 30;
+	}
+    /**
+     * Add Magic Number Negotiation in the LCP want options = ask for the Magic number
+     */
+    read-only bool FlagMagic {
+		read with readFlagMagic;
+	}
+    /**
+     * HDLC Address/Control Field Compression = ask for negotiation
+     */
+    read-only bool FlagNegACcomp {
+		read with readFlagNegACcomp;
+	}
+    /**
+     * Request for Microsoft PPP CHAP Extensions in the LCP want options
+     */
+    read-only bool FlagMSChap {
+		read with readFlagMSChap;
+	}
+    /**
+     * Negotiate the Maximum Receive Unit value
+     */
+    read-only bool FlagMRU {
+		read with readFlagMRU;
+	}
+    /**
+     * Negotiate the IPv4 address
+     */
+    read-only bool FlagAddress {
+		read with readFlagAddress;
+	}
+    /**
+     * The context was cloned
+     */
+    read-only bool FlagIncoming {
+		read with readFlagIncoming;
+	}
+    /**
+     * - Restart has to be disabled and IdleTimeout > 0 before this
+     */
+    read-only uint32 IdleTimeRemaining {
+		read with readIdleTimeRemaining;
+	}
+    /**
+     * Time left before the Dial On Demand Delay timer will fire
+     */
+    read-only uint32 DoDTimeRemaining {
+		read with readDoDTimeRemaining;
+	}
+    /**
+     * The status of the LCP state machine
+     */
+    read-only string LCPStatus {
+       constraint enum ["initial","starting","closed","stopped","closing","stopping","reqsent","ackrcvd","acksent","opened"];
+		read with readLCPStatus;
+		default "initial";
+    }
+    /**
+     * The total number of LCP retransmits
+     */
+    read-only uint32 LCPRetransmits {
+		read with readLCPRetransmits;
+	}
+    /**
+     * The reason why the LCP state machine was terminated
+     */
+    read-only string LCPTermReason {
+		read with readLCPTermReason;
+	}
+    /**
+     * The status of the IPCP state machine
+     */
+    read-only string IPCPStatus {
+       constraint enum ["initial","starting","closed","stopped","closing","stopping","reqsent","ackrcvd","acksent","opened"];
+       read with readIPCPStatus;
+		default "initial";
+    }
+    /**
+     * The total number of IPCP retransmits
+     */
+    read-only uint32 IPCPRetransmits {
+		read with readIPCPRetransmits;
+	}
+    /**
+     * The reason why the IPCP state machine was terminated
+     */
+    read-only string IPCPTermReason {
+		read with readIPCPTermReason;
+	}
+    read-only bool FlagCloned {
+		read with readFlagCloned;
+	}
+    /**
+     * Is there a slock.txt or a plock.txt file present in the /etc/defaults path
+     */
+    read-only bool Locked {
+		read with readLocked;
+	}
+    /**
+     * The transporttype to be used, PPP over ethernet or PPP over ATM
+     */
+    string TransportType {
+       constraint enum ["PPPoE", "PPPoA"];
+       default "PPPoE";
+    }
+	/**
+	 * Accept/Reject PPP IPCP requests
+	 */
+	bool IPCPEnable {
+		default true;
+	}
+	/**
+	 * Accept/Reject PPP IPV6CP requests
+	 */
+	bool IPv6CPEnable {
+		default false;
+	}
+	/**
+	 * The interface identifier for the local end of the PPP link, negotiated using the IPv6CP Interface-Identifier option
+	 * The identifier is represented as the rightmost 64 bits of an IPv6 address
+	 */
+	read-only string IPv6CPLocalInterfaceIdentifier {
+		default "0000:0000:0000:0000";
+	}
+	/**
+	 * The interface identifier for the remote end of the PPP link, negotiated using the IPv6CP Interface-Identifier option
+	 * The identifier is represented as the rightmost 64 bits of an IPv6 address
+	 */
+	read-only string IPv6CPRemoteInterfaceIdentifier  {
+		default "0000:0000:0000:0000";
+	}
+    /**
+     * Enable/disable the PPP interface
+     */
+	bool Enable;
+  }
+}
+
+/** @location sah_services_pppd /scripts/pppd.odl */

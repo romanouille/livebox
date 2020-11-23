@@ -1,0 +1,9 @@
+using "storage_extension.so";
+
+persistent object StorageService
+{
+    int32 getDiskUri(out string uri);
+    int32 getDiskInfo(in string uri, out variant diskinfo);
+    int32 detachDisk(in string uri);
+    int32 restorePhysicalMedium(string uri);
+}

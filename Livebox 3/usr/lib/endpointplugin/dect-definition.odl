@@ -1,0 +1,197 @@
+using "endpointplugin_dspg.so";
+include "/usr/lib/voiceplugin/voiceplugin_api-definition.odl";
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+persistent object DECT {
+string PairingStatus {
+default "Idle";
+}
+void startPairing();
+void stopPairing();
+void reset();
+string getRFPI();
+string getStandardVersion();
+string getPIN();
+void setPIN(string pin);
+string getVersion();
+void setName(string name);
+string getName();
+bool getBaseState();
+void setBaseState(bool state);
+bool getRadioState();
+void setRadioState(bool state);
+bool getNEMoState();
+void setNEMoState(bool state);
+string getClockMode();
+void setClockMode(string mode);
+void removeAllHandsets();
+void setTestMode(u8 mode);
+void setAntennaSwitch(u8 antenna);
+int8 getRSSI(string name);
+persistent object LineSettings[] {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with lineset_writeLineSettings;
+persistent bool Enable {
+constraint custom lineset_validateEnable;
+}
+persistent uint32 LineID {
+constraint custom lineset_validateLineID;
+}
+persistent string LineName;
+persistent string LineNumber;
+persistent bool MultipleCalls;
+persistent bool Intrusion;
+persistent bool CLIRActivated;
+persistent string CLIRActivationCode;
+persistent string CLIRDeactivationCode;
+persistent bool CFUActivated;
+persistent string CFUActivationCode;
+persistent string CFUDeactivationCode;
+persistent string CFUNumber;
+persistent bool CFNAActivated;
+persistent uint32 CFNATimeout {
+constraint minvalue 1;
+default 25;
+}
+persistent string CFNAActivationCode;
+persistent string CFNADeactivationCode;
+persistent string CFNANumber;
+persistent bool CFBActivated;
+persistent string CFBActivationCode;
+persistent string CFBDeactivationCode;
+persistent string CFBNumber;
+}
+}
+persistent object "$(SAH_VOICE_PLUGIN_NAME)" {
+acl {
+group admin none;
+group remoteadmin none;
+group cwmpd read,write,execute;
+}
+persistent bool Enable {
+write with HandleDectBaseState;
+default false;
+}
+string Status {
+constraint enum ["Init", "Upgrading", "Ready"];
+default "Init";
+}
+bool RadioState {
+default false;
+}
+int16 MaxHandsetDevices {
+default 4;
+}
+int16 MaxULEDevices {
+default -1;
+}
+string Standard;
+persistent string RFPI {
+constraint maxvalue 10;
+default "";
+}
+persistent string Vendor {
+default "";
+}
+string FirmwareVersion {
+constraint maxvalue 20;
+default "";
+}
+uint32 MaxSupportedPP {
+default 0;
+}
+bool CipheringEnable {
+default true;
+write with HandleDectBaseCiphering;
+}
+persistent uint32 SubscriptionDataVersion {
+default 0;
+}
+persistent string SubscriptionData {
+default "";
+constraint custom validateDectBaseSubscriptionData;
+write with HandleDectBaseSubscriptionData;
+}
+bool ApplyProvisioning {
+default false;
+constraint custom validateApplyProvisioning;
+write with HandleDectBaseApplyProvisioning;
+}
+persistent string Name {
+default "Softathome";
+}
+persistent string PinCode {
+default "0000";
+}
+persistent bool NEMoState {
+default true;
+}
+persistent string ClockMode {
+constraint enum ["Auto", "Manual"];
+default "Auto";
+}
+uint32 CallWaitingToneTimer {
+default 10000;
+}
+void setEncryption(bool enable);
+bool getEncryption();
+void startLog(string filename);
+void stopLog();
+void setRFPI(string RFPI);
+void deleteEeProm();
+void deleteSubscriptionData();
+void setInbandCountry(uint8 country);
+void rebootBase();
+bool export(string fileName);
+bool import(string fileName);
+object LAS {
+bool Enable = true;
+bool CertificationMode = false;
+uint32 AllCallListMaxNumberOfEntries;
+uint32 ReceivedCallListMaxNumberOfEntries;
+uint32 MissedCallListMaxNumberOfEntries;
+uint32 DialedCallListMaxNumberOfEntries;
+object Cache {
+bool DebugMode = false;
+uint16 saveContact(uint16 entryId, string contact);
+void deleteContact(uint16 entryId);
+void clearContacts();
+list getContacts();
+uint16 saveCall(string callList, uint16 entryId, string call);
+void deleteCall(string callList, uint16 entryId);
+void clearCalls(string callList);
+list getCalls(string callList);
+list getLineSettings();
+list getHandsets();
+}
+object Session {
+void startSession(in uint16 sessionId, in uint16 listId, in uint16 hsId, in out list sortFields, out uint16 currNumOfEntries);
+void endSession(in uint16 sessionId);
+void getDataBuffer(in uint16 sessionId, out byte_array data);
+void appendDataBuffer(in uint16 sessionId, in byte_array data);
+void getSupportedFields(in uint16 sessionId, out list editFields, out list constFields);
+void readEntries(in uint16 sessionId, in out uint16 startIdx, in bool forward, in string mark, in list requestedFields, in out uint16 numOfReqEntries);
+void editEntry(in uint16 sessionId, in uint16 entryId, in list requestedFields);
+void searchEntries(in uint16 sessionId, in string match, in bool caseSensitive, in string searchedValue, in bool forward, in string mark, in list requestedFields, in out uint16 numOfReqEntries, out uint16 startIdx);
+void setSaveEntryId(in uint16 sessionId, in uint16 entryId);
+void saveEntry(in uint16 sessionId, out uint16 entryId, out uint16 positionIdx, out uint16 totalNumEntries);
+void deleteEntry(in uint16 sessionId, in uint16 entryId, out uint16 numOfEntries);
+void deleteAllEntries(in uint16 sessionId);
+list listSessions();
+}
+}
+persistent read-only object Channels[] {
+read-only uint32 NarrowbandSlots;
+read-only uint32 WidebandSlots;
+}
+object Tones[] {
+uint16 Volume;
+int8 adjustVolume(int8 add_dB);
+}
+}

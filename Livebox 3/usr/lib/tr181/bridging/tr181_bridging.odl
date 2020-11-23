@@ -1,0 +1,27 @@
+using "bridging/tr181_bridging.so";
+object Bridging {
+uint32 MaxBridgeEntries;
+uint32 MaxDBridgeEntries;
+uint32 MaxQBridgeEntries;
+uint32 MaxVLANEntries;
+uint32 MaxFilterEntries;
+uint32 BridgeNumberOfEntries;
+uint32 FilterNumberOfEntries;
+object Bridge [] {
+string Alias;
+bool Enable;
+string Status;
+string Standard="802.1D-2004";
+}
+}
+datamodel {
+object Bridging {
+instance of Bridge(1, "BR_TV") {
+parameter Alias = "BR_TV";
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/iptv" {
+parameter Enable;
+parameter Status translate with translate_bridging_status;
+}
+}
+}
+}

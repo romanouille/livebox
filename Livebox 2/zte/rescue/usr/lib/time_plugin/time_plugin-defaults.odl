@@ -1,0 +1,25 @@
+
+/* TR-098 compliant time datamodel */
+
+
+datamodel {
+    object Time {
+
+        parameter Enable="false";
+        parameter Status="Disabled";
+
+	/* Moved to hgwcfg.def */
+        /* parameter NTPServer1="thotfr.orange.com"; */
+        /* parameter NTPServer2="thotfr.orange.com"; */
+
+        parameter Retry1="FIXED:8,16,32,64,7200";
+        parameter Retry2="FIXED:8,16,32,64,7200";
+        parameter Retry3="FIXED:3,3,6,12,24,48,96";
+
+        parameter PreferredServer=1;
+
+        parameter NTPReqInterval=86400;
+
+        parameter LocalTimeZoneName="Paris";
+    }
+}

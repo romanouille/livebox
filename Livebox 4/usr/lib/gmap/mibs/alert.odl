@@ -1,0 +1,31 @@
+/*expr:alert*/
+
+/**
+ * MIB is loaded on all DECTULE Alert units.
+ * All devices matching expression: "alert" are extended with this MIB.
+ * This interface is used by any devices wishes to send alerts.
+ *
+ * @version 6.0
+ */
+mib alert {
+
+
+    /**
+     * This Alert is related to the device type, 
+     * for example this Alert indicates a smoke at Smoke detector device or motion at motion detector device.
+     * It can support multi alerts (16 alerts) but mostly should use as single alert.
+     * Alert bit mask:
+     *    0x0000= All Alerts Idle
+     *    0x0001= Alert 0 is Alerting
+     *    0x0021= Alerts 0 and 5 are Alerting, all other Idle
+     */
+    read-only uint32 AlertState;
+
+    /**
+     * Enable attribute indicates if an alert is enabled or disabled,   
+     * a disabled alert will never trigger. 
+     * A bit set to ”1” indicates alert is enabled, a bit set to ”0” indicates alert is disabled.
+     */
+    uint32 AlertEnable;
+}
+/** @location sah_services_gmap /mibs/dectuleAlert.odl */

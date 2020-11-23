@@ -1,0 +1,9 @@
+<b>Limitation d'accès à Internet :</b><br>
+<br>
+Ici, vous pouvez limiter l'accès à Internet pour cet équipement.<br>
+Après avoir activé cette option, vous devez définir des plages d'accès à l'aide des cases et des listes déroulantes. Pour activer une limitation d’accès à Internet sur un jour de la semaine, il suffit de cocher la case correspondante. Pour configurer les plages horaires d’accès à Internet, utilisez les listes déroulantes. L'équipement peut alors accéder à Internet pendant cette plage horaire. A l'inverse, en dehors de ces plages horaires, l'équipement ne peut pas accéder à Interne.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

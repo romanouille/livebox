@@ -1,0 +1,417 @@
+using "wandevice/wandevice.so";
+
+datamodel {
+	instance of WANDevice(1,"WAN") {
+		parameter WANConnectionNumberOfEntries = 7;
+		object WANCommonInterfaceConfig {
+			destination "pcb://$(PCB_MAIN_BUS)/NMC" {
+				parameter WANAccessType from WanMode translate with translate_WANCommonInterfaceConfig_WANAccessType;
+			}
+			parameter EnabledForInternet = true;
+			parameter Layer1UpstreamMaxBitRate = 0;
+			parameter Layer1DownstreamMaxBitRate = 0;
+			parameter PhysicalLinkStatus = "Unavailable";
+		}
+		object WANDSLInterfaceConfig {
+			parameter LineEncoding = "QAM";
+			parameter LineNumber = 1;
+			destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dsl0" {
+				parameter Enable;
+				parameter Status from LinkStatus translate with translate_WANDSLInterfaceConfig_Status;
+				parameter UpstreamCurrRate;
+				parameter DownstreamCurrRate;
+				parameter UpstreamMaxRate;
+				parameter DownstreamMaxRate;
+				parameter UpstreamNoiseMargin;
+				parameter DownstreamNoiseMargin;
+				parameter UpstreamAttenuation;
+				parameter DownstreamAttenuation;
+				parameter UpstreamPower;
+				parameter DownstreamPower;
+				parameter ShowtimeStart from LastChange;
+				parameter ModulationType;
+				parameter DataPath;
+				parameter InterleaveDepth;
+				parameter StandardUsed;
+				parameter CurrentProfile;
+				parameter UPBOKLE;
+			}
+		}
+		object WANEthernetInterfaceConfig {
+			parameter Enable = true;
+			destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth1" {
+				parameter Status translate with translate_WANEthernetInterfaceConfig_Status;
+				parameter MACAddress from LLAddress;
+			}
+		}
+		object WANDSLConnectionManagement {
+			parameter ConnectionServiceNumberOfEntries = 1;
+			instance of ConnectionService(1,"1") {
+				parameter WANConnectionDevice = "";
+				parameter WANConnectionService = "";
+				parameter DestinationAddress = "";
+				parameter LinkType = "";
+				parameter ConnectionType = "";
+				parameter Name = "";
+			}
+		}
+		instance of WANConnectionDevice(1,"data") {
+			parameter WANIPConnectionNumberOfEntries = 0;
+			parameter WANPPPConnectionNumberOfEntries = 1;
+			object WANDSLLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_data" {
+					parameter Enable;
+					parameter LinkType;
+					parameter DestinationAddress translate with translate_WANDSLLinkConfig_DestinationAddress;
+					parameter ATMEncapsulation from Encapsulation;
+					parameter FCSPreserved;
+					parameter ATMQoS from QoSClass;
+					parameter ATMPeakCellRate from PeakCellRate;
+					parameter ATMMaxiumumBurstSize from MaxiumumBurstSize;
+					parameter ATMSustainableCellRate from SustainableCellRate;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dsl0" {
+					parameter LinkStatus translate with translate_WANDSLLinkConfig_LinkStatus;
+					parameter ModulationType;
+				}
+			}
+			object WANEthernetLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth1" {
+					parameter EthernetLinkStatus from Status translate with translate_WANEthernetLinkConfig_EthernetLinkStatus;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/vlan_data" {
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)Enable" from Enable;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANID" from VLANID;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANPriority" from VLANPriority;
+				}
+			}
+			instance of WANPPPConnection(1,"ppp_data") {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/ppp_data" {
+					parameter Enable;
+					parameter ConnectionStatus;
+					parameter PPPoESessionID;
+					parameter DefaultGateway from RemoteIPAddress;
+					parameter Name from Alias;
+					parameter Uptime from LastChange;
+					parameter LastConnectionError;
+					parameter NATEnabled;
+					parameter ExternalIPAddress from LocalIPAddress translate with translate_WANPPPConnection_ExternalIPAddress;
+					parameter MaxMRUSize;
+					parameter CurrentMRUSize from MTU;
+					parameter DNSServers;
+					parameter TransportType;
+					parameter PPPoEACName;
+					parameter PPPoEServiceName;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_data" {
+					parameter MACAddress from LLAddress;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NMC" {
+					parameter Username;
+					parameter Password;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/Firewall" {
+					parameter PortMappingNumberOfEntries from PortForwardingNumberOfEntries;
+				}
+				object PortMapping from "pcb://$(PCB_MAIN_BUS)/Firewall/PortForwarding" recursive {
+					drop parameter "(Id|Origin|Status|SourceInterface)";
+					accept parameter "Protocol" {
+						rename with rename_portmapping_parameters;
+						translate with translate_portmapping_protocol;
+					}
+					accept parameter ".*" {
+						rename with rename_portmapping_parameters;
+					}
+					accept object ".*" {
+						drop parameter "(Id|Origin|Status|SourceInterface)";
+						accept parameter "Protocol" {
+							rename with rename_portmapping_parameters;
+							translate with translate_portmapping_protocol;
+						}
+						accept parameter ".*" {
+							rename with rename_portmapping_parameters;
+						}
+					}
+				}
+			}
+		}
+		instance of WANConnectionDevice(2,"iptv1") {
+			parameter WANIPConnectionNumberOfEntries = 1;
+			parameter WANPPPConnectionNumberOfEntries = 0;
+			object WANDSLLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_iptv1" {
+					parameter Enable;
+					parameter LinkType;
+					parameter DestinationAddress translate with translate_WANDSLLinkConfig_DestinationAddress;
+					parameter ATMEncapsulation from Encapsulation;
+					parameter FCSPreserved;
+					parameter ATMQoS from QoSClass;
+					parameter ATMPeakCellRate from PeakCellRate;
+					parameter ATMMaxiumumBurstSize from MaxiumumBurstSize;
+					parameter ATMSustainableCellRate from SustainableCellRate;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dsl0" {
+					parameter LinkStatus translate with translate_WANDSLLinkConfig_LinkStatus;
+					parameter ModulationType;
+				}
+			}
+			object WANEthernetLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth1" {
+					parameter EthernetLinkStatus from Status translate with translate_WANEthernetLinkConfig_EthernetLinkStatus;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/vlan_iptv1" {
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)Enable" from Enable;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANID" from VLANID;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANPriority" from VLANPriority;
+				}
+			}
+			instance of WANIPConnection(1,"dhcp_iptv") {
+				destination "pcb://$(PCB_MAIN_BUS)/NMC/OrangeTV/IGDMap" {
+					parameter Enable;
+					parameter ConnectionStatus from ConnectionStatus translate with translate_WANIPConnection_ConnectionStatus;
+					parameter ExternalIPAddress;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_iptv1" {
+					parameter NATEnabled;
+					parameter MACAddress from LLAddress;
+				}
+			}
+		}
+		instance of WANConnectionDevice(3,"iptv2") {
+			parameter WANIPConnectionNumberOfEntries = 1;
+			parameter WANPPPConnectionNumberOfEntries = 0;
+			object WANDSLLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_iptv2" {
+					parameter Enable;
+					parameter LinkType;
+					parameter DestinationAddress translate with translate_WANDSLLinkConfig_DestinationAddress;
+					parameter ATMEncapsulation from Encapsulation;
+					parameter FCSPreserved;
+					parameter ATMQoS from QoSClass;
+					parameter ATMPeakCellRate from PeakCellRate;
+					parameter ATMMaxiumumBurstSize from MaxiumumBurstSize;
+					parameter ATMSustainableCellRate from SustainableCellRate;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dsl0" {
+					parameter LinkStatus translate with translate_WANDSLLinkConfig_LinkStatus;
+					parameter ModulationType;
+				}
+			}
+			object WANEthernetLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth1" {
+					parameter EthernetLinkStatus from Status translate with translate_WANEthernetLinkConfig_EthernetLinkStatus;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/vlan_iptv2" {
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)Enable" from Enable;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANID" from VLANID;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANPriority" from VLANPriority;				}
+			}
+			instance of WANIPConnection(1,"dhcp_iptv") {
+				destination "pcb://$(PCB_MAIN_BUS)/NMC/OrangeTV/IGDMap" {
+					parameter Enable;
+					parameter ConnectionStatus from ConnectionStatus translate with translate_WANIPConnection_ConnectionStatus;
+					parameter ExternalIPAddress;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_iptv2" {
+					parameter NATEnabled;
+					parameter MACAddress from LLAddress;
+				}
+			}
+		}
+		instance of WANConnectionDevice(4,"iptv3") {
+			parameter WANIPConnectionNumberOfEntries = 1;
+			parameter WANPPPConnectionNumberOfEntries = 0;
+			object WANDSLLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_iptv3" {
+					parameter Enable;
+					parameter LinkType;
+					parameter DestinationAddress translate with translate_WANDSLLinkConfig_DestinationAddress;
+					parameter ATMEncapsulation from Encapsulation;
+					parameter FCSPreserved;
+					parameter ATMQoS from QoSClass;
+					parameter ATMPeakCellRate from PeakCellRate;
+					parameter ATMMaxiumumBurstSize from MaxiumumBurstSize;
+					parameter ATMSustainableCellRate from SustainableCellRate;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dsl0" {
+					parameter LinkStatus translate with translate_WANDSLLinkConfig_LinkStatus;
+					parameter ModulationType;
+				}
+			}
+			object WANEthernetLinkConfig {
+				parameter EthernetLinkStatus = "Unavailable";
+				parameter "$(CONFIG_PREFIX_NON_STANDARD)Enable" = false;
+				parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANID" = 0;
+				parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANPriority" = 0;
+			}
+			instance of WANIPConnection(1,"dhcp_iptv") {
+				destination "pcb://$(PCB_MAIN_BUS)/NMC/OrangeTV/IGDMap" {
+					parameter Enable;
+					parameter ConnectionStatus from ConnectionStatus translate with translate_WANIPConnection_ConnectionStatus;
+					parameter ExternalIPAddress;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_iptv3" {
+					parameter NATEnabled;
+					parameter MACAddress from LLAddress;
+				}
+			}
+		}
+		instance of WANConnectionDevice(5,"iptv4") {
+			parameter WANIPConnectionNumberOfEntries = 1;
+			parameter WANPPPConnectionNumberOfEntries = 0;
+			object WANDSLLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_iptv4" {
+					parameter Enable;
+					parameter LinkType;
+					parameter DestinationAddress translate with translate_WANDSLLinkConfig_DestinationAddress;
+					parameter ATMEncapsulation from Encapsulation;
+					parameter FCSPreserved;
+					parameter ATMQoS from QoSClass;
+					parameter ATMPeakCellRate from PeakCellRate;
+					parameter ATMMaxiumumBurstSize from MaxiumumBurstSize;
+					parameter ATMSustainableCellRate from SustainableCellRate;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dsl0" {
+					parameter LinkStatus translate with translate_WANDSLLinkConfig_LinkStatus;
+					parameter ModulationType;
+				}
+			}
+			object WANEthernetLinkConfig {
+				parameter EthernetLinkStatus = "Unavailable";
+				parameter "$(CONFIG_PREFIX_NON_STANDARD)Enable" = false;
+				parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANID" = 0;
+				parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANPriority" = 0;
+			}
+			instance of WANIPConnection(1,"dhcp_iptv") {
+				destination "pcb://$(PCB_MAIN_BUS)/NMC/OrangeTV/IGDMap" {
+					parameter Enable;
+					parameter ConnectionStatus from ConnectionStatus translate with translate_WANIPConnection_ConnectionStatus;
+					parameter ExternalIPAddress;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_iptv4" {
+					parameter NATEnabled;
+					parameter MACAddress from LLAddress;
+				}
+			}
+		}
+		instance of WANConnectionDevice(6,"multi") {
+			parameter WANIPConnectionNumberOfEntries = 1;
+			parameter WANPPPConnectionNumberOfEntries = 0;
+			object WANDSLLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_multi" {
+					parameter Enable;
+					parameter LinkType;
+					parameter DestinationAddress translate with translate_WANDSLLinkConfig_DestinationAddress;
+					parameter ATMEncapsulation from Encapsulation;
+					parameter FCSPreserved;
+					parameter ATMQoS from QoSClass;
+					parameter ATMPeakCellRate from PeakCellRate;
+					parameter ATMMaxiumumBurstSize from MaxiumumBurstSize;
+					parameter ATMSustainableCellRate from SustainableCellRate;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dsl0" {
+					parameter LinkStatus translate with translate_WANDSLLinkConfig_LinkStatus;
+					parameter ModulationType;
+				}
+			}
+			object WANEthernetLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth1" {
+					parameter EthernetLinkStatus from Status translate with translate_WANEthernetLinkConfig_EthernetLinkStatus;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/vlan_multi" {
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)Enable" from Enable;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANID" from VLANID;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANPriority" from VLANPriority;
+				}
+			}
+			instance of WANIPConnection(1,"dhcp_multi") {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dhcp_multi" {
+					parameter Enable;
+					parameter ConnectionStatus from DHCPStatus translate with translate_WANIPConnection_ConnectionStatus;
+					parameter Name from Alias;
+					parameter Uptime;
+					parameter LastConnectionError;
+					parameter ExternalIPAddress from IPAddress;
+					parameter SubnetMask;
+					parameter DefaultGateway from IPRouters;
+					parameter DNSServers;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_multi" {
+					parameter NATEnabled;
+					parameter MACAddress from LLAddress;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/Firewall" {
+					parameter PortMappingNumberOfEntries from PortForwardingNumberOfEntries;
+				}
+				object PortMapping from "pcb://$(PCB_MAIN_BUS)/Firewall/PortForwarding" recursive {
+					drop parameter "(Id|Origin|Status|SourceInterface)";
+					accept parameter "Protocol" {
+						rename with rename_portmapping_parameters;
+						translate with translate_portmapping_protocol;
+					}
+					accept parameter ".*" {
+						rename with rename_portmapping_parameters;
+					}
+					accept object ".*" {
+						drop parameter "(Id|Origin|Status|SourceInterface)";
+						accept parameter "Protocol" {
+							rename with rename_portmapping_parameters;
+							translate with translate_portmapping_protocol;
+						}
+						accept parameter ".*" {
+							rename with rename_portmapping_parameters;
+						}
+					}
+				}
+			}
+		}
+		instance of WANConnectionDevice(7,"voip") {
+			parameter WANIPConnectionNumberOfEntries = 1;
+			parameter WANPPPConnectionNumberOfEntries = 0;
+			object WANDSLLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_voip" {
+					parameter Enable;
+					parameter LinkType;
+					parameter DestinationAddress translate with translate_WANDSLLinkConfig_DestinationAddress;
+					parameter ATMEncapsulation from Encapsulation;
+					parameter FCSPreserved;
+					parameter ATMQoS from QoSClass;
+					parameter ATMPeakCellRate from PeakCellRate;
+					parameter ATMMaxiumumBurstSize from MaxiumumBurstSize;
+					parameter ATMSustainableCellRate from SustainableCellRate;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dsl0" {
+					parameter LinkStatus translate with translate_WANDSLLinkConfig_LinkStatus;
+					parameter ModulationType;
+				}
+			}
+			object WANEthernetLinkConfig {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth1" {
+					parameter EthernetLinkStatus from Status translate with translate_WANEthernetLinkConfig_EthernetLinkStatus;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/vlan_voip" {
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)Enable" from Enable;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANID" from VLANID;
+					parameter "$(CONFIG_PREFIX_NON_STANDARD)VLANPriority" from VLANPriority;
+				}
+			}
+			instance of WANIPConnection(1,"dhcp_voip") {
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dhcp_voip" {
+					parameter Enable;
+					parameter ConnectionStatus from DHCPStatus translate with translate_WANIPConnection_ConnectionStatus;
+					parameter Name from Alias;
+					parameter Uptime;
+					parameter LastConnectionError;
+					parameter ExternalIPAddress from IPAddress;
+					parameter SubnetMask;
+					parameter DefaultGateway from IPRouters;
+					parameter DNSServers;
+				}
+				destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_voip" {
+					parameter NATEnabled;
+					parameter MACAddress from LLAddress;
+				}
+			}
+		}
+	}
+}

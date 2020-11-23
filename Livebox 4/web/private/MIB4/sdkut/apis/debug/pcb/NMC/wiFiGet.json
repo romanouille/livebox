@@ -1,0 +1,10 @@
+{
+  "status": true,
+  "data": {
+    "Enable": true,
+    "Status": true,
+    "Scheduler": false,
+    "ConfigurationMode": false,
+    "TriggerAutoChannelSelection": false
+  }
+}

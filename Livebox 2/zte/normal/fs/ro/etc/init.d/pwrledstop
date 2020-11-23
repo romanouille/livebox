@@ -1,0 +1,6 @@
+#!/bin/sh
+
+. /etc_ro_fs/autoconf.conf
+echo "pwrledstart stop ..."
+/usr/bin/led_ctrl "Power" "Status" "Off" "On" 
+

@@ -1,0 +1,18 @@
+using "enricher.so";
+
+define status_t
+{
+   string name;
+   string status;
+   uint32 progress;
+   uint32 remaining_time;
+}
+
+object DataEnricher {
+    acl {
+      world none;
+    }
+    int32 getStatus( out status_t status );
+}
+
+/** @location commod_datahub_dataenricher add-on/frontend/pcb/enricher-definitions.odl.m4 */

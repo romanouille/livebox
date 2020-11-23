@@ -1,0 +1,6 @@
+
+
+include "cloudtransfer-definitions.odl";
+include "cloudtransfer-defaults.odl";
+
+/** @location  commod_mediahub_cloudtransfer  add-on/frontend/pcb/cloudtransfer.odl.m4 */

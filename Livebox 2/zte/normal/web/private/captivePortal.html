@@ -1,0 +1,119 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-EN">
+        <head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta name="viewport" content="width=1085" />
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+			<title>Livebox</title>
+			<script type="text/javascript">
+				appUrl = '';
+				appConfig ='fr';
+				appUid = '7c9c85ce';
+
+				config = {
+						BUILD_CUSTOMER: 'ft',
+						BUILD_PROJECT: 'lbv2fr',
+						BUILD_HARDWARE: 'zte_h202n',
+						SESSION_DURATION: '600'
+				};
+			
+				if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+					config.BUILD_PROJECT = "lbv2.8fr";
+				        config.BUILD_HARDWARE = "sagem_lbv28";	
+				}
+            </script>
+            <link href="/styles.css?7c9c85ce" rel="stylesheet" type="text/css"/>
+			<script src="/scripts.js?7c9c85ce" type="text/javascript" charset="utf-8"></script>
+			<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?7c9c85ce"/>
+			<link rel="shortcut icon" href="/images/fr/common/favicon.ico?7c9c85ce" type="image/x-icon"/>
+
+        </head>
+
+        <body class="accessibility-normal">		
+                <div style="display: none">
+                        <img src="/images/fr/common/transparent.gif?7c9c85ce" style="display: none;"/>
+                        <img src="/images/fr/common/header-accessibility-minus.png?7c9c85ce" style="display: none;"/>
+                        <img src="/images/fr/common/header-accessibility-plus.png?7c9c85ce" style="display: none;"/>
+                </div>
+
+                <!-- Popup and backlayer from Cytadelle Technology Light framework -->
+                <div id="ct-popup" class="fixed"><img id="ct-popup-header" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/><div id="ct-popup-header-title"><h4>My PopUp</h4></div><a href="#" onclick="ctl.popup.Close(); return false;"><img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/></a><div id="ct-popup-content"><br/></div><img id="ct-popup-footer" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/></div>
+                <div id="ct-tooltip" class="fixed"></div>
+                <div id="ct-waiting" class="fixed"><img src="/images/fr/common/transparent.gif?7c9c85ce"/></div>
+                <div id="ct-backlayer" class="fixed"></div>
+
+
+                <!-- Scrollable document container -->
+                <div id="document-container">
+                        <div id="document-background-header">
+                                <div id="document-background-footer">
+                                        <div id="document">
+                                                <div id="header">
+                                                        <a href="/" > <div id="header-logo-livebox"><img src="/images/fr/common/transparent.gif?7c9c85ce" alt="" class="config-fr png"/></div></a>
+                                                        <div id="header-controls"></div>
+                                                </div>
+
+                                                <div id="content">
+                                                        
+<div style="text-align: left;">
+    <form name="Captive/CaptivePortal" >
+	    <div id="errorContainer">
+		    <h5><span id="errorDescription"></span></h5>
+		    <br>
+		    <h6><span id="errorActions"></span></h6>
+		    <br>
+		    <div><span id="errorMessages"></span></div>
+	    </div>
+
+	    <div style="width: 400px; margin: 20px auto;">
+		    <img id="livebox-img" class="png voice Voice.home.devices.nodevice.img.tip voice Voice.general.icon.tip" style="float: left; width: 400px; height: 200px;" src="/images/fr/common/transparent.gif?7c9c85ce"></img>
+	    </div>
+	    <br><br>
+	    <div style="margin:auto; "> 
+		Connaissez-vous l’application <b>ma Livebox</b> disponible pour smartphones et  tablettes ? <br><br>
+		Cette application vous permet de configurer votre Livebox, ainsi que de diagnostiquer et de dépanner en toute autonomie vos services Orange.
+		<br><br>
+
+		Vous pouvez télécharger <b>ma Livebox</b> : <br>
+		- sur <a href="https://itunes.apple.com/fr/app/ma-livebox/id445573616?mt=8" style="color: rgba(8, 145, 244, 0.66);" target="blank">l'App Store </a>, pour iPhone, iPod, et iPad <br>
+		- sur <a href="https://play.google.com/store/apps/details?id=com.orange.mylivebox.fr&hl=fr" style="color:#444444" target="blank">Google Play </a>, pour les smartphones et tablettes Android <br><br>
+
+		Vous pouvez installer l'application <b>ma Livebox</b> en flashant directement depuis votre smartphone ou votre tablette le code ci-après : <br><br>
+		<div >
+			Pas de lecteur pour lire ce code ? <br>
+			Tapez tc3.fr sur votre mobile ! <br>
+		</div >
+		<div style="width: 120px; margin:auto;">
+	    		<img  style="float: left; width: 110px; height: 110px;" src="/images/fr/support/malivebox-flashcode.png?7c9c85ce"></img>
+		</div>
+
+	   </div>
+	   <br> <br>	
+
+    </form>
+</div>
+<script type="text/javascript">
+	document.observe("dom:loaded", function() {
+		if (config.BUILD_PROJECT.indexOf("2.8") < 0) {		
+			$("livebox-img").setStyle({backgroundImage: 'url(/images/'+appConfig+'/home/Livebox2.png)',backgroundRepeat : "no-repeat"});
+		}else{
+			$("livebox-img").setStyle({backgroundImage: 'url(/images/'+appConfig+'/home/Livebox_2.8.png)',backgroundRepeat : "no-repeat"});
+		}	
+	});
+	
+</script>
+                                                </div>
+
+                                                <div id="footer">
+                                                        <div id="footer-menu"></div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>	
+        </body>
+</html>

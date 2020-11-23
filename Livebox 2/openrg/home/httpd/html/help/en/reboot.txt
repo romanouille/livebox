@@ -1,0 +1,10 @@
+<b>Restart:</b><br>
+<br>
+<span class="boldorange">Restart:</span> You can restart your livebox by clicking the <b>Restart button</b>.<br>
+<br>
+<span class="boldorange">Restart WiFi:</span> you can restart the WiFi service on your livebox by clicking the <b>Restart</b> button.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,494 @@
+datamodel {
+    instance of VoiceService(1,"VoiceApplication") {
+        parameter X_ORANGE-COM_Name="VoiceApplication";
+        parameter X_ORANGE-COM_Enabled=1;
+        parameter X_ORANGE-COM_PlayWarningTone="AllLinesUnregistered";
+
+        object X_ORANGE-COM_CALL_CONTROL_SERVICES {
+            parameter AutoReconnectTimer=3000;
+            parameter HookOnWhileCallPending="FreeAll";
+            instance of Services(1,"ConsultationCall") {
+                parameter ServiceName="ConsultationCall";
+                parameter ActivationCode="R";
+            }
+            instance of Services(2,"AlternateCall") {
+                parameter ServiceName="AlternateCall";
+                parameter ActivationCode="R2";
+            }
+            instance of Services(3,"ReconnectCall") {
+                parameter ServiceName="ReconnectCall";
+                parameter ActivationCode="R1";
+            }
+        }
+        object X_ORANGE-COM_VoicePortal {
+            parameter Codec="G729";
+            parameter ROFileLocation="/usr/lib/vmsg/";
+            parameter RWFileLocation="/var/state/vmsg/";
+            parameter Enable = true;
+            parameter Language = "";
+            parameter DefaultLanguage = "fr";
+        }
+
+        object X_ORANGE-COM_ToneFileGenerator {
+            parameter Codec="G729";
+            parameter ROToneLocation="/usr/lib/tones/";
+        }
+
+        object Capabilities {
+            parameter DigitMap="true";
+            parameter ToneDescriptionsEditable=false;
+            parameter FileBasedToneGeneration=false;
+            parameter FaxPassThrough=1;
+            object SIP {
+                parameter EventSubscription="true";
+            }
+            persistent instance of Codecs(1,"G722_64000") {
+                parameter EntryID=1;
+                parameter Codec="G.722";
+                parameter BitRate=64000;
+                parameter PacketizationPeriod="20";
+                parameter SilenceSuppression=false;
+                parameter Enable=true;
+                parameter Priority=10;
+            }
+            persistent instance of Codecs(2,"PCMA_64000") {
+                parameter EntryID=2;
+                parameter Codec="G.711ALaw";
+                parameter BitRate=64000;
+                parameter PacketizationPeriod="20";
+                parameter SilenceSuppression=false;
+                parameter Enable=true;
+                parameter Priority=50;
+            }
+            persistent instance of Codecs(3,"G729_8000") {
+                parameter EntryID=3;
+                parameter Codec="G.729";
+                parameter BitRate=8000;
+                parameter PacketizationPeriod="20";
+                parameter SilenceSuppression=false;
+                parameter Enable=true;
+                parameter Priority=100;
+            }
+            parameter X_ORANGE-COM_MaxActiveTerminals=1;
+        }
+
+        object X_ORANGE-COM_CallList {
+            parameter MaxNumberOfEntries=60;
+            instance of Blacklist(1,"1") {
+                parameter Number="119";
+            }
+            instance of Blacklist(2,"2") {
+                parameter Number="3919";
+            }
+            instance of Blacklist(3,"3") {
+                parameter Number="3651119";
+            }
+            instance of Blacklist(4,"4") {
+                parameter Number="*31*119";
+            }
+            instance of Blacklist(5,"5") {
+                parameter Number="#31*119";
+            }
+            instance of Blacklist(6,"6") {
+                parameter Number="831119";
+            }
+            instance of Blacklist(7,"7") {
+                parameter Number="36513919";
+            }
+            instance of Blacklist(8,"8") {
+                parameter Number="*31*3919";
+            }
+            instance of Blacklist(9,"9") {
+                parameter Number="#31*3919";
+            }
+            instance of Blacklist(10,"10") {
+                parameter Number="8313919";
+            }
+            instance of Blacklist(11,"11") {
+                parameter Number="*x.*x.#";
+            }
+            instance of Blacklist(12,"12") {
+                parameter Number="#x.#";
+            }
+            instance of Blacklist(13,"13") {
+                parameter Number="*x.#";
+            }
+        }
+
+        instance of VoiceProfile(1,"ATA") {
+            parameter Enable="Enabled";
+            parameter Name="ATA";
+            parameter Region="fr";
+            parameter DigitMapEnable=0;
+            parameter DTMFMethod="RFC2833";
+            parameter DTMFMethodG711="RFC2833";
+            object SIP {
+                parameter X_ORANGE-COM_ReplyWithMultipleCodec=false;
+            }
+            object NumberingPlan {
+                parameter MinimumNumberOfDigits=2;
+                parameter MaximumNumberOfDigits=30;
+                parameter InterDigitTimerStd=4000;
+                parameter InterDigitTimerOpen=0;
+                parameter PrefixInfoMaxEntries=300;
+                parameter RefusePartialMatches=1;
+                parameter X_ORANGE-COM_EndOfDialingDigit="#";
+                object X_ORANGE-COM_NoneMatchingNumbers {
+                    parameter Accept=true;
+                    parameter PrefixRange="[0-9][0123456789*].T";
+                }
+
+                instance of PrefixInfo(1, "1") {
+                    parameter PrefixRange="0[12345689]xxxxxxxx";
+                }
+
+                instance of PrefixInfo(2, "2") {
+                    parameter PrefixRange="07[1-9]xxxxxxx";
+                }
+
+                instance of PrefixInfo(3, "3") {
+                    parameter PrefixRange="070[1-9]xxxxxx";
+                }
+
+                instance of PrefixInfo(4, "4") {
+                    parameter PrefixRange="0700[0-4]xxxxxxxxx";
+                }
+
+                instance of PrefixInfo(5, "5") {
+                    parameter PrefixRange="0700[5-9]xxxxxxxx";
+                }
+
+                instance of PrefixInfo(6, "6") {
+                    parameter PrefixRange="800";
+                }
+
+                instance of PrefixInfo(7, "7") {
+                    parameter PrefixRange="843";
+                }
+
+                instance of PrefixInfo(8, "8") {
+                    parameter PrefixRange="888";
+                }
+
+                instance of PrefixInfo(9, "9") {
+                    parameter PrefixRange="36510[12345689]xxxxxxxx";
+                }
+
+                instance of PrefixInfo(10, "10") {
+                    parameter PrefixRange="365107[1-9]xxxxxxx";
+                }
+
+                instance of PrefixInfo(11, "11") {
+                    parameter PrefixRange="3651070[1-9]xxxxxx";
+                }
+
+                instance of PrefixInfo(12, "12") {
+                    parameter PrefixRange="36510700[0-4]xxxxxxxxx";
+                }
+
+                instance of PrefixInfo(13, "13") {
+                    parameter PrefixRange="36510700[5-9]xxxxxxxx";
+                }
+
+                instance of PrefixInfo(14, "14") {
+                    parameter PrefixRange="8310[12345689]xxxxxxxx";
+                }
+
+                instance of PrefixInfo(15, "15") {
+                    parameter PrefixRange="83107[1-9]xxxxxxxx";
+                }
+
+                instance of PrefixInfo(16, "16") {
+                    parameter PrefixRange="831070[1-9]xxxxxxx";
+                }
+
+                instance of PrefixInfo(17, "17") {
+                    parameter PrefixRange="8310700[0-4]xxxxxxxxx";
+                }
+
+                instance of PrefixInfo(18, "18") {
+                    parameter PrefixRange="8310700[5-9]xxxxxxxx";
+                }
+
+                instance of PrefixInfo(19, "19") {
+                    parameter PrefixRange="1[578]";
+                }
+
+                instance of PrefixInfo(20, "20") {
+                    parameter PrefixRange="11[02459]";
+                }
+
+                instance of PrefixInfo(21, "21") {
+                    parameter PrefixRange="11[68]xxx";
+                }
+
+                instance of PrefixInfo(22, "22") {
+                    parameter PrefixRange="1[2349]x";
+                }
+
+                instance of PrefixInfo(23, "23") {
+                    parameter PrefixRange="10xx";
+                }
+
+                instance of PrefixInfo(24, "24") {
+                    parameter PrefixRange="3[012345789]xx";
+                }
+
+                instance of PrefixInfo(25, "25") {
+                    parameter PrefixRange="36[012346789]x";
+                }
+
+                instance of PrefixInfo(26, "26") {
+                    parameter PrefixRange="365[023456789]";
+                }
+
+                instance of PrefixInfo(27, "27") {
+                    parameter PrefixRange="00x.T";
+                    parameter PrefixMaxNumberOfDigits=18;
+                }
+
+                instance of PrefixInfo(28, "28") {
+                    parameter PrefixRange="3651[1-9]x.T";
+                }
+
+                instance of PrefixInfo(29, "29") {
+                    parameter PrefixRange="[*#][0123456789*].T";
+                    parameter FacilityAction="X_ORANGE-COM_KEEP_EOD_DIGIT";
+                }
+           }
+
+            instance of Line(1,"FXS1") {
+                parameter Enable="Enabled";
+                parameter X_ORANGE-COM_Name="FXS1";
+                parameter DirectoryNumber="201";
+                object CallingFeatures {
+                    parameter X_ORANGE-COM_MWIType="deferred";
+                    parameter CallWaitingEnable=true;
+                    parameter CallTransferEnable=false;
+                    parameter MWIEnable=false;
+                }
+                object Codec {
+                    persistent instance of List(1,"PCMU_64000") {
+                        parameter EntryID=1;
+                        parameter Codec="G.711MuLaw";
+                        parameter BitRate=64000;
+                        parameter PacketizationPeriod="20";
+                        parameter SilenceSuppression=false;
+                        parameter Enable=false;
+                        parameter Priority=255;
+                    }
+                    persistent instance of List(2,"PCMA_64000") {
+                        parameter EntryID=2;
+                        parameter Codec="G.711ALaw";
+                        parameter BitRate=64000;
+                        parameter PacketizationPeriod="20";
+                        parameter SilenceSuppression=false;
+                        parameter Enable=true;
+                        parameter Priority=1;
+                    }
+                    persistent instance of List(3,"G729_8000") {
+                        parameter EntryID=3;
+                        parameter Codec="G.729";
+                        parameter BitRate=8000;
+                        parameter PacketizationPeriod="20";
+                        parameter SilenceSuppression=false;
+                        parameter Enable=true;
+                        parameter Priority=2;
+                    }
+                    persistent instance of List(4,"G722_64000") {
+                        parameter EntryID=4;
+                        parameter Codec="G.722";
+                        parameter BitRate=64000;
+                        parameter PacketizationPeriod="20";
+                        parameter SilenceSuppression=false;
+                        parameter Enable=false;
+                        parameter Priority=255;
+                    }
+                }
+            }
+            instance of Line(2,"DUMMY1") {
+                parameter DirectoryNumber="299";
+                parameter X_ORANGE-COM_OutgoingLineReference="LINE1";
+            }
+        }
+        instance of VoiceProfile(2,"SIP-Trunk") {
+            parameter Enable="Disabled";
+            parameter X_ORANGE-COM_LocalIPAddress="0.0.0.0";
+            parameter X_ORANGE-COM_Interface="voip";
+            parameter SignalingProtocol="SIP";
+            parameter MaxSessions=5;
+            parameter DTMFMethod="RFC2833";
+            parameter DTMFMethodG711="RFC2833";
+            object SIP {
+                parameter DSCPMark=46;
+                parameter RegistrarServer="";
+                parameter RegistrarServerPort=5060;
+                parameter RegistrarServerTransport="UDP";
+                parameter UserAgentPort=5060;
+                parameter UserAgentTransport="UDP";
+                parameter OutboundProxy="0.0.0.0";
+                parameter OutboundProxyPort=5060;
+                parameter RegistrationPeriod=0;
+                parameter InviteExpires=120;
+                parameter ReinviteExpires=120;
+                parameter RegisterExpires=3600;
+                parameter RegistersMinExpires=15;
+                parameter RegisterRetryInterval=300;
+                parameter X_ORANGE-COM_MinSE=0;
+                parameter X_ORANGE-COM_Use100rel=0;
+                parameter X_ORANGE-COM_TimerLoginRejected=3600;
+                parameter X_ORANGE-COM_TimerPasswordRejected=3600;
+                parameter X_ORANGE-COM_TimerRegistrationFailed=240;
+                parameter X_ORANGE-COM_MaxTimerRegistrationFailed=3600;
+                parameter X_ORANGE-COM_TimerSubscriptionFailed=14400;
+                parameter X_ORANGE-COM_MaxTimerSubscriptionFailed=86400;
+                parameter X_ORANGE-COM_NonceCachingInviteEnabled=true;
+                parameter X_ORANGE-COM_NonceCachingAckEnabled=false;
+                parameter X_ORANGE-COM_NonceCachingByeEnabled=false;
+                parameter X_ORANGE-COM_NonceCachingCancelEnabled=false;
+                parameter X_ORANGE-COM_ReplyWithMultipleCodec=false;
+                parameter X_ORANGE-COM_SendBigMessagesOverTCP=false;
+                parameter X_ORANGE-COM_AllowHeader="INVITE, ACK, BYE, NOTIFY, CANCEL, OPTIONS, UPDATE";
+                parameter X_ORANGE-COM_RetryAfter50xTimer=0;
+                parameter SIPEventSubscribeNumberOfElements=1;
+                instance of EventSubscribe(1,"mwi") {
+                    parameter Event="message-summary";
+                    parameter ExpireTime=0;
+                    parameter NotifierPort=5060;
+                }
+            }
+
+            object RTP {
+                parameter DSCPMark=46;
+                parameter LocalPortMin=8000;
+                parameter LocalPortMax=8020;
+                parameter TelephoneEventPayLoadType=101;
+            }
+
+            object NumberingPlan {
+                instance of PrefixInfo(1,"LINE1") {
+                    parameter FacilityAction="X_ORANGE-COM_ROUTE";
+                }
+            }
+
+            object Tone {
+                instance of Event(1, "1") {
+                    parameter ToneID=1;
+                    parameter Function="Dial";
+                }
+                instance of Event(2, "2") {
+                    parameter ToneID=2;
+                    parameter Function="Busy";
+                }
+                instance of Event(3, "3") {
+                    parameter ToneID=3;
+                    parameter Function="RingBack";
+                }
+                instance of Event(4, "4") {
+                    parameter ToneID=4;
+                    parameter Function="MessageWaiting";
+                }
+                instance of Event(5, "5") {
+                    parameter ToneID=5;
+                    parameter Function="OffHookWarning";
+                }
+                instance of Event(6, "6") {
+                    parameter ToneID=6;
+                    parameter Function="UserDefined1";
+                }
+
+                instance of Description(1, "1") {
+                    parameter EntryID=1;
+                    parameter ToneEnable=true;
+                    parameter ToneFile="dialtone";
+                }
+                instance of Description(2, "2") {
+                    parameter EntryID=2;
+                    parameter ToneEnable=true;
+                    parameter ToneFile="busytone";
+                }
+                instance of Description(3, "3") {
+                    parameter EntryID=3;
+                    parameter ToneEnable=true;
+                    parameter ToneFile="ringbacktone";
+                }
+                instance of Description(4, "4") {
+                    parameter EntryID=4;
+                    parameter ToneEnable=true;
+                    parameter ToneFile="msgwaitingtone";
+                }
+                instance of Description(5, "5") {
+                    parameter EntryID=5;
+                    parameter ToneEnable=true;
+                    parameter ToneFile="busytone";
+                }
+                instance of Description(6, "6") {
+                    parameter EntryID=6;
+                    parameter ToneEnable=true;
+                    parameter ToneFile="pstntone";
+                }
+            }
+
+            instance of Line(1, "LINE1") {
+                parameter Enable="Disabled";
+                parameter X_ORANGE-COM_Name="LINE1";
+
+                object SIP {
+                    instance of EventSubscribe(1,"mwi") {
+                        parameter Event="message-summary";
+                    }
+                }
+
+                object CallingFeatures {
+                    parameter CallWaitingEnable=true;
+                    parameter CallTransferEnable=false;
+                    parameter MWIEnable=false;
+                }
+
+                instance of Session(1,"1");
+                instance of Session(2,"2");
+                instance of Session(3,"3");
+                instance of Session(4,"4");
+            }
+        }
+
+        instance of VoiceProfile(3,"H323-Trunk") {
+            parameter Enable="Disabled";
+            parameter X_ORANGE-COM_LocalIPAddress="0.0.0.0";
+            parameter X_ORANGE-COM_Interface="voip";
+            parameter X_ORANGE-COM_MWIActivationNumber="888";
+            parameter X_ORANGE-COM_MWIDeactivationNumber="300000000009";
+            parameter SignalingProtocol="H.323";
+            parameter DTMFMethod="SIPInfo";
+            parameter DTMFMethodG711="SIPInfo";
+
+            object RTP {
+                parameter DSCPMark=46;
+                parameter LocalPortMin=8000;
+                parameter LocalPortMax=8020;
+                parameter TelephoneEventPayLoadType=101;
+            }
+
+            object H323 {
+                parameter DSCPMark=46;
+                parameter X_ORANGE-COM_GatekeeperDiscoveryMode="Manual";
+                parameter H235Authentication=true;
+                parameter TimeToLive=0;
+            }
+
+            object NumberingPlan {
+                instance of PrefixInfo(1,"LINE3") {
+                    parameter FacilityAction="X_ORANGE-COM_ROUTE";
+                }
+            }
+
+            instance of Line(1, "LINE3") {
+                parameter Enable="Disabled";
+                parameter X_ORANGE-COM_Name="LINE1";
+
+                instance of Session(1,"1");
+                instance of Session(2,"2");
+            }
+        }
+    }
+}

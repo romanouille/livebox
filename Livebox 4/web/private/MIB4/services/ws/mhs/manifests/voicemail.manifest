@@ -1,0 +1,30 @@
+{
+    "Id": "sah_voicemail",
+    "Category": "Communication",
+    "Version": "0.1",
+    "Title": "sah_voicemail.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Applet": [
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img voicemail\"></span><div class=status><span class=\"caption black\" translate=sah_voicemail.no_msg></span>",
+                                            "<div class=title><span translate=sah_voicemail.num_voice_msg></span><br><div class=voicemail>N/A</div></div>"
+                                          ],
+                                "apicalls":{}
+                              }
+                }
+              ],
+    "en":{
+        "title": "My Voice Mail",
+        "no_msg": "no messages",
+        "num_voice_msg": "Voice messages"
+    },
+    "fr":{
+        "title": "guiieCAn",
+        "no_msg": "rgnfCQUZ",
+        "num_voice_msg": "wvanFhwY"
+    }
+}

@@ -1,0 +1,136 @@
+using "Ezpairing_plugin.so";
+
+acl {
+   group admin read,write,execute;
+   group remoteadmin read,write,execute;
+   group cwmpd read,write,execute;
+}
+
+/**
+ *  Object EasyPairing
+ */
+persistent object EasyPairing {
+     /**
+     * Enable/disable the daemon
+     */
+     persistent bool Enable {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+         write with writeHandlerEnable; 
+         default 1;
+     }
+
+     /* Status default disabled */
+     persistent string Status {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+          default Disabled;
+     }
+
+     /**
+     * TimerPairingQuery
+     */
+     persistent uint32 TimerPairingQuery {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+          default 120;
+     }
+
+     /**
+     * TimerPairingOpen
+     */
+     persistent uint32 TimerPairingOpen {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+          default 150;
+     }
+
+     /**
+     * TimerPairingOvertime
+     */
+     persistent uint32 TimerPairingOvertime {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+          default 5;
+     }
+
+     /**
+     * URLSendPubkey
+     */
+     persistent string  URLSendPubkey {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+          default "/sendkey.html";
+     }
+
+     /**
+     * URLGetData
+     */
+     persistent string  URLGetData {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+          default "/getdata.html";
+     }
+
+     /**
+     * HTTPPairingServerPort
+     */
+     persistent uint32 HTTPPairingServerPort {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+          default 8080;
+     }
+
+     /**
+     * HTTPPairingServerHostname
+     */
+     persistent string  HTTPPairingServerHostname {
+         acl {
+               group admin none;
+               group remoteadmin none;
+         }
+          default "192.168.128.1";
+     }
+
+     bool startPairing();
+
+     /**
+       * Activate the easypairing feature
+       * @param Enable true to enable easypairing, false to disable it.
+       */
+     void setState(in bool Enable);
+
+     /**
+      * Retrieve the easypairing status
+      * @param Enable true if easypairing is enabled, false if disabled.
+      */
+     void getState(out bool Enable);
+     
+     /**
+       * Export user settings
+       * @param filename The file to save to.
+       */
+     void export(string filename);
+
+     /**
+       * Import user settings
+       * @param filename The file to import from.
+       */
+     void import(string filename);
+}

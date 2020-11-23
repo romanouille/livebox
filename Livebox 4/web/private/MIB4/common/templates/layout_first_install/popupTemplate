@@ -1,0 +1,33 @@
+﻿{{#with page}}
+{{#each popup}}
+  <div class="popup_window" {{#if id}}id="{{id}}"{{/if}}>
+  {{#each content}}
+    {{#ifEqual type 'title'}}
+      {{> titleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'subtitle'}}
+      {{> subtitleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'text'}}
+      {{> textTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'bullet'}}
+      {{> bulletTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'textfield'}}
+      {{> textfieldTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'button'}}
+      {{> buttonTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'tick'}}
+      {{> tickTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'separator'}}
+      {{> separatorTemplate}}
+    {{/ifEqual}}
+  {{/each}}
+  </div>
+{{/each}}
+{{/with}}
+

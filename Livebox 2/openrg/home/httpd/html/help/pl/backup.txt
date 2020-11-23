@@ -1,0 +1,12 @@
+<b>Wsparcie techniczne</b><br>
+<br>
+<b><span class="boldorange">Kopiuj i przywróć:</span></b><br> 
+Możesz zachować swoją obecną konfigurację na wypadek, gdybyś kiedyś musiał przywrócić ustawienia fabryczne modemu Livebox. W celu zachowania obecnych ustawień modemu, kliknij przycisk <b>"Zapisz"</b>.
+<br>
+Aby wyszukać plik z konfiguracją zapisany na dysku twardym, kliknij przycisk <b>"Przeglądaj"</b>. W celu wgrania konfiguracji z pliku na modem Livebox, kliknij przycisk <b>"Przywróć"</b>.
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,409 @@
+#!/bin/sh
+PATH=/usr/sbin/:/usr/bin:/bin:/sbin
+
+DIRNAME="/tmp/"
+FILENAME="debug.txt"
+TARFILENAME=$FILENAME".tar"
+FILENAME=$DIRNAME$FILENAME
+
+MEMMSTATS_DIR="/tmp"
+MEMM_DUMP_CONFIG="/etc/config/memm_dump_pools"
+
+PROC_LIST="gatewayd resolvd audiphone_plugin voipaad audiphone4BLB dslupd iptplugd ezpairingctl ezpairing nlplugd checkd hostmgr ath_wland schedwlan igmpsnoopd devdiscd upnpd dhccd usbmgr"
+
+gen_memm_dump_pools_config()
+{
+  if [ ! -f $MEMM_DUMP_CONFIG ] ; then
+    echo "stats" > $MEMM_DUMP_CONFIG
+    echo mbus_cmddata >> $MEMM_DUMP_CONFIG
+  fi
+}
+
+gen_memmstats() {
+
+  gen_memm_dump_pools_config
+
+  for PROC in $PROC_LIST ; do
+    PID=`pidof $PROC | cut -f1 -d' '`
+    if [ -n "$PID" ] ; then
+      kill -USR2 $PID
+      #give it some time to create the memm_stats file
+      sleep 2
+      if [ -f "${MEMMSTATS_DIR}/memm_dump_${PID}" ] ; then
+        echo ""
+        echo "### Process: $PROC ###"
+        cat "${MEMMSTATS_DIR}/memm_dump_$PID"
+        rm -f ${MEMMSTATS_DIR}/memm_dump_$PID
+      fi
+    fi
+  done
+}
+
+show_cmd()
+{
+  echo "-------- $@"
+  eval "$@"
+}
+
+show_title()
+{
+    echo "######## $1"
+}
+
+dump_syslog()
+{
+    if [ 0 -eq $ALLSYSLOG ] ; then
+        PERSISTENTLOG=`pcb_cli -l "DeviceManagement.Syslog.PersistentFiles?"`
+        if [[ -z $PERSISTENTLOG || $PERSISTENTLOG -eq 0 ]] ; then
+        show_title "show syslog messages"
+        cat /var/log/messages.0 /var/log/messages 2> /dev/null
+        else
+            show_title "show persistent syslog messages"
+            cat /ext/messages.0 /ext/messages 2> /dev/null
+        fi
+    else
+        show_title "show all syslog messages"
+        ls -1r /var/log/messages* | xargs cat 2> /dev/null
+        show_title "show all persistent syslog messages"
+        ls -1r /ext/messages* | xargs cat 2> /dev/null
+    fi
+}
+
+dump_dmesg()
+{
+    show_title "show dmesg"
+    show_cmd dmesg
+}
+
+dump_ip()
+{
+    show_title "show ip and qos informations"
+    show_cmd ip address show
+    show_cmd tc -s qdisc
+    show_cmd ip -s link
+    show_cmd netstat -lan
+}
+
+dump_routes()
+{
+    show_title "show ip routes"
+    show_cmd ip -4 route
+    show_cmd ip -6 route
+}
+
+dump_firewall()
+{
+    show_title "show firewall information"
+    show_cmd iptables -L -t filter -nv
+    show_cmd iptables -L -t nat -nv
+    show_cmd iptables -L -t mangle -nv
+    show_cmd iptables -L -t raw -nv
+
+    show_cmd ebtables -t filter -L
+    show_cmd ebtables -t nat -L
+    show_cmd ebtables -t broute -L
+
+    show_cmd ip6tables -L -t filter -nv
+    show_cmd ip6tables -L -t mangle -nv
+}
+
+dump_processes()
+{
+    show_title "show process information"
+    /usr/lib/procps/ps -ejHlFw || ps
+}
+
+dump_xtthreads()
+{
+    if [ -f /var/log/xt_threads ]; then
+        show_title "xt threads"
+        show_cmd cat /var/log/xt_threads
+    fi
+}
+
+dump_hgwcfg()
+{
+    show_title "user settings"
+    if [ -z "$SKIP_HGWCFG" ]; then
+        cat /etc/config/hgwcfg.usr
+        if [ -f "/etc/config/hgwcfg.isp" ]; then
+            show_title "isp settings"
+            cat /etc/config/hgwcfg.isp
+        fi
+    else
+        eval "sed $SKIP_HGWCFG /etc/config/hgwcfg.usr"
+        if [ -f "/etc/config/hgwcfg.isp" ]; then
+            show_title "isp settings"
+            eval "sed $SKIP_HGWCFG /etc/config/hgwcfg.isp"
+    fi
+    fi
+}
+
+dump_mempool()
+{
+    show_title "mem pool statistics"
+    gen_memmstats
+}
+
+dump_meminfo()
+{
+    show_title "show meminfos"
+    show_cmd cat /proc/meminfo
+}
+
+dump_slabinfo()
+{
+    show_title "show slabinfo"
+    show_cmd cat /proc/slabinfo
+}
+
+dump_datamodel()
+{
+    show_title "pcb plugin information"
+    pcb_cli "Debug.verifyPlugins()"
+
+    show_title "pcb data model"
+   if [ -z "$SKIP_DATAMODEL" ]; then
+       pcb_cli -T 60 '?'
+    else
+       pcb_cli -T 60 '?' | grep -v -i "$SKIP_DATAMODEL"
+   fi
+}
+
+dump_ramoops()
+{
+	show_title "ramoops information"
+	for file in $(find /mnt/pstore/ -name 'dmesg-ramoops-*') ; do
+  		if [ -n "$(sed -n '/^====.*/p;1q' ${file})" ] ; then
+                      echo "$file"
+                      cat ${file}
+		fi
+
+	done
+}
+
+compress_debug()
+{
+    cd $DIRNAME
+    tar -cf $TARFILENAME $FILENAME
+    rm -f $FILENAME
+    gzip $TARFILENAME
+    rm -f $TARFILENAME
+}
+
+rm_previous_files()
+{
+    cd $DIRNAME
+    rm -f $FILENAME
+    rm -f $TARFILENAME
+    rm -f $TARFILENAME.gz
+}
+
+show_usage()
+{
+  echo "Synoptic:"
+  echo
+  echo "  Collects misc information from the HGW (for debug purposes)."
+  echo
+  echo "Usage:"
+  echo
+  echo "  getDebugInformation (options separeted with space) [filename with path]"
+  echo
+  echo "Options:"
+  echo
+  echo "   -b, --basic"
+  echo
+  echo "     Retreives basic information only (omits the datamodel)."
+  echo
+  echo "   -p, --secure-1"
+  echo
+  echo "     Filters out passwords."
+  echo
+  echo "   -s, --secure-2"
+  echo
+  echo "     Filters out passwords and miscellaneous confidential elements."
+  echo
+  echo "   -t, --targz"
+  echo
+  echo "     Compress debug files into tar.gz archive, all syslog files will be retrieved, filename is ignored!"
+  echo
+  echo "   -l, --syslog"
+  echo
+  echo "     Retrieve all syslog files that exist, filename is ignored!"
+  echo
+}
+
+SHOWUSAGE=0
+FILTERLEVEL=0
+VERBOSITY=1
+COMPRESS=0
+ALLSYSLOG=0
+OPTION=0
+
+while true ; do
+    case "$1" in
+        "-?" | "--help" | "-h")
+            SHOWUSAGE=1
+            break;
+            ;;
+
+        "-b" | "--basic")
+            OPTION=1
+            VERBOSITY=0
+            ;;
+
+        "-p" | "--secure-1")
+            OPTION=1
+            [ $FILTERLEVEL -lt 1 ] && FILTERLEVEL=1
+            ;;
+
+        "-s" | "--secure-2")
+            OPTION=1
+            [ $FILTERLEVEL -lt 2 ] && FILTERLEVEL=2
+            ;;
+            
+        "-t" | "--targz")
+            OPTION=1
+            COMPRESS=1
+            ;;
+        "-l" | "--syslog")
+            OPTION=1
+            ALLSYSLOG=1
+            ;;
+    esac
+    if [ 0 -eq "$OPTION" ] ; then
+        break;
+    else
+        OPTION=0
+	shift
+    fi
+done
+
+if [ 0 -ne $SHOWUSAGE ]
+then
+  show_usage
+  exit 1
+fi
+
+rm_previous_files
+
+if [ 1 -eq $COMPRESS ]
+then
+    # archive will contains all available logs.
+    ALLSYSLOG=1
+    echo "You can retrieve informations in $DIRNAME$TARFILENAME.gz."
+else
+	if [ -n "$1" ] && [ 0 -eq $ALLSYSLOG ]; then
+	    FILENAME=$1
+	fi
+    echo "You can retrieve informations in $FILENAME."
+fi
+
+if [ "$FILENAME" = "-" ] && [ 0 -eq $COMPRESS ]; then
+    echo "No archive will be created as result is not saved in a file."
+    exec 2>&1
+else
+    rm_previous_files
+    exec >$FILENAME 2>&1
+fi
+
+# All functions
+TARGETS="syslog dmesg ip routes firewall \
+processes xtthreads hgwcfg mempool meminfo \
+slabinfo datamodel ramoops"
+
+# what to skip, can be:
+# - any of the TARGETS,
+# - any of the file name strped in /usr/lib/debuginfo (D11firewall => firewall)
+# - voice
+
+SKIPS=
+SKIP_HGWCFG=
+
+[ 0 -eq $VERBOSITY ] && SKIPS=\
+datamodel
+
+[ 2 -le $FILTERLEVEL ] && SKIPS="\
+routes firewall voice datamodel[NeMo] \
+datamodel[ManagementServer] datamodel[UserManagement] \
+datamodel[IGD.ManagementServer] datamodel[IGD.Services.X_ORANGE-COM_VoiceProvisioning] \
+datamodel[Audiphone] datamodel[IGD.Services.X_.*_Audiphone] \
+datamodel[WOLProxy.EnablerV.HostName] datamodel[IGD.Services.X_.*_WOLProxy.EnablerV.HostName] \
+datamodel[IGD.Services.X_ORANGE-COM_WOLProxy.EnablerV.IPAddress] \
+datamodel[IGD.UDPEchoConfig.X_ORANGE-COM_SourceV.HostName] \
+datamodel[IGD.UDPEchoConfig.X_ORANGE-COM_SourceV.Ip] \
+datamodel[UDPEchoConfig.SourceV.HostName] \
+datamodel[UDPEchoConfig.SourceIPAddress] \
+datamodel[Wificom.Radius] datamodel[IGD.Time.NTPServer.] \
+datanodel[IGD.Time.NTPServer.] \
+datamodel[PPP.Intf.ppp_data.ReceivedRemoteAddress] \
+datamodel[PPP.Intf.ppp_data.DNSServers] \
+datamodel[Wificom.L2TP.L2TP-server-.*] \
+datamodel[IGD.WANDevice.WAN.WANConnectionDevice.data.WANPPPConnection.ppp_data.DNSServers] \
+datamodel[IGD.WANDevice.WAN.WANConnectionDevice.voip.WANIPConnection.dhcp_voip.DefaultGateway] "
+
+test -e /usr/lib/debuginfo/config && . /usr/lib/debuginfo/config
+
+if [ 1 -le $FILTERLEVEL ]; then
+    SKIP_DATAMODEL="\|\(\(preshared\|wep\)key\|pass\(word\|phrase\)\|username\)="
+    SKIP_HGWCFG="-e '/tns:.*\(Password\|SecurityKey\|Username\)\/\?>/d'"
+fi
+
+echo "######## debug information @ "
+date
+uptime
+show_title "Firmware version information"
+head -n12 /web/version.txt
+
+for SKIP in  $SKIPS; do
+    if [ "$SKIP" == "voice" ]; then
+        SKIP_HGWCFG="$SKIP_HGWCFG -e '/<tns:VoiceSettings>/,/<\/VoiceSettings>/ d'"
+        SKIP_DATAMODEL="${SKIP_DATAMODEL}\|^\(VoiceService\|IGD\.Services\.VoiceService\|VoiceActivation\|IGD.Services.X_.*_VoiceProvisioning\)"
+    fi
+
+    if  [ "${SKIP:0:10}" == "datamodel[" ]; then
+        SKIP_DATAMODEL="${SKIP_DATAMODEL}\|^$(echo ${SKIP:10} | sed 's/\]$//')"
+    fi
+done
+
+if [ ! -z "${SKIP_DATAMODEL}" ]; then
+    SKIP_DATAMODEL="\(${SKIP_DATAMODEL:2}\)"
+fi
+
+for TARGET in $TARGETS; do
+    S=""
+    for SKIP in $SKIPS; do
+        if [ "$TARGET" == "$SKIP" ]; then
+            S="skip"
+        fi
+    done
+
+    if [ -z "$S" ]; then
+        dump_$TARGET
+    fi
+done
+
+show_title "service specific debug information "
+for FILE in /usr/lib/debuginfo/D*; do
+    TARGET=$(basename $FILE)
+    TARGET=${TARGET:3}
+    S=""
+
+    for SKIP in $SKIPS; do
+        if [ "$TARGET" == "$SKIP" ]; then
+            S="skip"
+        fi
+    done
+
+    if [ -z "$S" ]; then
+        show_title "$FILE Debug "
+        $FILE debuginfo
+    fi
+done
+
+show_title "EOF"
+
+if [ 1 -eq $COMPRESS ]
+then
+    compress_debug
+fi

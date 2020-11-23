@@ -1,0 +1,78 @@
+{
+  "status": 0,
+  "data": {
+    "radioList": [
+      {
+        "radioId": "wifi0_bcm",
+        "spectrumInfo": [
+          {
+            "channel": 1,
+            "availability": 2,
+            "noiseLevel": 3,
+            "accessPoints": 4
+          }, {
+            "channel": 2,
+            "availability": 3,
+            "noiseLevel": 4,
+            "accessPoints": 5
+          }, {
+            "channel": 3,
+            "availability": 4,
+            "noiseLevel": 5,
+            "accessPoints": 6
+          }, {
+            "channel": 4,
+            "availability": 5,
+            "noiseLevel": 6,
+            "accessPoints": 7
+          }, {
+            "channel": 5,
+            "availability": 6,
+            "noiseLevel": 7,
+            "accessPoints": 8
+          }, {
+            "channel": 6,
+            "availability": 7,
+            "noiseLevel": 8,
+            "accessPoints": 9
+          }
+        ]
+      }, {
+        "radioId": "wifi0_quan",
+        "spectrumInfo": [
+          {
+            "channel": 1,
+            "availability": 2,
+            "noiseLevel": 3,
+            "accessPoints": 4
+          }, {
+            "channel": 2,
+            "availability": 3,
+            "noiseLevel": 4,
+            "accessPoints": 5
+          }, {
+            "channel": 3,
+            "availability": 4,
+            "noiseLevel": 5,
+            "accessPoints": 6
+          }, {
+            "channel": 4,
+            "availability": 5,
+            "noiseLevel": 6,
+            "accessPoints": 7
+          }, {
+            "channel": 5,
+            "availability": 6,
+            "noiseLevel": 7,
+            "accessPoints": 8
+          }, {
+            "channel": 6,
+            "availability": 7,
+            "noiseLevel": 8,
+            "accessPoints": 9
+          }
+        ]
+      }
+    ]
+  }
+}

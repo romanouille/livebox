@@ -1,0 +1,48 @@
+<div id="firewallCustomRule1" xmlns="http://www.orange.com/xhtml/engine/loose">
+	 <div class="boxType3">
+ 		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param" i18n="page.myNetwork.firewallCustomRule1.title"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong  i18n="page.myNetwork.firewallCustomRule1.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">
+		<form action="#">
+		<div class="boxType4 border-bottom-3  margin-top-10"> 
+			<div class="firewallCustomRuleLeft">
+			 <span class="h3Text" i18n="page.myNetwork.firewallCustomRule1.connectedservice"/>
+				<div class="status-block left">					
+						<div class="clear"/>
+						<div class="margin-left-60" widgetType="FormInput" i18n="page.myNetwork.firewallCustomRule1.connectedservice.direction">
+							<span i18n="page.myNetwork.firewallCustomRule1.connectedservice.directionLabel"/>
+						</div>
+						<div class="margin-left-60" widgetType="FormInput" i18n="page.myNetwork.firewallCustomRule1.connectedservice.application">
+							<input type="text" id="applicationInput" i18n="page.myNetwork.firewallCustomRule1.connectedservice.application" required="true" dataId=""/>
+						</div>
+						<div class="margin-left-60" widgetType="FormInput" i18n="page.myNetwork.firewallCustomRule1.connectedservice.protocol">
+							<span id="protocol" widgetType="EnumInput" widgetArg="'select'" enumerated="['ALL','TCP','UDP','ICMP','GRE','ESP','AH']" i18nPrefix="page.myNetwork.firewallCustom.customrules.ipsrc.protocol" i18n="page.myNetwork.firewallCustomRule1.connectedservice.protocol"/>
+						</div>
+				</div>
+			</div>
+			<div class="firewallCustomRuleRight">
+				<div class="localnetwork" i18n="page.myNetwork.firewallCustomRule1.connectedservice.localnetwork"/>
+				<div class="application">&#160;</div>
+				<div class="internet" i18n="page.myNetwork.firewallCustomRule1.connectedservice.internet"/>
+			</div>
+			<div class="clear"/>
+		</div>
+			<div widgetType="ButtonContainer" class="right" style="width: 100%">
+			    <div class="btnPageBack" >
+					<span id="btnBack" widgetType="ButtonImage" i18n="page.myNetwork.firewallCustomRule1.back"/>
+				</div>
+				<div style="float: right">
+					<span id="btnNext" widgetType="ButtonImage" i18n="page.myNetwork.firewallCustomRule1.next"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

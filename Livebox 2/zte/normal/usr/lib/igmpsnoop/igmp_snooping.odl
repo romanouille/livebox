@@ -1,0 +1,12 @@
+object IGMPSnooping {
+	uint8 DebugLevel {
+		constraint range [0, 3];
+		default 1;
+	}
+	bool MulticastToUnicastEnable=false;
+	string Bridge=bridge;
+	uint32 LeaveDelay=2000;
+	bool DumpStreams=false;
+	string WanInterface;
+}
+

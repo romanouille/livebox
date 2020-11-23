@@ -1,0 +1,9 @@
+object USB {
+    object USBHosts;
+}
+
+datamodel {
+    object USB {
+        object USBHosts from "pcb://$(PCB_MAIN_BUS)/USBHosts" recursive;
+    }
+}

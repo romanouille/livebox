@@ -1,0 +1,52 @@
+using "dsl/tr181_dsl.so";
+object DSL {
+object Line [] {
+bool Enable;
+string LinkStatus;
+string StandardUsed;
+string CurrentProfile;
+read-only string FirmwareVersion;
+uint32 UPBOKLE{
+constraint maxvalue 1580;
+default 0;
+}
+uint32 UpstreamMaxBitRate;
+uint32 DownstreamMaxBitRate;
+int32 UpstreamNoiseMargin;
+int32 DownstreamNoiseMargin;
+object Stats {
+object Showtime {
+uint32 ErroredSecs;
+uint32 SeverelyErroredSecs;
+}
+}
+}
+object Channel [] {
+uint32 UpstreamCurrRate;
+uint32 DownstreamCurrRate;
+}
+}
+datamodel {
+object DSL {
+instance of Line(1,"Line1")  {
+destination "pcb://$(NEMO_IPC)/NeMo/Intf/dsl0" {
+parameter Enable;
+parameter LinkStatus translate with translate_WANDSLInterfaceConfig_Status;
+parameter StandardUsed;
+parameter CurrentProfile;
+parameter FirmwareVersion;
+parameter UPBOKLE;
+parameter UpstreamMaxBitRate from UpstreamMaxRate;
+parameter DownstreamMaxBitRate from DownstreamMaxRate;
+parameter UpstreamNoiseMargin;
+parameter DownstreamNoiseMargin;
+}
+}
+instance of Channel(1,"Channel1") {
+destination "pcb://$(NEMO_IPC)/NeMo/Intf/dsl0" {
+parameter UpstreamCurrRate;
+parameter DownstreamCurrRate;
+}
+}
+}
+}

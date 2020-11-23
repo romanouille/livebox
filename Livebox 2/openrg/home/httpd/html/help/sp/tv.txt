@@ -1,0 +1,20 @@
+﻿<b>Televisión digital:</b><br>
+<br>
+Esta página muestra el estado del servicio de TV de Orange. Por defecto, la TV digital está habilitada y el puerto amarillo de tu Livebox está reservado para este servicio. Si no tienes contratado el servicio de televisión de Orange, puedes emplear el puerto amarillo de tu Livebox para conectar otro ordenador a Internet. Para hacer esto, simplemente deshabilita el servicio de TV Orange.<br>
+Por el contrario, si tienes contratado el servicio de TV de Orange, el puerto amarillo de tu Livebox está reservado para conectar un descodificador de TV ADSL. Por tanto, deberás emplear este puerto para conectar el descodificador a tu Livebox.<br>
+<br>
+<span class="boldorange">TV ADSL (puerto amarillo):</span> Configuración por defecto del servicio de TV. Esta opción del menú desplegable "Selecciona tu servicio de TV" te permite conectar un descodificador de TV por ADSL al puerto Ethernet amarillo de tu Livebox.<br>
+Por defecto, está habilitada la TV y el puerto amarillo de tu Livebox está reservado para este servicio. Solo deberás conectar un descodificador de TV a este puerto.<br>
+Nota: Esta opción se denomina <span class="boldorange">TV en el puerto amarillo</span> si tu Livebox está conectado a una red de fibra óptica.<br>
+<br>
+<span class="boldorange">doble descodificador TV ADSL (puerto amarillo y verde):</span> Esta opción te permite conectar un descodificador de TV por ADSL a los puertos Ethernet amarillo y verde de tu Livebox.<br>
+Nota: Esta opción se denomina <span class="boldorange">TTV en los puertos amarillo y verde</span> si tu Livebox está conectado a una red de fibra óptica.<br>
+<br>
+<span class="boldorange">TDT y Videoclub (cualquier puerto):</span> Esta opción te permite conectar un descodificador de TDT (descodificador de Orange) en cualquier puerto, exceptuando el puerto amarillo.<br>
+Nota: Esta opción no está disponible si tu Livebox está conectado una red de fibra óptica.<br>
+<br>
+Si no has contratado el servicio de TV de Orange, podrás utilizar el puerto amarillo para conectar otro ordenador a Internet. Para ello, simplemente deshabilita el servicio de TV.<br>
+<!--
+<br>
+-->
+

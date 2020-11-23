@@ -1,0 +1,16 @@
+{
+	"status":0,
+	"data":{
+		"portList":[
+				{
+					"portId":0,
+					"isEnabled":true,
+					"usageMode":"FTTH",
+					"isConfigurationAutomatic":true,
+					"macAddress":"98:8B:5D:3D:AE:C6",
+					"maximumSpeed":1000,
+					"duplexMode":"FULL"
+				}
+		]
+	}
+}

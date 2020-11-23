@@ -1,0 +1,176 @@
+using "IPPingDiagnostics.so";
+
+/**
+  * Auto-generated plugin according to tr098 - Amendment 2
+  */
+
+acl {
+        group cwmpd read,write,execute;
+}
+
+/**
+  * This object provides access to an IP-layer ping test. 
+  */
+object IPPingDiagnostics {
+
+
+
+
+  /**
+    * Specifies the WAN or LAN IP-layer interface over which the test is to be 
+    * performed. This identifies the source IP address to use when performing the 
+    * test. The content is the full hierarchical parameter name of the interface. 
+    * 
+    * The following is a WAN interface example: 
+    * 
+    * "InternetGatewayDevice.WANDevice.1.WAN-ConnectionDevice.2.WANPPPConnection.1" 
+    * 
+    * The following is a LAN interface example: 
+    * 
+    * "InternetGatewayDevice.LANDevice.1.LAN-HostConfigManagement.IPInterface.1" 
+    * 
+    * The value of this parameter MUST be either a valid interface or an empty 
+    * string. An attempt to set this parameter to a different value MUST be rejected 
+    * as an invalid parameter value. 
+    * If an empty string is specified, the CPE MUST 
+    * use the interface as directed by its routing policy (Forwarding table entries) 
+    * to determine the appropriate interface. 
+    */
+  string Interface {
+    constraint maxvalue 256;
+  }
+
+  /**
+    * Host name or address of the host to ping. 
+    */
+  string Host {
+    constraint maxvalue 256;
+  }
+
+  /**
+    * Number of repetitions of the ping test to perform before reporting the results. 
+    */
+  uint32 NumberOfRepetitions {
+    constraint minvalue 1;
+    default 1;
+  }
+
+  /**
+    * Timeout in milliseconds for the ping test. 
+    */
+  uint32 Timeout {
+    constraint minvalue 1;
+    default 1;
+  }
+
+  /**
+    * Size of the data block in bytes to be sent for each ping. 
+    */
+  uint32 DataBlockSize {
+    constraint range [1,65535];
+    default 1;
+  }
+
+  /**
+    * DiffServ codepoint to be used for the test packets. By default the CPE SHOULD 
+    * set this value to zero. 
+    */
+  uint32 DSCP {
+    constraint range [0,63];
+    default 0;
+  }
+
+  /**
+    * Result parameter indicating the number of successful pings (those in which a 
+    * successful response was received prior to the timeout) in the most recent ping 
+    * test. 
+    */
+  read-only uint32 SuccessCount;
+
+  /**
+    * Result parameter indicating the number of failed pings in the most recent ping 
+    * test. 
+    */
+  read-only uint32 FailureCount;
+
+  /**
+    * Result parameter indicating the average response time in milliseconds over all 
+    * repetitions with successful responses of the most recent ping test. If there 
+    * were no successful responses, this value MUST be zero. 
+    */
+  read-only uint32 AverageResponseTime;
+
+  /**
+    * Result parameter indicating the minimum response time in milliseconds over all 
+    * repetitions with successful responses of the most recent ping test. If there 
+    * were no successful responses, this value MUST be zero. 
+    */
+  read-only uint32 MinimumResponseTime;
+
+  /**
+    * Result parameter indicating the maximum response time in milliseconds over all 
+    * repetitions with successful responses of the most recent ping test. If there 
+    * were no successful responses, this value MUST be zero. 
+    */
+  read-only uint32 MaximumResponseTime;
+
+  /**
+    * Indicates availability of diagnostic data. One of:
+    * "None"
+    * "Requested"
+    *
+    * "Complete"
+    * "Error_CannotResolveHostName"
+    * "Error_Internal"
+    * "Error_Other"
+    * If
+    * the ACS sets the value of this parameter to Requested, the CPE MUST initiate
+    * the corresponding diagnostic test. When writing, the only allowed value is
+    * Requested. To ensure the use of the proper test parameters (the writable
+    * parameters in this object), the test parameters MUST be set either prior to or
+    * at the same time as (in the same SetParameterValues) setting the
+    * DiagnosticsState to Requested.
+    * When requested, the CPE SHOULD wait until after
+    * completion of the communication session with the ACS before starting the
+    * diagnostic.
+    * When the test is completed, the value of this parameter MUST be
+    * either Complete (if the test completed successfully), or one of the Error
+    * values listed above.
+    * If the value of this parameter is anything other than
+    * Complete, the values of the results parameters for this test are indeterminate.
+    *
+    * When the diagnostic initiated by the ACS is completed (successfully or not),
+    * the CPE MUST establish a new connection to the ACS to allow the ACS to view the
+    * results, indicating the Event code "8 DIAGNOSTICS COMPLETE" in the Inform
+    * message.
+    * After the diagnostic is complete, the value of all result parameters
+    * (all read-only parameters in this object) MUST be retained by the CPE until
+    * either this diagnostic is run again, or the CPE reboots. After a reboot, if the
+    * CPE has not retained the result parameters from the most recent test, it MUST
+    * set the value of this parameter to "None".
+    * Modifying any of the writable
+    * parameters in this object except for this one MUST result in the value of this
+    * parameter being set to "None".
+    * While the test is in progress, modifying any of
+    * the writable parameters in this object except for this one MUST result in the
+    * test being terminated and the value of this parameter being set to "None".
+    *
+    * While the test is in progress, setting this parameter to Requested (and
+    * possibly modifying other writable parameters in this object) MUST result in the
+    * test being terminated and then restarted using the current values of the test
+    * parameters.
+    */
+  string DiagnosticsState {
+    constraint enum ["None","Requested","Complete","Error_CannotResolveHostName","Error_Internal","Error_Other"];
+    default "None";
+    /**
+      * This handler starts the ping when the value changes to "Requested" as described in tr98
+      */
+    write with start_diagnostic;
+  }
+
+}
+
+
+
+/** @location sah_services_tr069 /source/dmdeviceadapter/pcb/ippingdiagnostics/IPPingDiagnostics.odl */

@@ -1,0 +1,15 @@
+#!/bin/sh
+#Hostapd config files should have taken care to set wps_disable=0, we just start the hostapd
+#sleep 1
+hostapd -B /var/lib/wld/secwl_$1
+#while [ ! -e /var/run/hostapd/wl0 ]
+#   do
+#       sleep 2
+#   done
+
+# Force full reconfig for WPS!
+#if [ "1" = `cli -kc @:WLAN.Enable?` ]; then
+#    wpatalk wl$1 RECONFIGURE
+#fi
+
+#/etc/wireless/wpsbutton.sh $1 &

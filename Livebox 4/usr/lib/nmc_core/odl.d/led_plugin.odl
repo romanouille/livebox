@@ -1,0 +1,19 @@
+using "../nmccore_led.so";
+
+persistent object NMC {
+    /**
+     * Expose information about
+     * custom LEDs
+     */
+    persistent object LED {
+        acl {
+            world none;
+        }
+
+        /**
+         * Retrieve the LED status
+         * (color, state)
+         */
+        void getLedStatus(mandatory string name, out string state, out string color);
+    }
+}

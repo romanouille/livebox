@@ -1,0 +1,37 @@
+<div id="infoSystemMeshSynchro" xmlns="http://www.orange.com/xhtml/engine/loose">  
+	<div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_diagnostic">
+			<span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;<span i18n="page.diagnostic.infosystem.meshsynchro.title"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.diagnostic.infosystem.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+			<div class="boxType4  margin-top-10 border-bottom-3">
+				<span class="h3Text" i18n="page.diagnostic.infosystem.meshsynchro.title"/>
+				<br/>
+				<div i18n="page.diagnostic.infosystem.meshsynchro.text.0"/>
+				 <div class="centered">
+					<span class="waitLabel oneline" i18n="page.diagnostic.infosystem.meshsynchroprogress"/>
+				 </div>
+				<div widgetType="RunnerBar" widgetArg="{duration:3000, width:500, height:17}"/> 
+				<br/>
+				<div i18n="page.diagnostic.infosystem.meshsynchro.text.1"/>
+			</div>
+		</form>
+	</div>
+</div>

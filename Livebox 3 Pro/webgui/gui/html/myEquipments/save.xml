@@ -1,0 +1,37 @@
+<div id="save" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_EnvLiveBox_save " >
+			<span i18n="page.myEquipments.save.title"/>&#160;<span  dataId="Device/DeviceInfo/RouterName"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+		 <strong i18n="page.myEquipments.save.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 margin-top-10 border-bottom-3">
+			<span class="h3Text" i18n="page.myEquipments.save.newsave"/>
+			<div class="margin-left-40" widgetType="FormInput" i18n="page.myEquipments.save.newsave.name">
+				<input id="savename" type="text" i18n="page.myEquipments.save.newsave.name"/><br/>
+				<!-- <input id="savename" type="text" dataId="Device/RestoreInfo/AvailableBackups/LocalBackup/Filename" i18n="page.myEquipments.save.newsave.name"/> -->
+				<!-- <input id="savename" type="text" dataId="Device/DeviceInfo/VendorConfigFile" i18n="page.myEquipments.save.newsave.name"/> -->
+				<div id="newSaveError" class="error" i18n="page.myEquipments.save.newsave.error" style="display:none; width:400px"/>
+				<div id="newSaveErrorLength" class="error" i18n="page.myEquipments.save.newsave.errorLength" style="display:none; width:400px"/>
+			</div>
+			
+			
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnSave" widgetType="ButtonImage" i18n="page.myEquipments.save.newsave.btn"/>
+			</div>
+		</div>
+			<!--<div widgetType="ButtonContainer" class="btnPageBack">
+				<span widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'PREVIOUSPAGE'}" i18n="common.page.back"/>
+			</div>-->		
+		</form>
+	</div>
+</div>

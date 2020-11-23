@@ -1,0 +1,50 @@
+﻿{{#with page}}
+{{#each popup}}
+  <div class="popup_window" {{#if id}}id="{{id}}"{{/if}} role="dialog" {{#if id}}aria-describedby="{{id}}_described"{{/if}}>
+  <div {{#if id}}id="{{id}}_described"{{/if}}>
+  {{#each content}}
+    {{#ifEqual type 'title'}}
+      {{> titleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'subtitle'}}
+      {{> subtitleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'text'}}
+      {{> textTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'bullet'}}
+      {{> bulletTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'textfield'}}
+      {{> textfieldTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'inlinetextfield'}}
+      {{> inlinetextfieldTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'button'}}
+      {{> buttonTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'tick'}}
+      {{> tickTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'separator'}}
+      {{> separatorTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'select'}}
+      {{> selectTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'form'}}
+      {{> formTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'spinner'}}
+      {{> spinnerTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'dynamictable'}}
+      {{> dynamicTableTemplate}}
+    {{/ifEqual}}
+  {{/each}}
+  </div>
+  </div>
+{{/each}}
+{{/with}}
+

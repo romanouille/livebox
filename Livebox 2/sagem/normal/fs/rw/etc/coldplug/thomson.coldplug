@@ -1,0 +1,10 @@
+#!/bin/sh
+                echo "Starting USB cold Dect" > /dev/console
+                rmmod hci_uart ; modprobe hci_uart hciextn=0
+                modprobe usbserial
+                modprobe cp2101
+                sleep 3 
+                hciattach -t 2 -p /dev/usb/tts/0 bcsp_usb 115200 flow 
+                hciconfig hci0 up
+                insmod /lib/modules/2.6.12.6/extra/thomson_lower_dect_driver.ko hcidevid=0
+

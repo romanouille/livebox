@@ -1,0 +1,5 @@
+mib sensors {
+persistent bool Enable;
+persistent uint32 TemperatureInterval;
+persistent uint32 FanInterval;
+}

@@ -1,0 +1,58 @@
+kernel/drivers/video/sysfillrect.ko:
+kernel/fs/fat/fat.ko:
+kernel/drivers/video/syscopyarea.ko:
+extra/ath_rate_atheros.ko:
+kernel/drivers/video/fb_sys_fops.ko:
+kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko: kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko: kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/net/ipv6/netfilter/ip6t_LOG.ko:
+extra/adf.ko:
+kernel/net/netfilter/xt_owner.ko:
+kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko: kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+extra/kmcd_pc.ko: extra/kmcd_core.ko
+extra/kmcd_core.ko:
+kernel/fusiv_src/kernel/drivers/bmedriver/bmedrv.ko: kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/static_rft/static_rft_ipsec_lkm.ko: kernel/fusiv_src/kernel/drivers/static_rft/static_rft_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+extra/asf.ko:
+kernel/fs/nls/nls_iso8859-1.ko:
+kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko:
+kernel/drivers/video/sysimgblt.ko:
+kernel/drivers/scsi/scsi_wait_scan.ko:
+kernel/fusiv_src/kernel/drivers/monif/monif_lkm.ko: kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/voice/ipvoice/dspvoice.ko: kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/spi/spi_driver_lkm.ko kernel/fusiv_src/kernel/drivers/bm/bmdriver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/vdsldriver/vdsldriver_lkm.ko: kernel/fusiv_src/kernel/drivers/ethdriver/sysKCode_lkm.ko kernel/fusiv_src/kernel/drivers/acl_ap/aclap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/classifier/classifier_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/drivers/video/metronomefb.ko: kernel/drivers/video/fb.ko kernel/drivers/video/syscopyarea.ko kernel/drivers/video/sysimgblt.ko kernel/drivers/video/sysfillrect.ko
+kernel/fusiv_src/kernel/drivers/ethdriver/sysKCode_lkm.ko: kernel/fusiv_src/kernel/drivers/acl_ap/aclap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/classifier/classifier_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/static_rft/static_rft_ipv6_lkm.ko: kernel/fusiv_src/kernel/drivers/static_rft/static_rft_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+extra/ebt_dhcp_relay.ko:
+kernel/fs/ext2/ext2.ko:
+extra/umac.ko: kernel/fusiv_src/kernel/drivers/classifier/classifier_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko extra/ath_dev.ko extra/ath_dfs.ko extra/ath_hal.ko extra/adf.ko extra/ath_rate_atheros.ko extra/asf.ko
+kernel/drivers/video/fb.ko:
+kernel/fs/fat/msdos.ko: kernel/fs/fat/fat.ko
+kernel/fusiv_src/kernel/drivers/static_rft/static_rft_lkm.ko: kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+extra/kmcd_mrt.ko: extra/kmcd_core.ko
+extra/kmcd_fusiv.ko: kernel/fusiv_src/kernel/drivers/igmpsnoop/igmpsnoop_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko extra/kmcd_core.ko
+kernel/fusiv_src/kernel/drivers/spi/spi_driver_lkm.ko: kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+extra/ath_dfs.ko: extra/ath_hal.ko extra/adf.ko extra/asf.ko
+extra/xt_IMARK.ko: kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+extra/ath_pktlog.ko:
+extra/ath_dev.ko: extra/ath_dfs.ko extra/ath_hal.ko extra/ath_rate_atheros.ko extra/adf.ko extra/asf.ko
+kernel/fusiv_src/kernel/drivers/ipqos/ipqos_lkm.ko: kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/drivers/oled/oleddrv.ko: kernel/drivers/video/fb.ko kernel/fusiv_src/kernel/drivers/spi/spi_driver_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/bm/bmdriver_lkm.ko: kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/classifier/classifier_driver_lkm.ko: kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+extra/ath_hal.ko: extra/adf.ko extra/asf.ko
+kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko: kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/igmpsnoop/igmpsnoop_lkm.ko: kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/timerlib/timers_lkm.ko:
+kernel/fs/fat/vfat.ko: kernel/fs/fat/fat.ko
+kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko: kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fs/nls/nls_ascii.ko:
+kernel/drivers/usb/host/ehci-hcd.ko:
+kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko: kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fs/nls/nls_cp850.ko:
+extra/ebt_TCPMSS.ko:
+kernel/fusiv_src/kernel/drivers/acl_ap/aclap_driver_lkm.ko: kernel/fusiv_src/kernel/drivers/classifier/classifier_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+kernel/fusiv_src/kernel/drivers/switch/atheros/athr83xx_lkm.ko: kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+extra/kmcd_ebtpl.ko: extra/kmcd_core.ko
+kernel/fusiv_src/kernel/drivers/atm/atmdriver_lkm.ko: kernel/fusiv_src/kernel/drivers/classifier/classifier_driver_lkm.ko kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko kernel/fusiv_src/kernel/drivers/bm/bmdriver_lkm.ko kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko kernel/fusiv_src/kernel/drivers/timerlib/timers_lkm.ko kernel/fusiv_src/kernel/drivers/monif/monif_lkm.ko kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko kernel/fusiv_src/kernel/drivers/powermgmt/pwrmgmtdrv_lkm.ko kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko

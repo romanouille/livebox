@@ -1,0 +1,45 @@
+
+using "cifscl.so";
+
+persistent object SambaService {
+  /**
+   * The general activity status of the Samba server
+   */
+  read-only string Status = "Offline";
+
+  /**
+   * Enables or disables the samba server
+   */
+  persistent bool Enable = true;
+
+  /**
+   * The Samba server name
+   */
+  persistent string ServerName = "Livebox";
+
+  /**
+   * The Samba workgroup
+   */
+  persistent string Workgroup = "WORKGROUP";
+
+  /**
+   * The Samba server description
+   */
+  persistent string ServerDescription = "Livebox"; 
+
+  /**
+   * The network interface
+   */
+  persistent string NetworkDevice = "lan";
+
+  /**
+   * The Samba User, defined at compile time
+   */
+  persistent read-only string User = "samba";
+
+  bool export(string fileName);
+  bool import(string fileName);
+}
+
+/** @location sah_services_cifscl /cifscl.odl.m4 */
+

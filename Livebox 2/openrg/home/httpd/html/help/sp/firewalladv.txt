@@ -1,0 +1,11 @@
+﻿<b>Personalización del cortafuegos:</b><br>
+<br>
+Este apartado te permite personalizar el cortafuegos de tu Livebox.<br>
+La opción "Respuesta a Pings por Internet" autoriza al Livebox a responder a solicitudes ping (para probar el estado del Livebox sobre una red). Esta opción es especialmente útil para juegos en red.<br>
+Por defecto, se cumplen todas las normas establecidas por el cortafuegos. Puedes eliminar normas o añadir nuevas a tu cortafuegos empleando el botón "Añadir".<br>
+La prioridad de las normas puede modificarse cambiando el orden en el que están dispuestas en la tabla mediante el empleo de las flechas naranjas. También puedes activar o desactivar las normas mediante la selección de la casilla "Habilitar".<br>
+Puedes eliminar las normas de la tabla pulsando sobre el icono "Borrar". Por último, el botón "Resetear" te permite eliminar todos los cambios que has realizado y volver a la configuración por defecto.<br>
+<!--
+<br>
+-->
+

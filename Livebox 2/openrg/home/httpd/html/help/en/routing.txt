@@ -1,0 +1,9 @@
+<b>Routing:</b><br>
+<br>
+In order to communicate, each network device needs to know which router it should use to reach an outside network. In other words, it must store a local routing table containing a list of networks and routers.<br>
+A router's routing table contains the addresses of destination networks, netmasks, addresses of gateways (intermediate routers) via which they can be reached, and the interface on which the packet should leave the livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

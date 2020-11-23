@@ -1,0 +1,141 @@
+#!/bin/sh
+
+
+#set -x
+if [ -f /usr/lib/package/package_tool_functions.sh ]; then
+    source /usr/lib/package/package_tool_functions.sh
+fi
+
+# $1 contains directory
+runlevel_list_scripts_magic() 
+{    
+    _magic_scripts=$(ls $1 | awk -F\/ '{ printf $NF "@/"; for (i=2; i<NF; i++) printf $i "/"; print $NF}')    
+    echo "$_magic_scripts"
+}
+
+# $1 contains runlevel
+runlevel_package_initscript_list() 
+{
+    _package_mounts=$(ls "$MOUNT_LOC" | grep "mount_")
+    _scripts=""  
+    if [ -z "$_package_mounts" ]; then
+        return    
+    fi
+    
+    for _directory in $_package_mounts; do 
+       _rc_directory="$MOUNT_LOC/$_directory/etc/rc$1.d"
+       if [ -d "$_rc_directory" ]; then
+         _script_magic_result=$(runlevel_list_scripts_magic "$_rc_directory/*")
+         _scripts="$_scripts $_script_magic_result"
+       fi
+    done          
+    echo $_scripts
+}
+
+# $1 contains runlevel
+runlevel_rootfs_initscript_list() 
+{
+    _scripts=$(runlevel_list_scripts_magic "/etc/rc$1.d/*") 
+    echo $_scripts
+}
+
+# $1 contains runlevel
+runlevel_find_scripts()
+{
+    _runlevel=$1
+    _script_list=""
+    
+    # get the list of scripts in both the packages and the rootfs
+    # prepend the script name to the path (e.g. /etc/init.d/S55MyDaemon becomes S55MyDaemon@/etc/init.d/S55MyDaemon), 
+    #  --> this is needed to be able to quickly sort the results
+    _package_magic_scripts=$(runlevel_package_initscript_list "$_runlevel")
+    _rootfs_magic_scripts=$(runlevel_rootfs_initscript_list "$_runlevel")    
+
+    for _rootfs_script in $_rootfs_magic_scripts; do       
+        _new_script="$_rootfs_script"
+        _base_name_rootfs_script=${_rootfs_script%%@*} 
+        for _package_script in $_package_magic_scripts; do
+            if [ "${_package_script%%@*}" == "$_base_name_rootfs_script" ]; then
+              #echo "Identical script name found:  ${_package_script%%@*}"  
+              _new_script="$_package_script"              
+            fi
+        done;
+        _script_list="$_script_list $_new_script"
+    done;   
+
+    # combine both lists: attach the package list, duplicates will be removed later on
+    _script_list="$_script_list $_package_magic_scripts"
+    
+    # sort and remove duplicates
+    _result_list=$(echo $_script_list | xargs -n1 | sort -u | xargs )
+        
+    echo $_result_list  
+    
+}
+
+runlevel_manage()
+{
+    local previous
+    runlevel=$1
+    if [ -f /var/run/runlevel ] ; then
+	previous=$(cat /var/run/runlevel)
+    else 
+	previous=N
+    fi
+    if [ "$runlevel" = "$previous" ] ; then 
+	return
+    fi
+    
+    # Find all runlevel scripts
+    read uptime </proc/uptime
+    echo "start combining scripts: $uptime"
+    _runlevel_scripts=$(runlevel_find_scripts "$runlevel")
+    read uptime </proc/uptime
+    echo "stop combining scripts: $uptime"
+    echo "removing abort trigger"
+    rm -f /ext/abort
+    # Note that the lisf of scripts coming out of the above call is in the following format:
+    #   (S55MyDaemon@/etc/init.d/S55MyDeamon S56YourDeamon@/etc/init.d/S56YourDaemon), 
+    #   this is done for performance reasons: otherwise we need to do a basename for all
+    #   scripts, which consumes up to 2 seconds in total for all scripts on VX185
+    
+# Kill services for this runlevel
+    for script in $_runlevel_scripts ; do 
+        [ ${script:0:1} != "K" ] && continue
+        _realscript=$(echo $script | awk -F @ '{print $2}')
+        [ ! -f $_realscript ] && continue
+        echo "*********************** Stopping script $_realscript $_script at: $uptime"
+        sh $_realscript stop
+    done
+
+# Start services for this runlevel
+    for script in  $_runlevel_scripts; do
+	[ -e /ext/abort ] && continue
+        [ ${script:0:1} != "S" ] && continue
+        _realscript=$(echo $script | awk -F @ '{print $2}')
+        [ ! -f $_realscript ] && continue
+		read uptime </proc/uptime
+        echo "*********************** Starting script $_realscript at: $uptime"
+        sh $_realscript start
+    done ;
+
+    rm -f /var/run/rc.pid
+
+    echo $runlevel > /var/run/runlevel
+
+}
+
+# mount the extra packages
+if [ -f /usr/lib/package/package_tool_functions.sh ]; then
+    if [ -f /etc/config/package_installation_failed ]
+    then
+        echo "Package installation failed, cleanup $RUI_LOC/*.rui"
+        rm -f $RUI_LOC/*.rui
+        sync
+    else
+        package_tool_mount
+    fi
+fi
+
+echo Switching to RUNLEVEL $1 ... > /dev/console
+runlevel_manage $1

@@ -1,0 +1,210 @@
+
+using "www-backend.so";
+
+acl {
+  world read, execute;
+  group technician read, write, execute;
+}
+
+persistent object UserInterface {
+
+  /**
+   * Comma-separated list (maximum length 256) of strings.
+   * List items represent user-interface languages that are available,
+   * where each language is specified according to RFC3066.
+   */
+  read-only string AvailableLanguages = "en,fr";
+
+  /**
+   * Current user-interface language, specified according to RFC3066.
+   * The value MUST be a member of the list reported by the
+   * AvailableLanguages parameter.
+   */
+  persistent string CurrentLanguage {
+    constraint enum [ "en","fr" ];
+    default "fr";
+  }
+
+  /**
+   * Filename used when a user makes a backup of the hgwcfg.usr config
+   *
+   * Special keywords in the name are dynamicaly handled at run-time
+   * Supported keywords:
+   * %DATETIME%:  When this is part of the filename, this substring will be
+   *              replaced by the current date and time, format YYYYMMDD-HHMMSS
+   */
+  persistent string BackupFileName {
+    acl {
+      group admin read;
+      group remoteadmin read;
+    }
+    default "backup.hgw";
+  }
+  /**
+   * Fetch the current configured language and the list of available languages
+   */
+  string getLanguage(out string availableLanguages);
+
+  /**
+   * Create custom css file for configtool
+   */
+  bool createCSS(mandatory string blob);
+
+  /**
+   * Change color of svg images for configtool
+   */
+  bool setSVGColors(mandatory string newColor);
+
+  /**
+   * Configure the current language
+   */
+  bool setLanguage(mandatory string currentLanguage);
+
+  
+  /**
+   * Set to false by the webui when the user as already been connected
+   */
+  persistent string CurrentState {
+    default "";
+    write with write_currentState;
+  }
+
+  /**
+   * Configure the current state
+   */
+   string setState(mandatory string currentState) {
+     acl {
+       group admin read, execute;
+     }
+   }
+
+  /**
+   * Get the current state
+   */
+   string getState();
+   
+
+   /*
+     * Export user settings
+     *
+     * @param fileName The file to export to.
+     */
+    bool export(string fileName) {
+        acl {
+             world none;
+        }
+    }
+
+    /*
+     * Import user settings
+     *
+     * @param fileName The file to import from.
+     */
+    bool import(string fileName) {
+        acl {
+             world none;
+        }
+    }
+
+    /*
+     * Runs getDebugInformation and returns a file descriptor
+     * pointing to the output of the process
+     */
+    variant getDebugInformation();
+
+
+
+}
+
+/**
+ * Device management object
+ *
+ * This object provides management for all the devices connected to the gateway:
+ * <ul>
+ *   <li>network connected devices</li>
+ *   <li>usb connected devices</li>
+ *   <li>phones</li>
+ * </ul>
+ */
+object DeviceManager {
+  /**
+   * The list of available source, see {getDevices}
+   */
+  read-only string DeviceSources = "network,usb,voice";
+
+  /**
+   * The list of available device types, see {getDevices}
+   */
+  read-only string DeviceTypes = "Computer,Notebook,Phone,Network Access Point,Audio/Video,Peripheral,Imaging,GameConsole,Storage,Miscellaneous,iPod/iPhone/iPad,Printer,Set-top Box Orange,Tv,Liveradio,Photo,Photoframe";
+
+  /**
+   * Fetch connected devices.
+   *
+   * This function fetch the list of connected devices. You can limit the devices that
+   * are returned by source and by types. The values returns depends on the source but
+   * each object has at least a deviceType, a deviceSource and a deviceID parameter.
+   * The deviceID is unique per device.
+   *
+   * @param sources where to fetch devices from, by defaults, fetch from all sources.
+   *        See {DeviceSources}.
+   * @param types which type of devices to fetch, by defaults, fetch all types.
+   *        See {DeviceTypes}.
+   */
+  list getDevices(string sources, string types);
+
+  /**
+   * Enable notifications for devices.
+   *
+   * When called, notifications will be send when a device is added, changed or removed.
+   * Each time it is called, a device_added notification is sent.
+   *
+   * The available notifications are
+   * <ul>
+   *    <li>device_added</li>
+   *    <li>device_deleted</li>
+   *    <li>device_changed</li>
+   * </ul>
+   *
+   * Each notification has a Device parameter attached whose value depends on the source
+   * of the notification. It always has at least a deviceType, a deviceSource and a
+   * deviceID parameter. The deviceID is unique per device.
+   */
+  bool enableNotifications();
+
+
+  /**
+   * Connectivity status object
+   *
+   * This object manage the connectivity of the wan, lan, wifi and voip connections.
+   */
+  object Connectivity {
+
+    /**
+     * The list of available source, see {getStatus}.
+     */
+    read-only string ConnectivitySources = "data,wl0,lan,voip,iptv";
+
+    /**
+     * Fetch connectivity status.
+     *
+     * This fetches an object
+     *
+     * @param source for which source to report on the status, defaults to all.
+     *        See {ConnectivitySources}
+     */
+    variant getStatus(string sources);
+
+    /**
+     * Enable connectivity notifications.
+     *
+     * When called notifications will be send when the status of the data, wl0, lan, voip
+     * connection changes. Each time it is called, a status_changed notification
+     * is sent with the current status.
+     */
+    bool enableNotifications();
+  }
+}
+
+
+
+/** @location sah_services_www_backend /userinterface-definitions.odl.m4 */

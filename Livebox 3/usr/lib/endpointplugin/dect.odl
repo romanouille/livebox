@@ -1,0 +1,4 @@
+include "dect-definition.odl";
+include "dect-han.odl";
+include "dect-defaults.odl";
+include "dect-han-defaults.odl";

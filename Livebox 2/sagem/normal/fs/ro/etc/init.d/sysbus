@@ -1,0 +1,43 @@
+
+#!/bin/sh
+PIDSYSBUS="/var/run/sysbus.pid"
+
+SYSBUS="pcb_sysbus --priority=-16 -vv -n sysbus"
+
+SER="libpcb_serialize_ddw.so,libpcb_serialize_http.so,"
+
+start() {
+    echo "Starting pcb system bus"
+    PCB_SERIALIZERS=${SER} ${SYSBUS}
+}
+
+stop() {
+    if [ -e ${PIDSYSBUS} ]; then
+        echo "Stopping pcb system bus"
+        kill $(cat ${PIDSYSBUS});
+    else
+        echo "pcb system bus already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDSYSBUS}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac

@@ -1,0 +1,3 @@
+# May be required for rootfs
+jbd
+ext3

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+USB_DEV_PATH=/dev/usb/tts
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export LD_LIBRARY_PATH=/lib:/usr/lib
+
+start_dect()
+{
+   TTY=" "
+
+# check if a dongle is already connected   
+   if [ -f /var/run/dect_start ]; 
+   then
+      echo "already a DECT device connected!"
+      exit 1
+   else
+      echo "loading SAGEM DECT drivers"
+      modprobe extended_hid
+      modprobe sagem_dect_ctrl
+   fi;
+}
+
+stop_dect()
+{
+   echo "remove dect device"
+   rmmod sagem_dect_ctrl
+   rmmod extended_hid
+}
+
+case $ACTION in
+   add)
+      start_dect
+      ;;
+      
+   remove)
+      stop_dect
+      ;;
+esac;	
+

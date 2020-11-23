@@ -1,0 +1,90 @@
+using "audiphone_plugin.so";
+
+/* Permissions */
+acl {
+    group cwmpd read,write,execute;
+}
+
+/**
+ * Audiphone object
+ */
+persistent object Audiphone {
+
+    /**
+      Agent activation/deactivation
+      0 = deactivated
+      1 only Services' Availability Monitoring is enabled
+      3 both Services' Availability Monitoring and VoIP Call Monitoring are enabled 
+    */
+    persistent uint8 Activate {
+        write with ActivateOnWrite;
+        constraint enum [0, 1, 3, 65, 67];
+        default 0;
+    }
+   
+    /**
+     Indicates if Audiphone handles real-time ticket sending 
+     0 never sends any ticket (default value)\
+     1 systematically sends each SAM and VCM tickets to the collector after each 
+     service loss/get or each VoIP call respectively. 
+    */ 
+    persistent uint8 SendingMode {
+        constraint enum [0,1];
+        default 0;
+    } 
+       
+    persistent string CallQoSURL {
+        default "http://karmatrack.orange.com/FR/sync";
+    }
+     
+    persistent string ServiceAvailabilityURL {
+        default "http://karmatrack.orange.com/FR/sync";
+    }
+    
+    persistent uint32 PeriodicAsynchronousInterval = 86400;
+    
+    persistent string AsynchronousURL {
+        default "http://karmatrack.orange.com/FR/async";
+    }
+    
+    bool SendLogs = 0;
+    
+    string ServiceAvailabilityLogHeader {
+        default "";
+    }
+    
+    string CallQoSLogHeader {
+        default "";
+    }
+    
+    persistent uint16 CallQoSLogNumberOfEntries {
+        write with CallQoSLogNumberOnWrite;
+        default 15;
+    }
+       
+    persistent uint16 ServiceLogNumberOfEntries {
+        write with ServiceLogNumberOnWrite;
+        default 50;
+    }
+    
+    object ServiceAvailabilityLog[50] {
+        string Ticket;
+    }
+    
+    object CallQoSLog[15] {
+        string Ticket;
+    }
+    
+    /**
+    * Voice Registration failure root cause
+    */
+    persistent read-only string VoiceFailureCause;
+    
+    /**
+    * Voice Registration failure root cause timestamp
+    */
+    persistent read-only datetime VoiceFailureCauseLastChange;
+    
+}
+
+/** @location ext_ft_services_audiphone /audiphone.odl */

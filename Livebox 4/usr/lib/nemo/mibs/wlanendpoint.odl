@@ -1,0 +1,330 @@
+/**
+ * The WLANENDPOINT MIB is available on all NeMo Intfs that have the "wlanendpoint"-flag set. Intfs that have this
+ * flag set, model a wireless client or EndPoint. If such an intf is configured in NeMo, a
+ * corresponding WiFi SSID object + WiFi EndPoint object is created. The Radio interface on which the
+ * endpoint should be created is given by the (first) LLIntf of this Intf that has the wlanendpoint flag set and
+ * which is successfully bound to a WiFi Radio object. If such Radio interface exists, The endpoint
+ * configuration will be pushed to the wlan daemon exposing that Radio interface and the created SSID
+ * object will get a reference to that Radio interface.
+ */
+object NeMo {
+	object extends MIB(0,"wlanendpoint") {
+		string Flag = "wlanendpoint";
+		object DataModel {
+			/**
+			 * The current operational state of the EndPoint.
+			 */
+			read-only string EndPointStatus {
+				constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+				default "NotPresent";
+			}
+
+			/** <p>Indicates the state of the endpoint's connection.</p>*/
+			read-only string ConnectionStatus {
+				constraint enum ["Disabled", "Idle", "Discovering", "Connecting", "WPS_Pairing", "WPS_PairingDone", "WPS_Timeout", "Connected", "Disconnected", "Error", "Error_Misconfigured"];
+				default "Disabled";
+			}
+
+			/** <p>The last error that occurred</p> */
+			read-only string LastError {
+				constraint enum ["None", "SSID_Not_Found", "Invalid_PassPhrase", "SecurityMethod_Unsupported", "WPS_Timeout", "WPS_Canceled", "Error_Misconfigured"];
+				default "None";
+			}
+
+			/* Threshold value used to evaluate low Threshold */ 
+			int32 ThresholdMin {
+				default -200;
+				constraint range[-200,0];
+			}
+			/* Threshold value used to evaluate high Threshold */ 
+			int32 ThresholdMax {
+				default 0;
+				constraint range[-200,0];
+			}
+
+			/* Samplerate in case of polling, or minimum interval between events */
+			int32 ThresholdRate { 
+				default 2000;
+				constraint range[500,10000];
+			}
+
+			/* SignalStrength not between [ThresholdMin,ThresholdMax] */
+			read-only string ThresholdStatus {
+				constraint enum ["Low","High","Normal"];
+				default "Normal";
+			}
+			/* hysteresis value in dBm */
+			int32 ThresholdHys;
+
+			/**
+			 * <p>[MACAddress] The MAC address of this interface.</p> 
+			 * <p>If this instance models an access point SSID, MACAddress is
+			 * the same as MACAddress. Note: This is not necessarily the 
+			 * same as the Ethernet header source or destination MAC 
+			 * address, which is associated with the IP interface and is 
+			 * modeled via the Ethernet.Link.{i}.MACAddress parameter. </p>
+			 */
+			read-only string MACAddress; 
+			/**
+			 *  <p> The current service set identifier in use by the
+			 *  connection. The SSID is an identifier that is attached to
+			 *  packets sent over the wireless LAN that functions as an ID
+			 *  for joining a particular radio network (BSS).</p>
+			 */
+			read-only string SSID;
+			/**
+			 * <p>[BSSID] The Basic Service Set ID.</p> 
+			 * <p>This is the MAC address of the access point.
+			 * </p> */
+			read-only string BSSID;
+
+			/** Index in the EndPoint object tree */
+			read-only uint32 Index;
+
+			/** The value MUST be the path name of a row in the Profile
+			 *  table. If the referenced object is deleted, the parameter
+			 *  value MUST be set to an empty string. This is the currently
+			 *  active profile, which specifies the SSID and security
+			 *  settings to be used by the end point.*/
+			string ProfileReference {
+				default "";
+			}
+
+			/** The number of entries in the Profile table. */
+			read-only int32 ProfileNumberOfEntries;
+
+			/** Throughput statistics for this end point.  <b>Not
+			 *  clear how we can handle this? ToBe Defined!!!</b> */
+			object Stats{
+//				read with getEndPointStats;
+				/** The data transmit rate in kbps that was most recently used
+				 *  for transmission from the access point to the end point
+				 *  device.*/
+				read-only uint32 LastDataDownlinkRate{
+					constraint range[0,600000];
+				}
+				/** The data transmit rate in kbps that was most recently used 
+				 *  for transmission from the end point to the access point 
+				 *  device.*/
+				read-only uint32 LastDataUplinkRate{
+					constraint range[0,600000];
+				}
+				/** An indicator of radio signal strength of the downlink from
+				 *  the access point to the end point, measured in dBm, as an
+				 *  average of the last 100 packets received from the device.*/
+				read-only int32 SignalStrength{
+					constraint range[-200,0];
+				}
+				/** The number of packets that had to be re-transmitted, from
+				 *  the last 100 packets sent to the access point.
+				 *  Multiple re-transmissions of the same packet count as
+				 *  one.*/
+				read-only uint32 Retransmissions{
+					constraint range[0,100];
+				}
+			}
+			/**
+			 * Retrieve the stats from the driver and update datamodel
+			 * @version 6.1
+			 */
+			void getStats(out variant stats);
+
+			/**This object contains security related parameters that apply 
+			 * to a WiFi end point.  */
+			object Security{
+				/**
+				 *  <p>Comma-separated list of strings. Indicates which security
+				 *  modes this EndPoint  instance is capable of supporting. Each
+				*   list item is an enumeration of:</p>
+				*   <ul>
+				*     <li> None </li>
+				*     <li> WEP-64 </li>
+				*     <li> WEP-128 </li>
+				*     <li> <b>WEP-128iv</b> </li>
+				*     <li> WPA-Personal </li>
+				*     <li> WPA2-Personal </li>
+				*     <li> WPA-WPA2-Personal </li>
+				*     <li> WPA-Enterprise </li>
+				*     <li> WPA2-Enterprise </li>
+				*     <li> WPA-WPA2-Enterprise </li>
+				*   </ul>
+				*   */
+				string ModesSupported{
+					constraint enum ["None", "Auto",
+							 "WEP-64","WEP-128","WEP-128iv",
+							 "WPA-Personal","WPA2-Personal","WPA-WPA2-Personal",
+							 "E-None",
+							 "WPA-Enterprise","WPA2-Enterprise","WPA-WPA2-Enterprise"];
+					default "WPA-WPA2-Personal";
+				}
+			}
+			/** EndPoint Profile table.
+			 *  At most one entry in this table (regardless of whether or
+			 *  not it is enabled) can exist with a given value for Alias.
+			 *  On creation of a new table entry, the CPE MUST choose an
+			 *  initial value for Alias such that the new entry does not
+			 *  conflict with any existing entries.
+			 *  At most one enabled entry in this table can exist with all
+			 *  the same values for SSID, Location and Priority.*/
+			persistent object Profile[]{
+				/** Enables or disables this Profile.
+				 *  <p>When there are multiple WiFi EndPoint Profiles, e.g. each
+				 *  instance supports a different SSID and/or different
+				 *  security configuration, this parameter can be used to
+				 *  control which of the instances are currently enabled.</p>*/
+				persistent bool Enable;
+				/**  Indicates the status of this Profile. Enumeration of:
+				*   <ul>
+				*     <li> Active </li>
+				*     <li> Available </li>
+				*     <li> Error (OPTIONAL) </li>
+				*     <li> Disabled  </li>
+				*   </ul>
+				*   The Active value is reserved for the instance that is
+				*   actively connected. The Available value represents an
+				*   instance that is not currently active, but is also not
+				*   disabled or in error. The Error value MAY be used by the
+				*   CPE to indicate a locally defined error condition.*/
+				read-only string Status{
+					constraint enum ["Active","Available","Error","Disabled"];
+					default "Disabled";
+				}
+				/** A non-volatile handle used to reference this instance. Alias
+				 *  provides a mechanism for an ACS to label this instance for
+				 *  future reference. An initial unique value MUST be assigned
+				 *  when the CPE creates an instance of this object.*/
+				persistent string Alias;
+				/** The profile identifier in use by the connection. The SSID is
+				 *  an identifier that is attached to packets sent over the
+				 *  wireless LAN that functions as an ID for joining a
+				 *  particular radio network (BSS).*/
+				persistent string SSID;
+
+				/**
+				 * Specify the MAC address of the AccessPoint to connect to
+				 */
+				string ForceBSSID;
+
+				/** Location of the profile. This value serves as a reminder
+				 *  from the user, describing the location of the profile. For
+				 *  example: "Home", "Office", "Neighbor House", "Airport",
+				 *  etc. An empty string is also valid.*/
+				persistent string Location;
+				/** The profile Priority defines one of the criteria used by the
+				 *  End Point to automatically select the "best" AP when several
+				 *  APs with known profiles are simultaneously available for
+				 *  association. In this situation, the End Point has to select
+				 *  the AP with the higher priority in its profile. If there are
+				 *  several APs with the same priority, providing different SSID
+				 *  or the same SSID, then the wireless end point has to select
+				 *  the APs according to other criteria like signal quality,
+				 *  SNR, etc. <p>0 is the highest priority.</p>*/
+				persistent uint32 Priority{
+					constraint range[0,255];
+					default 0;
+				}
+				/** This object contains security related parameters that apply 
+				 *  to a WiFi End Point profile.*/
+				persistent object Security{
+					/** The value MUST be a member of the list reported by the
+					 *  Security.ModesSupported  parameter. Indicates which
+					 *  security mode is enabled.*/
+					persistent string ModeEnabled {
+					constraint enum  [ "None","WEP-64","WEP-128","WEP-128iv",
+						   "WPA-Personal","WPA2-Personal","WPA-WPA2-Personal",
+						   "E-None",
+						   "WPA-Enterprise","WPA2-Enterprise","WPA-WPA2-Enterprise",
+						   "Auto" ];
+					default "None";
+				}
+
+					/** A WEP key expressed as a hexadecimal string.
+					 *  WEPKey is used only if ModeEnabled is set to WEP-64 or
+					 *  WEP-128. A 5 byte WEPKey corresponds to security mode WEP-64
+					 *  and a 13 byte WEPKey corresponds to security mode WEP-128.
+					 *  When read, this parameter returns an empty string,
+					 *  regardless of the actual value.*/
+					persistent string WEPKey;
+					/** A literal PreSharedKey (PSK) expressed as a hexadecimal
+					 *  string. PreSharedKey is only used if ModeEnabled is set to
+					 *  WPA-Personal or WPA2-Personal or WPA-WPA2-Personal. If
+					 *  KeyPassPhrase is written, then PreSharedKey is immediately
+					 *  generated. The ACS SHOULD NOT set both the KeyPassPhrase and
+					 *  the PreSharedKey directly (the result of doing this is
+					 *  undefined). When read, this parameter returns an empty
+					 *  string, regardless of the actual value.*/
+					persistent string PreSharedKey;
+					/** A passphrase from which the PreSharedKey  is to be
+					 *  generated, for WPA-Personal  or WPA2-Personal  or
+					 *  WPA-WPA2-Personal  security modes. If KeyPassPhrase is
+					 *  written, then PreSharedKey is immediately generated. The ACS
+					 *  SHOULD NOT set both the KeyPassPhrase and the PreSharedKey
+					 *  directly (the result of doing this is undefined). The key is
+					 *  generated as specified by WPA, which uses PBKDF2 from PKCS
+					 *  #5: Password-based Cryptography Specification Version 2.0
+					 *  [RFC2898]. When read, this parameter returns an empty
+					 *  string, regardless of the actual value.*/
+					persistent string KeyPassPhrase;
+				}
+			}
+			/** This object contains parameters related to Wi-Fi
+			 *  Protected Setup [WPSv1.0] for this end point. */
+			object WPS{
+				/** Enables or disables WPS functionality for this endpoint. */
+				persistent bool Enable{
+					default 0;
+				}
+				/** Comma-separated list of strings. Indicates the WPS
+				 *  configuration methods supported by the device. Each list
+				*   item is an enumeration of:
+				*   <ul>
+				*     <li> USBFlashDrive </li>
+				*     <li> Ethernet </li>
+				*     <li> ExternalNFCToken </li>
+				*     <li> IntegratedNFCToken </li>
+				*     <li> NFCInterface </li>
+				*     <li> PushButton </li>
+				*     <li> PIN </li>
+				*   </ul>
+				*   This parameter corresponds directly to the "Config
+				*   Methods" attribute of the WPS specification [WPSv1.0].*/
+				string configMethodsSupported{
+					constraint enum ["USB","Ethernet","Label","Display",
+							 "ExternalNFCToken","InternalNFCToken","NFCInterface","PushButton",
+							 "PIN"];
+					default "PushButton";
+				}
+				/** Comma-separated list of strings. Each list item MUST be a
+				 *  member of the list reported by the ConfigMethodsSupported
+				 *  parameter. Indicates the WPS configuration methods enabled
+				 *  on the device.*/
+				persistent string ConfigMethodsEnabled;
+
+				/**
+				This function is for WPS enrollment
+				If no arguments are given, this starts the PushButton scenario. 
+				Notice that the corresponding config method needs to be enabled by ConfigMethodsEnabled.
+				* @param clientPIN optional argument to use clientPIN, give a 4-digit or 8-digit WPS PIN code.
+				* @param ssid restrict the wps session to a certain ssid
+				* @param bssid restrict the wps session to the AP with this MAC
+				* @version 6.1
+				*/
+				void pushButton(string ssid, string bssid, string clientPIN);
+				/**
+				* Cancel WPS registrar if it was runnning.
+				* @version 6.1
+				*/
+				void cancelPairing();
+
+				/**
+				* Indicates whether WPS pairing is busy.
+				* This is after pushButton() is called and before pairing with a device has completed or the registrar timer expired.
+				*/
+				read-only bool PairingInProgress;
+
+			}
+		}
+	}
+}
+
+/** @location sah_services_nemo /mibs/wlanvap.odl */

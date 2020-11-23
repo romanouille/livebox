@@ -1,0 +1,57 @@
+/*expr:wmbus and physical and edev and !usb*/
+
+/**
+ * MIB is loaded on all wmbus devices .
+ *
+ * All devices matching expression: "wmbus physical edev !usb" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib wmbusDevice {
+
+    /**
+     * @brief Id
+     * @version 6.1
+     */
+    read-only string Id;
+
+    /**
+     * @brief ManufacturerId of the dongle
+     * @version 6.1
+     */
+    read-only string ManufacturerId;
+
+    /**
+     * @brief ModelId
+     * @version 6.1
+     */
+    read-only string ModelId;
+
+    /**
+     * List of application used for the device
+     *
+     * @version 6.1
+     */
+    object ApplicationList[] {
+        /**
+         * @brief ApplicationId
+         *
+         * @version 6.1
+         */
+        read-only uint16 ApplicationId;
+
+        /**
+         * List of Interface used for the device
+         *
+         * @version 6.1
+         */
+        object Interfaces[] {
+            /**
+              * @brief InterfaceId
+             *
+             * @version 6.1
+             */
+            read-only string InterfaceId;
+        }
+    }
+}

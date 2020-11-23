@@ -1,0 +1,29 @@
+{
+  "status": true,
+  "data": [
+		{
+			"ChannelStatus":true,
+			"ChannelType":"VPVC",
+			"ChannelNumber":"8/38",
+			"ChannelFlags":"VOD"
+		},
+		{
+			"ChannelStatus":true,
+			"ChannelType":"VPVC",
+			"ChannelNumber":"8/39",
+			"ChannelFlags":"Zapping"
+		},
+		{
+			"ChannelStatus":true,
+			"ChannelType":"VPVC",
+			"ChannelNumber":"8/40",
+			"ChannelFlags":"Multicast"
+		},
+		{
+			"ChannelStatus":true,
+			"ChannelType":"VPVC",
+			"ChannelNumber":"8/41",
+			"ChannelFlags":"Multicast"
+		}
+	]
+}

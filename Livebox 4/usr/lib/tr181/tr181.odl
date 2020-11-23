@@ -1,0 +1,46 @@
+
+include "managementserver/tr181_managementserver.odl";
+include "managementserver/nmc_managementserver.odl";
+include "deviceinfo/tr181_deviceinfo.odl";
+include "deviceinfo/nmc_deviceinfo.odl";
+include "time/tr181_time.odl";
+include "usb/tr181_usb.odl";
+include "wifi/nmc_wifi.odl";
+include "ip_diagnostics/tr181_ip_diagnostics.odl";
+include "routing/nmc_routing.odl";
+include "ppp/tr181_ppp.odl";
+include "dsl/tr181_dsl.odl";
+include "captiveportal/nmc_captiveportal.odl";
+include "bridging/tr181_bridging.odl";
+include "atm/tr181_atm.odl";
+include "ethernet/tr181_ethernet.odl";
+include "ip/nmc_ip.odl";
+include "dhcpv4/nmc_dhcpv4.odl";
+include "dhcpv6/nmc_dhcpv6.odl";
+include "upnp/tr181_upnp.odl";
+include "firewall/tr181_firewall.odl";
+include "firewallipv6/nmc_firewallipv6.odl";
+include "deviceconfig/nmc_deviceconfig.odl";
+include "services/nmc_services.odl";
+include "users/nmc_users.odl";
+include "hosts/tr181_hosts.odl";
+include "remoteaction/remoteaction_mapped.odl";
+include "dataservice/mediahub_mapped.odl";
+include "dataservice/datastatistics_mapped.odl";
+include "selftestdiagnostics/nmc_selftestdiagnostics.odl";
+
+{
+    acl {
+        group cwmpd read,write,execute;
+    }
+    read-only string RootDataModelVersion;
+    read-only string DeviceSummary;
+}
+
+datamodel {
+    {
+        parameter RootDataModelVersion = "2.0";
+        parameter DeviceSummary = "InternetGatewayDevice:1.4[](Baseline:2, EthernetLAN:2, ADSLWAN:1, EthernetWAN:1, Time:2, IPPing:1)";
+    }
+}
+

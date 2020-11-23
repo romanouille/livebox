@@ -1,0 +1,52 @@
+using "../nmccore_networkconfig.so";
+persistent object NMC {
+persistent object NetworkConfig {
+persistent bool Enable {
+default true;
+}
+persistent string ConfigName {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default "";
+}
+persistent datetime ConfigDate;
+persistent uint32 Delay {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default 300;
+}
+string Status {
+constraint enum ["Enabled", "Disabled", "Triggered", "Instant", "Saving", "Available", "Loading", "Uploading", "Downloading", "Reset", "Error"];
+default "Enabled";
+}
+void enableNetworkBR(bool state) {
+acl {
+world none;
+}
+}
+void launchNetworkBackup(bool delay) {
+acl {
+world none;
+}
+}
+void launchNetworkRestore() {
+acl {
+world none;
+}
+}
+void saveConfigInfo() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void get();
+}
+}

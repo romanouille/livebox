@@ -1,0 +1,25 @@
+object DHCPv4 {
+object Client[] {
+string Alias;
+}
+object Server {
+bool Enable;
+object Pool[] {
+counted with PoolNumberOfEntries;
+}
+}
+}
+datamodel {
+object DHCPv4 {
+object Server {
+destination "pcb://$(PCB_MAIN_BUS)/DHCPv4/Server/Pool/default" {
+parameter Enable;
+}
+object Pool from "pcb://$(PCB_MAIN_BUS)/DHCPv4/Server/Pool" recursive;
+}
+instance of Client(0,"data") from "pcb://$(PCB_MAIN_BUS)/DHCPv4/Client/Intf/dhcp_data" recursive;
+instance of Client(0,"data") {
+parameter Alias = "DHCLIENT_DATA";
+}
+}
+}

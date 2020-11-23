@@ -1,0 +1,28 @@
+{  
+   "status":0,
+   "data":{  
+      "pinholeList":[  
+         {  
+            "name":"webui_1",
+            "isEnabled":true,
+            "protocol":"tcp",
+            "destinationIPAddress":"192.168.1.55",
+            "destinationPort":"1232-1232"
+         },
+         {  
+            "name":"webui_3",
+            "isEnabled":true,
+            "protocol":"tcp",
+            "destinationIPAddress":"192.168.1.55",
+            "destinationPort":"12532-12532"
+         },
+         {  
+            "name":"webui_2",
+            "isEnabled":false,
+            "protocol":"tcp",
+            "destinationIPAddress":"192.168.1.33",
+            "destinationPort":"12532-12532"
+         }
+      ]
+   }
+}

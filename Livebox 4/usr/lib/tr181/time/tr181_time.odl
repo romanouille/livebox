@@ -1,0 +1,28 @@
+object Time {
+    bool Enable;
+    string Status;
+    string NTPServer1;
+    string NTPServer2;
+    string NTPServer3;
+    string NTPServer4;
+    string NTPServer5;
+    datetime CurrentLocalTime;
+    string LocalTimeZone;
+}
+
+datamodel {
+    object Time {    
+        destination "pcb://$(PCB_MAIN_BUS)/Time" {
+            parameter Enable;
+            parameter Status;
+            parameter NTPServer1;
+            parameter NTPServer2;
+            parameter NTPServer3;
+            parameter NTPServer4;
+            parameter NTPServer5;
+            parameter CurrentLocalTime;
+            parameter LocalTimeZone;
+        }
+    }
+}
+

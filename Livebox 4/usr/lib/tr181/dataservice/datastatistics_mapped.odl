@@ -1,0 +1,25 @@
+
+
+object Services 
+{
+    object X_ORANGE-COM_MultimediaHub{
+        bool PeriodicStatsEnable;
+        uint32 PeriodicStatsInterval{
+            constraint range [7200, 172800];
+            default 43200;
+        }
+        string KarmaTrackURL;
+    }
+}
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_MultimediaHub {
+            destination "pcb://$(PCB_MAIN_BUS)/DataStatistics/Addon/mediahub" {
+                parameter PeriodicStatsEnable from sync;
+                parameter PeriodicStatsInterval from interval;
+                parameter KarmaTrackURL from url;
+            }
+        }
+    }
+}

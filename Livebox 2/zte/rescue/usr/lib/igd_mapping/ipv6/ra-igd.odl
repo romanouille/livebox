@@ -1,0 +1,6 @@
+
+object RouterAdvertisement;
+
+datamodel {
+    object RouterAdvertisement from "pcb://$(PCB_MAIN_BUS)/RouterAdvertisement" recursive;
+}

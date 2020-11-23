@@ -1,0 +1,14 @@
+<b>Aktualizacja</b><br>
+<br>
+
+
+Jeżeli aktualizacja oprogramowania modemu jest dostępna, zostanie ona pobrana automatycznie. Niebieska dioda aktualizacji miga do momentu, aż proces się zakończy. Jeżeli podczas tego procesu wystąpi problem, diody Internetu i aktualizacji będą świecić światłem ciągłym.<br><br>
+Oprogramowanie Twojego modemu Livebox jest zdalnie akutalizowane, aby zawsze zapewnić dostęp do najnowszych usług. Orange stara się tak dobierać godziny aktualizacji oprogramowania, aby miało to jak najmniejszy wpływ na korzystanie z Internetu. W czasie wgrywania nowego oprogramowania świeci się niebieska dioda.
+
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

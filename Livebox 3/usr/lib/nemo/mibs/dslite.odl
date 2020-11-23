@@ -1,0 +1,9 @@
+object NeMo {
+object extends MIB(0,"dslite") {
+string Flag = "dslite";
+object DataModel {
+string LocalEndpointAddress;
+string RemoteEndpointAddress;
+}
+}
+}

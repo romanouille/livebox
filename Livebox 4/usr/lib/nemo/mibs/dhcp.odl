@@ -1,0 +1,217 @@
+/**
+ * The DHCP MIB is available on all NeMo Intfs that have the "dhcp"-flag set. For each Intf that has
+ * the "dhcp"-flag set, a DHCP client instance is created through mbus atomic. The IPIntf of the DHCP
+ * client is the direct LLIntf if it's a netdev.
+ */
+
+object NeMo { 
+	object extends MIB(0,"dhcp") {
+		string Flag = "dhcp";
+		object DataModel {
+			/**
+			 * The protocol status as specified in RFC 2131. This Intf is considered to be
+			 * up if (or: the "up"-flag is set if) this parameter equals "Bound",
+			 * "Renewing" or "Rebinding".
+			 */
+			read-only string DHCPStatus="Idle";
+
+			/**
+			 * The cause of failure for the last connection setup attempt.
+			 */
+			read-only string LastConnectionError="ERROR_NONE";
+
+			/**
+			 * When set to true, the DHCP client will renew its DHCP lease. Always false
+			 * when read.
+			 */
+			bool Renew;
+
+			/**
+			 * IPv4 Address option received from the DHCP Server. An empty string when
+			 * Intf not up.
+			 */
+			read-only string IPAddress;
+
+			/**
+			 * Subnet mask option received from the DHCP Server. An empty string when Intf
+			 * not up.
+			 */
+			read-only string SubnetMask;
+
+			/**
+			 * Comma-separated list (maximum length 256) of IPv4Addresses. Items represent
+			 * IP Router IPv4 Address(es) received from the DHCP server. An empty string
+			 * when Intf is not up. Value is information received via DHCP Options 3, 33
+			 * or 121.
+			 */
+			read-only string IPRouters;
+
+			/**
+			 * Comma-separated list (maximum length 256) of IPv4Addresses. Items represent
+			 * DNS Server IPv4 Address(es) received from the DHCP server. An empty string
+			 * when Intf is not up. Value is information received via DHCP Option 6.
+			 */
+			read-only string DNSServers;
+
+			/**
+			 * The IPv4 address of the current DHCP server.
+			 */
+			read-only string DHCPServer;
+
+			/**
+			 * DHCP lease time in seconds. A value of -1 indicates an infinite lease.
+			 */
+			read-only int32 LeaseTime;
+
+			/**
+			 * DHCP lease time remaining in seconds. A value of -1 indicates an infinite
+			 * lease.
+			 */
+			volatile read-only int32 LeaseTimeRemaining;
+
+			/**
+			 * The time in seconds that this connection has been up.
+			 */
+			volatile read-only uint32 Uptime;
+
+			/**
+			 * Packets sent on raw socket are marked with this DSCP value if non-negative.
+			 */
+			persistent int8 DSCPMark=-1;
+
+			/**
+			 * Packets sent on raw socket are marked with this VLANPriority if 
+			 * non-negative. Requires VLANPriority of underlying VLAN Intf to be set to -1.
+			 */
+			persistent int8 PriorityMark=-1;
+
+			/**
+			 * If set to true, the DHCP client does not automatically assign received
+			 * IP-address to the interface.
+			 */
+			bool Formal;
+
+			/**
+			 * 
+			 */
+			persistent bool CheckAuthentication;
+
+			/**
+			 * An optional string to be matched with the authentication information
+			 * received via DHCP option 90. See also RFC 3118. The only supported protocol
+			 * is "Configuration Token". If this parameter is non-empty, a substring match
+			 * is applied, i.e. the received authentication information must contain the
+			 * value of this parameter. An empty string means no authentication, which is
+			 * the default.
+			 */
+			persistent string AuthenticationInformation;
+
+			/**
+			 * A DHCP client is never started before its lower layers are up. Whether and
+			 * when the DHCP client should be shut down again when one of the lower layers
+			 * go down can be configured by this parameter. If it is set to zero, which is
+			 * the default, the DHCP client is shut down immediately after a lower layer
+			 * went down. A positive value indicates a timeout in seconds: the DHCP client
+			 * will only be shut down if a lower layer remains down for at least
+			 * ResetOnPhysDownTimeout seconds. A negative value indicates that the DHCP
+			 * client should never be shut down based on lower layer states. In any case,
+			 * when the lower layers are up again, the DHCP client is always restarted if
+			 * it was down.
+			 */
+			persistent int32 ResetOnPhysDownTimeout;
+
+			/** 
+			 * Space separated list of retransmission timeouts, expressed in milli seconds. 
+			 * -1 means, keep repeating the last value, if not terminated with -1, the retransmission will stop. 
+			 */
+			persistent string RetransmissionStrategy="2000 4000 8000 16000 32000 64000 -1 0";
+ 
+			/**
+			 * Define how the renew retransmission should be done
+			 * If the value is -1, then use the RFC defined behavior ()
+			 * If the value is > 0, the number is interpreted as a linear backoff timeout in seconds.
+ 			*/
+			persistent int32 RetransmissionRenewTimeout=-1;
+
+			/**
+			 * Alternative flavour for renewing the DHCP lease. (TR-198 specifies the
+			 * Renew parameter, see above).
+			 */
+			void renew(int32 numberOfRenew, int32 delay) {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/**
+			 * Function to rebind the DHCP lease. 
+			 */
+			void rebind(int32 numberOfRebind, int32 delay) {
+			    acl {
+			        world none;
+			    }
+			}
+		
+
+			/**
+			 * Each instance of this object represents a DHCP option that is sent in DHCP
+			 * client requests if enabled.
+			 */
+			persistent object SentOption[] {
+				/**
+				 * Enable Enables or disables this ReqOption table entry.
+				 */
+				persistent bool Enable=true;
+
+				/**
+				 * Alias A non-volatile handle used to reference this instance. If it's
+				 * left blank at creation time, a unique value is auto-generated.
+				 */
+				persistent string Alias;
+
+				/**
+				 * Tag Option tag as defined in RFC 2132.
+				 */
+				persistent uint8 Tag;
+
+				/**
+				 * Value A hexbinary encoded, most recently received DHCP option value.
+				 * An empty string when Intf not up. 
+				 */
+				persistent string Value;
+			}
+
+			/**
+			 * Each instance of this object represents a DHCP option that is requested in
+			 * DHCP client requests if enabled.
+			 */
+			persistent object ReqOption[] {
+
+			/**
+			 * Enables or disables this ReqOption table entry.
+			 */
+				persistent bool Enable=true;
+
+			/**
+			 * A non-volatile handle used to reference this instance. If it's left blank
+			 * at creation time, a unique value is auto-generated.
+			 */
+				persistent string Alias;
+
+			/**
+			 * Option tag as defined in RFC 2132.
+			 */
+				persistent uint8 Tag;
+
+			/**
+			 * A hexbinary encoded, most recently received DHCP option value. An empty
+			 * string when Intf not up.
+			 */
+				read-only string Value;
+			}
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/dhcp.odl */

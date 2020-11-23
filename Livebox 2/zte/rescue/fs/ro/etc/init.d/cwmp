@@ -1,0 +1,120 @@
+#!/bin/sh
+PIDCWMP_PLUGIN="/var/run/cwmp-plugin.pid"
+CWMP_PLUGIN="/bin/pcb_plugin -vv -n cwmp-plugin -c /usr/lib/cwmp/cwmp_plugin.odl"
+
+PIDCWMP="/var/run/cwmpd.pid"
+CWMP="/usr/sbin/cwmpd -vv -d /usr/lib/cwmp/libdmda_pcb.so"
+
+CWMPDCERTS="/usr/lib/cwmp/cwmpdcerts.pem"
+CWMPDACACHE="/etc/cwmp_acache.txt"
+
+PIDIP_PING_DIAGNOSTICE_PLUGIN="/var/run/ippingdiagnostics.pid"
+IP_PING_DIAGNOSTICE_PLUGIN="/bin/pcb_plugin -vvf -n ippingdiagnostics -c /usr/lib/cwmp/IPPingDiagnostics.odl"
+
+start() {
+
+    if [ -e /usr/lib/cwmp/cwmp_acache.txt ] && [ ! -e ${CWMPDACACHE} ]; then
+         echo "Set cwmp parameters default attributes"
+         cp /usr/lib/cwmp/cwmp_acache.txt ${CWMPDACACHE}
+    fi
+
+    if [ -e "/etc/config/cwmpd_upgrade_persistent.upd" ]; then
+        echo "/etc/config/cwmpd_upgrade_persistent.upd exists:"
+        cp /etc/config/cwmpd_upgrade_persistent.upd /tmp/cwmpd_upgrade_persistent.upd
+        cat /etc/config/cwmpd_upgrade_persistent.upd
+    fi
+
+    if [ -e ${PIDCWMP_PLUGIN} ]; then
+        echo "cwmp plug-in already started"
+    else
+        sahenv -f /etc/environment ${CWMP_PLUGIN};
+    fi
+
+    if [ -e ${PIDIP_PING_DIAGNOSTICE_PLUGIN} ]; then
+        echo "ippingdiagnostics plug-in already started"
+    else
+        ${IP_PING_DIAGNOSTICE_PLUGIN} &
+    fi
+
+    if [ -e ${PIDCWMP} ]; then
+        echo "cwmpd already started"
+    else
+        export SAH_TRACE_ZONES=DM_DA,DM_COM,DM_ENGINE,pcb_con
+        if [ -e ${CWMPDCERTS} ]; then
+            pcb_con=0 DM_DA=200 DM_COM=200 DM_ENGINE=200 ${CWMP} --trustedCA=${CWMPDCERTS};
+        else
+            pcb_con=0 DM_DA=200 DM_COM=200 DM_ENGINE=200 ${CWMP};
+        fi
+    fi
+}
+
+stop() {
+    if [ -e ${PIDCWMP} ]; then
+        kill $(cat ${PIDCWMP});
+    else
+        echo "cwmpd already stopped"
+    fi
+
+    if [ -e ${PIDIP_PING_DIAGNOSTICE_PLUGIN} ]; then
+        kill $(cat ${PIDIP_PING_DIAGNOSTICE_PLUGIN});
+    else
+        echo "ippingdiagnostics plug-in already stopped"
+    fi
+
+    if [ -e ${PIDCWMP_PLUGIN} ]; then
+        kill $(cat ${PIDCWMP_PLUGIN});
+    else
+        echo "cwmp plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDCWMP}; do
+        sleep 1
+    done
+    while test -e ${PIDIP_PING_DIAGNOSTICE_PLUGIN}; do
+        sleep 1
+    done
+    while test -e ${PIDCWMP_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+backup() {
+	if [ -e ${PIDCWMP_PLUGIN} ] ; then 
+            pcb_cli "ManagementServer.export($2)"
+        else 
+            echo "ManagementServer is not running, impossible to make a backup"
+        fi
+}
+
+restore() {
+	mkdir -p /var/lib/cwmp
+	touch /var/lib/cwmp/restore
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    backup)
+    	backup
+    	;;
+    restore)
+    	restore
+    	;;
+    reset)
+        rm -f /etc/config/cwmp-settings.odl
+    	;;
+    *)
+        ;;
+esac
+

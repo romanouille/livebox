@@ -1,0 +1,9 @@
+object Services {
+    object X_ORANGE-COM_EasyPairing;
+}
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_EasyPairing from "pcb://$(PCB_MAIN_BUS)/EasyPairing";
+    }
+}

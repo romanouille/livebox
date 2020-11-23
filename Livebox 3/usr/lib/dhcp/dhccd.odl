@@ -1,0 +1,195 @@
+using "dhccd.so";
+define dhcp_option_t {
+uint8 Tag;
+bool Enable;
+variant Value;
+}
+persistent object DHCPv4 {
+object Client {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read,write,execute;
+}
+read-only uint32 ClientNumberOfEntries {
+read with readNrOfClientEntries;
+}
+read-only object Stats {
+read-only uint32 CorruptPackets {
+read with readNrOfCorruptPackets;
+}
+read-only uint32 Discover {
+read with readNrOfDiscover;
+}
+read-only uint32 Request {
+read with readNrOfRequest;
+}
+read-only uint32 Decline {
+read with readNrOfDecline;
+}
+read-only uint32 Release {
+read with readNrOfRelease;
+}
+read-only uint32 Inform {
+read with readNrOfInform;
+}
+read-only uint32 BOOTPReplies {
+read with readNrOfBootpReplies;
+}
+read-only uint32 ForceRenew {
+read with readNrOfForceRenew;
+}
+read-only uint32 OtherMessageTypes {
+read with readNrOfOther;
+}
+read-only uint32 Offer {
+read with readNrOfOffer;
+}
+read-only uint32 ACK {
+read with readNrOfAck;
+}
+read-only uint32 NAK {
+read with readNrOfNAK;
+}
+read-only uint32 FailedPackets {
+read with readNrOfFailedPackets;
+}
+void clearClientStatistics();
+}
+persistent object Intf[16] {
+write with IntfOnWrite;
+persistent string Name {
+write with interfaceNameOnWrite;
+constraint maxvalue 40;
+}
+persistent bool Enable {
+write with interfaceEnableOnWrite;
+default false;
+}
+persistent string IPIntf {
+write with ipIntfOnWrite;
+default "";
+constraint maxvalue 16;
+}
+read-only string Status {
+constraint enum["Disabled", "Enabled", "Error_Misconfigured"];
+default "Disabled";
+}
+read-only string DHCPStatus {
+constraint enum["Invalid", "Idle", "Initreboot", "Rebooting", "Init", "Selecting", "Requesting", "Bound", "Renewing", "Rebinding", "Bootp-bound", "Informing", "InformOk", "Unknown"];
+default "Invalid";
+}
+persistent bool Renew;
+read-only string IPAddress;
+read-only string SubnetMask;
+read-only string DNSServers;
+read-only string IPRouters;
+read-only string DHCPServer;
+read-only uint32 LeaseTime;
+read-only uint32 LeaseTimeRemaining {
+read with leaseTimeRemainingOnRead;
+}
+read-only uint32 RenewTime {
+read with renewTimeOnRead;
+}
+read-only uint32 RebindTime {
+read with rebindTimeOnRead;
+}
+read-only uint32 AcquiringTime {
+read with acquiringTimeOnRead;
+}
+read-only uint32 RetransmissionTime {
+read with retransmissionTimeOnRead;
+}
+read-only uint32 RetransmissionTimeout;
+read-only uint32 RetransmissionCount;
+persistent bool Formal {
+write with formalOnWrite;
+default false;
+}
+read-only uint32 Uptime {
+read with uptimeOnRead;
+}
+read-only string LastConnectionError {
+read with lastErrorOnRead;
+constraint enum["None", "LocalRelease", "RemoteNack", "RenewTimeout", "RebindTimeout", "RequestingTimeout", "InformTimeout", "XidFailure", "ServerIPFailure", "IPAddrFailure", "StateFailure", "MsgFailure", "LinkFailure", "Authentication Failure"];
+default "None";
+}
+persistent uint32 DSCPMark {
+write with dscpmarkOnWrite;
+default 48;
+}
+persistent int32 PriorityMark {
+constraint minvalue -1;
+constraint maxvalue 7;
+write with prioritymarkOnWrite;
+default 0;
+}
+persistent string RetransmissionStrategy {
+write with retransmissionStrategyOnWrite;
+default "2000 4000 8000 16000 32000 64000 -1 0";
+}
+persistent uint32 RetransmissionRandomize {
+write with retransmissionRandomizeOnWrite;
+default 1000;
+}
+persistent int32 RetransmissionRenewTimeout {
+write with retransmissionRenewTimeoutOnWrite;
+default -1;
+}
+persistent bool CheckAuthentication {
+write with checkAuthenticationOnWrite;
+default false;
+}
+persistent string AuthenticationInformation {
+constraint maxvalue 40; 
+write with authenticationInformationOnWrite;
+default "";
+}
+persistent string FileName;
+persistent string ServerName;
+read-only uint32 SentOptionNumberOfEntries {
+read with sentOptionNumberOfEntriesOnRead;
+}
+persistent object SentOption[16] {
+write with txOptionOnWrite;
+persistent bool Enable = false;
+persistent string Alias {
+constraint maxvalue 64;
+}
+persistent uint8 Tag {
+constraint minvalue 0;
+constraint maxvalue 255;
+default 0;
+}
+persistent string Value {
+constraint maxvalue 255;
+}
+}
+read-only uint32 ReqOptionNumberOfEntries {
+read with reqOptionNumberOfEntriesOnRead;
+}
+persistent object ReqOption[64] {
+write with rqOptionOnWrite;
+persistent bool Enable = false;
+persistent string Alias;
+persistent uint8 Tag {
+constraint minvalue 0;
+constraint maxvalue 255;
+default 0;
+}
+string Value;
+}
+void renew(int32 numberOfRenew, int32 delay);
+void rebind(int32 numberOfRebind, int32 delay);
+}
+void setDHCPClientLease(mandatory string id, mandatory string interface, mandatory bool enable);
+void renewLease(mandatory string id, int32 numberOfRenew, int32 delay);
+void rebindLease(mandatory string id, int32 numberOfRebind, int32 delay);
+void setOption(mandatory string id, mandatory string type, mandatory bool direct, mandatory variant value);
+variant getOption(mandatory string id, mandatory string type, mandatory bool direct, mandatory uint8 tag);
+list listOptions(mandatory string id, mandatory string type);
+void verifyAuthInfo(mandatory string id, mandatory bool enable, string authinfo);
+}
+}

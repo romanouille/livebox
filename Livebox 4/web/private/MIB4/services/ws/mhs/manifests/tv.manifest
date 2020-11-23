@@ -1,0 +1,42 @@
+{
+    "Id": "sah_tv",
+    "Category": "Television",
+    "Version": "0.1",
+    "Title": "sah_tv.premiumtitle",
+    "AllowedGroups": "admin,remoteadmin",
+    "Application": { "main": "iframeapp",
+                     "settings": { "target": "http://cloudathome.softathome.com"
+                                 }
+                   },
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img premiumTV\"></span></div>"
+                                          ],
+                                "apicalls":{}
+                              }
+                },
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<div class=title translate=sah_tv.vodtitle></div><span class=\"img vod\"></span></div>"
+                                          ],
+                                "apicalls":{},
+                                "title": "sah_tv.vodtitle"
+                              }
+                }
+              ],
+    "en":{
+        "premiumtitle":"My Premium TV",
+        "vodtitle":"My Video On Demand"
+    },
+    "fr":{
+        "premiumtitle":"ZxZVutmb",
+        "vodtitle":"BRiTEdTB"
+    }
+}

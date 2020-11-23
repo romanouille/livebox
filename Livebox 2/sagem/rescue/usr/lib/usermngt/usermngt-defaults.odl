@@ -1,0 +1,47 @@
+datamodel {
+  object UserManagement {
+    instance of Group(1, "http") {
+      parameter Enable = 1;
+      parameter GID = 2;
+      parameter GroupName = "http";
+    }
+
+    instance of Group(2, "admin") {
+      parameter Enable = 1;
+      parameter GID = 2;
+      parameter GroupName = "admin";
+    }
+
+    instance of Group(3, "remoteadmin") {
+      parameter Enable = 1;
+      parameter GID = 3;
+      parameter GroupName = "remoteadmin";
+    }
+
+    instance of Group(4, "cwmpd") {
+      parameter Enable = 1;
+      parameter GID = 4;
+      parameter GroupName = "cwmpd";
+    }
+
+    /**
+     * Main webui user
+     */
+    instance of User(1, "admin") {
+      parameter UID = 1;
+      parameter UserName = "admin";
+      parameter Password = "admin";
+      parameter UserGroupParticipation = "http,admin";
+    }
+
+    /**
+     * TR69 user
+     */
+    instance of User(2, "cwmpd") {
+      parameter UID=2;
+      parameter UserName="cwmpd";
+      parameter Password="admin";
+      parameter UserGroupParticipation="cwmpd";
+    }
+  }
+}

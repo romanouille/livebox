@@ -1,0 +1,17 @@
+using "dataexport.so";
+
+acl {
+  world read, execute;
+  group admin read, execute;
+  group remoteadmin read, execute;
+  group gmap read, execute;
+  group cwmpd read, write, execute;
+}
+
+
+/*  */
+object DataExport {
+    int32 getStatus(out string result);
+}
+
+/** @location commod_mediahub_dataexport add-on/frontend/pcb/dataexport-definitions.odl.m4 */

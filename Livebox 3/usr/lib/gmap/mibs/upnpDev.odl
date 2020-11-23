@@ -1,0 +1,146 @@
+/*expr:upnp and logical*/
+using "/usr/lib/gmap/mibs/impl/mib_upnp.so";
+
+/**
+ * MIB is loaded on all upnp devices.
+ *
+ * All devices matching expression: "upnp" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib upnpDev {
+	/**
+	* The type of UPnP device
+	* Standard devices have the following format urn:schemas-upnp-org:device:<deviceType>:<ver>
+	*  <deviceType> - is standardized device type suffix
+	*  <ver> - integer version
+	*
+  * @version 6.0
+	*/
+	string Type;
+
+	/**
+	* The manufacturer of this UPnP device
+	*
+  * @version 6.0
+	*/
+	string Manufacturer;
+
+	/**
+	* URL containing information about the manufacturer of this UPnP device
+	*
+  * @version 6.0
+	*/
+	string ManufacturerURL;
+
+	/**
+	* A string describing this UPnP device
+	*
+  * @version 6.0
+	*/
+	string ModelDescription;
+
+	/**
+	* The model name of this UPnP device
+	*
+  * @version 6.0
+	*/
+	string ModelName;
+
+	/**
+	* The model number of this UPnP device
+	*
+  * @version 6.0
+	*/
+	string ModelNumber;
+
+	/**
+	* The URL describing this model
+	*
+  * @version 6.0
+	*/
+	string ModelURL;
+
+	/**
+	* The serial number of this UPnP device
+	*
+  * @version 6.0
+	*/
+	string SerialNumber;
+
+	/**
+	* The Unique Device Name
+	* This identifier is unique and boot persistent for every UPnP device
+	*
+  * @version 6.0
+	*/
+	string UDN;
+
+	/**
+	* The Universal Product Code
+	*
+  * @version 6.0
+	*/
+	string UPC;
+
+	/**
+	* URL containing the presentation of this UPnP device
+	*
+  * @version 6.0
+	*/
+	string PresentationURL;
+
+	/**
+	* String containing the OS version, the UPnP version, and the product name and version of the service
+	*
+  * @version 6.0
+	*/
+	string Server;
+
+	object Service[] {
+		/**
+		* The UPnP service type
+		*
+		* @version 6.0
+		*/
+		string ServiceType;
+
+		/**
+		* The Service Identifier
+		* Must be unique within the device description that it is listed in
+		*
+		* @version 6.0
+		*/
+		string ServiceId;
+
+		/**
+		* The URL specifying where the Service Control Protocol Document can be found
+		*
+		* @version 6.0
+		*/
+		string SCPDURL;
+
+		/**
+		* The URL for control
+		*
+		* @version 6.0
+		*/
+		string ControlURL;
+
+		/**
+		* The URL for eventing
+		*
+		* @version 6.0
+		*/
+		string EventSubURL;
+	}
+
+	/**
+	* Function to add a UPnP service to a UPnP device
+	*
+	* @version 6.0
+	*/
+	void addService(mandatory variant service);
+}
+
+/** @location sah_services_gmap /mibs/upnpDev.odl */

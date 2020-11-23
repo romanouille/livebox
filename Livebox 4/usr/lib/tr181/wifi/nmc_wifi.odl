@@ -1,0 +1,254 @@
+
+
+
+
+object WiFi {
+	object wps_DefParam;
+	object Radio[] {
+		counted with RadioNumberOfEntries;
+		read-only string Status;
+		string BaseMACAddress;
+		string Alias;
+		read-only string Name;
+		read-only string VendorPCISig;
+		read-only uint32 Index;
+		read-only bool Upstream;
+		read-only uint32 MaxBitRate;
+		read-only string SupportedFrequencyBands;
+		string OperatingFrequencyBand;
+		read-only string SupportedStandards;
+		string OperatingStandards;
+		read-only string PossibleChannels;
+		string ChannelsInUse;
+		read-only bool AutoChannelSupported;
+		bool AutoChannelEnable;
+		uint32 AutoChannelRefreshPeriod;
+		read-only bool AutoChannelSelection;
+		uint32 Channel;
+		string OperatingChannelBandwidth;
+		string ExtensionChannel;
+		string GuardInterval;
+		int32 MCS;
+		read-only string TransmitPowerSupported;
+		int32 TransmitPower;
+		read-only bool IEEE80211hSupported;
+		bool IEEE80211hEnabled;
+		string RegulatoryDomain;
+		read-only string IEEE80211_Caps;
+		bool Enable;
+		object Stats;
+	}
+	object SSID[] {
+	       counted with SSIDNumberOfEntries;
+	       bool Enable;
+	       read-only string Status;
+	       string Alias;
+	       read-only string Name;
+	       read-only string BSSID;
+	       read-only string MACAddress;
+	       string SSID;
+	       object Stats;
+	}
+	object AccessPoint[] {
+	    /* we need this here as the existing alias wlx is not compatible with FT
+	     * the good solution would be to solve this in the wifi plugin
+         */
+		counted with AccessPointNumberOfEntries;
+		read-only string Status;
+		string Alias;
+		string SSIDReference;
+		bool SSIDAdvertisementEnabled;
+		uint32 RetryLimit;
+		read-only bool WMMCapability;
+		bool WMMEnable;
+		bool UAPSDEnable;
+		bool MCEnable;
+		bool APBridgeDisable;
+		int32 MaxStations;
+		read-only uint32 AssociatedDeviceNumberOfEntries;
+		read-only uint32 X_ORANGE-COM_ActiveAssociatedDeviceNumberOfEntries;
+		object Security;
+		object WPS;
+		object MACFiltering;
+		read-only object AssociatedDevice[];
+	}
+	object EndPoint[] {
+		counted with EndPointNumberOfEntries;
+		read-only string Status;
+		string Alias;
+		read-only uint32 Index;
+		string ProfileReference;
+		string SSIDReference;
+		int32 ProfileNumberOfEntries;
+		object Stats;
+		object Security;
+		object Profile[];
+		object WPS;
+		bool Enable;
+	}
+	object X_ORANGE-COM_Scheduler {
+		bool Enable;
+		string ActivationTimeSlots;
+	}
+}
+
+datamodel {
+	object WiFi {
+
+		instance of Radio(0,"wifi0_BCM") {
+		       parameter Alias="RADIO2G4";
+			destination "pcb://$(PCB_MAIN_BUS)/WiFiBCM/Radio/wifi0" {
+				parameter Status;
+				parameter BaseMACAddress;
+				parameter Name;
+				parameter VendorPCISig;
+				parameter Index;
+				parameter Upstream;
+				parameter MaxBitRate;
+				parameter SupportedFrequencyBands;
+				parameter OperatingFrequencyBand;
+				parameter SupportedStandards;
+				parameter OperatingStandards;
+				parameter PossibleChannels;
+				parameter ChannelsInUse;
+				parameter AutoChannelSupported;
+				parameter AutoChannelEnable;
+				parameter AutoChannelRefreshPeriod;
+				parameter AutoChannelSelection;
+				parameter Channel;
+				parameter OperatingChannelBandwidth;
+				parameter ExtensionChannel;
+				parameter GuardInterval;
+				parameter MCS;
+				parameter TransmitPowerSupported;
+				parameter TransmitPower;
+				parameter IEEE80211hSupported;
+				parameter IEEE80211hEnabled;
+				parameter RegulatoryDomain;
+				parameter IEEE80211_Caps;
+				parameter Enable;
+			}
+			object Stats from "pcb://$(PCB_MAIN_BUS)/WiFiBCM/Radio/wifi0/Stats" recursive;
+		}
+
+
+		instance of Radio(0,"wifi0_QUAN") {
+		       parameter Alias="RADIO5G";
+			destination "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/Radio/wifi0" {
+				parameter Status;
+				parameter BaseMACAddress;
+				parameter Name;
+				parameter VendorPCISig;
+				parameter Index;
+				parameter Upstream;
+				parameter MaxBitRate;
+				parameter SupportedFrequencyBands;
+				parameter OperatingFrequencyBand;
+				parameter SupportedStandards;
+				parameter OperatingStandards;
+				parameter PossibleChannels;
+				parameter ChannelsInUse;
+				parameter AutoChannelSupported;
+				parameter AutoChannelEnable;
+				parameter AutoChannelRefreshPeriod;
+				parameter AutoChannelSelection;
+				parameter Channel;
+				parameter OperatingChannelBandwidth;
+				parameter ExtensionChannel;
+				parameter GuardInterval;
+				parameter MCS;
+				parameter TransmitPowerSupported;
+				parameter TransmitPower;
+				parameter IEEE80211hSupported;
+				parameter IEEE80211hEnabled;
+				parameter RegulatoryDomain;
+				parameter IEEE80211_Caps;
+				parameter Enable;
+			}
+			object Stats from "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/Radio/wifi0/Stats" recursive;
+		}
+
+		object wps_DefParam from "pcb://$(PCB_MAIN_BUS)/WiFiBCM/wps_DefParam" recursive;
+
+		instance of SSID(0, "wl0") {
+			 parameter Alias="SSID_LAN_2G4";
+			 destination "pcb://$(PCB_MAIN_BUS)/WiFiBCM/SSID/wl0" {
+				parameter Enable;
+				parameter Status;
+				parameter Name;
+				parameter BSSID;
+				parameter MACAddress;
+				parameter SSID;
+			 }
+			 object Stats from "pcb://$(PCB_MAIN_BUS)/WiFiBCM/SSID/wl0/Stats" recursive;
+		}
+
+
+		instance of SSID(0, "eth6") {
+			 parameter Alias="SSID_LAN_5G";
+			 destination "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/SSID/eth6" {
+				parameter Enable;
+				parameter Status;
+				parameter Name;
+				parameter BSSID;
+				parameter MACAddress;
+				parameter SSID;
+			 }
+			 object Stats from "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/SSID/eth6/Stats" recursive;
+		}
+
+
+		instance of AccessPoint(0, "wl0") {
+			parameter Alias="AP_LAN_2G4";
+			destination "pcb://$(PCB_MAIN_BUS)/WiFiBCM/AccessPoint/wl0" {
+				parameter Status;
+				parameter SSIDReference;
+				parameter SSIDAdvertisementEnabled;
+				parameter RetryLimit;
+				parameter WMMCapability;
+				parameter WMMEnable;
+				parameter UAPSDEnable;
+				parameter MCEnable;
+				parameter APBridgeDisable;
+				parameter MaxStations;
+				parameter AssociatedDeviceNumberOfEntries;
+				parameter X_ORANGE-COM_ActiveAssociatedDeviceNumberOfEntries from ActiveAssociatedDeviceNumberOfEntries;
+			}
+			object Security from "pcb://$(PCB_MAIN_BUS)/WiFiBCM/AccessPoint/wl0/Security" recursive;
+			object WPS from "pcb://$(PCB_MAIN_BUS)/WiFiBCM/AccessPoint/wl0/WPS" recursive;
+			object MACFiltering from "pcb://$(PCB_MAIN_BUS)/WiFiBCM/AccessPoint/wl0/MACFiltering" recursive;
+			object AssociatedDevice from "pcb://$(PCB_MAIN_BUS)/WiFiBCM/AccessPoint/wl0/AssociatedDevice" recursive;
+		}
+
+
+		instance of AccessPoint(0, "eth6") {
+			parameter Alias="AP_LAN_5G";
+			destination "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/AccessPoint/eth6" {
+				parameter Status;
+				parameter SSIDReference;
+				parameter SSIDAdvertisementEnabled;
+				parameter RetryLimit;
+				parameter WMMCapability;
+				parameter WMMEnable;
+				parameter UAPSDEnable;
+				parameter MCEnable;
+				parameter APBridgeDisable;
+				parameter MaxStations;
+				parameter AssociatedDeviceNumberOfEntries;
+				parameter X_ORANGE-COM_ActiveAssociatedDeviceNumberOfEntries from ActiveAssociatedDeviceNumberOfEntries;
+			}
+			object Security from "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/AccessPoint/eth6/Security" recursive;
+			object WPS from "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/AccessPoint/eth6/WPS" recursive;
+			object MACFiltering from "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/AccessPoint/eth6/MACFiltering" recursive;
+			object AssociatedDevice from "pcb://$(PCB_MAIN_BUS)/WiFiQUAN/AccessPoint/eth6/AssociatedDevice" recursive;
+		}
+
+
+		object X_ORANGE-COM_Scheduler {
+			destination "pcb://$(PCB_MAIN_BUS)/NMC/Wifi" {
+				parameter Enable from SchedulingEnabled;
+				parameter ActivationTimeSlots from SchedulingActivationTimeSlots;
+			}
+		}
+	}
+}

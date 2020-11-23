@@ -1,0 +1,120 @@
+object "$(XTM_ROOT)" {
+object ATM {
+object Link[] {
+counted with LinkNumberOfEntries;
+bool Enable {
+write with atm_linkEnableOnWrite;
+default false;
+}
+string LinkStatus {
+constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+default "Down";
+}
+string Alias;
+string Name;
+uint32 LastChange;
+uint32 LastChangeTime;
+string LowerLayer {
+write with atm_lowerLayerOnWrite;
+}
+string LinkType {
+constraint enum["EoA","IPoA","PPPoA","CIP","Unconfigured"];
+default "Unconfigured";
+}
+bool AutoConfig;
+string DestinationAddress {
+write with atm_linkDestinationAddressOnWrite;
+}
+string Encapsulation {
+write with atm_linkEncapsulationOnWrite;
+constraint enum["LLC","VCMUX"];
+default "VCMUX";
+}
+bool FCSPreserved;
+string VCSearchList;
+string AAL {
+constraint enum["AAL1","AAL2","AAL3","AAL4","AAL5"];
+default "AAL5";
+}
+object Stats {
+uint32 BytesSent {
+read with common_bytesSentOnRead;
+}
+uint32 BytesReceived {
+read with common_bytesReceivedOnRead;
+}
+uint32 PacketsSent {
+read with common_packetsSentOnRead;
+}
+uint32 PacketsReceived {
+read with common_packetsReceivedOnRead;
+}
+uint32 ErrorsSent {
+read with common_errorsSentOnRead;
+}
+uint32 ErrorsReceived {
+read with common_errorsReceivedOnRead;
+}
+}
+object QoS {
+string QoSClass {
+write with atm_qosClassOnWrite;
+constraint enum["UBR","CBR","GFR","VBR-nrt","VBR-rt","UBR+","ABR"];
+default "UBR";
+}
+uint32 PeakCellRate {
+write with atm_qosPeakCellRateOnWrite;
+}
+uint32 MaximumBurstSize {
+write with atm_qosMaximumBurstSizeOnWrite;
+}
+uint32 SustainableCellRate {
+write with atm_qosSustainableCellRateOnWrite;
+}
+}
+bool oamPing();
+}
+}
+object PTM {
+object Link[] {
+counted with LinkNumberOfEntries;
+bool Enable {
+write with ptm_linkEnableOnWrite;
+}
+string LinkStatus {
+constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+default "Down";
+}
+string Alias;
+string Name;
+uint32 LastChange;
+uint32 LastChangeTime;
+string LowerLayer {
+write with ptm_lowerLayerOnWrite;
+}
+string MACAddress {
+write with ptm_linkMACAddressOnWrite;
+}
+object Stats {
+uint32 BytesSent {
+read with common_bytesSentOnRead;
+}
+uint32 BytesReceived {
+read with common_bytesReceivedOnRead;
+}
+uint32 PacketsSent {
+read with common_packetsSentOnRead;
+}
+uint32 PacketsReceived {
+read with common_packetsSentOnRead;
+}
+uint32 ErrorsSent {
+read with common_errorsSentOnRead;
+}
+uint32 ErrorsReceived {
+read with common_errorsReceivedOnRead;
+}
+}
+}
+}
+}

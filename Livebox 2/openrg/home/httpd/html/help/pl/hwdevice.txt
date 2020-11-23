@@ -1,0 +1,22 @@
+<b>Dane urządzenia</b><br>
+<br>
+Na tej stronie możesz zarządzać swoimi urządzeniami.<br><br>
+
+
+<b><span class="boldorange">Konfiguracja urządzenia:</span></b><br>
+Możesz wpisać nazwę urządzenia, określić typ urządzenia, przypisać do niego ikonę oraz wybrać, w którym pomieszczeniu się znajduje.
+<br><br>
+
+<b><span class="boldorange">Konfiguracja połączenia urządzenia:</span></b><br>  
+To pole pokazuje, jak urządzenie jest połączone z modemem Livebox: rodzaj połączenia (Ethernet, USB lub Wi-Fi), status połączenia oraz adres IP.
+
+
+<br><br>
+<b><span class="boldorange">Usuń urządzenie:</span></b><br> 
+Przycisk <b>"Usuń urządzenie"</b> służy do usuwania urządzenia z sieci.
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

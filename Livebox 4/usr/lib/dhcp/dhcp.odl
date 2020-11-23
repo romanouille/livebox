@@ -1,0 +1,4 @@
+include "dhccd.odl";
+include "dhcpd.odl";
+
+/** @location sah_services_dhcp /scripts/dhcp.odl.m4 */

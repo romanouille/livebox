@@ -1,0 +1,19 @@
+if [ $# -ne 1 ]
+then exit 1
+fi
+retval=2
+for devid in `ls /sys/class/scsi_device`; do
+	cd /sys/class/scsi_device/${devid}/device/block
+	for dev in `ls -d $1* 2>&-`; do
+		mp=`/sbin/createMP /sys/class/scsi_device/${devid}/device ${dev}`
+		echo mount /dev/${dev} on ${mp}
+		mkdir ${mp} >&- 2>&-
+		mount /dev/${dev} ${mp} >&- 2>&-
+	    if [ $? -ne 0 ]
+	    then exit 4
+	    fi
+		/sbin/createDir $dev
+		retval=0
+	done
+done
+exit ${retval}

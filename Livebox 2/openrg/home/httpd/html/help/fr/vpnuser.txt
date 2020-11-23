@@ -1,0 +1,4 @@
+<b>VPN utilisateurs :</b><br>
+<br>
+Cette page vous permet de créer de nouveaux utilisateurs, de leurs attribuer un mot de passe (afin de pouvoir les authentifier lorsqu’ils voudront se connecter) et de leur appliquer un mode de connexion défini au niveau du profil.
+

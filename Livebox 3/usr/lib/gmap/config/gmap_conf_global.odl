@@ -1,0 +1,17 @@
+datamodel {
+object Devices {
+object Config {
+acl {
+world none;
+}
+object global {
+parameter MaxLanDevices=100;
+parameter MaxLanDevicesAccept=true;
+parameter MaxInactiveAge=30;
+parameter DeviceTypeOrder="webui,user,tags,mdns,dhcp,lltd,plc,mac,upnp,usb,voice,default";
+parameter NameOrder="webui,user,dil";
+parameter MDNSDisable=false;
+}
+}
+}
+}

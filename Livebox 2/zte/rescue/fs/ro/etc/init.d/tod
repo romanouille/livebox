@@ -1,0 +1,45 @@
+#!/bin/sh
+PIDTOD_PLUGIN="/var/run/tod-plugin.pid"
+TOD_PLUGIN="/bin/pcb_plugin -vv -n tod-plugin -c /usr/lib/tod/tod_plugin.odl"
+
+start() {
+
+    if [ -e ${PIDTOD_PLUGIN} ]; then
+        echo "ToD plug-in already started"
+    else
+        echo "Starting ToD plug-in"
+        ${TOD_PLUGIN};
+    fi
+}
+
+stop() {
+    if [ -e ${PIDTOD_PLUGIN} ]; then
+        echo "Stopping ToD plug-in"
+        kill $(cat ${PIDTOD_PLUGIN});
+    else
+        echo "ToD plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDTOD_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac
+

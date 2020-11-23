@@ -1,0 +1,10 @@
+<b>DMZ</b><br>
+<br>
+Jeśli skonfigurujesz tę opcję, wybrany komputer będzie widoczny w sieci internetowej. Wszystkie porty będą dostępne z Internetu i przekierowywane na adres IP urządzenia. Opcja ta zalecana jest tylko dla zaawansowanych użytkowników.
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,64 @@
+/**
+ * This MIB is only a data container and has no functional meaning.
+ */
+
+object Services 
+{
+    object X_ORANGE-COM_MultimediaHub {
+        bool Enable;
+        string HubID;
+        uint32 MaxHubNumber;
+        string SoftwareVersion;
+        string ProvisioningStatus;
+        string OperationalStatus ;
+        string AdministrativeStatus;
+        string WassupURL;
+        string OCCBackEndURL;
+        string OCCUploadURL;
+        string PNSReadURL;
+        string PNSWriteURL;
+        string DynDNSServerURL;
+        string MailDynDNSServerURL;
+        string XsmsDynDNSServerURL;
+        string DnsDomainName;
+        bool RemoteFileSystemAccessEnable;
+        string HardDiskType;
+        string MainMailUserAccount;
+    }
+}
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_MultimediaHub {
+            destination "pcb://$(PCB_MAIN_BUS)/DataHub/MediaHub" {
+                parameter HubID;
+                parameter MaxHubNumber;
+                parameter SoftwareVersion;
+                parameter ProvisioningStatus;
+                parameter OperationalStatus;
+                parameter AdministrativeStatus;
+                parameter WassupURL;
+                parameter OCCBackEndURL;
+                parameter OCCUploadURL;
+                parameter PNSReadURL;
+                parameter PNSWriteURL;
+                parameter DynDNSServerURL;
+                parameter MailDynDNSServerURL;
+                parameter XsmsDynDNSServerURL;
+                parameter DnsDomainName;
+                parameter RemoteFileSystemAccessEnable; 
+                parameter HardDiskType;
+                parameter MainMailUserAccount;
+            }
+        }
+    }
+    object Services {
+        object X_ORANGE-COM_MultimediaHub {
+            destination "pcb://$(PCB_MAIN_BUS)/DataHub" {
+                parameter Enable;
+            }
+        }
+    }
+}
+
+/** @location commod_datahub_dataservice */

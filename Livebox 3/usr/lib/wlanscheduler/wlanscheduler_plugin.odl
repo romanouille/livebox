@@ -1,0 +1,20 @@
+using "wlanscheduler_plugin.so";
+object WLanScheduler {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+message  bool setState(string ID, string state);
+bool export(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool import(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}

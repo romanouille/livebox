@@ -1,0 +1,170 @@
+#!/bin/sh
+
+SCRIPTNAME=$(basename $0)
+
+TIMEOUT=30
+
+RWDATAPATH="/cfg/system"
+PIDWD="/var/run/httpd-watchdog.pid"
+HTTPD="/bin/httpd -vv"
+SAHENV="sahenv -f /var/etc/environment"
+LOG_DEBUG_MSGS=0
+
+SERIALIZATION="libpcb_serialize_http.so,libpcb_serialize_ddw.so"
+
+PIDHTTPD="/var/run/httpd/httpd.pid"
+
+# log_error <error_message>
+log_error()
+{
+    logger -s -t ${SCRIPTNAME} "ERROR: " $1
+}
+
+# log_debug_msg <message>
+log_debug_msg()
+{
+    if [ $LOG_DEBUG_MSGS -eq 1 ]; then
+        logger -s -t ${SCRIPTNAME} $1
+    fi
+}
+
+# start httpd
+start_server()
+{
+    if [ -f ${PIDHTTPD} ]; then
+        echo "httpd already started"
+        return
+    fi
+    if [ ! -d /ext/httpd ]; then
+        mkdir /ext/httpd
+        chown httpd:httpd /ext/httpd
+    fi
+    if [ ! -z ${RWDATAPATH} ]; then
+        if [ ! -d ${RWDATAPATH}/httpd ]; then
+            mkdir -p ${RWDATAPATH}/httpd/
+            chown httpd:httpd ${RWDATAPATH}/httpd/
+        fi
+    fi
+
+    # Create folder for PID file to which httpd has write access even if it
+    # changes its user to 'httpd'.
+    PID_FOLDER=$(dirname ${PIDHTTPD})
+    log_debug_msg "Create PID_FOLDER=${PID_FOLDER}"
+    mkdir -p ${PID_FOLDER}
+    chown httpd:httpd ${PID_FOLDER}
+    log_debug_msg "Start httpd"
+    ${SAHENV} ${HTTPD}
+}
+
+# Stop httpd, wait until it is stopped
+#
+# This function does the inverse of start_server().
+stop_server()
+{
+    if [ -f ${PIDHTTPD} ]; then
+        log_debug_msg "Stop httpd"
+        kill $(cat ${PIDHTTPD});
+
+        # Wait until httpd is stopped.
+        echo -n "waiting till pid file ${PIDHTTPD} is gone..."
+        while test -f ${PIDHTTPD}; do
+            sleep 1
+            echo -n "."
+        done
+        sleep 1
+        echo " done"
+    else
+        echo "httpd already stopped"
+    fi
+}
+
+# start httpd and start httpd watchdog.
+start()
+{
+    start_server
+
+    log_debug_msg "Start httpd watchdog"
+    exec /bin/sh -c "$0 watchdog" httpd-watchdog watchdog &
+}
+
+# Stop httpd watchdog, stop httpd
+#
+# This function does the inverse of start().
+stop()
+{
+    # Stop watchdog
+    log_debug_msg "Stop httpd watchdog"
+    if [ -e ${PIDWD} ]; then
+        kill $(cat ${PIDWD})
+        rm -f ${PIDWD}
+    fi
+
+    stop_server
+}
+
+restart()
+{
+    stop
+    start
+}
+
+runwatchdog()
+{
+    echo $$ > $PIDWD
+    while sleep ${TIMEOUT}; do
+        if test -e ${PIDHTTPD} ; then
+	    PID=$(cat ${PIDHTTPD})
+	    while kill -0 ${PID}; do
+		sleep ${TIMEOUT};
+	    done
+	fi
+        echo "httpd crashed, check /var/log/messages to know why"
+        echo "httpd crashed" | logger -t httpd-watchdog
+        ${HTTPD}
+    done
+}
+
+mount_webserver_package() {
+    _mount_path="$(package info webui | grep "Mount point" |  cut -f2 -d: |  cut -f2 -d\ )"
+    mount -o bind $_mount_path/content /web/private
+}
+
+case $1 in
+    start)
+        # check if a webui package is installed
+        webui_rui_status=$(package info webui | grep "Package status" | grep -i "INSTALLED")
+        if [ -n "$webui_rui_status" ]; then
+          mount_webserver_package
+        fi
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    watchdog)
+        runwatchdog
+        ;;
+    preinstall)
+        ;;
+    install)
+        if [ "$2" != "update" ] ; then
+          stop_server
+        fi
+        mount_webserver_package
+        start_server
+        ;;
+    uninstall)
+        stop_server
+        umount /web/private
+        if [ "$2" != "update" ] ; then
+          start_server
+        fi
+        ;;
+    postuninstall)
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac

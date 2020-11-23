@@ -1,0 +1,9 @@
+<b>NTP :</b><br>
+<br>
+Choisissez votre fuseau horaire à partir du menu déroulant.<br>
+Cliquez sur le bouton enregistrer pour que vos modifications soient prises en compte.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

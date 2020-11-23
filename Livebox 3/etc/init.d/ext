@@ -1,0 +1,32 @@
+#!/bin/sh
+
+mount_ext() {
+    mount -t ubifs -o noexec,nodev,nosuid ubi0:ext /ext
+    
+    chown -R root:root /ext
+    rm -rf /ext/dms.db
+    
+    if [ -f /ext/formatted ] 
+    then
+        exit 0
+    fi
+
+    umount /ext
+
+    # Partition doesn't exist, or needs to be formatted
+    ubirmvol /dev/ubi0 -N ext
+    ubimkvol /dev/ubi0 -N ext -s $(( 16 * 1024 * 1024 )) -t dynamic
+
+    mount -t ubifs -o noexec,nodev,nosuid ubi0:ext /ext
+    touch /ext/formatted
+}
+
+case $1 in
+    start)
+        mount_ext
+        ;;
+    *)
+        echo "$0: operation $1 not supported."
+        ;;
+esac
+

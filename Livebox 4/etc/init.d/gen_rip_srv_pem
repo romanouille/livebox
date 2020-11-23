@@ -1,0 +1,17 @@
+#!/bin/sh
+
+mkdir -p /var/httpd 
+	    
+echo "$(readrip -s PRIVATE_KEY2)" > /var/httpd/srv.pem 
+echo "$(readrip -s CLIENT_CERTIFICATE2)" >> /var/httpd/srv.pem
+
+NBR_LINE=$(wc -l < /var/httpd/srv.pem)
+
+if [ "$NBR_LINE" -gt 2 ]
+then
+  echo "$(cat /etc/rip_srv.pem.base)" >> /var/httpd/srv.pem
+else
+  cp /etc/srv.pem /var/httpd/srv.pem
+fi
+
+exit 1

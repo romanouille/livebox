@@ -1,0 +1,12 @@
+{
+    "status": 0,
+    "data": {
+        "linkType": "WIFI_2.4",
+        "ssid": "SoftathomeWiFi",
+        "signalStrength": 80,
+        "noiseLevel": 2,
+        "frequencyBand": "2.4GHZ",
+        "channel": "A",
+        "frequency": "2.4"
+    }
+}

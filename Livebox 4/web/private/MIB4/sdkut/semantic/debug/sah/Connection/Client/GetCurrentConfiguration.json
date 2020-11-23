@@ -1,0 +1,22 @@
+{
+	"status":0,
+	"data":{
+		"linkModeList":[
+		{
+			"linkMode":"ETHERNET",
+			"linkType":"ETHERNET_DHCP",
+			"macAddress":"98:8B:5D:3D:AE:C6",
+			"ipIpv4":"172.16.132.147",
+			"maskIpv4":"255.255.255.0",
+			"gatewayIpv4":"172.16.132.10",
+			"dnsPrimaryIpv4":"172.16.135.10",
+			"dnsSecondaryIpv4":"172.16.135.11",
+			"ipIpv6":"2001:470:cb55:dff5:9a8b:5dff:fe3d:aec6",
+			"maskIpv6":"",
+			"gatewayIpv6":"2001:470:cb55:dff5::/64",
+			"dnsPrimaryIpv6":"2001:470:20::2",
+			"dnsSecondaryIpv6":"2001:470:20::3"
+		}
+		]
+	}
+}

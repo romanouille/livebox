@@ -1,0 +1,21 @@
+
+datamodel {
+  object HTTPService {
+
+    /* certificate to use */
+    parameter SSLCertificate = "/etc/srv.pem";
+    
+    /* listen on lan, port 80 without SSL */
+    instance of Server(0, "lan-http") {
+      parameter Interface = "lan";
+      parameter Port = "80";
+    }
+
+    /* listen on lan, port 443 with SSL */
+    instance of Server(0, "lan-https") {
+      parameter Interface = "lan";
+      parameter Port = "443";
+      parameter UseSSL = true;
+    }
+  } 
+}

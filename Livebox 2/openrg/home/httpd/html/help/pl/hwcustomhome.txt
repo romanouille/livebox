@@ -1,0 +1,12 @@
+<b>Personalizuj</b><br>
+<br>
+
+
+Na tej stronie możesz dostosować swoją sieć do osobistych preferencji. Możesz zdefiniować pomieszczenia w budynku Twojej firmy i określić, gdzie znajdują się urządzenia sieciowe.
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

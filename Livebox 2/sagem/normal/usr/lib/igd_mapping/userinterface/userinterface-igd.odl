@@ -1,0 +1,7 @@
+object UserInterface;
+
+datamodel {
+	object UserInterface from "pcb://$(PCB_MAIN_BUS)/UserInterface" recursive;
+}
+
+/** @location sah_services_www_backend /userinterface-igd.odl */

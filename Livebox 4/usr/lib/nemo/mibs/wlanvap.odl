@@ -1,0 +1,517 @@
+/**
+ * The WLANVAP MIB is available on all NeMo Intfs that have the "wlanvap"-flag set. Intfs that have this
+ * flag set, model a wireless virtual access point or VAP. If such VAP is configured in NeMo, a
+ * corresponding WiFi SSID object + WiFi AccessPoint object is created. The Radio interface on which the
+ * VAP should be created is given by the (first) LLIntf of this Intf that has the wlanradio flag set and
+ * which is successfully bound to a WiFi Radio object. If such Radio interface exists, The VAP
+ * configuration will be pushed to the wlan daemon exposing that Radio interface and the created SSID
+ * object will get a reference to that Radio interface.
+ */
+object NeMo {
+	object extends MIB(0,"wlanvap") {
+		string Flag = "wlanvap";
+		object DataModel {
+			/**
+			 * The current operational state of the VAP.
+			 */
+			read-only string VAPStatus {
+				constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+				default "NotPresent";
+			}
+
+			/**
+			 * Timestamp of the last operational state change, measured in seconds since power
+			 * on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current operational
+			 * state.
+			 */
+			read-only uint32 LastChange;
+
+			/**
+			 * The Basic Service Set ID. This is the MAC address of the access point, which
+			 * can either be local (when this instance models an access point SSID) or remote
+			 * (when this instance models an end point SSID).
+			 */
+			persistent string BSSID;
+
+			/**
+			 * The current service set identifier in use by the connection. The SSID is an
+			 * identifier that is attached to packets sent over the wireless LAN that
+			 * functions as an ID for joining a particular radio network (BSS).
+			 */
+			persistent string SSID;
+
+			/**
+			 * Indicates whether or not beacons include the SSID name.
+			 */
+			persistent bool SSIDAdvertisementEnabled;
+
+			/**
+			 * The maximum number of retransmission for a packet. This corresponds to IEEE
+			 * 802.11 parameter dot11ShortRetryLimit.
+			 */
+			persistent uint32 RetryLimit;
+
+			/**
+			 * Indicates whether this access point supports WiFi Multimedia (WMM) Access
+			 * Categories (AC).
+			 */
+			read-only bool WMMCapability;
+
+			/**
+			 * Indicates whether this access point supports WMM Unscheduled Automatic Power
+			 * Save Delivery (U-APSD). Note: U-APSD support implies WMM support.
+			 */
+			read-only bool UAPSDCapability;
+
+			/**
+			 * Whether WMM support is currently enabled. When enabled, this is indicated in
+			 * beacon frames.
+			 */
+			persistent bool WMMEnable;
+
+			/**
+			 * Whether U-APSD support is currently enabled. When enabled, this is indicated in
+			 * beacon frames. Note: U-APSD can only be enabled if WMM is also enabled.
+			 */
+			persistent bool UAPSDEnable;
+
+			/**
+			 * Limit the maximum number of associated devices. -1 means unlimited.
+			 */
+			persistent int32 MaxStations=-1;
+
+			/**
+			 * If set to true, the access point does not forward traffic from endpoint to
+			 * endpoint.
+			 */
+			persistent bool APBridgeDisable;
+
+			/**
+			 * Name of the bridge interface used with this VAP
+			 */
+			string BridgeInterface;
+
+			/**
+			 * This function disassociates an associated station. 
+			 * @param macaddress The MAC-address of the station to be kicked.
+			 */
+			void kickStation(string macaddress) {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/**
+			 * This object contains security related parameters that apply to a VAP
+			 */
+			persistent object Security {
+				/**
+				 * Comma-separated list of strings. Indicates which security modes this AccessPoint instance is capable of supporting.
+				 */
+				read-only string ModesSupported;
+
+				/**
+				 * The value MUST be a member of the list reported by the ModesSupported parameter. Indicates which security mode is enabled.
+				 */
+				persistent string ModeEnabled {
+					constraint enum ["None", "WEP-64", "WEP-128", "WPA-Personal", "WPA2-Personal", "WPA-WPA2-Personal",
+							"WPA-Enterprise", "WPA2-Enterprise", "WPA-WPA2-Enterprise"];
+					default "None";
+				}
+
+				/**
+				 * A WEP key expressed as a hexadecimal string. WEPKey is used only if
+				 * ModeEnabled is set to WEP-64 or WEP-128. A 5 byte WEPKey corresponds to
+				 * security mode WEP-64 and a 13 byte WEPKey corresponds to security mode
+				 * WEP-128. A 16 byte WEPKey corresponds to security mode WEP-128iv.
+				 */
+				persistent string WEPKey;
+
+				/**
+				 * A literal PreSharedKey (PSK) expressed as a hexadecimal string.
+				 * PreSharedKey is only used if ModeEnabled is set to WPA-Personal or 
+				 *WPA2-Personal or WPA-WPA2-Personal. If KeyPassphrase is written, then
+				 * PreSharedKey is immediately generated. The ACS SHOULD NOT set both the
+				 * KeyPassphrase and the PreSharedKey directly (the result of doing this
+				 * is undefined).
+				 */
+				persistent string PreSharedKey;
+
+				/**
+				 * A passphrase from which the PreSharedKey is to be generated, for 
+				 *WPA-Personal or WPA2-Personal or WPA-WPA2-Personal security modes. If
+				 * KeyPassphrase is written, then PreSharedKey is immediately generated.
+				 * The ACS SHOULD NOT set both the KeyPassphrase and the PreSharedKey
+				 * directly (the result of doing this is undefined). The key is generated
+				 * as specified by WPA, which uses PBKDF2 from PKCS #5: Password-based
+				 * Cryptography Specification Version 2.0
+				 */
+				persistent string KeyPassPhrase;
+
+				/**
+				 * The interval (expressed in seconds) in which the keys are re-generated.
+				 * This is applicable to WPA, WPA2 and Mixed (WPA-WPA2) modes in Personal
+				 * or Enterprise mode (i.e. when ModeEnabled is set to a value other than
+				 * None or WEP-64 WEP-128 or WEP-128iv)
+				 */
+				persistent uint32 RekeyingInterval = 3600;
+
+				/**
+				 * The IP Address of the RADIUS server used for WLAN security.
+				 * RadiusServerIPAddr is only applicable when ModeEnabled is an Enterprise
+				 * type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+				 */
+				persistent string RadiusServerIPAddr;
+
+				/**
+				 * The port number of the RADIUS server used for WLAN security.
+				 * RadiusServerPort is only applicable when ModeEnabled is an Enterprise
+				 * type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+				 */
+				persistent uint32 RadiusServerPort = 1812;
+
+				/**
+				 * The secret used for handshaking with the RADIUS server.
+				 */
+				persistent string RadiusSecret;
+
+				/**
+				 * Default Session-Timeout (expressed in seconds). If set, it will be used
+				 * as the default Session-Timeout if no timeout is set by the radius server.
+				 * RadiusDefaultSessionTimeout is only applicable when ModeEnabled is an Enterprise
+				 * type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+				 */
+				persistent uint32 RadiusDefaultSessionTimeout;
+
+				/**
+				 * IP address to use for NAS-IP-Address or NAS-IPv6-Address.
+				 * If set, it will overrule the address of the interface.
+				 * RadiusOwnIPAddress is only applicable when ModeEnabled is an Enterprise
+				 * type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+				 */
+				persistent string RadiusOwnIPAddress;
+
+				/** Optional NAS-Identifier string for RADIUS messages.
+				 *  RadiusNASIdentifier is only applicable when ModeEnabled is an Enterprise
+				 *  type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+				 */
+				persistent string RadiusNASIdentifier;
+
+				/**
+				 * If set, it will override Called-Station-Id in the radius messages.
+				 * RadiusCalledStationId is only applicable when ModeEnabled is an Enterprise
+				 * type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+				 */
+				persistent string RadiusCalledStationId;
+
+				/** Request Chargeable-User-Identity (RFC 4372)
+				 * RadiusCalledStationId is only applicable when ModeEnabled is an Enterprise
+				 * type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+				 */
+				persistent bool RadiusChargeableUserId;
+			}
+
+			/**
+			 * This object contains parameters related to Wi-Fi Protected Setup [WPSv1.0] for
+			 * this VAP.
+			 */
+			persistent object WPS {
+				/**
+				 * Enables or disables WPS functionality for this access point. Note only
+				 * one VAP per Radio can enable WPS.
+				 */
+				persistent bool Enable = false;
+
+				/**
+				 * Comma-separated list of strings. Indicates WPS configuration methods
+				 * supported by the device. This parameter corresponds directly to the
+				 * 'Config Methods' attribute of the WPS specification [WPSv1.0]. Remarks:
+				 * TR-181 doesn't specify the methods "Label", "Display" and "Keypad",
+				 * instead it defines the config method "PIN" which is not mentioned in
+				 * the WPS spec. So in order to be TR-181 compliant, we define "PIN" as a
+				 * synonym for "Label,Display,Keypad".
+				 * In the context of the Home Gateway, the config methods Label and/or
+				 * Display are often referred to as ClientPIN, so to enable ClientPIN,
+				 * assign "Label,Display" to ConfigMethodsEnabled.
+				 * In the context of the Home Gateway, the config method Keypad is often
+				 * referred to as SelfPIN, so to enable SelfPIN, assign "Keypad" to
+				 * ConfigMethodsEnabled.
+				 * PushButton and Keypad can never be both enabled. It confuses Windows.
+				 */
+				read-only string ConfigMethodsSupported;
+
+				/**
+				 * Comma-separated list of strings. Each list item MUST be a member of the
+				 * list reported by the ConfigMethodsSupported parameter. Indicates WPS
+				 * configuration methods enabled on the device.
+				 */
+				persistent string ConfigMethodsEnabled = "Label,Display,PushButton";
+
+				/**
+				 * Randomly generated PIN-code, to be entered in client devices to connect
+				 * to the HGW. This code can be regenerated with generateSelfPIN().
+				 * However, the wlan implementation is free to regenerate this PIN code
+				 * whenever needed so it is not guaranteed to be constant between two
+				 * consecutive generateSelfPIN()-calls. If it's empty, SelfPIN can not be
+				 * used (e.g. registrar is not active).
+				 */
+				string SelfPIN;
+
+				/**
+				 * Set WPS in configured/unconfigured mode.
+				 */
+				bool Configured = true;
+
+				/**
+				 * Indicates if the WPS registrar is running currently.
+				 */
+				read-only bool PairingInProgress;
+
+				/**
+				 * This function kicks the WPS registrar. If no clientPIN is given, this
+				 * starts the PushButton or SelfPIN scenario depending on what is enabled.
+				 * If a clientPIN is provided, connect to the client device with the
+				 * provided clientPIN. Notice that the corresponding config method needs
+				 * to be enabled by ConfigMethodsEnabled. If SelfPIN scenario is
+				 * triggered, the parameter SelfPIN shall not be empty and the PIN code
+				 * held by this parameter can be used to connect to the HGW. 
+				 * @param clientPIN 4-digit or 8-digit WPS PIN code in case of ClientPIN. 
+				 * Empty in case of PushButton or SelfPIN.
+				 */
+				void pushButton(/*optional*/ string clientPIN) {
+				    acl {
+				        world none;
+				    }
+				}
+
+				/**
+				 * Regenerate the SelfPIN. It's not specified at this level whether the
+				 * generated PIN-code should be a 4-digit or an 8-digit WPS PIN code, but
+				 * this should be configurable somehow in an implementation specific way.
+				 * When this function returns, the newly generated PIN-code can not be
+				 * used immediately. It will become active after the next call to
+				 * pushButton() with no arguments. 
+				 * @return The generated PIN code.
+				 */
+				string generateSelfPIN() {
+				    acl {
+				        world none;
+				    }
+				}
+
+				/**
+				 * Cancel WPS registrar if it was running.
+				 */
+				void cancelPairing() {
+				    acl {
+				        world none;
+				    }
+				}
+			}
+
+			/**
+			 * This object contains parameters related to MAC-address based filtering for this VAP.
+			 */
+			persistent object MACFiltering {
+				/**
+				 * The MAC-address based filtering mode. Enumeration of:
+				 * - Off All MAC-addresses are allowed.
+				 * - WhiteList Access is granted only for MAC-addresses occurring in the
+				 *   Entry table.
+				 * - BlackList Access is granted for all MAC-addresses except for the ones
+				 *   occurring in the Entry table.
+				 */
+				persistent string Mode {
+					constraint enum [ "Off", "WhiteList", "BlackList" ];
+					default "Off";
+				}
+
+				/**
+				 * This is the list of MAC-addresses to be allowed/denied depending on the
+				 * MAC-filtering mode.
+				 */
+				persistent object Entry[] {
+					/**
+					 * The MAC-address of this table entry.
+					 */
+					persistent string MACAddress;
+				}
+			}
+
+			persistent object HotSpot2 {
+				persistent bool Enable = false;
+
+			        persistent bool DgafDisable {
+					default 0;
+			                constraint range [0,1];
+			        }
+
+			        persistent bool L2TrafficInspect {
+					default 1;
+			                constraint range [0,1];
+			        }
+
+			        persistent bool IcmpV4Echo {
+					default 1;
+			                constraint range [0,1];
+			        }
+
+			        persistent bool Interworking {
+					default 1;
+			                constraint range [0,1];
+		         	}
+
+			        persistent bool Internet {
+					default 0;
+			                constraint range [0,1];
+			        }
+
+			        persistent bool Hs2Ie {
+			                constraint range [0,1];
+			        }
+
+               			persistent bool P2PEnable {
+			                constraint range [0,1];
+			        }
+		
+			        persistent int32 GasDelay;
+
+			        persistent uint8 AccessNetworkType {
+					default 2;
+				}
+
+			        persistent uint8 VenueType {
+					default 8;
+				}
+
+			        persistent uint8 VenueGroup {
+					default 2;
+				}
+
+	/*		        peristent string HeSSID;
+
+			        peristent string RoamingConsortium; */
+			}
+
+
+			/** Update the statistics in of the AssociatedDevice[] objects in the datamodel,
+			@return list of variant maps with the AssociatedDevice values
+			@version 6.0
+			*/
+			void getStationStats() {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/** The number of entries in the AssociatedDevice  table.  */
+			read-only uint32 AssociatedDeviceNumberOfEntries;
+
+			/**
+			 * A table of the devices currently associated with the VAP. At most one entry in
+			 * this table can exist with a given value for MACAddress.
+			 */
+			read-only object AssociatedDevice[]{
+				/** CUI based on Chargeable-User-Identity attribute in Access-Accept
+				@version 6.0  
+				*/
+				string ChargeableUserId;
+				/**[MACAddress] The MAC address of an associated device.
+				@version 6.0
+				*/
+				read-only string MACAddress;
+				/** Whether an associated device has authenticated (true) or 
+				 * not (false).
+				@version 6.0
+				 */ 
+				read-only bool AuthenticationState;
+				/** The data transmit rate in kbps that was most recently used
+				 *  for transmission from the access point to the associated
+				 *  device.
+				@version 6.0
+				 */ 
+				read-only uint32 LastDataDownlinkRate{
+					constraint range[0,1600000];
+				}
+				/** The data transmit rate in kbps that was most recently used
+				 *  for transmission from the associated device to the access
+				 *  point.
+				@version 6.0
+				 */ 
+				read-only uint32 LastDataUplinkRate{
+					constraint range[0,1600000];
+				}
+				/** An indicator of radio signal strength of the uplink from the
+				 *  associated device to the access point, measured in dBm, as
+				 *  an average of the last 100 packets received from the
+				 *  device. 
+				@version 6.0
+				 */ 
+				read-only int32 SignalStrength{
+					constraint range[-200,0];
+				}
+				/** The number of packets that had to be re-transmitted, from
+				 *  the last 100 packets sent to the associated device. Multiple
+				 *  re-transmissions of the same packet count as one.
+				@version 6.0
+				 */ 
+				read-only uint32 Retransmissions{
+					constraint range[0,100];
+				}
+				/** <p>Whether or not this node is currently present in the WiFi
+				 *  AccessPoint network.</p>
+				 *  <p>The ability to list inactive nodes is OPTIONAL. If the CPE
+				 *  includes inactive nodes in this table, Active MUST be set
+				 *  to false for each inactive node. The length of time an
+				 *  inactive node remains listed in this table is a local
+				 *  matter to the CPE.</p>
+				@version 6.0
+				 */ 
+				read-only bool Active;
+
+				/** Signal to noise ratio in dB	
+				@version 6.0
+				 */ 
+				read-only int32 SignalNoiseRatio;
+				/** Radio noise level in dB 
+				@version 6.0
+				*/
+				read-only int32 Noise;
+				/** The time elapsed since the station was last active, in seconds 
+				@version 6.0
+				*/
+				read-only uint32 Inactive; 
+				/** Number of packets received by the station 
+				@version 6.0
+				*/
+				read-only uint32 RxPacketCount;
+				/** Number of packets sent by the station 
+				@version 6.0
+				*/
+				read-only uint32 TxPacketCount;
+
+				/** MCS Id of the station's uplink */
+				read-only uint32 UplinkMCS;
+				/** Indicates 40Mhz dualchannel bandwidth is used as uplink */
+				read-only bool UplinkIs40mhz;      
+				/** Short guarding interval is applied for uplink */
+				read-only bool UplinkShortGuard;
+
+				/** MCS Id of the station's downlink */
+				read-only uint32 DownlinkMCS;
+				/** Indicates 40Mhz dualchannel bandwidth is used as downlink */
+				read-only bool DownlinkIs40mhz;
+				/** Short guarding interval is applied for downlink */
+				read-only bool DownlinkShortGuard;
+
+			}
+		}
+	}
+}
+
+/** @location sah_services_nemo /mibs/wlanvap.odl */

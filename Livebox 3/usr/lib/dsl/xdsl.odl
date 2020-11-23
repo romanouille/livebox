@@ -1,0 +1,545 @@
+object "$(XDSL_ROOT)" {
+object Line[] {
+counted with LineNumberOfEntries;
+string Alias;
+string Status {
+constraint enum["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+default "Down";
+write with line_statusOnWrite;
+}
+string Name;
+string LastChange;
+bool Upstream = true;
+string FirmwareVersion;
+string LinkStatus {
+constraint enum["Up", "Initializing", "EstablishingLink", "NoSignal", "Disabled", "Error"];
+default "Disabled";
+}
+string StandardsSupported = "G.992.1_Annex_A, G.992.1_Annex_B, G.992.1_Annex_C,T1.413, T1.413i2,ETSI_101_388, G.992.2,G.992.3_Annex_A, G.992.3_Annex_B, G.992.3_Annex_C, G.992.3_Annex_I, G.992.3_Annex_J,G.992.3_Annex_M, G.992.4,G.992.5_Annex_A, G.992.5_Annex_B, G.992.5_Annex_C, G.992.5_Annex_I, G.992.5_Annex_J, G.992.5_Annex_M, G.993.1,G.993.1_Annex_A, G.993.2_Annex_A, G.993.2_Annex_B";
+string StandardUsed {
+constraint enum["", "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_M", "G.993.1", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B"];
+default "";
+}
+string ModulationHint {
+constraint enum["", "ADSL", "VDSL", "Auto"];
+default "";
+write with line_modulationOnWrite;
+}
+string ModulationType {
+constraint enum["","ADSL","ADSL_G.dmt","ADSL_G.lite","ADSL_ANSI_T1.413","ADSL_2plus","VDSL"];
+default "";
+}
+string LineEncoding {
+constraint enum["", "DMT", "CAP", "2B1Q", "43BT", "PAM", "QAM"];
+default "";
+}
+string AllowedProfiles = "8a, 8b, 8c, 8d, 12a, 12b, 17a, 17b, 30a";
+string CurrentProfile {
+constraint enum["", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a"];
+default "";
+}
+uint32 UPBOKLE = 0;
+uint32 UpstreamMaxBitRate = 0;
+uint32 DownstreamMaxBitRate = 0;
+uint32 UpstreamNoiseMargin = 0;
+uint32 DownstreamNoiseMargin = 0;
+uint32 UpstreamLineAttenuation = 0;
+uint32 DownstreamLineAttenuation = 0;
+uint32 UpstreamSignalAttenuation = 0;
+uint32 DownstreamSignalAttenuation = 0;
+int32 UpstreamPower = 0;
+int32 DownstreamPower = 0;
+bool TRELLISds = false;
+bool TRELLISus = false;
+uint32 LostSynchro = 0;
+uint32 ACTSNRMODEds = 0;
+uint32 ACTSNRMODEus = 0;
+uint32 ACTUELCE = 0;
+string LATNpbds;
+string LATNpbus;
+string SATNpbds;
+string SATNpbus;
+string SNRMpbds;
+string SNRMpbus;
+bool Enable {
+write with line_enableOnWrite;
+default false;
+}
+string XTURVendor = "00000000";
+string XTURSerialNumber;
+string XTURVersionNumber;
+string XTURCountry = "0000";
+uint32 XTURANSIStd = 0;
+uint32 XTURANSIRev = 0;
+string XTUCVendor = "00000000";
+string XTUCSerialNumber;
+string XTUCVersionNumber;
+string XTUCCountry = "0000";
+uint32 XTUCANSIStd = 0;
+uint32 XTUCANSIRev = 0;
+string DataPath {
+constraint enum [ "Interleaved", "Fast", "None" ];
+default "Interleaved";
+}
+uint32 InterleaveDepth = 0;
+object TestParams {
+read-only uint32 HLOGGds {
+read with HLOGGdsOnRead;
+}
+read-only uint32 HLOGGus {
+read with HLOGGusOnRead;
+}
+read-only string HLOGpsds {
+read with HLOGpsdsOnRead;
+}
+read-only string HLOGpsus {
+read with HLOGpsusOnRead;
+}
+read-only uint32 QLNGds {
+read with QLNGdsOnRead;
+}
+read-only uint32 QLNGus {
+read with QLNGusOnRead;
+}
+read-only string QLNpsds {
+read with QLNpsdsOnRead;
+}
+read-only string QLNpsus {
+read with QLNpsusOnRead;
+}
+read-only uint32 SNRGds {
+read with SNRGdsOnRead;
+}
+read-only uint32 SNRGus {
+read with SNRGusOnRead;
+}
+read-only string SNRpsds {
+read with SNRpsdsOnRead;
+}
+read-only string SNRpsus {
+read with SNRpsusOnRead;
+}
+read-only string BITSpsds {
+read with BITSpsdsOnRead;
+}
+read-only string BITSpsus {
+read with BITSpsusOnRead;
+}
+}
+object Stats {
+read-only uint32 BytesSent {
+read with common_bytesSentOnRead;
+}
+read-only uint32 BytesReceived {
+read with common_bytesReceivedOnRead;
+}
+read-only uint32 PacketsSent {
+read with common_packetsSentOnRead;
+}
+read-only uint32 PacketsReceived {
+read with common_packetsReceivedOnRead;
+}
+read-only uint32 ErrorsSent {
+read with common_errorsSentOnRead;
+}
+read-only uint32 ErrorsReceived {
+read with common_errorsReceivedOnRead;
+}
+object Total {
+read-only uint32 ErroredSecs {
+read with line_erroredSecsOnRead;
+}
+read-only uint32 SeverelyErroredSecs {
+read with line_severelyErroredSecsOnRead;
+}
+read-only uint32 LOS {
+read with line_LOSOnRead;
+}
+read-only uint32 LOF {
+read with line_LOFOnRead;
+}
+read-only uint32 UAS {
+read with line_UASOnRead;
+}
+read-only uint32 LOM {
+read with line_LOMOnRead;
+}
+}
+object Showtime {
+read-only uint32 ErroredSecs {
+read with line_erroredSecsOnRead;
+}
+read-only uint32 SeverelyErroredSecs {
+read with line_severelyErroredSecsOnRead;
+}
+read-only uint32 LOS {
+read with line_LOSOnRead;
+}
+read-only uint32 LOF {
+read with line_LOFOnRead;
+}
+read-only uint32 UAS {
+read with line_UASOnRead;
+}
+read-only uint32 LOM {
+read with line_LOMOnRead;
+}
+}
+object LastShowtime {
+read-only uint32 ErroredSecs {
+read with line_erroredSecsOnRead;
+}
+read-only uint32 SeverelyErroredSecs {
+read with line_severelyErroredSecsOnRead;
+}
+read-only uint32 LOS {
+read with line_LOSOnRead;
+}
+read-only uint32 LOF {
+read with line_LOFOnRead;
+}
+read-only uint32 UAS {
+read with line_UASOnRead;
+}
+read-only uint32 LOM {
+read with line_LOMOnRead;
+}
+}
+object CurrentDay {
+read-only uint32 ErroredSecs {
+read with line_erroredSecsOnRead;
+}
+read-only uint32 SeverelyErroredSecs {
+read with line_severelyErroredSecsOnRead;
+}
+read-only uint32 LOS {
+read with line_LOSOnRead;
+}
+read-only uint32 LOF {
+read with line_LOFOnRead;
+}
+read-only uint32 UAS {
+read with line_UASOnRead;
+}
+read-only uint32 LOM {
+read with line_LOMOnRead;
+}
+}
+object QuarterHour {
+read-only uint32 ErroredSecs {
+read with line_erroredSecsOnRead;
+}
+read-only uint32 SeverelyErroredSecs {
+read with line_severelyErroredSecsOnRead;
+}
+read-only uint32 LOS {
+read with line_LOSOnRead;
+}
+read-only uint32 LOF {
+read with line_LOFOnRead;
+}
+read-only uint32 UAS {
+read with line_UASOnRead;
+}
+read-only uint32 LOM {
+read with line_LOMOnRead;
+}
+}
+}
+void getDSLLineStats();
+void getDSLLineTestParams();
+void getDSLStats();
+}
+object Channel[] {
+counted with ChannelNumberOfEntries;
+bool Enable {
+write with channel_enableOnWrite;
+default false;
+}
+string Status {
+constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+write with channel_statusOnWrite;
+default "Down";
+}
+string Alias;
+string Name;
+string LastChange;
+string LastChangeTime;
+string LinkEncapsulationSupported {
+default ",G.992.3_Annex_K_ATM, G.992.3_Annex_K_PTM, G.993.2_Annex_K_ATM, G.993.2_Annex_K_PTM";
+}
+string LinkEncapsulationUsed {
+constraint enum["", "G.992.3_Annex_K_ATM", "G.992.3_Annex_K_PTM", "G.993.2_Annex_K_ATM", "G.993.2_Annex_K_PTM", "G.994.1"];
+default "";
+}
+uint32 LPATH;
+uint32 INTLVDEPTH;
+uint32 ActualInterleavingDelay;
+int32 ACTINP = -1;
+bool INPREPORT = 0;
+string LowerLayers;
+uint32 UpstreamBitRate;
+uint32 DownstreamBitRate;
+object Stats {
+read-only uint32 BytesSent {
+read with common_bytesSentOnRead;
+}
+read-only uint32 BytesReceived {
+read with common_bytesReceivedOnRead;
+}
+read-only uint32 PacketsSent {
+read with common_packetsSentOnRead;
+}
+read-only uint32 PacketsReceived {
+read with common_packetsReceivedOnRead;
+}
+read-only uint32 ErrorsSent {
+read with common_errorsSentOnRead;
+}
+read-only uint32 ErrorsReceived {
+read with common_errorsReceivedOnRead;
+}
+uint32 TotalStart = 0;
+uint32 ShowtimeStart = 0;
+object Total {
+read-only uint32 XTURFECErrors {
+read with channel_XTURFECErrorsOnRead;
+}
+read-only uint32 XTUCFECErrors {
+read with channel_XTUCFECErrorsOnRead;
+}
+read-only uint32 XTURHECErrors {
+read with channel_XTURHECErrorsOnRead;
+}
+read-only uint32 XTUCHECErrors {
+read with channel_XTUCHECErrorsOnRead;
+}
+read-only uint32 XTURCRCErrors {
+read with channel_XTURCRCErrorsOnRead;
+}
+read-only uint32 XTUCCRCErrors {
+read with channel_XTUCCRCErrorsOnRead;
+}
+}
+object Showtime {
+read-only uint32 XTURFECErrors {
+read with channel_XTURFECErrorsOnRead;
+}
+read-only uint32 XTUCFECErrors {
+read with channel_XTUCFECErrorsOnRead;
+}
+read-only uint32 XTURHECErrors {
+read with channel_XTURHECErrorsOnRead;
+}
+read-only uint32 XTUCHECErrors {
+read with channel_XTUCHECErrorsOnRead;
+}
+read-only uint32 XTURCRCErrors {
+read with channel_XTURCRCErrorsOnRead;
+}
+read-only uint32 XTUCCRCErrors {
+read with channel_XTUCCRCErrorsOnRead;
+}
+}
+object LastShowtime {
+read-only uint32 XTURFECErrors {
+read with channel_XTURFECErrorsOnRead;
+}
+read-only uint32 XTUCFECErrors {
+read with channel_XTUCFECErrorsOnRead;
+}
+read-only uint32 XTURHECErrors {
+read with channel_XTURHECErrorsOnRead;
+}
+read-only uint32 XTUCHECErrors {
+read with channel_XTUCHECErrorsOnRead;
+}
+read-only uint32 XTURCRCErrors {
+read with channel_XTURCRCErrorsOnRead;
+}
+read-only uint32 XTUCCRCErrors {
+read with channel_XTUCCRCErrorsOnRead;
+}
+}
+object CurrentDay {
+read-only uint32 XTURFECErrors {
+read with channel_XTURFECErrorsOnRead;
+}
+read-only uint32 XTUCFECErrors {
+read with channel_XTUCFECErrorsOnRead;
+}
+read-only uint32 XTURHECErrors {
+read with channel_XTURHECErrorsOnRead;
+}
+read-only uint32 XTUCHECErrors {
+read with channel_XTUCHECErrorsOnRead;
+}
+read-only uint32 XTURCRCErrors {
+read with channel_XTURCRCErrorsOnRead;
+}
+read-only uint32 XTUCCRCErrors {
+read with channel_XTUCCRCErrorsOnRead;
+}
+}
+object QuarterHour {
+read-only uint32 XTURFECErrors {
+read with channel_XTURFECErrorsOnRead;
+}
+read-only uint32 XTUCFECErrors {
+read with channel_XTUCFECErrorsOnRead;
+}
+read-only uint32 XTURHECErrors {
+read with channel_XTURHECErrorsOnRead;
+}
+read-only uint32 XTUCHECErrors {
+read with channel_XTUCHECErrorsOnRead;
+}
+read-only uint32 XTURCRCErrors {
+read with channel_XTURCRCErrorsOnRead;
+}
+read-only uint32 XTUCCRCErrors {
+read with channel_XTUCCRCErrorsOnRead;
+}
+}
+}
+void getDSLChannelStats();
+}
+object BondingGroup[] {
+counted with BondingGroupNumberOfEntries;
+bool Enable {
+write with bonding_linkEnableOnWrite;
+default false;
+}
+string Status {
+constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+default "Down";
+write with bonding_statusOnWrite;
+}
+string Alias;
+string Name;
+uint32 LastChange;
+string LowerLayers;
+object Line[] {
+counted with BondedLineNumberOfEntries;
+string Alias;
+string Line {
+write with bonding_lineOnWrite;
+}
+}
+string GroupStatus {
+constraint enum["", "NoPeer", "PeerPowerloss", "PeerBondSchemeMismatch", "LowRate"];
+default "";
+}
+uint32 AggregatedDownstreamRate;
+uint32 AggregatedUpstreamRate;
+uint32 UpstreamDelay;
+string BondSchemesSupported = "ATM, Ethernet, TDIM";
+string BondScheme {
+constraint enum["","ATM","Ethernet","TDIM"];
+default "";
+}
+uint32 GroupCapacity;
+uint32 RunningTime;
+object BondedChannel[] {
+counted with BondedChannelNumberOfEntries;
+string Alias;
+string Channel;
+bool isBondedChannelEthernet = false;
+object Ethernet[] {
+object Stats {
+uint32 UnderflowErrorsSent = 0;
+uint32 CRCErrorsReceived = 0;
+uint32 AlignmentErrorsReceived = 0;
+uint32 ShortPacketsReceived = 0;
+uint32 LongPacketsReceived = 0;
+uint32 OverflowErrorsReceived = 0;
+uint32 PauseFramesReceived = 0;
+uint32 FramesDropped = 0;
+}
+}
+}
+object Compat {
+string LinkStatus {
+constraint enum["Up", "Initializing", "EstablishingLink", "NoSignal", "Disabled", "Error"];
+default "Disabled";
+}
+uint32 UpstreamMaxRate;
+uint32 DownstreamMaxRate;
+int32 UpstreamAttenuation;
+int32 DownstreamAttenuation;
+int32 UpstreamPower;
+int32 DownstreamPower;
+string StandardsSupported;
+string StandardUsed {
+constraint enum [ "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_L", "G.992.3_Annex_M", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B", "G.993.2_Annex_C", "" ];
+default "";
+}
+string DataPath {
+constraint enum [ "Interleaved", "Fast", "None" ];
+default "Interleaved";
+}
+uint32 InterleaveDepth = 0;
+string ModulationType {
+constraint enum [ "ADSL_G.dmt", "ADSL_G.lite", "ADSL_G.dmt.bis", "ADSL_re-adsl", "ADSL_2plus", "ADLS_four", "ADSL_ANSI_T1.413", "G.shdsl", "IDSL", "HDSL", "SDSL", "VDSL", "" ];
+default "";
+}
+persistent string ModulationHint {
+constraint enum [ "Auto", "ADSL", "VDSL" ];
+default "Auto";
+}
+string CurrentProfile {
+constraint enum [ "", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a" ] ;
+default "";
+}
+uint32 UPBOKLE {
+constraint range [ 0, 1280 ];
+}
+}
+object Stats {
+uint32 BytesSent = 0;
+uint32 BytesReceived = 0;
+uint32 PacketsSent = 0;
+uint32 PacketsReceived = 0;
+uint32 TotalStart = 0;
+uint32 CurrentDayStart = 0;
+uint32 QuarterHourStart = 0;
+object Total {
+string FailureReasons {
+constraint enum["", "LowRate", "ExcessiveDelay", "InsufficientBuffers", "Other"];
+default "";
+}
+uint32 UpstreamRate = 0;
+uint32 DownstreamRate = 0;
+uint32 UpstreamPacketLoss = 0;
+uint32 DownstreamPacketLoss = 0;
+uint32 UpstreamDifferentialDelay = 0;
+uint32 DownstreamDifferentialDelay = 0;
+uint32 FailureCount = 0;
+uint32 ErroredSeconds = 0;
+uint32 SeverelyErroredSeconds = 0;
+uint32 UnavailableSeconds = 0;
+}
+}
+object Ethernet {
+object Stats {
+uint32 PAFErrors = 0;
+uint32 PAFSmallFragements = 0;
+uint32 PAFLargeFragments = 0;
+uint32 PAFBadFragments = 0;
+uint32 PAFLostFragments = 0;
+uint32 PAFLateFragments = 0;
+uint32 PAFLostStarts = 0;
+uint32 PAFLostEnds = 0;
+uint32 PAFOverflows = 0;
+uint32 PauseFramesSent = 0;
+uint32 CRCErrorsReceived = 0;
+uint32 AlignmentErrorsReceived = 0;
+uint32 ShortPacketsReceived = 0;
+uint32 LongPacketsReceived = 0;
+uint32 OverflowErrorsReceived = 0;
+uint32 FramesDropped = 0;
+}
+}
+void getDSLBondingGroupStats();
+}
+}

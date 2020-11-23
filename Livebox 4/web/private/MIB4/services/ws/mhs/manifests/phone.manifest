@@ -1,0 +1,49 @@
+{
+    "Id": "sah_phone",
+    "Category": "Communication",
+    "Version": "0.1",
+    "Title": "sah_phone.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Applet": [
+                { "width": 2,
+                  "height": 2,
+                  "url": "apps/common/slider.html",
+                  "class": "greenbox",
+                  "initializer": "slider_phone",
+                  "settings": { "slides": [ "<span class=\"img phone\"></span><div class=status style=\"top:85%\"><span class=caption><span class=black translate=sah_phone.num_missed_calls></span> <span class=\"sah_green_dark nummissed\">?</span></span></div>",
+                                            "<div class=title><span translate=sah_phone.num_missed_calls></span><br><div class=nummissed>?</div></div>"
+                                          ],
+                                "apicalls":{"class":"nummissed", 
+                                            "ws":"VoiceService.VoiceApplication.X_SOFTATHOME-COM_CallList", "event": ["calllist_entry_updated"]}
+                              }
+                },
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img videochat\"></span><div class=status><span class=\"caption black\" translate=sah_phone.no_missed_calls></span></div>",
+                                            "<div class=title><span translate=sah_phone.num_missed_calls></span><br><div class=phone>0</div></div>"
+                                          ],
+                                "apicalls":{},
+                                "title": "sah_phone.vchat_title"
+                              }
+                }
+              ],
+    "en": {
+        "title":"My Phone",
+        "num_missed_calls": "missed calls:",
+        "no_missed_calls":"no missed calls",
+        "vchat_title":"My Video Chat",
+        "clear":"Clear",
+        "reset":"Remove recent call history"
+    },
+    "fr": {
+        "title":"geUZrJpV",
+        "num_missed_calls": "mVJPMLKt",
+        "no_missed_calls":"QVLrIErn",
+        "vchat_title":"XFyBrhrY",
+        "clear":"Clear",
+        "reset":"Remove recent call history"
+    }
+}

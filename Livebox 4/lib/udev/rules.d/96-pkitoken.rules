@@ -1,0 +1,743 @@
+# This UDEV rules file is fitted for "sah/services/pkitoken", and was generated from "lib/pcsc/readers/supported_readers.txt".
+
+# ACS ACR 38U-CCID
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="90cc", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="90cc", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ActivIdentity USB Reader V3
+ATTRS{idVendor}=="09c3", ATTRS{idProduct}=="0013", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="09c3", ATTRS{idProduct}=="0013", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ActivIdentity Activkey_Sim
+ATTRS{idVendor}=="09c3", ATTRS{idProduct}=="0014", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="09c3", ATTRS{idProduct}=="0014", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Alcor Micro AU9520
+ATTRS{idVendor}=="058f", ATTRS{idProduct}=="9520", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="058f", ATTRS{idProduct}=="9520", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Alcor Micro AU9540
+ATTRS{idVendor}=="058f", ATTRS{idProduct}=="9540", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="058f", ATTRS{idProduct}=="9540", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Athena ASE IIIe
+ATTRS{idVendor}=="0dc3", ATTRS{idProduct}=="1004", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0dc3", ATTRS{idProduct}=="1004", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Athena ASEDrive IIIe KB
+ATTRS{idVendor}=="0dc3", ATTRS{idProduct}=="1102", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0dc3", ATTRS{idProduct}=="1102", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# C3PO LTC31 v2
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0006", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0006", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Cherry GmbH SmartBoard XX33
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0005", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0005", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Cherry GmbH SmartBoard XX44
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0010", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0010", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Cherry GmbH SmartTerminal XX44
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="002d", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="002d", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Cherry GmbH SmartTerminal ST-2xxx
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="003e", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="003e", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# COVADIS ALYA
+ATTRS{idVendor}=="0982", ATTRS{idProduct}=="0007", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0982", ATTRS{idProduct}=="0007", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Dell keyboard SK-3106
+ATTRS{idVendor}=="413c", ATTRS{idProduct}=="2100", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="413c", ATTRS{idProduct}=="2100", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Dell Dell Smart Card Reader Keyboard
+ATTRS{idVendor}=="413c", ATTRS{idProduct}=="2101", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="413c", ATTRS{idProduct}=="2101", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Eutron CryptoIdentity CCID
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0007", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0007", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Eutron CryptoIdentity CCID
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0008", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0008", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Eutron Digipass 860
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0b00", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0b00", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Eutron Card Reader
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0c00", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0c00", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Eutron Smart Pocket
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0c01", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="073d", ATTRS{idProduct}=="0c01", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Feitian ePass2003
+ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0807", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0807", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto PDT
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="1227", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="1227", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto PC Twin Reader
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3437", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3437", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto USB Shell Token V2
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3438", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3438", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto USB GemPCPinpad SmartCard Reader
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3478", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3478", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto GemCore SIM Pro Smart Card Reader
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3480", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3480", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Ezio Shield
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c0", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c0", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto EZIO CB+
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c3", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c3", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Gemplus USB SmartCard Reader 433-Swap
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="4433", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="4433", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Prox Dual USB PC LinkReader
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="5503", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="5503", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Prox SU USB PC LinkReader
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="5504", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="5504", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Smart Enterprise Guardian Secure USB Device
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="8000", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="8000", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto IDBridge K3000
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="8141", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="8141", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Giesecke & Devrient GmbH StarSign Crypto USB Token
+ATTRS{idVendor}=="1059", ATTRS{idProduct}=="0017", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1059", ATTRS{idProduct}=="0017", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# id3 Semiconductors CL1356T
+ATTRS{idVendor}=="0b81", ATTRS{idProduct}=="0200", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0b81", ATTRS{idProduct}=="0200", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Ingenico WITEO USB Smart Card Reader
+ATTRS{idVendor}=="0f14", ATTRS{idProduct}=="003d", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0f14", ATTRS{idProduct}=="003d", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL KAAN Base
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3001", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3001", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL KAAN Advanced
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3002", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3002", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL KAAN SIM III
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3003", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3003", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL EMV CAP - SecOVID Reader III
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3010", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3010", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Lenovo Integrated Smart Card Reader
+ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="1003", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="1003", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# MYSMART MySMART PAD V2.0
+ATTRS{idVendor}=="09be", ATTRS{idProduct}=="0002", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="09be", ATTRS{idProduct}=="0002", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY AG CardMan 3121
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="3021", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="3021", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Precise Biometrics Sense MC
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="a022", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="a022", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. HP USB Smartcard Reader
+ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="0824", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="0824", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR 331-DI
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5111", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5111", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR 3310
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5116", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5116", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR 3311
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="511d", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="511d", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR 355
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5410", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5410", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR 331
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="e001", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="e001", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SPR 532
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="e003", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="e003", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# TianYu CCID Key TianYu CCID SmartKey
+ATTRS{idVendor}=="a625", ATTRS{idProduct}=="0801", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="a625", ATTRS{idProduct}=="0801", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Verisign Secure Storage Token
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="1359", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="1359", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Verisign Secure Token
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="ace0", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="ace0", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# XIRING XI-SIGN USB V2
+ATTRS{idVendor}=="0f14", ATTRS{idProduct}=="0011", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0f14", ATTRS{idProduct}=="0011", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# XIRING MyLeo
+ATTRS{idVendor}=="0f14", ATTRS{idProduct}=="0037", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0f14", ATTRS{idProduct}=="0037", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# XIRING Leo v2
+ATTRS{idVendor}=="0f14", ATTRS{idProduct}=="0038", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0f14", ATTRS{idProduct}=="0038", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Access IS ePassport Reader
+ATTRS{idVendor}=="0db5", ATTRS{idProduct}=="0138", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0db5", ATTRS{idProduct}=="0138", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ACS ACR101 ICC Reader
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="1204", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="1204", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ACS APG8201 PINhandy 1
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="8201", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="8201", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ACS APG8201 USB Reader
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="8202", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="8202", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ACS CryptoMate64
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="90db", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="90db", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Aktiv Rutoken lite
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0025", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0025", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Aktiv Rutoken ECP
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0030", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0030", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Aktiv PINPad Ex
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0080", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0080", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Aktiv PINPad In
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0081", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0081", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Aktiv Co., ProgramPark Rutoken Magistra
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0060", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0a89", ATTRS{idProduct}=="0060", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Alcor Micro AU9522
+ATTRS{idVendor}=="058f", ATTRS{idProduct}=="9522", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="058f", ATTRS{idProduct}=="9522", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ASK-RFID CPL108
+ATTRS{idVendor}=="1fd3", ATTRS{idProduct}=="cc1d", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1fd3", ATTRS{idProduct}=="cc1d", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Athena IDProtect Key v2
+ATTRS{idVendor}=="0dc3", ATTRS{idProduct}=="0900", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0dc3", ATTRS{idProduct}=="0900", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ATMEL AT91SO CCID Smart Card Reader
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6004", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6004", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ATMEL AT98SC032CT-USB
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6009", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6009", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ATMEL AT91SC192192CT-USB ICCD reader
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="600b", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="600b", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ATMEL AT90SCR100
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6010", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6010", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ATMEL AT90SCR050
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6011", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6011", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ATMEL VaultIC420 Smart Object
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6012", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6012", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ATMEL VaultIC440
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6014", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6014", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Avtor SecureToken
+ATTRS{idVendor}=="15cf", ATTRS{idProduct}=="0019", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="15cf", ATTRS{idProduct}=="0019", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Avtor SC Reader 371
+ATTRS{idVendor}=="15cf", ATTRS{idProduct}=="001d", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="15cf", ATTRS{idProduct}=="001d", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Axalto Reflex USB v3
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="511c", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="511c", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# BIFIT USB-Token iBank2key
+ATTRS{idVendor}=="23a0", ATTRS{idProduct}=="0001", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="23a0", ATTRS{idProduct}=="0001", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# BIFIT iBank2Key
+ATTRS{idVendor}=="23a0", ATTRS{idProduct}=="0002", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="23a0", ATTRS{idProduct}=="0002", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Bit4id miniLector-s
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="1101", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="1101", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Bit4id cryptokey
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="1201", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="1201", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Bit4id iAM
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="2221", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="2221", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Bit4id CKey4
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="2321", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="2321", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Bit4id miniLector
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="3111", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="3111", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# BLUTRONICS BLUDRIVE II CCID
+ATTRS{idVendor}=="1b0e", ATTRS{idProduct}=="1078", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1b0e", ATTRS{idProduct}=="1078", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Broadcom Corp 5880
+ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="5800", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="5800", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Broadcom Corp 5880
+ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="5802", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="5802", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# C3PO TLTC2USB
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0007", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0007", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# C3PO KBR36
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0009", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0009", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# C3PO LTC32
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0010", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0010", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# C3PO LTC36
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0036", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0036", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# CCB eSafeLD
+ATTRS{idVendor}=="8829", ATTRS{idProduct}=="ccb2", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="8829", ATTRS{idProduct}=="ccb2", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# charismathics plug'n'crypt CCID token
+ATTRS{idVendor}=="19e7", ATTRS{idProduct}=="0002", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="19e7", ATTRS{idProduct}=="0002", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Cherry GmbH SmartBoard XX1X
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="005b", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="005b", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Cherry GmbH SmartTerminal XX1X
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0070", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0070", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Cherry GmbH SmartTerminal ST-1275
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0072", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="046a", ATTRS{idProduct}=="0072", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# COVADIS VEGA-ALPHA
+ATTRS{idVendor}=="0982", ATTRS{idProduct}=="0008", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0982", ATTRS{idProduct}=="0008", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# COVADIS Auriga
+ATTRS{idVendor}=="0982", ATTRS{idProduct}=="0040", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0982", ATTRS{idProduct}=="0040", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# DUALi DRAGON NFC READER
+ATTRS{idVendor}=="1db2", ATTRS{idProduct}=="088b", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1db2", ATTRS{idProduct}=="088b", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Feitian bR301
+ATTRS{idVendor}=="096e", ATTRS{idProduct}=="061a", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="096e", ATTRS{idProduct}=="061a", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Feitian Technologies FT SCR310
+ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0505", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0505", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Free Software Initiative of Japan Gnuk
+ATTRS{idVendor}=="234b", ATTRS{idProduct}=="0000", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="234b", ATTRS{idProduct}=="0000", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Fujitsu Siemens Computers SmartCard Keyboard USB 2A
+ATTRS{idVendor}=="0bf8", ATTRS{idProduct}=="1005", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0bf8", ATTRS{idProduct}=="1005", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Fujitsu Siemens Computers SmartCard USB 2A
+ATTRS{idVendor}=="0bf8", ATTRS{idProduct}=="1006", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0bf8", ATTRS{idProduct}=="1006", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# FujitsuTechnologySolutions GmbH SmartCase KB SCR eSIG
+ATTRS{idVendor}=="0bf8", ATTRS{idProduct}=="1017", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0bf8", ATTRS{idProduct}=="1017", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Gem e-Seal Pro USB Token
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="2202", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="2202", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto ING Shield Pro SC
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c1", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c1", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Ezio Shield
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c2", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c2", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Ezio Shield Branch Reader
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c5", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34c5", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto GemPC Express
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34ec", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="34ec", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto SA .NET Dual
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="4042", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="4042", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Hybrid Smartcard Reader
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="5743", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="5743", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemalto Smart Enterprise Guardian Secure USB Device
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="8108", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="8108", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Gemplus GemCore POS Pro Smart Card Reader
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3479", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08e6", ATTRS{idProduct}=="3479", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Generic Smart Card Reader Interface
+ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="0165", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="0165", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Generic USB2.0-CRW
+ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="0169", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="0169", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# German Privacy Foundation Crypto Stick v1.2
+ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="4107", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="4107", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Giesecke & Devrient GmbH Star Sign Card Token 350 (ICCD)
+ATTRS{idVendor}=="1059", ATTRS{idProduct}=="000c", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1059", ATTRS{idProduct}=="000c", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Giesecke & Devrient GmbH Star Sign Card Token 550 (ICCD)
+ATTRS{idVendor}=="1059", ATTRS{idProduct}=="000d", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1059", ATTRS{idProduct}=="000d", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# GIS Ltd SmartMouse USB
+ATTRS{idVendor}=="0f1a", ATTRS{idProduct}=="0002", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0f1a", ATTRS{idProduct}=="0002", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# GoldKey Security PIV Token
+ATTRS{idVendor}=="19c8", ATTRS{idProduct}=="0012", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="19c8", ATTRS{idProduct}=="0012", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# HDZB uKeyCI800-K18
+ATTRS{idVendor}=="1677", ATTRS{idProduct}=="0025", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1677", ATTRS{idProduct}=="0025", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Hewlett Packard MFP Smart Card Reader
+ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="2924", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="2924", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# HID OMNIKEY 5127 CK
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5127", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5127", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# HID OMNIKEY 5326 DFR
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5326", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5326", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# HID OMNIKEY 5427 CK
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5427", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5427", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# id3 Semiconductors CL1356A_HID
+ATTRS{idVendor}=="0b81", ATTRS{idProduct}=="0220", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0b81", ATTRS{idProduct}=="0220", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Identive CLOUD 2700 F Smart Card Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5710", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5710", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Identive Identive CLOUD 4500 F Dual Interface Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5720", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5720", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Identive Identive CLOUD 4510 F Contactless + SAM Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5721", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5721", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Identive CLOUD 2700 R Smart Card Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5810", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5810", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# IIT E.Key Almaz-1C
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="9324", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="9324", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Inside Secure VaultIC 420 Smart Object
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6300", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6300", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Inside Secure VaultIC 440 Smart Object
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6301", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6301", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Inside Secure VaultIC 460 Smart Object
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6302", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6302", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Inside Secure AT90SCR100
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6403", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6403", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Inside Secure AT90SCR050
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6404", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6404", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Inside Secure AT90SCR200
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6407", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="2406", ATTRS{idProduct}=="6407", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KEBTechnology KONA USB SmartCard
+ATTRS{idVendor}=="04cc", ATTRS{idProduct}=="5072", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04cc", ATTRS{idProduct}=="5072", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Kingtrust Multi-Reader
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="0007", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0483", ATTRS{idProduct}=="0007", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems Smart Token
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3014", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="3014", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems IDToken
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="301d", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="301d", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems mIDentity 4smart
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4189", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4189", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems mIDentity 4smart AES
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="41a9", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="41a9", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems mIDentity visual
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4289", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4289", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems mIDentity fullsize
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4389", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4389", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems mIDentity fullsize AES
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="43a9", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="43a9", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Lenovo Lenovo USB Smartcard Keyboard
+ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="6007", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="6007", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Macally NFC CCID eNetPad
+ATTRS{idVendor}=="08ae", ATTRS{idProduct}=="0bdf", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08ae", ATTRS{idProduct}=="0bdf", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Morpho MSO350/MSO351 Fingerprint Sensor & SmartCard Reader
+ATTRS{idVendor}=="079b", ATTRS{idProduct}=="0026", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="079b", ATTRS{idProduct}=="0026", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Morpho MSO1350 Fingerprint Sensor & SmartCard Reader
+ATTRS{idVendor}=="079b", ATTRS{idProduct}=="0052", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="079b", ATTRS{idProduct}=="0052", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# MSI StarReader SMART
+ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="0161", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="0161", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Neowave Weneo
+ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="0013", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="0013", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Neowave Weneo
+ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="0033", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="0033", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Neowave Weneo
+ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="1023", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="1023", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Neowave Weneo
+ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="8033", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1e0d", ATTRS{idProduct}=="8033", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# NTT Communications Corp. SCR3310-NTTCom USB SmartCard Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="511a", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="511a", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# NXP PR533
+ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="010b", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="010b", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OBERTHUR TECHNOLOGIES ID-ONE TOKEN SLIM v2
+ATTRS{idVendor}=="1a74", ATTRS{idProduct}=="b111", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a74", ATTRS{idProduct}=="b111", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OCS ID-One Cosmo Card USB Smart Chip Device
+ATTRS{idVendor}=="1a74", ATTRS{idProduct}=="6354", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a74", ATTRS{idProduct}=="6354", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY CardMan 1021
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="1021", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="1021", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY CardMan 4321
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="4321", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="4321", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY CardMan 5321
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5321", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5321", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY 6321 CLi USB
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="6321", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="6321", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY AG CardMan 3621
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="3621", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="3621", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY AG CardMan 3821
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="3821", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="3821", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY AG CardMan 5121
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5121", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5121", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY AG CardMan 5125
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5125", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="5125", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY AG CardMan 6121
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="6622", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="6622", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# OMNIKEY AG Smart Card Reader
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="a021", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="076b", ATTRS{idProduct}=="a021", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Panasonic Panasonic USB Smart Card Reader 7A-Smart
+ATTRS{idVendor}=="04da", ATTRS{idProduct}=="117a", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04da", ATTRS{idProduct}=="117a", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Philips Semiconductors JCOP41V221
+ATTRS{idVendor}=="0471", ATTRS{idProduct}=="040f", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0471", ATTRS{idProduct}=="040f", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Philips Semiconductors SmartMX Sample
+ATTRS{idVendor}=="04b9", ATTRS{idProduct}=="1400", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04b9", ATTRS{idProduct}=="1400", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Planeta RC700-NFC CCID
+ATTRS{idVendor}=="21ab", ATTRS{idProduct}=="0010", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="21ab", ATTRS{idProduct}=="0010", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Raritan D2CIM-DVUSB VM/CCID
+ATTRS{idVendor}=="14dd", ATTRS{idProduct}=="1006", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="14dd", ATTRS{idProduct}=="1006", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# REINER SCT cyberJack go
+ATTRS{idVendor}=="0c4b", ATTRS{idProduct}=="0504", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0c4b", ATTRS{idProduct}=="0504", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# REINER SCT cyberJack RFID basis
+ATTRS{idVendor}=="0c4b", ATTRS{idProduct}=="9102", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0c4b", ATTRS{idProduct}=="9102", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SafeTech SafeTouch
+ATTRS{idVendor}=="24a2", ATTRS{idProduct}=="0102", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="24a2", ATTRS{idProduct}=="0102", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SchlumbergerSema SchlumbergerSema Cyberflex Access
+ATTRS{idVendor}=="0973", ATTRS{idProduct}=="0003", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0973", ATTRS{idProduct}=="0003", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR33x USB Smart Card Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5113", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5113", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR 335
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5115", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5115", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR3320 - Smart Card Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5117", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5117", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR3340 - ExpressCard54 Smart Card Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5119", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5119", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR3310 USB Smart Card Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="511f", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="511f", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCR331-DI USB Smart Card Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5120", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5120", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SDI010 Smart Card Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5121", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5121", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SDI011 Contactless Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="512b", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="512b", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SDI011 Contactless Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="512c", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="512c", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCL010 Contactless Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5291", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5291", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SCM Microsystems Inc. SCL01x Contactless Reader
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5293", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5293", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Secure Device Solutions DOMINO-Key TWIN
+ATTRS{idVendor}=="0b81", ATTRS{idProduct}=="8007", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0b81", ATTRS{idProduct}=="8007", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SecuTech SecuTech Token
+ATTRS{idVendor}=="0403", ATTRS{idProduct}=="c587", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0403", ATTRS{idProduct}=="c587", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Sitecom Sitecom USB simcard reader MD-010
+ATTRS{idVendor}=="0df6", ATTRS{idProduct}=="800a", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0df6", ATTRS{idProduct}=="800a", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Softforum Co., Ltd XecureHSM
+ATTRS{idVendor}=="04e8", ATTRS{idProduct}=="0007", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="04e8", ATTRS{idProduct}=="0007", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard CrazyWriter
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7113", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7113", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard CSB6 Basic
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7121", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7121", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard CSB6 Secure
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7123", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7123", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard CSB6 Ultimate
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7124", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7124", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard EasyFinger Standard
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7136", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7136", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard EasyFinger Ultimate
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7138", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7138", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard Prox'N'Roll
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7141", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="7141", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard NFC'Roll
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="8141", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="8141", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard H663 Series
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="91b1", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="91b1", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SpringCard H512 Series
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="a1a1", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1c34", ATTRS{idProduct}=="a1a1", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# SYNNIX STD200
+ATTRS{idVendor}=="1206", ATTRS{idProduct}=="2105", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1206", ATTRS{idProduct}=="2105", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Teridian Semiconductors TSC12xxFV.09
+ATTRS{idVendor}=="1862", ATTRS{idProduct}=="0000", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1862", ATTRS{idProduct}=="0000", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Tianyu Smart Card Reader
+ATTRS{idVendor}=="a625", ATTRS{idProduct}=="0810", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="a625", ATTRS{idProduct}=="0810", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Todos Argos Mini II
+ATTRS{idVendor}=="0b0c", ATTRS{idProduct}=="0050", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0b0c", ATTRS{idProduct}=="0050", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Todos CX00
+ATTRS{idVendor}=="0b0c", ATTRS{idProduct}=="0052", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0b0c", ATTRS{idProduct}=="0052", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ubisys 13.56MHz RFID (CCID)
+ATTRS{idVendor}=="19a6", ATTRS{idProduct}=="0009", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="19a6", ATTRS{idProduct}=="0009", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Validy TokenA sl vt
+ATTRS{idVendor}=="1cf0", ATTRS{idProduct}=="0001", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1cf0", ATTRS{idProduct}=="0001", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DP905v1.1
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0001", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0001", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS KEY 101
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0101", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0101", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS KEY 860
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0112", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0112", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS KEY 200
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0115", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0115", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS KEY 860
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0117", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0117", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS KEY 200
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0119", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0119", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS KEY 202
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0120", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0120", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS KEY 202
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0122", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0122", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DP855
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0855", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0855", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DP865
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0865", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0865", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS 870
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0870", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0870", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VASCO DIGIPASS 920
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0920", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1a44", ATTRS{idProduct}=="0920", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# VMware Virtual USB CCID
+ATTRS{idVendor}=="0e0f", ATTRS{idProduct}=="0004", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0e0f", ATTRS{idProduct}=="0004", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Winbond CCID SmartCard Controller
+ATTRS{idVendor}=="0416", ATTRS{idProduct}=="3815", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0416", ATTRS{idProduct}=="3815", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Yubico Yubikey NEO OTP+CCID
+ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0111", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0111", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Yubico Yubikey NEO CCID
+ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0112", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0112", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ACS ACR122U PICC Interface
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="2200", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="072f", ATTRS{idProduct}=="2200", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ActivCard ActivCard USB Reader V2
+ATTRS{idVendor}=="09c3", ATTRS{idProduct}=="0008", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="09c3", ATTRS{idProduct}=="0008", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Aladdin eToken PRO USB 72K Java
+ATTRS{idVendor}=="0529", ATTRS{idProduct}=="0620", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0529", ATTRS{idProduct}=="0620", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# ATMEL VaultIC460
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6016", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6016", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Broadcom Corp 5880
+ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="5801", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="5801", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# C3PO LTC3x USB
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0003", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0783", ATTRS{idProduct}=="0003", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Feitian SCR301
+ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0503", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="096e", ATTRS{idProduct}=="0503", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Hewlett-Packard Company HP USB CCID Smartcard Keyboard
+ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="0036", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="0036", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Hewlett-Packard Company HP USB Smart Card Keyboard
+ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="1024", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="1024", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems mIDentity M
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4000", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4000", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# KOBIL Systems mIDentity XL
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4001", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0d46", ATTRS{idProduct}=="4001", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# O2 Micro Oz776
+ATTRS{idVendor}=="0b97", ATTRS{idProduct}=="7762", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0b97", ATTRS{idProduct}=="7762", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# O2 Micro Oz776
+ATTRS{idVendor}=="0b97", ATTRS{idProduct}=="7772", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="0b97", ATTRS{idProduct}=="7772", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Precise Biometrics Precise 250 MC
+ATTRS{idVendor}=="08c3", ATTRS{idProduct}=="0401", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08c3", ATTRS{idProduct}=="0401", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# Precise Biometrics Precise 200 MC
+ATTRS{idVendor}=="08c3", ATTRS{idProduct}=="0402", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="08c3", ATTRS{idProduct}=="0402", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# RSA RSA SecurID (R) Authenticator
+ATTRS{idVendor}=="15e1", ATTRS{idProduct}=="2007", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="15e1", ATTRS{idProduct}=="2007", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"
+# THRC Smart Card Reader
+ATTRS{idVendor}=="062d", ATTRS{idProduct}=="0001", ACTION=="add"    RUN+="/usr/lib/pkitoken/udev-handler.sh --action add    --device %s{busnum}:%s{devnum}"
+ATTRS{idVendor}=="062d", ATTRS{idProduct}=="0001", ACTION=="remove" RUN+="/usr/lib/pkitoken/udev-handler.sh --action remove --device %s{busnum}:%s{devnum}"

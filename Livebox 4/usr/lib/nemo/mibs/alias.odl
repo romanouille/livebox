@@ -1,0 +1,20 @@
+/**
+ * This MIB is only a data container and has no functional meaning.
+ */
+
+
+object NeMo { 
+	object extends MIB(0,"alias") {
+		string Flag = "";
+		object DataModel {
+			/*
+			 * Alias is a non-volatile handle used to reference this NeMo Intf. If
+			 * it's left blank at creation time, a unique value is auto-generated.
+			 */
+			persistent string Alias;
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/alias.odl */

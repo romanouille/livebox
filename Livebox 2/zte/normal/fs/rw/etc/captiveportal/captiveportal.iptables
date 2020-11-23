@@ -1,0 +1,27 @@
+*mangle
+:PREROUTING_CaptivePortal - [0,0]
+-F PREROUTING_CaptivePortal
+# All connections that are not tcp connections headed for port 80 comming from the bridge should be ignored
+-A PREROUTING_CaptivePortal ! -p tcp -j RETURN
+-A PREROUTING_CaptivePortal -p tcp -m tcp ! --dport 80 -j RETURN
+-A PREROUTING_CaptivePortal ! -i bridge -j RETURN
+# We set all packet marks to 0 because SYN packets can be marked by the captiveportal application when 
+# the connection it initiates need to be redirected to the local redirect server.
+# Igmpsnooping marks packets in ebtables. These marks could match the mark set by the captiveportal.
+# This caused bug 23171. Tcp packets with destination port 80 are irrelevant for igmpsnooping so this rule is otherwise harmless.
+-A PREROUTING_CaptivePortal -j MARK --set-mark 0
+#### By default packet inspection is disabled
+# We do however set "the accepted mark" on all tcp connections so that all connections that existed prior to filter activation will not have their packages inspected by our filter. 
+# This could lead to lots of useless packet inspection since our http inspector needs to catch the start of every connection.
+# de/activating the packet filtering is as simple als removing/inserting the line at the head of this chain.
+# NOTICE:  ESTABLISHED is added to the --cstate because of BUG 21356, in fact only new connections should be marked but this 
+-A PREROUTING_CaptivePortal -m conntrack --ctstate NEW,ESTABLISHED -j CONNMARK --set-mark 0x00000001/0x0000000F
+# Connections marked as CONNMARK_FORWARD need to be ignored
+-A PREROUTING_CaptivePortal -m connmark --mark 0x00000001/0x00000007 -j RETURN
+# Connections marked as CONNMARK_REDIRECT need to be ignored
+-A PREROUTING_CaptivePortal -m connmark --mark 0x00000004/0x00000007 -j RETURN
+
+
+# inspect packets in userspace
+-A PREROUTING_CaptivePortal -j NFQUEUE --queue-num 1
+COMMIT

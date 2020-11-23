@@ -1,0 +1,2 @@
+ACTION=="add", ATTRS{idVendor}=="21e7", ATTRS{idProduct}=="0022", SUBSYSTEM=="tty" RUN+="/usr/lib/wmbusplugin/wmbus-udev.sh %k %b %s{busnum} %s{devnum}"
+ACTION=="remove", ATTRS{idVendor}=="21e7", ATTRS{idProduct}=="0022" RUN+="/usr/lib/wmbusplugin/wmbus-udev.sh %k %b %s{busnum} %s{devnum}"

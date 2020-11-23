@@ -1,0 +1,39 @@
+object NeMo {
+object extends MIB(0,"dhcpv6") {
+string Flag = "dhcpv6";
+object DataModel {
+string DHCPStatus {
+constraint enum["Idle", "Init", "Selecting", "Requesting", "Bound"];
+default "Idle";
+}
+persistent string DUID;
+persistent bool RequestAddresses = true;
+persistent bool RequestPrefixes = false;
+persistent bool RapidCommit = false;
+persistent int32 SuggestedT1 = -1;
+persistent int32 SuggestedT2 = -1;
+persistent string SupportedOptions;
+persistent string RequestedOptions;
+bool Renew;
+persistent int32 ResetOnPhysDownTimeout;
+persistent bool CheckAuthentication = true;
+persistent string AuthenticationInfo;
+persistent bool RetryOnFailedAuth = false;
+void renew() {
+acl {
+world none;
+}
+}
+persistent object SentOption[] {
+persistent bool Enable = true;
+persistent string Alias;
+persistent uint16 Tag;
+persistent string Value;
+}
+object ReceivedOption[] {
+uint16 Tag;
+string Value;
+}
+}
+}
+}

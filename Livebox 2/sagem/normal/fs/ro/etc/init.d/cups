@@ -1,0 +1,56 @@
+#! /bin/sh 
+
+ODL="/usr/lib/cups/cups.odl"
+PID="/var/run/cups.pid"
+FILE="/dev/usb/lp0"
+
+start() {
+    if [ -e "${PID}" ]; then
+        logger -t cups "cups service already started"
+        exit 1;
+    fi
+    mkdir -p /var/tmp
+
+    mkdir -p /var/tmp/cups/socket
+    mkdir -p /var/tmp/cups/localspool
+    mkdir -p /var/tmp/cups/conf
+    cp -rf /usr/etc/cups/* /var/tmp/cups/conf/
+    if [ -f $FILE ];
+    then
+       logger -t cups "File $FILE exists"
+    else
+       mkdir -p /dev/usb
+       mknod $FILE c 180 0
+    fi
+
+    pcb_plugin -n cups -c "${ODL}" -vv
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID)
+    else
+        logger -t cups "cups not running"
+        exit 1
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+    	status
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status]"
+        ;;
+esac

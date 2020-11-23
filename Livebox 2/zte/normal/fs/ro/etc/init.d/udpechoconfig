@@ -1,0 +1,43 @@
+#!/bin/sh
+PIDUDPE_PLUGIN="/var/run/udpechoconfig.pid"
+UDPE_PLUGIN="/bin/pcb_plugin -vv -n udpechoconfig -c /usr/lib/udpechoconfig/UDPEchoConfig.odl"
+
+start() {
+
+    if [ -e ${PIDUDPE_PLUGIN} ]; then
+        echo "UDPEchoPlusServer plug-in already started"
+    else
+        ${UDPE_PLUGIN};
+    fi
+}
+
+stop() {
+    if [ -e ${PIDUDPE_PLUGIN} ]; then
+        kill $(cat ${PIDUDPE_PLUGIN});
+    else
+        echo "UDPEchoPlusServer plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDUDPE_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac
+

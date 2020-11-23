@@ -1,0 +1,45 @@
+/**
+ *
+ */
+
+object NeMo {
+	object extends MIB(0, "6rd") {
+		string Flag = "6rd";
+		object DataModel {
+			/**
+			 *
+			 */
+			string Interface;
+
+			/**
+			 * The number of high-order bits that are identical across all CE IPv4 addresses
+			 * within a 6rd domain. Values 0 to 32 are supported.
+			 */
+			uint32 IPv4MaskLength {
+				constraint range[0, 32];
+			}
+
+			/**
+			 * 6rd prefix and prefix length as defined by your ISP (in CIDR notation).
+			 */
+			string SPIPv6Prefix;
+
+			/**
+			 * IPv4 Address(es) of the Border Relay 6rd server.
+			 */
+			string BorderRelayIPv4Addresses;
+
+			/**
+			 *
+			 */
+			string WANIPv4Address;
+
+			/**
+			 * 6rd delegated prefix.
+			 */
+			string DelegatedPrefix;
+		}
+	}
+}
+
+/** @location sah_services_nemo /mibs/6rd.odl */

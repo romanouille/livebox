@@ -1,0 +1,10 @@
+using "../nmccore_acl.so";
+persistent object NMC {
+bool setACL(mandatory string function, string path, uint32 id, uint16 flags) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}

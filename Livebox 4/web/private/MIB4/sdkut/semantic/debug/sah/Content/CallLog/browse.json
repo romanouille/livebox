@@ -1,0 +1,86 @@
+{
+  "status": 0,
+  "data": [
+    {
+      "callLogId": 1,
+      "date": "2015-04-06T15:16:31Z",
+      "duration": 0,
+      "type": "missed",
+      "phoneNumber": 1070,
+      "line": 1012,
+      "device": "G1012",
+      "hasBeenViewed": 0,
+      "matchContact": "",
+      "contact": {
+        "contactId": "urn:uuid:e70d1ea9-fc69-4882-b5b3-0f6c7713a83b",
+        "additionalNameList": [],
+        "honorificPrefixes": "",
+        "honorificSuffixes": "",
+        "givenName": "Ramzi",
+        "familyName": "raissi",
+        "formattedName": "Ramzi raissi",
+        "title": ""
+      }
+    }, {
+      "callLogId": 2,
+      "date": "2015-01-02T15:38:49Z",
+      "duration": 0,
+      "type": "missed",
+      "phoneNumber": 1070,
+      "line": 1013,
+      "device": "G1012",
+      "hasBeenViewed": 0,
+      "matchContact": "",
+      "contact": {
+        "contactId": "urn:uuid:e70d1ea9-fc69-4882-b5b3-0f6c7713a83b",
+        "additionalNameList": [],
+        "honorificPrefixes": "",
+        "honorificSuffixes": "",
+        "givenName": "Abdel",
+        "familyName": "Douiri",
+        "formattedName": "Abdel Douiri",
+        "title": ""
+      }
+    }, {
+      "callLogId": 3,
+      "date": "2015-01-06T07:52:51Z",
+      "duration": 872,
+      "type": "in",
+      "phoneNumber": 1070,
+      "line": 1012,
+      "device": "FXS1",
+      "hasBeenViewed": 0,
+      "matchContact": "",
+      "contact": {
+        "contactId": "urn:uuid:e70d1ea9-fc69-4882-b5b3-0f6c7713a83b",
+        "additionalNameList": [],
+        "honorificPrefixes": "",
+        "honorificSuffixes": "",
+        "givenName": "Gen",
+        "familyName": "Eric",
+        "formattedName": "Gen Eric",
+        "title": ""
+      }
+    }, {
+      "callLogId": 4,
+      "date": "2015-01-09T08:58:21Z",
+      "duration": 12,
+      "type": "in",
+      "phoneNumber": 1011,
+      "line": 1013,
+      "device": "FXS1",
+      "hasBeenViewed": 0,
+      "matchContact": "",
+      "contact": {
+        "contactId": "",
+        "familyName": "",
+        "givenName": "",
+        "additionalNameList": [],
+        "honorificPrefixes": "",
+        "honorificSuffixes": "",
+        "formattedName": "",
+        "title": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+AUTOCONF_CONF=/etc_ro_fs/autoconf.conf
+[ -f $AUTOCONF_CONF ] && . $AUTOCONF_CONF
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+
+# mount all other filesystems
+echo "Mounting other filesystems ..."
+mount -a
+
+ifconfig lo 127.0.0.1 netmask 255.0.0.0 broadcast 127.255.255.255 up
+
+# For now, we use the real etc file system
+/etc/init.d/rc 1
+
+if [ -n "$CONFIG_GENERATION_RESC" ]; then
+  # only set bootmode to system in rescue image.
+  # you may not do this in operational mode, as this might cause a race condition between
+  # te upgrade daemon setting the mode to rescue (due to a queued transfer available at boot time)
+
+  # this indicates software loaded succesfully (next reboot will start normal firmware)
+  /usr/bin/bootmode set system
+fi
+
+echo "Sysinit done."
+
+# update the status here, as I'm sure someone will in its infinite wisdom decide to create a S99ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ script to solve his race conditions
+pcb_cli --daemon "DeviceInfo.DeviceStatus=Up"
+

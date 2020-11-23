@@ -1,0 +1,73 @@
+#!/bin/sh
+
+
+export TRACKER_BUS_TYPE=system
+export TRACKER_USE_LOG_FILES=0
+
+# disk path
+MOUNTS_PATH=/proc/mounts
+DISK_PATH="/var/usbmount/hubmmdisk"
+
+# read only
+TRACKER_SHARE=/usr/share/tracker
+export TRACKER_EXTRACTOR_RULES_DIR="$TRACKER_SHARE/extractor-rules"
+export TRACKER_DB_ONTOLOGIES_DIR="$TRACKER_SHARE/ontologies"
+export XDG_DATA_DIRS="$TRACKER_SHARE"
+export TRACKER_USE_CONFIG_FILES=1
+export XDG_CONFIG_HOME="$TRACKER_SHARE/config"
+
+# need r/w rights and sufficient memory size
+export XDG_DATA_HOME="$DISK_PATH/tracker"
+export XDG_CACHE_HOME="$XDG_DATA_HOME/cache"
+
+export GSETTINGS_SCHEMA_DIR="/usr/share/glib-2.0/schemas"
+#export G_MESSAGES_DEBUG=all
+
+isDiskReady()
+{
+#   cat "$MOUNTS_PATH" | grep "$DISK_PATH" | wc -l
+   if [ -d "$DISK_PATH" ] ; then return 1 ; fi 
+       
+}
+
+waitForDisk()
+{
+    while true ; do
+        found=$(isDiskReady)
+        if [  "$found" != "0" ] ; then
+            echo "disk found"
+            break
+        fi
+        echo "no disk"
+        sleep 1
+    done
+}
+
+start()
+{
+	/usr/libexec/tracker-store 2>/dev/null &
+}
+
+stop()
+{
+    tracker daemon -t store
+}
+
+show_cmd()
+{
+        echo "[$(date)]: $@"
+        eval "$@"
+}
+
+case $1 in
+    start)
+        waitForDisk
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    *)
+        echo "Usage : $0 [start|stop]"
+        ;;
+esac

@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Disable MAC0 TX Flow Ctrl and Enable RX Flow Ctrl:
+sysutil athr83xxconf --writereg 0x7c 0x0000006e
+#Athr8327 IGMP: Set the destination port for IGMP/MLD join/leave packets to MAC0:
+sysutil athr83xxconf --writereg 0x0624 0x17f7f7f
+#Athr8327 IGMP Set control dropping/forwarding leave packet to IGMP_JOIN_LEAVE_DP:
+sysutil athr83xxconf --writereg 0x0620 0x4f8
+#Athr8327 IGMP Enable PRI=7 , aging entry for v2:
+sysutil athr83xxconf --writereg 0x0618 0x1f78002b
+#Athr8327 IGMP Enable PRI=7 , enable IGMP snoop on ports:
+sysutil athr83xxconf --writereg 0x0210 0x06060600
+sysutil athr83xxconf --writereg 0x0214 0x00060006
+#Athr8327 IGMP Enable DA priority
+sysutil athr83xxconf --writereg 0x664 0x40018
+sysutil athr83xxconf --writereg 0x670 0x40018
+sysutil athr83xxconf --writereg 0x67C 0x40018
+sysutil athr83xxconf --writereg 0x688 0x40018
+sysutil athr83xxconf --writereg 0x694 0x40018
+sysutil athr83xxconf --writereg 0x6A0 0x40018
+sysutil athr83xxconf --writereg 0x6AC 0x40018
+
+# ACL enable
+sysutil athr83xxregrw write 0x30 0x80000302
+#add a static entry in the ARL table to forward 239.255.255.250
+# ACL Rule -- IPv4 Pattern
+sysutil athr83xxregrw write 0x404 0xeffffffa
+sysutil athr83xxregrw write 0x408 0x00000000
+sysutil athr83xxregrw write 0x40c 0x00000000
+sysutil athr83xxregrw write 0x410 0x00000000
+sysutil athr83xxregrw write 0x414 0x0000001f
+sysutil athr83xxregrw write 0x400 0x80000001
+
+# ACL Mask -- IPv4 Mask
+sysutil athr83xxregrw write 0x404 0xffffffff
+sysutil athr83xxregrw write 0x408 0x00000000
+sysutil athr83xxregrw write 0x40c 0x00000000
+sysutil athr83xxregrw write 0x410 0x00030000
+sysutil athr83xxregrw write 0x414 0x000000c2
+sysutil athr83xxregrw write 0x400 0x80000101
+
+# ACL Action
+sysutil athr83xxregrw write 0x404 0x00000000
+sysutil athr83xxregrw write 0x408 0xe0000000
+sysutil athr83xxregrw write 0x40c 0x00000013
+sysutil athr83xxregrw write 0x410 0x00000000
+sysutil athr83xxregrw write 0x414 0x00000000
+sysutil athr83xxregrw write 0x400 0x80000201
+

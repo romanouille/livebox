@@ -1,0 +1,11 @@
+<b>Testing the phone connected to the livebox:</b><br>
+<br>
+By clicking the Test button on the Internet phone page, you have triggered a test of the phones (DECT livephone and/or Internet phone) connected to the livebox.<br>
+If they are correctly connected to your livebox, they should be ringing. If this is not the case, please check the connections between the phones and the livebox: the telephone should be connected to the blue Telephone port on the livebox using an RJ11 cable. for a DECT livephone, the DECT base unit should be connected to the USB port on the livebox.<br>
+If the phones do not ring after checking this, please contact the hotline.<br>
+Note that if you place or receive a call while the test is in progress, the test is automatically abandoned.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

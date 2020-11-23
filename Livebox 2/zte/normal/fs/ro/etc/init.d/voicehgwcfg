@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# check if datamodel exists
+regserver=`echo "VoiceService.VoiceApplication.VoiceProfile.SIP-Trunk.SIP.RegistrarServer?" | pcb_cli | cut -f2 -d=`
+
+if [ -z "$regserver" -o "$regserver" == "" ]; then
+	echo "Restoring voice datamodel from file"
+	/etc/init.d/voicehgwcfg.sh restore
+fi

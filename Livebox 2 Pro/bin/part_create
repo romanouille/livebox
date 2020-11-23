@@ -1,0 +1,21 @@
+if [ $# -ne 1 ]
+then exit 1
+fi
+if [ ! -e /sys/block/$1 ]
+then exit 2
+fi
+if [ `grep -c $1 /etc/mtab` -ne 0 ]
+then exit 4
+fi
+echo "Make a partition with all free space on disk $1"
+fdisk /dev/$1 >&- 2>&- << EOF
+n
+p
+1
+
++size
+w
+EOF
+if [ $? -ne 0 ]
+then exit 8
+fi

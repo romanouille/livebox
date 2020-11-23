@@ -1,0 +1,4 @@
+include "usbhosts-definition.odl";
+include "usbhosts-defaults.odl";
+
+/** @location sah_services_usb /usbhosts.odl */

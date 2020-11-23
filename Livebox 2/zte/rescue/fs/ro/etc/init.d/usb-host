@@ -1,0 +1,30 @@
+#!/bin/sh
+
+. /etc_ro_fs/autoconf.conf
+
+if [ ! -z "$CONFIG_LINUX_2_6" ]; then
+	USB_FS="usbfs"
+else
+	USB_FS="usbdevfs"
+fi
+
+case $1 in
+	start)
+		if [ ! -e /proc/bus/usb/devices ]; then
+			mount -t $USB_FS none /proc/bus/usb
+		fi;
+		echo "Starting usbmgr"
+		usbmgr
+	;;
+
+	stop)
+		echo "Stopping usbmgr"
+		killall usbmgr
+	;;
+
+	*)
+		echo "Usage : $0 [start|stop]"
+		;;
+esac
+
+

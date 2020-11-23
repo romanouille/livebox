@@ -1,0 +1,110 @@
+[
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*(MSFT_IPTV|Swisscom TV Box).*\"",
+    "start_actions" : {
+                        "set_tags"        : "tvbox",
+                        "add_device_type" : {
+                                              "Type"       : "TV Box",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*(MagicBox).*\"",
+    "start_actions" : {
+                        "set_tags"        : "accesspoint",
+                        "add_device_type" : {
+                                              "Type"       : "Access Point",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*(WLAN Connection Kit).*\"",
+    "start_actions" : {
+                        "set_tags"        : "wvbridge",
+                        "add_device_type" : {
+                                              "Type"       : "Wireless Video Bridge",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*(HA-ALLOK).*\"",
+    "start_actions" : {
+                        "set_tags"        : "ha allok",
+                        "add_device_type" : {
+                                              "Type"       : "Home Automation All-OK Button",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*(HA-SWITCH).*\"",
+    "start_actions" : {
+                        "set_tags"        : "ha wlan_switch",
+                        "add_device_type" : {
+                                              "Type"       : "Home Automation WLAN Switch",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*(HA-CAMERA).*\"",
+    "start_actions" : {
+                        "set_tags"        : "ha camera",
+                        "add_device_type" : {
+                                              "Type"       : "Home Automation Camera",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*(Repeater).*\"",
+    "start_actions" : {
+                        "set_tags"        : "repeater",
+                        "add_device_type" : {
+                                              "Type"       : "Wireless Repeater",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .Names.*.Name matches \".*(UNI-KIT_V2|UNIVERSAL-KIT).*\"",
+    "start_actions" : {
+                        "set_tags"        : "vbridge",
+                        "add_device_type" : {
+                                              "Type"       : "Video Bridge",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .Names.*.Name matches \".*(repeater).*\"",
+    "start_actions" : {
+                        "set_tags"        : "accesspoint",
+                        "add_device_type" : {
+                                              "Type"       : "Access Point",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and dhcp and .Names.dhcp.Name matches \"myStrom-Bulb-.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Bulb",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and dhcp and .Names.dhcp.Name matches \"myStrom-Button-.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "WLAN Button",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  }
+]

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+while [ 1 ]; do
+	umount $1 2> /tmp/res
+	if [ $? -eq 0 ]
+	then
+		return 0
+	fi
+	if [ `grep -c "Invalid argument" /tmp/res` -ne 0 ]
+	then
+		return 0
+	fi
+	if [ `grep -c "No such file or directory" /tmp/res` -ne 0 ]
+	then
+		return 0
+	fi
+
+	sleep 1
+done
+

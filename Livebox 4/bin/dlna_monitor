@@ -1,0 +1,112 @@
+#!/bin/sh
+
+#######################################################################################################
+# variables
+MOUNT_PATH=/var/usbmount/
+MOUNTS_PATH=/proc/mounts
+LIBRARY_DEFAULT_PATH="/lib:/usr/lib"
+
+# UCTT2.0-[UDA-1.1.3]: DMS must be stopped into the 10 seconds after the last USB stick extraction
+# MOUNTED_POLL_SLEEP_TIME=5 ; UNMOUNTED_POLL_SLEEP_TIME=15 ; DMS_STARTUP_SLEEP_TIME=30
+
+MOUNTED_POLL_SLEEP_TIME=15
+UNMOUNTED_POLL_SLEEP_TIME=20
+DMS_STARTUP_SLEEP_TIME=90
+
+dms_onfly=no
+
+#######################################################################################################
+# debug
+dbg_info=no
+dbg_error=no
+
+#######################################################################################################
+# function
+debug()
+{
+   if [ "$dbg_info" = "yes" ] ; then
+      echo "DBG: $1"
+   fi   
+}
+error()
+{
+   if [ "$dbg_error" = "yes" ] ; then
+      echo "ERR: $1"
+   fi      
+}
+parse_args()
+{
+    for param in $1 ; do
+        case "$param" in
+            -onfly) dms_onfly=yes                 ;;
+            -vv   ) dbg_info=yes ; dbg_error=yes  ;;
+            -v    ) dbg_error=yes                 ;;
+            -h    )
+               echo "dlna_monitor -onfly -v|vv "  ;
+               exit 0 ;
+               ;;
+             *)
+        esac
+    done
+}
+
+numberofdisks()
+{
+   cat "$MOUNTS_PATH" | grep "$MOUNT_PATH" | wc -l
+}
+
+startdms()
+{
+   if [ "$dms_onfly" = "yes" ] ; then 
+      echo "Starting onfly DMS ..."
+      /bin/dms -p $MOUNT_PATH -i &
+   else
+      echo "Starting DMS ..."
+      LD_LIBRARY_PATH=$LIBRARY_DEFAULT_PATH /bin/dms -i &
+   fi      
+   # sleep for a while: if the user is a DJ, we don't want to start/stop the dms continuously
+   sleep "$DMS_STARTUP_SLEEP_TIME"
+}
+
+stopdms()
+{
+   # wait a few seconds for database cleanup & ssdp:byebye emission
+	sleep 3
+   echo "Stopping DMS ..."
+   killall dms &> /dev/null
+   # wait several seconds and perform a sigkill, to make sure the dms is really killed
+   sleep 10
+   killall -kill dms &> /dev/null
+   # wait some more to make sure the dms was definitely closed
+   sleep 2
+}
+
+#######################################################################################################
+# Args parsing
+
+parse_args "$*"
+
+#######################################################################################################
+while true; do
+   NDISKS=`numberofdisks`
+   if [ "$NDISKS" = "0" ] ; then 
+     debug "No disks mounted, do nothing ..."
+     sleep "$UNMOUNTED_POLL_SLEEP_TIME"
+   else
+     debug "A disk was inserted, start the dms!"
+     startdms
+     while [ "$NDISKS" != "0" ] ; do
+       sleep "$MOUNTED_POLL_SLEEP_TIME"
+       debug "Checking if disk is still there"
+       NDISKS=`numberofdisks`
+     done
+     debug "No more disk available, stopping the dms!"
+     stopdms
+     debug "returning to main loop"
+   fi
+done
+
+#######################################################################################################
+# cleanup
+killall -9 dms
+exit 1

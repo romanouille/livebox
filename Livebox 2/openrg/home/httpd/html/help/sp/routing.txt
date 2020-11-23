@@ -1,0 +1,8 @@
+﻿<b>Enrutamiento:</b><br>
+<br>
+Para poder comunicarse, cada dispositivo de la red debe conocer qué router utilizar para acceder a una red externa. En otras palabras, debe guardar en local, una tabla de redes y routers.<br>
+Esta tabla contiene las direcciones de las redes de destino, máscaras de red, puertas de enlace y el interfaz por el cual la información debe salir del Livebox.<br>
+<!--
+<br>
+-->
+

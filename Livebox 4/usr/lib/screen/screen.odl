@@ -1,0 +1,18 @@
+using "screen_plugin.so";
+
+
+// Todo : transform to template object zone (cf SDL_Surface)
+// child of screen ( luminosity, etc )
+// see http://balloonboard.org/trac/browser/balloon/branches/display-dev/Module/ssd1305/ssd1305.c
+// for ssd1305 features.
+
+object Screen {
+    void wakeUp(string Source);
+    void printText(string String);
+    void printTextLogo(string String, string Logo);
+    void printTextAnimLogo(string String, string AnimLogoPath);
+    void printStatusMenu(string String1, string String2, string String3, string String4, string Logo1, string Logo2, string Logo3, string Logo4, int Gap);
+}
+
+/** @location sah_lib_screen /screen.odl */
+

@@ -1,0 +1,275 @@
+/**
+ * The DSLLINE MIB is available on all NeMo Intfs that have the "dslline"-flag set. If there is an
+ * enabled Intf with the "dslline"-flag set, an dsl connection will be set up and several status
+ * parameters of that connection will be exposed in the data model. 
+ */
+object NeMo { 
+	object extends MIB(0,"dslline") {
+		string Flag = "dslline";
+		object DataModel {
+			/**
+			 * Timestamp of the last operational state change, measured in seconds
+			 * since power on.
+			 */
+			read-only uint32 Line_LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current
+			 * operational state.
+			 */
+			volatile read-only uint32 Line_LastChange;
+
+			/**
+			 * Status of the DSL physical line.
+			 */
+			string LineStatus {
+				constraint enum [ "Up", "Initializing", "EstablishingLink", "NoSignal", "Disabled", "Error" ];
+				default "Disabled";
+			}
+
+			/**
+			 * The current maximum attainable data rate upstream (expressed in Kbps).
+			 */
+			uint32 Line_UpstreamMaxRate;
+
+			/**
+			 * The current maximum attainable data rate downstream (expressed in
+			 * Kbps).
+			 */
+			uint32 Line_DownstreamMaxRate;
+
+			/**
+			 * The current signal-to-noise ratio margin (expressed in 0.1dB) in the
+			 * upstream direction.
+			 */
+			int32 Line_UpstreamNoiseMargin;
+
+			/**
+			 * The current signal-to-noise ratio margin (expressed in 0.1dB) in the
+			 * downstream direction.
+			 */
+			int32 Line_DownstreamNoiseMargin;
+
+			/**
+			 * The current upstream signal loss (expressed in 0.1dB).
+			 */
+			int32 Line_UpstreamAttenuation;
+
+			/**
+			 * The current downstream signal loss (expressed in 0.1dB).
+			 */
+			int32 Line_DownstreamAttenuation;
+
+			/**
+			 * The current output power at the HGW's DSL line (expressed in 0.1dBmV).
+			 */
+			int32 Line_UpstreamPower;
+
+			/**
+			 * 
+			 */
+			int32 Line_DownstreamPower;
+
+			/**
+			 * Indicates whether the data path is fast (lower latency) or interleaved
+			 * (lower error rate).
+			 */
+			string Line_DataPath {
+				constraint enum [ "Interleaved", "Fast", "None" ];
+				default "Interleaved";
+			}
+
+			/**
+			 * ADSL1 Interleaved depth. This variable is only applicable to ADSL1 and
+			 * only if DataPath = Interleaved. Otherwise, the value of this parameter
+			 * is zero.
+			 */
+			uint32 Line_InterleaveDepth = 0;
+			/** 
+			* Reports the actual delay, in milliseconds, of the latency path due to interleaving. 
+			* @version V6.0
+			*/
+			uint32 Line_ActualInterleavingDelay;
+
+			/** 
+			* Reports the actual impulse noise protection (INP) provided by the latency path indicated in LPATH. The value is the actual INP in the L0 (i.e., 				* Showtime) state. 
+			* @version V6.0
+			*/
+			int32 Line_ACTINP = -1;
+
+			/** 
+			* Reports whether the value reported in ACTINP was computed assuming the receiver does not use erasure decoding. Valid values are 0 (computed per 				* the formula 
+			* assuming no erasure decoding) and 1 (computed by taking into account erasure decoding capabilities of receiver).
+			* @version V6.0
+			*/
+			bool Line_INPREPORT = 0;
+
+
+			string Line_ModulationType {
+				constraint enum [ "ADSL", "ADSL_G.dmt", "ADSL_G.lite", "ADSL_G.dmt.bis", "ADSL_re-adsl", "ADSL_2plus", "ADLS_four", "ADSL_ANSI_T1.413", "G.shdsl", "IDSL", "HDSL", "SDSL", "VDSL", "" ];
+				default "";
+			}
+
+			/**
+			 * DSL modulation configuration hint. It's recommended to leave this to
+			 * "Auto", however, if some hardware requires the modulation type to be
+			 * set explicitly (only options are ADSL / VDSL), it's possible via this
+			 * parameter.
+			 */
+			persistent string Line_ModulationHint {
+				constraint enum [ "Auto", "ADSL", "VDSL" ];
+				default "Auto";
+			}
+
+			/**
+			 * A string identifying the version of the modem firmware currently
+			 * installed on the HGW.
+			 */
+			string Line_FirmwareVersion {
+				constraint maxvalue 64;
+			}
+
+			/**
+			 * Indicates which DSL standards and recommendations are supported by the
+			 * B-NT.
+			 */
+			string Line_StandardsSupported;
+
+			/**
+			 * Indicates the standard that the B-NT is using for the connection.
+			 */
+			string Line_StandardUsed {
+				constraint enum [ "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_L", "G.992.3_Annex_M", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B", "G.993.2_Annex_C", "" ];
+				default "";
+			}
+
+			/**
+			 * Indicates which VDSL2 profile is currently in use on the line. 
+			 * For Bonding lines, assume we have the same profile on both lines.
+			 */
+			string Line_CurrentProfile {
+				constraint enum [ "", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a" ] ;
+				default "";
+			}
+
+			/**
+			 * This parameter contains the estimated electrical loop length expressed
+			 * in dB at 1MHz, kle (see O-UPDATE in section 12.2.4.2.1.2/G.993.2). The
+			 * value is coded as an unsigned 16 bit number in the range 0 (coded as
+			 * 0) to 128 dB (coded as 1280) in steps of 0.1 dB.
+			 */
+			uint32 Line_UPBOKLE {
+				constraint range [ 0, 1280 ];
+			}
+
+			/** 
+			 * Reports whether trellis coding is enabled in the downstream direction. 
+			 * A value of 1 indicates that trellis coding is in use, and a value of 0 indicates that the trellis is disabled.
+			 */
+			bool Line_TRELLISds = false;
+
+			/** 
+			 * Reports whether trellis coding is enabled in the upstream direction. 
+			 * A value of 1 indicates that trellis coding is in use, and a value of 0 indicates that the trellis is disabled.
+			 */
+			bool Line_TRELLISus = false;
+			
+			/**
+			  * Comma-separated list (maximum length 24) of strings. 
+			  * Indicates the downstream line attenuation per usable band, as computed during initialization. 
+			* Number of elements is dependent on the number of downstream bands but will exceed one only
+			  * for G.993.2. Interpretation of LATNds is as defined in ITU-T Rec. G.997.1.
+			  */
+			string Line_LATNpbds;
+
+			/**
+			  * Comma-separated list (maximum length 24) of strings. 
+			  * Indicates the upstream line attenuation per usable band, as computed during initialization. 
+			* Number of elements is dependent on the number of downstream bands but will exceed one only for G.993.2. 
+			  * Interpretation of LATNds is as defined in ITU-T Rec. G.997.1.
+			  */
+			string Line_LATNpbus;
+
+			/**
+			  * Comma-separated list (maximum length 24) of strings. 
+			  * Indicates the downstream signal attenuation per usable band, 
+			  * as computed during the L0 (i.e., Showtime)state. 
+			  * Number of elements is dependent on the number of downstream bands but will exceed one only for G.993.2.
+			* Interpretation of SATNds is as defined in ITU-T Rec. G.997.1. 
+			  */
+			string Line_SATNpbds;
+	
+			/**
+			  * Comma-separated list (maximum length 24) of strings. 
+			  * Indicates the upstream signal attenuation per usable band, 
+			* as computed during the L0 (i.e., Showtime)state.    
+			  * Number of elements is dependent on the number of downstream bands but will exceed one only for G.993.2.
+			* Interpretation of SATNds is as defined in ITU-T Rec. G.997.1. 
+			  */
+			string Line_SATNpbus;
+
+			/**
+			  * Comma-separated list (maximum length 24) of strings. 
+			  * Indicates the current signal-to-noise ratio margin of each downstream band.
+			  * Interpretation of the values is as defined in ITU-T Rec. G.997.1.
+			  */
+			string Line_SNRMpbds;
+
+			/**
+			  * Comma-separated list (maximum length 24) of strings. 
+			  * Indicates the current signal-to-noise ratio margin of each upstream band. 
+			* Interpretation of the values is as defined in ITU-T Rec. G.997.1.
+			  */
+			string Line_SNRMpbus;
+
+			/** 
+			* XTU-R vendor identifier as defined in G.994.1 and T1.413. In the case of G.994.1 this corresponds to the four-octet provider code, 
+				* which MUST be represented as eight hexadecimal digits.
+			* Note: This parameter is OPTIONAL at the G and S/T interfaces in G.997.1 Amendment 1. 
+			* If the parameter is implemented but no value is available, it MUST have the value "00000000".
+			* 
+			* Note: In G.997.1, this parameter is called "xTU-R G.994.1 Vendor ID". See ITU-T Recommendation [G.997.1].
+			* @version V6.0
+			*/
+        		string Line_XTURVendor = "00000000";
+
+				/**
+				* xTU-C vendor identifier as defined in G.994.1 and T1.413. In the case of G.994.1 this corresponds to the four-octet provider code, 
+				* which MUST be represented as eight hexadecimal digits.
+				* Note: This parameter is OPTIONAL at the G and S/T interfaces in G.997.1 Amendment 1. 
+				* If the parameter is implemented but no value is available, it MUST have the value "00000000".
+				* @version V6.0
+				*/
+        		string Line_XTUCVendor = "00000000";
+
+
+
+			/**
+			* @return a map of line statistics (mapping of a Line.Stats object)
+			* @version V6.0
+			*/
+			void getDSLLineStats();
+
+			/**
+			* @return a map of NeMo old style for compatibilty with the past
+			* @version V6.0
+			*/
+			void getDSLStats();
+
+			/**
+			* @return a map of line Tables tones (mapping of a Line.TestParams object)
+			* @version V6.0
+			*/
+			void getDSLLineTestParams();
+
+			/**
+			* @return a map of channel statistics 
+			* @version V6.0
+			*/
+			void getDSLChannelStats();
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/dslline.odl */

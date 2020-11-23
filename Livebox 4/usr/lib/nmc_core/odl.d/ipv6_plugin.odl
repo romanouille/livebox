@@ -1,0 +1,64 @@
+using "../nmccore_ipv6.so";
+
+persistent object NMC {
+
+    /**
+     * Settings for IPv6
+     */
+    persistent object IPv6 {
+
+        /**
+         * Enable or disable IPv6.
+         */
+        persistent bool Enable {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default false;
+        }
+
+        /**
+         * Indicate if the user has explicitely
+         * requested to enable IPv6.
+         */
+        persistent bool UserRequested {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default false;
+        }
+
+        /**
+         * Set Enable and UserRequested values.
+         */
+        void set(mandatory in bool Enable, in bool UserRequested) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Return the value of Enable and the IPv6 GUA.
+         */
+        void get(out bool Enable, out string IPv6Address) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Reset default values.
+         */
+        void reset() {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+    }
+}

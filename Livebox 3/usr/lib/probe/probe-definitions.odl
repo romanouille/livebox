@@ -1,0 +1,57 @@
+using "plugin.so";
+define plib_event_t {
+string EventSource;
+string EventKey;
+variant EventParameters;
+}
+define plib_event_list_t {
+list plib_events;
+}
+persistent object Probe {
+void enable();
+void disable();
+variant get();
+void trigger();
+void logEvents(mandatory plib_event_list_t events);
+persistent bool Enable {
+write with probe_enableChanged;
+}
+read-only string Version {
+default "1.0";
+}
+persistent string Compression {
+default "None";
+constraint enum ["GZIP", "None"];
+}
+persistent uint32 Mode {
+constraint minvalue 0;
+write with probe_modeChanged;
+}
+persistent string OutputLocation {
+write with probe_outputLocationChanged;
+}
+persistent string InputLocation {
+constraint enum ["/tmp", "/log"];
+default "/tmp";
+write with probe_inputLocationChanged;
+}
+bool Trigger {
+default false;
+write with probe_triggerChanged;
+}
+bool FileSizeCritical {
+default false;
+}
+persistent uint32 firstXferMaxTimer {
+constraint minvalue 0;
+default 600;
+}
+persistent uint32 xferTimeVariation {
+constraint minvalue 0;
+default 60;
+}
+persistent bool CustomerAuthorization = true;
+persistent object Module[];
+bool export();
+bool import();
+}

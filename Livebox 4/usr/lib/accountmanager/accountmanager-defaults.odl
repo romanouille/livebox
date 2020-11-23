@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object AccountManager {
+    }
+}
+/** @location commod_mediahub_accountmanager add-on/frontend/pcb/accountmanager-defaults.odl.m4 */

@@ -1,0 +1,39 @@
+using "eventmanager.so";
+define event {
+string service;
+string event;
+list data;
+}
+define notification {
+uint32 channelid;
+event objects;
+}
+acl {
+world read,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+object eventmanager {
+notification get_events(uint32 channelid, list events);
+notification open_channel(list events);
+void subscribe(uint32 channelid, list events);
+void unsubscribe(uint32 channelid, list events);
+read-only uint32 longpolling_timeout;
+read-only uint32 channelinactivity_timeout;
+read-only uint32 dosprotection_timeout;
+read-only uint32 dosprotection_maxchannels;
+read-only uint32 max_subscriptions;
+read-only object channels[] {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+read-only uint32 uid;
+read-only object events[] {
+read-only string service;
+read-only string event;
+read-only bool query;
+}
+}
+}

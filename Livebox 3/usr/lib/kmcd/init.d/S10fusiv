@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		modprobe kmcd_fusiv
+		;;
+	stop) 
+		modprobe -r kmcd_fusiv
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac

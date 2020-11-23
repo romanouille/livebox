@@ -1,0 +1,40 @@
+datamodel {
+    object NetMaster {
+        parameter EnableInterfaces = false;
+
+        function setInterfaceConfig {
+            acl {
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        function setWANMode {
+            acl {
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        function shutdownWANMode {
+            acl {
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        object WAN {
+            acl {
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        object DialOnPlug {
+            acl {
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+    }
+}

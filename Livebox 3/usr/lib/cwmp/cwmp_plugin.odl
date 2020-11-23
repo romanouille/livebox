@@ -1,0 +1,2 @@
+include "cwmp_plugin-definition.odl";
+include "cwmp_plugin-defaults.odl";

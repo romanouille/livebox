@@ -1,0 +1,26 @@
+set mbus_path_notation key;
+
+var mbus_address = "";
+var mbus_atomic = "mbus://" +  mbus_address + "/atomic/";
+
+map when_needed evented object "PPP" to mbus_atomic + "PPP" {
+    set depth 100;
+}
+
+map when_needed evented object "DHCP" to mbus_atomic + "DHCP" {
+    allow group "cwmpd" to read or write;
+    allow group "admin" to read or write;
+    allow group "remoteadmin" to read or write;
+    set depth 100;
+}
+
+map when_needed evented object "DeviceConfig" to mbus_atomic + "DeviceConfig" {
+    set depth 100;
+}
+
+map when_needed evented object "LED" to mbus_atomic + "LED" {
+    allow group "admin" to read or write;
+    allow group "remoteadmin" to read or write;
+    set depth 100;
+}
+

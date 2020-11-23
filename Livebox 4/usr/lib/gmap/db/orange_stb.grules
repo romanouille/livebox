@@ -1,0 +1,22 @@
+[
+  {
+    "expression"    : "lan and not self and .UserClassID matches \".*(IAD5116|IAD80|ITAD81|IP2031F|MLTV|ITF).*\"",
+    "start_actions" : {
+                        "set_tags"        : "stb",
+                        "add_device_type" : {
+                                              "Type"       : "SetTopBox",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : ".VendorClassID matches \".*LivePlugWiFi.*\" or .Names.*.Name matches \".*liveplug.Wi-Fi.*\"",
+    "start_actions" : {
+                        "set_tags"        : "orange",
+                        "add_device_type" : {
+                                              "Type"       : "LivePlug WiFi",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  }
+]

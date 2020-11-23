@@ -1,0 +1,69 @@
+#!/bin/sh
+TIMEOUT=30
+PIDHTTPD="/var/run/httpd.pid"
+PIDGROM="/var/run/webuigrom.pid"
+PIDWD="/var/run/httpd-watchdog.pid"
+HTTPD="/bin/httpd -vv"
+SERIALIZATION="libpcb_serialize_http.so,libpcb_serialize_ddw.so"
+SAHENV="sahenv -f /var/etc/environment"
+
+HTTPRQ=http://127.0.0.1:80/version.txt
+
+dostop() {
+    if [ -e ${PIDHTTPD} ]; then
+        kill $(cat ${PIDHTTPD});
+    else
+        echo "Mbus proxy already stopped"
+    fi
+}
+
+start() {
+    if ! test -d /ext/httpd; then
+        mkdir /ext/httpd
+        chown httpd.httpd /ext/httpd
+    fi
+    ${SAHENV} ${HTTPD}
+}
+
+stop() {
+    dostop
+
+    if [ -e ${PIDWD} ]; then
+        kill $(cat ${PIDWD})
+    fi
+}
+
+restart() {
+    dostop
+    while test -e ${PIDGROM} || test -e ${PIDHTTPD}; do
+        sleep 1
+    done
+    start
+}
+
+runwatchdog() {
+    echo $$ > $PIDWD
+    while sleep ${TIMEOUT}; do
+        if ! test -e ${PIDHTTPD} || ! kill -0 $(cat ${PIDHTTPD}); then
+            echo "httpd crashed, check /var/log/messages to know why"
+            echo "httpd crashed" | logger -t httpd-watchdog
+            ${HTTPD}
+            continue
+        fi
+    done
+}
+
+case $1 in
+    start)
+        start
+        exec /bin/sh -c "$0 watchdog" httpd-watchdog watchdog &
+	;;
+    stop)
+        stop
+	;;
+    watchdog)
+        runwatchdog
+        ;;
+    *)
+        ;;
+esac

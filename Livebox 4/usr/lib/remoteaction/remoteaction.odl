@@ -1,0 +1,99 @@
+using "remoteaction.so";
+
+object RemoteAction 
+{
+	acl
+	{
+		world none;
+		group mediahub read,write,execute;
+		group cwmpd read,write,execute;
+	}
+
+	bool Restart
+	{
+		acl
+		{
+			world none;
+			group mediahub read,write,execute;
+			group cwmpd read,write,execute;
+		}
+		default false;
+		constraint custom validateAction;
+		write with preProcessAction;
+	}
+	
+	bool SoftReset
+	{
+		acl
+		{
+			world none;
+			group mediahub read,write,execute;
+			group cwmpd read,write,execute;
+		}
+		default false;
+		constraint custom validateAction;
+		write with preProcessAction;
+	}
+	
+	bool CheckHardDrive
+	{
+		acl
+		{
+			world none;
+			group mediahub read,write,execute;
+			group cwmpd read,write,execute;
+		}
+		default false;
+		constraint custom validateAction;
+		write with preProcessAction;
+	}
+	
+	bool ReinitIndex
+	{
+		acl
+		{
+			world none;
+			group mediahub read,write,execute;
+			group cwmpd read,write,execute;
+		}
+		default false;
+		constraint custom validateAction;
+		write with preProcessAction;
+	}
+	
+	bool SendStats
+	{
+		acl
+		{
+			world none;
+			group mediahub read,write,execute;
+			group cwmpd read,write,execute;
+		}
+		default false;
+		constraint custom validateAction;
+		write with preProcessAction;
+	}
+	
+	read-only string RemoteActionCompletion
+	{
+		constraint enum ["","RESTART", "REINIT", "SOFTRESET", "CHECKANDREPAIR", "REQUESTSTATISTICS"];
+		default "";
+	}
+	
+	read-only string CurrentRemoteAction
+	{
+		constraint enum ["","RESTART", "REINIT", "SOFTRESET", "CHECKANDREPAIR", "REQUESTSTATISTICS"];
+		default "";
+	}
+	
+	read-only string CurrentRemoteActionState
+	{
+		constraint enum ["Idle","Starting","Ongoing","Stopping","Completed","Error"];
+		default "Idle";
+	}
+	
+	datetime startTime;
+	datetime endTime;
+}
+
+/** @location sah_services_remoteaction /remoteaction.odl */

@@ -1,0 +1,55 @@
+#!/bin/sh
+PID="/var/run/opentracker.pid"
+CONFDIR="/var/etc/opentracker/"
+CONFFILE=${CONFDIR}"opentracker.conf"
+
+case $1 in
+	start)
+		mkdir -p ${CONFDIR}
+		touch ${CONFDIR}whitelist
+		echo "
+listen.tcp 0.0.0.0:6969
+tracker.rootdir ${CONFDIR}
+access.whitelist whitelist
+tracker.user nobody
+" > ${CONFFILE}
+		opentracker -f ${CONFFILE} &
+		logger -t opentracker "Start opentracker"
+		#open firewall on the lan bridge, port 6969, tcp and ipversion 4 
+		pcb_cli -q "Firewall.setService(opentracker, lan, 6969, 6, 4, true)"
+	;;
+	stop)
+		killall opentracker
+		logger -t opentracker "Stop opentracker"
+		pcb_cli -q "Firewall.deleteService(opentracker)"
+	;;
+	restart)
+		$0 stop
+		$0 start
+	;;
+	addtorrent)
+		if [ -z "$2" ]; then 
+			echo "Please specify a valid torrent hash"
+			exit;
+		fi 
+		echo $2 >> "${CONFDIR}whitelist"
+		killall -SIGHUP opentracker
+	;;
+	backup)
+		logger -t opentracker "backup for opentracker not supported"
+	;;
+	restore)
+		logger -t opentracker "export for opentracker not supported"
+	;;
+	debuginfo)
+		pidof opentracker > ${PID}
+		if [ -f "${PID}" ]; then 
+			echo "opentracker is running, pid=$(cat ${PID})"
+		else
+			echo "opentracker is not running"
+		fi
+	;;
+	*)
+		echo "[$1] not supported" 
+	;;
+esac

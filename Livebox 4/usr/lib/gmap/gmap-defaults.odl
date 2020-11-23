@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object Devices {
+    }
+}
+/** @location sah_services_gmap /gmap-defaults.odl.m4 */

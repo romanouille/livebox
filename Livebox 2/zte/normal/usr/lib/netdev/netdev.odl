@@ -1,0 +1,159 @@
+using "netdev.so";
+
+object NetDev {
+	bool RTNLTrace {
+		write with writeRTNLTrace;
+		default false;
+	}
+	object ConversionTable {
+		object Protocol[];
+		object Table[];
+		object Scope[];
+	}
+	
+	read-only object Link[] {
+		read-only int32 Index;
+		read-only string Type; // ether atm void none ppp tunnel tunnel6 loopback ...
+		string Flags; // loopback broadcast pointopoint multicast noarp allmulti promisc master slave debug dynamic automedia portsel notrailers up
+		string Name;
+		string LLAddress;
+		uint32 TxQueueLen;
+		uint32 MTU;
+		read-only string State=unknown; // unknown notpresent down lowerlayerdown testing dormant up
+		
+		// procfs parameters
+		bool IPv4Forwarding = true;
+		uint32 IPv4ForceIGMPVersion {
+			constraint range [0, 3];
+			default 0;
+		}
+		bool IPv4AcceptSourceRoute = true;
+		bool IPv4AcceptRedirects = false;
+		bool IPv6AcceptRA = true;
+		bool IPv6ActAsRouter = true; // corresponds to !RSEnable in TR-181 and to ipv6/.../forwarding in procfs
+		bool IPv6AutoConf = true;
+		uint32 IPv6MaxRtrSolicitations = 3;
+		uint32 IPv6RtrSolicitationInterval = 4000;
+		bool IPv6AcceptSourceRoute = false;
+		bool IPv6AcceptRedirects = false;
+		bool IPv6OptimisticDAD = false;
+		bool IPv6Disable = true;
+		
+		object Stats {
+			// regardless the field width of 64 bits, these counters may wrap around 0 on 2^32 anyway.
+			volatile read-only uint64 RxPackets;
+			volatile read-only uint64 TxPackets;
+			volatile read-only uint64 RxBytes;
+			volatile read-only uint64 TxBytes;
+			volatile read-only uint64 RxErrors;
+			volatile read-only uint64 TxErrors;
+			volatile read-only uint64 RxDropped;
+			volatile read-only uint64 TxDropped;
+			volatile read-only uint64 Multicast;
+			volatile read-only uint64 Collisions;
+			volatile read-only uint64 RxLengthErrors;
+			volatile read-only uint64 RxOverErrors;
+			volatile read-only uint64 RxCrcErrors;
+			volatile read-only uint64 RxFrameErrors;
+			volatile read-only uint64 RxFifoErrors;
+			volatile read-only uint64 RxMissedErrors;
+			volatile read-only uint64 TxAbortedErrors;
+			volatile read-only uint64 TxCarrierErrors;
+			volatile read-only uint64 TxFifoErrors;
+			volatile read-only uint64 TxHeartbeatErrors;
+			volatile read-only uint64 TxWindowErrors;
+		}
+
+		object IPv4Addr[] {
+			string Address;
+			string Peer;
+			uint8 PrefixLen;
+			string Flags; // secondary nodad optimistic homeaddress deprecated tentative permanent
+			string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+			uint32 PreferredLifetime; // in seconds since boot, this is probably in the future ( > Uptime), or 0 if preferred forever
+			uint32 ValidLifetime;     // in seconds since boot, this is definitely in the future ( > Uptime), or 0 if valid forever
+			read-only uint32 CreatedTimestamp; // in seconds since boot, this is definitely in the past ( < Uptime)
+			read-only uint32 UpdatedTimestamp; // in seconds since boot, this is definitely in the past ( < Uptime)
+		}
+
+		object IPv6Addr[] {
+			string Address;
+			string Peer;
+			uint8 PrefixLen;
+			string Flags; // secondary nodad optimistic homeaddress deprecated tentative permanent
+			string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+			uint32 PreferredLifetime; // in seconds since boot, this is probably in the future ( > Uptime), or 0 if preferred forever
+			uint32 ValidLifetime;     // in seconds since boot, this is definitely in the future ( > Uptime), or 0 if valid forever
+			read-only uint32 CreatedTimestamp; // in seconds since boot, this is definitely in the past ( < Uptime)
+			read-only uint32 UpdatedTimestamp; // in seconds since boot, this is definitely in the past ( < Uptime)
+		}
+		
+		object IPv4Route[] {
+			/* OIF=index of parent Link object. 
+			   But! there is also IIF, and nexthops for multipath 
+			   ... and OIF is not even a key param of Route. 
+			   Anyway, putting Route undex Link is convenient + aligns with NeMo principles
+			 */
+			uint8 DstLen;
+			string Table="main"; // unspec default main local | user defined from NetDev.ConversionTable.Table
+			string Protocol="boot"; // redirect kernel boot static | user defined from NetDev.ConversionTable.Protocol
+			string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+			string Type="unicast"; // unicast local broadcast anycast multicast blackhole unreachable prohibit throw nat
+			string Dst;
+			int32 Priority;
+			string Gateway;
+			string PrefSrc;
+			// metrics - support only a few. Adding more is easy
+			uint32 MTU;
+			uint32 AdvMSS;
+			uint32 HopLimit;
+		}
+
+		object IPv6Route[] {
+			/* OIF=index of parent Link object. 
+			   But! there is also IIF, and nexthops for multipath 
+			   ... and OIF is not even a key param of Route. 
+			   Anyway, putting Route undex Link is convenient + aligns with NeMo principles
+			 */
+			uint8 DstLen;
+			string Table="main"; // unspec default main local | user defined from NetDev.ConversionTable.Table
+			string Protocol="boot"; // redirect kernel boot static | user defined from NetDev.ConversionTable.Protocol
+			string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+			string Type="unicast"; // unicast local broadcast anycast multicast blackhole unreachable prohibit throw nat
+			string Dst;
+			int32 Priority;
+			string Gateway;
+			string PrefSrc;
+			// metrics - support only a few. Adding more is easy
+			uint32 MTU;
+			uint32 AdvMSS;
+			uint32 HopLimit;
+		}
+		
+		object Neigh[] {
+			string Family="ipv4"; // ipv4 ipv6
+			string Flags; // proxy router
+			string Dst;
+			string LLAddress;
+			string State="permanent"; // incomplete reachable stale delay probe failed noarp permanent
+		}
+	}
+
+	object GRE[] {
+		string Type {
+			constraint enum ["gre", "gretap", "ip6gre", "ip6gretap"];
+			default "gretap";
+		}
+		int32 Link;
+		string Local;
+		string Remote;
+		string IFlags; // seq csum
+		string OFlags; // seq csum
+		uint32 IKey;
+		uint32 OKey;
+		string TTL="inherit"; // inherit or number
+		string TOS="inherit"; // inherit or number
+		bool PMTUDisc;
+	}
+}
+

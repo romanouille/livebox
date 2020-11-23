@@ -1,0 +1,5 @@
+
+
+include "nmc_core-definitions.odl";
+
+/** @location sah_services_netmodeconfig /ng/nmc_core.odl.m4 */

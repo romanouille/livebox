@@ -1,0 +1,174 @@
+using "dyndns.so";
+
+define host_t {
+	string service;
+	string hostname;
+	string username;
+	string password;
+	string last_update;
+}
+
+acl {
+  group admin read,execute;
+  group remoteadmin read,execute;
+  group cwmpd read,write,execute;
+}
+
+/** Top-level object for DynDNS configuration.
+*/
+persistent object DynDNS {
+
+	/** Service object 
+	*/
+	read-only persistent object Service[] {
+		acl {
+		  group admin none;
+		  group remoteadmin none;
+		}
+
+		/**
+		*/
+		read-only string Name;
+
+		/**
+		*/
+		read-only string Server;
+
+		/**
+		*/
+		read-only uint16 ServerPort;
+
+		/**
+		*/
+		read-only string Request;
+
+		/**
+		*/
+		read-only uint32 UpdateInterval;
+
+		/**
+		*/
+		read-only uint32 RetryInterval;
+
+		/**
+		*/
+		read-only uint32 MaxRetries;
+
+		/**
+		*/
+		read-only persistent object Client[] {
+
+			/**
+			*/
+			persistent string Username;
+
+			/**
+			*/
+			persistent string Password;
+
+			/**
+			*/
+			read-only string Status;
+
+			/**
+			*/
+			read-only string LastError;
+
+			/**
+			*/
+			read-only bool Offline;
+
+			/**
+			*/
+			persistent bool Wildcard;
+
+			/**
+			*/
+			persistent string Mx;
+
+			/**
+			*/
+			persistent bool MxBackup;
+
+			/**
+			*/
+			read-only persistent object Host[] {
+
+				/**
+				*/
+				persistent string Name;
+
+				/**
+				*/
+				read-only string Status;
+
+				/**
+				*/
+				read-only datetime LastUpdate;
+
+			}
+
+		}
+
+	}
+
+	/** Fetches a list of all available services.
+
+	  Each string in the list contains the name of an available service.
+
+	  @return A list of strings.
+	*/
+	list getServices();
+
+	/** Fetches a list of all configured hosts.
+
+	  A host_t structure contains the name of the service the host uses, the FQDN of the host,
+	  the username and the password of the client the host uses and the time the host was last updated.
+
+	  @return A list of host_t structures.
+	*/
+	list getHosts();
+
+	/** Adds a host to a service.
+
+	  When a host is added to a service, its DNS information will be updated using the specified service.
+	  The service name needs to be one of the values returned by getServices().
+	  The FQDN of the host must be unique across all services/hosts.
+	  If the username is unique for the specified service, a new Client object is created for the host.
+	  If the username matches an existing username for the specified service,
+	  the host is added to the relevant Client object if the provided password matches the password of the Client object.
+
+	  @param service The name of the service.
+	  @param hostname The FQDN of the host.
+	  @param username The username of the service client.
+	  @param password The password of the service client.
+	  @return True when the host is added, false otherwise.
+	*/
+	bool addHost(string service, string hostname, string username, string password);
+
+	/** Deletes a host from a service.
+
+	  The hostname needs to be one of the FQDNs returned by getHosts().
+	  If the host is the sole child of a Client object, the Client object is also deleted from the service.
+
+	  @param hostname The FQDN of the host.
+	  @return True when the host is deleted, false otherwise.
+	*/
+	bool delHost(string hostname);
+
+	/** Backup user settings for DynDNS.
+
+	  The user-configurable settings are exported to hgwcfg.
+
+	  @param filename The name of the file to which to save.
+	  @return True when the settings have been exported, false otherwise.
+	*/
+	bool export(string filename) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+}
+

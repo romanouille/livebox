@@ -1,0 +1,40 @@
+/**
+ * This MIB is only a data container and has no functional meaning.
+ */
+persistent object DataHub 
+{
+    bool Enable
+    {
+        default true;
+    }
+
+	persistent object MhAgent
+    {
+        persistent uint32 PeriodicInterval
+        {
+            default 172800;
+        }
+        persistent uint32 MaxRetries
+        {
+            default 6;
+        }
+        read-only string DiskStatus
+        {
+            constraint enum [ "ok", "diskFullWarning", "diskFullError", "diskNotPresentError",
+                              "diskCheckError", "diskOperationInProgress"];
+            default "diskNotPresentError";
+        }
+        read-only string InternetStatus
+        {
+            constraint enum [ "ok", "noInternetConnection"];
+            default "noInternetConnection";
+        }
+        read-only string ServicesStatus
+        {
+            constraint enum [ "Unknown", "Starting", "Started", "Stopping", "Stopped"];
+            default "Unknown";
+        }
+    }
+}
+
+/** @location commod_datahub_dataservice */

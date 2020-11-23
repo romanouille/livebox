@@ -1,0 +1,33 @@
+#!/bin/sh
+PIDSYSBUS="/var/run/sysbus.pid"
+
+. /usr/bin/pcb_common.sh
+
+name="sysbus"
+start_options="--priority=-16"
+component="sah_services_pcb-bus"
+
+SER="libpcb_serialize_ddw.so,libpcb_serialize_http.so,libpcb_serialize_odl.so"
+
+start() {
+    if pcb_is_running $name; then
+        echo "sysbus already started"
+    else
+        PCB_SERIALIZERS=${SER} pcb_sysbus -vv -n $name $start_options
+    fi
+}
+
+case $1 in
+    start)
+        start
+    ;;
+    stop)
+        pcb_stop $name
+    ;;
+    debuginfo)
+        pcb_debug_info $name $component Debug Bus
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo]"
+        ;;
+esac

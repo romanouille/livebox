@@ -1,0 +1,377 @@
+using "libcaptiveportal.so";
+
+/**
+ * Type that contains connection properties taken into account by captive portal
+ */
+define httpconnprop_t {
+  string srcMAC;
+  string srcIP;
+  string dstIP;
+  string targetURL;
+}
+
+acl {
+    group cwmpd read,write,execute;
+    group technician read,write,execute;
+}
+
+persistent object CaptivePortal {
+
+    /**
+     * This turns the captiveportal on or off.
+     */
+    bool Enabled {
+        default false;
+        write with writeHandler_Enabled;
+    }
+
+    /**
+     * The status of the captive portal. 
+     * Enabled: active but there are no active rules in the chain.
+     * INTERCEPTING: there are rules in the chain that need intercepting. 
+     */
+    read-only string Status {
+        default "";
+	constraint enum ["","ENABLED","DISABLED","INTERCEPTING"];
+        read with readHandler_Status;
+    }
+
+    /**
+     * This object corresponds to a redirection target URL. The url is wrapped in an object for two reasons: 
+     *    - permits us to atomically change the target url in multiple rules
+     *    - URL can easily be made more configurable. Information about the request, the rule or the conditions
+     *      that caused it to be redirected might be appended as parameters to the BaseURL.
+     */
+    object RedirectTarget[] {
+         add with addHandler_RedirectTarget;
+         delete with delHandler_RedirectTarget;
+         write with writeHandler_RedirectTarget;
+        /**
+         * The base URL of the redirection. 
+         * The string $O$ will be replaced by the URL before redirection.
+         */
+        string BaseURL;
+    }
+
+    /**
+     * This object corresponds to a redirection target URL. The url is wrapped in an object for two reasons: 
+     *    - permits us to atomically change the target url in multiple rules
+     *    - URL can easily be made more configurable. Information about the request, the rule or the conditions
+     *      that caused it to be redirected might be appended as parameters to the BaseURL.
+     */
+    object RemoteDecisionHandler[] {
+         add with addHandler_RemoteDecisionHandler;
+         delete with delHandler_RemoteDecisionHandler;
+         write with writeHandler_RemoteDecisionHandler;
+
+        /**
+         * The path of the function in the object which can be called to make the decision.
+         */
+        string Callback;
+
+	/**
+ 	 * The request will be canceled after this amount of milliseconds.
+	 */
+	uint32 Timeout_ms {
+		default 5000;
+	} 
+
+	/**
+	 * True if the object and function are available, else false. If false
+         * any rule that has this RemoteDecisionHandler as a target will be disabled.
+	 */
+        read-only bool Available;
+    }
+
+   
+    /**
+     * Adds a RedirectTarget object.
+     * @param redirectTargetID a unique id that can be used to identify the redirect target, must be a valid pcb key
+     * @return true if the unique id did not exist yet and the id is valid
+     */ 
+    bool addRedirectTarget( string redirectTargetID, string baseURL );
+    /**
+     * Deletes a RedirectTarget object.
+     * @return true if object existed
+     */ 
+    bool delRedirectTarget( string redirectTargetID );
+    /**
+     * Changes a RedirectTarget object
+     * @return true if object exists
+     */ 
+    bool setRedirectTarget( string redirectTargetID, string baseURL );
+
+    /**
+     * Every instance corresponds to a link in the redirect chain. The index of the object corresponds to
+     * order of the rule.
+     */
+    read-only object ChainLink[] {
+        read with readHandler_ChainLink;
+        delete with deleteHandler_ChainLink;
+        /**
+         * The rule that is linked here in the chain.
+         */
+        read-only string RedirectRule;
+        /**
+         * The index the rule has in the chain. Connections are matched to rules in index-order.
+         */
+        read-only int32 Index;
+        /**
+         * This variable indicates if the connections matching this rule should be redirected to a local server
+         * based on the layer 2/3/4 connection constraints. This improves performance and makes redirection
+         * possible if the destination is not reachable (e.g. wan down).
+         * This implies that connections that do not match the layer 5 constraints will be terminated. 
+         * Connections that match any proceeding rules with this parameter set to false will not be redirected but inspected.
+         */
+        read-only bool LocalRedirect;
+    }
+    /**
+     * Inserts a rule into the redirect chain
+     * @param redirectRuleID the rule id 
+     * @param index index modulo (amount of rules) will be the index of the rule in the chain after it has been added.
+     * @param localRedirect if true all connections matching this rule will be redirected to a local server.
+     * @return true if the redirectRuleID existed
+     */ 
+    bool chainInsert( string redirectRuleID, int32 index, bool localRedirect );
+    /**
+     * Inserts a rule into the redirect chain
+     * @param redirectRuleID the rule id 
+     * @return true if the redirectRuleID existed
+     */
+    bool chainRemove( string redirectRuleID );
+
+    /**
+     * This object corresponds to a redirectRule condition.
+     * @add When a rule is added the indices will automatically shift.
+     */
+    object RedirectRule[] {
+         add with addHandler_RedirectRule;
+         delete with delHandler_RedirectRule;
+         /**
+          * This determines what happens to connections that do not match any of the rule conditions;
+          */
+         string Target {
+             default "FORWARD";
+             constraint custom constraint_valid_Target;
+             write with writeHandler_RedirectRule_Target;
+         }
+
+        /**
+         * The type of notification that must be used to notify the user of the error. The value must correspond
+         * to the key of one of the values of NotificationType. If Target is FORWARD this may be empty.
+         */
+         string RedirectTarget {
+             default "";
+             constraint custom constraint_valid_Target;
+             write with writeHandler_RedirectRule_RedirectTarget;
+         }
+        
+        /**
+         * Will be true if all the registered custom RequiredCustomConditions are true and all ProhibitedCustomConditions
+         * are false. If the value is false this rule will not be checked for any incomming connections
+         */
+        read-only bool Active {
+            read with readHandler_RedirectRule_Active; 
+        }
+        /**
+         * List of all custom conditions that need to be true before the rule will match
+         */
+        read-only string RequiredCustomConditions {
+            read with readHandler_RedirectRule_RequiredCustomConditions;
+        }
+        /**
+         * List of all custom conditions that need to be false before the rule will match
+         */
+        read-only string ProhibitedCustomConditions {
+            read with readHandler_RedirectRule_ProhibitedCustomConditions;
+        }
+        /**
+         * If true the values in the list will be the only ones for which the rule matches,
+         * if false the values in the list will be the only ones for which the rule doesn't match
+         */
+        read-only bool SrcMACMatchType {
+            read with readHandler_RedirectRule_SrcMACMatchType;
+        }
+        /**
+         * List of all accepted macs
+         */
+        read-only string SrcMACs {
+            read with readHandler_RedirectRule_SrcMACs;
+        }
+        /**
+         * If true the values in the list will be the only ones for which the rule matches,
+         * if false the values in the list will be the only ones for which the rule doesn't match
+         */
+        read-only bool SrcIPMatchType {
+            read with readHandler_RedirectRule_SrcIPMatchType;
+        }
+        /**
+         * List of source IPs
+         */
+        read-only string SrcIPs {
+            read with readHandler_RedirectRule_SrcIPs;
+        }
+        /**
+         * If true the values in the list will be the only ones for which the rule matches,
+         * if false the values in the list will be the only ones for which the rule doesn't match
+         */
+        read-only bool DstIPMatchType {
+            read with readHandler_RedirectRule_DstIPMatchType;
+        }
+        /**
+         * List of all Destination IPs
+         */
+        read-only string DstIPs {
+            read with readHandler_RedirectRule_DstIPs;
+        }
+        /**
+         * If true the values in the list will be the only ones for which the rule matches,
+         * if false the values in the list will be the only ones for which the rule doesn't match
+         */
+        read-only bool DomainNameMatchType {
+            read with readHandler_RedirectRule_DomainNameMatchType;
+        }
+        /**
+         * List of all accepted destination ip's
+         */
+        read-only string DomainNames {
+            read with readHandler_RedirectRule_DomainNames;
+        }
+        /*
+         * Make this rule depend on a custom condition
+         * @param trueConditions list of conditions that need to be true for the rule to match
+         * @param falseConditions list of conditions that need to be false for the rule to match
+         * @return true if the condition object exists
+         */
+        bool setCustomConditions( list trueConditions, list falseConditions );
+        /**
+         * Sets MAC constraints. 
+	 * Note that these MACs will be compared against the MAC of the SYN packet comming into the gateway
+	 * that started the connection.
+	 * Since the incomming link might not necessarily be the same as the outgoing link for a connection
+         * to a host that is reachable via two different routers in the LAN this might lead to unexpected 
+	 * behaviour if one fails to take this into account.
+	 * 
+         * @param srcMACs a list of MAC addresses
+         * @param match if true this rule will only apply when the connection matches one of the values else when it doesn't match any
+         * @return true if values in the list are valid
+         */
+        bool setSrcMACCondition( list srcMACs, bool match );
+        /**
+         * Set src ip constraints
+         * @param srcIPs a list of ip's
+         * @param match if true this rule will only apply when the connection matches one of the values else when it doesn't match any
+         * @return true if values in the list are valid
+         */
+        bool setSrcIPCondition( list srcIPs, bool match );
+        /**
+         * Set dst ip constraints
+         * @param dstIPs a list of ip's
+         * @param match if true this rule will only apply when the connection matches one of the values else when it doesn't match any
+         * @return true if values in the list are valid
+         */
+        bool setDstIPCondition( list dstIPs, bool match );
+        /**
+         * Set url domain name condition
+         * @param dstIPs a list of host names
+         * @param match if true this rule will only apply when the connection matches one of the values else when it doesn't match any
+         * @return true if values in the list are valid
+         */
+        bool setURLDomainNameCondition( list hosts, bool match );
+    }
+
+    /**
+     * Adds a redirect rule
+     * @param redirectRuleID unique id of the rule, must be a valid pcb key
+     * @return true if the uniqueID did not exist yet and it is valid
+     */ 
+    bool addRedirectRule( string redirectRuleID, string target, string redirectTarget );
+    /**
+     * Deletes an object
+     * @return true if the object existed
+     */ 
+    bool delRedirectRule( string redirectRuleID );
+    /**
+     * Modifies an object
+     * @param target this can be "FORWARD" or "REDIRECT"
+     * @param redirectTarget this is the identifier of the URL that redirect targets, must exist if target is REDIRECT
+     * @return true if the set succeeded
+     */ 
+    bool setRedirectRule( string redirectRuleID, string target, string redirectTarget );
+    /**
+     * This object corresponds to a custom condition that can be set to true or false by a captive portal client.
+     */
+    object CustomCondition[] {
+        delete with delHandler_CustomCondition;
+        /**
+         * The value of the condition.
+         */
+         bool Value {
+             default false;
+             write with writeHandler_CustomCondition_Value;
+         }
+    }
+
+    /**
+     * Adds a CustomCondition object
+     * @param customConditionID the unique ID of the condition, this must be a valid pcb key name
+     * @return true if no condition with that ID existed yet.
+     */
+    bool addCustomCondition( string customConditionID, bool value );
+    /**
+     * Deletes a CustomCondition object
+     * @return true if the object existed
+     */
+    bool delCustomCondition( string customConditionID );
+    /**
+     * Modifies a CustomCondition object
+     * @return true if the object exists
+     */
+    bool modCustomCondition( string customConditionID, bool value );
+
+    /**
+     * This function decides whether or not a connection needs to be redirected and to which URL. This is called internally
+     * whenever an http connection is intercepted by the captive portal but it is also available via the datamodel.
+     * @param connproperties the properties of the connection
+     * @param redirect_url this will contain the url the connection has to be redirected to.
+     * @return true if the connection needs to be redirect 
+     */
+    bool getRedirectDecision( httpconnprop_t connproperties, out string redirect_url );
+
+    /**
+     * This object holds settings for HTTPS.
+     */
+    persistent object HTTPS {
+        /**
+         * Limit on the size of data saved for reconstructing defragmented TLS packets (bytes).
+         * Per-connection limit.
+         */
+        persistent uint32 DataLimitConnection {
+            default 10000;
+            write with writeHandler_HTTPS_DataLimitConnection;
+        }
+
+        /**
+         * Limit on the size of data saved for reconstructing defragmented TLS packets (bytes).
+         * Total limit.
+         */
+        persistent uint32 DataLimitTotal {
+            default 100000;
+            write with writeHandler_HTTPS_DataLimitTotal;
+        }
+
+        /**
+         * Default decision to make when HTTPS parsing fails.
+         * Reasons can be: Out of memory, unexpected TLS records, unexpected TCP payloads. 
+         */
+        persistent string DefaultDecision {
+            constraint enum ["Forward","Redirect"];
+            default "Forward";
+            write with writeHandler_HTTPS_DefaultDecision;
+        }
+    }
+
+}
+
+
+/** @location sah_services_captiveportal /plugin/captiveportal.odl */

@@ -1,0 +1,20 @@
+
+
+
+object Users {
+        object User [] {
+            string Alias;
+            string Password;
+        }
+}
+
+datamodel {
+    object Users {
+        instance of User(0, "ssh") {
+            parameter Alias = "supportssh";
+            destination "pcb://$(PCB_MAIN_BUS)/DeviceManagement" {
+                parameter Password from SSHPassword;
+            }
+        }
+    }
+}

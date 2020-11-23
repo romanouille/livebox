@@ -1,0 +1,27 @@
+using "ppp/tr181_ppp.so";
+
+object PPP {
+    object Interface[] {
+        string Alias;
+        bool Enable;
+        string ConnectionStatus;
+        string Username;
+        string Password;
+    }
+}
+
+
+datamodel {
+    object PPP {
+            instance of Interface(1,"PPP_DATA")  {
+                    parameter Alias = "PPP_DATA";
+                    destination "pcb://$(PCB_MAIN_BUS)/NMC" {
+                            parameter Username;
+                            parameter Password;
+                    }
+            }
+    }
+}
+
+
+/** @location sah_services_tr181 /ppp/ppp.odl */

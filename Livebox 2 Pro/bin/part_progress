@@ -1,0 +1,6 @@
+if [ ! -e /tmp/format_progress ]; then
+	ret=0
+else
+	ret=`cat /tmp/format_progress`
+fi
+exit $ret

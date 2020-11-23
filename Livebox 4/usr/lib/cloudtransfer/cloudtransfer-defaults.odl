@@ -1,0 +1,11 @@
+
+
+datamodel {
+    object CloudTransfer {
+        parameter MaxTransfers = 50;
+        parameter MaxContentsPerTransfer = 1024;
+        parameter MaxUploads = 10;
+        parameter MaxUploadPartSize = 1048576;
+    }
+}
+/** @location commod_mediahub_cloudtransfer add-on/frontend/pcb/cloudtransfer-defaults.odl.m4 */

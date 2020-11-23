@@ -1,0 +1,44 @@
+/**
+ * The DHCP API MIB is available on all NeMo Intfs.
+ */
+
+object NeMo { 
+	object extends MIB(0,"dhcp-api") {
+		string Flag = "";
+		object DataModel {
+			/**
+			 * Finds and parses the option value given by 'type' and 'tag' of any bound
+			 * DHCP client Intf occurring in the traverse tree. This function has "query
+			 * support", meaning that its name can be passed successfully to the openQuery
+			 * function of NeMo. This way DHCP options become eventable. 
+			 *
+			 * @param type The type of option to be queried. Enumeration of:
+			 * 	req: consult the ReqOption table of DHCPv4 clients.
+			 * 	sent: consult the SentOption table of DHCPv4 clients.
+			 * 	req6: consult the ReceivedOption table of DHCPv6 clients.
+			 * 	sent6: consult the SentOption table of DHCPv6 clients.
+			 * @param tag The option tag 
+			 * @param traverse Traverse mode to build the traverse tree. 
+			 * @return A structured variant holding the option value. Its exact structure
+			 * 	depends on the type and tag arguments: each option has its particular
+			 * 	 encoding scheme. Example: if the type equals "req" and the tag equals
+			 * 	 3 (IP Routers Option), the return value is a variant list. Each item
+			 * 	 in the list is a string representing an IPv4-Address. Supported
+			 * 	 options for DHCPv4 are: 1-77, 90, 120, 121, 124 and 125 and for
+			 * 	 DHCPv6: 1-9, 11-34, 36-48, 51, 58 and 64. If an unsupported option
+			 * 	 tag is given as input argument, a default encoding scheme is applied.
+			 * 	 This encoding scheme returns an ASCII-string if the option value
+			 * 	 contains valid ASCII-characters only or the raw hexbinary prefixed
+			 * 	 with "0x" otherwise.
+			 */
+			variant getDHCPOption(string type, uint8 tag, string traverse) {
+			    acl {
+			        world none;
+			    }
+			}
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/dhcp-api.odl */

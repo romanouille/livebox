@@ -1,0 +1,15 @@
+using "../nmccore_tr069.so";
+persistent object NMC {
+persistent object ACS {
+acl {
+group admin read, write, execute;
+group remoteadmin read, write, execute;
+}
+persistent bool Enable {
+default false;
+}
+persistent string Hostname {
+default "";
+}
+}
+}

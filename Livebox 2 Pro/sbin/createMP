@@ -1,0 +1,19 @@
+if [ $2 = "`cat /tmp/hddDev`1" ]
+then
+	echo /mnt/DDLB
+	exit 0
+fi
+if [ -s $1/model ]
+then
+	name=`cat $1/model | sed 's/ *$//' | tr ' ' '_'`
+	dev=`echo $2 | tr -d [0-9]`
+	if [ `ls -L $1/block | grep -c ${dev}` -gt 1 ]
+	then
+		num=`echo $2 | cut -b4-`
+		echo /mnt/usb/${name}-${num}
+	else
+		echo /mnt/usb/${name}
+	fi
+else
+	echo /mnt/usb/$2
+fi

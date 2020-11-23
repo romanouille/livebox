@@ -1,0 +1,8 @@
+using "../nmccore_cfg.so";
+
+persistent object NMC {
+
+    bool DefaultsLoaded {
+        default false;
+    }
+}

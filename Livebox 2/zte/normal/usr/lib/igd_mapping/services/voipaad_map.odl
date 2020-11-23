@@ -1,0 +1,28 @@
+/**
+ * Voice Activation Object
+ * Mapping to IGD.Services.X_ORANGE-COM_VoiceProvisioning
+ */
+
+object Services {
+    object X_ORANGE-COM_VoiceProvisioning {
+        bool Enable;
+        bool ConnectionRequest;
+        string FCPEAddress;
+        string ProvisioningServer;
+    }
+}
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_VoiceProvisioning {
+            destination "pcb://$(PCB_MAIN_BUS)/VoiceActivation" {
+                parameter Enable;
+                parameter ConnectionRequest;
+                parameter FCPEAddress from FCPE_ADDRESS;
+                parameter ProvisioningServer from FTP;
+            }
+        }
+    }
+}
+
+/** @location ext_ft_services_voipaad /voipaad_map.odl */

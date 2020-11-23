@@ -1,0 +1,4 @@
+include "storage-definitions.odl";
+include "storage-defaults.odl";
+
+/** @location sah_services_storage /storage.odl */

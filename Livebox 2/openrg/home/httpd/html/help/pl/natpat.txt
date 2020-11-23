@@ -1,0 +1,18 @@
+<b>NAT/PAT</b><br>
+<br>
+
+
+Niektóre aplikacje do poprawnego działania wymagają otwarcia określonych portów. Tak może być w przypadku gier online, e-maili, serwerów www, itp. Jednak nie wszystkie aplikacje internetowe wymagają przekierowania.
+Jeżeli dane z Internetu zostaną odebrane przez określony port, router przesyła je do odpowiedniego komputera.
+Ze względów bezpieczeństwa można włączyć lub wyłączyć porty transferów, gdy nie są one w użyciu. Można to zrobić za pomocą
+pola wyboru <b>"Włącz"</b>.
+
+<br><br> 
+
+Do usunięcia reguł z tabeli należy użyć ikonę kosza.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+
+

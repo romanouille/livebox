@@ -1,0 +1,25 @@
+/*expr:homeplug_av and atheros*/
+
+/**
+ * MIB is loaded on all network devices that are indicated as a homeplug AV and respond to atheros specific message
+ *
+ * All devices matching expression: "homeplugAv and atheros" are extended with this MIB
+ *
+ * @version 6.0
+ */
+ mib homeplugAtheros {
+    /**
+     * Device version
+     *
+     * @version 6.0
+     */
+    read-only string Version;
+    /**
+     * Device Id
+     *
+     * @version 6.0
+     */
+    read-only uint8 DeviceId;
+}
+
+/** @location sah_services_gmap /mibs/homeplugAtheros.odl */

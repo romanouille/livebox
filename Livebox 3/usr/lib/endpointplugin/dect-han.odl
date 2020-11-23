@@ -1,0 +1,69 @@
+using "endpointplugin_dspg.so";
+persistent object DECT {
+persistent object HAN {
+void getHANStatus();
+void getDevices();
+read-only bool Ready = false;
+void setParam(mandatory uint16 deviceId, uint16 unitId, mandatory string paramName, mandatory variant value);
+void getParam(mandatory uint16 deviceId, uint16 unitId, mandatory string paramName);
+void invokeAction ( mandatory uint16 deviceId, uint16 unitId, mandatory string action, variant value);
+void removeAllDevices();
+void upgradeFirmware(uint16 id, string url, string sw_version);
+void notifyAvailableFirmware(mandatory string emc, mandatory string hw_id, mandatory string new_sw_version, mandatory string upgradeUrl);
+persistent read-only object Device[] {
+persistent read-only uint16 id;
+persistent read-only uint8 HFCoreReleaseVersion;
+persistent read-only uint8 ProfileReleaseVersion;
+persistent read-only uint8 InterfaceReleaseVersion;
+persistent uint8   PagingCapabilities;
+persistent read-only uint32 MinimumSleepTime;
+persistent read-only uint32 ActualResponseTimePagingInterval;
+persistent read-only string ApplicationVersion;
+persistent read-only string UpgradeApplicationVersion;
+persistent read-only string UpgradeURL;
+persistent read-only string HardwareVersion;
+persistent read-only string EMC {
+constraint maxvalue 11; // including the '\0'
+}
+persistent read-only string FUNEMC {
+constraint maxvalue 11; // including the '\0'
+}
+persistent read-only string PID;
+persistent read-only string IPUI {
+constraint maxvalue 11; // including the '\0'
+}
+persistent read-only string ManufacturerName {
+constraint maxvalue 33; // including the '\0
+}
+persistent read-only uint8  PrimaryPowerSource;
+persistent read-only string  SecondaryPowerSource {
+constraint enum ["Unknown", "Battery", "DC source", "Reserved"];
+default "Unknown";
+}
+persistent string Location {
+constraint maxvalue 33; // including the '\0
+}
+persistent bool DeviceEnable;
+persistent string FriendlyName;
+persistent read-only uint8 UIDType;
+persistent read-only string UID;
+persistent read-only string SerialNumber;
+persistent read-only uint16 NumberOfUnits;
+read-only bool Active;
+persistent uint32 LinkTimeout;
+persistent uint32 KeepaliveInterval;
+read-only string SuotaStatus {
+constraint enum ["Normal","Waiting", "Upgrading","Error"];
+default "Normal";
+}
+void deregister();
+void query();
+persistent read-only object DeviceUnits[] {
+persistent read-only uint16 id;
+persistent read-only uint16 type;
+persistent read-only string interfaces;
+persistent read-only string FriendlyName;
+}
+}
+}
+}

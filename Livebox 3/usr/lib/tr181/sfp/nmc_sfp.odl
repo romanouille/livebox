@@ -1,0 +1,107 @@
+using "sfp/nmc_sfp.so";
+object X_ORANGE-COM_SFP {
+object DeviceInfo {
+read-only string Status;
+read-only string FirmwareUpgrade;
+read-only string ModelName;
+read-only string HardwareVersion;
+read-only string ProductClass;
+read-only bool Orange;
+read-only string Software1Version;
+read-only string Software1Status;
+read-only string Software2Version;
+read-only string Software2Status;
+read-only string Manufacturer;
+read-only string SerialNumber;
+object Communication {
+read-only string Status;
+uint8 Timer {
+default 5;
+}
+uint8 Retry {
+default 7;
+}
+}
+read-only bool OntReady;
+}
+object Command {
+object Reboot {
+string CommandState {
+default "None";
+}
+}
+object ResetFactory {
+string CommandState {
+default "None";
+}
+}
+}
+}
+object X_ORANGE-COM_GPON {
+read-only string Status;
+read-only string PonID;
+read-only string RegistrationID;
+}
+object Optical {
+object Interface[] {
+string Alias;
+read-only int16 OpticalSignalLevel;
+read-only int16 TransmitOpticalLevel;
+}
+}
+datamodel {
+object X_ORANGE-COM_SFP {
+object DeviceInfo {
+destination "pcb://$(PCB_MAIN_BUS)/SFP" {
+parameter Status from DeviceState translate with translate_devicestate;
+parameter FirmwareUpgrade from FirmwareUpgrade translate with translate_firmwareupgrade;
+parameter ModelName;
+parameter HardwareVersion;
+parameter ProductClass from ProductClass translate with translate_sfptype;
+parameter Orange;
+parameter Software1Version;
+parameter Software1Status;
+parameter Software2Version;
+parameter Software2Status;
+parameter Manufacturer;
+parameter SerialNumber;
+parameter OntReady from ONTReady;
+}
+object Communication {
+destination "pcb://$(PCB_MAIN_BUS)/SFP" {
+parameter Status from HostCommunication translate with translate_hostcommunication;
+parameter Timer;
+parameter Retry;
+}
+}
+}
+object Command {
+object Reboot {
+destination "pcb://$(PCB_MAIN_BUS)/SFP" {
+parameter CommandState from RebootCommandState;
+}
+}
+object ResetFactory {
+destination "pcb://$(PCB_MAIN_BUS)/SFP" {
+parameter CommandState from ResetCommandState;
+}
+}
+}
+}
+object X_ORANGE-COM_GPON {
+destination "pcb://$(PCB_MAIN_BUS)/SFP" {
+parameter Status from OperatingState translate with translate_operatingstate;
+parameter PonID;
+parameter RegistrationID;
+}
+}
+object Optical {
+instance of Interface(0,"SFP_GPON") {
+parameter Alias="SFP_GPON";
+destination "pcb://$(PCB_MAIN_BUS)/SFP" {
+parameter OpticalSignalLevel;
+parameter TransmitOpticalLevel;
+}
+}
+}
+}

@@ -1,0 +1,7 @@
+
+
+include "remoteaccess/datahub_remoteaccess-definitions.odl";
+include "remoteaccess/datahub_remoteaccess-defaults.odl";
+
+/** @location  commod_datahub_dataservice  add-on/plugin/remoteaccess/mib/datahub_remoteaccess.odl.m4 */
+

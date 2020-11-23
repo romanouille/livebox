@@ -1,0 +1,72 @@
+using "libnemo_core.so";
+
+persistent object NeMo { 
+
+	persistent object Intf[] {
+		read-only string Name;
+		bool Enable;
+		bool Status;
+		string Flags;
+		 
+		object ULIntf[] {
+			read-only string Name;
+		}
+		object LLIntf[] {
+			read-only string Name;
+		}
+		 
+		bool isUp(string flag, string traverse); 
+		bool hasFlag(string flag, string condition, string traverse); 
+		void setFlag(string flag, string condition, string traverse); 
+		void clearFlag(string flag, string condition, string traverse); 
+		bool isLinkedTo(string target, string traverse); 
+		
+		list getIntfs(string flag, string traverse); 
+		string luckyIntf(string flag, string traverse); 
+		
+		/*variant*/string getFirstParameter(string name, string flag, string traverse);
+		void setFirstParameter(string name, /*variant*/string value, string flag, string traverse);
+		/*map*/string getParameters(string name, string flag, string traverse);
+		void setParameters(string name, /*variant*/string value, string flag, string traverse);
+		/*map*/void getMIBs(string mibs, string flag, string traverse);
+		void setMIBs(/*map*/string mibs);
+		
+		read-only object Query[] {
+			read-only string Description;
+			read-only string Subscribers;
+			read-only string ResultString;
+			
+			/*return type of Query class*/void getResult();
+		}
+		
+		uint32 openQuery(string subscriber, string class, ...);
+		void closeQuery(string subscriber, string class, ...);
+		
+		void csiRegister(string func);
+		void csiUnregister(string func);
+		void csiFinish(uint32 id, string state, /*variant*/string returnValue, list errors, .../* output arguments */);
+	} 
+	 
+	void linkIntfs(string ulintf, string llintf);
+	void unlinkIntfs(string ulintf, string llintf);
+	
+	int32 TraceLevel = 300;
+	
+	void loadModule(string sofile);
+	void unloadModule(string sofile);
+	
+	read-only object Module[] {
+		read-only string SoFile;
+		int32 TraceLevel = 300;
+	}
+	
+	void loadMIB(string odlfile);
+	void unloadMIB(string odlfile);
+	
+	read-only object MIB[] {
+		read-only string OdlFile;
+		read-only string Flag;
+		read-only object DataModel;
+	}
+} 
+

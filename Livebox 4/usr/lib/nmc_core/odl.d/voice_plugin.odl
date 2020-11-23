@@ -1,0 +1,57 @@
+using "../nmccore_voice.so";
+
+define voip_config_t {
+    string name;           /* Profile instance name, e.g. "SIP-Trunk", "H323-Trunk" */
+    string enable;         /* Enable parameter: "Enabled", "Disabled", "Quiescent"  */
+    string protocol;       /* Protocol name: "PPP", "Ethernet". (Later, possibly "GSM/CDMA") */
+    string encapsulation;  /* Tunnel encapsulation: "", (Later, possibly "DS-Lite", "6rd", "PPP-L2TP","Ethernet-L2TP", "IPSec") [READ ONLY] */
+    string interfaceId;    /* VC/VLAN used : DestinationAddress (in case of DSL) or VLANID (otherwise). [READ ONLY] */
+    string interface;      /* NeMo VoIP network interface name, typically "voip". e.g. "atm_voip", "ppp_data" ,... [READ ONLY] */
+    string physInterface;  /* Physical interface: "VDSL", "ADSL", "Ethernet". (Later, possibly WWAN (data over 3G or EV-DO), ...) [READ ONLY] */
+}
+
+persistent object NMC {
+
+    /**
+     * True if PSTN calls are allowed
+     */
+    persistent bool PSTNEnable {
+        default true;
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * True if a VoIP call is ongoing
+     */
+    bool CallInProgress {
+        default false;
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Store the last StatusInfo raised by the voice application
+     * in case of registration error
+     */
+    string LastVoIPError {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Return the current VoIP configuration
+     * @return list of all the voip_config_t structures
+     * @version V4.6
+     */
+    list getVoIPConfig();
+}

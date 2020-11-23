@@ -1,0 +1,78 @@
+using "pnp.so";
+acl {
+world read,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+persistent object PnP {
+string Status {
+constraint enum ["Idle", "Disabled", "Running", "Error", "OK", "Timeout"];
+default "Idle";
+}
+persistent string LastName {
+default "";
+}
+persistent string FirstName {
+default "";
+}
+persistent string MobilePhoneNumber {
+constraint maxvalue 10;
+default "";
+}
+persistent string ServerURL {
+acl {
+world none;
+}
+default "https://g2.spnp.orange.com";
+}
+persistent string WakeUpURL {
+acl {
+world none;
+}
+default "";
+}
+string ValidationDomain {
+acl {
+world none;
+}
+default "se-connecter-au-reseau.orange.com";
+}
+persistent uint32 WakeUpPort {
+acl {
+world none;
+}
+default 52804;
+}
+persistent string ConnectionMode {
+acl {
+world none;
+}
+default "";
+}
+persistent bool Enable {
+acl {
+world none;
+}
+default false;
+}
+persistent string SpnpUserName {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd none;
+}
+default "";
+}
+persistent string SpnpPassword {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd none;
+}
+default "";
+}
+list get();
+}

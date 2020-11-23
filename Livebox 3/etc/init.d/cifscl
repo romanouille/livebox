@@ -1,0 +1,139 @@
+#! /bin/sh 
+
+. /usr/bin/pcb_common.sh
+
+name="cifscl"
+start_options="-c /usr/lib/cifscl/cifscl.odl"
+datamodel="SambaService"
+trace_zones=""
+component="sah_services_cifscl"
+
+CHROOT="/var/samba"
+USER="samba"
+SHARES_MANAGEMENT=""
+
+# to allow backup and restore
+RWPATH="/ext/"
+
+
+start() {
+    if pcb_is_running $name; then
+        echo "$name service already started"
+        exit 1;
+    fi
+    
+    if [ -z "${SHARES_MANAGEMENT}" ]; then
+        CONFIG_PATH="/var/etc/samba"
+
+    if [ ! -z "${CHROOT}" ] && [ ! -d "${CHROOT}" ]; then
+        mkdir -p -m 0700 ${CHROOT} ${CHROOT}/etc ${CHROOT}/tmp ${CHROOT}/var/log ${CHROOT}/var/usbmount
+
+        if [ ! -e "${CHROOT}/etc/passwd" ]; then
+            echo "root::0:0:root:/root:/bin/false" > "${CHROOT}/etc/passwd"
+            grep $USER /etc/passwd >> "${CHROOT}/etc/passwd"
+        fi
+
+        chown $USER:$USER -R ${CHROOT}
+    fi
+
+        if [ ! -d "${CHROOT}${CONFIG_PATH}" ]; then
+            mkdir -p -m 0700 "${CHROOT}${CONFIG_PATH}"
+            mount -t tmpfs -o size=128k,rw,nosuid,nodev,noexec,relatime tmpfs "${CHROOT}${CONFIG_PATH}"
+            chown $USER:$USER -R "${CHROOT}${CONFIG_PATH}"
+    fi
+    else
+        mkdir -p -m 0707 "${RWPATH}"/samba
+        chown $USER:$USER -R "${RWPATH}"/samba
+   
+        mkdir -p -m 0707 "${CHROOT}"
+
+        mkdir -p -m 0700 "${CHROOT}"/etc "${CHROOT}"/cfg "${CHROOT}"/var/etc/samba
+        mkdir -p -m 0707 "${CHROOT}"/var
+        mkdir -p -m 0707 "${CHROOT}"/var/usbmount
+
+        chmod 707 "${RWPATH}"/samba
+        chmod 707 "${CHROOT}"
+        chmod 707 "${CHROOT}"/var
+        chmod 707 "${CHROOT}"/var/usbmount
+
+        touch "${CHROOT}"/etc/passwd
+        chown $USER:$USER -R "${CHROOT}"
+        chown $USER:$USER -R "${CHROOT}"/cfg
+        chown $USER:$USER -R "${CHROOT}"/var
+        chown $USER:$USER -R "${CHROOT}"/var/usbmount
+        
+        mount -o bind "${RWPATH}"/samba "${CHROOT}"/cfg
+        mount -o bind /etc/passwd "${CHROOT}"/etc/passwd
+
+        if [ ! -h /cfg/secrets.tdb ]; then
+            ln -s "${CHROOT}"/cfg/secrets.tdb /cfg/secrets.tdb
+        fi
+
+        if [ ! -h /cfg/smbpasswd ]; then
+            ln -s "${CHROOT}"/cfg/smbpasswd /cfg/smbpasswd
+    fi
+
+        if [ ! -h /cfg/smb.conf ]; then
+            ln -s "${CHROOT}"/cfg/smb.conf /cfg/smb.conf
+        fi
+
+        chown -h $USER:$USER /cfg/secrets.tdb
+        chown -h $USER:$USER /cfg/smbpasswd
+            chown -h $USER:$USER /cfg/smb.conf
+        fi
+
+        mkdir -p -m 0700 "${CHROOT}"/lib/
+
+
+
+
+    pcb_start $name $start_options  
+}
+
+backup() {
+    if pcb_is_running $name ; then
+        pcb_cli "$datamodel.export($2)"
+        exit 0
+    else
+        echo "Samba plugin is not running, impossible to make a backup"
+        exit 1
+    fi
+
+    exit 1
+}
+
+stop() {
+        pcb_stop $name
+    if [ -n "${SHARES_MANAGEMENT}" ]; then
+        sleep 2
+        umount "${CHROOT}"/cfg
+        umount "${CHROOT}"/etc/passwd
+    fi
+}
+
+restore() {
+    mkdir -p /var/lib/samba
+    touch /var/lib/samba/restore
+    exit 0
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    backup)
+        backup
+        ;;
+    restore)
+        restore
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo|backup|restore]"
+        ;;
+esac

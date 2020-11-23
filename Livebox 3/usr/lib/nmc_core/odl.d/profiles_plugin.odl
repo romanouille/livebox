@@ -1,0 +1,27 @@
+using "../nmccore_profiles.so";
+persistent object NMC {
+persistent object Profiles {
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+persistent string CurrentProfile {
+default "";
+}
+read-only string AvailableProfiles {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default "";
+}
+persistent bool ProfileApplied {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+}
+}

@@ -1,0 +1,15 @@
+{
+  "status": true,
+  "data": {
+    "WanModeList": "Ethernet_PPP;Ethernet_DHCP;VDSL_DHCP;VDSL_PPP;DSL_DHCP;DSL_PPP",
+    "WanMode": "DSL_PPP",
+    "Username": "softathome",
+    "Password": "softathome",
+    "FactoryResetScheduled": false,
+    "VoiceLineToMonitor": "VoiceService.VoiceApplication.VoiceProfile.SIP-Trunk.Line.LINE1",
+    "WWANBackupStatus": "Idle",
+    "WWANBackupTimer": 30,
+    "WWANBackupTimerAfterBoot": 180,
+    "WWANBackupPrimary": false
+  }
+}

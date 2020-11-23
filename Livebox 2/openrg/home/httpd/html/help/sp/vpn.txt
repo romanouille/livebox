@@ -1,0 +1,19 @@
+<b>VPN:</b><br>
+<br>
+La característica VPN permite crear extensiones de tu red de área local. Este servicio permite que dos sitios Web estén conectados de manera segura a una red pública como Internet.<br>
+Cuando se activa un VPN, se crea entre los dos sitios Web un canal seguro denominado túnel. Los datos enviados se encriptan cuando entran en el túnel y se descodifican en la salida del túnel.<br>
+El Livebox puede crear enlaces VPN entre dos Livebox (modo sencillo), entre un Livebox y otro tipo de servidor VPN (modo experto) o entre un Livebox y un usuario cualquiera (modo servidor).<br>
+En total, el Livebox puede crear cuatro conexiones VPN simultáneas.<br>
+<br>
+<span class="boldorange">Configuración VPN:</span>
+El campo "Nombre de VPN" muestra el nombre DNS de tu Livebox (en el supuesto en que emplees un servicio de DNS dinámico).<br>
+El campo "Nombre del sitio" muestra el nombre DNS del dominio en el que está registrado tu Livebox (suponiendo que empleas un servicio de DNS dinámico).<br>
+<br>
+<span class="boldorange">Habilitar IPsec:</span>
+Seleccionando esta casilla se habilita el servicio VPN.<br>
+La tabla muestra las conexiones configuradas y las conexiones activas.<br>
+Haz click sobre el botón "Añadir" para configurar una nueva conexión.<br>
+<br>
+<span class="boldorange">Habilitar servidor IPsec:</span>
+Selecciona esta casilla para habilitar el servidor con el servicio VPN, que permite que cualquier usuario pueda conectarse a tu Livebox. Haz clic en el botón "Gestión de usuarios y grupos" para acceder a la página de configuración de usuario.<br>
+

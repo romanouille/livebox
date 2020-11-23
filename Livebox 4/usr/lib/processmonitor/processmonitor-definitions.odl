@@ -1,0 +1,142 @@
+using "processmonitor.so";
+
+persistent object ProcessMonitor {
+    bool set(variant parameters);
+    variant get();
+
+    /**
+     * The duration between the execution of the same test.
+     * @version V6.1
+     */
+    persistent uint32 CycleDuration {
+        write with pm_writeCycleDuration;
+        default 120;
+    }
+
+    /**
+     * The interval between 2 consecutive tests.
+     * @version V6.1
+     */
+    read-only uint32 TestInterval {
+        read with pm_readTestInterval;
+    }
+
+    /**
+     * The maximum number of reboots a test can enforce.
+     * @version V6.1
+     */
+    persistent uint32 MaxReboots = 3;
+
+    /**
+     * Timestamp when the last reboot occured.
+     * @version V6.1
+     */
+    persistent read-only datetime LastReboot;
+
+    /**
+     * Reason of the last reboot.
+     * @version V6.1
+     */
+    persistent read-only string RebootReason = "Unknown";
+
+    /**
+     * Configuration of the different tests.
+     * @version V6.1
+     */
+    persistent object Test[] {
+        counted with NumberOfTest;
+        write with pm_writeTest;
+        delete with pm_deleteTest;
+
+        bool set(variant parameters);
+        variant get();
+
+        /**
+         * Health of the test, good or bad.
+         * @version V6.1
+         */
+        read-only string Health;
+
+        /**
+         * The type of test.
+         * @version V6.1
+         */
+        persistent string Type {
+            constraint enum [ "Plugin", "Process", "Custom" ];
+            default "Plugin";
+        }
+
+        /**
+         * The subject of the test, depending on the Type.
+         * - Plugin: Datamodel path
+         * - Process: PID
+         * - Custom: Shell command to be executed with system()
+         * @version V6.1
+         */
+        persistent string Subject = "";
+
+        /**
+         * Maximum number of allowed failed results before action is undertaken.
+         * @version V6.1
+         */
+        persistent int32 MaxFailNum = -1;
+
+        /**
+         * Number of seconds of failed results after which action is undertaken.
+         * @version V6.1
+         */
+        persistent int32 MaxFailDuration = -1;
+
+        /**
+         * The action to undertake.
+         * - keyword 'REBOOT': Perform a reboot
+         * - other: system command
+         * @version V6.1
+         */
+        persistent string FailAction = "REBOOT";
+
+        /**
+         * Last check performed upon this test.
+         * @version V6.1
+         */
+        read-only datetime LastCheck;
+
+        /**
+         * Last successful check of this test.
+         * @version V6.1
+         */
+        read-only datetime LastSuccess;
+
+        /**
+         * Timestamp when test started to fail.
+         * @version V6.1
+         */
+        read-only datetime FailedSince;
+
+        /**
+         * Number of failed checks.
+         * @version V6.1
+         */
+        read-only uint32 NumFailed = 0;
+
+        /**
+         * Timestamp of last reboot caused by this test.
+         * @version V6.1
+         */
+        persistent read-only datetime LastReboot;
+
+        /**
+         * Number of reboots caused by this test.
+         * @version V6.1
+         */
+        persistent read-only uint32 NumReboots = 0;
+
+        /**
+         * Reset timestamps and counters for this test.
+         * @version V6.1
+         */
+        bool reset();
+    }
+}
+
+/** @location sah_services_processmonitor /processmonitor-definitions.odl */

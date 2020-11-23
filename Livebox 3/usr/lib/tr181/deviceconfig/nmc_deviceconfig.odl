@@ -1,0 +1,44 @@
+using "deviceconfig/nmc_deviceconfig.so";
+object X_ORANGE-COM_DeviceConfig {
+string VoIPRunningInterface {
+constraint enum [ "Dedicated", "Internet" ];
+default "Dedicated";
+}
+read-only string IPTVRunningInterface {
+constraint enum [ "Dedicated", "Internet" ];
+default "Dedicated";
+}
+string WANInterfaceType {
+constraint enum [ "dsl", "vdsl", "ethernet", "Cellular", "Optical" ];
+default "dsl";
+}
+read-only bool Reboot {
+default false;
+}
+read-only bool FactoryReset {
+default false;
+}
+bool AdminPasswordReset {
+default false;
+}
+object TemperatureStatus {
+object TemperatureSensor[] {
+string Alias;
+read-only int16 Value {
+constraint minvalue -274;
+default -274;
+}
+}
+}
+}
+datamodel {
+object X_ORANGE-COM_DeviceConfig {
+destination "pcb://$(PCB_MAIN_BUS)/NMC" {
+parameter VoIPRunningInterface from VoIPMode;
+parameter IPTVRunningInterface from IPTVMode;
+}
+destination "pcb://$(PCB_MAIN_BUS)/PasswordRecovery" {
+parameter AdminPasswordReset;
+}
+}
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-EN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Livebox</title>
+	
+	<link href="common/style.css" rel="stylesheet" type="text/css" />
+	<link href="common/style-popup.css" rel="stylesheet" type="text/css" />
+	<!--[if IE 6]><link href="common/style-ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+	
+	<script type="text/javascript" src="common/ctl.js"></script>
+	<script type="text/javascript" src="common/script.js"></script>
+</head>
+
+<body class="accessibility-normal">		
+	
+	<!-- Scrollable document container -->
+	<div id="document-container">
+	<div id="document-background-header">
+	<div id="document-background-footer">
+	<div id="document">
+		<div id="header">
+			
+			<div id="header-logo-livebox-fr"><img src="gfx/common/transparent.gif" alt="" class="png"/></div>
+			
+			<div id="header-controls">
+				<div id="header-controls-languages">&nbsp;<br/>&nbsp;</div>
+				<div id="header-controls-accessibility-minus"><a href="#" onclick="document.body.className = 'accessibility-normal'; return false;"><img src="gfx/common/header-accessibility-minus.png" alt=""/></a></div>
+				<div id="header-controls-accessibility-plus"><a href="#" onclick="document.body.className = 'accessibility-big';  return false;"><img src="gfx/common/header-accessibility-plus.png" alt=""/></a></div>
+			</div>
+			
+						
+		</div>
+		<div id="content">
+		
+	<div id="content-left"></div>
+	
+	<div id="content-center">
+                <form name='frm_settings' action='refer.cgi' method='post'>
+		<h1><span class="translation Translations.setup.rescuefirmware.title">rescue firmware</span></h1>
+		<div style="position:absolute; top:25px; left:50%; width:150px; margin-left:-75px; font-weight:bold; font-size:1.2em;"></div>
+		<div class="hr"></div>
+		<h2><span class="translation Translations.setup.rescuefirmware.subtitle">a firmware upgrade is in progress. Time is approximatly between 5 and 15mn. During this time you can't access to internet. At the end, your Livebox reboot automatically.</span></h2><br/><br/>
+		
+		<div>
+			<h5><span class="translation Translations.setup.rescuefirmware.offer.label">select the offer you subscribe</span></h5>
+			<div class="hr hr-orange"></div>
+			<ul>
+				<li style="padding:5px 0px 5px 155px;"><input type="radio" name="offer" value="adsl" checked="checked"/><span class="translation Translations.setup.rescuefirmware.offer.adsl.radiobutton" style="padding-left:20px;font-weight: bold; color:#4d4d4d;">ADSL</span></li>
+				
+				<li style="padding:5px 0px 0px 155px;"><input type="radio" name="offer" value="fiber"/><span class="translation Translations.setup.rescuefirmware.offer.fiber.radiobutton" style="padding-left:20px;  font-weight: bold; color:#4e4d4d;">fiber</span></li>
+			</ul>
+		</div><br/>
+		
+		
+		<div class="hr hr-orange"></div>
+		<h5><span class="translation Translations.setup.rescuefirmware.howtoinstall.label">enter your connexion login and your password</span></h5><br/>				
+		
+		<div id="setup.rescuefirmware.error">
+			<br/><img src="gfx/common/transparent.gif" style="float:left; width:40px; height:30px; background-image:url('gfx/icons/icons-error.png'); margin-right:10px;" class="png" alt=""/>
+			<h3><span class="translation Translations.setup.rescuefirmware.error.title">warning</span></h3>
+			<div class="translation Translations.setup.rescuefirmware.error.description" style="color:black; font-weight: bold; padding-top:5px;">don't switch off your Livebox during a firmware upgrade</div><br/>
+		</div>
+		
+		<div style="width:100%;">
+			<ul>
+				<li style="padding:30px 0px 10px 40px;">
+					<div class="translation Translations.setup.rescuefirmware.login.label" style="float:left;width:90px; ">login<br/>de connexion</div>
+					<div style="float:left; width:30px; height:20px; color:black; padding-top:8px; text-align:right;"><b>fti /&nbsp;&nbsp;</b></div>
+					<div style=""><input type="text"  name='username' value="" class="input-text" style="margin-top:3px;"/>
+					</div>
+				</li>
+				<li style="padding:10px 0px 30px 40px;"><div class="translation Translations.setup.rescuefirmware.password.label" style="float:left;width:120px; ">password</div><div><input type="text"  name='password' value="" class="input-text orange" style="margin-top:3px;"/></div>
+				</li>
+			</ul>
+			
+			<div class="input-info-warning" style="position:absolute; top:0px;right:0px;">
+				<div class="header"></div>
+				<div class="content"><span class="translation Translations.setup.rescuefirmware.warning.label">your login and password are available in the welcome letter</span></div>
+				<div class="footer"></div>
+			</div>
+		</div><br/>
+		<div class="hr hr-orange"></div><br/>
+		
+		<div style="text-align:right; height:35px;">
+			<input type="reset" id="bt_cancel" value="cancel" class="input-btn input-btn-gray translation Translations.general.cancel.btn" />
+			<input type="submit" id="bt_save" value="save" class="input-btn input-btn-orange translation Translations.general.save.btn" /></div><br/>
+           </form>
+	</div>
+	
+	<div id="content-right"></div>
+
+
+		</div>
+		<div id="footer">
+			<div id="footer-logo-ft"><img src="gfx/common/transparent.gif" alt="" class="png"/></div>
+			<div id="footer-menu"></div>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>	
+</body>
+</html>

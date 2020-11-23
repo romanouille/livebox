@@ -1,0 +1,37 @@
+<div id="firewall" xmlns="http://www.orange.com/xhtml/engine/loose">
+  <div class="boxType3">
+	    <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param" i18n="menuNetwork.firewall"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myNetwork.firewall.subtitle"/>
+		</div>
+  </div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 margin-top-10 border-bottom-1">
+			<span  class="h3Text" i18n="page.myNetwork.firewall.level"/>	
+			<div class="forminput">
+				<span id="radioFWL" widgetType="EnumInput" widgetArg="'radio'" enumerated="['LOW', 'MEDIUM', 'HIGH', 'CUSTOM']" dataId="Device/Firewall/Config" i18nPrefix="data.firewallmode"/>
+				<div class="clear"/>
+			</div>
+			<br/>
+			<span class="customfw"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m211'" i18n="page.myNetwork.firewall.level.custom"/></span>
+		</div>
+		<div class="boxType5 border-bottom-3">	
+			<span  class="h3Text" i18n="page.myNetwork.firewall.ping"/>
+			<div class="margin-left-80" widgetType="FormInput" i18n="page.myNetwork.firewall.ping.respond">
+				<!--<input type="checkbox" dataId="Device/Firewall/RespondToPing" i18nPrefix="page.myNetwork.firewall.ping.respond"/>-->
+				<span widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"  dataId="Device/Firewall/RespondToPing"  i18nPrefix="page.myNetwork.firewall.ping.respond"/>
+			</div>
+		</div>	
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+			</div>
+		</form>
+	</div>
+</div>

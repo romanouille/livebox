@@ -1,0 +1,73 @@
+<p {{#if id}}id="{{id}}" {{/if}} class="bodytxt">{{#if label}} <label {{#if id}}for="{{id}}_table" {{/if}}>{{{label}}}</label><br>{{/if}}
+<table class="conf-table" {{#if id}}id="{{id}}_table" {{/if}}>
+{{#if titlevalue}}
+  <tr class="conf-table-row">
+    {{#ifEqual ../sortable 1}}
+      {{#each ../../titlevalue}}    
+      <td class="conf-table-title">{{{this}}}<div tabindex = 0 class="conf-table-title-sortable-arrow" {{#if ../../id}}id="{{../../../id}}_col{{@index}}_sort" {{/if}}></div></td>
+      {{/each}}
+    {{else}}
+      {{#each ../../titlevalue}}    
+      <td class="conf-table-title">{{{this}}}</td>
+      {{/each}}
+    {{/ifEqual}}
+  <td class="conf-table-blank-cell-empty"></td>
+  </tr>
+{{/if}}
+{{#if emptyLabel}}
+ <tr class="conf-table-row"> 
+  <td class="conf-table-cell" colspan="10">{{{emptyLabel}}}</td>
+ </tr> 
+{{/if}}
+{{#each value}}
+  <tr class="conf-table-row">  
+  {{#ifEqual type "static"}}
+    {{#each defaultvalue}}
+      <td class="conf-table-cell">{{{this}}}</td>
+    {{/each}}  
+    <td class="conf-table-blank-cell"><a href="#" id="{{#if ../../id}}{{../../../id}}{{/if}}_delete_{{@index}}"><img class="conf-table-button-delete Translation {{#if ../../id}}{{../../../id}}_delete{{/if}}" data-translation="common.delete" src="../../common/img/app_conf/trashbin_666.png"></a></td>
+  {{/ifEqual}}
+  {{#ifEqual type "noDeleteIcon"}}
+	  {{#each defaultvalue}}
+		<td class="conf-table-cell">{{{this}}}</td>
+      {{/each}}  
+  {{/ifEqual}}
+  {{#ifEqual type "dynamic"}}
+    {{#each defaultvalue}}
+      {{#ifEqual type "select"}}
+        <td class="conf-table-cell">
+          <select class="select" {{#if id}}id="{{id}}" {{/if}}>
+          {{#each options}}
+            {{#ifEqual @index ../selected}}
+              {{#if this.[2]}}
+                <option value="{{this.[0]}}" class="Translation" data-translation="{{this.[2]}}" selected></option>
+              {{else}}
+                <option value="{{this.[0]}}" selected>{{this.[1]}}</option>
+              {{/if}}
+            {{else}}
+              {{#if this.[2]}}
+                <option value="{{this.[0]}}" class="Translation" data-translation="{{this.[2]}}"></option>
+              {{else}}
+                <option value="{{this.[0]}}">{{this.[1]}}</option>
+              {{/if}}
+            {{/ifEqual}}
+          {{/each}}
+        </select>
+        </td>
+      {{/ifEqual}}
+      {{#ifEqual type "textfield"}}          
+        <td class="conf-table-cell">
+          <input {{#if id}}id="{{id}}" {{/if}} type="text" value="{{defaultvalue}}" class="field">
+        </td>
+      {{/ifEqual}}
+      {{#ifEqual type "text"}}          
+        <td class="conf-table-cell">
+          {{{defaultvalue}}}
+        </td>
+      {{/ifEqual}}
+    {{/each}}
+    <td class="conf-table-blank-cell"><a href="#" {{#if ../../id}}id="{{../../../id}}{{/if}}_add_{{@index}}" {{#if ../../id}}class="{{../../../id}}_add{{/if}}"><img class="conf-table-button-add Translation" data-translation="common.add" src="../../common/img/app_conf/add_666.png"></a></td>
+  {{/ifEqual}}  
+  </tr>
+{{/each}}
+</table></p>

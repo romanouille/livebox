@@ -1,0 +1,9 @@
+<b>Visualiser :</b><br>
+<br>
+Affiche la liste des équipements connectés ou qui ont été connectés à votre livebox. Vous pouvez ensuite cliquer sur un des ces équipements pour accéder à la page de personnalisation de l'équipement ou pour mettre en place une politique de restriction d'accès à Internet.<br> 
+Vous pouvez utiliser le filtre d'affichage si vous souhaitez n'afficher qu'un type d'équipement (Wifi, Ethernet, USB, Console...).<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

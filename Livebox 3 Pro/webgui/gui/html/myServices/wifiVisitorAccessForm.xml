@@ -1,0 +1,66 @@
+<div id="wifiVisitorAccessForm" xmlns="http://www.orange.com/xhtml/engine/loose">
+    <div class="boxType3">
+		<h1 class="logo_generic grey" i18n="page.myServices.wifiaccessform.title"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myServices.wifiaccessform.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 border-bottom-3">
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.venuename">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/VenueName" required="true" i18n="page.myServices.wifiaccessform.venuename"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.venuetype">
+				<span widgetType="EnumInput" widgetArg="'select'" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/VenueType" i18nPrefix="page.myServices.wifiaccessform.venuetype"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.firstname">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/FirstName" required="true" i18n="page.myServices.wifiaccessform.firstname"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.lastname">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/LastName" required="true" i18n="page.myServices.wifiaccessform.lastname"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.phone">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/Phone" required="true" i18n="page.myServices.wifiaccessform.phone"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.email">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/Email" required="true" i18n="page.myServices.wifiaccessform.email"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.adress">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/Address" required="true" i18n="page.myServices.wifiaccessform.adress"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.zipcode">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/ZipCode" required="true" i18n="page.myServices.wifiaccessform.zipcode"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.city">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/City" required="true" i18n="page.myServices.wifiaccessform.city"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myServices.wifiaccessform.website">
+				<input type="text" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/WebSite" i18n="page.myServices.wifiaccessform.website"/>
+			</div>
+			
+			<div class="forminput">
+				<input id="ckWiFiDir" type="checkbox" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/HotspotDir" i18nPrefix="page.myServices.wifiaccessform.directory"/>
+				<span i18n="page.myServices.wifiaccessform.directory"/>
+				<br/><br/>
+				<span i18n="page.myServices.wifiaccessform.law"/>
+				<br/><br/>
+				<span i18n="page.myServices.wifiaccessform.required"/>
+			</div>
+		</div>	
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnCancel" widgetType="Button" widgetArg="{type: 'reset'}" i18n="page.myServices.wifiaccessform.cancel"/>
+				<span id="btnValid" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myServices.wifiaccessform.validate"/>
+			</div>
+		</form>
+	</div>
+</div>

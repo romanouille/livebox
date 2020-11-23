@@ -1,0 +1,13 @@
+datamodel {
+object Devices {
+object Config {
+acl {
+world none;
+}
+object events {
+parameter CPUInterval=5000;
+parameter SysInfoInterval=5000;
+}
+}
+}
+}

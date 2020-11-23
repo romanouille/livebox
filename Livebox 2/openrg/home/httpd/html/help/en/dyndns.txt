@@ -1,0 +1,12 @@
+<b>DynDNS :</b><br>
+<br>
+The DynDNS service is used to assign a fixed domain name and host name to a dynamic Internet IP address. This can be useful if you wish to host a personal web server, FTP server or any other type of server behind your livebox. <b>Service:</b> Select the DynDNS supplier from which you have subscribed a DynDNS name.<br>
+<span class="boldorange">Hostname:</span> Enter your domain name.<br>
+<span class="boldorange">Username/e-mail:</span> Enter the user name corresponding to your DynDNS account.<br>
+<span class="boldorange">Password:</span>  Enter the password corresponding to your DynDNS account.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+
+

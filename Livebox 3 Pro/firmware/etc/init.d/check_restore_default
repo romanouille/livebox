@@ -1,0 +1,48 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+START=12
+
+. /etc/sysdirs.conf
+
+start() {
+	echo Check restore default by button
+
+	BUT_RESET=`cat /proc/sys/sagem/gpio/maps |grep "But reset"`
+	
+	if [ "x$BUT_RESET" != "x" ]; then
+
+		POLARITY=`echo $BUT_RESET |cut -d'|' -f 7`
+		BUT_STATE=`echo $BUT_RESET |cut -d'|' -f 14`
+		
+		echo "POLARITY = $POLARITY"
+		echo "BUT_STATE = $BUT_STATE"
+		
+		if [ $POLARITY = "Low" -a $BUT_STATE = 0 ]; then
+			echo Doing restore default
+			restore_default
+		fi
+		
+		if [ $POLARITY = "High" -a $BUT_STATE = 1 ]; then 
+			echo Doing restore default 
+			restore_default
+		fi
+	
+	fi
+
+	echo Check restore default by flags
+
+	if [ -f $SYSCONF_DIR/conf_erased ]; then
+		rm -fr $SYSCONF_DIR/backup* 2> /dev/null
+	fi
+
+	if [ -f /opt/data/new-conf.xml ]; then
+		mv /opt/data/new-conf.xml $SYSCONF_DIR/backup-cfg.xml
+	fi
+
+	rm $SYSCONF_DIR/conf_erased 2> /dev/null
+}
+
+stop() {
+	echo Nothing to do!
+}
+

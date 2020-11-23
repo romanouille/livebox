@@ -1,0 +1,113 @@
+/*expr:wan*/
+
+/**
+ * MIB is loaded on HGW object only.
+ *
+ * All devices matching expression: "wan" are extended with this MIB. This tag is only set on "HGW" object
+ * The main purpose of the HGW is to create a connection to the internet.
+ * This MIB makes it possible to add connection information and status to the HGW device that is added to the
+ * gMap data model. This MIB is managed by the module "waninfo" and only added to the HGW device object.
+ *
+ * @version 6.0
+ */
+mib waninfo {
+    /**
+     * The physical link type.
+     *
+     * The link type is retrieved from "NetmodeConfig".
+     * Typically the value is one of "dsl", "vdsl" or "ethernet"
+     *
+     * @version 6.0
+     */
+    read-only string LinkType;
+    /**
+     * The physical link state.
+     *
+     * The link type is retrieved from "NetmodeConfig".
+     * The value is "up" or "down".
+     *
+     * @version 6.0
+     */
+    read-only string LinkState;
+    /**
+     * The connection protocol used.
+     *
+     * The link type is retrieved from "NetmodeConfig".
+     * The value is "ppp", "dhcp" or "unknown".
+     *
+     * @version 6.0
+     */
+    read-only string ConnectionProtocol;
+    /**
+     * The connection state.
+     *
+     * This parameter reflects the connection status if the connection protocol.
+     *
+     * @version 6.0
+     */
+    read-only string ConnectionState;
+    /**
+     * The last known connection error.
+     *
+     * This parameter reflects the last known connection error if the connection protocol.
+     *
+     * @version 6.0
+     */
+    read-only string LastConnectionError;
+    /**
+     * The ipv4 address of the connection.
+     *
+     * If the connection is established, this parameter contains the ipv4 address of the connection
+     *
+     * @version 6.0
+     */
+    read-only string ConnectionIPv4Address;
+    /**
+     * The ipv6 address of the connection.
+     *
+     * If the connection is established, this parameter contains the ipv6 address of the connection
+     *
+     * @version 6.0
+     */
+    read-only string ConnectionIPv6Address;
+    /**
+     * The default gateway (remote) ip address
+     *
+     * If the connection is established, this parameter contains the ip address of the remote gateway.
+     *
+     * @version 6.0
+     */
+    read-only string RemoteGateway;
+    /**
+     * Comma-separated list of dns-servers (both IPv4 and IPv6 DNS servers)
+     *
+     * @version 6.0
+     */
+    read-only string DNSServers;
+    /**
+     * Indicates that the data connection is up and can be used.
+     *
+     * This parameter is set to false when no data connection is up, true when the connection is established and can be used
+     *
+     * @version 6.0
+     */
+    read-only bool Internet;
+    /**
+     * Indicates that the data connection is up and can be used.
+     *
+     * This parameter is set to false when no IP TV connection is up, true when the connection is established and can be used
+     *
+     * @version 6.0
+     */
+    read-only bool IPTV;
+    /**
+     * Indicates that the voice connection is up and can be used.
+     *
+     * This parameter is set to false when no voice connection is up, true when the connection is established and can be used
+     *
+     * @version 6.0
+     */
+    read-only bool Telephony;
+}
+
+/** @location sah_services_gmap /mibs/waninfo.odl */

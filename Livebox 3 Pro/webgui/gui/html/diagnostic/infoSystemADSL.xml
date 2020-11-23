@@ -1,0 +1,137 @@
+<div id="infoSystemADSL" class="infoSystemPage" xmlns="http://www.orange.com/xhtml/engine/loose">  
+	 <div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_diagnostic">
+			<span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;
+			<span id="subtitleADSL" i18n="menuDiagnostic.infoSystemADSL" widgetType="VisibleDependent" widgetArg="{value: 'ENABLE', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable"/>
+			<span id="subtitleFTTH" i18n="menuDiagnostic.infoSystemFTTH" widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.diagnostic.infosystem.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+			<div class="headBoxType1 margin-top-10" >
+				<span class="moins">
+					<span class="h3Text margin-left-30" dataId="Device/DeviceInfo/RouterName"/>
+				</span>
+			</div>			
+			<div class="sysinfo">
+				<div class="boxType4 border-bottom-3">
+					<span class="h2Text orange " i18n="page.diagnostic.infosystem.general"/>
+					<span id="print">
+							<a href="javascript:window.print()" i18n="common.print"/>
+					</span>
+					<div class="clear"/>
+					<!-- ADSL Specific -->
+					<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable">
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.1.adsl">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/DSLStatus" i18nPrefix="data.diagnostic.infosystem.dsl.status"/>
+						</div>
+					</div>
+					<!-- FTTH Specific -->
+					<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable">
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.1.ftth">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/ONTLANStatus"/>
+						</div>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.2">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/MACAddress"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.3">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus" i18nPrefix="data.diagnostic.infosystem.connection.status"/>
+					</div>
+					<!-- ADSL Specific / timestamp & duration -->
+					<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable">
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.4">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/LastShowtimeStart" widgetType="Timestamp" widgetArg="'ddd d mmm yyyy \',\' HH:MM:ss'"/>
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.5">
+							<span class="bold_font" widgetType="ElapsedTime" i18nPrefix="page.home.general.uptimeformat" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/LastShowtimeStart"/>
+						</div>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.6">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/ConnectionStatus" i18nPrefix="data.diagnostic.infosystem.ppp.status"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.7">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/PPPoESessionID" i18nPrefix="data.diagnostic.infosystem.ppp.pppoesessionid"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.8">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/Username"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.9">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/AuthenticationProtocol" i18nPrefix="data.diagnostic.infosystem.ppp"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.10">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/LastConnection" widgetType="Timestamp" widgetArg="'ddd d mmm yyyy\',\' HH:MM:ss'"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput"  widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.11">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/LastConnection" widgetType="ElapsedTime" i18nPrefix="page.home.general.pppformat"/><!-- page.home.general.uptimeformat -->
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.12">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/Type" i18nPrefix="data.diagnostic.infosystem.ppp.type"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.13">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/LastConnectionError" i18nPrefix="page.diagnostic.infosystem.adsl.2.13"/>
+					</div>
+					<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable">
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}"  i18n="page.diagnostic.infosystem.adsl.2.14">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/LastDisconnection" widgetType="Timestamp" widgetArg="'ddd d mmm yyyy \',\' HH:MM:ss'"/>
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.15">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/VP"/>/<span dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/VC"/>
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.16">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/StandardUsed"/>
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.17">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Encapsulation"/>
+						</div>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.18">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/DataPath"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.19">
+						<span class="bold_font"  dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/MTUMaxSize"/> <!-- widgetType="Duration" i18nPrefix="page.home.general.uptimeformat" -->
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.20">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/CRCUp"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.21">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/CRCDown"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.22">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/FECUp"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.23">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/FECDown"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.24">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/ExternalIPAddress"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.25">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPPoEACName"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.26">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PrimaryDNS"/>
+					</div>
+					<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.adsl.2.27">
+						<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/SecondaryDNS"/>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,7 @@
+using "pkitoken_plugin.so";
+acl {
+world read, execute;
+}
+object PKIToken {
+int32 verifyPin(string pin);
+}

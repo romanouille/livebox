@@ -1,0 +1,14 @@
+if [ $# -ne 1 ]
+then exit 1
+fi
+if [ `grep -c "/dev/$1" /etc/mtab"` -eq 0 ]
+then exit 2
+fi
+for part in `grep $1 /etc/mtab | cut -d' ' -f2`; do
+	echo "umount ${part}"	
+	umount ${part} >&- 2>&-
+    if [ $? -ne 0 ]
+    then exit 4
+    fi
+	rmdir ${part} >&- 2>&-
+done	

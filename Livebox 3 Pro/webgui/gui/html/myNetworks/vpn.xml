@@ -1,0 +1,76 @@
+<div id="vpn" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param grey" i18n="menuNetwork.vpn"/>
+		<div class="margin-left-40 margin-top-m8">
+			<span i18n="page.myNetwork.vpn.subtitle"/>
+			<div class="note" i18n="page.myNetwork.vpn.note"/>
+		</div>
+	</div>
+	<div class="maindiv">
+	<form>
+	<div class="boxType6 border-bottom-3 border-top-1 margin-top-10">		
+		 <span class="h3Text"  i18n="page.myNetwork.vpn.blockTitle.sts"/>
+		 <br/>
+		 <div class="vpn_blockFooter">
+			<span i18n="page.myNetwork.vpn.maskInactiveConnections"/>
+			&#160;
+			<span id="maskSts" class="aligned w60px" widgetType="EnumInput" widgetArg="'select'" enumerated="['oui', 'non']" />
+		</div>
+		<div class="clear"/>
+		<div class="vpn_area">
+			<div class="vpn_graphicsts">
+				<div id="vpn_sts_graph"/>
+			</div>
+			
+				<div class=" vpn_list">
+					<table id="stsTable" summary="table des vpn sites a sites">
+						<caption style="display:none" i18n="page.myNetwork.vpn.sts.table.caption"/>
+						<tr><th class="first" i18n="page.myNetwork.vpn.etat"/><th i18n="page.myNetwork.vpn.sts.nom"/><th i18n="page.myNetwork.vpn.activate"/><th i18n="page.myNetwork.vpn.update"/><th i18n="page.myNetwork.vpn.delete"/></tr>
+					</table>			 	
+				</div>
+				<div class="clear"/>
+		</div>
+		<div widgetType="ButtonContainer" class="right">
+				<span widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'm2.m271'}" i18n="page.myNetwork.vpn.addsts"/>
+		</div>
+	</div>
+	<div class="boxType6 border-bottom-3 border-top-1 margin-top-10">		
+		<span class="h3Text" i18n="page.myNetwork.vpn.blockTitle.nomade"/>
+		<br/>
+		<div class="vpn_blockFooter">
+					<span i18n="page.myNetwork.vpn.maskInactiveConnections"/>
+					&#160;<!-- <input id="maskNomade" class="aligned" type="checkbox"/> -->
+					<span id="maskNomade" class="aligned w60px" widgetType="EnumInput" widgetArg="'select'" enumerated="['oui', 'non']" />
+		</div>
+		<div class="clear"/>
+		<div class="vpn_area">	 		
+			<div class="vpn_graphicnomade">
+				<div id="vpn_nomade_graph"/>
+			</div>
+			<div class="vpn_list">
+				<table id="nomadeTable" class="vpn_table" summary="table de utilisateurs nomades vpn">
+						<caption style="display:none" i18n="page.myNetwork.vpn.nomade.table.caption"/>
+					<tr><th class="first" i18n="page.myNetwork.vpn.etat"/><th i18n="page.myNetwork.vpn.nom"/><th i18n="page.myNetwork.vpn.activate"/><th i18n="page.myNetwork.vpn.update"/><th i18n="page.myNetwork.vpn.VPNnomade"/><th i18n="page.myNetwork.vpn.delete"/></tr>
+				</table>				
+			</div>
+			<div style="clear: both;">
+			</div>
+			<div class="clear"/>
+		</div>
+		<div widgetType="ButtonContainer" class="right btnCursor">
+				<span id="addVpnUser" widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'm2.m273'}" i18n="page.myNetwork.vpn.addnomade.user"/>
+				<span id="addVpnNomade" widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'm2.m272'}" i18n="page.myNetwork.vpn.addnomade"/>				
+		</div>
+	</div>
+	<div widgetType="ButtonContainer" class="right">
+		<span id="cancelation" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+		<span id="submiting" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myNetwork.upnp.save"/>
+	</div>
+	</form>
+  </div>
+</div>

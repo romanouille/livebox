@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case $1 in
+		start)
+			modprobe ebt_TCPMSS.ko
+			;;
+		stop)
+			;;
+		*)
+			echo "Usage: $0 [start|stop]"
+			;;
+esac

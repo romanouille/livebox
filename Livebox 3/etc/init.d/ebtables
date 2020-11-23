@@ -1,0 +1,80 @@
+#!/bin/sh
+
+
+
+set_igmp_passthrough_on_intf(){
+	local intf=$1
+
+
+
+	/usr/sbin/ebtables -t filter -A FORWARD_igmp_passthrough -o $intf -p 0x0800 --ip-protocol igmp --ip-dst 224.0.0.0/24 -j ACCEPT
+	/usr/sbin/ebtables -t filter -A FORWARD_igmp_passthrough -o $intf -p 0x0800 --ip-protocol igmp --ip-dst 239.0.0.0/8 -j ACCEPT
+}
+
+set_igmp_passthrough(){
+	local intf
+	local list=`pcb_cli -l "NeMo.Intf.bridge.getIntfs(\"\",\"one level down\")" | grep -e "^[ ]\{4\}" | sed 's/,//'`
+
+	[ -z "$list" ] && return 1
+
+	for intf in $list; do set_igmp_passthrough_on_intf $intf; done
+}
+
+
+case $1 in
+	start)
+
+		# Create static chain to accept igmp for 224.0.0.0/24 and 239.0.0.0/8
+		/usr/sbin/ebtables -t filter -N FORWARD_igmp_passthrough
+		/usr/sbin/ebtables -t filter -P FORWARD_igmp_passthrough RETURN
+		# Should insert at the top of FORWARD
+		/usr/sbin/ebtables -t filter -I FORWARD 1 -j FORWARD_igmp_passthrough
+
+		set_igmp_passthrough
+
+		# Create static chain for vlan isolation
+		/usr/sbin/ebtables -t filter --new-chain FORWARD_Isolation
+		/usr/sbin/ebtables -t filter -P FORWARD_Isolation RETURN
+		/usr/sbin/ebtables -t filter -A FORWARD -j FORWARD_Isolation
+
+		# Create static chain to drop all DHCP packets
+		/usr/sbin/ebtables -t nat -N POSTROUTING_No_DHCP
+		/usr/sbin/ebtables -t nat -P POSTROUTING_No_DHCP RETURN
+		/usr/sbin/ebtables -t nat -A POSTROUTING -j POSTROUTING_No_DHCP
+
+		# Create static chain to drop all IGMP packets
+		/usr/sbin/ebtables -t nat -N POSTROUTING_No_IGMP
+		/usr/sbin/ebtables -t nat -P POSTROUTING_No_IGMP RETURN
+		/usr/sbin/ebtables -t nat -A POSTROUTING -j POSTROUTING_No_IGMP
+
+		# Create static chain to drop all traffic except IGMP
+		/usr/sbin/ebtables -t nat -N POSTROUTING_Only_IGMP
+		/usr/sbin/ebtables -t nat -P POSTROUTING_Only_IGMP RETURN
+		/usr/sbin/ebtables -t nat -A POSTROUTING -j POSTROUTING_Only_IGMP
+		;;
+	stop)
+		# purge IGMP filtering rules
+		/usr/sbin/ebtables -t filter -D FORWARD -j FORWARD_igmp_passthrough
+		/usr/sbin/ebtables -t filter -F FORWARD_igmp_passthrough
+		/usr/sbin/ebtables -t filter -X FORWARD_igmp_passthrough
+
+		/usr/sbin/ebtables -t filter -D FORWARD -j FORWARD_Isolation
+		/usr/sbin/ebtables -t filter -F FORWARD_Isolation
+		/usr/sbin/ebtables -t filter -X FORWARD_Isolation
+
+		/usr/sbin/ebtables -t nat -D POSTROUTING -j POSTROUTING_No_DHCP
+		/usr/sbin/ebtables -t nat -F POSTROUTING_No_DHCP
+		/usr/sbin/ebtables -t nat -X POSTROUTING_No_DHCP
+
+		/usr/sbin/ebtables -t nat -D POSTROUTING -j POSTROUTING_No_IGMP
+		/usr/sbin/ebtables -t nat -F POSTROUTING_No_IGMP
+		/usr/sbin/ebtables -t nat -X POSTROUTING_No_IGMP
+
+		/usr/sbin/ebtables -t nat -D POSTROUTING -j POSTROUTING_Only_IGMP
+		/usr/sbin/ebtables -t nat -F POSTROUTING_Only_IGMP
+		/usr/sbin/ebtables -t nat -X POSTROUTING_Only_IGMP
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+		;;
+esac

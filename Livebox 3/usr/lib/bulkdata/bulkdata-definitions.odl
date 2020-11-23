@@ -1,0 +1,260 @@
+using "bulkdata.so";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read,write,execute;
+}
+persistent object BulkData {
+persistent bool Enable {
+default true;
+write with bulkdataEnableWriteHandler;
+}
+string Status{
+constraint enum [ "Enabled", "Disabled" ];
+default "Disabled";
+write with bulkdataStatusWriteHandler;
+}
+read-only uint32 MinReportingInterval = 0;
+read-only string Protocols = "HTTP,FTP";
+read-only string EncodingTypes = "XML,XDR,CSV,JSON,Other";
+read-only bool ParameterWildCardSupported = false;
+read-only int32 MaxNumberOfProfiles {
+constraint minvalue -1;
+default -1;
+}
+read-only int32 MaxNumberOfParameterReferences {
+constraint minvalue -1;
+default -1;
+}
+persistent object Profile[] {
+counted with ProfileNumberOfEntries;
+persistent bool Enable {
+default false;
+write with profileEnableWriteHandler;
+}
+string Status {
+constraint enum [ "Enabled", "Disabled", "Working" ];
+default "Disabled";
+}
+persistent string Alias {
+constraint range [1, 63];
+default " ";
+}
+persistent string Name {
+read with profileNameReadHandler;
+}
+bool CustomerAuthorization {
+default 1;
+write with profileCustomerAuthorizationWriteHandler;
+}
+persistent string PriorityServerSide {
+constraint enum [ "P0", "P1", "P2" ];
+default "P1";
+}
+persistent string Protocol {
+constraint enum [ "HTTP", "FTP"];
+default "HTTP";
+}
+persistent string EncodingType {
+constraint enum [ "XML", "XDR", "CSV", "JSON", "Other" ];
+default "XML";
+}
+persistent string ProbeName {
+default "datamodel_probe";
+}
+persistent uint32 ReportingIntervalDuration {
+default 0;
+}
+persistent read-only string ExportType {
+constraint enum [ "periodic", "onevent", "ondemand" ];
+default "periodic";
+}
+persistent uint32 ReportingInterval {
+default 86400;
+write with profileReportingIntervalWritehandler;
+}
+persistent datetime TimeReference {
+default "0001-01-01T00:00:00Z";
+write with profileTimeReferenceWritehandler;
+}
+persistent uint32 FirstReportAfterEnable {
+default 0;
+}
+bool Trigger {
+write with profileTriggerWriteHandler;
+default false;
+}
+persistent object Event[] {
+add with profileEventInstanceAddedRemoved;
+delete with profileEventInstanceAddedRemoved;
+persistent string PathParameter {
+default "";
+write with profileEventModified;
+}
+persistent string TriggeringValue {
+default "";
+write with profileEventModified;
+}
+}
+persistent object Parameter[] {
+counted with ParameterNumberOfEntries;
+persistent string Name {
+constraint range [0,64];
+}
+persistent string Reference {
+constraint range [0, 255];
+default "";
+}
+}
+persistent object CSVEncoding {
+persistent string FieldSeparator {
+default ",";
+}
+persistent string RowSeparator {
+default "\n";
+}
+persistent string EscapeCharacter {
+default "\"";
+}
+persistent string ReportFormat {
+constraint enum [ "ParameterPerColumn", "ParameterPerRow" ];
+default "ParameterPerColumn";
+}
+persistent string RowTimestamp {
+constraint enum [ "Unix-Epoch", "ISO-8601", "None" ];
+default "Unix-Epoch";
+}
+}
+persistent object JSONEncoding {
+persistent string ReportFormat {
+constraint enum [ "ObjectHierarchy", "NameValuePair" ];
+default "ObjectHierarchy";
+}
+persistent string ReportTimestamp {
+constraint enum [ "Unix-Epoch", "ISO-8601", "None" ];
+default "Unix-Epoch";
+}
+}
+persistent object HTTP {
+persistent string URL {
+constraint maxvalue 1023;
+}
+persistent string UserName {
+constraint maxvalue 255;
+}
+persistent string Password {
+constraint maxvalue 255;
+}
+read-only string CompressionsSupported = "GZIP,Compress,Deflate,None";
+persistent string Compression {
+constraint enum [ "GZIP", "Compress", "Deflate", "None" ];
+default "None";
+}
+read-only string MethodsSupported = "POST,PUT";
+persistent string Method {
+constraint enum [ "POST", "PUT" ];
+default "POST";
+}
+persistent bool UseDateHeader {
+default true;
+}
+persistent bool RetryEnable {
+default false;
+write with profileProtocolRetryEnableWriteHandler;
+}
+persistent string RetryMethod {
+constraint enum [ "Interval", "Strategy" ];
+default "Interval";
+}
+persistent uint32 RetryAttemptNumber {
+default 0;
+}
+persistent string RetryStrategy {
+default "";
+}
+persistent uint16 RetryMinimumWaitInterval {
+constraint minvalue 1;
+default 5;
+}
+persistent uint16 RetryIntervalMultiplier {
+constraint minvalue 1000;
+default 2000;
+}
+persistent uint32 RetryFirstInterval {
+default 0;
+}
+persistent object HeaderField[] {
+counted with HeaderFieldNumberOfEntries;
+persistent string DataType {
+constraint enum ["Value", "Path"];
+default "Value";
+}
+persistent string Name {
+constraint maxvalue 255;
+default "";
+}
+persistent string Data {
+constraint maxvalue 255;
+default "";
+}
+}
+}
+persistent object FTP {
+persistent string URL {
+constraint maxvalue 1023;
+}
+persistent string UserName {
+constraint maxvalue 255;
+}
+persistent string Password {
+constraint maxvalue 255;
+}
+read-only string CompressionsSupported = "GZIP,Compress,Deflate,None";
+persistent string Compression {
+constraint enum [ "GZIP", "Compress", "Deflate", "None" ];
+default "None";
+}
+persistent bool RetryEnable {
+default false;
+write with profileProtocolRetryEnableWriteHandler;
+}
+persistent string RetryMethod {
+constraint enum [ "Interval", "Strategy" ];
+default "Interval";
+}
+persistent uint32 RetryAttemptNumber {
+default 0;
+}
+persistent string RetryStrategy {
+default "";
+}
+persistent uint16 RetryMinimumWaitInterval {
+constraint minvalue 1;
+default 5;
+}
+persistent uint16 RetryIntervalMultiplier {
+constraint minvalue 1000;
+default 2000;
+}
+persistent uint32 RetryFirstInterval {
+default 0;
+}
+persistent object HeaderField[] {
+counted with HeaderFieldNumberOfEntries;
+persistent string DataType {
+constraint enum ["Value", "Path"];
+default "Value";
+}
+persistent string Name {
+constraint maxvalue 255;
+default "";
+}
+persistent string Data {
+constraint maxvalue 255;
+default "";
+}
+}
+}
+}
+}

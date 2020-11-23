@@ -1,0 +1,55 @@
+<div id="dmz" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param grey" i18n="menuNetwork.dmz"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong  i18n="page.myNetwork.dmz.subtitle"/>
+		</div>	
+			<h4 i18n="page.myNetwork.dmz.note"/>
+	</div>		
+	<div class="maindiv">		
+		<form action="#" id="dmzForm">
+		 <div class="boxType4 margin-top-10 border-bottom-3">
+			<div class="table">
+				<table summary="Table de la	 DMZ">
+					<caption style="display:none" i18n="page.myNetwork.dmz.table.caption"/>
+					<thead>
+						<tr>
+							<th i18n="page.myNetwork.dmz.deviceinclude" class="table-col-0"></th>
+							<th i18n="common.ipadress" class="table-col-1"></th>
+							<th i18n="table.col.deletable" class="table-delete"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="table-row">
+							<td class="table-col-0">
+								<div class="table-col-0" >
+									<select id="DeviceList" style="font-style: italic;"/>
+								</div>
+							</td>
+							<td class="table-col-1">
+								<div class="table-col-1">
+									<input id="DMZIP_vis"/>
+									<input id="DMZIP" type="text" dataId="Device/Networks/LAN[@name='LAN']/DMZDevice" i18n="page.myNetwork.dmz.ip" i18nError="page.myNetwork.dmz.ip.error" namedregex="nullableipaddress" errnodeparent="dmziperror"/>
+								</div>
+							</td>
+							<td id="btnDelete" i18n="page.myNetwork.dmz.delete" class="table-delete">&#160;</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="dmziperror"/>
+				<div id="existantiperror" style="display:none" class="error" i18n="page.myNetwork.dmz.ip.existant.error"/>
+				<div id="staticiperror" style="display:none" class="error" i18n="page.myNetwork.dmz.ip.error.static"/>
+			</div>
+			</div>
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span id="btnSave" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myNetwork.dmz.save"/>
+			</div>
+		</form>
+	</div>
+</div>

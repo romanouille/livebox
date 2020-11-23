@@ -1,0 +1,15 @@
+﻿{{#with page}}
+  {{#each tab}}
+    {{#ifEqual @index ../selected}}
+    <div {{#if id}}id="{{id}}"{{/if}} class="tab-button tab-selected" role="button">
+    {{else}}
+    <div {{#if id}}id="{{id}}"{{/if}} class="tab-button" role="button">
+    {{/ifEqual}}
+    {{#if link}}
+    <a href="{{../link}}">{{{../label}}}</a>
+    {{else}}  
+    {{{../label}}}
+    {{/if}}
+    </div>
+  {{/each}}
+{{/with}}

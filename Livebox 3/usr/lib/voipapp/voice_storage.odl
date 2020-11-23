@@ -1,0 +1,4 @@
+include "/usr/lib/voiceplugin/voiceplugin_app-definition.odl";
+include "voice_storage-definition.odl";
+include "voice_storage-acls.odl";
+include "voice_storage-templates.odl";

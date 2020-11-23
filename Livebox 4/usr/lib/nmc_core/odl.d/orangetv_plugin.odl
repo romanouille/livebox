@@ -1,0 +1,320 @@
+using "../nmccore_orangetv.so";
+
+persistent object NMC {
+
+	/**
+	 * Settings for Orange TV
+	 */
+	persistent object OrangeTV {
+
+		/**
+		 * True if the service is enabled
+		 */
+		persistent bool Enable {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default true;
+		}
+
+		/**
+		 * Status of the service
+		 * exposed in the TR-069 datamodel
+		 */
+		string Status {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			constraint enum [ "Enabled", "Disabled", "Error" ];
+			default "Disabled";
+		}
+
+		/**
+		 * define if IPTV operates in bridged or
+		 * routed mode
+		 */
+		persistent string Mode {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			constraint enum [ "Routed", "Bridged" ];
+			default "Routed";
+		}
+
+		/**
+		 * Set to true if several STBs
+		 * are supported
+		 */
+		persistent bool MultiScreens {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default false;
+		}
+
+		/**
+		 * Set to true if only one OTV DHCP Client
+		 * is allowed for routed mode.
+		 */
+		persistent bool MonoClient {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			default false;
+		}
+
+		/**
+		 * Status of the service
+		 * exposed in the GUI
+		 */
+		string IPTVStatus {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+			constraint enum [ "Available", "Unavailable", "Unknown" ];
+			default "Unavailable";
+		}
+
+		/**
+		 * Address of the www server used by
+		 * the STB to retrieve the HTTP portal
+		 */
+		persistent string WWWServer {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+		/**
+		 * Address of the NTP server used by
+		 * the STB to retrieve the date and time
+		 */
+		persistent string NTPServer {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+		/**
+		 * DHCP server configuration
+		 */
+		persistent object DHCPConfig {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+
+			/**
+			 * Lease time
+			 */
+			persistent uint32 LeaseTime {
+				default 1800;
+			}
+		}
+
+		/**
+		 * Classless static routes obtained from
+		 * the DHCP server
+		 */
+		persistent object ClasslessStaticRoute[] {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+
+			/**
+			 * Route destination
+			 */
+			persistent string Destination;
+
+			/**
+			 * Route prefix length
+			 */
+			persistent string PrefixLength;
+
+			/**
+			 * Default router
+			 */
+			persistent string Router;
+		}
+
+		/**
+		 * Status of the service
+		 * exposed in the GUI
+		 */
+		object IGDMap {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+
+			/**
+			 * True if at least one OrangeTv DHCP Client is up
+			 */
+			bool Enable {
+				default false;
+			}
+
+			/**
+			 * Is "Connected" if one OrangeTv DHCP Client, at least, is connected.
+			 */
+			string ConnectionStatus {
+				constraint enum [ "Bound", "Idle" ];
+				default "Idle";
+			}
+
+			/**
+			 * One IP Address used by bridge_iptv
+			 */
+			string ExternalIPAddress;
+		}
+
+		/**
+		 * Contains information about the
+		 * WAN client leases obtained on
+		 * the dedicated IPTV interface
+		 */
+		persistent object ClientLease[] {
+			acl {
+				world none;
+				group admin none;
+				group remoteadmin none;
+			}
+
+			/**
+			 * Lease name
+			 */
+			persistent string Name;
+
+			/**
+			 * Offset used to identify a given STB.
+			 * Increased by one for each new connected STB
+			 */
+			persistent int32 ClientIDOffset;
+
+			/**
+			 * DHCP status of the lease
+			 */
+			string DHCPCStatus {
+				constraint enum ["Unconnected", "Connected", "Internal", "Unleased"];
+				default "Unconnected";
+			}
+
+			/**
+			 * IPv4 address obtained from
+			 * the DHCP server
+			 */
+			persistent string IPAddress;
+
+			/**
+			 * Subnet mask obtained from
+			 * the DHCP server
+			 */
+			persistent string SubnetMask;
+
+			/**
+			 * Contains information about the
+			 * LAN server lease obtained by the STB
+			 * on the LAN interface
+			 */
+			persistent object ServerLease[] {
+
+				/**
+				 * Id of associated DHCP Client
+				 */
+				persistent string Id;
+
+				/**
+				 * DHCP pool associated to the
+				 * server lease
+				 */
+				persistent string DeviceType {
+					constraint enum ["STB", "ITF", "UNKNOWN"];
+					default "UNKNOWN";
+				}
+
+				/**
+				 * IPv4 address obtained from the Livebox
+				 * DHCP server
+				 */
+				persistent string IPAddress;
+
+				/**
+				 * MAC address obtained from the Livebox
+				 * DHCP server
+				 */
+				persistent string MACAddress;
+
+				/**
+				 * Last known connection status
+				 */
+				bool Active;
+			}
+		}
+
+		/**
+		 * Retrieve the IPTV status to be exposed on the GUI.
+		 * Status is considered as Unknown if the Home Gateway is in bridged mode.
+		 * IPTV is considered as Available if network connection is established and a
+		 * Set-Top Box is connected to Home Gateway and turned on. It is Unavailable
+		 * otherwise
+		 * @param IPTVStatus the IPTV status
+		 */
+		void getIPTVStatus(out string IPTVStatus);
+
+		/**
+		 * Activate the multiscreens feature (more than 1 STBs). Option available only
+		 * on Bridged mode.
+		 * @param Enable true to enable multi screens, false to disable multi screens.
+		 */
+		void setIPTVMultiScreens(in bool Enable) {
+			acl {
+				world none;
+			}
+		}
+
+		/**
+		 * Retrieve the multiscreens status
+		 * @param Enable true if multi screens is enabled, false if multi screens is disabled.
+		 */
+		void getIPTVMultiScreens(out bool Enable) {
+			acl {
+				world none;
+			}
+		}
+
+		/**
+		 * Returns IPTV channel configuration. It contains a list of channel information.
+         *      ChannelStatus : bool (true = on, false = off)
+         *      ChannelType : string (i.e. VPVC or VLAN)
+         *      ChannelNumber : string (i.e. 8/32 or 832)
+         *      ChannelFlags : string (possible values : "VOD Zapping Multicast") Flags may be one of 3, or 3 at same time.
+		 * @return a list of channel information.
+		 */
+		list getIPTVConfig() {
+			acl {
+				world none;
+			}
+		}
+
+	}
+}

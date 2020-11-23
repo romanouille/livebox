@@ -1,0 +1,416 @@
+
+using "usermngt.so";
+
+define user_t {
+  string name;
+  bool enable;
+  list groups;
+  string friendlyname;
+  bool linux_user;
+}
+
+define users_groups_t {
+  list users;
+  list groups;
+}
+
+
+/**
+ * Provide authentication and access rights checking
+ */
+persistent object UserManagement {
+  /**
+   * The number of instances of {Group}
+   */
+  persistent read-only uint32 GroupNumberOfEntries {
+    read with getGroupNumberOfEntries;
+    default 0;
+  }
+
+  /**
+   * The number of instances of {User}
+   */
+  persistent read-only uint32 UserNumberOfEntries {
+    read with getUserNumberOfEntries;
+    default 0;
+  }
+
+  /**
+   * Add a new user.
+   *
+   * When called, a new {User} object will be created.
+   *
+   * This function is restricted to user belonging to the admin
+   * group.
+   * 
+   * @param name the name of the user account to create
+   * @param password the password of the user account
+   * @param groups a list of groups to which the user belongs
+   * @param enable true to enable the user
+   * @param usertype system or limited user
+   * @param salt the password salt, if set, the password is interpreted as hashed by this
+   * @param uid use this uid for the user
+   * @param linux_user true to also create a linux user
+   * @param friendlyname friendly name for this user
+   * @param shell The shell for this unix user
+   * @return true if the user account as been created correctly
+   */
+  bool addUser(string name, string password, list groups, bool enable, string usertype, string salt, uint32 uid, bool linux_user, string friendlyname, string shell);
+
+  /**
+   * Modify a user
+   *
+   * When called, the specified {User} object will be modified.
+   *
+   * This function is restricted to user belonging to the admin
+   * group.
+   *
+   * If the password is left blank, the previous password will remain.
+   * 
+   * @param name the name or uid of the user account to modify
+   * @param password the password of the user account
+   * @param groups a list of groups to which the user belongs
+   * @param enable true to enable the user
+   * @param usertype system or limited user
+   * @param friendlyname friendly name for the user
+   * @return true if the user account as been modified correctly
+   */
+  bool changeUser(string name, string password, list groups, bool enable, string usertype, string friendlyname);
+
+  /**
+   * change the user password
+   */
+  bool changePassword(string name, string password);
+
+  /**
+   * Delete a user
+   *
+   * When called, the specified {User} will be deleted.
+   *
+   * This function is restricted to user belonging to the admin
+   * group.
+   * 
+   * @param name the name or uid of the user account to delete 
+   * @return true if the user account as been deleted correctly
+   */
+  bool removeUser(string name);
+
+  /**
+   * Delete multiple users
+   *
+   * When called with no arguments, all users will be deleted.
+   * When called with an argument, all users belonging to the 
+   * matching group will be removed.
+   *
+   * This function is restricted to user belonging to the admin
+   * group.
+   * 
+   * @param name the name or uid of the user account to delete 
+   * @return true if the user account as been deleted correctly
+   */
+  bool removeUsers(string name, string type);
+
+  /**
+   * Add a group
+   *
+   * @param name Name of the group
+   * @param enable Enable the group
+   * @param linux_group Map the group to a linux group.
+   */
+  bool addGroup(string name, bool enable, bool linux_group);
+
+  /**
+   * Modify a group
+   */
+  bool changeGroup(string name, bool enable);
+
+  /**
+   * Remove a group
+   */
+  bool removeGroup(string name);
+
+  /**
+   * List all users
+   *
+   * @return an array of {user_t}
+   */
+  list getUsers();
+
+  /**
+   * List all groups
+   *
+   * @return an array of string
+   */
+  list getGroups();
+
+  /**
+   * Get the list of groups and users in a map
+   */
+   bool getUsersAndGroups(out list users, out list groups);
+
+  /**
+   * Add a user to a group
+   *
+   * @param userName the name of the user account to add
+   * @param groups a list or a comma sparated string of the groups to which to add the user
+   * @return true if the user was added correctly to the group
+   */
+  bool addUserToGroups(string name, list groups);
+
+  /**
+   * Remove a user from a group
+   *
+   * @param userName the name of the user account to remove
+   * @param groups a list or a comma sparated string the group from which to remove the user
+   * @return true if the user was removed correctly from the group
+   */
+  bool removeUserFromGroups(string name, list groups);
+
+  /**
+   * Authenticate a user
+   *
+   * Checks if a username match a password. If a group is given, it will also check
+   * that the user belongs to it.
+   *
+   * @param name the user name of the account to authenticate
+   * @param password the password to match
+   * @param groupName if set, also make sure that the user belongs to the given group
+   * @returns true if the password is correct and the user belongs to the group
+   */
+  bool authenticate(mandatory string name, mandatory string password, string groupName);
+
+  /**
+   * Export settings
+   *
+   * Export the user management info to hgwcfg
+   *
+   * @param filename The file name where to save the info
+   * @return true for success
+   */
+  bool export(string filename);
+
+  /**
+   * Import settings
+   *
+   * Import the user management info from hgwcfg
+   *
+   * @param filename The file name where to load the info
+   * @return true for success
+   */
+  bool import(string filename);
+
+  /**
+   * Set custom user data.
+   *
+   * @param name The user to set the data for
+   * @param custom_data a list of key/value pairs
+   */
+  bool setUserCustomData(mandatory string name, mandatory list custom_data);
+  
+  /**
+   * Get custom user data.
+   *
+   * @param name The user to get the data from
+   * @param keys a list of keys for which we want the value
+   * @param custom_data a returned map of key/value pairs
+   */
+  bool getUserCustomData(mandatory string name, list keys, out variant custom_data);
+  
+  /**
+   * Remove custom user data.
+   *
+   * @param name The user to get the data from
+   * @param keys a list of keys which we want to remove
+   */
+  bool removeUserCustomData(mandatory string name, mandatory list keys);
+
+  /**
+   * Given a key/value pair, search for the corresponding user
+   *
+   * @param key name of the key
+   * @param value value corresponding to the key
+   * @param username returned list of users matching the search
+   * @return true if a user is found, false otherwise
+   */ 
+  bool getUserFromKeyValue(mandatory string key, mandatory string value, out list users);
+
+  /**
+   * Register to also receive UserManagement RPC callbacks
+   * 
+   * @param path the path of the plugin where the calls should be made
+   * @return true if successfull
+   */
+  bool registerCallbacks(string path);
+
+  /**
+   * This object provides information about each user group configured on this device,
+   * which allows the grouping of user accounts for easier maintenance of permissions.
+   *
+   * At most one enabled entry in this table can exist with a given value for GroupName.
+   */
+  persistent object Group[16] {
+
+    add with groupAdded;
+    delete with groupDeleted;
+
+    /**
+     * Enables or disables this group. (What is this supposed to do ?)
+     */
+    persistent bool Enable = true;
+
+    /**
+     * The group id
+     */
+    persistent read-only uint32 GID;
+
+    /**
+     * The unique name of the group.
+     */
+    persistent read-only string GroupName {
+      constraint maxvalue 64;
+    }
+    
+    /**
+     * True if the group cannot be removed
+     */
+    persistent read-only bool System = false;
+    
+    persistent read-only bool LinuxGroup = false;
+  }
+
+  /**
+   * This object provides information about each user configured on this device,
+   * which provides a means for controlling access to the device.
+   *
+   * At most one enabled entry in this table can exist with a given value for Username.
+   */
+  persistent object User[16] {
+    add with userAdded;
+
+    /**
+     * Enables or disables this user.
+     */
+    persistent bool Enable = true;
+
+    /**
+     * The user id
+     */
+    persistent read-only uint32 UID;
+
+    /**
+     * Should the user map to a linux user.
+     *
+     * @version 6.1
+     */ 
+    persistent read-only bool LinuxUser = false;
+
+    /**
+     * The unique name of the user. Also used for authentication.
+     */
+    persistent string UserName {
+      constraint maxvalue 64;
+    }
+
+    /**
+     * Password used to authenticate the user when connecting to the Storage Service Device.
+     *
+     * When read, this parameter returns an empty string, regardless of the actual value.
+     *
+     * The password is stored internally as a SHA-1 of a concatenation of the password and
+     * a randomly generated salt
+     */
+    persistent string Password {
+      constraint maxvalue 64;
+    }
+
+    /**
+     * Password hashing type
+     */
+    persistent string PasswordType {
+      constraint enum [ "MD5", "SSHA256", "PREHASHED-SSHA256" ];
+      default "SSHA256";
+    }
+
+    /**
+     * A salt that is used to generate the hashed password
+     */
+    persistent string Salt {
+      constraint range [ 64, 64 ];
+      default "                                                                ";
+    }
+    /**
+     * Comma-separated list (maximum length 1024) of strings. 
+     * Each list item MUST be the path name of a row in the UserGroup table.
+     * If the referenced object is deleted, the corresponding item MUST be removed from the
+     * list. Represents a User Group that this User Account is a member of. Each UserGroup.{i}
+     * referenced by this parameter MUST exist within the same StorageService instance.
+     */
+    persistent string UserGroupParticipation {
+      constraint maxvalue 1024;
+    }
+
+    /**
+     * Enables or disables access via FTP (including SSH FTP access) for this user.
+     *
+     * This parameter is true if the {User} belongs to the ftp {Group}.
+     *
+     * Setting this parameter to true/false adds/removes the ftp {Group} from the 
+     * {User}.
+     */
+    bool AllowFTPAccess = 0;
+
+    /**
+     * Enables or disables access via HTTP (including HTTPS access) for this user.
+     *
+     * This parameter is true if the {User} belongs to the http {Group}
+     *
+     * Setting this parameter to true/false adds/removes the http {Group} from the 
+     * {User}
+     */
+    bool AllowHTTPAccess = 0;
+
+    /**
+     * Allows this user to remotely access the UserInterface via the mechanism defined
+     * in {UserInterface.RemoteAccess}.
+     *
+     * This parameter is true if the {User} belongs to the remoteaccess {Group}
+     *
+     * Setting this parameter to true/false adds/removes the remoteaccess {Group} from the 
+     * {User}
+     */
+    bool RemoteAccessCapable = 0;
+
+    /**
+     * User type
+     */
+    persistent string UserType {
+      constraint enum [ "system", "limited" ];
+      default "system";
+    }
+
+    /**
+     * Friendly name
+     * @version 6.1
+     */
+     persistent string FriendlyName;
+
+    /**
+     * Shell for Linux User
+     * @version 6.1
+     */
+    persistent read-only string Shell {
+      default "/bin/false";
+    }
+
+    /**
+     * Custom key/value pairs (i.e. OAuth cookies)
+     */
+    persistent read-only string CustomData {
+      default "";
+      constraint maxvalue 1024;
+    }
+  }
+
+}
+
+/** @location sah_services_usermngt /usermngt-definitions.odl.m4 */

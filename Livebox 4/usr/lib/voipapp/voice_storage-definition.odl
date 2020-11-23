@@ -1,0 +1,3961 @@
+
+using "";
+
+define event_subscribe_line_t
+{
+    string EventSubscribeEvent;
+    string EventSubscribeAuthUserName;
+    string EventSubscribeAuthPassword;
+}
+
+/**
+ * 
+ */
+define trunk_line_t
+{
+    /**
+     * Line instance name, , e.g. "LINE1"
+     */
+    string Name;
+
+    /**
+     * 
+     */
+    string GroupId;
+
+    /**
+     * Enable parameter: "Enabled", "Disabled", "Quiescent"
+     */
+    string Enable;
+
+    /**
+     * Status parameter: "Up", "Initializing". "Registering", "Unregistering", "Error",
+     *  "Testing", "Quiescent", "Disabled"
+     */
+    string Status;
+
+    /**
+     * X-...StatusInfo parameter: "RegistrationFailed", "TimerLoginRejected",
+     * "TimerPasswordRejected", "NoResponse", "ResetTimer", "" 
+     */
+    string StatusInfo;
+
+    /**
+     * DirectoryNumber parameter: external phone number, e.g. "+3212345678"
+     */
+    string DirectoryNumber;
+
+    /**
+     * 
+     */
+    string URI;
+
+    /**
+     * 
+     */
+    string AuthUserName;
+
+    /**
+     * 
+     */
+    string AuthPassword;
+
+    /**
+     * List of event_subscribe_line_t
+     */
+    list event_subscribe_lines; 
+}
+
+define event_subscribe_t
+{
+    string Event;
+    string NotifyServer;
+    uint32 NotifyServerPort;
+}
+
+define sip_t
+{
+    string ProxyServer;
+    uint32 ProxyServerPort;
+    string RegistrarServer;
+    uint32 RegistrarServerPort;
+    string OutboundProxyServer;
+    uint32 OutboundProxyServerPort;
+    string UserAgentDomain;
+    uint32 UserAgentPort;
+    list subscriptionInfo; /** List of event_subscribe_t */
+}
+
+define h323_t
+{
+    string Gatekeeper;
+    uint32 GatekeeperPort;
+}
+
+/**
+ * 
+ */
+define trunk_profile_t
+{
+    /**
+     * profile instance name, e.g. "SIP-Trunk", "H323-Trunk"
+     */
+    string Name;
+
+    /**
+     * SignalingProtocol parameter, e.g. "SIP", "H.323"
+     */
+    string SignalingProtocol;
+
+    /**
+     * Enable parameter: "Enabled", "Disabled", "Quiescent"
+     */
+    string Enable;
+
+    /**
+     * List of trunk_line_t
+     */
+    list trunk_lines;
+
+    /**
+     * 
+     */
+    sip_t sip;
+
+    /**
+     * 
+     */
+    h323_t h323;
+}
+
+/**
+ * Data structure containing handset information. 
+ */
+define handset_t
+{
+    /**
+     * Handset line instance name, e.g. "FXS1", "HS12345"
+     */
+    string Line;
+    /**
+     * User friendly name, e.g. "Phone 1"
+     */
+    string Name;
+    /**
+     * Parameter to display the handset activation state: "Enabled" if the handset is active, "Disabled" if not
+     */
+    string Enable;
+    /**
+     *  Parameter to display the registration state of the handset: "Up" if the handset is registered, "Disabled" if not, "Error" if it failed to (de)register
+     */
+    string Status;
+    /**
+     * Internal phone number, e.g. "1000"
+     */
+    string DirectoryNumber;
+    /**
+     * Handset type : "FXS", "DECT GAP", "DECT CAT-iq 1.0", "DECT CAT-iq 2.0"
+     */
+    string EndpointType;
+    /**
+     * TrunkLine identifier for outgoing calls, e.g. "LINE1"
+     */
+    string OutgoingTrunkLine;
+    /**
+     * User name to authorize.
+     */
+    string AuthUserName;
+    /**
+     *  Password to authorize.
+     */
+    string AuthPassword;
+}
+
+/**
+ * Data structure containing callList entry information. 
+ */
+define calllist_entry_t
+{
+    /**
+     * Number of the remote party
+     */
+    string RemoteNumber;
+    /**
+     * Name of the remote party (if availabe)
+     */    
+    string RemoteName;
+    /**
+     * Endpoint name
+     */    
+    string Terminal;
+    /**
+     * Time when the call was started
+     */   
+    datetime StartTime;
+    /**
+     *  Time span how long an active call between two parties was established - for missed and failed calls this duration will be set to 0
+     */       
+    uint32 Duration;
+    /**
+     *  Type of call :  ["missed", "failed", "succeeded"]
+     */    
+    string CallType;
+    /**
+     *  Origin of the call :  ["SIP", "H323", "PSTN", "local"]
+     *  Internal and outbound calls will have callOrigin set to local or PSTN
+     *  Inbound calls will have callOrigin set to SIP or H323
+     */    
+    string CallOrigin;
+    /**
+     *  Destination of the call :  ["SIP", "H323", "PSTN", "local"]
+     *  Outbound calls will have callOrigin set to SIP or H323
+     *  Internal and inbound calls will have callOrigin set to local or PSTN
+     */        
+    string CallDestination;
+    /**
+     *  Trunk line identifier : set when an external call is established
+     */        
+    string TrunkLineNumber;
+    /**
+     *  CallList entry identifier
+     */            
+    string CallId;
+    /**
+     *  Flag providing the state read/unread of the CallList entry
+     */            
+    bool Viewed;
+}
+
+define service_list_t
+{
+    string ServiceName;
+    string ActivationCode;
+}
+
+define group_t
+{
+    string Group_id;
+    list ep_names; /** list of (string) ep_names */
+    string check_group;
+}
+
+/**
+ * A codec contains a type, packetzation time and bitrate
+ */
+define codec_t {
+    uint16 codec_type;
+    uint16 packetization_time;
+    uint16 bitrate;
+}
+
+/**
+ * The top-level object for VoIP CPE.
+ * @version 1.0
+ */
+persistent object VoiceService[] {
+    /**
+     * Quiesce All Lines
+     * Will send an internal quiesce request to all lines in the SIP and H323-Trunks.
+     * When the quiesce is done. The "Status" field of the lines will go from 
+     *       Up -> Quiescent -> Disabled     : Checking for ongoing calls
+     *       Error -> Error                  : Nothing to do here.
+     *       Disabled -> Disabled            : Nothing to do here since the lines are already disabled.
+     * The Enable fields of the lines will stay the same. And will not go from 
+     *       Enabled -> Quiescent -> Disabled as the normal Quiesce request will do.
+     *
+     * @version 5.0
+     */
+    void quiesceAllTrunkLines();
+
+    /**
+     * Global Status parameter
+     * Status is Up when at least one line is Up.
+     * Status is Disabled in the other cases.
+     *
+     * @version 5.0
+     */
+    read-only string X_ORANGE-COM_Status = "Disabled";
+
+    /**
+     * Returns the value of parameter X_ORANGE-COM_Status
+     * 
+     * @version 5.0
+     */
+    string getStatus();
+
+    /**
+     * Get a list of trunk_profile_t structures containing trunk line configuration and status
+     * @return list of all the trunk_profile_t structures available
+     *
+     * @version 5.0
+     */
+    list listTrunks();
+
+    /**
+     * Change a trunk_profile_t structure containing a trunk line server/user account configuration. 
+     * The trunk_profile_t.name must match an existing trunk profile name. 
+     * Only the specified fields are updated. 
+     * For trunk_lines entries, trunk_line_t.name must match an existing line name
+     * @param trunk Server/UserAccount configuration parameters for SIP or H323 
+     *
+     * @version 5.0
+     */
+    void setTrunk(mandatory trunk_profile_t trunk);
+
+    /**
+     * Get a list of handset_t structures containing handset line configuration and status
+     * @return list of all the handset_t structures available.
+     *
+     * @version 5.0
+     */
+    list listHandsets();
+
+    /**
+     * Set a friendly name to a specific ATA-line/handset (Can be FXS or CATIQ)
+     * @param line ATA profile line instance name
+     * @param name friendly name to be filled into X_...._Name parameter
+     *
+     * @version 5.0
+     */
+    void setHandsetName(mandatory string line, mandatory string name);
+
+    /**
+     * Change handset parameters. 
+     * The "line" must correspond to the name of a specific ATA-line/handset. 
+     * Parameters that are not provided are not modified.
+     *
+     * @version 5.0
+     */
+    void setHandset(mandatory handset_t line);
+
+    /**
+     * Remove handset object
+     * @param line ATA profile line instance name
+     *
+     * @version 5.0
+     */
+    void deleteHandset(string line);
+    
+    /**
+     * Generate a list of service_list_t structures
+     * @return list of all the service_list_t structures.
+     *
+     * @version 5.0
+     */
+    list listCallControlServices();
+    
+    /**
+     * Generate a list of the calllist parameters.
+     * When the line is specified only the calllist entries of that line is listed,
+     * otherwise all entries are listed.
+     * @param line The TrunkLine Identifier - TrunkLine DirectoryNumber
+     * @return list of calllist entries of structure calllist_entry_t
+     *
+     * @version 6.1
+     */
+    list getCallList(string line);
+    
+    /**
+     * Clear the callList
+     * When the callId is specified only the calllist entry with that id is deleted,
+     * otherwise all entries are deleted.
+     * 
+     * @param callId CallList unique ID
+     *
+     * @version 6.1
+     */
+    void clearCallList(string callId);
+    
+    /**
+     * Mark the callList as viewed
+     * When the callId is specified only the calllist entry with that id is marked,
+     * otherwise all entries are marked.
+     * 
+     * @param callId CallList unique ID
+     *
+     * @version 6.1
+     */
+    void setViewedCallList(string callId, bool viewed);
+
+    /**
+     * Get a list of group_list_t structures
+     * @return list of all the group_t structures.
+     *
+     * @version 5.0
+     */
+    list listGroups();
+
+    /**
+     * Configure the full list of call groups
+     * Only the specified groups are modified. It is not possible to add or remove groups. 
+     * @param groups list of group_t structures
+     *
+     * @version 5.0
+     */
+    void setGroups(mandatory list groups);
+
+    /**
+     * Add a handset to a group
+     * @param group_id group name/id
+     * @param handset_line handset name
+     *
+     * @version 7.0
+     */
+    void addHandsetToGroup(string group_id, string handset_line);
+
+    /**
+     * Remove a handset from a group
+     * @param group_id group name/id
+     * @param handset_line handset name
+     *
+     * @version 7.0
+     */
+    void removeHandsetFromGroup(string group_id, string handset_line);
+
+    /**
+     * Get the statue of the Enable parameter of the SIP-Extensions profile
+     * @return Enable/Disabled
+     *
+     * @version 6.1
+     */
+    string getSipExtensionsStatus();
+
+    persistent object X_ORANGE-COM_ClickToDial {
+        persistent string DefaultPhone;
+        bool dial(string NumberToDial, string PhoneToUse);
+    }
+
+    /**
+     * Ring a handset
+     * @param PhoneToUse ATA/SIP-Extensions profile line instance name
+     *      (when NULL or empty: all phones will ring)
+     * @param Duration duration of how long the ringing will take in ms
+     *      (when NULL or empty: default value will be used : DefaultRingTestDuration)
+     * @param Ringtone ringtone ID from the phonebook (1-256)
+     *      (when NULL or empty: default value will be used)
+     *
+     * @version 5.0
+     */
+    void ring(string line, uint32 duration, string ringtone);
+
+    /* Start - SAH specific parameters */
+    /** 
+     * The Status of the phone Ring Test.
+     * @version 1.0
+     */
+    read-only string X_ORANGE-COM_RingTestStatus {
+        constraint enum ["Idle", "Running"];
+        default "Idle";
+    }
+
+    /** 
+     * The Name identifying the service instance.
+     * For the voice application, this should contain the "VoiceApplication" value.
+     * @version 1.0
+     */
+    persistent string X_ORANGE-COM_Name;
+
+    /**
+     * Enable the voice application after boot
+     * @version 1.0
+     */
+    persistent bool X_ORANGE-COM_Enabled = true;
+
+    persistent string X_ORANGE-COM_UserAgent = "";
+    /* End - SAH specific parameters */
+
+    /** 
+     * Number of instances of VoiceProfile.
+     * @version 1.0
+     */
+    read-only uint32 VoiceProfileNumberOfEntries {
+        read with numberOfElements;
+    }
+
+    /**
+     * The overall capabilities of the VoIP CPE.
+     * @version 1.0
+     */
+    persistent object Capabilities {
+        /**
+         * Maximum total number of distinct voice profiles supported.
+         * @version 1.0
+         */
+        read-only persistent uint32 MaxProfileCount;
+        /**
+         * Maximum total number of lines supported across all profiles.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        read-only persistent uint32 MaxLineCount;
+        /**
+         * Maximum number of voice sessions supported for any given line across all profiles.  A value greater than one indicates support for CPE provided conference calling.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        read-only persistent uint32 MaxSessionsPerLine = 1;
+
+        /** 
+         * Maximum total number of voice sessions supported across all lines and profiles. (This might differ from MaxLineCount if each line can support more
+         * than one session for CPE provided conference calling. This value MAY be less than the product of MaxLineCount and MaxSessions PerLine) - Not handled i
+         * @version 1.0
+         */
+        read-only persistent uint32 MaxSessionCount;
+
+        /** 
+         * The maximum number of terminals which can make/receive calls at any one point in time. 
+         * (Other terminals will play a busy tone when picked up, and will not ring on incoming calls)
+         * @version 4.5
+         */
+        persistent uint32 X_ORANGE-COM_MaxActiveTerminals;
+
+        /**
+         *  Available upstream bandwidth in bytes 
+         *  @version 4.6
+         */
+        uint32 AvailableUpstreamBandwidth = 100000;
+
+        /**
+         * Available downstream bandwidth in bytes 
+         * @version 4.6
+         */
+        uint32 AvailableDownstreamBandwidth = 100000;
+
+        /**
+         * Used upstream bandwidth in bytes 
+         * @version 4.6
+         */
+        uint32 UsedUpstreamBandwidth = 0;
+
+        /**
+         * Used downstream bandwidth in bytes 
+         * @version 4.6
+         */
+        uint32 UsedDownstreamBandwidth = 0;
+
+        /**
+         * Network overhead in bytes 
+         * @version 4.6
+         */ 
+        persistent uint32 NetworkOverheadPerPacket = 40;
+
+        /**
+         *   Each item is a supported signaling protocol.  
+         Each entry MAY be appended with a version indicator in the form "/X.Y".  For example:
+         "SIP/2.0"
+         The list MAY include vendor-specific protocols, which MUST be in the format defined in TR-106.  For example:
+         "X_EXAMPLE-COM_MyProt"
+         * @version 1.0
+         */
+        read-only persistent string SignalingProtocols {
+            default "SIP/2.0,H.323";
+        }
+        /**
+         *  Each item is a geographic region supported by the CPE.  Each item is the list MUST be an alpha-2 (two-character alphabetic) country code as specified by ISO3166. If empty indicates that the CPE does not support region-based customization via VoiceService.{i}.VoiceProfile.{i}..
+         * @version 1.0
+         */
+        persistent string Regions = "ae,fi,no,be,fr,es,pl,dk,lv,lt,ee,se,uk";
+        /**
+         * Support for RTCP.  If true indicates support for VoiceService.{i}.VoiceProfile.{i}.RTP.RTCP..
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent bool RTCP = false;
+        /**
+         * Support for SRTP.  If true indicates support for VoiceService.{i}.VoiceProfile.{i}.RTP.SRTP..
+         If true also indicates that SRTPKeyingMethods and SRTPEncryptionKeySizes are present.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent bool SRTP = false;
+        /**
+         *  Each item is a keying protocol supported by this endpoint for SRTP. 
+         This list MAY include vendor-specific keying methods, which MUST use the format defined in TR-106.
+         This parameter is applicable only if SRTP is true. 
+
+         * @version 1.0
+         */
+        persistent string SRTPKeyingMethods;
+        /**
+         *  Each item is a supported SRTP encryption key size.
+         This parameter is applicable only if SRTP is true. 
+         * @version 1.0
+         */
+        persistent string SRTPEncryptionKeySizes {
+            constraint maxvalue 256;
+        }
+        /**
+         * Support for RTP payload redundancy as defined in RFC2198.  If true indicates support for VoiceService.{i}.VoiceProfile.{i}.RTP.Redundancy..
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        read-only bool RTPRedundancy = false;
+        /**
+         * If true indicates that the CPE is constrained such that transmitted call control packets use the same DSCP marking as transmitted RTP packets.
+         If true, the CPE MUST NOT support .VoiceProfile.{i}.MGCP.DSCPMark, .VoiceProfile.{i}.H323.DSCPMark, or .VoiceProfile.{i}.SIP.DSCPMark for call control.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool DSCPCoupled = false;
+        /**
+         * If true indicates that the CPE is constrained such that transmitted call control packets use the same Ethernet tagging (VLAN ID Ethernet Priority) as transmitted RTP packets.
+         If true, the CPE MUST NOT support the .VoiceProfile.{i}.MGCP.VLANIDMark, .VoiceProfile.{i}.H323.VLANIDMark, .VoiceProfile.{i}.SIP.VLANIDMark .VoiceProfile.{i}.MGCP.EthernetPriorityMark, .VoiceProfile.{i}.H323.EthernetPriorityMark, or .VoiceProfile.{i}.SIP.EthernetPriorityMark for call control.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool EthernetTaggingCoupled = false;
+        /**
+         * If true indicates the CPE is capable of supporting the PSO_Activate Facility Action, which allows a call to be switched to a PSTN FXO (Foreign eXchange Office) line.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool PSTNSoftSwitchOver = false;
+        /**
+         * Support for T.38 fax.  If true indicates support for VoiceService.{i}.VoiceProfile.{i}.FaxT38..
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool FaxT38 = false;
+        /**
+         * Support for fax pass-through.  If true indicates support for .VoiceProfile.{i}.FaxPassThrough.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool FaxPassThrough = false;
+        /**
+         * Support for modem pass-through.  If true indicates support for the .VoiceProfile.{i}.ModemPassThrough.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool ModemPassThrough = false;
+        /**
+         * Support for tone generation.  If true indicates support for VoiceService.{i}.VoiceProfile.{i}.Tone..
+         If true also indicates that ToneDescriptionsEditable, PatternBasedToneGeneration, and FileBasedToneGeneration are present.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool ToneGeneration = false;
+        /**
+         * If true indicates that VoiceService.{i}.VoiceProfile.{i}.Tone.Description. and VoiceService.{i}.VoiceProfile.{i}.Tone.Pattern. are editable (if entries can be added, removed, or modified).
+         This parameter is applicable only if ToneGeneration is true.
+         * @version 1.0
+         */
+        persistent bool ToneDescriptionsEditable = false;
+
+        /**
+         * Support for tone generation by file playback.  If true indicates support for VoiceService.{i}.VoiceProfile.{i}.Tone..
+         If true also indicates that ToneFileFormats is present.
+         If ToneGeneration is true, at least one of PatternBasedToneGeneration and FileBasedToneGeneration MUST also be true.
+         This parameter is applicable only if ToneGeneration is true.
+         * @version 1.0
+         */
+        persistent bool FileBasedToneGeneration = false;
+        /**
+         *  Each item is a supported tone file format.  The specified file formats are raw codec data files, using one of the codecs listed below. 
+         The list MAY include vendor-specific -specific extensions, which MUST use the format defined in TR-106.
+Example:
+"G.711MuLaw, MP3, X_EXAMPLE-COM_MyFileFormat"
+If the CPE does not support tone files, this parameter MUST be empty.
+This parameter is applicable only if FileBasedToneGeneration is true.
+         * @version 1.0
+         */
+        string ToneFileFormats {
+            constraint enum ["G.711MuLaw", "G.711ALaw", "MP3", "WAV", "AMR", ""];
+            default "";
+        }
+        /**
+         * Support for ring generation.  If true indicates support for control of ring generation via VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.. 
+         If true also indicates that RingDescriptionsEditable, PatternBasedRingGeneration, and FileBasedRingGeneration are present.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool RingGeneration = false;
+        /**
+         * If true indicates that VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.Description. and VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.Pattern. are editable (if entries can be added, removed, or modified).
+         This parameter is applicable only if RingGeneration is true.
+         * @version 1.0
+         */
+        bool RingDescriptionsEditable = false;
+        /**
+         * Support for ring generation by pattern specification.  If true indicates support for VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.Pattern..
+         If true also indicates that RingPatternEditable is present.
+         This parameter is applicable only if RingGeneration is true.
+         * @version 1.0
+         */
+        bool PatternBasedRingGeneration = false;
+        /**
+         * If true indicates that VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.Pattern. is editable (if entries can be added, removed, or modified).
+         This parameter is applicable only if PatternBasedRingGeneration is true.
+         * @version 1.0
+         */
+        bool RingPatternEditable = false;
+        /**
+         * Support for ring generation by file playback.  If true indicates support for specification of ringer files in VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.Description..
+         If true also indicates that RingFileFormats is present.
+         This parameter is applicable only if RingGeneration is true.
+         * @version 1.0
+         */
+        bool FileBasedRingGeneration = false;
+        /**
+         *  Each item is a supported ring file format. 
+         The list MAY include vendor-specific-specific extensions, which MUST use the format defined in TR-106.
+Example:
+"MIDI, AMR, X_EXAMPLE-COM_MyFileFormat"
+If the CPE does not support ring files, this parameter MUST be empty.
+This parameter is applicable only if FileBasedRingGeneration is true.
+         * @version 1.0
+         */
+        string RingFileFormats {
+            constraint enum ["MIDI", "SMAF", "RTTTL", "MP3", "WAV", "AMR", ""];
+            default "";
+        }
+        /**
+         * Support for a configurable digit map string.  If true indicates full support for .VoiceProfile.{i}.DigitMap.
+         * @version 1.0
+         */
+        bool DigitMap = true;
+        /**
+         * Support for a configurable numbering plan.  If true indicates support for a configurable numbering plan via VoiceService.{i}.VoiceProfile.{i}.NumberingPlan..
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        read-only bool NumberingPlan = true;
+        /**
+         * Support for remotely accessible voice-port tests.  If true indicates support for VoiceService.{i}.PhyInterface.{i}.Tests..
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool VoicePortTests = false;
+        /**
+         * Support for a configurable button map.  If true indicates support for a configurable button map via VoiceService.{i}.VoiceProfile.{i}.ButtonMap.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        bool ButtonMap = false;
+
+
+        /**
+         * SIP-specific capabilities.  Applicable only if the value of .Capabilities.SignalingProtocols includes SIP|.Capabilities.SignalingProtocols.
+
+         * @version 1.0
+         */
+        persistent object SIP {
+            /**
+             * The role of this VoIP CPE. 
+             A single VoiceService instance MUST have only one role.  If a device includes the capabilities for more than one role, each role MUST be represented as separate VoiceService instances.
+             * @version 1.0
+             */
+            read-only string Role {
+                constraint enum ["UserAgent", "BackToBackUserAgents", "OutboundProxy", ""];
+                default "UserAgent";
+            }
+            /**
+             *   Each item is a supported SIP extension method.  SIP extension methods MUST be in the form of the method name in upper case. 
+             The list MAY include vendor-specific extensions, which MUST use the format defined in TR-106.
+Examples:
+: "REFER"
+: "INFO"
+: "X_EXAMPLE-COM_MyExt"
+             * @version 1.0
+             */
+            read-only string Extensions {
+                default "INVITE,ACK,BYE,NOTIFY,CANCEL,OPTIONS";
+            }
+            /**
+             *  Each item is a supported SIP transport protocol. 
+             The list MAY include vendor-specific transports, which MUST use the format defined in TR-106.
+             * @version 1.0
+             */
+            read-only string Transports {
+                constraint enum ["UDP", "TCP", "TLS", "SCTP", ""];
+                default "UDP";
+            }
+            /**
+             *  Each item is a supported URI scheme beyond the URI schemes required by the SIP specification.  Each URI scheme is given by the URI prefix, without the colon separator.  Example:
+             "tel, fax"
+             * @version 1.0
+             */
+            string URISchemes {
+                constraint maxvalue 256;
+            }
+            /**
+             * Support for SIP event subscription.  If true value indicates support for VoiceService.{i}.VoiceProfile.{i}.SIP.EventSubscribe. and VoiceService.{i}.VoiceProfile.{i}.Line.{i}.SIP.EventSubscribe.{i}..
+             * @version 1.0
+             */
+            read-only persistent bool EventSubscription = false;
+            /**
+             * Support for SIP response map.  If true indicates support for VoiceService.{i}.VoiceProfile.{i}.SIP.ResponseMap..
+             This parameter is applicable only for a VoIP endpoint.
+             * @version 1.0
+             */
+            bool ResponseMap = false;
+            /**
+             *  Each item is a supported authentication protocol for TLS transport. 
+             The list MAY include vendor-specific protocols, which MUST use the format defined in TR-106.
+             Support for this parameter is applicable only if the value of Transports includes TLS|Transports.
+             * @version 1.0
+             */
+            string TLSAuthenticationProtocols {
+                constraint enum ["Null", "MD5", "SHA-1", ""];
+                default "";
+            }
+            /**
+             *  Each item represents a supported TLS authentication key size.
+             Support for this parameter is applicable only if the value of Transports includes TLS|Transports and TLSAuthenticationProtocols is present and non-empty and includes at least one value other than Null|TLSAuthenticationProtocols.
+             * @version 1.0
+             */
+            string TLSAuthenticationKeySizes { 
+                constraint maxvalue 256;
+            }
+            /**
+             *  Each item is a supported authentication protocol for TLS transport.  
+             The list MAY include vendor-specific protocols, which MUST use the format defined in TR-106.
+             Support for this parameter is applicable only if the value of Transports  includes "TLS|Transports.
+             * @version 1.0
+             */
+            string TLSEncryptionProtocols { 
+                constraint enum ["Null", "RC4", "RC2", "DES", "3DES", ""];
+                default "";
+            }
+            /**
+             *   Each item is a supported TLS encryption key size.
+             Support for this parameter is applicable only if the value of Transports includes TLS|Transports and TLSEncryptionProtocols is present and non-empty and includes at least one value other than Null|TLSEncryptionProtocols.
+             * @version 1.0
+             */
+            string TLSEncryptionKeySizes { 
+                constraint maxvalue 256;
+            }
+            /**
+             *  Each item is a supported authentication protocol for TLS transport.  
+             The list MAY include vendor-specific protocols, which MUST use the format defined in TR-106.
+             Support for this parameter is applicable only if Transports  includes the value TLS|Transports and TLSEncryptionProtocols is present and non-empty and includes at least one value other than Null|TLSEncryptionProtocols.
+             * @version 1.0
+             */
+            string TLSKeyExchangeProtocols { 
+                constraint enum ["RSA", "DSS", ""];
+                default "";
+            }
+        }
+
+        /** Capabilities specific to h323 */
+        persistent object H323 {
+            /** Support for H323 fast start. A true value indicates support for fast start */
+            persistent bool FastStart = true;
+            /**
+             *  Each item is a supported authentication method. 
+             The list MAY include vendor-specific protocols, which MUST use the format defined in TR-106.
+             * @version 1.0
+             */
+            persistent string H235AuthenticationMethods
+            {
+                constraint maxvalue 256;
+                /** H235 is not available yet*/
+                default "";
+            }
+        }
+
+        /**
+         * Table to describe the set of supported codecs.  The table MUST include a distinct entry for each supported combination of these Codec and BitRate.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        object Codecs[] {
+            /**
+             * Unique identifier for each entry in this table.
+             * @version 1.0
+             */
+            read-only persistent uint32 EntryID { 
+                constraint minvalue 1;
+                default 1;
+            }
+
+            /**
+             * The codec type of the audio file 
+             * @version 1.0
+             */
+            read-only persistent string Codec {
+                constraint enum ["G.711MuLaw", "G.711ALaw", "G.726", "G.729", "G.729a", "G.729e", "G.728", "G.723.1", "G.722", "G.722.1", "G.722.2", "GSM-FR", "GSM-HR","GSM-EFR", "iLBC"];
+                constraint maxvalue 64;
+            }
+            /**
+             * Bit rate, specified in seconds.  The value MUST be among the values appropriate for the specified codec.
+             * @version 1.0
+             */
+            persistent uint32 BitRate;
+            /**
+             *  Each item is a supported packetization period, in milliseconds, or a continuous range of packetization periods.  Ranges are indicated as a hyphen-separated pair of unsigned integers.  Examples:
+             : "20" indicates a single discrete value.
+             : "10, 20, 30" indicates a set of discrete values.
+             : "5-40" indicates a continuous inclusive range.
+             : "5-10, 20, 30" indicates a continuous range in addition to a set of discrete values.
+             A range MUST only be indicated if all values within the range are supported.
+             * @version 1.0
+             */
+            persistent string PacketizationPeriod {
+                constraint maxvalue 64;
+            }
+            /**
+             * If true indicates support for silence suppression for this codec.
+             * @version 1.0
+             */
+            persistent bool SilenceSuppression = false;
+            persistent bool Enable = true;
+            persistent uint32 Priority {
+                constraint minvalue 1;
+                default 1;
+            }
+        }
+    }
+
+    /* Start - SAH specific parameters/objects */
+    /**
+     * Enable/Disable generating core file 
+     * @version 6.1
+     */
+    persistent string X_ORANGE-COM_EnableCoreDump {
+        constraint enum ["Enabled", "Disabled"];
+        default "Disabled";
+    }
+
+    persistent object X_ORANGE-COM_Group[] {
+        counted with "X_ORANGE-COM_NumberOfGroups";
+        persistent string GroupName;
+        persistent string GroupType {
+            constraint enum ["PARALLEL", "SERIAL", "CIRCULAR"];
+            default "PARALLEL"; 
+        }
+
+        /**
+         * Directory number
+         * @version 1.0
+         */
+        persistent string DirectoryNumber {
+            constraint custom cfg_constraint_DirectoryNumber;
+        }
+
+        persistent object Member[] {
+            counted with NumberOfMembers;
+            persistent string LineReference;
+        }
+    }
+
+    persistent object X_ORANGE-COM_CALL_CONTROL_SERVICES {
+
+        /**
+         * Default getter function to retrieve all values from NMC
+         * @version V5.2
+         */
+        variant get();
+
+        /**
+         * Default setter function to change all or some values from NMC
+         * @version V5.2
+         */
+        bool set(variant parameters);
+
+        /**
+         * Auto reconnect a pending call if the active one gets disconnected after a timeout expire. a timeout value of zero will disable this feature.
+         * @version 4.5
+         */
+        persistent uint32 AutoReconnectTimer = 3000;
+        
+        /**
+         * Rejecting call waiting after the expiration of a timeout. a timeout value of zero will disable this feature.
+         * @version V5.2
+         */
+        persistent uint32 FXSCallWaitingTimer = 0;
+        persistent uint32 DECTCallWaitingTimer = 0;
+
+        persistent uint32 ExpectTimer = 3000;
+        persistent uint32 DefaultRingTestDuration = 6000;
+        /**
+         * Timeout value, a BusyTone is heard on an active handset. A timeout value of zero will keep the emission time limitless.
+         */
+        persistent uint32 BusyToneEmissionTime = 0;
+        /**
+         * Timeout value, a DialTone is heard on an active handset.
+         */
+        persistent uint32 DialToneDuration = 20000;
+        /**
+         * DialTone duration heard in case of a consultation call.
+         */
+        persistent uint32 ConsultationDialToneDuration = 6000;
+        persistent uint32 UnregisterTimer = 5000;
+        persistent string HookOnWhileCallPending {
+            constraint enum ["FreeAll", "Ring"];
+            default "Ring";
+        }
+        /**
+         * SIP URI to be used for SIP network based conferencing (RFC 4579 part 5.4).
+         * @version 5.2
+         */
+        persistent string ConferenceFactory {
+            constraint maxvalue 256;
+        }
+        /**
+         * When enabled and if a terminal is trying to establish a consultation call, 
+         * a hook flash event will trigger a reconnect-call, which will
+         * abort the ongoing consultation call and resume the held call.
+         * @version 5.2
+         */
+        persistent bool AbortConsultationOnHookFlash = true;
+
+        /**
+         * The Call Waiting Tone carries two elements:
+         *    1- A country specific tone to signal to the user the presence of a pending call
+         *    2- The CNIP &lt;Empty&gt; CLIP on the pending call
+         *   This option is about not sending the CLIP and CNIP information as might be requested by some costumers 
+         * @version 5.2
+         */
+        persistent bool FXSDisableCnipClipOnCW = false;
+
+        /**
+         * When enabled, the network conference will be selected even if the different 
+         * calls to mix are running on different lines.
+         * @version 6.0
+         */
+        persistent bool MultiLineNetworkConfSupported = false;
+
+        /**
+         * When enabled, and a CAT-iq remote peer call termination the CAT-iq handset will blay a busy tone
+         * before going to idle, if disabled the Voice Application will just signal the call termination 
+         * and no tone is played.
+         * @version 6.1
+         */
+         persistent uint32 CAT-iqPlayBusyToneOnCallEnd {
+             constraint maxvalue 1;
+             default 1;
+
+         }
+
+
+        persistent object Services[] {
+
+            counted with "NumberOfEntries";
+
+            persistent string ServiceName {
+                constraint enum ["HoldCall", "RetrieveCall", "ConsultationCall", "ReconnectCall", "AlternateCall", "ClearOtherCalls", "ParkingCall", "TransferCall", "ConferenceCall", ""];
+                default "";
+            }
+            /**
+             * Activation code is a comma separated list of telephone key combination to activate a call service.
+             * A regular expression of this field is: R[R0-9]*(,R[R0-9}*)*
+             * where R is the Hook-Flash button
+             * Examples: "R", "R0". "RR" or "R1,RR" ...  R[R0-9]*(,R[R0-9}*)* 
+             */
+            persistent string ActivationCode { 
+                constraint maxvalue 12;
+                default "";
+            }
+
+        }
+        
+    }
+
+    persistent object X_ORANGE-COM_VoiceMonitoring {
+        persistent bool Enable {
+            default false;
+        }
+    }
+
+    persistent object X_ORANGE-COM_CallList {
+        persistent uint32 MaxNumberOfEntries;
+        persistent uint32 LatestCall = 1;
+
+        persistent object Blacklist[] {
+            persistent string Number;
+        }
+
+        persistent object Entry[] {
+            persistent string RemoteNumber {
+                constraint maxvalue 30;
+            }
+            persistent string RemoteName {
+                constraint maxvalue 256;
+            }
+            persistent string Terminal {
+                constraint maxvalue 256;
+            }
+            persistent datetime StartTime;
+            persistent uint32 Duration = 0;
+            persistent string CallType { 
+                constraint enum ["missed", "failed", "succeeded", ""];
+                default "";
+            }
+            persistent string CallOrigin { 
+                constraint enum ["SIP", "H323", "PSTN", "local", ""];
+                default "";
+            }
+            persistent string CallDestination {
+                constraint enum ["SIP", "H323", "PSTN", "local", ""];
+                default "";
+            }
+            /**
+            * @version 6.1
+            */
+            persistent string TrunkLineNumber {
+                constraint maxvalue 256;
+            }
+
+            read-only persistent bool Viewed = false;
+        }
+    }
+
+    /*
+     * Voice Portal
+     * @version 5.0
+     */
+    persistent object X_ORANGE-COM_VoicePortal {
+        /** Codec type of the file available for the voice portal 
+         *  @version 5.0
+         */
+        persistent string Codec {
+            constraint enum ["PCMA", "PCMU", "G729", "G722"];
+            default "G729";
+        }
+
+        /** Location of the files on the RO file system 
+         *  @version 5.0
+         */
+        persistent string ROFileLocation;
+
+        /** Location of the files on the RW file system 
+         *  @version 5.0
+         */
+        persistent string RWFileLocation;
+
+        /** Enabling/Disabling the voice portal 
+         * @version 5.0
+         */
+        persistent bool Enable;
+
+        /** Time of Start or Stop of the voice portal 
+         * @version 5.0
+         */
+        persistent datetime OnOffDateTime;
+
+        /** Date-Time of the last voice message played 
+         *  @version 5.0
+         */
+        persistent datetime PlayDateTime;
+
+        /** State of the voice portal 
+         * @version 5.0
+         */
+        bool State;
+
+        /** Id of the last message played to the user 
+         *  @version 5.0
+         */
+        persistent uint32 MessageId {
+            constraint maxvalue 255;
+            default 0;
+        }
+
+        /** The message id to be played to the user 
+         * @version 5.0
+         */
+        string ErrorMessage;
+
+        /** Define the language of the file which will be used 
+         * @version 5.0
+         */
+        persistent string Language;
+
+        /** Define a default languge 
+         * @version 5.0
+         */
+        persistent string DefaultLanguage;
+    }
+
+    persistent object X_ORANGE-COM_ToneFileGenerator {
+        /** Codec type of the file available for the voice portal */
+        persistent string Codec {
+            constraint enum ["PCMA", "PCMU", "G729", "G722"];
+            default "PCMA";
+        }
+        /** Location of the tones on the file system */
+        persistent string ROToneLocation;
+        persistent string RWToneLocation;
+    }
+
+    /**
+     * Support for replacing languages specifique character to some kind of endoints.
+     * @version 1.0
+     */
+    persistent object X_ORANGE-COM_CnipChange {
+        /**
+         * Target Endpoint Type to which the special character replacement should be applied
+         * @version 1.0
+         */
+        persistent string TargetEndpointType;
+
+        /**
+         * The maximum number of characters to be used fror cnip
+         * @version 1.0
+         */
+        persistent uint32 MaxCharacters;
+
+        persistent object ReplaceMapping [] {
+            /**
+             * Special character to be replaced
+             * @version 1.0
+             */
+            persistent string InputCharacters;
+
+            /**
+             * Replacement character of a special character.
+             * @version 1.0
+             */
+            persistent string ReplacementCharacters;
+        }
+    }
+
+    /**
+     * Enabling/Disabling dialtone if one/all lines are unregistered 
+     */
+    persistent string X_ORANGE-COM_PlayWarningTone {
+        constraint enum ["Never", "AllLinesUnregistered", "OneLineUnregistered"];
+        default "Never";
+    }
+    /* End - SAH specific parameters/objects */
+
+    /**
+     * Object associated with a collection of voice lines with common characteristics.  Support for adding and removing profiles is conditional on whether more than one profile is supported as indicated by .Capabilities.MaxProfileCount.  By default, a single VoiceProfile object SHOULD be present in a VoiceService, initially in the disabled state.
+     * @version 1.0
+     */
+    persistent object VoiceProfile[] {
+        /**
+         * Enables or disables all lines in this profile, or places them into a quiescent state. 
+         If the value is Quiescent, in-progress sessions remain intact, but no new sessions are allowed.  If the value is set to Quiescent in a CPE that does not support Quiescent, the CPE MUST treat it as if the value is Disabled.
+         * @version 1.0
+         */
+        persistent string Enable {
+            constraint enum ["Disabled", "Quiescent", "Enabled"];
+            default "Disabled";
+        }
+        /**
+         * When written as true, forces the all lines in this profile to be reset, causing it to re-initialize and perform all start-up actions such as registration.  Always false when read.
+         * @version 1.0
+         */
+        bool Reset = false;
+        /**
+         * Number of instances of VoiceService.{i}.VoiceProfile.{i}.Line.{i}. within this object.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        read-only uint32 NumberOfLines {
+            read with numberOfElements;
+        }
+        /**
+         * Human-readable string to identify the profile instance.
+         * @version 1.0
+         */
+        persistent string Name {
+            constraint maxvalue 64;
+        }
+        /* Start - SAH specific parameters/objects */
+
+        /**
+         * Phone number of the CallingPartyNumber of an H323 incoming call. 
+         * It is used to Activate MWI. If not filled in, the MWI for H323 is then deactivated.
+         * @version 4.6
+         */
+        persistent string X_ORANGE-COM_MWIActivationNumber; 
+
+        /**
+         * Phone number of the CallingPartyNumber of an H323 incoming call. It is used to Deactivate MWI
+         * If not filled in, the MWI for H323 is then deactivated 
+         * @version 4.6
+         */
+        persistent string X_ORANGE-COM_MWIDeactivationNumber; 
+
+        persistent string X_ORANGE-COM_Interface; 
+        string X_ORANGE-COM_LocalIPAddress {
+            constraint maxvalue 128;
+            default "0.0.0.0";
+        }
+        
+        string X_ORANGE-COM_PluginIPAddress {
+            write with cfg_write_handler_pluginIpAddress;
+            constraint maxvalue 128;
+            default "0.0.0.0";
+        }
+        
+        /* End - SAH specific parameters/objects */
+
+        /**
+         * The protocol to be used for this profile. 
+         * @version 1.0
+         */
+        read-only persistent string SignalingProtocol {
+            constraint enum ["", "FXO", "FXS", "DECT", "SIP", "H.323"];
+            default "";
+        }
+        /**
+         * Limit on the number of simultaneous voice sessions across all lines in this object.  Must be less than or equal to .Capabilities.MaxSessionCount.   (This MAY be greater than NumberOfLines if each line can support more than one session, for example for CPE provided conference calling.)
+         * @version 1.0
+         */
+        persistent uint32 MaxSessions = 0; 
+        /**
+         * Method by which DTMF digits MUST be passed. 
+         If DTMFMethodG711 is non-empty, then this parameter applies only when the current codec is not G.711.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent string DTMFMethod {
+            constraint enum ["InBand", "RFC2833", "SIPInfo"];
+            default "InBand";
+        }
+        /**
+         * Method by which DTMF digits MUST be passed if the the current codec is G.711.  
+         If empty indicates that the value of DTMFMethod is to apply whether or not the the the current codec is G.711.
+         This parameter is applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent string DTMFMethodG711 {
+            constraint enum ["", "InBand", "RFC2833", "SIPInfo"];
+            default "";
+        }
+        /**
+         * The geographic region associated with this profile.  This MAY be used by the CPE to customize localization settings.  If empty indicates that the region is unspecified and the CPE SHOULD use default localization settings.
+         This parameter is applicable only if .Capabilities.Regions is non-empty.
+         * @version 1.0
+         */
+        persistent string Region { 
+            constraint maxvalue 2;
+        }
+        /**
+         * Digit map controlling the transmission of dialed digit information.  The string defines the criteria to be met as digits are collected before an outgoing request (e.g., a SIP INVITE) can be initiated.
+         The syntax of this parameter is exactly the syntax used by MGCP as defined in RFC3435|Section 2.1.5.
+         This parameter is applicable only if the device supports a dialing mechanism for which a dialing plan is needed (for example, a device with an explicit Dial button may not need to be aware of the dialing plan) and if the device does not already support a dialing plan mechanism for this profile (e.g., in-band via MGCP).
+         This object is supported only if .Capabilities.DigitMap is true.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent string DigitMap { 
+            constraint maxvalue 512;
+        }
+        /**
+         * Enables use of DigitMap.
+         When true, VoiceService.{i}.VoiceProfile.{i}.NumberingPlan., if present, MUST be ignored.
+         This parameter is required if and only if both DigitMap and VoiceService.{i}.VoiceProfile.{i}.NumberingPlan are present.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent bool DigitMapEnable = true;
+        /**
+         * Enable or disable use of STUN to allow operation through NAT.  Note: enabling STUN is to be interpreted as enabling the use of STUN for discovery, not use as a keep-alive mechanism.
+         * @version 1.0
+         */
+        persistent bool STUNEnable = true;
+        /**
+         * Domain name or IP address of the STUN server.
+         * @version 1.0
+         */
+        persistent string STUNServer {
+            constraint maxvalue 256;
+        }
+        /**
+         * For bandwidth-based admission control, indicates the amount of upstream bandwidth, in seconds, that must be left available for non-voice traffic when determining whether a session can proceed.  This parameter is appropriate only in implementations in which the actual bandwidth can be known, such as a VoIP device embedded in a DSL B-NT.
+         * @version 1.0
+         */
+        persistent uint32 NonVoiceBandwidthReservedUpstream = 0;
+        /**
+         * For bandwidth-based admission control, indicates the amount of downstream bandwidth, in seconds, that must be left available for non-voice traffic when determining whether a session can proceed.  This parameter is appropriate only in implementations in which the actual bandwidth can be known, such as a VoIP device embedded in a DSL B-NT.
+         * @version 1.0
+         */
+        persistent uint32 NonVoiceBandwidthReservedDownstream = 0;
+        /**
+         * Specifies whether or not the CPE SHOULD fail over to PSTN service, if available, on loss of connectivity to the VoIP service.  This parameter is appropriate only in implementations in which PSTN fail-over is possible.
+         * @version 1.0
+         */
+        persistent bool PSTNFailOver = false;
+        /**
+         * Specifies the behavior of the CPE for pass-through of fax data. 
+         If this parameter is supported, the value of .Capabilities.FaxPassThrough MUST be true.
+         This parameter is appropriate only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent string FaxPassThrough {
+            constraint enum ["Disable", "Auto"];
+            default "Auto";
+        }
+        /**
+         * Specifies the behavior of the CPE for pass-through of modem data. 
+         If this parameter is supported, the value of .Capabilities.ModemPassThrough MUST be true.
+         This parameter is appropriate only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent string ModemPassThrough {
+            constraint enum ["Disable", "Auto", "Force"];
+            default "Auto";
+        }
+
+        /**
+         * Specifies if the application will wait for sip extension registration on incoming calls.
+         * The value is specified in milliseconds
+         * This parameter is appropriate only for a SIP extensions.
+         * @version 7.0
+         */
+        persistent uint32 X_ORANGE-COM_WaitSipExtRegTime = 0;
+
+        /**
+         * Information regarding the organization providing service for this voice profile instance.
+         * @version 1.0
+         */
+        persistent object ServiceProviderInfo {
+            /**
+             * Human-readable string identifying the service provider.
+             * @version 1.0
+             */
+            persistent string Name {
+                constraint maxvalue 256;
+            }
+            /**
+             * URL of the service provider for this profile instance.
+             * @version 1.0
+             */
+            persistent string URL {
+                constraint maxvalue 256;
+            }
+            /**
+             * Phone number to contact the service provider for this profile instance.
+             * @version 1.0
+             */
+            persistent string ContactPhoneNumber {
+                constraint maxvalue 32;
+            }
+            /**
+             * Email address to contact the service provider for this profile instance.
+             * @version 1.0
+             */
+            persistent string EmailAddress {
+                constraint maxvalue 256;
+            }
+        }
+
+        /**
+         * Voice profile parameters that are specific to SIP user agents.
+         Creation of this object occurs on specification of SIP|.VoiceProfile.{i}.SignalingProtocol.
+
+         * @version 1.0
+         */
+        persistent object SIP {
+            /**
+             * Host name or IP address of the SIP proxy server.
+             All SIP signaling traffic MUST be sent to the host indicated by this parameter and the port indicated by ProxyServerPort unless OutboundProxy is non-empty or a different route was discovered during normal operations SIP routing operation.
+             Regardless of which host the traffic gets sent to (ProxyServer or OutboundProxy), the value of this parameter MUST be used to derive the URI placed into the SIP Route header field of all requests originated by this end-point unless a different proxy host was discovered dynamically during normal SIP routing operations.
+             * @version 1.0
+             */
+            persistent string ProxyServer {
+                constraint maxvalue 256;
+            }
+            /**
+             * Destination port to be used in connecting to the SIP server.
+             * @version 1.0
+             */
+            persistent uint32 ProxyServerPort {
+                constraint maxvalue 65535;
+                default 5060;
+            }
+            /**
+             * Transport protocol to be used in connecting to the SIP server.  
+             * @version 1.0
+             */
+            persistent string ProxyServerTransport {
+                constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                default "UDP";
+            }
+            /**
+             * Host name or IP address of the SIP registrar server.
+             If this parameter is empty, the CPE MUST obtain all of the registrar server configuration information, including host name or IP address, port, and transport protocol, from the values in ProxyServer, ProxyServerPort, and ProxyServerTransport and MUST ignore the values in RegistrarServer, RegistrarServerPort and RegistrarServerTransport.
+             * @version 1.0
+             */
+            persistent string RegistrarServer {
+                constraint maxvalue 256;
+            }
+            /**
+             * Destination port to be used in connecting to the SIP registrar server.
+             If RegistrarServer is empty the CPE MUST obtain all of the registrar server configuration information, including host name or IP address, port, and transport protocol, from the values in ProxyServer, ProxyServerPort, and ProxyServerTransport and MUST ignore the values in RegistrarServer, RegistrarServerPort and RegistrarServerTransport.
+             * @version 1.0
+             */
+            persistent uint32 RegistrarServerPort {
+                constraint maxvalue 65535;
+                default 5060;
+            }
+            /**
+             * Transport protocol to be used in connecting to the registrar server.
+             If RegistrarServer is empty the CPE MUST obtain all of the registrar server configuration information, including host name or IP address, port, and transport protocol, from the values in ProxyServer, ProxyServerPort, and ProxyServerTransport and MUST ignore the values in RegistrarServer, RegistrarServerPort and RegistrarServerTransport.
+             * @version 1.0
+             */
+            persistent string RegistrarServerTransport {
+                constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                default "UDP";
+            }
+            /**
+             * CPE domain string.  If empty, the CPE SHOULD use its IP address as the domain.
+             * @version 1.0
+             */
+            persistent string UserAgentDomain {
+                constraint maxvalue 256;
+            }
+            /**
+             * Port used for incoming call control signaling.
+             * @version 1.0
+             */
+            persistent uint32 UserAgentPort {
+                constraint maxvalue 65535;
+                default 0;
+            }
+            /**
+             * Transport protocol to be used for incoming call control signaling. 
+             * @version 1.0
+             */
+            persistent string UserAgentTransport {
+                constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                default "UDP";
+            }
+            /**
+             * Host name or IP address of the outbound proxy.  If the value is not empty, the SIP endpoint MUST send all SIP traffic (requests and responses) to the host indicated by this parameter and the port indicated by OutboundProxyPort.  This MUST be done regardless of the routes discovered using normal SIP operations, including use of Route headers initialized from Service-Route and Record-Route headers previously received.   The OutboundProxy value is NOT used to generate the URI placed into the Route header of any requests.
+             * @version 1.0
+             */
+            persistent string OutboundProxy {
+                constraint maxvalue 256;
+            }
+            /**
+             * Destination port to be used in connecting to the outbound proxy.  This parameter MUST be ignored unless the value of OutboundProxy is non-empty.
+             * @version 1.0
+             */
+            persistent uint32 OutboundProxyPort {
+                constraint maxvalue 65535;
+                default 5060;
+            }
+            /**
+             * Text string to be used in the Organization header.
+             * @version 1.0
+             */
+            persistent string Organization {
+                constraint maxvalue 256;
+            }
+
+            /** 
+             * Period over which the user agent must periodically register, in seconds. 
+             * @version 4.5
+             */
+            persistent uint32 RegistrationPeriod {
+                /** Deviation from standard: 0 means forever */
+                constraint minvalue 0;
+                default 3600;
+            }
+
+            /**
+             * Value of SIP timer T1, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerT1 {
+                constraint minvalue 1;
+                default 500;
+            }
+            /**
+             * Value of SIP timer T2, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerT2 {
+                constraint minvalue 1;
+                default 4000;
+            }
+            /**
+             * Value of SIP timer T4, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerT4 {
+                constraint minvalue 1;
+                default 5000;
+            }
+            /**
+             * Value of SIP timer A, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerA {
+                constraint minvalue 1;
+                default 500;
+            }
+            /**
+             * Value of SIP timer B, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerB {
+                constraint minvalue 1;
+                default 32000;
+            }
+            /**
+             * Value of SIP timer C, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerC {
+                constraint minvalue 1;
+                default 180000;
+            }
+            /**
+             * Value of SIP timer D, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerD {
+                constraint minvalue 1;
+                default 32000;
+            }
+            /**
+             * Value of SIP timer E, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerE {
+                constraint minvalue 1;
+                default 500;
+            }
+            /**
+             * Value of SIP timer F, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerF {
+                constraint minvalue 1;
+                default 32000;
+            }
+            /**
+             * Value of SIP timer G, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerG {
+                constraint minvalue 1;
+                default 500;
+            }
+            /**
+             * Value of SIP timer H, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerH {
+                constraint minvalue 1;
+                default 32000;
+            }
+            /**
+             * Value of SIP timer I, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerI {
+                constraint minvalue 1;
+                default 5000;
+            }
+            /**
+             * Value of SIP timer J, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerJ {
+                constraint minvalue 1;
+                default 32000;
+            }
+            /**
+             * Value of SIP timer K, in seconds, as defined in RFC3261.
+             * @version 1.0
+             */
+            persistent uint32 TimerK {
+                constraint minvalue 1;
+                default 5000;
+            }
+            /** 
+             *  Minimum Session-Expires value as defined in RFC 4028, chapter 7.3 
+             *  value in seconds
+             * @version 5.2
+             */
+            persistent uint32 X_ORANGE-COM_MinSE
+            {
+                constraint minvalue 0;
+                default 90;
+            }
+            /**
+             * Invite request Expires header value, in seconds.
+             * @version 1.0
+             */
+            persistent uint32 InviteExpires {
+                constraint minvalue 1;
+                default 120;
+            }
+            persistent uint32 ReinviteExpires {
+                constraint minvalue 1;
+                default 120;
+            }
+            /**
+             * Register request Expires header value, in seconds.
+             * @version 1.0
+             */
+            persistent uint32 RegisterExpires {
+                constraint minvalue 1;
+                default 60;
+            }
+            /**
+             * Register request Min-Expires header value, in seconds.
+             * @version 1.0
+             */
+            persistent uint32 RegistersMinExpires {
+                constraint minvalue 1;
+                default 15;
+            }
+            /**
+             * Register retry interval, in seconds.
+             * @version 1.0
+             */
+            persistent uint32 RegisterRetryInterval {
+                constraint minvalue 1;
+                default 60;
+            }
+            /**
+             * Type of inbound authentication, if any, required. 
+             * @version 1.0
+             */
+            persistent string InboundAuth {
+                constraint enum ["None", "Digest"];
+                default "None";
+            }
+            /**
+             * If inbound authentication is required, the username credentials.
+             * @version 1.0
+             */
+            persistent string InboundAuthUsername {
+                constraint maxvalue 256;
+            }
+            /**
+             * If inbound authentication is required, the password credentials.
+             * @version 1.0
+             */
+            persistent string InboundAuthPassword {
+                constraint maxvalue 256;
+            }
+            /**
+             * When true, in the SDP included in an OK response to an Invite, the first listed codec MUST be the highest priority codec among those offered in the Invite, based on the priorities specified in VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Codec.List.{i}.. The list of codecs in the SDP MAY also include other lower priority codecs.
+             When false, there is no specific requirement for choosing the codecs listed in the SDP included in an OK response.
+             * @version 1.0
+             */
+            persistent bool UseCodecPriorityInSDPResponse = false;
+
+            /**
+             * Enable ReplyWithMultipleCodec: On media negotiation the Voice application, the 200 response will include a list of supported codecs. 
+             * If disabled the 200 SDP response will contain a single codec. 
+             * @version 4.5
+             */
+            persistent bool X_ORANGE-COM_ReplyWithMultipleCodec = true;
+
+            /**
+             *  Enable 100rel: Enable support for rfc3262 reliability negotiations. 
+             *  @version 4.5
+             */
+            persistent bool X_ORANGE-COM_Use100rel = true;
+
+            /**
+             * Diffserv code point to be used for outgoing SIP signaling packets.
+             * @version 1.0
+             */
+            persistent uint32 DSCPMark {
+                constraint maxvalue 63;
+                default 0;
+            }
+            /**
+             * VLAN ID (as defined in 802.1Q-2005) to be used for outgoing SIP signaling packets for this profile.  A value of -1 indicates the default value is to be used.
+             If either VLANIDMark or EthernetPriorityMark are greater than zero, then the outgoing frames MUST be tagged.  Otherwise, the outgoing frames MAY be tagged or untagged.
+             * @version 1.0
+             */
+            persistent int32 VLANIDMark {
+                constraint minvalue -1;
+                default -1;
+            }
+            /**
+             * Ethernet priority code (as defined in 802.1Q-2005) to be used for outgoing SIP signaling packets for this profile.  A value of -1 indicates the default value is to be used.
+             If either VLANIDMark or EthernetPriorityMark are greater than zero, then the outgoing frames MUST be tagged.  Otherwise, the outgoing frames MAY be tagged or untagged.
+             * @version 1.0
+             */
+            persistent int32 EthernetPriorityMark {
+                constraint minvalue -1;
+                default -1;
+            }
+            /**
+             * Indicates the number of EventSubscribe objects.
+             * @version 1.0
+             */
+            read-only uint32 SIPEventSubscribeNumberOfElements {
+                read with numberOfElements;
+            }
+            /**
+             * Indicates the number of SIPResponseMap objects.
+             * @version 1.0
+             */
+            read-only uint32 SIPResponseMapNumberOfElements {
+                read with numberOfElements;
+            }
+
+            /**
+             * The list of SIP methods supported (comma-separated list). To be used to construct the Allow header.
+             * @version 5.2
+             */
+            persistent string X_ORANGE-COM_AllowHeader {
+                constraint custom cfg_constraint_AllowHeader;
+                default "INVITE, ACK, BYE, NOTIFY, INFO, CANCEL";
+            }
+
+            /**
+             * The timer when 500/503 response is received.
+             */
+            persistent uint32 X_ORANGE-COM_RetryAfter50xTimer {
+                default 2;
+            }
+
+            /**
+             * List of Events to which the voice application MUST subscribe 
+             * @version 4.5
+             */
+            persistent object EventSubscribe[] {
+                /**
+                 * SIP event name to appear in the EVENT header
+                 * of the SIP SUBSCRIBE request. (message-summury for mwi service)
+                 * @version 4.5
+                 */
+                persistent string Event {
+                    constraint maxvalue 32;
+                }
+
+                /**
+                 * Host name or IP address of the event notify server
+                 * @version 4.5
+                 */
+                persistent string Notifier {
+                    constraint maxvalue 256;
+                }
+
+                /**
+                 *  Destination port to be used in connecting to the event notifier.
+                 * @version 4.5
+                 */
+                persistent uint32 NotifierPort {
+                    constraint maxvalue 65535;
+                }
+
+                /**
+                 * Transport protocol to be used in connecting to the event notifier.
+                 * @version 4.5
+                 */
+                persistent string NotifierTransport {
+                    constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                    default "UDP";
+                }
+
+                /**
+                 * Subscription refresh timer, in seconds. 
+                 * @version 4.5
+                 */
+                persistent uint32 ExpireTime; 
+            }
+
+            /**
+             * Each entry in this table specifies the tone and message to be provided to the user for a particular SIP Response received (normally 4xx and 5xx).
+             If supported, the value of .Capabilities.SIP.ResponseMap MUST be true and .VoiceProfile.{i}.SIP.SIPResponseMapNumberOfElements MUST be present. 
+             Applicable only for a VoIP endpoint.
+             * @version 1.0
+             */
+            persistent object ResponseMap[] {
+                /**
+                 * The SIP Response code number.
+                 * @version 1.0
+                 */
+                persistent uint32 SIPResponseNumber {
+                    constraint range [100,999];
+                    default 100;
+                }
+                /**
+                 * The message to be provided on the screen or display of the VoIP device when the SIP response is received.
+                 If this parameter is not empty, display of this text preempts the value of .VoiceProfile.{i}.Tone.Description.{i}.ToneText associated with Tone.  If this parameter is empty, the value of .VoiceProfile.{i}.Tone.Description.{i}.ToneText associated with Tone, if any, is displayed instead.
+                 This parameter is applicable only for VoIP devices capable of text display.
+                 * @version 1.0
+                 */
+                persistent string TextMessage { 
+                    constraint maxvalue 64;
+                }
+                /**
+                 * The tone to be played to the user when the SIP response is received.  The value corresponds to EntryID of an entry in VoiceService.{i}.VoiceProfile.{i}.Tone.Description..  A value of zero, or any value that is not valid, results in no tone played.  If the value of .Capabilities.ToneGeneration is false, no tone is played regardless of the value of this parameter.
+                 * @version 1.0
+                 */
+                persistent uint32 Tone = 0;
+            }
+
+            /** 
+             * When receiving an Error the voice application should try to reregister after num seconds."
+             * @version 5.0
+             */
+            persistent uint32 X_ORANGE-COM_ReRegistrationTimeOut
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+
+            /** When receiving a 403 response, wait for this timer, and depending on "FCPE Activation"
+             *      yes -> Go to Start CPE_ALIVE Cycle
+             *      no  -> Start sip registration cycle
+             * @version 4.5
+             */
+            persistent uint32 X_ORANGE-COM_TimerLoginRejected
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+
+            /** When receiving a -second- 401 response (unauthorized), and Stale=TRUE wait for this timer,
+             *  and restart the registration cycle.
+             * @version 4.5
+             */
+            persistent uint32 X_ORANGE-COM_TimerPasswordRejected
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+
+            /** 
+             * When receiving 4xx,5xx,6xx, use this timeout value, and restart the registration cycle. 
+             * @version 4.5
+             */
+            persistent uint32 X_ORANGE-COM_TimerRegistrationFailed
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+
+            /** When receiving 4xx,5xx,6xx, use this timeout value, 
+             *  if exponentialtimer has reached maximum failure count and restart the registration cycle. 
+             *  @version 4.5
+             */
+            persistent uint32 X_ORANGE-COM_MaxTimerRegistrationFailed
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+
+            /** When subscribe fails (no response / response other than 423, 200) use this timerout value,
+             *  and restart the subscribe process 
+             * @version 4.5
+             */
+            persistent uint32 X_ORANGE-COM_TimerSubscriptionFailed
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+
+            /** When subscribe fails (no response / response other than 423, 200) use this timeout value,
+             *  if exponentialtimer has reached maximum failure count and restart the subscribe process 
+             * @version 4.5
+             */
+            persistent uint32 X_ORANGE-COM_MaxTimerSubscriptionFailed
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+
+            /** If this parameter is provisioned during activation process and non empty, 
+             *  the 3-way conference shall be activated.
+             *  By default, the Livebox shall not implement 3-way conference and must ignore "R3". 
+             * @version 4.5
+             */
+            persistent uint32 X_ORANGE-COM_ConferenceCallDomain
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+
+            /** 
+             * Set to:
+             * False to disable using cached authorization from the INVITE request.
+             * True to enable it.
+             * @version 5.1
+             */           
+            persistent bool X_ORANGE-COM_NonceCachingInviteEnabled
+            {
+                default false;
+            } 
+
+            /** 
+             * Set to:
+             * False to disable using cached authorization from the ACK request.
+             * True to enable it.
+             * @version 5.1
+             */           
+            persistent bool X_ORANGE-COM_NonceCachingAckEnabled
+            {
+                default false;
+            } 
+
+            /** 
+             * Set to:
+             * False to disable using cached authorization from the BYE request.
+             * True to enable it.
+             * @version 5.1
+             */           
+            persistent bool X_ORANGE-COM_NonceCachingByeEnabled
+            {
+                default false;
+            } 
+
+            /** 
+             * Set to:
+             * False to disable using cached authorization from the Cancel request.
+             * True to enable it.
+             * @version 5.1
+             */           
+            persistent bool X_ORANGE-COM_NonceCachingCancelEnabled
+            {
+                default false;
+            } 
+
+            /**
+             * Set to:
+             * False to disable using cached authorization from the Subscribe request.
+             * True to enable it.
+             * @version 6.1
+             */           
+            persistent bool X_ORANGE-COM_NonceCachingSubscribeEnabled
+            {
+                default false;
+            } 
+
+            /**
+             * Enable or Disable the behaviour described in RFC 3261 section 18.1.1,
+             * where messages with a size > 1300 MUST be sent over TCP.
+             * @version 5.2
+             */
+            persistent bool X_ORANGE-COM_SendBigMessagesOverTCP
+            {
+                default true;
+            }
+        }
+
+        /** 
+         * H323 specific configuration options 
+         * @version 4.6
+         */
+        persistent object H323 {
+            /** 
+             * Host name or IP address of H.323 Gatekeeper. 
+             * @version 4.6
+             */
+            persistent string Gatekeeper {
+                constraint maxvalue 256;
+            }
+
+            /** 
+             * Alternate gatekeeper, ft compatibility 
+             * @version 4.6
+             **/
+            persistent string X_ORANGE-COM_GatekeeperAlt {
+                constraint maxvalue 256;
+            }
+
+            /** 
+             * Destination port to be used in connecting to the 1719 H.323 Gatekeeper. 
+             * @version 4.6
+             */
+            persistent uint32 GatekeeperPort {
+                default 1719;
+            }
+
+            /** 
+             * Non standard extension to set the preferred discovery mode on h323 
+             * @version 4.6
+             */
+            persistent string X_ORANGE-COM_GatekeeperDiscoveryMode
+            {
+                /** Please note that when Auto is active GRQ's are sent to the ip address mentioned in the "Gatekeeper" field
+                  for FT this should be the "Master Gatekeeper" / to be standards compliant Gatekeeper should be set to the
+                  multicast group address 224.0.1.41 */
+                constraint enum ["Manual", "Auto"];
+                default "Manual";
+            }
+
+            /** 
+             * Gatekeeper ID 
+             * @version 4.6
+             */
+            persistent string GatekeeperID {
+                constraint maxvalue 256;
+            }
+
+            /** 
+             * In seconds, defines the TimeToLive specification 86400 in the registration with the Gatekeeper. 
+             * @version 4.6
+             */
+            persistent uint32 TimeToLive {
+                default 86400;
+            }
+
+            /** 
+             * Enables or disables usage of H.235 security (H.235v2 Annex D, baseline security profile) 
+             * @version 4.6
+             */
+            persistent bool H235Authentication = false;     
+
+            /** 
+             * Password to be used when H.235 is enabled. When read, this parameter returns an empty string, regardless of the actual value.
+             * @version 4.6
+             */
+            persistent string AuthPassword {
+                constraint maxvalue 256;
+            }
+
+            /** 
+             * In ITU-T based H.235 authentication, the &lt;Empty&gt; sendersID is the ID of the gateway as received from the Gatekeeper. As long as the endpointID is
+             * not received from the Gatekeeper, the sendersID will be applied as configured here. The generalID is the GatekeeperID. 
+             * @version 4.6
+             **/
+            persistent string SendersID {
+                constraint maxvalue 256;
+            }
+
+            /**
+             * Diffserv code point to be used for outgoing H.323 
+             * (Value of the TOS filed of the IP header, used for QoS.)
+             * @version 4.6
+             */
+            persistent uint32 DSCPMark {
+                constraint range[0,63];
+                default 0;
+            }
+
+            /**
+             * VLAN ID (as defined in 802.1Q) to be used for outgoing H.323 signaling packets for this profile. A value of -1 indicates the default value is to be used.
+             * @version 4.6
+             */
+            persistent int32 VLANIDMark {
+                constraint minvalue -1;
+                default -1;
+            }
+
+            /** 
+             * When receiving an Error the voice application should try to reregister after num seconds."
+             * @version 5.0
+             */
+            persistent uint32 X_ORANGE-COM_ReRegistrationTimeOut
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+        }
+
+        /* Start - SAH specific parameters/objects */
+        persistent object X_ORANGE-COM_CATIQ {
+            persistent object BaseStation[] {
+                persistent string Name;
+                uint32 AccessCode { 
+                    constraint range[0,9999];
+                }
+                string Registration {
+                    constraint enum ["enabled", "disabled"];
+                    default "disabled";
+                }
+            }
+        }
+        /* End - SAH specific parameters/objects */
+
+        /**
+         * Voice profile parameters related to the voice stream sent via RTP.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent object RTP {
+            /**
+             * Base of port range to be used for incoming RTP streams for this profile.
+             * @version 1.0
+             */
+            persistent uint32 LocalPortMin {
+                constraint maxvalue 65535;
+                default 0;
+            }
+            /**
+             * Top of port range to be used for incoming RTP streams for this profile.
+             * @version 1.0
+             */
+            persistent uint32 LocalPortMax {
+                constraint maxvalue 65535;
+                default 0;
+            }
+            /**
+             * Diffserv code point to be used for outgoing RTP packets for this profile.  It is RECOMMENDED that by default the DSCP for RTP traffic be set to the value to indicate EF traffic.
+             * @version 1.0
+             */
+            persistent int32 DSCPMark {
+                constraint range[0,63];
+            }
+            /**
+             * VLAN ID (as defined in 802.1Q-2005) to be used for outgoing RTP packets for this profile.  A value of -1 indicates the default value is to be used.
+             If either VLANIDMark or EthernetPriorityMark is greater than zero, then the outgoing frames MUST be tagged.  Otherwise, the outgoing frames MAY be tagged or untagged.
+             * @version 1.0
+             */
+            persistent int32 VLANIDMark {
+                constraint minvalue -1;
+                default -1;
+            }
+            /**
+             * Ethernet priority code (as defined in 802.1D-2004) to be used for outgoing RTP packets for this profile.  A value of -1 indicates the default value is to be used.
+             If either VLANIDMark or EthernetPriorityMark is greater than zero, then the outgoing frames MUST be tagged.  Otherwise, the outgoing frames MAY be tagged or untagged.
+             * @version 1.0
+             */
+            persistent int32 EthernetPriorityMark {
+                constraint minvalue -1;
+                default -1;
+            }
+            persistent uint32 TelephoneEventPayLoadType { 
+                constraint range[0,128];
+            }
+            /**
+             * Voice profile parameters related to RTCP.
+             If supported, the value of .Capabilities.RTCP MUST be true.
+             Applicable only for a VoIP endpoint.
+             * @version 1.0
+             */
+            persistent object RTCP {
+                /**
+                 * Enable or disable RTCP.
+                 * @version 1.0
+                 */
+                persistent bool Enable = false; 
+                /**
+                 * Transmission repeat interval, in seconds.
+                 * @version 1.0
+                 */
+                persistent uint32 TxRepeatInterval {
+                    constraint minvalue 1;
+                    default 1;
+                }
+                /**
+                 * Local Cname (canonical name).
+                 * @version 1.0
+                 */
+                persistent string LocalCName { 
+                    constraint maxvalue 64;
+                }
+            }
+
+            /**
+             * Voice profile parameters for secure voice transmission via SRTP.
+             If supported, the value of .Capabilities.SRTP MUST be true.
+             Applicable only for a VoIP endpoint.
+             * @version 1.0
+             */
+            persistent object SRTP { 
+                /**
+                 * Enable or disable the use of SRTP.
+                 If RTCP is enabled, a true value of this parameter also implies the use of SRTCP.
+                 * @version 1.0
+                 */
+                persistent bool Enable = false;
+                /**
+                 *  Each item is a keying method that may be used.  By default this parameter MUST have the value of .Capabilities.SRTPKeyingMethods-
+                 * @version 1.0
+                 */
+                persistent string KeyingMethods { 
+                    constraint maxvalue 256;
+                }
+                /**
+                 *   Each item is an encryption key size that may be used.  By default this parameter MUST have the value of .Capabilities.SRTPEncryptionKeySizes.
+                 * @version 1.0
+                 */
+                persistent string EncryptionKeySizes { 
+                    constraint maxvalue 256;
+                }
+            }
+
+            /**
+             * Voice profile parameters for RTP payload redundancy as defined by RFC2198.
+             If supported, the value of .Capabilities.RTPRedundancy MUST be true.
+             Applicable only for a VoIP endpoint.
+             * @version 1.0
+             */
+            persistent object Redundancy {
+                /**
+                 * Enable or disable the use of RTP payload redundancy as defined by RFC2198.
+                 * @version 1.0
+                 */
+                persistent bool Enable = false;
+                /**
+                 * The Payload Type of RTP packet as defined in RFC2198.  Values SHOULD be within the range of dynamic Payload Types (96-127).
+                 * @version 1.0
+                 */
+                persistent uint32 PayloadType { 
+                    constraint range[0,127];
+                    default 0;
+                }
+                /**
+                 * Block Payload Type of redundancy packet.
+                 * @version 1.0
+                 */
+                persistent uint32 BlockPayloadType {
+                    constraint range[0,127];
+                    default 0;
+                }
+                /**
+                 * Specifies the redundancy number for fax and modem pass-through data transmissions.
+                 A non-negative value indicates that RFC2198 is to be used for fax and modem pass-through data.  The value indicates the number of redundant copies to be transmitted (the total number transmitted is one plus this value).
+                 A value of -1 indicates RFC2198 is not to be used for fax and modem pass-through data.
+                 If ModemRedundancy is present, then FaxAndModemRedundancy applies only to fax transmissions, but not to modem transmissions.
+                 * @version 1.0
+                 */
+                persistent int32 FaxAndModemRedundancy { 
+                    constraint range[-1,5];
+                    default -1;
+                }
+                /**
+                 * Specifies the redundancy number for modem pass-through data transmissions.
+                 A non-negative value indicates that RFC2198 is to be used for modem pass-through data.  The value indicates the number of redundant copies to be transmitted (the total number transmitted is one plus this value).
+                 A value of -1 indicates RFC2198 is not to be used for modem pass-through data.
+                 * @version 1.0
+                 */
+                persistent int32 ModemRedundancy { 
+                    constraint range[-1,5];
+                    default -1;
+                }
+                /**
+                 * Specifies the redundancy number for DTMF transmissions.
+                 A non-negative value indicates that RFC2198 is to be used for DTMF.  The value indicates the number of redundant copies to be transmitted (the total number transmitted is one plus this value).
+                 A value of -1 indicates RFC2198 is not to be used for DTMF.
+                 * @version 1.0
+                 */
+                persistent int32 DTMFRedundancy { 
+                    constraint range[-1,5];
+                    default -1;
+                }
+                /**
+                 * Specifies the redundancy number for general voice transmissions.
+                 A non-negative value indicates that RFC2198 is to be used for voice.  The value indicates the number of redundant copies to be transmitted (the total number transmitted is one plus this value).
+                 A value of -1 indicates RFC2198 is not to be used for voice.
+                 * @version 1.0
+                 */
+                persistent int32 VoiceRedundancy { 
+                    constraint range[-1,5];
+                    default -1;
+                }
+                /**
+                 * The maximum number of sessions using RFC2198 payload redundancy simultaneously in this VoiceProfile.
+                 A value of zero indicates no explicit limit on the number of sessions using redundancy.
+                 * @version 1.0
+                 */
+                persistent uint32 MaxSessionsUsingRedundancy = 0;
+            }
+        }
+
+        /**
+         * This object contains information related the numbering plan.
+         This object is applicable only if the device supports a dialing mechanism for which a number plan is needed (for example, a device with an explicit Dial button may not need to be aware of the dialing plan) and if the device does not already support a numbering plan mechanism for this profile (e.g., in-band via MGCP).
+         If supported, the value of .Capabilities.NumberingPlan MUST be true.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent object NumberingPlan {
+            /**
+             * This is the minimum number of digits that must be collected before an outgoing request (e.g., a SIP INVITE) can be initiated.
+             If "End of Dialing" (refer to the definition of the InterDigitTimer) occurs before the minimum number of digits has been reached then the number will be considered incomplete and no request will be initiated.
+             In practice, searching VoiceService.{i}.VoiceProfile.{i}.NumberingPlan.PrefixInfo.{i}. should only commence once the minimum number of digits (as specified by this parameter) has been received.
+             * @version 1.0
+             */
+            persistent uint32 MinimumNumberOfDigits {
+                constraint range[0,40];
+            }
+            /* MaximumNumberOfDigits - The usage of this value is updated after every call. */
+            persistent uint32 MaximumNumberOfDigits {
+                constraint range[0,40];
+            }
+            /**
+             * This timer is the maximum allowable time (expressed in seconds) between the dialing of digits. This timer is restarted every time a digit is dialed. Expiration of this timer indicates "End of Dialing".
+             * @version 1.0
+             */
+            persistent uint32 InterDigitTimerStd {
+                constraint maxvalue 500000;
+            }
+            /**
+             * This timer is the maximum allowable time (expressed in seconds) between the dialing of digits once the minimum number of digits defined on a prefix based has been reached.
+             This timer is only applicable to "open numbering", where the exact number of digits for a prefix is not known.
+             * @version 1.0
+             */
+            persistent uint32 InterDigitTimerOpen {
+                constraint maxvalue 500000;
+            }
+            /**
+             * The tone that should be provided to the user when the number dialed is determined to be invalid.  The value corresponds to an instance of an EntryID in VoiceService.{i}.VoiceProfile.{i}.Tone.Description..  A value of zero, or any value that does not match a valid EntryID, results in no tone played.
+             If .Capabilities.ToneGeneration is equal to false, no tone is played regardless of the value of this parameter.
+             * @version 1.0
+             */
+            persistent uint32 InvalidNumberTone;
+            /**
+             * This is the maximum number of instances of VoiceService.{i}.VoiceProfile.{i}.NumberingPlan.PrefixInfo.{i}. that can be supported.
+             * @version 1.0
+             */
+            persistent uint32 PrefixInfoMaxEntries;
+            /**
+             * Indicates the number of instances of VoiceService.{i}.VoiceProfile.{i}.NumberingPlan.PrefixInfo.{i}..
+             * @version 1.0
+             */
+            read-only uint32 PrefixInfoNumberOfEntries;
+
+            /**
+             * True implies that for every number terminated by T (i.e. timeout was exceeded) all
+             * rules should be compared to the number and the number minus the trailing T in pcb index order.
+             * If the number matches the PrefixRange expression then it is accepted but if the number/T 
+             * is a prefix of one of the possible numbers that could match the expression then it will be refused. 
+             * In other words, partially matching numbers are refused. 
+             * @version 4.6
+             */
+            persistent bool RefusePartialMatches {
+                default 0;
+            }
+
+            persistent object X_ORANGE-COM_NoneMatchingNumbers {
+                /**
+                 * Indicates that the none matching numbers has to be accepted (after interdigit timeout) or not (generate a warning tone immediatly)
+                 * @version
+                 */
+                persistent bool Accept = 0;
+                
+                /**
+                 * This is a string similaire to the one defined in TR104 and used in PrefixInfo[]
+                 * @version 
+                 */
+                persistent string FacilityAction {
+                    constraint maxvalue 40;
+                }
+                /**
+                 * This is a string similaire to the one defined in TR104 and used in PrefixInfo[]
+                 * @version 
+                 */
+                persistent string FacilityActionArgument {
+                    constraint maxvalue 256;
+                }
+
+                /**
+                 * This is a string or a regular expression
+                 * @version 6.1
+                 */
+                persistent string PrefixRange {
+                    constraint maxvalue 256;
+                }
+            } 
+            persistent string X_ORANGE-COM_EndOfDialingDigit;
+
+            /**
+             * Each entry in this table contains information related to an individual prefix in the numbering plan.
+             It is anticipated that once the minimum number of digits has been received, the VoIP device will search this prefix list every time a new digit is received. If no new entry is found, then the object that was previously found will be used instead.
+             If supported, .VoiceProfile.{i}.NumberingPlan.PrefixInfoMaxEntries and .VoiceProfile.{i}.NumberingPlan.PrefixInfoNumberOfEntries MUST be present.
+             The defaults given for this object apply only to explicit creation of an instance of this object and not to automatic creation of instances of this object due to creation of a parent object.
+
+             * @version 1.0
+             */
+            persistent object PrefixInfo[] {
+                /**
+                 * This is a string representation of a range of prefixes. Each prefix consists of a "From" part consisting of 1 to n digits (string representation) followed by an optional "To" part consisting of exactly one digit prefixed by a "-" symbol. 
+                 It should be noted that only the characters "0-9", "*": and "#" can be used to represent the "From" and "To" parts of the prefix range.
+                 A further constraint is that the "To" digit MUST always be numerically greater than the last digit of the "From" part.
+Examples:
+: 02
+: 031-5
+: 032
+: 0325
+: *#34
+: #22
+                 * @version 1.0
+                 */
+                persistent string PrefixRange {
+                    constraint custom cfg_constraint_numberingPlan_PrefixRange;
+                }
+                /**
+                 * This is the minimum number of allowable digits for the prefix range. Once the minimum number of digits has been reached, .VoiceProfile.{i}.NumberingPlan.InterDigitTimerOpen will be used instead of .VoiceProfile.{i}.NumberingPlan.InterDigitTimerStd.
+                 If the minimum number of digits has been reached and the inter-digit timer expires, an outgoing request should be initiated.
+                 * @version 1.0
+                 */
+                persistent uint32 PrefixMinNumberOfDigits {
+                    constraint range [0,40];
+                    default 1; 
+                } 
+                /**
+                 * This is the maximum number of allowable digits for the prefix range. Once the number of digits received reaches this value an outgoing request should be initiated.
+                 * @version 1.0
+                 */
+                persistent uint32 PrefixMaxNumberOfDigits { 
+                    constraint range[0,40];
+                    default 1; 
+                }
+                /**
+                 * If this parameter has a non-zero value, the specified number of digits will be removed from the internal digit buffer (which contains the dialed digits) from the position specified by PosOfDigitsToRemove.
+                 Subsequently a search of NumberingPlan for a matching prefix using the modified number should be performed. Note that this parameter does not have any impact on the number sent in the outgoing request - but is instead only used for searching within the Numbering Plan.
+                 This parameter has no effect if it is set to 0.
+                 This parameter is provided to handle Carrier override and other codes that may prefix standard numbers and to ensure that the correct "End of Dialing" can be specified without significant data duplication.
+                 * @version 1.0
+                 */
+                persistent uint32 NumberOfDigitsToRemove {
+                    constraint range [0,40];
+                    default 0;
+                }
+                /**
+                 * This parameter is used in conjunction with NumberOfDigitsToRemove. It specifies the position within the internal digit buffer from which the digits are to be removed.
+                 * @version 1.0
+                 */
+                persistent uint32 PosOfDigitsToRemove {
+                    constraint range [0,40];
+                    default 0;
+                }
+
+                /**
+                 * If this parameter is not equal to zero, then it specifies the number of digits 
+                 * to be stripped from the dialed number before sending it to the network 
+                 */
+                persistent uint32 X_ORANGE-COM_NumberOfDigitsToStrip {
+                    constraint range [0,40];
+                    default 0;
+                }
+                /**
+                 * This parameter is used in conjuction with the NumberOfDigitsToStrip parameter, it specifies the position withing the dialled number from which digits are to be stripped. 
+                 */
+                persistent uint32 X_ORANGE-COM_PosOfDigitsToStrip {
+                    constraint range [0,40];
+                    default 0;
+                }
+                /**
+                 * The tone to be played by the VoIP device when the user has dialed exactly the same digits as defined in the prefix.  The VoIP device will cease playing the tone once an additional digit has been dialed.
+                 The value corresponds to an instance of and EntryID in VoiceService.{i}.VoiceProfile.{i}.Tone.Description..  A value of zero, or any value that does not match a valid EntryID, results in no tone played.
+                 If .Capabilities.ToneGeneration is equal to false, no tone is played regardless of the value of this parameter.
+                 * @version 1.0
+                 */
+                persistent uint32 DialTone = 0;
+                /**
+                 * This is a string representing a Facility Action implemented by the VoIP device.
+                 TR-104|Appendix A lists a set of defined values for this string.
+                 The parameter MAY instead indicate a vendor-specific FacilityAction, which MUST use the format defined in TR-106.
+                 An empty or unrecognized string (i.e., a Facility Action not supported by the CPE) should be treated as a normal outgoing request.
+                 * @version 1.0
+                 */
+                persistent string FacilityAction {
+                    constraint maxvalue 40;
+                }
+                /**
+                 * Optional argument associated with FacilityAction.  The interpretation of the argument is dependent on a specific value of FacilityAction.  Where used, the value is specified in TR-104|Appendix A in the definition of the corresponding FacilityAction value.
+                 * @version 1.0
+                 */
+                persistent string FacilityActionArgument {
+                    constraint maxvalue 256;
+                }
+            }
+        }
+
+        /**
+         * This object defines the contents of the tones and announcements generated locally by the VoIP device.
+         If this object is supported, .Capabilities.ToneGeneration MUST be true.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent object Tone {
+            /**
+             * Indicates the number of entries in VoiceService.{i}.VoiceProfile.{i}.Tone.Event.{i}..
+             * @version 1.0
+             */
+            read-only uint32 EventNumberOfEntries;
+            /**
+             * Indicates the number of entries in VoiceService.{i}.VoiceProfile.{i}.Tone.Description.{i}..
+             * @version 1.0
+             */
+            read-only uint32 DescriptionNumberOfEntries;
+            /**
+             * Indicates the number of entries in VoiceService.{i}.VoiceProfile.{i}.Tone.Pattern.{i}..
+             * @version 1.0
+             */
+            read-only uint32 PatternNumberOfEntries;
+
+            /**
+             * Table of events for which a tone is defined.  The table is pre-populated with the list of events for which the CPE supports definition of tones.
+             If this table is supported, .VoiceProfile.{i}.Tone.EventNumberOfEntries MUST be present.
+             * @version 1.0
+             */
+            persistent object Event[] {
+                /**
+                 * The event for which the tone is to apply. 
+                 The parameter MAY instead indicate a vendor-specific event name, which MUST use the format defined in TR-106.
+                 * @version 1.0
+                 */
+                persistent string Function {
+                    constraint enum ["", "Busy", "Confirmation", "Dial", "MessageWaiting", "OffHookWarning", "RingBack", "ReOrder", "Stutterdial", "CallWaiting1", "CallWaiting2", "CallWaiting3", "CallWaiting4", "AlertingSignal", "SpecialDial", "SpecialDial", "SpacialInfo", "Release", "Congestion", "UserDefined1", "UserDefined2", "UserDefined3", "UserDefined4"];
+                    default "";
+                }
+                /**
+                 * The EntryID of the entry in VoiceService.{i}.VoiceProfile.{i}.Tone.Description.{i}. for the tone to be associated with the given event.
+                 A value of zero indicates no tone is to be played for this event.
+                 * @version 1.0
+                 */
+                persistent uint32 ToneID;
+            }
+
+            /**
+             * Each entry in this table defines the contents of an individual tone.
+             If ability to add, delete, and modify entries in this table is supported, .Capabilities.ToneDescriptionsEditable MUST be true.
+             If this table is supported, .VoiceProfile.{i}.Tone.DescriptionNumberOfEntries MUST be present.
+             The defaults given for this object apply only to explicit creation of an instance of this object and not to automatic creation of instances of this object due to creation of a parent object.
+
+             * @version 1.0
+             */
+            persistent object Description[] {
+                /**
+                 * Unique identifier of this tone.  Assigned by the CPE upon creation of the entry.
+                 * @version 1.0
+                 */
+                read-only persistent uint32 EntryID {
+                    constraint minvalue 1;
+                    default 1;
+                }
+                /**
+                 * Enables or disables the tone entry.  If a disabled tone entry is referenced, the result is that no tone is played.
+                 * @version 1.0
+                 */
+                persistent bool ToneEnable = false;
+                /**
+                 * Name of the tone. 
+                 This parameter is required to be editable only .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                persistent string ToneName {
+                    constraint maxvalue 64;
+                }
+                /**
+                 * EntryID of the entry in VoiceService.{i}.VoiceProfile.{i}.Tone.Pattern. that begins the tone pattern for this tone.  If the tone is specified by a tone file instead of a tone pattern, this parameter MUST be set to zero.
+                 This parameter is applicable only if .Capabilities.PatternBasedToneGeneration is equal to true.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                persistent uint32 TonePattern = 0; 
+                /**
+                 * This is the file name of a tone file that has been downloaded to the CPE.  The download may have occurred via the TR-069 Download mechanism or by some other means.
+                 If the tone is specified by a tone pattern instead of a tone file, this parameter MUST be empty.
+                 This parameter is applicable only if .Capabilities.FileBasedToneGeneration is equal to true.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                persistent string ToneFile {
+                    constraint maxvalue 256;
+                }
+                /**
+                 * The default number of times the data in ToneFile should be repeated. If the value 0 (zero) is specified then ToneFile should be played indefinitely.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                persistent uint32 ToneRepetitions {
+                    constraint range [0,255];
+                    default 0;
+                }
+                /**
+                 * The text to be displayed by on the screen of the VoIP device when the tone is played and no specific error message has been provided.
+                 This parameter is applicable only for VoIP devices capable text display.
+                 * @version 1.0
+                 */
+                persistent string ToneText {
+                    constraint maxvalue 64;
+
+                }
+            }
+
+            /**
+             * Each entry in the table defines a single phase in an overall tone pattern.  Each phase identifies the entry that corresponds to the next phase.
+             Each entry in the table refers to the entry that corresponds to the next phase of the pattern.  The table MAY be set up such that entries form loops, or MAY end after a finite sequence.
+             If this object is supported, .Capabilities.PatternBasedToneGeneration MUST be equal to true, and .VoiceProfile.{i}.Tone.PatternNumberOfEntries MUST be present.
+             If ability to add, delete, and modify entries in this table is supported, .Capabilities.ToneDescriptionsEditable MUST be equal to true.
+             The defaults given for this object apply only to explicit creation of an instance of this object and not to automatic creation of instances of this object due to creation of a parent object.
+
+             * @version 1.0
+             */
+            object Pattern[] {
+                /**
+                 * Identifier of a tone-pattern entry.  This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+Note: when .Capabilities.ToneDescriptionsEditable is true, this parameter is editable so that the NextEntryID values for each table entry can be pre-assigned for a series of associated table entries rather than requiring the ACS to set the value according to an ID assigned dynamically upon creation of each entry.
+                 * @version 1.0
+                 */
+                    uint32 EntryID { 
+                    constraint minvalue 1;
+                    default 1;
+                }
+                /**
+                 * Whether or not a tone is on during this phase of the pattern.  If the value is false, the frequency and power parameters in this entry MUST be ignored.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                bool ToneOn = false; 
+                /**
+                 * First tone frequency in seconds. 
+                 A value of zero indicates this tone component is not used.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                uint32 Frequency1 { 
+                    constraint range [0,4095];
+                    default 0;
+                }
+                /**
+                 * First tone power level in units of 0.1 seconds.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                int32 Power1 = 0;
+                /**
+                 * Second tone frequency in seconds.
+                 A value of zero indicates this tone component is not used.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                uint32 Frequency2 { 
+                    constraint maxvalue 4095;
+                    default 0;
+                }
+                /**
+                 * Second tone power level in units of 0.1 seconds.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                int32 Power2 = 0;
+                /**
+                 * Third tone frequency in seconds.
+                 A value of zero indicates this tone component is not used.
+                 This parameter is required to be editable only if the parameter is supported for reading and .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                uint32 Frequency3 { 
+                    constraint maxvalue 4095;
+                    default 0;
+                }
+                /**
+                 * Third tone power level in units of 0.1 seconds.
+                 This parameter is required to be editable only if the parameter is supported for reading and .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                int32 Power3 = 0;
+                /**
+                 * Fourth tone frequency in seconds.
+                 A value of zero indicates this tone component is not used.
+                 This parameter is required to be editable only if the parameter is supported for reading and .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                uint32 Frequency4 { 
+                    constraint maxvalue 4095;
+                    default 0;
+                }
+                /**
+                 * Fourth tone power level in units of 0.1 seconds.
+                 This parameter is required to be editable only if the parameter is supported for reading and .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                int32 Power4 = 0;
+                /**
+                 * Modulation frequency in seconds.
+                 A value of zero indicates this tone component is not used.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                uint32 ModulationFrequency { 
+                    constraint maxvalue 4095;
+                    default 0;
+                }
+                /**
+                 * Modulation power level in units of 0.1 seconds.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                int32 ModulationPower = 0;
+                /**
+                 * The duration of this phase of the tone pattern, in seconds.
+                 A value of zero indicates an unlimited duration.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                uint32 Duration = 0;
+                /**
+                 * The EntryID for the next phase of the tone pattern, after the specified Duration of this phase has completed.
+                 A value of zero indicates that the tone pattern is to terminate after the current phase is completed.
+                 This parameter is required to be editable only if .Capabilities.ToneDescriptionsEditable is equal to true.
+                 * @version 1.0
+                 */
+                uint32 NextEntryID = 0;
+            }
+        }
+
+        /**
+         * This object is provided to permit the purpose of the CPE buttons and function keys to be defined via the ACS.
+         Support of this object is appropriate only for a device that has programmable buttons in its user interface.
+         If this object is supported, .Capabilities.ButtonMap MUST be equal to true.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent object ButtonMap {
+            /**
+             * Indicates the number of Button objects.
+             * @version 1.0
+             */
+            read-only uint32 NumberOfButtons;
+
+            /**
+             * Each entry in this table specifies the purpose of each programmable CPE button / function key and whether the user has permission to reprogram the button.
+             * @version 1.0
+             */
+            persistent object Button[] {
+                /**
+                 * Name of the Button.
+                 * @version 1.0
+                 */
+                persistent string ButtonName {
+                    constraint maxvalue 16;
+                }
+                /**
+                 * This is an optional parameter that should only be specified for buttons related to a particular Facility Action (e.g., invocation of "Call Return") implemented by the VoIP device.
+                 TR-104|Appendix A lists a set of defined values for this string.
+                 The parameter MAY instead indicate a vendor-specific FacilityAction, which MUST use the format defined in TR-106.
+                 An empty or unrecognized string (i.e. a Facility Action not supported by the CPE) should be treated as no Facility Action to be taken.
+                 Note that If this parameter is specified (non-empty) then QuickDialNumber SHOULD be empty.
+                 * @version 1.0
+                 */
+                persistent string FacilityAction { 
+                    constraint maxvalue 64;
+                }
+                /**
+                 * Optional argument associated with the specified FacilityAction.  The interpretation of the argument is dependent on the specific FacilityAction.  Where used, the value is specified in TR-104|Appendix A in the definition of the corresponding FacilityAction value.
+                 * @version 1.0
+                 */
+                persistent string FacilityActionArgument {
+                    constraint maxvalue 256;
+                }
+                /**
+                 * This is a string representing a quick dial destination number. Only the characters '0-9', '*' and '#' can be used.
+                 Note that If this parameter is specified (non-empty) then FacilityAction should be empty.
+                 * @version 1.0
+                 */
+                persistent string QuickDialNumber {
+                    constraint maxvalue 40;
+                }
+                /**
+                 * This string represents the message to be displayed on the screen when the button or function key is pressed.
+                 * @version 1.0
+                 */
+                persistent string ButtonMessage {
+                    constraint maxvalue 64;
+                }
+                /**
+                 * This parameter indicates whether the user has permission to program the button or function key. If this parameter is set to true then FacilityAction, QuickDialNumber and ButtonMessage MUST all be empty.
+                 * @version 1.0
+                 */
+                persistent bool UserAccess;
+            }
+        }
+
+        /**
+         * T.38 Fax information for devices that support T.38 relay.
+         If this object is supported, .Capabilities.FaxT38 MUST be equal to true.
+         Applicable only to a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent object FaxT38 {
+            /**
+             * Enable or disable the use of T.38.
+             * @version 1.0
+             */
+            persistent bool Enable = false;
+            /**
+             * Maximum data rate for fax.
+             * @version 1.0
+             */
+            persistent uint32 BitRate {
+                constraint enum [2400,4800,7200,9600,12000,14400,33600];
+                default 14400;
+            }
+            /**
+             * The rate at which high speed data will be sent across the network, in seconds.
+             * @version 1.0
+             */
+            persistent uint32 HighSpeedPacketRate {
+                constraint enum [10,20,30,40];
+                default 10;
+            }
+            /**
+             * Specifies the packet-level redundancy for high-speed data transmissions (i.e., T.4 image data).
+             * @version 1.0
+             */
+            persistent uint32 HighSpeedRedundancy {
+                constraint range [0,3];
+                default 3;
+            }
+            /**
+             * Specifies the packet-level redundancy for low-speed data transmissions (i.e., T.30 handshaking information). 
+             * @version 1.0
+             */
+            persistent uint32 LowSpeedRedundancy {
+                constraint range [0,5];
+                default 5;
+            }
+            /**
+             * The method with which data is handled over the network.
+             * @version 1.0
+             */
+            string TCFMethod { 
+                constraint enum ["Local", "Network"];
+                default "Local";
+            }
+        }
+
+        /**
+         * Object associated with a distinct voice line.  Support for adding and removing lines is conditional on whether the CPE supports more than one line in total as indicated by .Capabilities.MaxLineCount.  By default, on creation of a given VoiceService.{i}.VoiceProfile.{i}., a single Line object MUST be present, initially with value Disabled|Enable.
+         Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent object Line[] {
+            /**
+             * Enable or disables this line
+             * @version 1.0
+             */
+            string Enable {
+                constraint enum ["Disabled", "Quiescent", "Enabled"];
+                default "Disabled";
+            }
+
+            /**
+             * Directory number associated with the line.
+             * @version 1.0
+             */
+            persistent string DirectoryNumber {
+                constraint custom cfg_constraint_DirectoryNumber;
+                write with cfg_write_handler_DirectoryNumber;
+            }
+
+            /**
+             * Indicates the status of this line.
+             * @version 1.0
+             */
+            read-only string Status {
+                constraint enum ["Up", "Initializing", "Registering", "Unregistering", "Error", "Testing", "Quiescent", "Disabled"];
+                default "Disabled";
+            }
+
+            /** 
+             * The Active Line Status Info.     
+             * @version 1.0
+             */
+            string X_ORANGE-COM_StatusInfo {
+                constraint enum ["RegistrationFailed", "TimerLoginRejected", "TimerPasswordRejected", "NoResponse", "ResetTimer", ""];
+                default "";
+            }
+
+            /** 
+             * The Line EndpointType.
+             * @version 1.0
+             */
+            persistent string X_ORANGE-COM_EndpointType {
+                constraint enum ["FXS", "DECT GAP", "DECT CAT-iq 1.0", "DECT CAT-iq 2.0", "DECT CAT-iq 2.1", "DECT CAT-iq 3.0", "DECT CAT-iq 4.0", "SIP", "DUMMY", "Undefined"];
+                default "Undefined";
+            }
+
+            /** 
+             * The Line EndpointId.
+             * @version V5.2
+             */
+            int32 X_ORANGE-COM_EndpointId {
+                default -1;
+            }
+
+			/** 
+             * The Line EndpointHWVersion.
+             * @version 6.1
+             */
+            persistent string X_ORANGE-COM_EndpointHWVersion;
+
+			/** 
+             * The Line EndpointSWVersion.
+             * @version 6.1
+             */
+            persistent string X_ORANGE-COM_EndpointSWVersion;
+
+			/** 
+             * The Line HandsetModel.
+             * @version 6.1
+             */
+            persistent string X_ORANGE-COM_HandsetModel;
+
+            /** 
+             * Indicates the call state for this line.
+             * @version 1.0
+             */
+            string CallState {
+                constraint enum ["Idle", "Calling", "Ringing", "Connecting", "InCall", "Hold", "Disconnecting"];
+                default "Idle";
+            }
+
+            /**
+             *  Each item corresponds to the value of a particular instance of .PhyInterface.{i}.InterfaceID.
+             * @version 1.0
+             */
+            persistent string PhyReferenceList { 
+                constraint maxvalue 32;
+            }
+            /**
+             * Whether or not ringing has been locally muted.  Applicable only if the line is associated with a single telephony device for which ringing can be muted.
+             * @version 1.0
+             */
+            persistent bool RingMuteStatus = false;
+            /**
+             * Percent value of current ringer volume level.  Applicable only if the line is associated with a single telephony device for which the ringer volume can be controlled.
+             * @version 1.0
+             */
+            persistent uint32 RingVolumeStatus { 
+                constraint maxvalue 100;
+            }
+
+            /* Start - SAH specific parameters/objects */
+
+            /**
+             * Reference to an outgoing line.
+             * This is typical the name of a line configured 
+             * under SIP or H323-Trunk VoiceProfile
+             * @version 1.0
+             */
+            persistent string X_ORANGE-COM_OutgoingLineReference;
+
+            persistent string X_ORANGE-COM_Name;
+            
+            /**
+             * SIP-Extension IP-address
+             * The source IP address of a SIP-Extension
+             * when connected (registered) to the gateway
+             * @version 6.0
+             */
+            persistent string X_ORANGE-COM_SIPExtensionIPAddress;
+
+            /**
+             * Force the B2BUA to use the TCP connection opened by the sip extension. 
+             * This parameter is added for testing purposes 
+             * @version 6.1
+             */
+            persistent bool X_ORANGE-COM_SIPExtensionForceUsingTCPClientInitiatedConnection = false;
+
+            /* End - SAH specific parameters/objects */
+
+            /**
+             * Voice line parameters that are specific to SIP call signaling.
+             * @version 1.0
+             */
+            persistent object SIP {
+                /**
+                 * Username used to authenticate the connection to the server.
+                 * @version 1.0
+                 */
+                persistent string AuthUserName{ 
+                    constraint maxvalue 128;
+                }
+                /**
+                 * Password used to authenticate the connection to the server.
+                 * @version 1.0
+                 */
+                persistent string AuthPassword {
+                    constraint maxvalue 128;
+                }
+
+                /**
+                 * The radixed 3des encrypted password as per ft specifications
+                 * @version 4.5
+                 */
+                persistent string X_ORANGE-COM_AuthPasswordCrypt {
+                    constraint maxvalue 128;
+                }
+
+                /**
+                 * URI by which the user agent will identify itself for this line.
+                 If empty, the actual URI used in the SIP signaling SHOULD be automatically formed by the CPE as:
+                 "sip:UserName@Domain"
+                 Where UserName is username given for this line in AuthUserName, and Domain is the domain given for this profile in .VoiceProfile.{i}.SIP.UserAgentDomain.  If .VoiceProfile.{i}.SIP.UserAgentDomain is empty, then the IP address of the CPE SHOULD be used for the domain.
+                 If URI is non-empty, but is a SIP or SIPS URI that contains no "@" character, then the actual URI used in the SIP signaling SHOULD be automatically formed by the CPE by appending this parameter with an "@" character followed by the value of .VoiceProfile.{i}.SIP.UserAgentDomain.  If .VoiceProfile.{i}.SIP.UserAgentDomain is empty, then the IP address of the CPE SHOULD be used for the domain.
+                 * @version 1.0
+                 */
+                persistent string URI {
+                    constraint maxvalue 389;
+                }
+
+                /**
+                 * Indicates the number of EventSubscribe objects.
+                 * @version 1.0
+                 */
+                read-only persistent uint32 SIPEventSubscribeNumberOfElements {
+                    read with numberOfElements;
+                }
+
+                /**
+                 * This table allows specification of the authentication credentials needed for each event subscription (from previous list)
+                 * @version 4.5
+                 */
+                persistent object EventSubscribe[] {
+                    /**
+                     * SIP event name corresponding to the value given in the table VoiceService.{i}.VoiceProfile.{i}.SIP.EventSubscribe.{i}. 
+                     * @version 4.5
+                     */
+                    read-only persistent string Event { 
+                        constraint maxvalue 32;
+                    }
+
+                    /**
+                     * Username used to authenticate the connection to the event notify server. 
+                     * @version 4.5
+                     */
+                    persistent string AuthUserName { 
+                        constraint maxvalue 128;
+                    }
+
+                    /**
+                     * Password used to authenticate the connection to event notify server.
+                     * When read, this parameter returns an empty string, regardless of the actual value.
+                     * @version 4.5
+                     */
+                    persistent string AuthPassword { 
+                        constraint maxvalue 128;
+                    }
+                }
+            }
+
+            /**
+             * Voice line parameters that are specific to H.323 call signaling.
+             * @version 1.0
+             */
+            persistent object H323 {
+                /** 
+                 * The H323ID assigned to the line. 
+                 * @version 1.0
+                 */
+                persistent string H323ID {
+                    constraint maxvalue 128;
+                }
+            }
+
+            /* Start - SAH specific parameters/objects */
+            persistent object X_ORANGE-COM_CATIQ {
+                string HandsetId;
+                persistent string IPUI;
+            }
+            /* End - SAH specific parameters/objects */
+
+            /**
+             * This object defines the ring sequences generated by the VoIP device. 
+             If this object is supported, .Capabilities.RingGeneration MUST be equal to true.
+             * @version 1.0
+             */
+            object Ringer {
+                /**
+                 * Number of entries in VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.Event.{i}..
+                 * @version 1.0
+                 */
+                read-only uint32 EventNumberOfEntries;
+                /**
+                 * Number of entries in VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.Description.{i}..
+                 * @version 1.0
+                 */
+                read-only uint32 DescriptionNumberOfEntries;
+                /**
+                 * Number of entries in VoiceService.{i}.VoiceProfile.{i}.Line.{i}.Ringer.Pattern.{i}..
+                 * @version 1.0
+                 */
+                read-only uint32 PatternNumberOfEntries;
+
+                /**
+                 * Table of events for which a ring pattern is defined.  The table is pre-populated with the complete list of events for which the CPE supports definition of ring patterns.
+                 If this table is supported, .VoiceProfile.{i}.Line.{i}.Ringer.EventNumberOfEntries MUST be present.
+                 * @version 1.0
+                 */
+                object Event[] {
+                    /**
+                     * The event for which the ring pattern is to apply. 
+                     The parameter MAY instead indicate a vendor-specific event name, which MUST use the format defined in TR-106.
+                     * @version 1.0
+                     */
+                    string Function{
+                        constraint enum ["", "Default", "RingSplash"];
+                        default "";
+                    }
+                    /**
+                     * The value of an instance of .VoiceProfile.{i}.Line.{i}.Ringer.Description.{i}.EntryID for the ring to be associated with the given event.
+                     A value of zero indicates ringing is to be disabled for this event.
+                     * @version 1.0
+                     */
+                    uint32 RingID;
+                }
+
+                /**
+                 * Each entry in this table defines the contents of an individual ring specification.
+                 If ability to add, delete, and modify entries in this table is supported, .Capabilities.RingDescriptionsEditable MUST be equal to true.
+                 If this table is supported, the parameter DescriptionNumberOfEntries in the parent object MUST be present.
+                 The defaults given for this object apply only to explicit creation of an instance of this object and not to automatic creation of instances of this object due to creation of a parent object.
+
+                 * @version 1.0
+                 */
+                object Description[] {
+                    /**
+                     * Unique identifier of this ring description.  Assigned by the CPE upon creation of the entry.
+                     * @version 1.0
+                     */
+                    uint32 EntryID { 
+                        constraint minvalue 1;
+                        default 1;
+                    }
+                    /**
+                     * Enables or disables the ring description entry.  If a disabled ring description entry is referenced, the result is that no ring is played.
+                     * @version 1.0
+                     */
+                    bool RingEnable = false;
+                    /**
+                     * Name of the ring description. 
+                     This parameter is required to be editable only if .Capabilities.RingDescriptionsEditable is equal to true.
+                     * @version 1.0
+                     */
+                    string RingName { 
+                        constraint maxvalue 64;
+                    }
+                    /**
+                     * The instance of .VoiceProfile.{i}.Line.{i}.Ringer.Pattern.{i}.EntryID that begins the ring pattern for this ring description.
+                     If the ring is specified by a ring file instead of a ring pattern, this parameter MUST be set to zero.
+                     This parameter is applicable only if .Capabilities.PatternBasedRingGeneration is equal to true.
+                     This parameter is required to be editable only if .Capabilities.RingDescriptionsEditable is equal to true.
+                     * @version 1.0
+                     */
+                    uint32 RingPattern = 0;
+                    /**
+                     * This is the file name of a ring file that has been downloaded to the CPE.  The download may have occurred via the TR-069 Download mechanism or by some other means.
+                     If the ring is specified by a ring pattern instead of a ring file, this parameter MUST be empty.
+                     This parameter is applicable only if .Capabilities.FileBasedRingGeneration is equal to true.
+                     This parameter is required to be editable only .Capabilities.RingDescriptionsEditable is equal to true.
+                     * @version 1.0
+                     */
+                    string RingFile { 
+                        constraint maxvalue 256;
+                    }
+                }
+
+                /**
+                 * Each entry in the table defines a single phase in an overall ring pattern.  Each phase identifies the entry that corresponds to the next phase.
+                 Each entry in the table refers to the entry that corresponds to the next phase of the pattern.  The table MAY be set up such that entries form loops, or MAY end after a finite sequence.
+                 If this object is supported, .Capabilities.PatternBasedRingGeneration MUST be equal to true and .VoiceProfile.{i}.Line.{i}.Ringer.PatternNumberOfEntries MUST be present.
+                 If ability to add, delete, and modify entries in this table is supported, .Capabilities.RingPatternEditable MUST be equal to true.
+                 The defaults given for this object apply only to explicit creation of an instance of this object and not to automatic creation of instances of this object due to creation of a parent object.
+
+                 * @version 1.0
+                 */
+                object Pattern[] {
+                    /**
+                     * Identifier of a ring-pattern entry.
+                     This parameter is required to be editable only if .Capabilities.RingPatternEditable is equal to true.
+Note: when .Capabilities.RingPatternEditable is true, this parameter is editable so that the NextEntryID values for each table entry can be pre-assigned for a series of associated table entries rather than requiring the ACS to set the value according to an ID assigned dynamically upon creation of each entry.
+                     * @version 1.0
+                     */
+                        uint32 EntryID { 
+                        constraint minvalue 1;
+                        default 1;
+                    }
+                    /**
+                     * If true, indicates the ringer is to be on for the specified period.  false indicates the ringer is to be off for the specified period.
+                     This parameter is required to be editable only if .Capabilities.RingPatternEditable is equal to true.
+                     * @version 1.0
+                     */
+                    bool RingerOn = false;
+                    /**
+                     * The duration of this phase of the ring pattern, in seconds.
+                     A value of zero indicates an unlimited duration.
+                     This parameter is required to be editable only if .Capabilities.RingPatternEditable is equal to true.
+                     * @version 1.0
+                     */
+                    uint32 Duration = 0;
+                    /**
+                     * The value of EntryID for the next phase of the ring pattern, after the value specified by Duration of this phase has completed.
+                     A value of zero indicates that the ring pattern is to terminate after the current phase is completed.
+                     This parameter is required to be editable only if .Capabilities.RingPatternEditable is equal to true.
+                     * @version 1.0
+                     */
+                    uint32 NextEntryID = 0;
+                }
+            }
+
+            /**
+             * Voice line parameters related to optional endpoint based calling features.
+             * @version 1.0
+             */
+            persistent object CallingFeatures { 
+                /**
+                 * Enable or disable the transmission of caller ID information on outgoing calls.
+                 * @version 1.0
+                 */
+                persistent bool CallerIDEnable = true;
+                /**
+                 * Enable or disable the transmission of caller ID name information on outgoing calls.
+                 * @version 1.0
+                 */
+                persistent bool CallerIDNameEnable = true;
+
+                /**
+                 * Enable CLIP: allow the phone number from an incoming call to be used. Only applicable on trunk line. 
+                 * @version 4.5
+                 */
+                persistent bool X_ORANGE-COM_IncomingCallerIDEnable = true;
+
+                /**
+                 * Enable CNIP: allow the name from an incoming call to be used. Only applicable on trunk line.
+                 * @version 4.5
+                 */
+                persistent bool X_ORANGE-COM_IncomingCallerIDNameEnable = false;
+
+                /**
+                 * String used to identify the caller.
+                 * @version 1.0
+                 */
+                persistent string CallerIDName { 
+                    constraint maxvalue 256;
+                }
+                /**
+                 * Enable or disable call waiting in the endpoint.  This parameter should not be present if the CPE does not support endpoint managed call waiting.
+                 * @version 1.0
+                 */
+                persistent bool CallWaitingEnable = true;
+                /**
+                 * Status of endpoint managed call waiting, if supported.  
+                 This parameter should not be present if the CPE does not support endpoint managed call waiting.
+                 * @version 1.0
+                 */
+                persistent string CallWaitingStatus {
+                    constraint enum ["Disabled", "Idle", "SecondaryRinging", "SecondaryConnecting", "SecondaryConnected"];
+                    default "Idle";
+                }
+                /**
+                 * Indicates the maximum number of simultaneous sessions that may be conferenced together by the endpoint.  This value SHOULD be less than the value of .Capabilities.MaxSessionsPerLine.  This parameter should not be present if the CPE does not support endpoint managed conference calling.
+                 * @version 1.0
+                 */
+                uint32 MaxSessions;
+                /**
+                 * Status of endpoint managed conference calling, if supported.  
+                 This parameter should not be present if the CPE does not support endpoint managed conference calling.
+                 * @version 1.0
+                 */
+                string ConferenceCallingStatus { 
+                    constraint enum ["Disabled", "Idle", "SecondaryCalling", "SecondaryConnecting", "SecondaryConnected", "InConferenceCall"];
+                    default "Disabled";
+                }
+                /**
+                 * Number of active sessions on this line.  This parameter should not be present if the CPE does not support endpoint managed conference calling.
+                 * @version 1.0
+                 */
+                uint32 ConferenceCallingSessionCount;
+                /**
+                 * Enable or disable call forwarding by the endpoint.  This parameter should not be present if the CPE does not support endpoint based call forwarding.
+                 * @version 1.0
+                 */
+                persistent bool CallForwardUnconditionalEnable = false;
+                /**
+                 * Directory number to which all incoming calls to this line should be forwarded if CallForwardUnconditionalEnable is true.  This parameter should not be present if the CPE does not support endpoint based call forwarding
+                 * @version 1.0
+                 */
+                persistent string CallForwardUnconditionalNumber { 
+                    constraint maxvalue 32;
+                }
+                /**
+                 * Enable or disable call forwarding-on-busy by the endpoint.  This parameter should not be present if the CPE does not support endpoint based call forwarding.
+                 * @version 1.0
+                 */
+                persistent bool CallForwardOnBusyEnable = false;
+                /**
+                 * Directory number to which all incoming calls to this line should be forwarded if CallForwardOnBusyEnable is true and the line is busy.  This parameter should not be present if the CPE does not support endpoint based call forwarding
+                 * @version 1.0
+                 */
+                persistent string CallForwardOnBusyNumber { 
+                    constraint maxvalue 32;
+                }
+                /**
+                 * Enable or disable call forwarding-on-no-answer by the endpoint.  This parameter should not be present if the CPE does not support endpoint based call forwarding.
+                 * @version 1.0
+                 */
+                persistent bool CallForwardOnNoAnswerEnable = false;
+                /**
+                 * Directory number to which all incoming calls to this line should be forwarded if CallForwardOnNoAnswerEnable is true and there is no local answer.  This parameter should not be present if the CPE does not support endpoint based call forwarding
+                 * @version 1.0
+                 */
+                persistent string CallForwardOnNoAnswerNumber { 
+                    constraint maxvalue 32;
+                }
+                /**
+                 * Number of rings before considering there to be no answer for call forwarding-on-no-answer.  This parameter should not be present if the CPE does not support endpoint based call forwarding
+                 * @version 1.0
+                 */
+                persistent uint32 CallForwardOnNoAnswerRingCount = 2;
+                /**
+                 * Enable or disable call transfer by the endpoint.  This parameter should not be present if the CPE does not support endpoint based call transfer.
+                 * @version 1.0
+                 */
+                persistent bool CallTransferEnable = true;
+
+                /**
+                 * Used to activate/deactivate notification on physical endpoints. ( FXS1, FXS2, ....) 
+                 * @version 1.0
+                 */
+                persistent bool MWIEnable = true;
+
+                /**
+                 * Used to select which type of indication will be used to notify the user of an existing message waiting
+                 * @version 4.5
+                 */
+                persistent string X_ORANGE-COM_MWIType {
+                    constraint enum ["visual", "deferred", "both"];
+                    default "deferred";
+                }
+
+                /**
+                 * Indicates whether or not a message is currently waiting on this line as known by the CPE.  This parameter should not be present if the CPE does not support MWI.
+                 * @version 1.0
+                 */
+                bool MessageWaiting; 
+                /**
+                 * Indicates the number of message waiting when Used MessageWaiting is true
+                 * @version 4.5
+                 */
+                uint32 X_ORANGE-COM_MessageWaitingNumber = 0;
+
+                /**
+                 * Enable or disable Anonymous Call Block capability in the endpoint.  This parameter should not be present if the CPE does not support endpoint based Anonymous Call Block capability.
+                 * @version 1.0
+                 */
+                persistent bool AnonymousCallBlockEnable = false;
+                /**
+                 * Enable or disable Anonymous Call capability in the endpoint.  This parameter should not be present if the CPE does not support endpoint based Anonymous Call capability.
+                 * @version 1.0
+                 */
+                persistent bool AnonymousCalEnable = false;
+                /**
+                 * Enable or disable Do Not Disturb capability in the endpoint.  This parameter should not be present if the CPE does not support endpoint based Do Not Disturb capability.
+                 * @version 1.0
+                 */
+                persistent bool DoNotDisturbEnable =false;
+                /**
+                 * Enable or disable Call Return capability in the endpoint.  This parameter should not be present if the CPE does not support endpoint based Call Return capability.
+                 * @version 1.0
+                 */
+                persistent bool CallReturnEnable = false;
+                /**
+                 * Enable or disable Repeat Dial capability in the endpoint.  This parameter should not be present if the CPE does not support endpoint based Repeat Dial capability.
+                 * @version 1.0
+                 */
+                persistent bool RepeatDialEnable = false;
+                /**
+                 * Set a limit to the number of ougoing calls that can be made on this line.
+                 * @version 5.2
+                 */
+                persistent int32 X_ORANGE-COM_MaxOutgoingCalls = 0;
+            }
+
+            /**
+             * Voice line parameters related to voice processing capabilities.
+             * @version 1.0
+             */
+            persistent object VoiceProcessing {
+                /**
+                 * Gain in seconds to apply to the transmitted voice signal prior to encoding.  This gain is a modifier of the default transmit-gain, which is unspecified.
+                 * @version 1.0
+                 */
+                persistent int32 TransmitGain;
+                /**
+                 * Gain in seconds to apply to the received voice signal after decoding.  This gain is a modifier of the default receive-gain, which is unspecified.
+                 * @version 1.0
+                 */
+                persistent int32 ReceiveGain;
+                /**
+                 * Enable or disable echo cancellation for this line.
+                 * @version 1.0
+                 */
+                persistent bool EchoCancellationEnable = true;
+                /**
+                 * Indication of whether or not echo cancellation is currently in use for this line.
+                 * @version 1.0
+                 */
+                bool EchoCancellationInUse;
+                /**
+                 * Tail length in seconds of the echo canceller associated with this line (whether or not it is currently in use).
+                 * @version 1.0
+                 */
+                uint32 EchoCancellationTail;
+            }
+
+            /**
+             * This object indicates the state of the transmit and receive codec for this voice line instance.
+             * @version 1.0
+             */
+            persistent object Codec { 
+                /**
+                 * The codec currently in use for the outgoing voice stream.
+                 * @version 1.0
+                 */
+                string TransmitCodec { 
+                    constraint maxvalue 64;
+                }
+                /**
+                 * The codec currently in use for the incoming voice stream.
+                 * @version 1.0
+                 */
+                string ReceiveCodec { 
+                    constraint maxvalue 64;
+                }
+                /**
+                 * Codec bit rate in seconds for the codec currently in use for the outgoing voice stream.
+                 * @version 1.0
+                 */
+                uint32 TransmitBitRate;
+                /**
+                 * Codec bit rate in seconds for the codec currently in use for the incoming voice stream.
+                 * @version 1.0
+                 */
+                uint32 ReceiveBitRate;
+                /**
+                 * Whether or not silence suppression is in use for the outgoing voice stream.
+                 * @version 1.0
+                 */
+                bool TransmitSilenceSuppression;
+                /**
+                 * Whether or not silence suppression is in use for the incoming voice stream.
+                 * @version 1.0
+                 */
+                bool ReceiveSilenceSuppression;
+                /**
+                 * Current outgoing packetization period in seconds.
+                 * @version 1.0
+                 */
+                uint32 TransmitPacketizationPeriod;
+
+                /**
+                 * Table to describe the set of codecs enabled for use with this line.  Each entry in this table refers to a distinct combination of codec and bit rate.  When an instance of VoiceService.{i}.VoiceProfile.{i}.Line.{i}. is created, this object MUST be populated with the set of supported codecs matching VoiceService.{i}.Capabilities.Codecs..  The ACS MAY restrict and/or prioritize the codec support for this profile using this object.
+                 Applicable only for a VoIP endpoint.
+                 * @version 1.0
+                 */
+                persistent object List[] {
+                    /**
+                     * Unique identifier for each entry in this table.  The value MUST match that of the corresponding entry in VoiceService.{i}.Capabilities.Codecs. table.
+                     * @version 1.0
+                     */
+                    read-only persistent uint32 EntryID { 
+                        constraint minvalue 1;
+                        default 1;
+                    }
+
+                    /**
+                     * Identifier of the codec type
+                     * @version 1.0
+                     */
+                    persistent string Codec { 
+                        constraint maxvalue 64;
+                    }
+                    /**
+                     * Bit rate, in seconds.  The value MUST match that of the corresponding entry in VoiceService.{i}.Capabilities.Codecs.
+                     * @version 1.0
+                     */
+                    persistent uint32 BitRate;
+                    /**
+                     *  Each item is a supported packetization period, in milliseconds, or continuous ranges of packetization periods as defined in .Capabilities.Codecs.{i}.PacketizationPeriod.
+                     The set of packetization periods may be restricted by modifying the value of this parameter to a more restricted set of values than is listed in .Capabilities.Codecs.{i}.PacketizationPeriod.  The CPE MUST ignore any values or portions of ranges outside of those specified in .Capabilities.Codecs.{i}.PacketizationPeriod.
+                     * @version 1.0
+                     */
+                    persistent string PacketizationPeriod {
+                        constraint maxvalue 64;
+                    }
+                    /**
+                     * Indicates support for silence suppression for this codec.  If silence suppression is supported, it can be disabled for this codec/bit-rate by setting this parameter to false.
+                     * @version 1.0
+                     */
+                    persistent bool SilenceSuppression = false;
+                    /**
+                     * Enable or disable the use of this combination of codec parameters.
+                     * @version 1.0
+                     */
+                    persistent bool Enable = true;
+                    /**
+                     * Indicates the priority for this combination of codec parameters, where 1 is the highest priority.  Where the priority differs between entries in this table, the CPE SHOULD use the highest priority (lowest numbered) entry among those supported by the remote endpoint and consistent with the available bandwidth.  Where the priorities are equal among multiple entries, the CPE MAY apply a local criterion for choosing among them.
+                     * @version 1.0
+                     */
+                    persistent uint32 Priority {
+                        constraint minvalue 1;
+                        default 1;
+                    }
+                }
+            }
+
+            /**
+             * Information on each active session associated with this voice line instance.
+             * @version 1.0
+             */
+            persistent object Session[] { 
+                /**
+                 * The time that the session started, in UTC.
+                 * @version 1.0
+                 */
+                persistent string SessionStartTime;
+                /**
+                 * Duration time of the current session, in seconds.
+                 * @version 1.0
+                 */
+                persistent uint32 SessionDuration;
+                /**
+                 * The IP address of far end VoIP device.
+                 * @version 1.0
+                 */
+                persistent string FarEndIPAddress;
+                /**
+                 * The UDP port used for current RTP session in the far end device.
+                 * @version 1.0
+                 */
+                persistent uint32 FarEndUDPPort { 
+                    constraint range [0,65535];
+                }
+                /**
+                 * The local UDP port used for current RTP session.
+                 * @version 1.0
+                 */
+                persistent uint32 LocalUDPPort {
+                    constraint range [0,65535];
+                }
+
+                /* Start - SAH specific parameters/objects */
+                object X_ORANGE-COM_Conn {
+                    /**
+                     * This parameter will inform of the state of the endpoint to which this line is mapped. 
+                     * If the endpoint is hooked on, the parameter is set to IDLE and if the endpoint is hooked off the parameter is set to INITIATED 
+                     * @version 4.6
+                     */
+                    string Callstate {
+                        constraint enum ["IDLE", "INITIATED", "DIALING", "ADDRESS_ANALYZE", "INPROCESS", "CALL_DELIVERED", "OFFERED", "ALERTING", "DISCONNECTED", "CONNECTED", "FAILED", "TRANSFER_INIT", "TRANSFER_INPROCESS", "TRANSFER_DELIVERED", "TRANSFER_OFFERED", "TRANSFER_ALERTING", "REJECTED", "ALERTING_REJECTED", "USER", "TERMINATED"];
+                        default "IDLE";
+                    }
+                    datetime Timestamp;
+                    uint32 Callid;
+                    string CallingPartyNo;
+                    string CalledPartyNo;
+                    string Cause;
+                    string FarEndCodec;
+                    string LocalCodec;
+                    string EndWay;
+
+                    bool reject();
+                }
+
+                object X_ORANGE-COM_RTP_RX {
+                    datetime Timestamp;
+                    string event;
+                    string SSRC;
+                    string SeqStart;
+                    string SeqStop;
+                    uint32 LostPackets;
+                    uint32 DupPackets;
+                    uint32 RoundTripDelay;
+                    uint32 MinJitter;
+                    uint32 MaxJitter;
+                    uint32 MeanJitter;
+                    uint32 DevJitter;
+                }
+
+                object X_ORANGE-COM_RTP_TX {
+                    datetime Timestamp;
+                    string event;
+                    string SSRC;
+                    string SeqStart;
+                    string SeqStop;
+                    uint32 LostPackets;
+                    uint32 DupPackets;
+                    uint32 RoundTripDelay;
+                    uint32 MinJitter;
+                    uint32 MaxJitter;
+                    uint32 MeanJitter;
+                    uint32 DevJitter;
+                }
+
+                object X_ORANGE-COM_QOE_RX {
+                    datetime Timestamp;
+                    string SSRC;
+                    uint32 LossRate;
+                    uint32 DiscardRate;
+                    uint32 BurstDensity;
+                    uint32 GapDensity;
+                    string BurstDuration;
+                    uint32 GapDuration;
+                    uint32 RoundTripDelay;
+                    uint32 EndSystemDelay;
+                    uint32 SignalLevel;
+                    uint32 NoiseLevel;
+                    string RERL;
+                    string RFactor;
+                    string ExtRFactor;
+                    string MOS_LQ;
+                    string MOS_CQ;
+                }
+
+                object X_ORANGE-COM_QOE_TX {
+                    datetime Timestamp;
+                    string SSRC;
+                    uint32 LossRate;
+                    uint32 DiscardRate;
+                    uint32 BurstDensity;
+                    uint32 GapDensity;
+                    string BurstDuration;
+                    uint32 GapDuration;
+                    uint32 RoundTripDelay;
+                    uint32 EndSystemDelay;
+                    uint32 SignalLevel;
+                    uint32 NoiseLevel;
+                    string RERL;
+                    string RFactor;
+                    string ExtRFactor;
+                    string MOS_LQ;
+                    string MOS_CQ;
+                }
+                /* End - SAH specific parameters/objects */
+
+            }
+
+            /**
+             * Statistics for this voice line instance.
+             * @version 1.0
+             */
+            persistent object Stats {
+                /**
+                 * When set to one, resets the statistics for this voice line.  Always False when read.
+                 * @version 1.0
+                 */
+                bool ResetStatistics = false;
+                /**
+                 * Total number of RTP packets sent for this line.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 PacketsSent;
+                /**
+                 * Total number of RTP packets received for this line.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 PacketsReceived;
+                /**
+                 * Total number of RTP payload bytes sent for this line.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 BytesSent;
+                /**
+                 * Total number of RTP payload bytes received for this line.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 BytesReceived;
+                /**
+                 * Total number of RTP packets that have been lost for this line.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 PacketsLost;
+                /**
+                 * Total number of times the receive jitter buffer has overrun for this line.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 Overruns;
+                /**
+                 * Total number of times the receive jitter buffer has underrun for this line.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 Underruns;
+                /**
+                 * Total incoming calls received.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 IncomingCallsReceived;
+                /**
+                 * Total incoming calls answered by the local user.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 IncomingCallsAnswered;
+                /**
+                 * Total incoming calls that successfully completed call setup signaling.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 IncomingCallsConnected;
+                /**
+                 * Total incoming calls that failed to successfully complete call setup signaling.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 IncomingCallsFailed;
+                /**
+                 * Cumulative call duration in seconds for incoming calls.
+                 * @version 6.0
+                 */
+                persistent read-only uint32 X_ORANGE-COM_IncomingTotalCallTime;
+                /**
+                 * Total outgoing calls attempted.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 OutgoingCallsAttempted;
+                /**
+                 * Total outgoing calls answered by the called party.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 OutgoingCallsAnswered;
+                /**
+                 * Total outgoing calls that successfully completed call setup signaling.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 OutgoingCallsConnected;
+                /**
+                 * Total outgoing calls that failed to successfully complete call setup signaling.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 OutgoingCallsFailed;
+                /**
+                 * Cumulative call duration in seconds for outgoing calls.
+                 * @version 6.0
+                 */
+                persistent read-only uint32 X_ORANGE-COM_OutgoingTotalCallTime;
+                /**
+                 * Total calls that were successfully connected (incoming or outgoing), but dropped unexpectedly while in progress without explicit user termination.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 CallsDropped;
+                /**
+                 * Cumulative call duration in seconds.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 TotalCallTime;
+                /**
+                 * The number of seconds the CPE is unable to maintain a connection to the server.  SHOULD not include time in which overall network connectivity is unavailable.  Applies only to SIP.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 ServerDownTime;
+                /**
+                 * Current receive packet loss rate in percent, calculated as defined in RFC3550|Section6.4
+                 * @version 1.0
+                 */
+                persistent read-only uint32 ReceivePacketLossRate {
+                    constraint range [0,100];
+                }
+                /**
+                 * Current far end receive packet lost rate in percent, calculated as defined in RFC3550|Section6.4.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 FarEndPacketLossRate {
+                    constraint range [0,100];
+                }
+                /**
+                 * Current receive interarrival jitter in seconds.  Calculated from J(i) as defined in RFC3550|Section6.4, with units converted to seconds.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 ReceiveInterarrivalJitter;
+                /**
+                 * Current Interarrival jitter in seconds as reported from the far-end device via RTCP.  Calculated from J(i) as defined in RFC3550|Section64., with units converted to seconds.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 FarEndInterarrivalJitter;
+                /**
+                 * Current round trip delay in seconds calculated as defined in RFC3550|Section6.4.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 RoundTripDelay;
+                /**
+                 * Average receive interarrival jitter in seconds since the beginning of the current call.  Calculated as the average of D(i,j) as defined in RFC3550|Section6.4, with units converted to seconds.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 AverageReceiveInterarrivalJitter;
+                /**
+                 * Average far-end interarrival jitter in seconds since the beginning of the current call.  Calculated as the average of the interarrival jitter values reported by the far-end, with units converted to seconds.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 AverageFarEndInterarrivalJitter;
+                /**
+                 * Average round trip delay in seconds since the beginning of the current call.  Average of the RoundTripDelay statistic accumulated each time the delay is calculated.
+                 * @version 1.0
+                 */
+                persistent read-only uint32 AverageRoundTripDelay;
+            }
+        }
+        /**
+         * Object associated with a distinct voice line.  Support for adding and removing lines is conditional on whether the CPE supports more than one line in total as indicated by .Capabilities.MaxLineCount.  By default, on creation of a given VoiceService.{i}.VoiceProfile.{i}., a single Line object MUST be present, initially with value Disabled|Enable.
+         * Applicable only for a VoIP endpoint.
+         * @version 1.0
+         */
+        persistent object SpecialCharacters {
+            /**
+             * Target Endpoint Type to which the special character replacement should be applied
+             * @version 1.0
+             */
+            persistent string TargetEndpointType;
+
+            persistent object MappingTable [] {
+                /**
+                 * Special character to be replaced
+                 * @version 1.0
+                 */
+                persistent string SpecialCharacter;
+
+                /**
+                 * Replacement character of a special character.
+                 * @version 1.0
+                 */
+                persistent string ReplacementCharacters;
+            }
+        }
+    }
+
+    /**
+     * Each instance is associated with a distinct physical FXS (Foreign eXchange Station) port.  Instances of this object are statically created by the CPE.
+     Applicable only for a VoIP Endpoint.
+     * @version 1.0
+     */
+    object PhyInterface[] {
+        /**
+         * The physical port number on the device.
+         * @version 1.0
+         */
+        string PhyPort { 
+            constraint maxvalue 2;
+        }
+        /**
+         * The unique identifier of the physical port.  This value MAY be used in .VoiceProfile.{i}.Line.{i}.PhyReferenceList to indicate which physical ports are associated with a line.
+         * @version 1.0
+         */
+        uint32 InterfaceID { 
+            constraint minvalue 1;
+            default 1;
+        }
+        /**
+         * A description of the physical port.
+         * @version 1.0
+         */
+        string Description { 
+            constraint maxvalue 32;
+        }
+
+        /**
+         * Voice port tests.
+         If this object is supported, .Capabilities.VoicePortTests MUST be equal to true.
+         * @version 1.0
+         */
+        object Tests {
+            /**
+             * Indicates the current test state.  
+             Value MAY be set to Requested to initiate a diagnostic test.  When writing, the only allowed value is Requested.  To ensure the use of the proper test parameters (the writable parameters in this object), the test parameters MUST be set either prior to or at the same time as (in the same SetParameterValues) setting the value Requested.
+             When requested, the CPE SHOULD wait until after completion of the communication session with the ACS before starting the test.
+             When the test initiated by the ACS is completed (successfully or not), the CPE MUST establish a new connection to the ACS to allow the ACS to view the results, indicating the Event code "8 DIAGNOSTICS COMPLETE" in the Inform message.
+             * @version 1.0
+             */
+            string TestState { 
+                constraint enum ["", "None", "Requested", "Complete", "Error_TestNotSupported"];
+                default "";
+            }
+            /**
+             * Indicates which test to perform.  
+             The phone connectivity test indicates that the CPE should determine if one or more phones associated with this physical port are properly connected.  This test is appropriate only for CPE that connect to phones of any type.
+             The parameter MAY instead indicate a vendor-specific test, which MUST use the format defined in TR-106.  For example:
+             "X_EXAMPLE-COM_MyTest"
+             * @version 1.0
+             */
+            string TestSelector { 
+                constraint maxvalue 64;
+            }
+            /**
+             * Indicates whether or not at least one phone associated with this physical port is properly connected.  This parameter is applicable only if PhoneConnectivityTest|TestSelector is supported.
+             * @version 1.0
+             */
+            bool PhoneConnectivity;
+        }
+    }
+}

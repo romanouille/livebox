@@ -1,0 +1,37 @@
+using "datasynchronizer.so";
+
+define status_t
+{
+   string name;
+   string status;
+   uint32 progress;
+   uint32 remaining_time;
+}
+
+/*  */
+object DataSynchronizer {
+    acl {
+        world none;
+        group mediahub read, execute;
+    }
+
+    int32 open(mandatory string device, mandatory string mode, out uint32 sessionId, out string lastIndexation);
+    int32 close(mandatory uint32 sessionId);
+
+    int32 getListOfChanges( mandatory uint32 sessionId, mandatory uint32 systemId, mandatory uint32 startIndex, mandatory uint32 requestCount,
+                            out uint32 numberReturned, out uint32 totalMatches, out list listOfUri, out uint32 lastSystemId);
+    int32 getListOfContents(mandatory uint32 sessionId, mandatory list contentUriList, out list contentList);
+
+    int32 insert(mandatory uint32 sessionId, mandatory list contentList, out uint32 newSystemId);
+    int32 update(mandatory uint32 sessionId, mandatory list contentList, out uint32 newSystemId);
+    int32 remove(mandatory uint32 sessionId, mandatory list contentUriList, out uint32 newSystemId);
+
+    int32 getStatus(out status_t status)
+    {
+        acl {
+            group mediahub none;
+        }
+    }
+}
+
+/** @location commod_mediahub_datasynchronizer add-on/frontend/pcb/datasynchronizer-definitions.odl.m4 */

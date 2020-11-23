@@ -1,0 +1,351 @@
+object "$(XTM_ROOT)" {
+/**
+ * Asynchronous Transfer Mode (ATM) object that contains the Link interface.
+ * @version V6.0
+*/
+	object ATM {
+
+/**
+ * ATM link-layer table. Models an ATM PVC virtual circuit and the ATM Adaption Layer (AAL). 
+ * An ATM Link entry is typically stacked on top of either a DSL.Channel. or a DSL.BondingGroup. object.
+ * @version V6.0
+ */
+		object Link[] {
+			counted with LinkNumberOfEntries;
+
+/** 
+ * Enables or disables the link.
+ * @version V6.0
+ */
+			bool Enable {
+				write with atm_linkEnableOnWrite;
+				default false;
+			}
+
+/**
+ * The current operational state of the link.
+ * @version V6.0
+ */
+			string LinkStatus {
+				constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+				default "Down";
+			}
+
+/**
+ * A non-volatile handle used to reference this instance. Alias provides a mechanism for an ACS to label this instance for future reference.
+ * @version V6.0
+ */
+			string Alias;
+
+/**
+ * The textual name of the link as assigned by the CPE.
+ * @version V6.0
+ */
+			string Name;
+
+/**
+ * The accumulated time in seconds since the link entered its current operational state.
+ * @version V6.0
+ */
+			uint32 LastChange;
+
+/**
+ * The absolute time in seconds since the link entered its current operational state.
+ * @version V6.0
+ */
+			uint32 LastChangeTime;
+
+/**
+ * Refers to the DSL.Line or DSL.Bonded lines.
+ * @version V6.0
+ */
+			string LowerLayer {
+				write with atm_lowerLayerOnWrite;
+			}
+
+/**
+ * Indicates the type of connection and refers to the complete stack of protocol used for this connection
+ * @version V6.0
+ */
+			string LinkType {
+				constraint enum["EoA","IPoA","PPPoA","CIP","Unconfigured"];
+				default "Unconfigured";
+			}
+
+/**
+ * Indicates if the CPE is currently using some auto configuration mechanisms for this connection. 
+ * @version V6.0
+ */
+			bool AutoConfig;
+
+/**
+ * Destination address of this link, in the form "VPI/VCI"
+ * @version V6.0
+ */
+			string DestinationAddress {
+				write with atm_linkDestinationAddressOnWrite;
+			}
+
+/**
+ * Identifies the connection encapsulation that will be used.
+ * @version V6.0
+ */
+			string Encapsulation {
+				write with atm_linkEncapsulationOnWrite;
+				constraint enum["LLC","VCMUX"];
+				default "VCMUX";
+			}
+
+/**
+ * This flag tells if a checksum SHOULD be added in the ATM payload. It does not refer to the checksum of one of the ATM cells or AALX packets. In case of LLC or VCMUX encapsulation, this ATM checksum is the FCS field described in [RFC2684]. It is only applicable in the upstream direction.
+ * @version V6.0
+ */
+			bool FCSPreserved;
+
+/**
+ * Comma-separated list (maximum length 256) of strings. Ordered list of VPI/VCI pairs to search if a link using the DestinationAddress cannot be established. 
+ * @version V6.0
+ */
+			string VCSearchList;
+
+/**
+ * Describes the ATM Adaptation Layer (AAL) currently in use on the PVC.
+ * @version V6.0
+ */
+			string AAL {
+				constraint enum["AAL1","AAL2","AAL3","AAL4","AAL5"];
+				default "AAL5";
+			}
+
+/**
+ * Throughput statistics for this interface.
+ * @version V6.0
+ */
+			object Stats {
+
+/**
+ * The total number of bytes transmitted out of the interface, including framing characters.
+ * @version V6.0
+ */
+				uint32 BytesSent {
+					read with common_bytesSentOnRead;
+				}
+
+/**
+ * The total number of bytes received on the interface, including framing characters.
+ * @version V6.0
+ */
+				uint32 BytesReceived {
+					read with common_bytesReceivedOnRead;
+				}
+
+/**
+ * The total number of packets transmitted out of the interface.
+ * @version V6.0
+ */
+				uint32 PacketsSent {
+					read with common_packetsSentOnRead;
+				}
+				
+/**
+ * The total number of packets received on the interface.
+ * @version V6.0
+ */
+				uint32 PacketsReceived {
+					read with common_packetsReceivedOnRead;
+				}
+				
+/**
+ * The total number of outbound packets that could not be transmitted because of errors.
+ * @version V6.0
+ */
+				uint32 ErrorsSent {
+					read with common_errorsSentOnRead;
+				}
+				
+/**
+ * The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol.
+ * @version V6.0
+ */
+				uint32 ErrorsReceived {
+					read with common_errorsReceivedOnRead;
+				}
+			}
+
+/**
+ * The ATM Link QoS object.
+ * @version V6.0
+ */
+			object QoS {
+
+/**
+ * Describes the ATM Quality Of Service (QoS) being used on the VC. 
+ * @version V6.0
+ */
+				string QoSClass {
+					write with atm_qosClassOnWrite;
+					constraint enum["UBR","CBR","GFR","VBR-nrt","VBR-rt","UBR+","ABR"];
+					default "UBR";
+				}
+
+/**
+ * Specifies the upstream peak cell rate in cells per second.
+ * @version V6.0
+ */
+				uint32 PeakCellRate {
+					write with atm_qosPeakCellRateOnWrite;
+				}
+
+/**
+ * Specifies the upstream maximum burst size in cells.
+ * @version V6.0
+ */
+				uint32 MaximumBurstSize {
+					write with atm_qosMaximumBurstSizeOnWrite;
+				}
+
+/**
+ * Specifies the upstream sustainable cell rate, in cells per second.
+ * @version V6.0
+ */
+				uint32 SustainableCellRate {
+					write with atm_qosSustainableCellRateOnWrite;
+				}
+			}
+			
+/**
+ * It invokes the ATM lower layer support for OAM functions where it is available in the HAL.
+ * @version V6.0
+ */
+			bool oamPing();
+		}
+	}
+
+/**
+ * Packet Transfer Mode ([Annex H/G.993.1]). This object contains the Link interface.
+ * @version V6.0
+ */
+	object PTM {
+
+/**
+ * PTM link-layer tabl
+ * @version V6.0
+ */
+		object Link[] {
+			counted with LinkNumberOfEntries;
+
+/**
+ * Enables or disables the link.
+ * @version V6.0
+ */
+			bool Enable {
+				write with ptm_linkEnableOnWrite;
+			}
+
+/**
+ * The current operational state of the link
+ * @version V6.0
+ */
+			string LinkStatus {
+				constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+				default "Down";
+			}
+
+/**
+ * A non-volatile handle used to reference this instance. Alias provides a mechanism for an ACS to label this instance for future reference.
+ * @version V6.0
+ */
+			string Alias;
+
+/**
+ * The textual name of the link as assigned by the CPE.
+ * @version V6.0
+ */
+			string Name;
+
+/**
+ * The accumulated time in seconds since the link entered its current operational state.
+ * @version V6.0
+ */
+			uint32 LastChange;
+
+/**
+ * The absolute time in seconds since the link entered its current operational state.
+ * @version V6.0
+ */
+			uint32 LastChangeTime;
+
+/**
+ * Reference to the Lower Layer Interface
+ * @version V6.0
+ */
+			string LowerLayer {
+				write with ptm_lowerLayerOnWrite;
+			}
+
+/**
+ * The MAC Address of the interface.
+ * @version V6.0
+ */
+			string MACAddress {
+				write with ptm_linkMACAddressOnWrite;
+			}
+
+/**
+ * Throughput statistics for this interface.
+ * @version V6.0
+ */
+			object Stats {
+
+/**
+ * The total number of bytes transmitted out of the interface, including framing characters.
+ * @version V6.0
+ */
+				uint32 BytesSent {
+					read with common_bytesSentOnRead;
+				}
+
+/**
+ * The total number of bytes received on the interface, including framing characters.
+ * @version V6.0
+ */
+				uint32 BytesReceived {
+					read with common_bytesReceivedOnRead;
+				}
+
+/**
+ * The total number of packets transmitted out of the interface.
+ * @version V6.0
+ */
+				uint32 PacketsSent {
+					read with common_packetsSentOnRead;
+				}
+				
+/**
+ * The total number of packets received on the interface.
+ * @version V6.0
+ */
+				uint32 PacketsReceived {
+					read with common_packetsSentOnRead;
+				}
+				
+/**
+ * The total number of outbound packets that could not be transmitted because of errors.
+ * @version V6.0
+ */
+				uint32 ErrorsSent {
+					read with common_errorsSentOnRead;
+				}
+				
+/**
+ * The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol.
+ * @version V6.0
+ */
+				uint32 ErrorsReceived {
+					read with common_errorsReceivedOnRead;
+				}
+			}
+		}
+	}
+}
+

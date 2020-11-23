@@ -1,0 +1,16 @@
+<b>Konfiguracja ograniczeń dostępu do Internetu</b><br>
+<br>
+
+Ta opcja służy ograniczaniu dostępu do Internetu.
+
+
+<br>
+<br>
+Jeśli włączysz tę opcję, musisz określić ramy czasowe dostępu. Aby ograniczyć dostęp do Internetu w poszczególne dni tygodnia, zaznacz odpowiednie pole. Aby skonfigurować czas dostępu do Internetu, wybierz określone godziny z rozwijanej listy. Modem Livebox będzie mógł połączyć się z Internetem tylko w wybranym czasie. Poza nim, dostęp do Internetu będzie niemożliwy.
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

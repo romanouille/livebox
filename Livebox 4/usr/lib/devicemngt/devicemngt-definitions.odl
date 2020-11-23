@@ -1,0 +1,311 @@
+
+
+using "devicemngt.so";
+
+acl {
+  world none;
+  group admin none;
+  group remoteadmin none;
+  group cwmpd read,write,execute;
+  group technician read,write,execute;
+}
+
+/*
+ * Configuration of various tools
+ * used to manage the device
+ * @version V6.0
+ */
+persistent object DeviceManagement {
+
+    /*
+     * SSH server configuration (dropbear)
+     * Note : a dropbear instance supports to bind to 10 ports max
+     * @version V6.0
+     */
+    persistent object SSH[] {
+
+        read-only string AccessType {
+
+          constraint enum [ "lan", "wan", "invalid" ];
+          default "invalid";
+        }
+
+        persistent bool Enable {
+          default 0;
+        }
+
+        persistent uint32 IPVersion {
+          constraint enum [ 0, 4, 6 ];
+          default 0;
+        }
+
+        /*
+         * Determines whether value of persistent parameter Enable is to be taken
+         * into account upon the object's instantiation. If PersistentEnable is
+         * not set, Enable will be overwritten with value 0.
+         */
+        persistent bool PersistentEnable {
+          default 1;
+        }
+
+        persistent bool AllowRootLogin {
+          default 1;
+        }
+
+        /*
+         * Comma-separated list of ports
+         * to listen on the LAN interface
+         * (3 ports max authorized)
+         * @version TBD
+         */
+        persistent string Ports {
+            constraint custom devmngt_validatePorts;
+            default "22";
+        }
+
+        /**
+         * Source IP address(ipv4), netmask is optional.
+         * @version TBD
+         */
+        persistent string SourcePrefix;
+
+        /**
+         * Defines a condition on the value of SourcePrefix.
+         * @version TBD
+         */
+        persistent bool SourcePrefixNonEmpty {
+            default 0;
+        }
+
+        /*
+         * Maximum lifetime, expressed as a number of minutes.
+         * @version V6.0
+         */
+        persistent uint32 ActivationDuration {
+            default 0;
+        }
+
+        /*
+         * Timestamp of the instant at which the access was last activated.
+         * @version V6.0
+         */
+        persistent read-only datetime ActivationDate;
+    }
+
+    /**
+     * Get a list of available SSH accounts.
+     * @return list of accounts.
+     * @version V7.0
+     */
+    list listSSH();
+
+
+    /*
+     * Parameter that enable the ssh user
+     * @version V6.1
+     */
+    persistent volatile bool SSHUserEnable {
+        default true;
+        write with devicemngt_writeSSHUserEnable;
+    }
+
+    /*
+     * Parameter that allows setting the ssh user
+     * @version V6.0
+     */
+    persistent volatile string SSHUsername {
+        default "root";
+    }
+
+    /*
+     * Parameter that allows setting the ssh user password
+     * @version V6.0
+     */
+    persistent volatile string SSHPassword {
+        write with devicemngt_writeSSHPassword;
+        acl {
+          world none;
+          group admin none;
+          group remoteadmin none;
+          group cwmpd read,write;
+        }
+    }
+
+
+
+    /*
+     * Telnet server configuration (busybox's telnetd)
+     * Note : a telnetd instance can only bind to a single port
+     * @version V6.0
+     */
+    persistent object Telnet {
+        /*
+         * Comma separated list of ports
+         * to listen on the LAN interface
+         * (3 ports max authorized)
+         * @version V6.0
+         */
+        persistent string LANPorts {
+            constraint custom devmngt_validatePorts;
+        }
+
+        /*
+         * Comma separated list of ports
+         * to listen on the WAN interface
+         * (3 ports max authorized)
+         * @version V6.0
+         */
+        persistent string WANPorts {
+            constraint custom devmngt_validatePorts;
+        }
+    }
+
+    /*
+     * Syslog server configuration (busybox's syslogd)
+     * Note : it's not possible to run several instances
+     * at the same time
+     * @version V6.0
+     */
+    persistent object Syslog {
+        /*
+         * Enable logging to persistent storage (/ext)
+         * instead of the ramdisk (/tmp)
+         * @version V6.0
+         */
+        persistent bool PersistentFiles;
+
+        /*
+         * Max size (KB) before rotate
+         * 0 means : rotation deactivated
+         * @version V6.0
+         */
+        persistent uint32 MaxFileSize {
+            constraint maxvalue 500;
+        }
+
+        /*
+         * Number of rotated logs to keep
+         * 0 means : purge old logs
+         * @version V6.0
+         */
+        persistent uint32 NumberOfFiles {
+            constraint maxvalue 99;
+        }
+    }
+
+    /*
+     * Email configuration
+     * @version V6.0
+     */
+    persistent object Email {
+        /*
+         * Enable the sending of daily email
+         * containing debug information
+         * @version V6.0
+         */
+        persistent bool Daily;
+
+        /*
+         * Configure at which time of the day
+         * the daily email is sent
+         * Example : if '4' is configured,
+         * the email is sent between 4AM and 5AM
+         * @version V6.0
+         */
+        persistent uint32 DailyTime {
+            constraint maxvalue 23;
+            default 4;
+        }
+
+        /*
+         * Parameter to trigger the immediate
+         * sending of an email containing debug
+         * information. Reset to false as soon
+         * as the email is sent
+         * @version V6.0
+         */
+        bool Trigger {
+            default false;
+        }
+
+        /*
+         * Enable the sending of an email
+         * when the WAN IP address changes
+         * @version V6.0
+         */
+        persistent bool IPAddressChange;
+
+        /*
+         * Allow the copy of the scripts that
+         * generate the email body in a
+         * RW directory so that they can be
+         * customized (and new scripts added)
+         * @version V6.0
+         */
+        persistent bool WritableContent;
+
+        /*
+         * Send an email with the given subject and
+         * body, using the STMP parameters configured
+         * in the dedicated message plugin profile
+         * @version V6.0
+         */
+        void send(mandatory string subject, mandatory string body);
+    }
+
+
+  /**
+    * Export the dns settings to hgwcfg.
+    *
+    * @param fileName The filename to which to save.
+    * @return Success or failure.
+    * @version V6.0
+    */
+    bool export(string fileName);
+
+
+
+    /*
+     * BulkData
+     * @version TBD
+     */
+     persistent object BulkData {
+         /*
+         * Parameter used by the PCB plugin to perform a run-time check
+         * @version TBD
+         */
+         persistent uint32 MinReportingInterval {
+             default 0;
+         }
+
+         persistent object Profile[] {
+             counted with ProfileNumberOfEntries;
+             persistent string Alias;
+             /*
+             * Period elapsed between two consecutive productions (then uploads) of
+             * a log file. Special value 0 means one-shot upload (no subsequent
+             * iteration, unless Enable is set back to 0 then 1).
+             * @version TBD
+             */
+             persistent uint32 ReportingInterval {
+                 default 0;
+             }
+             persistent string FileTransferURL;
+             persistent string FileTransferUsername;
+             persistent string FileTransferPassword;
+
+
+             persistent string ProfileType;
+             persistent string LocalFile;
+             persistent bool IsDownload;
+
+             persistent bool Enable {
+                default false;
+             }
+
+             void triggerTransfer();
+        }
+    }
+}
+
+/** @location sah_services_system /devicemngt/devicemngt-definitions.odl */

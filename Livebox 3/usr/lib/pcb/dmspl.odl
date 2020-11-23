@@ -1,0 +1,60 @@
+define param_config
+{
+string friendlyname;
+bool shadow;
+string language;
+}
+define result_config
+{
+string friendlyname;
+string serialnumber;
+string presentationURL;
+string storepoint;
+bool shadow;
+string language;
+}
+define result_partition
+{
+string phase;
+list partition_list;
+}
+define result_database
+{
+int32 nb_items;
+int32 nb_items_max;
+int64 memory_size;
+string storage_type;
+}
+define result_streaming
+{
+int32 nb_audio;
+int32 nb_video;
+int32 nb_image;
+}
+acl
+{
+group admin read, execute;
+world none;
+}
+object Dms
+{
+object Configuration
+{
+int32 Set(param_config settings);
+int32 Get(out result_config settings);
+}
+object Partition
+{
+int32 Add(string partition);
+int32 Delete(string partition);
+int32 Dump(out result_partition partition);
+}
+object Database
+{
+int32 Dump(out result_database database);
+}
+object Streaming
+{
+int32 Dump(out result_streaming streaming);
+}
+}

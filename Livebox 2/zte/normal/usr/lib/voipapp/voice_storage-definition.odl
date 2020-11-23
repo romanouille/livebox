@@ -1,0 +1,1539 @@
+
+using "";
+
+define event_subscribe_line_t
+{
+    string EventSubscribeEvent;
+    string EventSubscribeAuthUserName;
+    string EventSubscribeAuthPassword;
+}
+
+define trunk_line_t
+{
+  string Name; /** line instance name */
+  string GroupId;
+  string Enable;
+  string Status;
+  string StatusInfo;
+  string DirectoryNumber;
+  string URI;
+  string AuthUserName;
+  string AuthPassword;
+  list event_subscribe_lines; /** List of event_subscribe_line_t */
+}
+
+define event_subscribe_t
+{
+    string Event;
+    string NotifyServer;
+    int NotifyServerPort;
+}
+
+define sip_t
+{
+    string ProxyServer;
+    int ProxyServerPort;
+    string RegistrarServer;
+    int RegistrarServerPort;
+    string OutboundProxyServer;
+    int OutboundProxyServerPort;
+    string UserAgentDomain;
+    int UserAgentPort;
+    list subscriptionInfo; /** List of event_subscribe_t */
+}
+
+define h323_t
+{
+    string Gatekeeper;
+    int GatekeeperPort;
+}
+
+define trunk_profile_t
+{
+    string Name;
+    string SignalingProtocol;
+    string Enable;
+    list trunk_lines; /** List of trunk_line_t */
+    sip_t sip;
+    h323_t h323;
+}
+
+define handset_t
+{
+    string Line;
+    string Name;
+    string Enable;
+    string Status;
+    string DirectoryNumber;
+    string EndpointType;
+    string OutgoingTrunkLine;
+}
+
+define service_list_t
+{
+    string ServiceName;
+    string ActivationCode;
+}
+
+define group_t
+{
+    string Group_id;
+    list ep_names; /** list of (string) ep_names */
+}
+
+acl {
+    world execute;
+    group admin execute;
+    group remoteadmin execute;
+    group cwmpd read,write,execute;
+}
+
+persistent object VoiceService[] {
+    /**
+     * Get a list of trunk_profile_t structures containing trunk line configuration and status
+     * @return list of all the trunk_profile_t structures available
+    */
+    list listTrunks();
+
+    /**
+     * Change a trunk_profile_t structure containing a trunk line server/user account configuration. 
+     * The trunk_profile_t.name must match an existing trunk profile name. 
+     * Only the specified fields are updated. 
+     * For trunk_lines entries, trunk_line_t.name must match an existing line name
+     * @param trunk : Server/UserAccount configuration parameters for SIP or H323 
+    */
+    void setTrunk(mandatory trunk_profile_t trunk) {
+        acl {
+        world none;
+    }
+    }
+
+    /**
+     * Get a list of handset_t structures containing handset line configuration and status
+     * @return list of all the handset_t structures available.
+    */
+    list listHandsets() {
+        acl {
+        world none;
+    }
+    }
+
+    /**
+     * Set a friendly name to a specific ATA-line/handset (Can be FXS or CATIQ)
+     * @param line: ATA profile line instance name
+     * @param name: friendly name to be filled into X_...._Name parameter
+    */
+    void setHandsetName(mandatory string line, mandatory string name) {
+        acl {
+        world none;
+    }
+    }
+
+    /**
+     * Change handset parameters. 
+     * The "line" must correspond to the name of a specific ATA-line/handset. 
+     * Parameters that are not provided are not modified.
+    */
+    void setHandset(mandatory handset_t line) {
+        acl {
+        world none;
+    }
+    }
+
+    /**
+     * Remove handset object
+     * @param line: ATA profile line instance name
+    */
+    void deleteHandset(string line) {
+        acl {
+        world none;
+    }
+    }
+
+    /**
+     * Generate a list of service_list_t structures
+     * @return list of all the service_list_t structures.
+    */
+    list listCallControlServices() {
+        acl {
+        world none;
+    }
+    }
+
+    /**
+     * Get a list of group_list_t structures
+     * @return list of all the group_t structures.
+    */
+    list listGroups() {
+        acl {
+        world none;
+    }
+    }
+
+    /**
+     * Configure the full list of call groups
+     * Only the specified groups are modified. It is not possible to add or remove groups. 
+     * @param groups: list of group_t structures
+    */
+    void setGroups(mandatory list groups);
+
+
+    persistent object X_ORANGE-COM_ClickToDial {
+        persistent string DefaultPhone;
+        bool dial(string NumberToDial, string PhoneToUse) {
+            acl {
+            world none;
+        }
+    }
+    }
+
+    /**
+     * Ring a handset
+     * @param line: ATA profile line instance name
+     *      (when NULL or empty: all phones will ring)
+     * @param duration: duration of how long the ringing will take in ms
+     *      (when NULL or empty: default value will be used : DefaultRingTestDuration)
+     * @param ringtone: ringtone ID from the phonebook (1-256)
+     *      (when NULL or empty: default value will be used)
+    */
+    void ring(string line, uint32 duration, string ringtone) {
+        acl {
+        world none;
+    }
+    }
+
+    /* Start - SAH specific parameters */
+    read-only string X_ORANGE-COM_RingTestStatus {
+        constraint enum ["Idle", "Running"];
+        default "Idle";
+    }
+
+    persistent string X_ORANGE-COM_Name;
+    persistent uint32 X_ORANGE-COM_DebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent uint32 X_ORANGE-COM_MediaDebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent uint32 X_ORANGE-COM_SignalDebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent uint32 X_ORANGE-COM_EventDebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent uint32 X_ORANGE-COM_MDMEXTDebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent uint32 X_ORANGE-COM_SIPTDebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent uint32 X_ORANGE-COM_DialPlanDebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent uint32 X_ORANGE-COM_TransportDebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent uint32 X_ORANGE-COM_VoiceSchedulerDebugLevel {
+        constraint maxvalue 700;
+        default 100;
+    }
+    persistent bool X_ORANGE-COM_Enabled = true;
+    persistent string X_ORANGE-COM_UserAgent = "";
+    /* End - SAH specific parameters */
+
+    read-only uint32 VoiceProfileNumberOfEntries {
+        read with numberOfElements;
+    }
+    persistent object Capabilities {
+        persistent uint32 MaxProfileCount;
+        persistent uint32 MaxLineCount;
+        persistent uint32 MaxSessionsPerLine;
+        /** Maximum total number of voice sessions supported across all lines and profiles. (This might differ from MaxLineCount if each line can support more
+          than one session for CPE provided conference calling. This value MAY be less than the product of MaxLineCount and MaxSessions PerLine) - Not handled */
+        persistent uint32 MaxSessionCount;
+        /** The maximum number of terminals which can make/receive calls at any one point in time. [FT] */
+        persistent uint32 X_ORANGE-COM_MaxActiveTerminals;
+
+        uint32 AvailableUpstreamBandwidth = 100000;
+        uint32 AvailableDownstreamBandwidth = 100000;
+        uint32 UsedUpstreamBandwidth = 0;
+        uint32 UsedDownstreamBandwidth = 0;
+        persistent uint32 NetworkOverheadPerPacket = 40;
+
+        persistent string SignalingProtocols {
+            constraint enum ["SIP", "MGCP", "MGCP-NCS", "H.248", "H.323", ""];
+            default "";
+        }
+        persistent string Regions = "ae,fi,no,be,fr,es,pl,dk,lv,lt,ee,se,uk";
+        persistent bool RTCP = false;
+        persistent bool SRTP = false;
+        persistent string SRTPKeyingMethods;
+        persistent string SRTPEncryptionKeySizes {
+            constraint maxvalue 256;
+        }
+        bool RTPRedundancy = false;
+        bool DSCPCoupled = false;
+        bool EthernetTaggingCoupled = false;
+        bool PSTNSoftSwitchOver = false;
+        bool FaxT38 = false;
+        bool FaxPassThrough = false;
+        bool ModemPassThrough = false;
+        bool ToneGeneration = false;
+        persistent bool ToneDescriptionsEditable = false;
+
+        persistent bool FileBasedToneGeneration = false;
+        string ToneFileFormats {
+            constraint enum ["G.711MuLaw", "G.711ALaw", "MP3", "WAV", "AMR", ""];
+            default "";
+        }
+        bool RingGeneration = false;
+        bool RingDescriptionsEditable = false;
+        bool PatternBasedRingGeneration = false;
+        bool RingPatternEditable = false;
+        bool FileBasedRingGeneration = false;
+        string RingFileFormats {
+            constraint enum ["MIDI", "SMAF", "RTTTL", "MP3", "WAV", "AMR", ""];
+            default "";
+        }
+        bool DigitMap = true;
+        bool NumberingPlan = true;
+        bool VoicePortTests = false;
+        bool ButtonMap = false;
+
+
+        persistent object SIP {
+            string Role {
+                constraint enum ["UserAgent", "BackToBackUserAgents", "OutboundProxy", ""];
+                default "";
+            }
+            string Extensions;
+            string Transports {
+                constraint enum ["UDP", "TCP", "TLS", "SCTP", ""];
+                default "";
+            }
+            string URISchemes {
+                constraint maxvalue 256;
+            }
+            persistent bool EventSubscription = false;
+            bool ResponseMap = false;
+            string TLSAuthenticationProtocols {
+                constraint enum ["Null", "MD5", "SHA-1", ""];
+                default "";
+            }
+            string TLSAuthenticationKeySizes { 
+                constraint maxvalue 256;
+            }
+            string TLSEncryptionProtocols { 
+                constraint enum ["Null", "RC4", "RC2", "DES", "3DES", ""];
+                default "";
+            }
+            string TLSEncryptionKeySizes { 
+                constraint maxvalue 256;
+            }
+            string TLSKeyExchangeProtocols { 
+                constraint enum ["RSA", "DSS", ""];
+                default "";
+            }
+        }
+
+        /** Capabilities specific to h323 */
+        persistent object H323 {
+            /** Support for H323 fast start. A true value indicates support for fast start */
+            persistent bool FastStart = true;
+            persistent string H235AuthenticationMethods
+            {
+                constraint maxvalue 256;
+                /** H235 is not available yet*/
+                default "";
+            }
+        }
+
+        object Codecs[] {
+            persistent uint32 EntryID { 
+                constraint minvalue 1;
+                default 1;
+            }
+            persistent string Codec { 
+                constraint maxvalue 64;
+            }
+            persistent uint32 BitRate;
+            persistent string PacketizationPeriod {
+                constraint maxvalue 64;
+            }
+            persistent bool SilenceSuppression = false;
+            persistent bool Enable = true;
+            persistent uint32 Priority {
+                constraint minvalue 1;
+                default 1;
+            }
+        }
+    }
+
+    /* Start - SAH specific parameters/objects */
+    read-only uint32 X_ORANGE-COM_NumberOfGroups;
+    persistent object X_ORANGE-COM_Group[] {
+        persistent string GroupName;
+        persistent string GroupType {
+            constraint enum ["PARALLEL", "SERIAL", "CIRCULAR"];
+            default "PARALLEL"; 
+        }
+        persistent uint32 DirectoryNumber;
+        read-only uint32 NumberOfMembers;
+
+        persistent object Member[] {
+            persistent string LineReference;
+        }
+    }
+
+    persistent object X_ORANGE-COM_CALL_CONTROL_SERVICES {
+        read-only uint32 NumberOfEntries;
+        /**
+         * Auto reconnect a pending call if the active one gets disconnected after a timeout expire. a timeout value of zero will disable this feature.
+         */
+        persistent uint32 AutoReconnectTimer = 3000;
+        persistent uint32 ExpectTimer = 3000;
+        persistent uint32 DefaultRingTestDuration = 6000;
+        /**
+         * Timeout value, a BusyTone is heard on an active handset. A timeout value of zero will keep the emission time limitless.
+         */
+        persistent uint32 BusyToneEmissionTime = 0;
+        /**
+         * Timeout value, a DialTone is heard on an active handset.
+         */
+        persistent uint32 DialToneDuration = 20000;
+        persistent uint32 UnregisterTimer = 5000;
+        persistent string HookOnWhileCallPending {
+            constraint enum ["FreeAll", "Ring"];
+            default "Ring";
+        }
+        persistent object Services[] {
+            persistent string ServiceName {
+                constraint enum ["HoldCall", "RetrieveCall", "ConsultationCall", "ReconnectCall", "AlternateCall", "ClearOtherCalls", "ParkingCall", "TransferCall", ""];
+                default "";
+            }
+            persistent string ActivationCode { 
+                constraint enum ["R", "R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", ""];
+                default "";
+            }
+        }
+    }
+
+    persistent object X_ORANGE-COM_CallList {
+        persistent uint32 MaxNumberOfEntries;
+        persistent uint32 LatestCall = 1;
+
+        persistent object Blacklist[] {
+            persistent string Number;
+        }
+
+        persistent object Entry[] {
+            persistent string RemoteNumber {
+                constraint maxvalue 30;
+            }
+            persistent string RemoteName {
+                constraint maxvalue 256;
+            }
+            persistent string Terminal {
+                constraint maxvalue 256;
+            }
+            persistent datetime StartTime;
+            persistent uint32 Duration = 0;
+            persistent string CallType { 
+                constraint enum ["missed", "failed", "succeeded", ""];
+                default "";
+            }
+            persistent string CallOrigin { 
+                constraint enum ["SIP", "H323", "PSTN", "local", ""];
+                default "";
+            }
+            persistent string CallDestination {
+                constraint enum ["SIP", "H323", "PSTN", "local", ""];
+                default "";
+            }
+        }
+    }
+
+    persistent object X_ORANGE-COM_VoicePortal {
+        /** Codec type of the file available for the voice portal */
+        persistent string Codec {
+            constraint enum ["PCMA", "PCMU", "G729", "G722"];
+            default "G729";
+        }
+        /** Location of the files on the file system */
+        persistent string ROFileLocation;
+        persistent string RWFileLocation;
+        /** Enabling/Disabling the voice portal */
+        persistent bool Enable;
+        /** Time of Start or Stop of the voice portal */
+        persistent datetime OnOffDateTime;
+        /** Date-Time of the last voice message played */
+        persistent datetime PlayDateTime;
+        /** State of the voice portal */
+        bool State;
+        /** Id of the last message played to the user */
+        persistent uint32 MessageId {
+                constraint maxvalue 255;
+                default 0;
+            }
+        /** The message id to be played to the user */
+        string ErrorMessage;
+        /** Define the language of the file which will be used */
+        persistent string Language;
+        /** Define a default languge */
+        persistent string DefaultLanguage;
+    }
+
+    persistent object X_ORANGE-COM_ToneFileGenerator {
+        /** Codec type of the file available for the voice portal */
+        persistent string Codec {
+            constraint enum ["PCMA", "PCMU", "G729", "G722"];
+            default "PCMA";
+        }
+        /** Location of the tones on the file system */
+        persistent string ROToneLocation;
+        persistent string RWToneLocation;
+    }
+    /* End - SAH specific parameters/objects */
+
+    persistent object VoiceProfile[] {
+        string Enable {
+            constraint enum ["Disabled", "Quiescent", "Enabled"];
+            default "Disabled";
+        }
+        bool Reset = false;
+        read-only uint32 NumberOfLines {
+            read with numberOfElements;
+        }
+        persistent string Name {
+            constraint maxvalue 64;
+        }
+        /* Start - SAH specific parameters/objects */
+        persistent string X_ORANGE-COM_MWIActivationNumber; 
+        persistent string X_ORANGE-COM_MWIDeactivationNumber; 
+        persistent string X_ORANGE-COM_Interface; 
+        string X_ORANGE-COM_LocalIPAddress {
+            constraint maxvalue 16;
+            default "0.0.0.0";
+        }
+        /* End - SAH specific parameters/objects */
+        persistent string SignalingProtocol {
+            constraint enum ["", "FXO", "FXS", "DECT", "SIP", "H.323"];
+            default "";
+        }
+        persistent uint32 MaxSessions = 0; 
+        persistent string DTMFMethod {
+            constraint enum ["InBand", "RFC2833", "SIPInfo"];
+            default "InBand";
+        }
+        persistent string DTMFMethodG711 {
+            constraint enum ["", "InBand", "RFC2833", "SIPInfo"];
+            default "";
+        }
+        persistent string Region { 
+            constraint maxvalue 2;
+        }
+        persistent string DigitMap { 
+            constraint maxvalue 512;
+        }
+        persistent bool DigitMapEnable = true;
+        persistent bool STUNEnable = true;
+        persistent string STUNServer {
+            constraint maxvalue 256;
+        }
+        persistent uint32 NonVoiceBandwidthReservedUpstream = 0;
+        persistent uint32 NonVoiceBandwidthReservedDownstream = 0;
+        persistent bool PSTNFailOver = false;
+        persistent string FaxPassThrough {
+            constraint enum ["Disable", "Auto"];
+            default "Auto";
+        }
+        persistent string ModemPassThrough {
+            constraint enum ["Disable", "Auto", "Force"];
+            default "Auto";
+        }
+
+        persistent object ServiceProviderInfo {
+            persistent string Name {
+                constraint maxvalue 256;
+            }
+            persistent string URL {
+                constraint maxvalue 256;
+            }
+            persistent string ContactPhoneNumber {
+                constraint maxvalue 32;
+            }
+            persistent string EmailAddress {
+                constraint maxvalue 256;
+            }
+        }
+
+        persistent object SIP {
+            persistent string ProxyServer {
+                constraint maxvalue 256;
+            }
+            persistent uint32 ProxyServerPort {
+                constraint maxvalue 65535;
+                default 5060;
+            }
+            persistent string ProxyServerTransport {
+                constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                default "UDP";
+            }
+            persistent string RegistrarServer {
+                constraint maxvalue 256;
+            }
+            persistent uint32 RegistrarServerPort {
+                constraint maxvalue 65535;
+                default 5060;
+            }
+            persistent string RegistrarServerTransport {
+                constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                default "UDP";
+            }
+            persistent string UserAgentDomain {
+                constraint maxvalue 256;
+            }
+            persistent uint32 UserAgentPort {
+                constraint maxvalue 65535;
+                default 0;
+            }
+            persistent string UserAgentTransport {
+                constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                default "UDP";
+            }
+            persistent string OutboundProxy {
+                constraint maxvalue 256;
+            }
+            persistent uint32 OutboundProxyPort {
+                constraint maxvalue 65535;
+                default 5060;
+            }
+            persistent string Organization {
+                constraint maxvalue 256;
+            }
+            /** Period over which the user agent must periodically register, in seconds. */
+            persistent uint32 RegistrationPeriod {
+                /** Deviation from standard: 0 means forever */
+                constraint minvalue 0;
+                default 3600;
+            }
+            persistent uint32 TimerT1 {
+                constraint minvalue 1;
+                default 500;
+            }
+            persistent uint32 TimerT2 {
+                constraint minvalue 1;
+                default 4000;
+            }
+            persistent uint32 TimerT4 {
+                constraint minvalue 1;
+                default 5000;
+            }
+            persistent uint32 TimerA {
+                constraint minvalue 1;
+                default 500;
+            }
+            persistent uint32 TimerB {
+                constraint minvalue 1;
+                default 32000;
+            }
+            persistent uint32 TimerC {
+                constraint minvalue 1;
+                default 180000;
+            }
+            persistent uint32 TimerD {
+                constraint minvalue 1;
+                default 32000;
+            }
+            persistent uint32 TimerE {
+                constraint minvalue 1;
+                default 500;
+            }
+            persistent uint32 TimerF {
+                constraint minvalue 1;
+                default 32000;
+            }
+            persistent uint32 TimerG {
+                constraint minvalue 1;
+                default 500;
+            }
+            persistent uint32 TimerH {
+                constraint minvalue 1;
+                default 32000;
+            }
+            persistent uint32 TimerI {
+                constraint minvalue 1;
+                default 5000;
+            }
+            persistent uint32 TimerJ {
+                constraint minvalue 1;
+                default 32000;
+            }
+            persistent uint32 TimerK {
+                constraint minvalue 1;
+                default 5000;
+            }
+            persistent uint32 InviteExpires {
+                constraint minvalue 1;
+                default 120;
+            }
+            persistent uint32 ReinviteExpires {
+                constraint minvalue 1;
+                default 120;
+            }
+            persistent uint32 RegisterExpires {
+                constraint minvalue 1;
+                default 60;
+            }
+            persistent uint32 RegistersMinExpires {
+                constraint minvalue 1;
+                default 15;
+            }
+            persistent uint32 RegisterRetryInterval {
+                constraint minvalue 1;
+                default 60;
+            }
+            persistent string InboundAuth {
+                constraint enum ["None", "Digest"];
+                default "None";
+            }
+            persistent string InboundAuthUsername {
+                constraint maxvalue 256;
+            }
+            persistent string InboundAuthPassword {
+                constraint maxvalue 256;
+            }
+            persistent bool UseCodecPriorityInSDPResponse = false;
+            persistent bool X_ORANGE-COM_ReplyWithMultipleCodec = true;
+            persistent bool X_ORANGE-COM_Use100rel = true;
+            persistent uint32 DSCPMark {
+                constraint maxvalue 63;
+                default 0;
+            }
+            persistent int32 VLANIDMark {
+                constraint minvalue -1;
+                default -1;
+            }
+            persistent int32 EthernetPriorityMark {
+                constraint minvalue -1;
+                default -1;
+            }
+            read-only uint32 SIPEventSubscribeNumberOfElements {
+                read with numberOfElements;
+            }
+            read-only uint32 SIPResponseMapNumberOfElements {
+                read with numberOfElements;
+            }
+
+            /**
+             * The list of SIP methods supported (comma-separated list). To be used to construct the Allow header.
+             * @version 5.2
+             */
+            persistent string X_ORANGE-COM_AllowHeader {
+                constraint custom cfg_constraint_AllowHeader;
+                default "INVITE, ACK, BYE, NOTIFY, INFO, CANCEL";
+            }
+
+            persistent object EventSubscribe[] {
+                persistent string Event {
+                    constraint maxvalue 32;
+                }
+                persistent string Notifier {
+                    constraint maxvalue 256;
+                }
+                persistent uint32 NotifierPort {
+                    constraint maxvalue 65535;
+                }
+                persistent string NotifierTransport {
+                    constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                    default "UDP";
+                }
+                persistent uint32 ExpireTime; 
+            }
+
+            persistent object ResponseMap[] {
+                persistent uint32 SIPResponseNumber {
+                    constraint range [100,999];
+                    default 100;
+                }
+                persistent string TextMessage { 
+                    constraint maxvalue 64;
+                }
+                persistent uint32 Tone = 0;
+            }
+
+            /** [FT] When receiving a 403 response, wait for this timer, and depending on "FCPE Activation"
+             *      yes -> Go to Start CPE_ALIVE Cycle
+             *      no  -> Start sip registration cycle
+             */
+            persistent uint32 X_ORANGE-COM_TimerLoginRejected
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+            /** [FT] When receiving a -second- 401 response (unauthorized), and Stale=TRUE wait for this timer,
+             *      and restart the registration cycle.
+             */
+            persistent uint32 X_ORANGE-COM_TimerPasswordRejected
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+            /** [FT] When receiving 4xx,5xx,6xx, use this timeout value, and restart the registration cycle. */
+            persistent uint32 X_ORANGE-COM_TimerRegistrationFailed
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+            /** [FT] When receiving 4xx,5xx,6xx, use this timeout value, 
+             *      if exponentialtimer has reached maximum failure count and restart the registration cycle. */
+            persistent uint32 X_ORANGE-COM_MaxTimerRegistrationFailed
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+            /** [FT] When subscribe fails (no response / response other than 423, 200) use this timerout value,
+             *      and restart the subscribe process */
+            persistent uint32 X_ORANGE-COM_TimerSubscriptionFailed
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+            /** [FT] When subscribe fails (no response / response other than 423, 200) use this timeout value,
+             *      if exponentialtimer has reached maximum failure count and restart the subscribe process */
+            persistent uint32 X_ORANGE-COM_MaxTimerSubscriptionFailed
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+            /** [FT] If this parameter is provisioned during activation process and non empty, 
+             *       the 3-way conference shall be activated.
+             *       By default, the Livebox shall not implement 3-way conference and must ignore "R3". */
+            persistent uint32 X_ORANGE-COM_ConferenceCallDomain
+            {
+                constraint minvalue 0;
+                default 0;
+            }
+        }
+
+        /** H323 specific configuration options */
+        persistent object H323 {
+            /** Host name or IP address of H.323 Gatekeeper. */
+            persistent string Gatekeeper {
+                constraint maxvalue 256;
+            }
+            /** Alternate gatekeeper, ft compatibility */
+            persistent string X_ORANGE-COM_GatekeeperAlt {
+                constraint maxvalue 256;
+            }
+
+            /** Destination port to be used in connecting to the 1719 H.323 Gatekeeper. */
+            persistent uint32 GatekeeperPort {
+                default 1719;
+            }
+            /** Non standard extension to set the preferred discovery mode on h323 */
+            persistent string X_ORANGE-COM_GatekeeperDiscoveryMode
+            {
+                /** Please note that when Auto is active GRQ's are sent to the ip address mentioned in the "Gatekeeper" field
+                  for FT this should be the "Master Gatekeeper" / to be standards compliant Gatekeeper should be set to the
+                  multicast group address 224.0.1.41 */
+                constraint enum ["Manual", "Auto"];
+                default "Manual";
+            }
+            /** Gatekeeper ID */
+            persistent string GatekeeperID {
+                constraint maxvalue 256;
+            }
+            /** In seconds, defines the TimeToLive specification 86400 in the registration with the Gatekeeper. */
+            persistent uint32 TimeToLive {
+                default 86400;
+            }
+            /** Enables or disables usage of H.235 security (H.235v2 Annex D, baseline security profile) */
+            persistent bool H235Authentication = false;     
+            /** Password to be used when H.235 is enabled. When read, this parameter returns an empty string, regardless of the actual value.*/
+            persistent string AuthPassword {
+                constraint maxvalue 256;
+            }
+            /** In ITU-T based H.235 authentication, the &lt;Empty&gt; sendersID is the ID of the gateway as received from the Gatekeeper. As long as the endpointID is
+              not received from the Gatekeeper, the sendersID will be applied as configured here. The generalID is the GatekeeperID. */
+            persistent string SendersID {
+                constraint maxvalue 256;
+            }
+            /*< Diffserv code point to be used for outgoing H.323 */
+            persistent uint32 DSCPMark {
+                constraint range[0,63];
+                default 0;
+            }
+            /*< VLAN ID (as defined in 802.1Q) to be used for outgoing H.323 signaling packets for this profile. A value of -1 indicates the default value is to be used.*/
+            persistent int32 VLANIDMark {
+                constraint minvalue -1;
+                default -1;
+            }
+        }
+
+        /* Start - SAH specific parameters/objects */
+        persistent object X_ORANGE-COM_CATIQ {
+            persistent object BaseStation[] {
+                persistent string Name;
+                uint32 AccessCode { 
+                    constraint range[0,9999];
+                }
+                string Registration {
+                    constraint enum ["enabled", "disabled"];
+                    default "disabled";
+                }
+            }
+        }
+        /* End - SAH specific parameters/objects */
+
+        persistent object RTP {
+            persistent uint32 LocalPortMin {
+                constraint maxvalue 65535;
+                default 0;
+            }
+            persistent uint32 LocalPortMax {
+                constraint maxvalue 65535;
+                default 0;
+            }
+            persistent int32 DSCPMark {
+                constraint range[0,63];
+            }
+            persistent int32 VLANIDMark {
+                constraint minvalue -1;
+                default -1;
+            }
+            persistent int32 EthernetPriorityMark {
+                constraint minvalue -1;
+                default -1;
+            }
+            persistent uint32 TelephoneEventPayLoadType { 
+                constraint range[0,128];
+            }
+            persistent object RTCP {
+                persistent bool Enable = false; 
+                persistent uint32 TxRepeatInterval {
+                    constraint minvalue 1;
+                    default 1;
+                }
+                persistent string LocalCName { 
+                    constraint maxvalue 64;
+                }
+            }
+
+            persistent object SRTP { 
+                persistent bool Enable = false;
+                persistent string KeyingMethods { 
+                    constraint maxvalue 256;
+                }
+                persistent string EncryptionKeySizes { 
+                    constraint maxvalue 256;
+                }
+            }
+
+            persistent object Redundancy {
+                persistent bool Enable = false;
+                persistent uint32 PayloadType { 
+                    constraint range[0,127];
+                    default 0;
+                }
+                persistent uint32 BlockPayloadType {
+                    constraint range[0,127];
+                    default 0;
+                }
+                persistent int32 FaxAndModemRedundancy { 
+                    constraint range[-1,5];
+                    default -1;
+                }
+                persistent int32 ModemRedundancy { 
+                    constraint range[-1,5];
+                    default -1;
+                }
+                persistent int32 DTMFRedundancy { 
+                    constraint range[-1,5];
+                    default -1;
+                }
+                persistent int32 VoiceRedundancy { 
+                    constraint range[-1,5];
+                    default -1;
+                }
+                persistent uint32 MaxSessionsUsingRedundancy = 0;
+            }
+        }
+
+        persistent object NumberingPlan {
+            persistent uint32 MinimumNumberOfDigits {
+                constraint range[0,40];
+            }
+            /* MaximumNumberOfDigits - The usage of this value is updated after every call. */
+            persistent uint32 MaximumNumberOfDigits {
+                constraint range[0,40];
+            }
+            persistent uint32 InterDigitTimerStd {
+                constraint maxvalue 500000;
+            }
+            persistent uint32 InterDigitTimerOpen {
+                constraint maxvalue 500000;
+            }
+            persistent uint32 InvalidNumberTone;
+            persistent uint32 PrefixInfoMaxEntries;
+            read-only uint32 PrefixInfoNumberOfEntries;
+
+        /**
+             * True implies that for every number terminated by T (i.e. timeout was exceeded) all
+             * rules should be compared to the number and the number minus the trailing T in pcb index order.
+             * If the number matches the PrefixRange expression then it is accepted but if the number/T 
+             * is a prefix of one of the possible numbers that could match the expression then it will be refused. 
+             * In other words, partially matching numbers are refused. 
+             */
+        persistent bool RefusePartialMatches {
+                default 0;
+        }
+
+            persistent object PrefixInfo[] {
+                persistent string PrefixRange {
+                write with cfg_write_handler_numberingPlan_PrefixRange;
+            constraint custom cfg_constraint_numberingPlan_PrefixRange;
+                }
+                persistent uint32 PrefixMinNumberOfDigits {
+                    constraint range [0,40];
+                    default 1; 
+                } 
+                persistent uint32 PrefixMaxNumberOfDigits { 
+                    constraint range[0,40];
+                    default 1; 
+                }
+                persistent uint32 NumberOfDigitsToRemove {
+                    constraint range [0,40];
+                    default 0;
+                }
+                persistent uint32 PosOfDigitsToRemove {
+                    constraint range [0,40];
+                    default 0;
+                }
+
+                /**
+                 * If this parameter is not equal to zero, then it specifies the number of digits 
+                 * to be stripped from the dialed number before sending it to the network 
+                 */
+                persistent uint32 X_ORANGE-COM_NumberOfDigitsToStrip {
+                    constraint range [0,40];
+                    default 0;
+                }
+                /**
+                 * This parameter is used in conjuction with the NumberOfDigitsToStrip parameter, it specifies the position withing the dialled number from which digits are to be stripped. 
+                 */
+                persistent uint32 X_ORANGE-COM_PosOfDigitsToStrip {
+                    constraint range [0,40];
+                    default 0;
+                }
+                persistent uint32 DialTone = 0;
+                persistent string FacilityAction {
+                    constraint maxvalue 40;
+                }
+                persistent string FacilityActionArgument {
+                    constraint maxvalue 256;
+                }
+            }
+        }
+
+        persistent object Tone {
+            read-only uint32 EventNumberOfEntries;
+            read-only uint32 DescriptionNumberOfEntries;
+            read-only uint32 PatternNumberOfEntries;
+
+            persistent object Event[] {
+                persistent string Function {
+                    constraint enum ["", "Busy", "Confirmation", "Dial", "MessageWaiting", "OffHookWarning", "RingBack", "ReOrder", "Stutterdial", "CallWaiting1", "CallWaiting2", "CallWaiting3", "CallWaiting4", "AlertingSignal", "SpecialDial", "SpecialDial", "SpacialInfo", "Release", "Congestion", "UserDefined1", "UserDefined2", "UserDefined3", "UserDefined4"];
+                    default "";
+                }
+                persistent uint32 ToneID;
+            }
+
+            persistent object Description[] {
+                persistent uint32 EntryID {
+                    constraint minvalue 1;
+                    default 1;
+                }
+                persistent bool ToneEnable = false;
+                persistent string ToneName {
+                    constraint maxvalue 64;
+                }
+                persistent uint32 TonePattern = 0; 
+                persistent string ToneFile {
+                    constraint maxvalue 256;
+                }
+                persistent uint32 ToneRepetitions {
+                    constraint range [0,255];
+                    default 0;
+                }
+                persistent string ToneText {
+                    constraint maxvalue 64;
+
+                }
+            }
+
+            object Pattern[] {
+                uint32 EntryID { 
+                    constraint minvalue 1;
+                    default 1;
+                }
+                bool ToneOn = false; 
+                uint32 Frequency1 { 
+                    constraint range [0,4095];
+                    default 0;
+                }
+                int32 Power1 = 0;
+                uint32 Frequency2 { 
+                    constraint maxvalue 4095;
+                    default 0;
+                }
+                int32 Power2 = 0;
+                uint32 Frequency3 { 
+                    constraint maxvalue 4095;
+                    default 0;
+                }
+                int32 Power3 = 0;
+                uint32 Frequency4 { 
+                    constraint maxvalue 4095;
+                    default 0;
+                }
+                int32 Power4 = 0;
+                uint32 ModulationFrequency { 
+                    constraint maxvalue 4095;
+                    default 0;
+                }
+                int32 ModulationPower = 0;
+                uint32 Duration = 0;
+                uint32 NextEntryID = 0;
+            }
+        }
+
+        persistent object ButtonMap {
+            read-only uint32 NumberOfButtons;
+
+            persistent object Button[] {
+                persistent string ButtonName {
+                    constraint maxvalue 16;
+                }
+                persistent string FacilityAction { 
+                    constraint maxvalue 64;
+                }
+                persistent string FacilityActionArgument {
+                    constraint maxvalue 256;
+                }
+                persistent string QuickDialNumber {
+                    constraint maxvalue 40;
+                }
+                persistent string ButtonMessage {
+                    constraint maxvalue 64;
+                }
+                persistent bool UserAccess;
+            }
+        }
+
+        persistent object FaxT38 {
+            persistent bool Enable = false;
+            persistent uint32 BitRate {
+                constraint enum [2400,4800,7200,9600,12000,14400,33600];
+                default 14400;
+            }
+            persistent uint32 HighSpeedPacketRate {
+                constraint enum [10,20,30,40];
+                default 10;
+            }
+            persistent uint32 HighSpeedRedundancy {
+                constraint range [0,3];
+                default 3;
+            }
+            persistent uint32 LowSpeedRedundancy {
+                constraint range [0,5];
+                default 5;
+            }
+            string TCFMethod { 
+                constraint enum ["Local", "Network"];
+                default "Local";
+            }
+        }
+
+        persistent object Line[] {
+            string Enable {
+                constraint enum ["Disabled", "Quiescent", "Enabled"];
+                default "Disabled";
+            }
+            persistent string DirectoryNumber {
+                constraint maxvalue 32;
+            }
+            read-only string Status {
+                constraint enum ["Up", "Initializing", "Registering", "Unregistering", "Error", "Testing", "Quiescent", "Disabled"];
+                default "Disabled";
+            }
+            /** The Active Line Status Info. */
+            string X_ORANGE-COM_StatusInfo {
+                    constraint enum ["RegistrationFailed", "TimerLoginRejected", "TimerPasswordRejected", "NoResponse", "ResetTimer", ""];
+                    default "";
+            }
+            /** The Line EndpointType. */
+            persistent string X_ORANGE-COM_EndpointType {
+                    constraint enum ["FXS", "DECT GAP", "DECT CAT-iq 1.0", "DECT CAT-iq 2.0", "DUMMY", "Undefined"];
+                    default "Undefined";
+            }
+            string CallState {
+                constraint enum ["Idle", "Calling", "Ringing", "Connecting", "InCall", "Hold", "Disconnecting"];
+                default "Idle";
+            }
+            persistent string PhyReferenceList { 
+                constraint maxvalue 32;
+            }
+            persistent bool RingMuteStatus = false;
+            persistent uint32 RingVolumeStatus { 
+                constraint maxvalue 100;
+            }
+            /* Start - SAH specific parameters/objects */
+            persistent string X_ORANGE-COM_OutgoingLineReference;
+            persistent string X_ORANGE-COM_Name;
+            /* End - SAH specific parameters/objects */
+
+            persistent object SIP {
+                persistent string AuthUserName{ 
+                    constraint maxvalue 128;
+                }
+                persistent string AuthPassword {
+                    constraint maxvalue 128;
+                }
+                persistent string X_ORANGE-COM_AuthPasswordCrypt {
+                    constraint maxvalue 128;
+                }
+                persistent string URI {
+                    constraint maxvalue 389;
+                }
+
+                persistent read-only uint32 SIPEventSubscribeNumberOfElements {
+                    read with numberOfElements;
+                }
+
+                persistent object EventSubscribe[] {
+                    persistent string Event { 
+                        constraint maxvalue 32;
+                    }
+                    persistent string AuthUserName { 
+                        constraint maxvalue 128;
+                    }
+                    persistent string AuthPassword { 
+                        constraint maxvalue 128;
+                    }
+                }
+            }
+
+            persistent object H323 {
+                /** The H323ID assigned to the line. */
+                persistent string H323ID {
+                    constraint maxvalue 128;
+                }
+            }
+
+            /* Start - SAH specific parameters/objects */
+            persistent object X_ORANGE-COM_CATIQ {
+                string HandsetId;
+                persistent string IPUI;
+            }
+            /* End - SAH specific parameters/objects */
+
+            object Ringer {
+                read-only uint32 EventNumberOfEntries;
+                read-only uint32 DescriptionNumberOfEntries;
+                read-only uint32 PatternNumberOfEntries;
+
+                object Event[] {
+                    string Function{
+                        constraint enum ["", "Default", "RingSplash"];
+                        default "";
+                    }
+                    uint32 RingID;
+                }
+
+                object Description[] {
+                    uint32 EntryID { 
+                        constraint minvalue 1;
+                        default 1;
+                    }
+                    bool RingEnable = false;
+                    string RingName { 
+                        constraint maxvalue 64;
+                    }
+                    uint32 RingPattern = 0;
+                    string RingFile { 
+                        constraint maxvalue 256;
+                    }
+                }
+
+                object Pattern[] {
+                    uint32 EntryID { 
+                        constraint minvalue 1;
+                        default 1;
+                    }
+                    bool RingerOn = false;
+                    uint32 Duration = 0;
+                    uint32 NextEntryID = 0;
+                }
+            }
+
+            persistent object CallingFeatures { 
+                persistent bool CallerIDEnable = true;
+                persistent bool CallerIDNameEnable = true;
+                persistent bool X_ORANGE-COM_IncomingCallerIDEnable = true;
+                persistent bool X_ORANGE-COM_IncomingCallerIDNameEnable = false;
+                persistent string CallerIDName { 
+                    constraint maxvalue 256;
+                }
+                persistent bool CallWaitingEnable = true;
+                persistent string CallWaitingStatus {
+                    constraint enum ["Disabled", "Idle", "SecondaryRinging", "SecondaryConnecting", "SecondaryConnected"];
+                    default "Idle";
+                }
+                uint32 MaxSessions;
+                string ConferenceCallingStatus { 
+                    constraint enum ["Disabled", "Idle", "SecondaryCalling", "SecondaryConnecting", "SecondaryConnected", "InConferenceCall"];
+                    default "Disabled";
+                }
+                uint32 ConferenceCallingSessionCount;
+                persistent bool CallForwardUnconditionalEnable = false;
+                persistent string CallForwardUnconditionalNumber { 
+                    constraint maxvalue 32;
+                }
+                persistent bool CallForwardOnBusyEnable = false;
+                persistent string CallForwardOnBusyNumber { 
+                    constraint maxvalue 32;
+                }
+                persistent bool CallForwardOnNoAnswerEnable = false;
+                persistent string CallForwardOnNoAnswerNumber { 
+                    constraint maxvalue 32;
+                }
+                persistent uint32 CallForwardOnNoAnswerRingCount = 2;
+                persistent bool CallTransferEnable = false;
+                persistent bool MWIEnable = true;
+                /** [FT] This parameter is used to configure the type of indication when
+                 *       the voice application receives a notification for message waiting. 
+                 */
+                persistent string X_ORANGE-COM_MWIType {
+                    constraint enum ["visual", "deferred", "both"];
+                    default "deferred";
+                }
+                bool MessageWaiting; 
+                persistent bool AnonymousCallBlockEnable = false;
+                persistent bool AnonymousCalEnable = false;
+                persistent bool DoNotDisturbEnable =false;
+                persistent bool CallReturnEnable = false;
+                persistent bool RepeatDialEnable = false;
+            }
+
+            persistent object VoiceProcessing {
+                persistent int32 TransmitGain;
+                persistent int32 ReceiveGain;
+                persistent bool EchoCancellationEnable = true;
+                bool EchoCancellationInUse;
+                uint32 EchoCancellationTail;
+            }
+
+            persistent object Codec { 
+                string TransmitCodec { 
+                    constraint maxvalue 64;
+                }
+                string ReceiveCodec { 
+                    constraint maxvalue 64;
+                }
+                uint32 TransmitBitRate;
+                uint32 ReceiveBitRate;
+                bool TransmitSilenceSuppression;
+                bool ReceiveSilenceSuppression;
+                uint32 TransmitPacketizationPeriod;
+
+                persistent object List[] {
+                    persistent uint32 EntryID { 
+                        constraint minvalue 1;
+                        default 1;
+                    }
+                    persistent string Codec { 
+                        constraint maxvalue 64;
+                    }
+                    persistent uint32 BitRate;
+                    persistent string PacketizationPeriod {
+                        constraint maxvalue 64;
+                    }
+                    persistent bool SilenceSuppression = false;
+                    persistent bool Enable = true;
+                    persistent uint32 Priority {
+                        constraint minvalue 1;
+                        default 1;
+                    }
+                }
+            }
+
+            persistent object Session[] { 
+                persistent string SessionStartTime;
+                persistent uint32 SessionDuration;
+                persistent string FarEndIPAddress;
+                persistent uint32 FarEndUDPPort { 
+                    constraint range [0,65535];
+                }
+                persistent uint32 LocalUDPPort {
+                    constraint range [0,65535];
+                }
+
+                /* Start - SAH specific parameters/objects */
+                object X_ORANGE-COM_Conn {
+                    string Callstate {
+                        constraint enum ["IDLE", "INITIATED", "DIALING", "ADDRESS_ANALYZE", "INPROCESS", "CALL_DELIVERED", "OFFERED", "ALERTING", "DISCONNECTED", "CONNECTED", "FAILED", "TRANSFER_INIT", "TRANSFER_INPROCESS", "TRANSFER_DELIVERED", "TRANSFER_OFFERED", "TRANSFER_ALERTING", "REJECTED", "ALERTING_REJECTED", "USER", "TERMINATED"];
+                        default "IDLE";
+                    }
+                    datetime Timestamp;
+                    uint32 Callid;
+                    string CallingPartyNo;
+                    string CalledPartyNo;
+                    string Cause;
+                    string FarEndCodec;
+                    string LocalCodec;
+                    string EndWay;
+                    bool reject();
+                }
+
+                object X_ORANGE-COM_RTP_RX {
+                    datetime Timestamp;
+                    string event;
+                    string SSRC;
+                    string SeqStart;
+                    string SeqStop;
+                    uint32 LostPackets;
+                    uint32 DupPackets;
+                    uint32 RoundTripDelay;
+                    uint32 MinJitter;
+                    uint32 MaxJitter;
+                    uint32 MeanJitter;
+                    uint32 DevJitter;
+                }
+
+                object X_ORANGE-COM_RTP_TX {
+                    datetime Timestamp;
+                    string event;
+                    string SSRC;
+                    string SeqStart;
+                    string SeqStop;
+                    uint32 LostPackets;
+                    uint32 DupPackets;
+                    uint32 RoundTripDelay;
+                    uint32 MinJitter;
+                    uint32 MaxJitter;
+                    uint32 MeanJitter;
+                    uint32 DevJitter;
+                }
+
+                object X_ORANGE-COM_QOE_RX {
+                    datetime Timestamp;
+                    string SSRC;
+                    uint32 LossRate;
+                    uint32 DiscardRate;
+                    uint32 BurstDensity;
+                    uint32 GapDensity;
+                    string BurstDuration;
+                    uint32 GapDuration;
+                    uint32 RoundTripDelay;
+                    uint32 EndSystemDelay;
+                    uint32 SignalLevel;
+                    uint32 NoiseLevel;
+                    string RERL;
+                    string RFactor;
+                    string ExtRFactor;
+                    string MOS_LQ;
+                    string MOS_CQ;
+                }
+
+                object X_ORANGE-COM_QOE_TX {
+                    datetime Timestamp;
+                    string SSRC;
+                    uint32 LossRate;
+                    uint32 DiscardRate;
+                    uint32 BurstDensity;
+                    uint32 GapDensity;
+                    string BurstDuration;
+                    uint32 GapDuration;
+                    uint32 RoundTripDelay;
+                    uint32 EndSystemDelay;
+                    uint32 SignalLevel;
+                    uint32 NoiseLevel;
+                    string RERL;
+                    string RFactor;
+                    string ExtRFactor;
+                    string MOS_LQ;
+                    string MOS_CQ;
+                }
+                /* End - SAH specific parameters/objects */
+
+            }
+
+            object Stats {
+                bool ResetStatistics = false;
+                uint32 PacketsSent;
+                uint32 PacketsReceived;
+                uint32 BytesSent;
+                uint32 BytesReceived;
+                uint32 PacketsLost;
+                uint32 Overruns;
+                uint32 Underruns;
+                uint32 IncomingCallsReceived;
+                uint32 IncomingCallsAnswer;
+                uint32 IncomingCallsConnected;
+                uint32 IncomingCallsFailed;
+                uint32 OutgoingCallsAttempted;
+                uint32 OutgoingCallsAnswered;
+                uint32 OutgoingCallsConnected;
+                uint32 OutgoingCallsFailed;
+                uint32 CallsDropped;
+                uint32 TotalCallTime;
+                uint32 ServerDownTime;
+                uint32 ReceivePacketLossRate {
+                    constraint range [0,100];
+                }
+                uint32 FarEndPacketLossRate {
+                    constraint range [0,100];
+                }
+                uint32 ReceiveInterarrivalJitter;
+                uint32 FarEndInterarrivalJitter;
+                uint32 RoundTripDelay;
+                uint32 AverageReceiveInter;
+                uint32 AverageFarEndInterarrivalJitter;
+                uint32 AverageRoundTripDelay;
+            }
+        }
+
+        object PhyInterface[] {
+            string PhyPort { 
+                constraint maxvalue 2;
+            }
+            uint32 InterfaceID { 
+                constraint minvalue 1;
+                default 1;
+            }
+            string Description { 
+                constraint maxvalue 32;
+            }
+
+            object Tests {
+                string TestState { 
+                    constraint enum ["", "None", "Requested", "Complete", "Error_TestNotSupported"];
+                    default "";
+                }
+                string TestSelector { 
+                    constraint maxvalue 64;
+                }
+                bool PhoneConnectivity;
+            }
+        }
+    }
+}

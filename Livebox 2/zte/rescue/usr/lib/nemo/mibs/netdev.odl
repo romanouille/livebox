@@ -1,0 +1,120 @@
+object NeMo { 
+	object extends MIB(0,"netdev") {
+		string Flag = "netdev";
+		object DataModel {
+			int32 NetDevIndex;
+			read-only string NetDevType; // ether atm void none ppp tunnel tunnel6 loopback ...
+			string NetDevFlags; // loopback broadcast pointopoint multicast noarp allmulti promisc master slave debug dynamic automedia portsel notrailers up
+			string NetDevName;
+			string LLAddress;
+			uint32 TxQueueLen;
+			uint32 MTU;
+			read-only string NetDevState=unknown; // unknown notpresent down lowerlayerdown testing dormant up
+
+			// procfs parameters
+			bool IPv4Forwarding = true;
+			uint32 IPv4ForceIGMPVersion {
+				constraint range [0, 3];
+				default 0;
+			}
+			bool IPv4AcceptSourceRoute = true;
+			bool IPv4AcceptRedirects = false;
+			bool IPv6AcceptRA = true;
+			bool IPv6ActAsRouter = true; // corresponds to !RSEnable in TR-181 and to ipv6/.../forwarding in procfs
+			bool IPv6AutoConf = true;
+			uint32 IPv6MaxRtrSolicitations = 3;
+			uint32 IPv6RtrSolicitationInterval = 4000;
+			bool IPv6AcceptSourceRoute = false;
+			bool IPv6AcceptRedirects = true;
+			bool IPv6OptimisticDAD = false;
+			bool IPv6Disable = true;
+			void refreshNetDev();
+			/*map*/void getNetDevStats();
+			
+			persistent object IPv4Addr[] {
+				persistent bool Enable;
+				read-only string Status="unavailable"; // disabled, unavailable (no NetDev counterpart), bound (committed to NetDev), dynamic (dynamically created by NetDev), error
+				// flagset = Family + Flags + Scope
+
+				persistent string Address;
+				persistent string Peer;
+				persistent uint8 PrefixLen;
+				persistent string Flags; // secondary nodad optimistic homeaddress deprecated tentative permanent
+				persistent string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+//(*)			persistent uint32 PreferredLifetime;
+//(*)			persistent uint32 ValidLifetime;
+//(*)			read-only uint32 CreatedTimestamp;
+//(*)			read-only uint32 UpdatedTimestamp;
+			}
+			
+			persistent object IPv6Addr[] {
+				persistent bool Enable;
+				read-only string Status="unavailable"; // disabled, unavailable (no NetDev counterpart), bound (committed to NetDev), dynamic (dynamically created by NetDev), error
+				// flagset = Family + Flags + Scope
+
+				persistent string Address;
+				persistent string Peer;
+				persistent uint8 PrefixLen;
+				persistent string Flags; // secondary nodad optimistic homeaddress deprecated tentative permanent
+				persistent string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+				persistent uint32 PreferredLifetime;
+				persistent uint32 ValidLifetime;
+//(*)			read-only uint32 CreatedTimestamp;
+//(*)			read-only uint32 UpdatedTimestamp;
+			}
+
+			persistent object IPv4Route[] {
+				persistent bool Enable;
+				read-only string Status="unavailable"; // disabled, unavailable (no NetDev counterpart), bound (committed to NetDev), dynamic (dynamically created by NetDev), error
+				
+				persistent uint8 DstLen;
+				persistent string Table="main"; // unspec default main local | user defined from NetDev.ConversionTable.Table
+				persistent string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+				persistent string Protocol="boot"; // redirect kernel boot static | user defined from NetDev.ConversionTable.Protocol
+				persistent string Type="unicast"; // unicast local broadcast anycast multicast blackhole unreachable prohibit throw nat
+				persistent string Dst;
+				persistent int32 Priority;
+				persistent string Gateway;
+//(*)			persistent string PrefSrc;
+//(*)			persistent uint32 MTU;
+//(*)			persistent uint32 AdvMSS;
+//(*)			persistent uint32 HopLimit;
+			}
+
+			persistent object IPv6Route[] {
+				persistent bool Enable;
+				read-only string Status="unavailable"; // disabled, unavailable (no NetDev counterpart), bound (committed to NetDev), dynamic (dynamically created by NetDev), error
+				
+				persistent uint8 DstLen;
+				persistent string Table="main"; // unspec default main local | user defined from NetDev.ConversionTable.Table
+				persistent string Scope="global"; // global site link host nowhere | user defined from NetDev.ConversionTable.Scope
+				persistent string Protocol="boot"; // redirect kernel boot static | user defined from NetDev.ConversionTable.Protocol
+				persistent string Type="unicast"; // unicast local broadcast anycast multicast blackhole unreachable prohibit throw nat
+				persistent string Dst;
+				persistent int32 Priority;
+				persistent string Gateway;
+//(*)			persistent string PrefSrc;
+//(*)			persistent uint32 MTU;
+//(*)			persistent uint32 AdvMSS;
+//(*)			persistent uint32 HopLimit;
+			}
+
+//(*)		persistent object Neigh[] {
+//(*)		persistent bool Enable;
+//(*)		read-only string Status="unavailable"; // disabled, unavailable (no NetDev counterpart), bound (committed to NetDev), dynamic (dynamically created by NetDev), error
+			  // flagset = Family + Flags + State
+
+//(*)		persistent string Family="ipv4"; // ipv4 ipv6
+//(*)		persistent string Flags; // proxy router
+//(*)		persistent string Dst;
+//(*)		persistent string LLAddress;
+//(*)		persistent string State="permanent"; // incomplete reachable stale delay probe failed noarp permanent
+//(*)		}
+		}
+	}
+}
+
+
+
+//(*) descope for performance / memory optimization
+

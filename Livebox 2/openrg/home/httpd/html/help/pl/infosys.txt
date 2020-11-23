@@ -1,0 +1,7 @@
+<b>Informacja o systemie</b><br>
+<br>
+
+Ta strona zawiera techniczne informacje o ogólnym statusie modemu Livebox.
+<br>
+
+

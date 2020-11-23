@@ -1,0 +1,200 @@
+using "queueManagement.so";
+define qos_queue_t {
+string queueName;
+bool enable;
+uint32 shapingRate;
+uint32 assuredRate;
+}
+acl {
+group cwmpd read,write,execute;
+group admin read,write,execute;
+group remoteadmin read,execute;
+group technician read,write,execute;
+}
+persistent object QueueManagement {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+persistent bool Enable {
+write with enableQueueManagementOnWrite;
+default true;
+}
+persistent uint32 MaxClassificationEntries {
+write with maxClassificationsOnWrite;
+default 100;
+}
+persistent uint32 MaxQueuesEntries {
+write with maxQueuesOnWrite;
+default 100;
+}
+persistent int32 DefaultTrafficClass {
+default -1;
+}
+persistent string DefaultForwardingPolicy {
+default "default";
+}
+persistent uint32 DefaultQueue {
+default 0;
+}
+persistent int32 DefaultDSCPMark {
+write with defaultDSCPMarkOnWrite;
+default -1;
+}
+persistent int32 DefaultEthernetPriorityMark {
+default -1;
+}
+persistent object Queue[] {
+write with queueOnWrite;
+bool set(variant parameters);
+variant get();
+persistent string Name;
+persistent int32 QueueKey;
+persistent bool QueueEnable = false;
+read-only string QueueStatus {
+read with queueStatusOnRead;
+constraint enum ["Error", "Disabled", "Enabled"];
+default "Disabled";
+}
+persistent string TrafficClasses {
+constraint maxvalue 256;
+}
+persistent string QueueInterface {
+constraint maxvalue 256;
+}
+persistent uint32 QueueBufferLength;
+persistent uint32 QueueWeight;
+persistent uint32 QueuePrecedence;
+persistent uint32 REDTreshold {
+constraint maxvalue 100;
+default 0;
+}
+persistent uint32 REDPercentage {
+constraint maxvalue 100;
+default 0;
+}
+persistent string DropAlgorithm {
+constraint enum ["RED", "DT", "WRED", "BLUE", "SFQ"];
+default "DT";
+}
+persistent string SchedulerAlgorithm {
+constraint enum ["WFQ", "WRR", "SP", "SPWRR", "HTB"];
+default "SP";
+}
+persistent int32 ShapingRate = -1;
+read-only int32 CurrentShapingRate {
+read with queueCurrentShapingRateOnRead;
+}
+persistent int32 ShapingBurstSize =-1;
+persistent int32 AssuredRate =-1;
+read-only int32 CurrentAssuredRate {
+read with queueCurrentAssuredRateOnRead;
+}
+persistent int32 AssuredBurstSize =-1;
+persistent string RootQueue;
+persistent bool DefaultQueue = false;
+persistent int32 PerPacketOverhead = -1;
+}
+persistent object QueueStats[] {
+write with queueStatsOnWrite;
+delete with queueStatsOnDelete;
+persistent bool Enable = false;
+read-only string Status {
+read with queueStatsStatusOnRead;
+constraint enum ["Disabled", "Enabled", "Error"];
+default "Disabled";
+}
+persistent uint32 Queue = 0;
+persistent string Interface;
+read-only uint32 OutputPackets = 0;
+read-only uint32 OutputBytes = 0;
+read-only uint32 DroppedPackets =0;
+read-only uint32 DroppedBytes = 0;
+}
+persistent object Classification[] {
+write with classificationOnWrite;
+bool set(variant parameters);
+variant get();
+acl {
+group admin read,write,execute;
+}
+persistent string Name;
+persistent uint32 ClassificationKey;
+persistent bool ClassificationEnable = false;
+read-only string ClassificationStatus {
+read with classificationStatusOnRead;
+constraint enum ["Disabled", "Enabled", "Error"];
+default "Disabled";
+}
+persistent uint32 ClassificationOrder;
+persistent string ClassInterface {
+constraint maxvalue 16;
+}
+persistent string OutInterface {
+constraint maxvalue 16;
+}
+persistent string DestIP {
+constraint maxvalue 40;
+}
+persistent string DestMask {
+constraint maxvalue 40;
+}
+persistent bool DestIPExclude = false;
+persistent string SourceIP {
+constraint maxvalue 40;
+}
+persistent string SourceMask {
+constraint maxvalue 40;
+}
+persistent bool SourceIPExclude = false;
+persistent int32 Protocol = -1;
+persistent bool ProtocolExclude = false;
+persistent int32 DestPort = -1;
+persistent int32 DestPortRangeMax = -1;
+persistent bool DestPortExclude = false;
+persistent int32 SourcePort = -1;
+persistent int32 SourcePortRangeMax = -1;
+persistent bool SourcePortExclude = false;
+persistent string SourceMacAddress {
+constraint maxvalue 18;
+}
+persistent bool SourceMacExclude = false;
+persistent string DestMACAddress {
+constraint maxvalue 18;
+}
+persistent bool DestMACExclude = false;
+persistent int32 IPLengthMin = 0;
+persistent int32 IPLengthMax = 0;
+persistent string DSCPCheck {
+constraint maxvalue 32;
+}
+persistent bool DSCPExclude = false;
+persistent int32 DSCPMark = -1;
+persistent string ForwardingPolicy;
+persistent int32 TrafficClass = -1;
+persistent int32 ClassPolicer = -1;
+persistent string ClassQueue;
+persistent int32 EthernetPriorityCheck = -1;
+persistent bool EthernetPriorityExclude = false;
+persistent int32 EthernetPriorityMark = -1;
+persistent int32 VLANIDCheck = -1;
+persistent bool VLANIDExclude = false;
+persistent int32 IPVersion = 0;
+persistent bool StopTraverse = false;
+}
+bool save();
+bool reset();
+bool commit();
+bool setQosConfig(mandatory string Interface, mandatory bool Enable, mandatory string Algorithm, qos_queue_t WanQueue, list SubQueue);
+bool setClassification(mandatory string Id, mandatory bool Enable, string OutInterface, string DestinationPrefix, bool Persistent);
+void setPolicyClassification(mandatory string Id, mandatory uint32 Key, mandatory bool Enable, string SourceIP, string SourceMac, string DestIP, int32 DestPort, int32 Protocol, uint32 Policy, bool Persistent) {
+acl {
+group admin read, write, execute;
+group remoteadmin read, execute;
+}
+}
+bool setClassifications(list Classifications);
+list listQueues();
+list listClassifications();
+}

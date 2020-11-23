@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+		<link rel="stylesheet" type="text/css" href="../../../../theme/webCorporate/css/theme.css"/>
+	<title>LiveBox</title>
+	
+	</head>
+	<body bgcolor="#eeeeee" onLoad="getParam();">
+		<div class="help_popup">
+			<img  class="float-left" align="absmiddle" src="../../../../theme/webCorporate/image/icon_inter.png"/>
+			<h2 class="grey"> &nbsp;aide : tableau de bord </h2>
+			<br/><br/>		
+			
+            <div class="content">
+				<p><span ><strong>mon offre</strong></span>
+                
+                <p>Cette  rubrique présente les caractéristiques de  l’offre commerciale souscrite par l’entreprise&nbsp;: 
+           	  <ul>
+                    <li>nom de l’offre </li>
+                    <li>nombre maximum de postes </li>
+                    <li>tranches de  numéros publics SDA (Sélection Directe à  l’Arrivée)&nbsp;associée à l’offre. Parmi ces numéros on distingue ceux qui 
+                    sont disponibles de ceux qui sont déjà affectés  </li>
+			  </ul>
+				</p>
+                
+                <p><span ><strong>identité de l'entreprise</strong> </span> 
+                
+                
+                <p>L’identité de l’entreprise est définie par un numéro  appelé «&nbsp;numéro entreprise&nbsp;». C’est  un numéro public faisant partie de la tranche de numéros de 				l’entreprise, mais  il peut etre aussi un numéro public spécifique.<br/>
+Il permet d’acheminer  les appels  des postes n’ayant pas de  numéro public, et en particulier les appels d’urgence. <br/>
+Chaque utilisateur ayant un poste avec un numéro public peut  néanmoins choisir de présenter le numéro entreprise à la place de son propre  numéro, dans le cas des appels externes.<br/>
+A l’initialisation de l’installation, le numéro entreprise  est renseigné automatiquement avec une valeur par défaut. Cette valeur par  défaut est le numéro configuré dans les paramètres SIP du faisceau de sortie.</p>
+
+                <p>Pour modifier  ce numéro :
+                <ul>
+                  <li>cliquer sur le lien &quot;<strong><em>modifier  le numéro entreprise</em></strong>&quot;</li>
+                  <li>l’écran de modification du  faisceau de sortie s’affiche</li>
+                  <li>sélectionner un  numéro «&nbsp;entreprise&nbsp;»  par défaut dans la liste déroulante  correspondante</li>
+                  <li>ou bien  sélectionner dans la liste déroulante l’item  &quot;<strong><em>entrer un numéro libre</em></strong>&quot; afin de pouvoir saisir un numéro ne  faisant pas parti de la tranche des 									
+                 numéros public de l’entreprise&nbsp;</li>
+                  <li>cliquer alors sur le bouton  «&nbsp;<strong>sauvegarder</strong>&nbsp;» pour prendre en compte les modifications  effectuées sur cette page.</li>
+                </ul>
+                
+                
+              NB/ le bouton «&nbsp;<strong>sauvegarder</strong>&nbsp;» se dégrise  automatiquement lorsqu’il y a une modification dans la page.</p>
+
+				
+                <p><span ><strong>état des téléphones</strong></span> 
+                
+              <p>Cette rubrique présente le nombre de téléphones raccordés à  la Livebox ainsi que leur état. Chacun des états est représenté par un icône  puis une couleur. On distingue les états suivants&nbsp;avec les icônes  correspondants: </p>
+                <ul>
+                <li> <img  align="absmiddle"  src="../../../../../../theme/webCorporate/image/webPBX/ico_poste_disponible.gif"/> postes disponibles</li>
+                  <li> <img  align="absmiddle" src="../../../../../../theme/webCorporate/image/webPBX/ico_poste_occupe.gif"/> postes occupés </li>
+                  <li> <img  align="absmiddle"src="../../../../../../theme/webCorporate/image/webPBX/ico_renvoi_messagerie.gif"/> postes   renvoyés vers la messagerie</li>
+                  <li><img  align="absmiddle"  src="../../../../../../theme/webCorporate/image/webPBX/ico_renvoi_numero.gif"/> postes renvoyés vers un numéro externe</li>
+                 <li> <img  align="absmiddle"  src="../../../../../../theme/webCorporate/image/webPBX/ico_poste_injoignable.gif"/> postes indisponibles </li>
+              </ul>
+              
+                <p>Pour accéder à la liste des postes
+                <ul>
+             	 <li>cliquer sur le lien «&nbsp;<strong>voir liste des  téléphones</strong>&nbsp;»</li>
+             	 <li>la liste des téléphones s’affiche</li>
+              </ul>
+                 </p>
+                 
+                 
+                <p><span ><strong>groupements d'appels</strong> </span>
+                
+                
+                <p>Cette rubrique affiche le nombre de  groupements de postes disponibles sur le site. Les groupements sont  matérialisés par un icône et pour chacun des groupements créés, on a : 
+                <ul>
+<li>le nom du groupement</li>
+                  <li>le type de groupement</li>
+                  <li>les numéros interne et externe du groupement</li>
+              <li>l'état du groupement. </li>
+              </ul>
+              </p>
+               
+              <p>L’état des groupements est représenté comme suit&nbsp;:
+              <ul>
+              
+              	<li><img  align="absmiddle"  src="../../../../theme/webCorporate/image/webPBX/ico_sonne.gif"/> le  groupement est disponible  </li                                                      
+                  >
+              	<li><img  align="absmiddle"src="../../../../theme/webCorporate/image/webPBX/ico_renvoi_messagerie.gif"/>  le groupement est  renvoyé vers la messagerie </li>
+                  <li><img  align="absmiddle"  src="../../../../theme/webCorporate/image/webPBX/ico_renvoi_numero.gif"/> le groupement est renvoyé vers un numéro </li>
+                  </ul>
+                  </p>
+
+                <p>Pour accéder directement à la liste des groupements à partir  du tableau de bord
+              <ul>
+              <li>cliquer sur le lien «&nbsp;<strong>voir liste des groupements</strong>&nbsp;»</li>
+              <li>la page contenant la liste des groupements s’affiche</li>
+              </ul>
+
+              </p>
+
+
+				 <p><span> Pour plus d'infos, cliquez sur le lien <a class="orange" href="http://assistance.orange.fr/">http://assistance.orange.fr/</a>.
+				  </span></p>
+            </div>
+		</div>
+	</body>
+</html>
+	

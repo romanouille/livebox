@@ -1,0 +1,17 @@
+using "pkitoken_plugin.so";
+
+acl {
+    world read, execute;
+}
+
+object PKIToken {
+
+    /**
+     * Submits to the PKI dongle a given PIN code, then starts the LAN-side SSH
+     * it that PIN code was accepted.
+     *
+     * @return 0=noerr, 1=badPin, 2=invalidToken, 3=tokenLocked, -1=unhandledErr
+     */
+    int32 verifyPin(string pin);
+}
+

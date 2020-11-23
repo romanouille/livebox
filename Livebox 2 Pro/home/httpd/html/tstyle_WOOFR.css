@@ -1,0 +1,1127 @@
+/* tstyle couleur standard livebox WOOFR */
+
+/* balise ligne horiziontale */
+HR
+{
+	color:#666666;
+}
+
+
+/* encadrement des pages par une bordure toutes les pages */
+.BordurePage
+{
+	border:solid 1px #ffffff;
+}
+
+
+/* encadrement des pages par une bordure page save errase reboot */
+.SaveEraseRebootFrame
+{
+	border:solid 1px #FF6600;
+}
+
+
+
+/*  la couleur de fond pour les drapeaux de slection de langue */
+.QflagLangue
+{
+	BACKGROUND-COLOR: #41535D; /* gris FT */
+	background-image: none;
+}
+
+/* dreapeau de langue selectionné */
+.LangFlagSelected
+{
+	background-color: #AAAAAA; 
+}	
+	
+
+/****************************************************************************************/
+	
+ 
+/* le menu BASIC de basicframe SANS souris dessus */
+.menuban
+{
+	cursor: hand;
+	cursor: pointer;
+	FONT-WEIGHT: none;
+	FONT-SIZE: 12pt;    
+	FONT-FAMILY: Arial, Verdana Helvetica, sans-serif;
+	COLOR:#666666;					
+	background-color: #FFFFFF;	
+	TEXT-DECORATION: none;    
+	text-align: center;
+}
+
+
+/* le menu BASIC de basicframe AVEC souris dessus */
+.menubanHover
+{
+	cursor: hand;
+	cursor: pointer;
+	FONT-WEIGHT: none;
+	FONT-SIZE: 12pt;    
+	FONT-FAMILY: Arial, Verdana Helvetica, sans-serif;
+	COLOR:#FF6600;					
+	background-color: #FFFFFF;	
+	TEXT-DECORATION: none;    
+	text-align: center;
+}
+
+
+
+/* barre vertival grisee menu BASIC de basicframe AVEC souris dessus */
+.menubanVerticalLine
+{
+	border-right-color: #999999;	 /* gris */
+	border-right-style: solid;
+	border-right-width: 1px;
+	text-align: center;
+}
+
+/***************************************   START abaner.html ******************************************/
+
+
+
+/* gros menu SANS souris dessus blanc */
+.menuAbaner
+{
+	/* position:relative;  */
+	cursor:hand ;
+	cursor:pointer; 
+	height=22px; 
+	font-family: Arial , Verdana , Helvetica, sans-serif;
+	font-size:12pt;
+	font-weight:none; 
+	color:#666666;				/* gris */
+	background-color:#FFFFFF;
+	/*padding:4px; */
+	text-align: left;
+}
+
+
+
+/* gros menu AVEC souris dessus */
+.menuAbanerHover
+{
+	/* position:relative; */
+	cursor:hand ;
+	cursor:pointer; 
+	height=22px; 
+	font-family: Arial , Verdana , Helvetica, sans-serif;
+	font-size:12pt;
+	font-weight:none; 
+	color:#FF6600;				/* orange */
+	background-color:#FFFFFF;
+	/* padding:4px; */
+	text-align: left;
+}
+
+
+
+/* le gros titre principale de menu */
+.QmainMenuAbaner  		
+{
+	position:relative; 
+	cursor:hand ;
+	cursor:pointer; 
+	background-color:#FFFFFF;
+	color:#666666;				/* gris */
+	width:210px;
+	visibility:hidden; 
+	padding:6px; 
+}
+
+
+
+/* sous-menu SANS souris dessus */
+.QsubMenuAbaner 	
+{
+	position:relative;
+	color:#666666;				/* gris */
+	background-color:#FFFFFF;
+	text-decoration:none; 
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-size:9pt;
+	font-weight:none;
+}
+
+
+/* sous-menu avec souris dessus */
+.QsubMenuAbanerHover
+{	
+	position:relative;
+	color:#FF6600;			/* orange */
+	background-color:#FFFFFF;
+	text-decoration:none; 
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-size:9pt;
+	font-weight:none;
+}
+
+
+
+/* barre principale */
+#contentAbaner 	
+{	
+	position:relative; 
+	width:100%; 
+	height:28px;
+	background-color:#FFFFFF;
+}
+
+
+/***************************************   END abaner.html ******************************************/
+
+
+
+/* si le menu est non autorise , pas de click possible */
+.QLinkNotAllow
+{
+	cursor:not-allowed;
+}
+
+
+
+/*  la couleur de fond pour la selection de Basic Avance */
+.QbgcolorBA
+{
+	BACKGROUND-COLOR: #003366 ;
+	
+}
+
+/*  la couleur de fond pour les drapeaux de selection de langue */
+.QflagLangue
+{
+	BACKGROUND-COLOR: #41535D;
+	background-image: none;
+}
+
+
+/* pour les pages multiTAB ayant des onglets , ceux-ci n'etant PAS selectionné */
+
+/* pour les pages multiTAB ayant des onglets , ceux-ci n'etant PAS selectionné */
+.menuoff
+{
+	cursor: hand;
+	cursor: pointer;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 8pt;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	COLOR: #000000;
+	BACKGROUND-COLOR: #FFFCEC;
+	TEXT-DECORATION: none;
+	width: 120;
+	background-image: url(images/bgnotselect.gif);
+	/*
+	border: thin solid #FFFFFF;
+	border-bottom-color: #999999;
+	border-bottom-style: solid;
+	*/
+}
+
+
+/* pour les pages multiTAB ayant des onglets 
+	l'onglet etant sélectionné */
+.menuon
+{
+	cursor: hand;
+	cursor: pointer;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 8pt;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	COLOR: #000000;
+	BACKGROUND-COLOR: none; /* la meme que la classe Qbgmainpage !!! */
+	TEXT-DECORATION: none;
+	width: 120;
+	background-image: url(images/bgselect.gif);
+	
+	/*
+	border-top-color: #999999;
+	border-top-style: solid;
+	border-left-color: #999999;
+	border-left-style: solid;
+	border-right-color: #999999;
+	border-right-style: solid;
+	*/
+}
+
+/* page TCPIPSTAT */     
+.headingTCPIPstat
+ {
+	FONT-WEIGHT: bold;
+	background-color: #F8F8F8;		
+	font-family: Arial , Verdana , Helvetica, sans-serif;
+	padding-bottom: 1pt;
+	line-height: 12pt;
+	font-size: 10pt;
+	color: #000000;
+	padding-top: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border: 1px solid White;
+}
+
+
+/* la police standard pour presque tout */
+.tdt
+{ 
+	FONT-WEIGHT: none;
+	FONT-SIZE: 10pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:none;
+	color:#666666;
+	height:20;
+}
+
+/* la police standard pour presque tout avec caracteres en GRAS */
+.tdtBold
+{ 
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 10pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:none;
+	color:#666666; 
+	height:20; 
+}
+
+/* la police standard pour presque tout avec caracteres SOULIGNES */
+.tdtUnderlined
+{
+	FONT-WEIGHT: none;
+	FONT-SIZE: 10pt;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: underline;
+	BACKGROUND-COLOR: none;
+	color:#666666;
+	height: 20;
+}
+
+
+/* la police standard pour presque tout avec PETIT caracteres */
+.tdtSmall
+{ 
+	FONT-WEIGHT: none;
+	FONT-SIZE: 8pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:none; 
+	height:20; 
+}
+
+
+/* la police standard pour titres des services */
+.tdtService
+{ 
+	FONT-WEIGHT: none;
+	FONT-SIZE: 10pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:none;
+	color:#666666;
+	height:20;
+}
+
+/* la police standard pour titres des services */
+.tdtServiceSmall
+{ 
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 8pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:none;
+}
+
+
+.FontTdtService	
+{	FONT-WEIGHT: none;
+	FONT-SIZE: 12pt; 
+	COLOR:#666666;   
+	FONT-FAMILY: Arial , Verdana;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:none;
+	height:20; 
+	border: 1px solid #666666;
+	padding-top: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 4px;
+}
+
+
+/* pour le firewall */
+.head
+{
+		FONT-WEIGHT: bold;
+      font-family: Arial , verdana , Helvetica, sans-serif; 
+      font-size: 8pt;
+      color: #000000;
+}
+
+
+
+
+/* entete de presentation titre de page standard      
+.heading
+ {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 12pt;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR: none;
+	color: #666666;
+	height: 20;
+	text-align: left;
+}
+*/
+
+/* Change heading class name to title_heading class name - Sagem 20060616 */ 
+.title_heading
+ {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 12pt;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR: none;
+	color: #666666;
+	height: 20;
+	text-align: left;
+}
+
+/* la couleur de fond de la page configleft */
+.Qconfigleft
+{
+	BACKGROUND-COLOR: white; 
+}
+
+
+
+/* les gros menus de la page configleft.html SANS souris au dessus */
+.QmenuCfgLeft
+{
+	cursor: hand;
+	cursor: pointer;
+	background-color: #FF6600;
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12pt;
+	color: #FFFFFF;
+	text-decoration: none;
+	text-align: left;
+	height: 24;
+	vertical-align: middle;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+
+/* les gros menus de configleft.html normal AVEC souris au dessus */
+.QmenuCfgLefthover
+{
+	cursor: hand;
+	cursor: pointer;
+	background-color: #FF6600;	/* orange de la marque Orange */
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12pt;
+	color: #FFFFFF;
+	text-decoration: none;
+	text-align: left;
+	height: 24;
+	vertical-align: middle;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+
+
+/* retour vers le menu basic SANS souris dessus */
+.Qbackbasic 	 
+{
+	color: #666666;
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-weight: none; 
+	font-size: 10pt;
+	text-decoration: none;
+	padding-top: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+}
+
+
+
+/* retour vers le menu basic AVEC souris dessus */
+.Qbackbasic:hover 	 
+{
+	color: #FF6600;
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-weight: none; 
+	font-size: 10pt; 
+	text-decoration: none;
+	padding-top: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+}
+
+
+
+
+/* les sous-menus  de la page configleft SANS souris dessus */
+.QsubmenuCfgLeft 	 
+{
+	color: #666666; 	/* gris */			
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-weight: none;
+	font-size: 12pt;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	text-align: left;
+	vertical-align: middle;
+	padding-top: 5px;
+	padding-left: 15px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+
+/* les sous-menus  de la page configleft.html Menu INFORMATION AVEC souris dessus */
+.QsubmenuCfgLeftInfo 	 
+{
+	cursor: hand;
+	cursor: pointer;
+	color: #FF6600; 		/* orange */			
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-weight: none;
+	font-size: 12pt;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	text-align: left;
+	vertical-align: middle;
+	padding-top: 5px;
+	padding-left: 15px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+
+
+
+
+/***********************************************************************************************/
+
+/* tout les entetes de tableaux de données */
+TH
+{
+	FONT-WEIGHT: bold;
+	background-color: #FF6600;
+	font-family: Arial , Verdana , Helvetica, sans-serif;
+	line-height: normal;
+	font-size: 12pt;
+	color: #FFFFFF;
+	height: 22;
+	padding-top: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+	border: 1px solid #999999; 
+}
+
+
+
+/* la police standard pour les lignes 
+de données de tout les tableau */
+.QDataTab
+{
+	FONT-WEIGHT: none;
+	FONT-SIZE: 10pt;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR: #FFFFFF;
+	color: #666666;
+	height: 20;
+	border: 1px solid #999999;
+	padding-top: 1px;
+	padding-left: 2px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+}
+
+
+/* pour les tableau multi onglet doit etre identique au fond de page */
+.bg_tab_onglet
+{
+	background-color: #FFFFFF;
+}
+
+
+
+/*************************************** LES BOUTONS *********************************************/
+
+
+/* le style de tout les boutons classiques SANS souris dessus*/
+.Qbutton
+{
+	cursor: hand;
+	cursor: pointer;
+	width: 102px;
+	height: 25px;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: bold;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	padding-top: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+	TEXT-DECORATION: none;
+	color: #666666;
+	background-color: white;
+	background-image: url(images/buttonSmallInactiv.gif);
+	background-repeat: no-repeat;
+	border: none;
+}
+
+
+
+/* bouton petite taille INACTIF */
+.QbuttonSmall
+{
+	cursor: hand;
+	cursor: pointer;
+	width: 102px;
+	height: 25px;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: bold;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	color: #666666;
+	background-color: white;
+	background-image: url(images/buttonSmallInactiv.gif);
+	background-repeat: no-repeat;
+	border: none;
+}
+
+
+/* bouton petite taille AVEC souris dessus */
+.QbuttonSmallOver
+{
+	cursor: hand;
+	cursor: pointer;
+	width:102px;
+	height: 25px;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: bold;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	color: #666666;
+	background-color: white;
+	background-image: url(images/buttonSmallRollOver.gif);
+	background-repeat: no-repeat;
+	border: none;
+}
+
+
+
+/* bouton taille moyenne INACTIF */
+.QbuttonMedium
+{
+	cursor: hand;
+	cursor: pointer;
+	width: 200px;
+	height: 25px;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: bold;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	color: #666666;
+	background-color: white;
+	background-image: url(images/buttonMediumInactiv.gif);
+	background-repeat: no-repeat;
+	border: none;
+}
+
+
+
+/* bouton taille moyenne AVEC souris dessus */
+.QbuttonMediumOver
+{
+	cursor: hand;
+	cursor: pointer;
+	width:200px;
+	height: 25px;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: bold;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	color: #666666;
+	background-color: white;
+	background-image: url(images/buttonMediumRollOver.gif);
+	background-repeat: no-repeat;
+	border: none;
+}
+
+
+
+
+/* bouton grosse taille INACTIF */
+.QbuttonBig
+{
+	cursor: hand;
+	cursor: pointer;
+	width: 256px;
+	height: 25px;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: bold;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	color: #666666;
+	background-color: white;
+	background-image: url(images/buttonBigInactiv.gif);
+	background-repeat: no-repeat;
+	border: none;
+}
+
+
+
+/* bouton grosse taille AVEC souris dessus */
+.QbuttonBigOver
+{
+	cursor: hand;
+	cursor: pointer;
+	width:256px;
+	height: 25px;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: bold;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	color: #666666;
+	background-color: white;
+	background-image: url(images/buttonBigRollOver.gif);
+	background-repeat: no-repeat;
+	border: none;
+}
+
+
+/************************************************************************************************/
+
+
+
+
+
+/* l'arriere fond principal de toute les pages d'information */
+.Qbgpage
+{
+	BACKGROUND-COLOR: #FFFFFF;
+}
+
+
+
+/* la 2eme couleur principale de toutes les pages d'information  */
+.Qbgmainpage
+{
+	BACKGROUND-COLOR: #FFFFFF;
+}
+
+
+
+/* la couleur de fond de la page basic banerframe */
+.QBasicbanerframe
+{
+	BACKGROUND-COLOR: #FFFFFF;
+}
+
+
+
+/* la couleur de fond de la page basic banerframe */
+.QAdvancedbanerframe
+{
+	BACKGROUND-COLOR: #FFFFFF;
+}
+
+
+/* la couleur de fond de la page basic banerframe */
+.QAdvbframeout
+{
+	cursor:hand;
+	cursor:pointer;
+	background-color: #003366;
+	font-family: Arial , verdana , , Helvetica, sans-serif;
+	font-weight: bold; 
+	font-size: 8pt; 
+	color: #ffffff;
+	text-decoration: none;
+	text-align:center;
+}
+
+
+
+
+
+/* tout les menus déroulant de selection */
+.QMenuderoulant
+{
+	FONT-SIZE: 9pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR: none;
+	font-weight: none; 
+	width:130px;
+}
+
+/* tout les menus déroulant de selection */
+.QMenuderoulantLangue
+{
+	FONT-SIZE: 8pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR: none;
+	font-weight: none;
+	width:95px; 
+}
+
+/* pour les boites d'entrees de texte des formulaires */
+.QInputForm
+{
+    FONT-SIZE: 9pt;    
+    FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+    TEXT-DECORATION: none;
+	 background-color: none; 
+}
+
+
+/* les messages d'erreur ou autre tel que save/erase/reboot */
+.QMsgError
+{
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;    
+	color: red ;
+	background-color:#FFFFFF; 
+	FONT-SIZE: 10pt;
+	FONT-WEIGHT: BOLD;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+
+	
+/* les messages d'avertissement */
+.QSimpleMsgWarning
+{
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	color: red;
+	background-color:#FFFFFF; 
+	FONT-SIZE: 10pt;
+	FONT-WEIGHT: none;
+	border-color: #FFFFFF;
+}
+
+
+
+/* les messages d'avertissement , ligne de tableau vide particulierement */
+.QMsgWarning
+{
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	color: red;
+	background-color:#FFFFFF; 
+	FONT-SIZE: 10pt;
+	FONT-WEIGHT: none;
+	border-color: #FFFFFF;
+	border: 1px solid #999999;
+}
+
+
+/* les messages positifs , succes etc */ 
+.QMsgSuccess
+{
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;    
+	color: #999999 ;
+	background-color:#FFFFFF; 
+	FONT-SIZE: 10pt;    
+	FONT-WEIGHT: BOLD;
+	padding-top: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+}
+
+/* les messages d'erreur ou autre tel que save/erase/reboot */
+.Qberrorpage
+{
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;    
+	color: red ;
+	FONT-SIZE: 10pt;    
+	FONT-WEIGHT: BOLD;
+	BACKGROUND-COLOR: #FFFFFF;
+}
+
+
+/*  pour faire ressortir une ligne entiere de tableau selectionné */
+.QTlineselected
+{
+	FONT-WEIGHT: none;
+	FONT-SIZE: 8pt;    
+	FONT-FAMILY: Arial, Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:#F6F3E3;
+	height:20; 
+}
+
+
+
+/*  utilise dans les services */
+/* la police standard pour indiquer l'etat des services ACTIVE/DESACTIVE */
+.QtdtSrvStatus
+{ 
+	FONT-WEIGHT: none;
+	FONT-SIZE: 12pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:none;
+	color: #FF6600; 
+	padding-top: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+	/* border:solid 1px #999999; */
+}
+
+
+
+/*  indique un PSEUDO lien html 
+	utilise dans les services */
+	
+/*  la police standard pour indiquer l'etat  des service*/
+.QtdtLinkModify
+{
+	cursor: hand;
+	cursor: pointer;
+	FONT-WEIGHT: none;
+	FONT-SIZE: 12pt;
+	FONT-FAMILY: Arial , verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: underline;
+	BACKGROUND-COLOR: none;
+	color: black;
+	border:solid 1px #999999;
+}
+
+
+
+.QtdtSimpleSrvStatus
+{ 
+	FONT-WEIGHT: none;
+	FONT-SIZE: 12pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:none;
+	color: #FF6600; 
+}
+
+
+
+/* COULEUR lignes paires de données des tableau */
+.QOdddatatab
+{ 
+	BACKGROUND-COLOR:#F5F5F5;	/* #F5F5F5 */
+	height:20; 
+}
+
+/* COULEUR lignes paires de données des tableau */
+.QEvendatatab
+{
+	BACKGROUND-COLOR: #FAFAFA; /* #FAFAFA */
+	height: 20;
+}
+
+
+/* page TCP/IP stats */
+.InOutstyle
+{
+	FONT-WEIGHT: bold;
+	background-color: #e9e9e9;
+	font-family: Arial , Verdana , Helvetica, sans-serif;
+	font-size: 9pt;
+	color: #000000;
+	vertical-align: middle;
+	height: 24;
+	padding-top: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+}
+
+
+
+/**********************  pour le firewall ***************************************/
+.QFWhead
+{
+		FONT-WEIGHT: bold;
+      font-family: Arial , verdana , Helvetica, sans-serif; 
+      font-size: 9pt;
+      color: #000000;
+		background-color: #e9e9e9;
+}
+
+
+.QFWEmpty
+{
+		FONT-WEIGHT: bold;
+      font-family: Arial , verdana , Helvetica, sans-serif; 
+      font-size: 9pt;
+      color: #000000;
+		background-color: #f0f0f0;
+}
+
+
+
+/* la couleur de l'action dans la firewall si permettre */
+.QALLOW_FIREWALL
+{
+	font-family: Arial , verdana , Helvetica, sans-serif; 
+	font-size: 8pt;	
+	color: green;	
+	FONT-WEIGHT: bold;
+}
+
+
+/* la couleur de l'action dans la firewall si interdire */
+.QDENY_FIREWALL
+{
+	font-family: Arial , verdana , Helvetica, sans-serif; 
+	font-size: 8pt;	
+	color: red;
+	FONT-WEIGHT: bold;
+}
+
+
+/* la couleur 1 dans le firewall lignes paires */
+.QEVEN_COLOR
+{
+
+	FONT-WEIGHT: none;
+	FONT-SIZE: 8pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:#ffffff;
+	height:20; 
+	border: 1px solid #999999; 
+}
+
+
+/* la couleur 2 dans le firewall lignes impaires */
+.QODD_COLOR
+{
+	FONT-WEIGHT: none;
+	FONT-SIZE: 8pt;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR: #d9ecff;
+	height: 20;
+	border: 1px solid #999999; 
+}
+
+
+/* slection type ADSL pour WOONL */
+.QselectADSL
+{	
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 8pt;    
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;        
+	TEXT-DECORATION: none;
+	BACKGROUND-COLOR:#f0f0f0;
+	height:20;
+}
+
+
+
+
+/* */
+.Qbutton_next
+{
+	cursor: hand;
+	cursor: pointer;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 9pt;
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;
+	COLOR: #FFFFFF;
+	background-color: #FFFFFF;
+	TEXT-DECORATION: none;
+	text-align: center;
+}
+
+
+
+/* ******************************** menu de debug ********************************************/ 
+.QMsgDEBUG
+{
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;    
+	color: red ;
+	background-color: #f9f9f9;
+	FONT-SIZE: 12pt;    
+	FONT-WEIGHT: BOLD;
+	padding-top: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+}
+
+/* la table principale de debug */
+.QTableDebug
+{
+	FONT-FAMILY: Arial , Verdana , Helvetica, sans-serif;    
+	color: red ;
+	background-color: #eeeeee;
+	FONT-SIZE: 12pt;    
+	FONT-WEIGHT: BOLD;
+	padding-top: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+}
+
+
+
+
+/* les sous-menus  de la page configleft SANS souris dessus */
+.QsubmenuCfgLeftDEBUG 	 
+{
+	color: #666666; 			
+	font-family:  Arial , verdana , Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 8pt;
+	text-decoration: none;
+	background-color: white;
+	text-align: left;
+	vertical-align: middle;
+	padding-top: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+	height: 20;
+	border:solid 1px #cccccc;
+}
+
+
+
+/* les sous-menus  de la page configleft.html Menu DEBUG */
+.QsubmenuCfgLeftDEBUGhover 	 
+{
+	cursor: hand;
+	cursor: pointer;
+	color: #FFFFFF;			
+	background-color: red;		
+	font-family: Arial , verdana , Helvetica, sans-serif;
+	font-weight: bold; 
+	font-size: 8pt; 
+	text-decoration: none;
+	text-align: left;
+	vertical-align: middle;
+	padding-top: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+	height:20;
+}

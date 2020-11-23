@@ -1,0 +1,26 @@
+{
+    "Id": "sah_profile",
+    "Category": "Self Care",
+    "Version": "0.1",
+    "Title": "sah_profile.title",
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "profile",
+                  "settings": { "slides": [ "<div class=title translate={{title}}></div><span class=\"icon icon-users2 sah_green_light\"></span><div class=status><span class=caption><span class=\"black\"><span translate=\"sah_profile.current\"></span>: </span><span class=\"sah_green_dark currprof\">?</span></span></div>"
+                                          ],
+                                "apicalls":{}
+                              }
+                }
+              ],
+    "en": {
+        "title":"Profile",
+        "current":"current"
+    },
+    "fr": {
+        "title":"Profil",
+        "current":"TsBMCZIO"
+    }
+}

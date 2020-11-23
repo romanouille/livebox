@@ -1,0 +1,15 @@
+datamodel {
+	object UPnP-IGD {
+		parameter Enable = true;
+		parameter WANAccessProvider = "Orange Livebox";
+		parameter ModelNumber = "3";
+		parameter ModelName = "Residential Livebox,(DSL,WAN Ethernet)";
+		parameter FriendlyName = "Orange Livebox";
+		object PnP-X {
+			parameter HardwareId-VID = "0129";
+			parameter HardwareId-DID = "0000";
+			parameter HardwareId-SID = "03";
+			parameter HardwareId-RID = "250407";
+		}
+	}
+}

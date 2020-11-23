@@ -1,0 +1,49 @@
+<div id="pageBody" xmlns="http://www.orange.com/xhtml/engine/loose">
+	
+	<!--**********************
+	     USING B9 MENU in GWT 
+	    **********************
+	<div class="leftMenu">
+		<ul>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m4.m40'" i18n="menuDiagnostic.infoSystem"></a>
+				<ul id="submenuInfoSystem" style="display: none">
+					<li><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m400','background':'background'}" i18n="menuDiagnostic.infoSystemGeneral"></a></li>
+					<li widgetType="VisibleDependent" widgetArg="{value: 'ENABLE', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable"><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m401','background':'background'}" i18n="menuDiagnostic.infoSystemADSL"></a></li>
+					<li widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable"><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m401','background':'background'}" i18n="menuDiagnostic.infoSystemFTTH"></a></li>
+					<li><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m402','background':'background'}" i18n="menuDiagnostic.infoSystemVoIP"></a></li>
+					<li><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m409','background':'background'}" i18n="menuDiagnostic.telephoneHD"></a></li>
+					<li><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m403','background':'background'}" i18n="menuDiagnostic.infoSystemTV"></a></li>
+					<li><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m404','background':'background'}" i18n="menuDiagnostic.infoSystemWiFi"></a></li>
+					<li><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m405','background':'background'}" i18n="menuDiagnostic.infoSystemLAN"></a></li>
+					<li class="margin-bottom-m10" widgetType="VisibleDependent" widgetArg="{value: false}" dataId="Device/MESH/Enable">
+						<a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m406','background':'background'}" i18n="menuDiagnostic.infoSystemUSB"></a>
+					</li>
+					<li  widgetType="VisibleDependent" widgetArg="{value: true}" dataId="Device/MESH/Enable">
+						<a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m406','background':'background'}" i18n="menuDiagnostic.infoSystemUSB"></a>
+					</li>
+					<li class="margin-bottom-m10" widgetType="VisibleDependent" widgetArg="{value: true}" dataId="Device/MESH/Enable">
+						<a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m40.m407','background':'background'}" i18n="menuDiagnostic.infoSystemMesh"></a>
+					</li>
+				</ul>
+			</li>	
+	-->		
+		
+			<!--  
+			<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m4.m42'" class="menuitem" i18n="menuDiagnostic.logs"></a>
+				<ul id="submenuLogs" style="display: none">
+					<li><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m42.m420','background':'background'}"  i18n="menuDiagnostic.basiclogs"></a></li>
+					<li class="margin-bottom-m10"><a href="javascript:;" widgetType="MenuItem" widgetArg="{'menu':'m4.m42.m421','background':'background'}"  i18n="menuDiagnostic.advancedlogs"></a></li>
+				</ul>
+			</li>
+			-->
+			<!--  <li><a href="#" class="greylink menuitem" i18n="menuDiagnostic.distantaccessservice"></a></li> -->
+			<!--  <li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m4.m43'" i18n="menuDiagnostic.snmp"></a></li> -->
+			<!--  <li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="#" class="greylink menuitem" i18n="menuDiagnostic.ping"></a></li> -->
+	<!-- 
+		</ul>
+	</div>
+	-->
+	
+	<div id="content"></div>
+	<div class="clear"/>
+</div>

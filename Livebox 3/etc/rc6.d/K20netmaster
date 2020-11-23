@@ -1,0 +1,84 @@
+
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="netmaster"
+component="sah_services_netmaster"
+datamodel="NetMaster"
+trace_zones=""
+RESTORE="/var/lib/netmaster/restore"
+
+start() {
+    if pcb_is_running $name; then
+        echo "NetMaster service already started"
+        exit 1;
+    fi
+
+    # /var/etc/environment is composed by NMC in runlevel 1 at boot order S10
+    # NetMaster needs this environment for the ULA variable
+    sahenv -f /var/etc/environment pcb_app -n $name -vv
+    
+    pcb_cli -q "Process.sysbus_netmaster.loadSharedObject(/usr/lib/netmaster/nmclient_ipv6.so)" \
+               "Process.sysbus_nemo-core.loadSharedObject(/usr/lib/netmaster/nmnemo.so)" \
+               "Process.sysbus_netmaster.loadSharedObject(/usr/lib/netmaster/nmclient_pd.so)" \
+               "Process.sysbus_netmaster.loadSharedObject(/usr/lib/netmaster/nmclient_dr.so)" \
+               "Process.sysbus_netmaster.loadSharedObject(/usr/lib/netmaster/nmclient_dop.so)"
+
+
+
+}
+
+stop() {
+    if pcb_is_running $name; then
+        pcb_cli -q "NetMaster.shutdownWANMode()"
+
+        mtk_unload $name nmclient_ipv6
+        mtk_unload nemo-core nmnemo
+        mtk_unload $name nmclient_pd
+        mtk_unload $name nmclient_dr
+        mtk_unload $name nmclient_dop
+
+        
+        
+        
+
+        pcb_stop $name
+    else
+        echo "NetMaster not running"
+        exit 1
+    fi
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    backup)
+        if pcb_is_running $name; then
+            pcb_cli "NetMaster.export($2)"
+        else 
+            echo "NetMaster plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p $(dirname "${RESTORE}")
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore|debuginfo|log]"
+        ;;
+esac

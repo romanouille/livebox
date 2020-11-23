@@ -1,0 +1,4 @@
+include "upgraded-definition.odl";
+include "upgraded-defaults.odl";
+
+/** @location sah_services_upgraded /src/settings/upgraded.odl */

@@ -1,0 +1,35 @@
+using "led_plugin.so";
+acl {
+group cwmpd read,write,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+read-only object LED [] {
+read-only string Name="";
+read-only string Colors="Green";
+read-only string SupportedStates="Off";
+string Color {
+constraint custom validateColor;
+write with writeColor;
+default "Green";
+}
+string State {
+constraint custom validateState;
+write with writeState;
+default "Off";
+}
+template-only bool getLedStatus(mandatory string name, out string color, out string state);
+template-only bool getAllLedStatus(out list statusList);
+template-only bool setLedColor(mandatory string name, mandatory string color) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+template-only bool setLedState(mandatory string name, mandatory string state) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}

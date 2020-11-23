@@ -1,0 +1,2 @@
+include "webuiupgrade_plugin-definitions.odl";
+include "webuiupgrade_plugin-defaults.odl";

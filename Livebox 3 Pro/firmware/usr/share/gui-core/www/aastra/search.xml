@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AastraIPPhoneInputScreen type="string">
+  <Title> Recherche Annuaire </Title>
+  <Prompt> Entrez le début du nom: </Prompt>
+  <URL>http://192.168.2.1/search.cgi?user=$$SIPUSERNAME$$&amp;page=1</URL>
+  <Parameter>criteria</Parameter>
+  <Default></Default>
+  <SoftKey index="1">
+    <Label>Ret.Arr</Label>
+    <URI>SoftKey:BackSpace</URI>
+  </SoftKey>
+  <SoftKey index="2">
+    <Label>Point"."</Label>
+    <URI>SoftKey:Dot</URI>
+  </SoftKey>
+  <SoftKey index="3">
+    <Label>ABC> </Label>
+    <URI>SoftKey:ChangeMode</URI>
+  </SoftKey>
+  <SoftKey index="4">
+    <Label>Espace</Label>
+    <URI>SoftKey:NextSpace</URI>
+  </SoftKey>
+  <SoftKey index="5">
+    <Label>Annuler</Label>
+    <URI>SoftKey:Exit</URI>
+  </SoftKey>
+  <SoftKey index="6">
+    <Label>Terminer</Label>
+    <URI>SoftKey:Submit</URI>
+  </SoftKey>
+</AastraIPPhoneInputScreen>

@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object DataSynchronizer {
+    }
+}
+/** @location commod_mediahub_datasynchronizer add-on/frontend/pcb/datasynchronizer-defaults.odl.m4 */

@@ -1,0 +1,26 @@
+<b>Paramètres WiFi :</b><br>
+<br>
+<span class="boldorange">Nom du réseau (SSID) :</span> correspond au nom de votre livebox et est indiqué sur l’étiquette. Il correspond au nom de votre réseau WiFi.<br>
+<br>
+<span class="boldorange">Mode :</span> Si vous disposez uniquement des périphériques 802.11g et 802.11b sur votre réseau, conservez le paramètre par défaut 802.11 b+g. Si vous utilisez des périphériques 802.11g, 802.11b ainsi que des périphériques 802.11n, sélectionnez 802.11 b+g+n. Si votre réseau n'est muni d'aucun périphérique sans fil, il est conseillé de désactiver le WiFi.<br>
+<br>
+<span class="boldorange">Canal :</span> Le WiFi utilise une bande de fréquences spécifique qui est sous-divisée en canaux. Il y a 13 canaux disponibles.<br>
+<br>
+<span class="boldorange">Clé de sécurité :</span> La clé de sécurité permet de sécuriser votre réseau WiFi. Par défaut, elle prend la valeur de la clé WEP indiquée sur l’étiquette de la livebox.<br>
+<br>
+<span class="boldorange">Mode de sécurité :</span>Afin d’empêcher toute personne de pénétrer dans votre réseau sans fil, les connexions WiFi sont cryptées via les protocoles WEP ou WPA. Seuls les terminaux et ordinateurs ayant fourni la clé WEP ou WPA de votre livebox peuvent accéder à votre réseau sans fil. Cette clé WEP composée de 26 caractères hexadécimaux (chiffres de 0 à 9 et les lettres A, B, C, D, E et F) est totalement confidentielle.<br>
+Si vous choisissez <b>Pas de sécurité</b>, votre réseau WiFi domestique est ouvert et accessible par tous.<br>
+Le protocole WEP, option <b>WEP-64</b> ou <b>WEP-128</b>, exige à chaque échange de données entre votre livebox et un terminal sans fil la reconnaissance de la clé WEP. La saisie de cette clé est donc nécessaire à la configuration d'un nouvel équipement sans fil.<br>
+Le protocole WPA, option <b>WPA-PSK (TKIP)</b> par défaut, rajoute au protocole WEP une sécurité complémentaire en modifiant régulièrement les modes de cryptage. Dans la mesure du possible, il est nécessaire d'opter pour le WPA au lieu d'une sécurisation WEP.<br>
+Le protocole <b>WPA2-PSK (AES)</b> fourni une sécurisation beaucoup plus poussée de votre réseau WiFi domestique.<br>
+Le protocole <b>Mixed</b> permet de sélectionner automiquement le mode de sécurité le plus élevé. <br> 
+<br>
+<span class="boldorange">Activer l’installation WiFi facile :</span> Cette option vous permet de connecter un périphérique sans fil à la livebox sans avoir à saisir les paramètres de votre réseau WiFi domestique.<br>
+<br>
+<span class="boldorange">Activer le filtrage par adresse MAC :</span> Chaque périphérique possède une adresse physique qui lui est propre (appelée adresse MAC). Cette adresse est représentée par 12 chiffres hexadécimaux groupés par paires et séparés par des tirets ou des double-points.<br> 
+Lorsque vous activez ce filtrage, et si vous voulez autoriser une nouvelle machine à s'appairer avec votre livebox, vous devez appuyer sur le bouton WiFi de votre livebox ou cliquer sur le bouton "Ajouter" du tableau listant les machines appairées à votre livebox et saisir l'adresse MAC de la machine que vous souhaitez appairer.<br>
+Si ce filtrage est désactivé, toute machine peut se connecter à votre livebox sans que vous ayez à appuyer sur le bouton WiFi ou à saisir son adresse MAC dans le tableau.<br>
+Par défaut, cette option est désactivée. <br>
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+

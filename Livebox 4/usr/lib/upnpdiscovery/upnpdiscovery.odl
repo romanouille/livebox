@@ -1,0 +1,168 @@
+
+
+using "upnpdiscovery.so";
+
+acl {
+	group cwmpd read,write,execute;
+}
+
+object UPnP {
+
+  message void startDiscovery(uint32 timeout);
+  list getDevices();
+
+
+  object Discovery {
+
+    string Interface {
+      write with changeInterface;
+      constraint custom validateInterface;
+      default "lan";
+    }
+
+    read-only uint32 RootDeviceNumberOfEntries {
+      read with readRootDeviceNumberOfEntries;
+    }
+    read-only uint32 DeviceNumberOfEntries {
+      read with readDeviceNumberOfEntries;
+    }
+    read-only uint32 ServiceNumberOfEntries {
+      read with readServiceNumberOfEntries;
+    }
+
+    read-only object RootDevice [50] {
+      read-only string Status {
+        constraint enum ["LeaseActive","LeaseExpired","ByebyeReceived"];
+        default "LeaseActive";
+        read with readStatus;
+      }
+      read-only string UUID {
+        constraint maxvalue 256;
+      }
+      read-only string USN {
+        constraint maxvalue 256;
+      }
+      read-only uint32 LeaseTime = 0;
+      read-only string Location {
+        constraint maxvalue 256;
+      }
+      read-only string Server {
+        constraint maxvalue 256;
+      }
+      string Host {
+        constraint maxvalue 1024;
+      }
+      read-only volatile datetime LastConnection;
+      read-only volatile string IPAddress;
+    }
+    read-only object Device [50] {
+      read-only string Status {
+        constraint enum ["LeaseActive","LeaseExpired","ByebyeReceived"];
+        default "LeaseActive";
+        read with readStatus;
+      }
+      read-only string UUID {
+        constraint maxvalue 256;
+      }
+      read-only string USN {
+        constraint maxvalue 256;
+      }
+      read-only uint32 LeaseTime = 0;
+      string Location {
+        constraint maxvalue 256;
+      }
+      read-only string Server {
+        constraint maxvalue 256;
+      }
+      string Host {
+        constraint maxvalue 1024;
+      }
+      read-only volatile datetime LastConnection;
+      read-only volatile string IPAddress;
+    }
+    read-only object Service [50] {
+      read-only string Status {
+        constraint enum ["LeaseActive","LeaseExpired","ByebyeReceived"];
+        default "LeaseActive";
+        read with readStatus;
+      }
+      read-only string USN {
+        constraint maxvalue 256;
+      }
+      read-only uint32 LeaseTime = 0;
+      read-only string Location {
+        constraint maxvalue 256;
+      }
+      read-only string Server {
+        constraint maxvalue 256;
+      }
+      string Host {
+        constraint maxvalue 1024;
+      }
+      read-only volatile datetime LastConnection;
+      read-only volatile string IPAddress;
+    }
+  }
+
+  read-only object DeviceDescription [50] {
+
+    /**
+     * Fetch UPnP topology of devices
+     */
+    list getTopology();
+    list getLocations();
+    
+    read-only object Location [] {
+      read-only string URL;
+      read-only string URLBase;
+      read-only string IP;
+    }
+    
+    read-only object SpecVersion {
+      read-only string Major;
+      read-only string Minor;
+    }
+    
+    read-only object Device [10] {
+      /* Possible flag values: root embedded */
+      read-only string Flag;
+      /* Reference to the parent device e.g. Rootdevice.1 */
+      read-only string Parent;
+      read-only string DeviceType;
+      read-only string FriendlyName;
+      read-only string Manufacturer;
+      read-only string ManufacturerURL;
+      read-only string ModelDescription;
+      read-only string ModelName;
+      read-only string ModelNumber;
+      read-only string ModelURL;
+      read-only string SerialNumber;
+      read-only string UDN;
+      read-only string UPC;
+      read-only string PresentationURL;
+      read-only string Server {
+        constraint maxvalue 256;
+      }
+        
+      read-only object Icon [20] {
+        read-only string MimeType;
+        read-only uint32 Width;
+        read-only uint32 Height;
+        read-only uint32 Depth;
+        read-only string URL;
+      }
+        
+      read-only object Service [20] {
+        read-only string ServiceType;
+        read-only string ServiceID;
+        read-only string SCPDURL;
+        read-only string ControlURL;
+        read-only string EventSubURL;
+
+         
+      }
+    }   
+  }
+}
+
+/** @location sah_services_upnpdiscd /upnpdiscovery.odl */

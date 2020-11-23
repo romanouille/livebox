@@ -1,0 +1,71 @@
+#!/bin/sh
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+
+# mount all other filesystems
+echo "Mounting tmpfs filesystem (/dev) ..."
+mount -t tmpfs tmpfs /dev
+echo "Mounting devpts filesystem (/dev/pts) ..."
+mkdir /dev/pts
+mount -t devpts devpts /dev/pts
+echo "Mounting proc filesystem ..."
+mount -t proc proc /proc
+echo "Mounting sys filesystem ..."
+mount -t sysfs none /sys
+echo "Mounting tmpfs filesystem (/var) ..."
+mount -t tmpfs -o size=1024k tmpfs /var 
+echo "Mounting tmpfs filesystem (/var/log) ..."
+mkdir -p /var/log
+mount -t tmpfs -o size=256k tmpfs /var/log
+echo "Mounting tmpfs filesystem (/tmp) ..."
+mount -t tmpfs -o size=8192k tmpfs /tmp
+chmod 777 /tmp
+mount -t debugfs none /debug > /dev/null 2>&1
+
+mkdir -p /var/run /var/ppp /var/udhcpd /var/tmp /var/etc /var/lib
+
+mknod /dev/brcmboard c 206 0
+mknod /dev/bcmendpoint0 c 209 0
+mknod /dev/vcnx c 210 0
+mknod /dev/bcmadsl0 c 208 0
+mknod /dev/bcm c 212 0
+mknod /dev/bcmxtmcfg0 c 228 0
+mknod /dev/pktcmf c 232 0
+mknod /dev/spu c 233 0
+
+# modprobe storage module before running mdev -s otherwise
+# /dev won't be populated
+modprobe -q ehci-hcd
+modprobe -q ohci-hcd
+modprobe -q sd_mod 
+modprobe -q usb-storage
+
+if [ -f /etc_ro_fs/init.d/factory -a "1" = "`readrip -s FACTORY 2>/dev/null`" ]
+then
+  echo "> FACTORY TEST BOOT <"
+  /etc_ro_fs/init.d/factory
+  exit 0
+fi
+
+if [ -f /proc/sys/kernel/hotplug ]; then 
+	echo >/dev/mdev.seq
+	echo /sbin/mdev >/proc/sys/kernel/hotplug
+else
+	echo "No kernel support for hotplug"
+fi
+
+mdev -s
+
+
+if [ "$1" = "nomtd" ]
+then
+  echo "> NORMAL BOOT - NOMTD <"
+  /etc_ro_fs/init.d/normal_boot_nomtd
+else
+  echo "> NORMAL BOOT <"
+  /etc_ro_fs/init.d/normal_boot
+fi
+
+echo " start rc.sysinit"
+/etc_ro_fs/init.d/rc.sysinit 

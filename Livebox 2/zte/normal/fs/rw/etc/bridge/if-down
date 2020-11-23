@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# Debug ce script
+set -x
+
+# find ethernet if
+eth_if=$1
+
+# find conf file 
+file_id=$2
+
+[ ! -z "$file_id" ] && [ -f $file_id ] && . $file_id
+
+# bloque le test de prod en bridge
+#[ "$PROTOCOL" != "bridge" ] && exit 1 
+
+
+case $0 in
+    *if-up)
+	
+	if (type startfn ; ) ; then 
+	    startfn $1 $2
+        else
+	    /etc/init.d/dhcp_dns_server stop
+	    echo 4 > /var/run/pppmsg
+	    brctl addif br0 $1
+	    ifconfig $1 0.0.0.0 up
+	    current_date=$(date +"%j %X")
+	    echo $current_date  IP Up $1 >> /root/adsld.log
+#	    date "+%s" > /var/run/adsl_connect_time
+	fi 
+
+	;;
+    *if-down)
+	if (type stopfn ; ) ; then 
+	    stopfn $1 $2
+	else
+	    brctl delif br0 $1
+	    ifconfig $1 0.0.0.0 down
+	    current_date=$(date +"%j %X")
+	    echo $current_date  IP Down $1 >> /root/adsld.log
+#	    rm /var/run/adsl_connect_time
+	    /etc/init.d/dhcp_dns_server start
+	fi 
+
+	;;
+    *)	    
+	;;
+esac
+
+
+

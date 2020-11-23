@@ -1,0 +1,21 @@
+<div class="button-container no-padding col-xs-12">
+  <div class="button-content-file no-margin row">
+  	
+  	{{#if label}}
+        <label {{#if id}}for="{{id}}" {{/if}} class="bodytxt filelabel no-padding col-xs-3"> {{{label}}} </label>
+    {{/if}}
+    <input type="text" {{#if id}}id="{{id}}" {{/if}} class="file-field  no-padding  col-xs-2" value="{{label}}"><input type="button" class="button col-xs-2" value="parcourir"> 
+    <input type="file" {{#if id}}id="{{id}}_file" {{/if}}> 
+    {{#each value}}
+      {{#ifEqual style "orange"}}
+      <input {{#if id}}id="{{id}}" {{/if}} type="button" class="button  no-padding  col-xs-2" value="{{label}}">          
+      {{/ifEqual}}
+      {{#ifEqual style "lightgrey"}}
+      <input {{#if id}}id="{{id}}" {{/if}} type="button" class="button button-disabled  no-padding  col-xs-2" value="{{label}}">          
+      {{/ifEqual}}
+      {{#ifEqual style "grey"}}
+      <input {{#if id}}id="{{id}}" {{/if}} type="button" class="button grey-button file-submit  no-padding  col-xs-2" value="{{label}}">          
+      {{/ifEqual}}
+    {{/each}}  
+  </div>
+</div>

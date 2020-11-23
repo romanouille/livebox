@@ -1,0 +1,26 @@
+datamodel {
+  object ManagementServer {
+    parameter EnableCWMP=1;
+    parameter Interface="data";
+    parameter URL="https://livebox.fr.karma.orange.com:443/krmx69/fr";
+    parameter Username="";
+    parameter Password="";
+    parameter PeriodicInformEnable=1;
+    parameter PeriodicInformInterval=432000;
+    parameter ConnectionRequestUsername="$(ACS_USER)";
+    parameter ConnectionRequestPassword="orange";
+    parameter UpgradesManaged=1;
+    parameter ConnRequestHost="0.0.0.0";
+    parameter ConnRequestPort=50805;
+    parameter SessionTimeout=300;
+    parameter MaxStartupDelay=120;
+    parameter FactoryResetOccurred=1;
+    parameter SSLAcceptSelfSigned=0;
+    parameter SSLVerifyHostname=1;
+    parameter ConnRequestPathType="Random";
+    parameter VerifySupportedACSMethods=0;
+    parameter UpgradeBootDelay=100;
+    parameter MaxDownloadDelay=600;
+    parameter AllowConnectionRequestFromUnknownHost=1;
+  }
+}

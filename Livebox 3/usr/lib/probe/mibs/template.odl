@@ -1,0 +1,9 @@
+mib modulename {
+persistent bool Enable;
+persistent uint32 KPI1_Interval;
+persistent uint32 KPI2_Interval;
+persistent object Object {
+persistent bool Enable;
+persistent uint32 KPI3_Interval;
+}
+}

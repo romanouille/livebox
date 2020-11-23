@@ -1,0 +1,15 @@
+{
+  "status": true,
+  "data": {
+    "LinkType": "dsl",
+    "LinkState": "up",
+    "MACAddress": "AA:AA:AA:AA:AA:AA",
+    "Protocol": "ppp",
+    "ConnectionState": "Connected",
+    "LastConnectionError": "ERROR_NONE",
+    "IPAddress": "123.123.123.123",
+    "RemoteGateway": "124.124.124.124",
+    "DNSServers": "125.125.125.125,126.126.126.126",
+    "IPv6Address": ""
+  }
+}

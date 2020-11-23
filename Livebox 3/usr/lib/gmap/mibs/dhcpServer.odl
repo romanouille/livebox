@@ -1,0 +1,65 @@
+/*expr: dhcpserver*/
+
+/**
+ * MIB is loaded on all bridge interfaces that have a DHCP pool assigned
+ *
+ * All devices matching expression: "dhcpserver" are extended with this MIB
+ * It is the intention that for all bridge interfaces the DHCPv4 server settings for the bridge interface
+ * are available in gMap.
+ * This MIB is managed by the module "selflan". This module adds all bridges and theire interfaces to the gMap data model.
+ * For each bridge on which a DHCPv4 server pool is configured this MIB is added.
+ *
+ * @version 6.0
+ */
+mib dhcpServer {
+    /**
+     * The DHCPv4 server pool name.
+     *
+     * This value is taken from the DHCPv4 server data model "DHCPv4.Server.Pool.{{i}}.Name
+     *
+     * @version 6.0
+     */
+    read-only string DHCPv4ServerPool;
+    /**
+     * Indicates that the DHCPv4 server pool is enabled or not
+     *
+     * This value is taken from the DHCPv4 server data model "DHCPv4.Server.Pool.{{i}}.Enable
+     *
+     * @version 6.0
+     */
+    read-only bool DHCPv4ServerEnable;
+    /**
+     * The DHCPv4 server pool start address.
+     *
+     * This value is taken from the DHCPv4 server data model "DHCPv4.Server.Pool.{{i}}.MinAddress
+     *
+     * @version 6.0
+     */
+    read-only string DHCPv4ServerMinAddress;
+    /**
+     * The DHCPv4 server pool end address.
+     *
+     * This value is taken from the DHCPv4 server data model "DHCPv4.Server.Pool.{{i}}.MaxAddress
+     *
+     * @version 6.0
+     */
+    read-only string DHCPv4ServerMaxAddress;
+    /**
+     * The DHCPv4 server pool net mask.
+     *
+     * This value is taken from the DHCPv4 server data model "DHCPv4.Server.Pool.{{i}}.SubnetMask
+     *
+     * @version 6.0
+     */
+    read-only string DHCPv4ServerNetmask;
+    /**
+     * The DHCPv4 server pool domain name.
+     *
+     * This value is taken from the DHCPv4 server data model "DHCPv4.Server.Pool.{{i}}.DomainName
+     *
+     * @version 6.0
+     */
+    read-only string DHCPv4DomainName;
+}
+
+/** @location sah_services_gmap /mibs/dhcpServer.odl */

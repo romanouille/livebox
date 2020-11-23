@@ -1,0 +1,31 @@
+object NeMo { 
+	object extends MIB(0,"dhcpv6impl") {
+		string Flag = "dhcpv6";
+
+		object DataModel {
+
+/** 
+ * @brief
+ * This function is used by the script(dhclient-script.sh) called from dhclient when the status changes. When the status is set to BOUND6, RENEW6 or REBIND6, the function receiveOptions will be called with a list of received options. These options will be stored in the data model.
+ * @return void
+ * @error None
+ * @param variable list of parameters as provided by the dhclient.
+ * @version V4.6
+ */
+			void receiveOptions();
+
+/** 
+ * @brief
+ * This function is used by the script(dhclient-script.sh) called from dhclient when the status changes to EXPIRE6. The function flushOptions will be called with no argument and all previously received options will be erased from the data model.
+ * @return void
+ * @param None
+ * @error None
+ * @version V4.6
+ */
+			void flushOptions();
+		}
+	}
+}
+
+
+/** @location sah_services_dhcpv6client /dhcpv6impl.odl */

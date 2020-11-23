@@ -1,0 +1,132 @@
+
+#!/bin/sh
+
+
+
+ 
+#convert ssid to lowercase
+		convert_ssid_lowercase(){
+			WAN_ADDR=$1
+			partssid=$(echo -n $WAN_ADDR | tr -d : | tail -c 4 | tr '[A-Z]' '[a-z]')
+			SSID="Livebox-"$partssid
+}
+
+use_wlan_address(){
+	#sets WLAN_ADDR to WAN_ADDR
+	WLAN_ADDR=$1
+	#sets WLAN_ADDR to card's address
+		WLAN_ADDR=$(ifconfig wifi0 | grep HW | sed 's/.*HWaddr //' )
+	
+}
+
+replace_cwmp_URL() {
+	#change cwmp URL from step3 to step4
+	FILE=/etc/config/cwmpd_upgrade_persistent.upd
+	if [ -f $FILE ]
+	then
+		bootmode=$(bootmode get)
+		[ $bootmode = "system" ] && \
+		sed -i -e 's/URL=https:\/\/karma.orange.com\/krmx69\/pl/URL=https:\/\/livebox.pl.karma.orange.com:443\/krmx69\/pl/' \
+			   -e 's/URL=https:\/\/karma.orange.com\/krmx69\/fr/URL=https:\/\/livebox.fr.karma.orange.com:443\/krmx69\/fr/' $FILE
+	fi
+}
+
+reset_software_version() {
+	#Set SoftwareVersion to 0 in rescue mode
+	FILE=/var/etc/build
+	bootmode=$(bootmode get)
+	if [ $bootmode = "rescue" ]
+	then
+		sed -i -e 's/^SoftwareVersion=\([^ \t]*\)/SoftwareVersion=0/' $FILE
+	fi
+}
+
+
+
+case $1 in
+	start)
+		# generic part - put rip in enviroment
+		SERIAL_NUMBER="`readrip -s SERIAL_NUMBER 2>/dev/null`"
+		WAN_ADDR="`readrip -m: WAN_ADDR 2>/dev/null`"
+		MANUFACTURER="`readrip -s MANUFACTURER 2>/dev/null`"
+		MANUFACTURER_OUI="`readrip -m- MANUFACTURER_OUI 2>/dev/null`"
+		MANUFACTURER_URL="`readrip -s MANUFACTURER_URL 2>/dev/null`"
+		MODELNAME="`readrip -s MODELNAME 2>/dev/null`"
+		PRODUCT_CLASS="`readrip -s PRODUCT_CLASS 2>/dev/null`"
+		HARDWARE_VERSION="`readrip -s HARDWARE_VERSION 2>/dev/null`"
+		BOOTLOADER_VERSION="`readrip -m- BOOTLOADER_VERSION 2>/dev/null`"
+		WLAN_KEY="`readrip -s WLAN_KEY 2>/dev/null`"
+	
+		( 
+			echo "SERIAL_NUMBER=\"$SERIAL_NUMBER\""
+			echo "WAN_ADDR=\"$WAN_ADDR\""
+			echo "MANUFACTURER=\"$MANUFACTURER\""
+			echo "MANUFACTURER_OUI=\"$MANUFACTURER_OUI\""
+			echo "MANUFACTURER_URL=\"$MANUFACTURER_URL\""
+			echo "MODELNAME=\"$MODELNAME\""
+			echo "PRODUCT_CLASS=\"$PRODUCT_CLASS\""
+			echo "HARDWARE_VERSION=\"$HARDWARE_VERSION\""
+			echo "BOOTLOADER_VERSION=\"$BOOTLOADER_VERSION\""
+			echo "WLAN_KEY=\"$WLAN_KEY\""
+		) >> /var/etc/environment
+		
+		# project specific part - generate project specific default values
+		echo "ULA=\"fd`echo -n $SERIAL_NUMBER | hexdump -n 5 -e '/1 "%02x" /1 ":%02x" /1 "%02x" /1 ":%02x" /1 "%02x"'`::1\"" >> /var/etc/environment
+		hgwglb >> /var/etc/environment
+		SSID="Livebox-`echo -n $WAN_ADDR | tr -d ':' | tail -c 4`"
+		convert_ssid_lowercase $WAN_ADDR
+		echo "SSID=\"$SSID\"" >> /var/etc/environment
+		use_wlan_address $WAN_ADDR
+		echo "WLAN_ADDR=$WLAN_ADDR" >> /var/etc/environment
+		echo "WAN_ADDR_PLUS_1=`macoffset $WAN_ADDR 1`" >> /var/etc/environment
+		echo "WAN_ADDR_PLUS_2=`macoffset $WAN_ADDR 2`" >> /var/etc/environment
+
+		# get default PPP credentials
+		HGWCFGDEF="/etc/defaults/hgwcfg.def"
+		if [ -e $HGWCFGDEF ] ; then
+			USERNAME=$(sed -n 's/.*BroadbandUsername>\(.*\)<\/tns:BroadbandUsername.*/\1/p' $HGWCFGDEF)
+			PASSWORD=$(sed -n 's/.*BroadbandPassword>\(.*\)<\/tns:BroadbandPassword.*/\1/p' $HGWCFGDEF)
+		fi
+		echo "DEFAULT_PPP_USERNAME=$USERNAME" >> /var/etc/environment
+		echo "DEFAULT_PPP_PASSWORD=$PASSWORD" >> /var/etc/environment
+
+		# generate build file
+		gen_build
+
+		# Create /etc/bmeSerialNumber for xDSL inventory on Ikanos
+		# need to pick up some data created by the 'gen_build' tool
+		# if SoftwareVersion starts with SG20_..., ZT20_..., ZT12_... -> Board type is LB2_x
+		# if SoftwareVersion starts with SG28_..., SG30_..., ZT30_... -> Board type is LB3_x
+		SOFT_VERSION=`grep -i '^SoftwareVersion=' /var/etc/build`
+		COUNTRY=`grep -i '^Country=' /var/etc/build`
+		EXTRACT_VER=`echo ${SOFT_VERSION#*=}`
+		BOARD_TYPE=`echo ${EXTRACT_VER:2:2}`
+		if [ $BOARD_TYPE -eq 28 -o $BOARD_TYPE -eq 30 ]
+		then
+			BME_SN="$SERIAL_NUMBER `echo LB3_``echo ${COUNTRY#*=} | tr '[a-z]' '[A-Z]'` ${SOFT_VERSION#*=}"
+			echo "_BOARD_SERIAL_NBR=\"`bme_sn "$BME_SN" 2>/dev/null`\"" >> /var/etc/environment
+		elif [ $BOARD_TYPE -eq 20 -o $BOARD_TYPE -eq 12 ]
+		then
+			BME_SN="$SERIAL_NUMBER `echo LB2_``echo ${COUNTRY#*=} | tr '[a-z]' '[A-Z]'` ${SOFT_VERSION#*=}"
+			echo "_BOARD_SERIAL_NBR=\"`bme_sn "$BME_SN" 2>/dev/null`\"" >> /var/etc/environment
+		fi
+
+
+		echo "ACS_USER=\"`echo -n $MANUFACTURER_OUI | tr -d '-'`-`echo -n $PRODUCT_CLASS`-`echo -n $SERIAL_NUMBER`\"" >> /var/etc/environment
+
+		replace_cwmp_URL
+		reset_software_version
+
+		# default admin password
+		ADMIN_DEFAULT_PASSWORD=`readrip -s WLAN_KEY | sed -r "s/^([[:xdigit:]]{8})(.*)/\1/g"`
+		ADMIN_DEFAULT_PASSWORD=`/bin/libusermngt_app passwd --hash-password --password $ADMIN_DEFAULT_PASSWORD --canonical-output`
+		echo "ADMIN_DEFAULT_PASSWORD=\"$ADMIN_DEFAULT_PASSWORD\"" >> /var/etc/environment
+
+		SSH_HASH="`/usr/bin/ssh_hash 2>/dev/null`"
+		echo SSH_HASH=\'$SSH_HASH\' >> /var/etc/environment
+
+		;;
+	*)
+		echo "Usage: $0 [start]\""
+		;;
+esac

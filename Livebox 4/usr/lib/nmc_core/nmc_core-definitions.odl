@@ -1,0 +1,207 @@
+
+
+using "nmccore.so";
+
+acl {
+    world read, execute;
+    group admin read, execute;
+    group remoteadmin read, execute;
+    group cwmpd read, write, execute;
+}
+
+persistent object NMC {
+    /**
+     * Default getter function to retrieve all values from NMC
+     * @version V4.0
+     */
+    variant get();
+
+    /**
+     * Default setter function to change all or some values from NMC
+     * @version V4.0
+     */
+    bool set(variant parameters) {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * List of supported WAN modes, values are depending on the NetMaster.getWanModeList().
+     * @version V4.0
+     */
+    read-only string WanModeList {
+        read with wanModeListOnRead;
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * Active WAN mode, values are depending on the config.
+     * @version V4.0
+     */
+    persistent string WanMode;
+
+    /**
+     * @param WanMode Value to which to change WanMode.
+     * @param Username PPP user name.
+     * @param Password PPP password.
+     * @error true on success
+     * @version V4.0
+     */
+    bool setWanMode(mandatory string WanMode, string Username, string Password);
+
+    /**
+     * This function returns a list of WAN modes as configured in the hgwcfg file.
+     * @return returns list of  WAN modes
+     * @version V5.2
+     */
+    string getWanModeList();
+
+    /**
+     * @param LinkType 'dsl', 'vdsl' or 'ethernet'
+     * @param LinkState 'up' or 'down'
+     * @param MACAddress mac-address of data-interface if LinkType is erthernet.
+     * @param Protocol 'ppp', 'dhcp' or 'unknown'
+     * @param ConnectionState Reflects Connectionstatus in ppp-object or DHCPStatus in dhcp-object.
+     * @param LastConnectionError Lastconnection error found in dhcp or ppp-object.
+     * @param IPAddress IP address of the data interface.
+     * @param RemoteGateway default gateway IP address
+     * @param DNSServers comma-separated list of dns-servers (both IPv4 and IPv6 DNS servers)
+     * @version V4.5
+     * @return true on success.
+     */
+    bool getWANStatus(out string LinkType, out string LinkState, out string MACAddress,
+                      out string Protocol, out string ConnectionState, out string LastConnectionError,
+                      out string IPAddress, out string RemoteGateway, out string DNSServers);
+
+    /**
+     * PPP Username
+     * @version V4.5
+     */
+    persistent string Username {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * PPP Password
+     * @version V4.5
+     */
+    persistent string Password {
+        acl {
+            world none;
+            group cwmpd read, write;
+        }
+    }
+
+    /**
+     * Flag to see if a factoryReset is scheduled
+     * @version V6.1
+     */
+    read-only bool FactoryResetScheduled {
+        default false;
+        acl {
+            world none;
+            group cwmpd read;
+        }
+    }
+
+    /** Backup the user settings for the HGW
+     * @param nocrypt True if the backup file must not be ciphered (hgwcfg.crypt not generated)
+     * @version V4.6
+     */
+    bool backup(bool nocrypt) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /** Restore the user settings for the HGW
+     * @param nocrypt True if the backup file do not need to be decrypted
+     * @version V4.6
+     */
+    bool restore(bool nocrypt) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Reset the user settings for the HGW
+     * @version V4.6
+     */
+    void reset() {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * Reboots the system
+     * @version V4.6
+     */
+    void reboot() {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * Backup the user settings for netmodeconfig
+     * @version V4.6
+     */
+    void export() {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Restore the user settings for netmodeconfig
+     * @version V4.6
+     */
+    void import() {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Schedule factory reset at next boot
+     * This functions also makes sure that saveflush() does not create db_ready again.
+     * @version V6.1
+     */
+    void factoryReset() {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+     * Perform a saveflush
+     * This function executes a backup() and creates db_ready if allowed (see factoryReset())
+     * @version V6.1
+     */
+    void saveflush() {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+}
+
+/** @location sah_services_netmodeconfig /ng/nmc_core-definitions.odl.m4 */

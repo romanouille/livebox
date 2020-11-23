@@ -1,0 +1,27 @@
+<div id="phone" xmlns="http://www.orange.com/xhtml/engine/loose">
+	 <div class="boxType3">
+ 		<div id="helpPage">
+			<a  id="helpTestPhone" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_phone" i18n="menuServices.phone"/>
+		<div class="margin-left-40 margin-top-m8">		
+			<strong  i18n="page.myServices.phoneTest.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 border-bottom-3">
+				<span class="h3Text" i18n="common.status"/>
+				<br/>
+				<span i18n="page.myServices.phoneTest.label"/>
+				<!-- &#160;<a href="http://assistance.orange.fr/accueil-internet-mobile-telephone-fixe.php" target="_blank" i18n="page.myServices.phoneTest.link"/>.-->
+				<br/>				
+		</div>
+		<div widgetType="ButtonContainer" class="left">
+					<span widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'm1.m11.m110'}" i18n="common.page.back"/><!-- "page.myServices.phoneTest.back"/> -->
+		</div>
+		</form>
+	</div>
+</div>

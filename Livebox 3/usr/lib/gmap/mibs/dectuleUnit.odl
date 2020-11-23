@@ -1,0 +1,20 @@
+/*expr:dect_ule and logical*/
+
+/**
+ * MIB is loaded on all dect-ule devices .
+ *
+ * All devices matching expression: "dect_ule and dect_ule_unit" are extended with this MIB
+ *
+ * @version 6.0
+ */
+ mib dectuleUnit {
+    /**
+     * @brief Unit Id
+     */
+    read-only uint16 Id;
+    /**
+     * @brief Type number representing the categories the unit belongs to
+     */ 
+    read-only uint16 Type;
+}
+/** @location sah_services_gmap /mibs/dectuleUnit.odl */

@@ -1,0 +1,16 @@
+#!/bin/sh
+# Copyright (C) 2011 Sagemcom
+echo "rebooting IpPhones"
+peers=`asterisk -rx "sip show peers"| grep -v Name | grep -v trunk | grep -v "sip peers" | cut -d/ -f1 | xargs`
+echo "# test" >> /var/aastra-https/aastra.cfg
+echo  $peers
+asterisk -rx "sip notify aastra-check-cfg $peers"
+
+. /etc/sysdirs.conf
+
+rm -rf /usr/spool/asterisk/voicemail/default/*
+rm -fr $SYSCONF_DIR/*
+find /opt/filesystem2/rootfs -type f | xargs rm -f
+find /opt/filesystem2/rootfs -type l | xargs rm -f
+
+touch $SYSCONF_DIR/conf_erased

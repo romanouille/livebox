@@ -1,0 +1,10 @@
+
+
+using "services/usbdectphone.so";
+
+object Services {
+	object X_ORANGE-COM_USBDECTPhone {
+		read-only uint16 ProductID;
+		read-only uint16 VendorID;
+	}
+}

@@ -1,0 +1,43 @@
+﻿{{#with page}}
+  {{#each content}}
+    {{#ifEqual type 'title'}}
+      {{> titleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'subtitle'}}
+      {{> subtitleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'text'}}
+      {{> textTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'infotext'}}
+      {{> infotextTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'bullet'}}
+      {{> bulletTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'textfield'}}
+      {{> textfieldTemplate}}
+    {{/ifEqual}}
+     {{#ifEqual type 'inlinetextfield'}}
+      {{> inlinetextfieldTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'spinner'}}
+      {{> spinnerTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'radio'}}
+      {{> radioTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'file'}}
+      {{> fileTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'button'}}
+      {{> buttonTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'tick'}}
+      {{> tickTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'separator'}}
+      {{> separatorTemplate}}
+    {{/ifEqual}}
+  {{/each}}
+{{/with}}

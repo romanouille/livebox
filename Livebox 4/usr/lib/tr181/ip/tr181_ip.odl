@@ -1,0 +1,133 @@
+
+
+
+using "ip/tr181_ip.so";
+
+object IP {
+    bool IPv4Capable = true;
+    bool IPv4Enable = true;
+    string IPv4Status = "Enabled";
+    bool IPv6Capable = true;
+    bool IPv6Enable = true;
+    string IPv6Status = "Enabled";
+    string ULAPrefix;
+    object Interface [] {    
+        counted with InterfaceNumberOfEntries;
+        string Alias;
+        bool Enable;
+        bool IPv4Enable;
+        bool IPv6Enable;
+        bool ULAEnable;
+        string Status;
+        string Name;
+        uint32 LastChange;
+        string LowerLayers;
+        string Router;
+        bool Reset;
+        uint32 MaxMTUSize;
+        string Type;
+        bool Loopback;
+        bool AutoIPEnable;
+        object IPv4Address [] {
+            counted with IPv4AddressNumberOfEntries;
+            string Alias;
+            bool Enable;
+            string Status;
+            string IPAddress;
+            string SubnetMask;
+            string AddressingType;
+        }
+        object IPv6Address [] {
+            counted with IPv6AddressNumberOfEntries;
+            string Alias;
+            bool Enable;
+            string Status;
+            string IPAddressStatus;
+            string IPAddress;
+            string Origin;
+            string Prefix;
+            string PreferredLifetime;
+            string ValidLifetime;
+            bool Anycast;
+        }
+        object IPv6Prefix [] {
+            counted with IPv6PrefixNumberOfEntries;
+            string Alias;
+            bool Enable;
+            string Status;
+            string PrefixStatus;
+            string Prefix;
+            string Origin;
+            string StaticType;
+            string ParentPrefix;
+            string ChildPrefixBits;
+            bool Autonomous;
+            datetime PreferredLifetime;
+            datetime ValidLifetime;
+        }
+    }
+}
+
+datamodel {
+    object IP {
+         instance of Interface(1, "IPIF_DATA") {
+             parameter Alias = "IPIF_DATA";
+             destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_multi" {
+                 parameter IPv6Enable from IPv6Disable translate with translate_ipv6disable;
+             }
+             destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/data" {
+                 parameter Enable;
+             }	
+             instance of IPv6Address(0,"lla") {
+                 parameter Alias = "LLA_WAN";                 
+             }
+             object IPv4Address from "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/ppp_data" recursive {
+                accept object ".*" {
+                    accept parameter "^(IPAddress|Address)$" {
+                        rename with ip_rename_address;
+                    }
+                    drop parameter ".*";
+                }             
+             }
+         }
+         instance of Interface(2, "IP_VOIP") {
+             parameter Alias = "IP_VOIP";
+             destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/voip" {
+                 parameter Enable;
+             }
+             object IPv4Address from "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/vlan_voip" recursive {
+                accept object ".*" {
+                    accept parameter "^(IPAddress|Address)$" {
+                        rename with ip_rename_address;
+                    }
+                    drop parameter ".*";
+                }             
+             }
+         }
+         instance of Interface(3, "BR_LAN") {
+             parameter Alias = "BR_LAN";
+             destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/bridge" {
+                 parameter Enable;
+             }
+             destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/bridge" {
+                 parameter IPv6Enable from IPv6Disable translate with translate_ipv6disable;
+             }
+             instance of IPv6Address(0,"gua") {
+                 parameter Alias = "GUA_LAN";                 
+             }
+             object IPv4Address from "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/bridge" recursive {
+                accept object ".*" {
+                    accept parameter "^(IPAddress|Address)$" {
+                        rename with ip_rename_address;
+                    }
+                    drop parameter ".*";
+                }             
+             }
+         }
+         
+    }
+}
+
+
+
+/** @location sah_services_tr181 /ip/ip.odl */

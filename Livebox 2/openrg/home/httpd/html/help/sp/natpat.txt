@@ -1,0 +1,9 @@
+﻿<b>Redireccionamiento de puertos (NAT/PAT):</b><br>
+<br>
+Algunas aplicaciones requieren puertos específicos para poder ser abiertas y que funcionen correctamente. Este es el caso de ciertos juegos online, FTP, correo, servidores web, etc. Algunas aplicaciones de Internet no requieren redireccionamientos. Si se recibe una solicitud desde Internet sobre un puerto específico, el router transfiere esos datos al ordenador correspondiente. Por razones de seguridad puedes preferir activar o desactivar las transferencias entre puertos cuando no son empleadas. Esto se puede hacer usando la casilla de selección "Habilitar".<br>
+El icono "Eliminar" se puede utilizar para eliminar normas de la tabla.<br>
+<!--
+<br>
+
+-->
+

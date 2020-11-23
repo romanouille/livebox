@@ -1,0 +1,67 @@
+FIRST BOOT & BOOT OR REBOOT:
+Labels:FR
+boot.reseau.processing:Connexion au réseau Orange dans... %d mn
+boot.reseau.waiting:Encore un petit instant SVP
+boot.conn.ok:Vous êtes connecté(e) au réseau Orange
+boot.conn.nok:Problème de connexion Voir guide d'installation
+boot.conn.login:Problème d'identifiants voir Guide d'installation
+boot.conn.manual:Connexion manuelle Voir guide d'installation
+boot.sync.nok:Erreur synchronisation Voir guide d'installation
+boot.voip.ok:Votre ligne téléphonique est en service
+boot.voip.nok:Problème de téléphone Voir guide d'installation
+boot.info:Pour afficher les infos WiFi, appuyer sur "i"
+boot.bnr.processing:Restauration
+boot.bnr.OK:Redémarrage
+boot.bnr.forcecancel:Restauration annulée
+FAILURES:
+Labels:FR
+failure.Internet.login:Echec de connexion Ressaisir vos identifiants
+failure.Internet.conn:Problème Internet Redémarrer la Livebox
+failure.sync.conn:Echec synchronisation Vérifier branchements
+failure.voip.conn:Problème de téléphone Redémarrer la Livebox
+failure.network:Incident réseau, utiliser Ma Livebox pour réparer
+BUTTONS:
+Labels:FR
+info.internet.ok:%s %s
+info.internet.nok:Pas de connexion au réseau Orange
+info.wifi.on:WiFi activé %s
+info.wifi.key:Clé %s
+info.wifi.off:WiFi désactivé
+info.wifi.24G.on:WiFi 2,4GHz activé %s
+info.wifi.24G.key:Clé %s
+info.wifi.24G.off:WiFi 2,4GHz désactivé
+info.wifi.5G.on:WiFi 5GHz activé %s
+info.wifi.5G.key:Clé %s
+info.wifi.5G.off:WiFi 5GHz désactivé
+info.voip.ok:Téléphone OK %s
+info.voip.nok:Téléphone indisponible
+FIRMWARE UPGRADE:
+Labels:FR
+firmware.upgrade.ongoing:Mise à jour en cours N'éteignez pas la Livebox
+firmware.upgrade.OK:Mise à jour terminée
+DECT and WPS pairing:
+Labels:FR
+pairing.processing:Association en cours
+pairing.DECT.OK:Téléphone HD prêt
+pairing.WPS.OK:Equipement connecté en WiFi
+pairing.timeout:Aucun équipement détecté !
+pairing.DECT.NOK.erreur:Echec d'association équipement DECT
+pairing.WPS.NOK.erreur:Echec d'association équipement WiFi
+pairing.DECT.NOK.max:Nombre de téléphones HD connectés dépassé
+USB detection:
+Labels:FR
+detection.USB.processing:Périphérique USB détecté
+detection.USB.OK:Périphérique USB connecté
+detection.USB.NOK:Périphérique USB non reconnu
+detection.USB.readyToBeEjected:Périphérique USB prêt à être retiré
+detection.USB.ejected:Périphérique USB retiré
+scheduler.override:Plage WiFi activée par le planificateur
+RESET PASSWORD:
+Labels:FR
+resetpassword.codePIN:Code PIN : %s
+RESET LIVEBOX:
+Labels:FR
+reset.start:Maintenir %d s
+reset.count.OK:Relâcher le bouton reset
+reset.ongoing:Réinitialisation lancée La Livebox va redémarrer
+reset.cancel:Réinitialisation annulée

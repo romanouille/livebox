@@ -1,0 +1,35 @@
+{
+    "Id": "sah_bluetooth",
+    "Category": "Smart Home",
+    "Version": "0.1",
+    "Title": "sah_bluetooth.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Applet": [ { "width": 2,
+                  "height": 2,
+                  "url": "apps/common/slider.html",
+                  "class": "greenbox",
+                  "initializer": "slider_bluetooth",
+                  "settings": { "slides": [ "<span class=\"img bluetooth\"></span><div class=status style=\"top:85%\"><span class=caption><span class=\"black\"><span translate=sah_bluetooth.number></span>:</span> <span class=\"sah_green_dark btnum\">?</span></span></div>",
+                                            "<div class=status style=\"top:15%\"><span class=caption><span class=\"black\"><span translate=sah_bluetooth.number2></span>: </span><span class=\"sah_green_dark btnum\"></span></span></div>"
+                                          ],
+                                "apicalls":{"class":"btnum", "ws":"Devices.Device", 
+                                             "event":["bluetooth_active","bluetooth_inactive","bluetooth_paired"]},
+                                "useRandomAnimations": false
+                              }
+                }
+              ],
+    "en": {
+        "title": "My Presence",
+        "number": "number of devices",
+        "number2": "Number of devices",
+        "bluetooth_active": "Welcome",
+        "bluetooth_inactive": "Goodbye,"
+    },
+    "fr": {
+        "title": "My Presence",
+        "number": "number of devices",
+        "number2": "Number of devices",
+        "bluetooth_active": "Welcome",
+        "bluetooth_inactive": "Goodbye,"
+    }
+}

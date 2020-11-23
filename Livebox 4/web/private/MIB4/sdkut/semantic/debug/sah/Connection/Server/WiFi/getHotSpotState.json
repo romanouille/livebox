@@ -1,0 +1,19 @@
+{
+  "status": 0,
+  "data": {
+    "hostspotList": [
+      {
+        "isWiFiActivatedOnHotSpot": true,
+        "hotSpotServiceState": "deactivated",
+        "ssid": "orange",
+        "isSecured": false
+      },
+      {
+        "isWiFiActivatedOnHotSpot": true,
+        "hotSpotServiceState": "not eligible",
+        "ssid": "my orange autoconnect",
+        "isSecured": true
+      }
+    ]
+  }
+}

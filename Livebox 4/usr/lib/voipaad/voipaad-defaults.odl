@@ -1,0 +1,5 @@
+datamodel {
+    object VoiceActivation {
+        parameter Enable = false;
+    }
+}

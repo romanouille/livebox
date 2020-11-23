@@ -1,0 +1,32 @@
+#!/bin/sh
+
+case $ACTION in
+add)
+	if ! test -z $PHYSDEVPATH -a -z $PHYSDEVDRIVER -a -z $SUBSYSTEM ; then 
+
+		if [ -f /sys/$DEVPATH/device/interface ] ; then
+			printer_server_name=`cat /sys/$DEVPATH/device/interface`
+			echo $$" printer_server_name= $printer_server_name"
+		else
+			printer_server_name=livebox_printer
+			echo $$" printer_server_name= livebox_printer"
+		fi	
+		if [ $PHYSDEVDRIVER = usblp ] ; then 
+			if [ -f /bin/ippprint ] ; then 
+			/bin/ippprint -n $printer_server_name > /dev/null 2>&1&
+			fi
+		fi
+	fi
+;;
+remove)
+	if ! test -z $PHYSDEVPATH -a -z $PHYSDEVDRIVER -a -z $SUBSYSTEM ; then 
+		if [ $PHYSDEVDRIVER = usblp ] ; then 
+		printer_server_name=`cat /sys/$DEVPATH/device/interface`
+		echo $$" printer_server_name= $printer_server_name"
+		if [ -f /bin/ippprint ] ; then 
+			killall ippprint
+		fi
+		fi
+	fi
+;;
+esac

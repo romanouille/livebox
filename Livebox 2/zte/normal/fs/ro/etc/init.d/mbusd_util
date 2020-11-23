@@ -1,0 +1,64 @@
+. /etc_ro_fs/autoconf.conf
+
+PHASEFILE='/var/run/mbusd_loading'
+
+MBUSD_LOADPHASE_0=0
+MBUSD_LOADPHASE_1=1
+MBUSD_LOADPHASE_2=2
+MBUSD_LOADPHASE_3=3
+MBUSD_LOADPHASE_4=4
+MBUSD_LOADPHASE_5=5
+MBUSD_LOADPHASE_6=6
+MBUSD_LOADPHASE_7=7
+MBUSD_LOADPHASE_8=8
+MBUSD_LOADPHASE_9=9
+MBUSD_LOADPHASE_10=10
+MBUSD_LOADPHASE1_DONE=${MBUSD_LOADPHASE_5}
+MBUSD_LOADPHASE_DONE=${MBUSD_LOADPHASE_10}
+
+check_loadapp()
+{
+    if [ "`ps|grep ${LOADAPP}|wc -l|tr -d ' '`" -lt "2" ]; then
+        echo "${LOADAPP} crashed ..."
+        echo ${MBUSD_LOADPHASE_DONE} > ${PHASEFILE}
+    fi
+}
+
+mbusd_phase_get()
+{
+    if [ -f ${PHASEFILE} ]; then
+        cat ${PHASEFILE} 2> /dev/null
+    else
+        echo -1
+    fi
+}
+
+mbusd_phase_wait_for()
+{
+	  LOADAPP=`cat /var/run/loadapp`
+    DST=$1
+    CNT=0
+
+    PHASE=`mbusd_phase_get`
+    while [ ${PHASE} -lt ${DST} ]; do
+	      CNT=`expr ${CNT} + 1`
+        echo "wait until configuration load reaches phase ${DST} (now ${PHASE}, ${CNT}s)"
+        sleep 1
+        check_loadapp
+        PHASE=`mbusd_phase_get`
+    done
+}
+
+mbusd_set_loadapp()
+{
+    # remove some files
+    rm -f /var/run/mbusd_loading
+    # set load application (either mbusd or gatewayd)
+    if [ "$CONFIG_THOMSONCOMPONENT_MBUSD" = "y" ]; then
+        rm -f /var/run/gatewayd_cb
+        rm -f /var/run/gatewayd_def
+        echo "mbusd" > /var/run/loadapp
+    else
+        echo "gatewayd" > /var/run/loadapp
+    fi
+}

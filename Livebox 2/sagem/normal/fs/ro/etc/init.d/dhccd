@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case $1 in
+    start)
+ 	echo "dhccd start ..."
+	dhccd -d
+	;;
+    stop)
+    	killall dhccd
+	;;
+    *)
+esac

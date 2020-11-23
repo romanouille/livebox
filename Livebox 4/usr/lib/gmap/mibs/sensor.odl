@@ -1,0 +1,18 @@
+/*expr:sensor*/
+
+/**
+ * MIB is loaded on all units that are able to switch a device On and Off.
+ * All devices matching expression: "on_off" are extended with this MIB
+ * @version 6.0
+ */
+mib sensor {
+    object Sensor[] {
+        string Name;
+        uint32 Value;
+        uint32 Factor;
+        string Unit;
+    }
+
+    variant getSensorValues();
+}
+/** @location sah_services_gmap /mibs/sensor.odl */

@@ -1,0 +1,22 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+START=13
+
+. /etc/sysdirs.conf
+
+start() {
+	FILE=$SYSCONF_DIR/bad_reboot
+
+	if [ ! -e $FILE ]; then
+		echo 0 > $FILE
+	fi
+
+	expr `cat $FILE` + 1 > $FILE
+
+	BAD_REBOOT=`cat $FILE`
+	echo "Bad rebount count =$BAD_REBOOT"
+	if [ $BAD_REBOOT -eq 4 ]; then
+		echo "3 bad reboots. Doing restore default"
+		restore_default
+	fi
+}

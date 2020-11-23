@@ -1,0 +1,87 @@
+
+using "voicemessage_plugin.so";
+
+acl {
+    world none;
+    group admin none;
+    group remoteadmin none;
+    group cwmpd read,write,execute;
+}
+
+/**
+ * root object of a Message Service Client
+ * @version 5.2
+ */
+object VoiceMessage {
+
+   /**
+    *  List of available VoiceMessage Profiles
+    * @version 5.2
+    */
+    persistent object Profiles [] {
+         /**
+          * Unique Name for this voicemessage profile
+          * @version 5.2
+          */
+         persistent string Name;
+         /**
+          * Default Telephone number of one recipient 
+          * Used when no telephone number is specified in the URI while sending a message
+          * @version 5.2
+          */
+         persistent string DefaultTo;
+    }
+
+   /**
+    * Set a new profile
+    *
+    * @param profilemap a variant_map holding key_value pair parameters of the profile
+    * @version 5.2
+    */
+    void setProfile(mandatory object profilemap);
+
+   /**
+    * Remove an existing profile
+    *
+    * @param name The name of the profile
+    * @version 5.2
+    */
+    void removeProfile(mandatory string name);
+
+   /**
+    * List the existing profiles
+    *
+    * @return A list of existing profiles
+    * @version 5.1
+    */
+    list listProfiles();
+
+   /**
+    * Send a message using the specified uri
+    *
+    * @param id A unique id of the message
+    * @param profile The profile that has to be used to send the message
+    * @param uri The telephone number to who you want to send a message, formed as "tel:+123112233"
+    * @param message The absolute path of a custom audio file
+    * @version 5.2
+    */
+    void send(mandatory uint32 id, mandatory string profile, mandatory string uri, mandatory string message);
+
+   /**
+    * Import settings from hgwcfg
+    *
+    * @param path The hgwcfg.usr path
+    * @version 5.2
+    */
+    void import(string path);
+
+   /**
+    * Export settings to hgwcfg
+    *
+    * @param path The hgwcfg.usr path
+    * @version 5.2
+    */
+    void export(string path);    
+}
+
+/** @location sah_services_message /plugins/voicemessage/voicemessage-definition.odl */

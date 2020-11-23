@@ -1,0 +1,115 @@
+<div id="vpnSts" xmlns="http://www.orange.com/xhtml/engine/loose">
+	 <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param"  i18n="page.myNetwork.vpn.vpnSts.maintitle"/>
+		<div class="margin-left-40 margin-top-m8">
+		  <strong i18n="page.myNetwork.vpn.vpnSts.subtitle"/>
+		</div>
+	 </div>
+	<div class="maindiv">		
+		<form id="stsForm">
+		<div class="boxType4 border-bottom-1">
+			<span class="h3Text" i18n="page.myNetwork.vpn.vpnSts.param"/>
+			<span  id="connectedSts"  widgetType="EnumInput" enumerated="[true, false]" dataidref="XCONNECTED"  style="display:none"/>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnSts.activatevpnSts">
+				<!--<input id="enableSts" type="checkbox" dataidref="XENABLE"/>-->
+				<span  id="enableSts"  widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"   dataidref="XENABLE"  i18nPrefix="page.myNetwork.vpn.vpnSts.activatevpnSts"/>
+			</div>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnSts.nom">
+				<input class="w150px" id="sitename" type="text" dataidref="XNAME" required="true"/>
+			</div>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnSts.ipdistante">
+				<input class="w150px" type="text" dataidref="XHOSTNAME" id="hostname" namedregex="ipaddress"  required="true"/>
+			</div>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnSts.equipdistant">
+				<span id="remotehardware" widgetType="EnumInput" widgetArg="'select'" dataidref="XREMOTEHARDWARE" enumerated="['LIVEBOXPROV2','LIVEBOXPROV3','BUSINESSLIVEBOX','CISCO','NETASQ','OTHER']" i18nPrefix="page.myNetwork.vpn.vpnSts.remotehardware"/>
+			</div>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnSts.cle">
+				<span class="w150px" id="psk" widgetType="Password" widgetArg="{char: '•', period: 2000}" dataidref="XPRESHAREDKEY" minlength="8" i18nError="page.myNetwork.vpn.vpnSts.cle"/>
+			</div>
+			<div widgetType="FormInput" style="width:705px;" i18n="page.myNetwork.vpn.vpnSts.localnetwork">
+				<input class="w150px margin-right-m10" id="currentIP" type="text" dataidref="XLOCALIP" namedregex="ipaddress" errnode="currentIPCustomErrNode" required="true"/>
+				<input  id="currentMask" class="forminput-thirdObject w150px" type="text" dataidref="XLOCALMASK" namedregex="strictmaskaddress" required="true"/>
+				<div id="currentIPCustomErrNode" class="error"/>
+			</div>
+			<div widgetType="FormInput" style="width:705px;" i18n="page.myNetwork.vpn.vpnSts.distantnetwork">
+				<input class="w150px margin-right-m10" id="destip" type="text" dataidref="XREMOTEIP" namedregex="ipaddress" errnode="destIPCustomErrNode" required="true"/>
+				<input  id="destmask" class="forminput-thirdObject w150px" type="text" dataidref="XREMOTEMASK" namedregex="strictmaskaddress" required="true"/>
+				<div id="destIPCustomErrNode" class="error"/>
+				<span id="identicalIPerror" class="forminput error" style="display:none;padding-left:0px" i18n="page.myNetwork.vpn.vpnSts.identicalIPerror"/>
+				<span id="networkOverlap" class="forminput error" style="display:none;padding-left:0px" i18n="page.myNetwork.vpn.vpnSts.networkOverlap"/>
+			</div>
+			<div style="position:relative; left:37px; width:570px;">
+				<span style="font-weight:bold">
+					<img style="width:20px; height:20px;" src="theme/webCorporate/image/home/popup_10.png" alt="Assurez-vous" title="Assurez-vous"></img>
+					Assurez-vous que les réseaux local et distant sont bien disjoints afin d'éviter des instabilités.
+				</span>
+			</div>
+		</div>
+			
+			<div class="boxType5 border-bottom-1" widgetType="VisibleDependent" widgetArg="{id:'vpnexpertmode',value:true}">
+				<span class="h3Text" i18n="page.myNetwork.vpn.vpnSts.ike1"/>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike1.protocol">
+					<span class="widthAuto" id="Protocol" widgetType="EnumInput" widgetArg="'select'" dataidref="XPROTOCOL" i18nPrefix="data.vpn.vpnSts.ike1.protocol" enumerated="['AH','ESP']"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike1.mode">
+					<span class="widthAuto" id="AggressiveMode" widgetType="EnumInput" widgetArg="'select'" dataidref="XAGRESSIVEMODE" i18nPrefix="data.vpn.vpnSts.ike1.mode" enumerated="['MAIN']"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike.crypt">
+					<span class="widthAuto" id="Encryption1" widgetType="EnumInput" widgetArg="'select'" dataidref="XENCRYPTION1" i18nPrefix="data.vpn.vpnSts.ike.crypt" enumerated="['DES','3DES','AES128','AES192','AES256','CAST128','BLOWFISH']"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike.auth">
+					<span class="widthAuto" id="Authentication1" widgetType="EnumInput" widgetArg="'select'" dataidref="XAUTH1" i18nPrefix="data.vpn.vpnSts.ike.auth" enumerated="['MD5','SHA1']"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike1.diffiehelmann">
+					<span class="widthAuto" id="DiffieGroup" widgetType="EnumInput" widgetArg="'select'" dataidref="XDIFFIE" i18nPrefix="data.vpn.vpnSts.ike1.diffiehelmann" enumerated="['1','2','5','14']"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike.sessiontimeout">
+					<input class="w150px" id="LifeTime1" type="text" dataidref="XLIFETIME1" maxvalue="2147483648" namedregex="positiveinteger" i18nError="data.vpn.vpnSts.ike.sessiontimeout" />
+				</div>
+			</div>
+		    <div class="boxType5 border-bottom-1" widgetType="VisibleDependent" widgetArg="{id:'vpnexpertmode',value:true}">
+				<span class="h3Text" i18n="page.myNetwork.vpn.vpnSts.ike2"/>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike.crypt">
+					<span class="widthAuto" id="Encryption2" widgetType="EnumInput" widgetArg="'select'" dataidref="XENCRYPTION2" i18nPrefix="data.vpn.vpnSts.ike.crypt" enumerated="['DES','3DES','AES128','AES192','AES256','CAST128','BLOWFISH']"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike.auth">
+					<span class="widthAuto" id="Authentication2" widgetType="EnumInput" widgetArg="'select'" dataidref="XAUTH2" i18nPrefix="data.vpn.vpnSts.ike.auth" enumerated="['MD5','SHA1']"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike2.pfs">
+					<span class="widthAuto" id="PFSGroup" widgetType="EnumInput" widgetArg="'select'" dataidref="XPFS" i18nPrefix="data.vpn.vpnSts.ike2.pfs" enumerated="['1','2','5','14']"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike.sessiontimeout">
+					<input class="w150px" id="LifeTime2" type="text" dataidref="XLIFETIME2" maxvalue="2147483648" namedregex="positiveinteger" i18nError="data.vpn.vpnSts.ike.sessiontimeout"/>
+				</div>
+				<div widgetType="FormInput" i18n="data.vpn.vpnSts.ike2.unconnectdetection">
+				<!-- <input id="DeadPeerDetection" type="checkbox" dataidref="XDEADPEER"/> -->	
+					<span  id="DeadPeerDetection"  widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"   dataidref="XDEADPEER"  i18nPrefix="data.vpn.vpnSts.ike2.unconnectdetection"/>
+				</div>
+			</div>
+		<div class="boxType5 border-bottom-3">			
+			<span class="h3Text" i18n="page.myNetwork.vpn.vpnSts.tunel"/>
+			<div class="forminput">
+				<span id="vpnexpertmode" class="margin-left-100" widgetType="EnumInput" widgetArg="'radio'" dataidref="XEXPERTMODE" i18nPrefix="data.vpn.vpnSts.tunel.mode" enumerated="[false, true]"/>
+			</div> 
+			
+			<div class="clear"/>
+		</div>
+			<div widgetType="ButtonContainer" class="right" style="width: 100%">
+				<div class="btnPageBack" > 
+					<span id="backTovpn" widgetType="ButtonImage" i18n="common.page.back"/><!-- page.myNetwork.vpn.vpnSts.return -->
+				</div>
+				<div style="float: right">
+					<span style="float: left" id="deleteStsVpn" widgetType="ButtonImage" i18n="page.myNetwork.vpn.vpnSts.delete"/>
+					<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="page.myNetwork.vpn.vpnSts.cancel"/>
+					<span id="createStsVpn" dataId="Device/Networks/WAN[@name='WAN']/VPN/NetToNetVPNs/NetToNetVPN" style="display:none" widgetType="Button" widgetArg="{type: 'submit', crud: 'create'}" i18n="page.myNetwork.vpn.vpnSts.create"/>
+					<span id="saveStsVpn" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myNetwork.vpn.vpnSts.save"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

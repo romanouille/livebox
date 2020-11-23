@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        /usr/sbin/mini_httpd -C /etc/mini_httpd.conf
+        pcb_cli -q 'Firewall.setService("minihttpd","lan","80","6",0,true)'
+        ;;
+    stop)
+        killall mini_httpd
+        ;;
+    *)
+        echo "Usage : $0 [start|stop]"
+        ;;
+esac
+

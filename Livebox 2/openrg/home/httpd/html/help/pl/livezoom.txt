@@ -1,0 +1,11 @@
+<b>Livezoom</b><br>
+<br>
+
+
+Aby korzystać z kamery livezoom, aktywuj usługę zaznaczając pole.
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

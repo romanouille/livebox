@@ -1,0 +1,340 @@
+/**
+ * The WLANRadio MIB is available on all NeMo Intfs that have the "wlanradio"-flag set. Intfs that have
+ * this flag set, model a 802.11 wireless radio. The physical meaning of this MIB is provided by a
+ * dedicated mapping scheme to a WiFi Radio object of any WLAN daemon. More precisely, if the WLAN daemon
+ * of vendor X exposes a Radio object named y, it will map to the NeMo Intf named yx, in which x is the
+ * vendor specific suffix of vendor X. Once such mapping is established, the configuration held by the MIB
+ * is pushed to the WLAN daemon.
+ */
+object NeMo {
+
+	read-only object Module[];
+
+	object extends Module(0, "wlan") {
+		void addVendor(in mandatory string root, in string suffix, in string flag, in string dst) {
+		    acl {
+		       world none;
+		    }
+		}
+		void deleteVendor(in mandatory string root) {
+		    acl {
+		       world none;
+		    }
+		}
+		read-only object Vendor[] {
+			read-only string Root;
+			read-only string Suffix;
+			read-only string Flag;
+		}
+	}
+
+	object extends MIB(0,"wlanradio") {
+		string Flag = "wlanradio";
+		object DataModel {
+			/**
+			 * The current operational state of the radio.
+			 */
+			read-only string RadioStatus {
+				constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+				default "NotPresent";
+			}
+
+			/**
+			 * Timestamp of the last operational state change, measured in seconds since power
+			 * on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current operational
+			 * state.
+			 */
+			read-only uint32 LastChange;
+
+			/**
+			 * The maximum PHY bit rate supported by this interface (expressed in Mbps).
+			 */
+			read-only uint32 MaxBitRate;
+
+			/**
+			 * Comma-separated list of strings. List items indicate the frequency bands at
+			 * which the radio can operate.
+			 */
+			read-only string SupportedFrequencyBands;
+
+			/**
+			 * Indicates the frequency band at which the radio is operating. The value MUST be
+			 * a member of the list reported by the SupportedFrequencyBands parameter. If the
+			 * radio supports multiple bands, and OperatingFrequencyBand is changed, then all
+			 * parameters whose value is not valid for the new frequency band (e.g. Channel)
+			 * are set to a valid value.
+			 */
+			persistent string OperatingFrequencyBand {
+				constraint enum [ "", "2.4GHz", "5GHz"];
+				default "";
+			}
+
+			/**
+			 * Comma-separated list of strings. List items indicate which IEEE 802.11
+			 * standards this Intf can support simultaneously, in the frequency band specified
+			 * by OperatingFrequencyBand.
+			 */
+			read-only string SupportedStandards;
+
+			/**
+			 * Comma-separated list of strings. Each list item MUST be a member of the list
+			 * reported by the SupportedStandards parameter. List items indicate which IEEE
+			 * 802.11 standard this Radio instance is configured for. Each value indicates
+			 * support for the indicated standard.
+			 */
+			persistent string OperatingStandards = "";
+
+			/**
+			 * Comma-separated list (maximum length 1024) of strings. List items represent
+			 * possible radio channels for the wireless standard (a, b, g, n) and the
+			 * regulatory domain. Ranges in the form "n-m" are permitted. For example, for
+			 * 802.11b and North America, would be "1-11". Not supported yet.
+			 */
+			read-only string PossibleChannels;
+
+			/**
+			 * Comma-separated list (maximum length 1024) of strings. List items represent
+			 * channels that the radio determines to be currently in use (including any that
+			 * it is using itself). Ranges in the form "n-m" are permitted.
+			 */
+			read-only string ChannelsInUse;
+
+			/**
+			 * The current radio channel used by the connection. To request automatic channel
+			 * selection, set AutoChannelEnable to true. Whenever AutoChannelEnable is true,
+			 * the value of the Channel parameter is the channel selected by the automatic
+			 * channel selection procedure. Note: Valid Channel values depend on the
+			 * OperatingFrequencyBand and RegulatoryDomain values specified.
+			 */
+			persistent uint32 Channel {
+				constraint range [0, 255];
+				default 0;
+			}
+
+			/**
+			 * Indicates whether automatic channel selection is supported by this radio. If
+			 * false, then AutoChannelEnable MUST be false.
+			 */
+			read-only bool AutoChannelSupported;
+
+			/**
+			 * Enable or disable automatic channel selection. Set to false to disable the
+			 * automatic channel selection procedure, in which case the currently selected
+			 * channel remains selected. Set to true to enable the automatic channel selection
+			 * procedure. This procedure MUST automatically select the channel, and MAY also
+			 * change it subsequently. AutoChannelEnable MUST automatically change to false
+			 * whenever the channel is manually selected, i.e. whenever the Channel parameter
+			 * is written. Whenever AutoChannelEnable is true, the value of the Channel
+			 * parameter MUST be the channel selected by the automatic channel selection
+			 * procedure.
+			 */
+			persistent bool AutoChannelEnable;
+
+			/**
+			 * The time period in seconds between two consecutive automatic channel
+			 * selections. A value of 0 means that the automatic channel selection is done
+			 * only at boot time. This parameter is significant only if AutoChannelEnable is
+			 * set to true.
+			 */
+			persistent uint32 AutoChannelRefreshPeriod;
+
+			/**
+			 * Indicates whether automatic channel selection is running currently.
+			 */
+			read-only bool AutoChannelSelecting;
+
+			/**
+			* Indicates a bit pattern of the current of active transmit/receive
+			* antennas. The value MUST be in range of supported driver. Based on 2th wave
+			* of 11AC targets the MAX is set on 8 Antennas == 255. The PLUGIN default is -1
+			* and will be translated by driver default.
+			*/
+			persistent int32 ActiveAntennaCtrl {
+				constraint range [-1,255];
+				default -1;
+			}
+
+			/**
+			 * The channel bandwidth (applicable to 802.11n specifications only).
+			 */
+			persistent string OperatingChannelBandwidth {
+				constraint enum ["20MHz", "40MHz", "Auto"];
+				default "Auto";
+			}
+
+			/**
+			 * The secondary extension channel position, applicable when operating in wide
+			 * channel mode (i.e. when OperatingChannelBandwidth is set to 40MHz or Auto).
+			 */
+			persistent string ExtensionChannel {
+				constraint enum ["AboveControlChannel", "BelowControlChannel", "Auto"];
+				default "Auto";
+			}
+
+			/**
+			 * The guard interval value between OFDM symbols (applicable to 802.11n
+			 * specifications only).
+			 */
+			persistent string GuardInterval {
+				constraint enum ["400nsec", "800nsec", "Auto"];
+				default "Auto";
+			}
+
+			/**
+			 * The Modulation Coding Scheme index (applicable to 802.11n specifications only).
+			 * Values from 0 to 15 MUST be supported ([802.11n-2009]). A value of -1 indicates
+			 * automatic selection of the MCS index.
+			 */
+			persistent int32 MCS {
+				constraint range [-1, 31];
+				default -1;
+			}
+
+			/**
+			 * Comma-separated list (maximum length 64) of integers (value -1 to 100). List
+			 * items represent supported transmit power levels as percentage of full power.
+			 * For example, '0,25,50,75,100'. A -1 item indicates auto mode (automatic
+			 * decision by CPE). Auto mode allows the Radio to adjust transmit power
+			 * accordingly. For example, this can be useful for power-save modes such as EU
+			 *-CoC, where the Radio can adjust power according to activity in the CPE.
+			 */
+			read-only string TransmitPowerSupported;
+
+			/**
+			 * Indicates the current transmit power level as a percentage of full power. The
+			 * value MUST be one of the values reported by the TransmitPowerSupported
+			 * parameter. A value of -1 indicates auto mode (automatic decision by CPE).
+			 */
+			persistent int32 TransmitPower {
+				constraint range [-1, 100];
+				default -1;
+			}
+
+			/**
+			 * Indicates whether IEEE 802.11h functionality is supported by this radio. The
+			 * value can be true only if the 802.11a or the 802.11n at 5GHz standard is
+			 * supported (i.e. SupportedFrequencyBands includes 5GHz and SupportedStandards
+			 * includes a and/or n).
+			 */
+			read-only bool IEEE80211hSupported;
+
+			/**
+			 * Indicates whether IEEE 802.11h functionality is enabled on this radio. The
+			 * value can be true only if the 802.11a or the 802.11n at 5GHz standard is
+			 * supported and enabled (i.e. OperatingFrequencyBand is 5GHz and
+			 * OperatingStandards includes a and/or n). 
+			 */
+			persistent bool IEEE80211hEnabled;
+
+			/**
+			 * The 802.11d Regulatory Domain. First two octets are two-character country code.
+			 * The third octet is either ' ' (space) (all environments), 'O' (outside) or
+			 * 'I' (inside). Possible patterns: [A-Z][A-Z][ OI]
+			 */
+			persistent string RegulatoryDomain = "FR";
+
+			/** <p>Indicates if implicit beam forming is supported by this
+			 * hardware. This feature is also known as 'AnyBeam' on
+			 * Broadcom hardware.</p>
+			 */
+			read-only bool ImplicitBeamFormingSupported;
+
+			/** <p>Indicates if implicit beam forming is enabled on this
+			 * radio. </p>
+			 */
+			persistent bool ImplicitBeamFormingEnabled {
+				default 1;
+			}
+
+			/** <p> Indicates if explicit beam forming is supported by this
+			 * hardware.</p>
+			 */
+			read-only bool ExplicitBeamFormingSupported;
+
+
+			/** <p> Indicates if explicit beam forming is enabled on this
+			 * radio.</p>
+			 */
+			persistent bool ExplicitBeamFormingEnabled {
+				default 0;
+			}
+
+			/** <p> DFS channel change event counter on this
+			 * radio. </p>
+			 */
+			read-only uint32 DFSChannelChangeEventCounter {
+				default 0;
+			}
+
+			/** <p> DFS channel change timestamp on this
+			 * radio. </p>
+			 */
+			read-only datetime DFSChannelChangeEventTimestamp {
+				default 0;
+			}
+
+			/** <p> Last channel change reason on this
+			 * radio. </p>
+			 * @version 6.1
+			 */
+			read-only string ChannelChangeReason;
+
+			/**
+			 * Rerun automatic channel selection explicitly if it was enabled.
+			 */
+			void startAutoChannelSelection() {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/**
+			 * getSpectrumInfo() returns a list of channels the radio
+			 * supports, along with quality parameters
+			 * @param update Set to true to force a spectrum scan (WARNING:
+			 * this will interfere with the communication on the Radio!)
+			 */
+			void getSpectrumInfo(bool update) {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/** 
+			 * Start a scan for SSID's in the spectrum the radio is configured for
+			 * This function returns immediately, the results must be retrieved manually.
+			 * @version 6.1
+			 */
+			void startScan();
+
+			/** 
+			 * Stop a running scan for SSID's.
+			 * @version 6.1
+			 */
+			void stopScan();
+
+			/** 
+			 * Start a scan for SSID's in the spectrum the radio is configured for.
+			 * This function when the stops.
+			 * @return a list of scanresult_t 
+			 * @version 6.1
+			 */
+			void scan();
+
+			/**
+			 * Return a list scanresult_t describing the accesspoints discovered 
+			 * during the previous scan
+			 * @version 6.1
+			 */
+			void getScanResults(out variant results);
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/wlanradio.odl */

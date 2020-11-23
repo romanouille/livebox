@@ -1,0 +1,24 @@
+{
+  "status": 0,
+  "data": {
+    "lnbList": [
+      {
+        "lnbId": "lnb0",
+        "position": "TOTO",
+        "controlIndex": 1,
+        "cutoffFrequency": "111",
+        "lowfrequency": "11111",
+        "highfrequency": "11119",
+        "polType": "linear"
+      }, {
+        "lnbId": "lnb1",
+        "position": "TITI",
+        "controlIndex": 2,
+        "cutoffFrequency": "222",
+        "lowfrequency": "22221",
+        "highfrequency": "22229",
+        "polType": "linear"
+      }
+    ]
+  }
+}

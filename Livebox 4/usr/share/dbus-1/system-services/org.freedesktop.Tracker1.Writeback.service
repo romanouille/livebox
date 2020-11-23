@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.freedesktop.Tracker1.Writeback
+Exec=/usr/libexec/tracker-writeback
+User=root

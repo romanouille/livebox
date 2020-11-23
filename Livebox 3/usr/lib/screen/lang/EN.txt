@@ -1,0 +1,67 @@
+FIRST BOOT & BOOT OR REBOOT:
+Labels:EN_FR
+boot.reseau.processing:Connecting to Orange Network in... %d mn
+boot.reseau.waiting:One more moment Please
+boot.conn.ok:You are connected to Orange Network
+boot.conn.nok:Connection issue, See installation guide
+boot.conn.login:Credentials issue, See installation guide
+boot.conn.manual:Manual connection, See installation guide
+boot.sync.nok:Synchronisation issue See installation guide
+boot.voip.ok:Your phone line is ready
+boot.voip.nok:Phone issue, See installation guide
+boot.info:To retrieve Wifi info Please press "i"
+boot.bnr.processing:Restore
+boot.bnr.OK:Restart
+boot.bnr.forcecancel:Restore cancelled
+FAILURES:
+Labels:EN_FR
+failure.Internet.login:Connection issue Refill credentials
+failure.Internet.conn:Internet connection issue restart the Livebox
+failure.sync.conn:Synchronization issue Check your cables
+failure.voip.conn:Telephone issue Restart the livebox
+failure.network:Network issue use Ma Livebox
+BUTTONS:
+Labels:EN_FR
+info.internet.ok:%s %s
+info.internet.nok:No connection to Orange Network
+info.wifi.on:WiFi activated %s
+info.wifi.key:Key %s
+info.wifi.off:WiFi deactivated
+info.wifi.24G.on:WiFi 2.4GHz OK %s
+info.wifi.24G.key:Key %s
+info.wifi.24G.off:WiFi 2.4GHz deactivated
+info.wifi.5G.on:WiFi 5GHz OK %s
+info.wifi.5G.key:Key %s
+info.wifi.5G.off:WiFi 5GHz deactivated
+info.voip.ok:Phone OK %s
+info.voip.nok:Phone unavailable
+FIRMWARE UPGRADE:
+Labels:EN_FR
+firmware.upgrade.ongoing:Upgrade ongoing don't switch off the box
+firmware.upgrade.OK:Update is complete
+DECT and WPS pairing:
+Labels:EN_FR
+pairing.processing:Pairing in progress
+pairing.DECT.OK:HD handset connected
+pairing.WPS.OK:Equipment connected to WiFi
+pairing.timeout:No device detected !
+pairing.DECT.NOK.erreur:Failure pairing DECT equipement
+pairing.WPS.NOK.erreur:Failure pairing WiFi equipement
+pairing.DECT.NOK.max:Connected HD phones number limit exceeded
+USB detection:
+Labels:EN_FR
+detection.USB.processing:USB device detected
+detection.USB.OK:USB device available
+detection.USB.NOK:Unknown USB device
+detection.USB.readyToBeEjected:You can unplug your USB equipment
+detection.USB.ejected:USB equipement unplugged
+scheduler.override:WiFi range activated by the scheduler
+RESET PASSWORD:
+Labels:EN_FR
+resetpassword.codePIN:PIN Code: %s
+RESET LIVEBOX:
+Labels:EN_FR
+reset.start:Maintain %d s
+reset.count.OK:Release reset button
+reset.ongoing:Reset ongoing the Livebox will restart
+reset.cancel:Reset canceled

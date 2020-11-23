@@ -1,0 +1,37 @@
+using "ippingdiagnostics.so";
+object IPPingDiagnostics {
+string Interface {
+constraint maxvalue 256;
+}
+string Host {
+constraint maxvalue 256;
+}
+uint32 NumberOfRepetitions {
+constraint minvalue 1;
+default 1;
+}
+uint32 Timeout {
+constraint minvalue 1;
+default 1;
+}
+uint32 DataBlockSize {
+constraint range [1,65535];
+default 1;
+}
+uint32 DSCP {
+constraint range [0,63];
+default 0;
+}
+read-only uint32 SuccessCount;
+read-only uint32 FailureCount;
+read-only uint32 AverageResponseTime;
+read-only uint32 MinimumResponseTime;
+read-only uint32 MaximumResponseTime;
+void execDiagnostic(string ipHost, string interface, uint32 numberOfRepetitions, uint32 dataBlockSize, uint32 timeout, uint32 dscp);
+void stopDiagnostic();
+string DiagnosticsState {
+constraint enum ["None","Requested","Complete","Error_CannotResolveHostName","Error_Internal","Error_Other"];
+default "None";
+write with start_diagnostic;
+}
+}

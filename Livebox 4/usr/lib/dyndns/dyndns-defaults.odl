@@ -1,0 +1,53 @@
+
+datamodel {
+    object DynDNS {
+        instance of Service(1, "dyndns") {
+            parameter Name = "dyndns";
+            parameter Server = "members.dyndns.org";
+            parameter ServerPort = 80;
+            parameter Request = "/nic/update";
+            parameter UpdateInterval = 2097120;
+            parameter RetryInterval = 30;
+            parameter MaxRetries = 3;
+        }
+        instance of Service(2, "No-IP") {
+            parameter Name = "No-IP";
+            parameter Server = "dynupdate.no-ip.com";
+            parameter ServerPort = 80;
+            parameter Request = "/nic/update";
+            parameter UpdateInterval = 86400;
+            parameter RetryInterval = 30;
+            parameter MaxRetries = 3;
+        }
+        instance of Service(3, "DtDNS") {
+            parameter Name = "DtDNS";
+            parameter Server = "www.dtdns.com";
+            parameter ServerPort = 80;
+            parameter Request = "/api/autodns.cfm";
+            parameter UpdateInterval = 86400;
+            parameter RetryInterval = 30;
+            parameter MaxRetries = 3;
+        }
+        instance of Service(4, "ChangeIP") {
+            parameter Name = "ChangeIP";
+            parameter Server = "nic.ChangeIP.com";
+            parameter ServerPort = 80;
+            parameter Request = "/nic/update";
+            parameter UpdateInterval = 86400;
+            parameter RetryInterval = 30;
+            parameter MaxRetries = 3;
+        }
+        instance of Service(5, "DNSdynamic") {
+            parameter Name = "DNSdynamic";
+            parameter Server = "www.dnsdynamic.org";
+            parameter ServerPort = 80;
+            parameter Request = "/api/";
+            parameter UpdateInterval = 86400;
+            parameter RetryInterval = 30;
+            parameter MaxRetries = 3;
+        }
+    }
+}
+
+
+/** @location sah_services_dyndns /dyndns-defaults.odl */

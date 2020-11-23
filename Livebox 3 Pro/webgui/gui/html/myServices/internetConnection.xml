@@ -1,0 +1,75 @@
+<div id="internetConnection" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">	 	 
+		   <div id="helpPage">
+				<a  id="help" href="javascript:;">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			<h1 class="logo_internet " i18n="menuServices.internet"/>
+			<div class="margin-left-40 margin-top-m8">
+				<strong  i18n="page.myServices.internet.subtitle"/>
+			</div>
+	</div>
+	<div class="maindiv">
+		<form action="#">
+		<div class="boxType4 border-bottom-1">
+			<span class="h3Text" i18n="common.status"/>
+			<div widgetType="FormInput" i18n="page.myServices.internet.status.connection">
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus" i18nPrefix="data.linkstatus"/>
+				</span>
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED'}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span i18n="page.myServices.internet.status.uptimeformatlabel" class="okStatus"/>
+					&#160;
+					<span id="PPPUptime" widgetType="Duration" i18nPrefix="page.myServices.internet.status.uptimeformat" class="okStatus" dataId="Device/Networks/WAN[@name='WAN']/PPP/UpTime"/>
+				</span>
+				<br/>
+				<span class="error" id="additionalPPPinfo" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus" i18nPrefix="data.linkstatusAdditionalInfo"/>
+			</div>
+
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnReboot"  widgetType="ButtonImage" i18n="page.myServices.internet.status.reboot"/>
+			</div>
+		</div>
+		<div class="boxType5 border-bottom-1">
+			<span class="h3Text" i18n="page.myServices.internet.connectiontype"/>
+			<br/>
+			<div widgetType="FormInput" >
+				<span id="radioDSL" widgetType="EnumInput" widgetArg="'radio'" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable" enumerated="['ENABLE','DISABLE']" i18nPrefix="data.connectiontype"/>
+			</div>
+
+			<div id="FTTHval" style="display:none" widgetType="FormInput">
+				<input type="text" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable"/>
+			</div>
+		</div>
+		<div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.myServices.internet.ident"/>
+
+			<div widgetType="FormInput" i18n="page.myServices.internet.ident.login">
+					fti/<input class='w210px' id="visibleUsername" type="text" required="true" minlength="4" maxlength="64"/>
+					<input  id="internalUsername" type="text" dataId="Device/Networks/WAN[@name='WAN']/PPP/Username" style="display: none" required="true" minlength="4" maxlength="64"/>
+			</div>
+
+			<div widgetType="FormInput" i18n="page.myServices.internet.ident.password">
+				&#160;&#160;&#160;&#160;<span id="password" dataId="fake" widgetType="Password" widgetArg="{char: '•', period: 2000}" i18n="page.myServices.internet.ident.password" required="true" maxlength="29"/>
+<!-- 				<input id="password" type="password"  i18n="page.myServices.internet.ident.password"  maxlength="29"/> -->
+			</div>
+		</div>
+
+			<!-- non affiché pour la France
+			<div widgetType="Collapsible" widgetArg="false" i18n="common.moreparams">
+				<h3><span i18n="page.myServices.internet.protocol"/></h3>
+				<div widgetType="FormInput" i18n="page.myServices.internet.protocol">
+					<span widgetType="EnumInput" widgetArg="'select'"
+					dataId="gateway/networks/WAN[@name='WAN']/PPP/type" i18nPrefix="data.ppptype"/>
+				</div>
+			</div>
+			-->
+
+			<div widgetType="ButtonContainer" class="right">
+				<span id="cancelButton" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+			</div>
+		</form>
+	</div>
+</div>

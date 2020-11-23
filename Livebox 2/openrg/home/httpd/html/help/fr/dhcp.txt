@@ -1,0 +1,19 @@
+<b>Serveur DHCP :</b><br>
+<br>
+Vous pouvez utiliser le routeur en tant que serveur DHCP de votre réseau. Un serveur DHCP permet d'attribuer automatiquement une adresse IP à chaque ordinateur de votre réseau.<br>
+<span class="boldorange">Adresse IP LAN :</span><br>
+Déterminer l’adresse IP de la livebox et l’adresse qui sera utilisée pour votre réseau domestique. Par défaut, cette adresse est : 192.168.1.1.<br>
+<span class="boldorange">Masque de sous-réseau :</span><br>
+Le masque de sous-réseau permet d’identifier un sous réseau. Ici celui de votre réseau domestique.<br>
+<span class="boldorange">Début de la plage DHCP :</span><br>
+Saisissez une valeur de début pour la publication d'adresses IP sur le serveur DHCP.<br>
+<span class="boldorange">Fin de la plage DHCP :</span><br>
+Déterminez le nombre maximal d'utilisateurs DHCP. Saisissez le nombre maximal d'ordinateurs auxquels le serveur DHCP doit attribuer des adresses IP. Ce nombre ne peut être supérieur à 253.<br>
+<br>
+<span class="boldorange">Adresses IP statiques:</span><br>
+Vous pouvez réserver une adresse IP de votre réseau domestique à un de vos périphériques. Ainsi, ce périphérique aura systématiquement la même adresse IP sur votre réseau. Cette fonctionnalité est utile puisqu’elle vous permet de définir des règles NAT/PAT facilement pour cette machine.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

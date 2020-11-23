@@ -1,0 +1,45 @@
+/*expr:nemo and vap*/
+
+/**
+ * MIB is loaded on all devices representing a wifi interface of the HGW.
+ *
+ * All devices matching expression: "nemo and vap" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib wifiNemo {
+    /**
+     * Service Set Identifier of the wifi interface
+     *
+     * Wireless devices can connect to this SSID.
+     *
+     * @version 6.0
+     */
+    read-only string SSID;
+    /**
+     * Basic Service Set identification of the wifi interface
+     *
+     * @version 6.0
+     */
+    read-only string BSSID;
+    /**
+     * Operating frequency band of the wifi interface
+     *
+     * @version 6.0
+     */
+    read-only string OperatingFrequencyBand;
+    /**
+     * Operating standard of the wifi interface
+     *
+     * @version 6.1
+     */
+    read-only string OperatingStandards;
+    /**
+     * Operating channel of the wifi interface
+     *
+     * @version 6.1
+     */
+    read-only uint32 Channel;
+}
+
+/** @location sah_services_gmap /mibs/wifiNemo.odl */

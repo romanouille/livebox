@@ -1,0 +1,80 @@
+[
+  {
+    "expression"    : "!self and mac and (.PhysAddress matches \"^00:10:18:([0-9A-F]{2}:){2}([0-9A-F]{2})$\")",
+    "start_actions" : {
+                        "set_tags":"info",
+                        "set_parameters": {
+                                             "Manufacturer":"broadcom corporation",
+                                             "ManufacturerUrl":"http://www.broadcom.com/",
+                                             "ManufacturerSupport":""
+                                          }
+                      }
+  },
+  {
+    "expression"    : "!self and mac and (.PhysAddress matches \"^00:1E:32:([0-9A-F]{2}:){2}([0-9A-F]{2})$\")",
+    "start_actions" : {
+                        "set_tags":"zwave controller"
+                      }
+  },
+  {
+    "expression"    : "!self and mac and (.PhysAddress matches \"^00:(00:F0|07:AB|12:47|13:77|15:99|15:B9|16:32|16:DB|17:C9|17:D5|18:AF|1A:8A|1B:98|1C:43|1D:25|1D:26|1E:7D|1E:E1|1E:E2|1F:CC|21:D1|21:D2|23:99|23:C2|23:D6|24:54|24:90|25:66|26:5F|73:E0|E3:B2|):|04:(18:0F|1B:BA|FE:31):|08:(37:3D|FC:88|FD:0E):|0C:(14:20|71:5D|89:10|DF:A4):|10:(1D:C0|3B:59|77:B1|D5:42):|14:49:E0:|18:(1E:B0|26:66|3F:47|67:B0|83:31):|1C:(62:B8|AF:05):|20:(13:E0|D3:90|D5:BF):|24:(C6:96|DB:ED|F5:AA):|28:(98:7B|BA:B5|CC:01|44:01):|30:(19:66|D6:C9):([0-9A-F]{2}:){2}([0-9A-F]{2})$\")",
+    "start_actions" : {
+                        "set_tags":"info",
+                        "set_parameters": {
+                                             "Manufacturer":"Samsung Electronics Co.,Ltd",
+                                             "ManufacturerUrl":"http://www.samsung.com/be/#latest-home",
+                                             "ManufacturerSupport":"http://www.samsung.com/be/support/main/supportMain.do"
+                                          }
+                      }
+  },
+  {
+    "expression"    : "!self and mac and (.PhysAddress matches \"^00:(0A:D9|0E:07|0F:DE|12:EE|16:20|19:63|1B:59|1D:28|1E:45):|30:(17:C8|39:26):|40:2B:A1:|58:17:0C:|5C:B5:24:|6C:(0E:0D|23:B9):|84:00:D2:|8C:64:22:|90:C1:15:|B8:F9:34:([0-9A-F]{2}:){2}([0-9A-F]{2})$\")",
+    "start_actions" : {
+                        "set_tags":"info",
+                        "set_parameters": {
+                                             "Manufacturer":"Sony Ericsson Mobile Communications AB",
+                                             "ManufacturerUrl":"http://www.sonymobile.com/us",
+                                             "ManufacturerSupport":"http://www.sonymobile.com/us/support/"
+                                          }
+                      }
+  },
+  {
+    "expression"    : "!self and mac and (.PhysAddress matches \"^00:(09:2D|23:76|EE:BD):|18:87:96:|1C:B0:94:|38:E7:D8:|50:2E:5C:|64:A7:69:|7C:61:93:|84:7A:88:|90:21:55:|98:0D:2E:|A0:F4:50:|A8:26:D9:|BC:CD:CC:|D4:20:6D:|D8:B3:77:|E8:99:C4:|F8:DB:7F:([0-9A-F]{2}:){2}([0-9A-F]{2})$\")",
+    "start_actions" : {
+                        "set_tags":"info",
+                        "set_parameters": {
+                                             "Manufacturer":"HTC Corporation",
+                                             "ManufacturerUrl":"http://www.htc.com/us/",
+                                             "ManufacturerSupport":"http://www.htc.com/us/support/"
+                                          }
+                      }
+  },
+  {
+    "expression"    : "lan and !(self or logical) and dhcp and .VendorClassID matches \".*5\\.2\\.10\" and .Names.*.Name matches \".*[aA]ndroid.*\"",
+    "start_actions" : {
+                        "set_tags":"info",
+                        "set_parameters": {
+                                             "OS":"Android",
+                                             "OSVersion":"4.X"
+                                          },
+                        "set_name": {
+                                       "Name":"Mobile-${i}",
+                                       "Source":"user"
+                                    }
+                      }
+  },
+  {
+    "expression"    : "lan and !(self or logical) and .VendorClassID matches \".*4\\.0\\.15\" and .Names.*.Name matches \".*[aA]ndroid.*\"",
+    "start_actions" : {
+                        "set_tags":"info",
+                        "set_parameters": {
+                                             "OS":"Android",
+                                             "OSVersion":"2.3"
+                                         },
+                        "set_name": {
+                                      "Name":"Mobile-${i}",
+                                      "Source":"user"
+                                    }
+                      }
+  }
+]

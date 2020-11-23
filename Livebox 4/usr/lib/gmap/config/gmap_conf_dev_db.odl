@@ -1,0 +1,13 @@
+
+datamodel {
+    object Devices {
+        object Config {
+            acl {
+                world none;
+            }
+            object dev_db {
+                parameter Files="/usr/lib/gmap/db/notifications.grules,/usr/lib/gmap/db/device_types.grules,/usr/lib/gmap/db/orange_stb.grules,/usr/lib/gmap/db/pki-dongle.grules,/usr/lib/gmap/db/orange_devices.grules";
+            }
+        }
+    }
+}

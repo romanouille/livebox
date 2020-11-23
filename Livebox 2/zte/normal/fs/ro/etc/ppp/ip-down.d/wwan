@@ -1,0 +1,16 @@
+#!/bin/sh
+
+INTERFACE=$1
+OUR_IP=$4
+
+if [ "$6" == "WWAN" ]
+then
+	logger -t wwan "ip-down called with INTERFACE=$INTERFACE"
+
+	pcb_cli \
+		"NeMo.Intf.wwan.Status=0" \
+		"NeMo.Intf.wwan.ConnectionStatus=\"Disconnected\"" \
+		"NeMo.Intf.wwan.DNSServers=" \
+		"NeMo.Intf.wwan.LocalIPAddress=" \
+		"NeMo.Intf.$INTERFACE-"
+fi

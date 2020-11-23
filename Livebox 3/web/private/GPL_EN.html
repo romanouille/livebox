@@ -1,0 +1,45 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                <meta name="viewport" content="width=1085" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <title>Livebox</title>
+		<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?v=bdbae052"/>
+		<link rel="shortcut icon" href="/images/fr/common/favicon.ico?v=bdbae052"/>
+                <link href="/styles.css?v=bdbae052" rel="stylesheet" type="text/css"/>
+		<script src="/scripts.js?v=bdbae052" type="text/javascript" charset="utf-8"></script>
+		<script language="javascript">
+			function Read(){
+// 				file = fopen(getScriptPath("/GPL_EN.txt"), 0);
+// 				file_length = flength(file);
+// 				content = fread(file, file_length);
+// 				$('info').innerHTML = content;
+
+				if (window.XMLHttpRequest)
+				{// code for IE7+, Firefox, Chrome, Opera, Safari
+				    xmlhttp=new XMLHttpRequest();
+				}
+				else
+				{// code for IE6, IE5
+				    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.open("GET","/GPL_EN.txt",false);
+				xmlhttp.send(null);
+				content = xmlhttp.responseText.replace(/\n/g, "<br/>");
+				var div = $('info');
+				div.innerHTML = "";
+				div.innerHTML = content;
+
+			}
+		</script>
+	</head>
+	<body onLoad="Read()">
+		<div id="info" style="margin-left:10px; margin-right:10px"></div>
+	</body>
+</html>

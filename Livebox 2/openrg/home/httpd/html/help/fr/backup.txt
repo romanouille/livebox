@@ -1,0 +1,10 @@
+<b>Assistance :</b><br>
+<br>
+<span class="boldorange">Sauvegarder :</span> vous pouvez enregistrer votre configuration actuelle pour pouvoir réinitialiser votre livebox en configuration usine en cas de besoin. Pour enregistrer la configuration actuelle de votre livebox, cliquez sur le bouton <b>Sauvegarder</b>.<br>
+<br>
+<span class="boldorange">Restaurer :</span> Cliquez sur le bouton <b>Parcourir</b> pour rechercher un fichier de configuration enregistré sur votre ordinateur. Cliquez ensuite sur le bouton <b>Restaurer</b> pour remplacer la configuration actuelle de votre livebox par celle du fichier de configuration.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

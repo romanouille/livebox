@@ -1,0 +1,222 @@
+
+
+using "torrent_plugin.so";
+
+persistent object Torrent {
+	acl {
+		world read,write,execute;
+	}
+	persistent object Tracker {
+
+/** 
+  * @brief
+  * Enable or disable the tracker
+  * @version V6.1
+  */
+		persistent bool Enable {
+			default true;
+		}
+
+/** 
+  * @brief
+  * Define one or more addresses to listen on
+  * @version V6.1
+  */
+		persistent object Listen[4] {
+
+/** 
+  * @brief
+  * Define an IPv4 or IPv6 addresses to listen on
+  * @version V6.1
+  */
+			persistent string IPAddress;
+
+/** 
+  * @brief
+  * Define an specific port where opentracker should listen on.
+  * @version V6.1
+  */
+			persistent uint16 Port;
+
+/** 
+  * @brief
+  * Define an specific protocl where opentracker should listen on. use 6 for TCP, 17 for UDP
+  * @version V6.1
+  */
+			persistent uint16 Protocol {
+				default 6;
+			}
+		}
+
+/** 
+  * @brief
+  * Define a torrent the tracker should announce
+  * @version V6.1
+  */
+		persistent object Torrent[] {
+
+
+/** 
+  * @brief
+  * Define the torrent file name
+  * @version V6.1
+  */
+			persistent string Filename;
+
+/** 
+  * @brief
+  * Define the torrent hash key, this will be used to put in the whitelist file.
+  * @version V6.1
+  */
+			persistent string Hash;
+		}
+
+	}
+
+/** 
+  * @brief
+  * Define the torrent client configuration
+  * @version V6.1
+  */
+	persistent object Client {
+
+/** 
+  * @brief
+  * Enable or disable the bittorrent client
+  * @version V6.1
+  */
+		persistent bool Enable {
+			default true;
+		}
+
+/** 
+  * @brief
+  * Configure the default download directory, this value will be overwritten by specific torrent downloads. 
+  * @version V6.1
+  */
+		persistent string DownloadDir {
+			default "/tmp/bt";
+		}
+
+/** 
+  * @brief
+  * Configure the http directory where to put the locally generated torrent files in 
+  * @version V6.1
+  */
+		persistent string TorrentsHTTPDir {
+			default "/web/private/torrents";
+		}
+
+/** 
+  * @brief
+  * Configure the torrent file to be published, both local generated or remote torrent files should be included here.
+  * @version V6.1
+  */
+		persistent object Torrent[] {
+
+/** 
+  * @brief
+  * Configure the torrent file name
+  * @version V6.1
+  */
+			persistent string Filename;
+
+/** 
+  * @brief
+  * Display the hash of the torrent
+  * @version V6.1
+  */
+			persistent string Hash;
+
+/** 
+  * @brief
+  * Display the status of the torrent
+  * @version V6.1
+  */
+			string Status {
+				constraint enum[paused,downloading,seeding,error];
+				default "paused";
+			}
+		}
+
+	}
+/**
+ * @brief
+ * start the torrent,
+ * -> configure opentracker.
+ * -> configure bittorrent client.
+ * @return void
+ * @version V6.1
+ */
+	void downloadTorrent(mandatory string filename);
+
+
+/**
+ * @brief
+ * add the torrent,
+ * -> configure opentracker.
+ * -> configure bittorrent client.
+ * @return int32
+ * @version V6.1
+ */
+	int32 addTorrent(mandatory in string filename, out string hash);
+
+/**
+ * @brief
+ * start the torrent,in the bittorrent client
+ * @return int32
+ * @version V6.1
+ */
+    int32 startTorrent(mandatory in string hash);
+
+/**
+ * @brief
+ * stop the torrent,in the bittorrent client
+ * @return int32
+ * @version V6.1
+ */
+    int32 stopTorrent(mandatory in string hash);
+/**
+ * @brief
+ * stop the torrent,in the bittorrent client
+ * @return int32
+ * @version V6.1
+ */
+    int32 deleteTorrent(mandatory in string hash);
+
+/**
+ * @brief
+ * get progress for the torrent
+ * @parameter hash unique id for a torrent
+ * @parameter mode set the exhaustivity of information to retrieve
+ * @return int32
+ * @version V6.1
+ */
+    int32 getProgressTorrent(mandatory in string hash, mandatory in bool mode);
+
+/** 
+  * @brief
+  * Add a new Listening interface configuration to the tracker. 
+  * @parameter key unique name of the listening configuration
+  * @parameter ipaddress ipv4, ipv6 address to listen on.
+  * @parameter port port to listen on.
+  * @parameter protocol protocl to listen on
+  * @error "invalid parameter" if one of key, ipaddress parameter is NULL or an empty string, "max instances reached" if the torrent could not be added.
+  * @return void
+  * @version V6.1
+  */
+        void addInterface(mandatory string key, mandatory string ipaddress, uint16 port, uint16 protocol);
+
+/** 
+  * @brief
+  * Delete an existing listening interface configuration. 
+  * @parameter key of the listening configuration.
+  * @error "invalid parameter" if the key instance does not exists.
+  * @return void
+  * @version V6.1
+  */
+        void deleteInterface(mandatory string key);
+}
+
+
+/** @location sah_services_torrent /torrent-definitions.odl.m4 */

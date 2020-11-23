@@ -1,0 +1,44 @@
+using "../nmccore_voice.so";
+define voip_config_t {
+string name;           
+string enable;         
+string protocol;       
+string encapsulation;  
+string interfaceId;    
+string interface;      
+string physInterface;  
+}
+persistent object NMC {
+persistent bool PSTNEnable {
+default true;
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool CallInProgress {
+default false;
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+string LastVoIPError {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+persistent bool VoIPWelcomeMessage {
+default false;
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+list getVoIPConfig();
+}

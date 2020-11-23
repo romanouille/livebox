@@ -1,0 +1,18 @@
+﻿<div class="txtandfield-container">
+  <div class="searchfield-input">
+    {{#if label}}
+      <label for="{{#if id}}{{id}}{{/if}}">{{{label}}}</label> : 
+    {{/if}}
+  <div class="searchfield_magnifier" {{#if id}}id="{{id}}_searchfield_magnifier"{{/if}}></div>
+  <input {{#if id}}id="{{id}}" {{/if}} type="text" value="{{value}}"
+  {{#if data-translation}}
+    class="Translation txtandfield-field" data-translation="{{data-translation}}" 
+  {{else}}
+    class="txtandfield-field" 
+  {{/if}}
+  {{#if data-translation-target}}
+    data-translation-target="{{data-translation-target}}" 
+  {{/if}}
+  ></div>
+  <div class="searchfield-cancel" {{#if id}}id="{{id}}_searchfield_cancel"{{/if}}></div>  
+</div>

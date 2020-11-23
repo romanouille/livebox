@@ -1,0 +1,27 @@
+html, body {
+	background-color: #FFFFFF;
+	margin: 0px;
+	text-align: left;
+}
+
+img {
+	border: 0px;
+}
+
+* { 
+	font-family: Verdana, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #000000;
+}
+
+b {
+	font-weight: bold;
+}
+
+u {
+	text-decoration: underline;
+}
+

@@ -1,0 +1,2102 @@
+/*
+ * Copyright (c) 2011 SoftAtHome
+ *
+ * The information and source code contained herein is the exclusive
+ * property of SoftAtHome and may not be disclosed, examined, or
+ * reproduced in whole or in part without explicit written authorization
+ * of the copyright owner.
+ *
+ */
+
+using "vendor.so";
+
+acl {
+	group cwmpd read,write,execute;
+}
+
+/**
+   WIFI object is generated plugin based to tr181-Issue2 spec.
+   On some places we've add extra config parameters (extra data 
+   fields for driver or GUI). This WIFI object provides global 
+   access to the WiFi driver and is split in 4 separate objects. 
+   \n<B>RADIO</B>
+   \n<B>AccessPoint</B> 
+   \n<B>SSID</B> 
+   \n<B>EndPoint</B> 
+*/
+persistent object "$(WIFIROOT)" {
+	/*
+	   Log the number of separate objects RADIO is build of. 
+	   Keeping track of RADIO/SSID/ACCESSPOINT/ENDPOINT entries. 
+	   The function GetNrOfEntries will count the NrOfEntries created. 
+	*/
+	/**
+	 * Counter for number of RADIO entries 
+	 * field updated by  GetNrOfEntries
+	 */
+	read-only uint32 RadioNumberOfEntries{
+		read with getNrOfEntries;
+	}
+	/**
+	 * Counter for number of SSID entries 
+	 * field updated by  GetNrOfEntries
+	 */
+	read-only uint32 SSIDNumberOfEntries{
+		read with getNrOfEntries;
+	}
+	/**
+	 * Counter for number of AccessPoint entries
+	 * field updated by GetNrOfEntries
+	 */
+	read-only uint32 AccessPointNumberOfEntries{
+		read with getNrOfEntries;
+	}
+	/**
+	 * Counter for number of EndPoints entries 
+	 * field updated by  GetNrOfEntries
+	 */
+	read-only uint32 EndPointNumberOfEntries{
+		read with getNrOfEntries;
+	}
+
+	/* Functions - used in NeMo for creating and deleting VAP interfaces (USE WITH CARE) */
+
+	/**
+	 * Creates a VAP interface on the RADIO and updates the 
+	 * AccessPoint and SSID object fields. 
+	 * @param vap Name of the VAP interface that will be created 
+	 *        (wl0,wl1,...)
+	 * @param radio Name of the RADIO interface that derrives the 
+	 *        vap interface. (wifi0, wifi1,...)
+	 * @return Success if &gt;=0, the value represents the
+	 *         NETFINDEX. When 0 it's representing an error number.
+	 */
+	uint32 addVAPIntf(string vap, string radio); /* use WIFI_addVAPIntf */
+	/**
+	 * Delete a VAP interface from the physical radio interface. 
+	 * Update also AccessPoint and SSID object fields. Before this 
+	 * can be done, the (deleted) interface must be down. You don't 
+	 * need to know which Radio object it's attached. 
+	 * @param vap Name of the VAP interface that will be removed 
+	 *        from the system.
+	 * @return If &lt;0 it's representing an error. 
+	 * &gt;=0 is success. 
+	 */
+	uint32 delVAPIntf(string vap);               /* use WIFI_delVAPIntf */
+	
+	/**
+	 * Creates an EndPoint interface on the RADIO and updates the 
+	 * EndPoint and SSID object fields. 
+	 * @param radio Name of the RADIO interface that derrives the 
+	 *        endpoint interface. (wifi0, wifi1,...)
+	 * @param endpoint Name of the EndPoint interface that will be created 
+	 *        (wl0,wl1,...)
+	 * @return Success if &gt;=0, the value represents the
+	 *         NETFINDEX. When 0 it's representing an error number.
+	 */
+	uint32 addEndPointIntf(string radio, string endpoint);
+	/**
+	 * Delete an EndPoint interface from the physical radio interface. 
+	 * Update also EndPoint and SSID object fields. Before this 
+	 * can be done, the (deleted) interface must be down. You don't 
+	 * need to know which Radio object it's attached. 
+	 * @param endpoint Name of the EndPoint interface that will be removed 
+	 *        from the system.
+	 * @return If &lt;0 it's representing an error. 
+	 * &gt;=0 is success. 
+	 */
+	uint32 delEndPointIntf(string endpoint);
+
+
+	/**
+	 * <b>For debug use only... VALUES ARE BIT OFFSETS (1 &lt;&lt;
+	 * bitnr). List of current 'bitnr':</b>
+	 * <li>00 - Disable the VAP interface</li> 
+	 * <li>01 - Get IWList info? - Not needed!</li>  
+	 * <li>02 - Get IWPriv info? - Not needed!</li>  
+	 * <li>03 - Get IWConfig info? - Not needed!</li>  
+	 * <li>04 - Get current VAP SSID from driver</li>  
+	 * <li>05 - Current WPS state (if WPS enabled)</li>  
+	 * <li>06 - Set SSID (also hide SSID)</li>  
+	 * <li>07 - Stops HostAPD</li>  
+	 * <li>08 - Set AutoChannel (BCM does it differently)</li>  
+	 * <li>09 - Set a FIX Channel</li>  
+	 * <li>10 - Set the security mode (WEP/WPA(2)/Mixed)</li>  
+	 * <li>11 - Set WPS mode (PBC/Client/Self-Pin)</li>  
+	 * <li>12 - Set a IWPriv command? - Not Needed!</li>  
+	 * <li>13 - Change the security key (WEP/WPA(2)/Mixed)</li>  
+	 * <li>14 - Change WMM parameters</li>  
+	 * <li>15 - Set a different BAND (also Channel related)</li>  
+	 * <li>16 - Reconfigure HostAPD parameters</li>  
+	 * <li>17 - Start HostAPD (This needs also a HostAPD_STOP)</li> 
+	 * <li>18 - Reconfigure HostAPD</li>  
+	 * <li>19 - Set VAP interface inline with enable state</li>  
+	 * <li>20 - Get the Channel</li>  
+	 * <li>21 - Trigger WPS button</li>  
+	 */
+	uint32 FSM_Start(string vap, uint32 bitnr);  /* use WIFI_FSM_Start (DEBUG) */
+
+	/** 
+	 *  <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+	 *  Enable/Disable a VAP interface
+	 *  @param vap Name of the VAP interface that will updated. Required input field.
+	 *  @param state 1 or 0, active or disable state. Use -1 for getting the current state.
+	 *  The other states: Unknown, Dormant, NotPresent, LowerLayerDown or Error 
+	 *  can't be set with this function.
+	 *  @return It will return the current state after the action.
+	 */
+//	bool activateVAPIntf(string vap, bool state);
+
+	/** 
+	 *  <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+	 *  Enable/Disable a Radio interface, note this will disable also the upper VAPs
+	 *  @param radio Name of the Radio interface that will updated. Required input field.
+	 *  @param state 1 or 0, active or disable state. Use -1 for getting the current state.
+	 *  The other states: Unknown, Dormant, NotPresent, LowerLayerDown or Error 
+	 *  can't be set with this function.
+	 *  @return It will return the current state after the action.
+	 */
+//	bool activateRADIOIntf(string radio, bool state);
+
+	/* For the WEB GUI ((Better NOT)) --> GUI guys must talk with (practical) DRIES or Theory (Wouter)!!! */
+	/*
+		NeMo will take care of the configuration, so it's NeMo that will save the config
+		Those functions can be used (debug). But in the future they will be obsolete.
+	*/
+	/**
+	 * <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+	 * Gets data from a registered VAP interface and updates the 
+	 * requested fields with AccessPoint and SSID object data.
+	 * @param vap - Name of the VAP interface that will be read. 
+	 *  	  (wl0,wl1,...) Required input field.
+	 * @param enable after the call this will be updated with the current 'enable' state
+	 * of the vap.
+	 * @param ssid after the call this will be updated with the current 'SSID' name 
+	 * of the VAP. (copied from SSID.&#123;vap&#125; object.
+	 * @param hideSSID after the call this will be updated with the current 
+	 * 'SSIDAdvertisementEnabled' value.
+	 * @param secKey after the call this will be updated with the security key used. 
+	 * Attention, when the secMode is WEP, it will contain the WEP key. 
+	 * When it's WPA(2) it can be the passphrase or TKIP key. 
+	 * It's an empty string when security is set on none.
+	 * @param secMode after the call this will be updated with the selected security mode. 
+	 * (None, WEP-64, WEP-128, WPA-Personal, WPA2-Personal, WPA-WPA2-Personal, WPA-Enterprise,
+	 * WPA2-Enterprise or WPA-WPA2-Enterprise.
+	 * @return Success if &gt;=0!. When &lt;0 it's representing a failure.
+	 */
+//	bool getWebVAPData(string vap, bool enable, string ssid, bool hideSSID, string secKey, string secMode, string encrypMode);
+
+	/**
+	 * <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+	 * Sets data on a registered VAP interface and updates the 
+	 * requested fields in the object AccessPoint and SSID data.
+	 * @param vap - Name of the VAP interface that will be updated. 
+	 *  	  (wl0,wl1,...) Required input field.
+	 * @param enable after the call the active vap will be updated with the requested 'enable' state.
+	 * @param ssid after the call, the vap SSID will be updated with the requested SSID.
+	 * @param hideSSID after the call the SSID will be actively broadcasted or not.
+	 * @param secKey after the call this will be updated with the security key used.
+	 * Attention, this is based on the given secMode value. When this is WEP, 
+	 * it must contain a valid WEP key.  When it's WPA(2) it must contain a passphrase 
+	 * or TKIP key. When 'none' the value isn't taken.
+	 * @param secMode after the call the security mode will be updated. Possible values:. 
+	 * (None, WEP-64, WEP-128, WPA-Personal, WPA2-Personal, WPA-WPA2-Personal, WPA-Enterprise,
+	 * WPA2-Enterprise or WPA-WPA2-Enterprise).
+	 * @return Success if &gt;=0!. When &lt;0 it's representing a failure.
+	 */
+//	bool setWebVAPData(string vap, bool enable, string ssid, bool hideSSID, string secKey, string secMode, string encrypMode);
+
+	/**
+	 * <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+	 * Gets main Radio data
+	 * @param radio Name of the Radio interface that will be read. Needed input field.
+	 * @param After the call this will contain Current 'Enable' state of 
+	 * the selected Radio interface (Up/Down).
+	 * @param selectchannel After the call this will contain the cached channel. 
+	 * In case this is 0 it means Auto Channel selection.
+	 * @param channel After the call this will contain the used channel by the Radio.
+	 * @return Success if &gt;=0!. When &lt;0 it's representing a failure.
+	*/
+//	bool getWebRadioData(string radio, string mode, uint16 selectchannel, uint16 channel);
+
+	/**
+	 * <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+	 * Sets main Radio data
+	 * @param radio Name of the Radio interface that will be read. Needed input field.
+	 * @param mode After the call this will set Current 'Enable' state of 
+	 * the selected Radio interface (Up/Down).
+	 * @param selectchannel After the call this will set the current channel. 
+	 * In case this is 0 it means Auto Channel selection.
+	 * @return Success if &gt;=0!. When &lt;0 it's representing a failure.
+	*/
+//	bool setWebRadioData(string radio, string mode, uint16 selectchannel);
+
+// bool getWebWPSData(string vap, bool enable, string wpsMode, string wpsClientPin, string wpsSelfPin);
+// bool setWebWPSData(string vap, bool enable, string wpsMode, string wpsClientPin);
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+	/**
+	 * Verifies WPS PIN Checksum. Stips out Dash and Whitespace before checking.
+	 * @param StrVal string representing the PIN 
+	 * @return True if PIN OK, False if any error occours
+	 */
+    bool checkWPSPIN(string PIN);
+
+	/**
+	   Global WPS system string parameters (Used in IE of the Beacon
+	   and Response frame). These fields are filled in at startup 
+	   time and taken from the _ENV.&lt; Vendor / software / version
+	   / ...&gt; board settings. 
+	*/
+	object wps_DefParam{         /* Some used driver defines copied on all active WPS intf */
+		/** 8-digit format WPS pin (Self PIN) */
+		string DefaultPin;
+		/** Device name */
+		string DevName;
+		/** Device OUI */ 
+		string OUI;
+		/** Device friendly name */
+		string FriendlyName;
+		/** Manufacture Name  */
+		string Manufacturer;
+		/** Manufacture URL link */
+		string ManufacturerUrl;
+		/** Full model description */
+		string ModelDescription;
+		/** Vendor name  */
+		string ModelName;
+		/** Vendor number */ 
+		string ModelNumber;
+		/** Vendor URL link */
+		string ModelUrl;
+		/** OS version ID (A.B.C.D) */ 
+		string OsVersion;
+		/** Serial number (partly) */
+		string SerialNumber;
+		/** WPS UUID */
+		string UUID;
+		/** WPS Supported Version */
+		int32 wpsSupVer;
+		/** Share WPS UUID at vendor plugin */
+		int32 wpsUUIDShared;
+
+		/** <B>DEBUG</B> Generate a new SelfPIN and update the
+		 *  DefaultPin field */
+		uint32 wps_GenSelfPIN();
+	}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+	/**
+	   This object models an 802.11 wireless radio on a device (a 
+	   stackable interface object as described in [section 
+	   4.2/TR-181i2]). 
+	   If the device can establish more than one connection 
+	   simultaneously (e.g. a dual radio device), a separate Radio 
+	   instance MUST be used for each physical radio of the device. 
+	   Note: A dual-band single-radio device can be configured to 
+	   operate at 2.4 or 5 GHz frequency bands but only a single 
+	   frequency band is used to transmit/receive at a given time. 
+	   Therefore, a single Radio instance is used even for a 
+	   dual-band radio. 
+	   W.o.w. This object handles the RADIO data/parameters for 
+	   every physical wireless card. <B>I'm missing here the WMM 
+	   configuration settings? FIX ME!</B> Note it's only the WLD 
+	   plugin that will create the RADIO interface when started and 
+	   destroy it when the plugin stops. 
+	    */
+	persistent object Radio[] {
+		/**
+		 * getSpectrumInfo() returns a list of channels the radio
+		 * supports, along with quality parameters 
+		 * @param update Set to true to force a spectrum scan (WARNING:
+		 * this will interfere with the communication on the Radio!)
+		 */
+		void getSpectrumInfo(bool update);
+		/**
+		 * edit() is used for blocking the STATE-Machine to be started on Enable event.
+		 * When set, the registered actions are commited from the moment commit() is called.
+		 * The goal of this is to update the configuration of the full Radio (including 
+		 * also the VAP changes) at once. When TR69 or TR98 mode is used, a toggle on the
+		 * object Enable fields is OK. 
+		 */
+		bool edit();
+		/**
+		 * <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+		 * <p> Real function <b>bool verify(...)</b></p>
+		 * Verify 'all' or 'selected' the Radio-object parameters
+		 * @param Radio Name of the Radio interface that will be verified.
+		 * @param &lt;user param&gt; In case empty, the current given parameters are verified.
+		 * If the parameter is filled in (strin=value) it must be one of the Radio object strings:
+		 * Alias, LastChange, OperatingFrequencyBand, OperatingStandards, Channel,
+		 * AutoChannelEnable, AutoChannelRefreshPeriod, OperatingChannelBandwidth,
+		 * ExtensionChannel, GuardInterval, MCS, TransmitPower, IEEE80211hEnabled,
+		 * RegulatoryDomain, Enable
+		 * @return Success if &gt;=0!. When &lt;0 it's representing a failure.
+		 */
+		bool verify(...);
+
+		/**
+		 * <p> Real function <b>bool commit(...)</b></p>
+		 * The function will start the RADIO state machine to configure all registered data.
+		 * No extra parameters are needed anymore. The return value is returned when the full 
+		 * config is done on this physical Radio device (including also all the attached VAP's).
+		 * It will also un-mark the edit lock.
+		 * @param cm Commit mode, Or'ed value of following bit fields: 
+			SET(1), NO_COMMIT(2), DIRECT(4). Note SET is set by default!
+		 * @param &lt;user param&gt; In case empty, the current parameters are re-parsed.
+		 * If the parameter is filled in (string=value) it must be one of the Radio object strings:
+		 * Alias, LastChange, OperatingFrequencyBand, OperatingStandards, Channel,
+		 * AutoChannelEnable, AutoChannelRefreshPeriod, OperatingChannelBandwidth,
+		 * ExtensionChannel, GuardInterval, MCS, TransmitPower, IEEE80211hEnabled,
+		 * RegulatoryDomain, Enable
+		 * @return Success if &gt;=0!. When &lt;0 it's representing a failure.
+		*/
+		bool commit(...);
+
+		/**
+		 * <p> Real function <b>startACS(...)</b></p> 
+		 * The function will start an Autochannel sequence when autochannel is enabled! 
+		 */
+		bool startACS(...);
+
+		/** 
+		 * Start a scan for SSID's in the spectrum the radio is configured for
+		 * This function returns immediately, the results must be retrieved manually.
+		 * @version 6.1
+		 */
+		void startScan();
+		/** 
+		 * Stop a running scan for SSID's.
+		 * @version 6.1
+		 */
+		void stopScan();
+		/** 
+		 * Start a scan for SSID's in the spectrum the radio is configured for.
+		 * This function when the stops.
+		 * @return a list of scanresult_t 
+		 * @version 6.1
+		 */
+		void scan(out variant results);
+
+		/**
+		 * Return a list scanresult_t describing the accesspoints discovered 
+		 * during the previous scan
+		 * @version 6.1
+		 */
+		void getScanResults(out variant results);
+
+		/* event ScanComplete is sent on the radio instance when scan results are received */
+		/* event NOTIFY_SCAN_DONE name = "ScanComplete"
+		{
+			//no parameters
+		}
+		*/
+
+
+		/**
+		* The current operational state of the radio (see [Section 4.2.2/TR-181i2]). 
+		* <p>Enumeration of:</p>
+		<ul>
+			<li>Up</li>
+			<li>Down</li>
+			<li>Unknown</li>
+			<li>Dormant</li>
+			<li>NotPresent</li>
+			<li>LowerLayerDown</li>
+			<li>Error (OPTIONAL)</li>
+		</ul>
+		* <p>When Enable is false then Status SHOULD normally be Down (or 
+		* NotPresent or Error if there is a fault condition on the 
+		* interface). </p>
+		* <p>When Enable is changed to true then Status SHOULD change to Up 
+		* if and only if the interface is able to transmit and receive 
+		* network traffic; it SHOULD change to Dormant if and only if the 
+		* interface is operable but is waiting for external actions 
+		* before it can transmit and receive network traffic (and 
+		* subsequently change to Up if still operable when the expected 
+		* actions have completed); it SHOULD change to LowerLayerDown if 
+		* and only if the interface is prevented from entering the Up 
+		* state because one or more of the interfaces beneath it is down; 
+		* it SHOULD remain in the Error state if there is an error or 
+		* other fault condition detected on the interface; it SHOULD 
+		* remain in the NotPresent state if the interface has missing 
+		* (typically hardware) components; it SHOULD change to Unknown if 
+		* the state of the interface can not be determined for some 
+		* reason. This parameter is based on ifOperStatus from [RFC2863]. </p>
+		*/
+		read-only string Status{
+			constraint enum ["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+			default "Down";
+		}
+		/** <p>SoftAtHome parameter. This is used for configuring a 
+		 *  MAC address on thr RADIO interface. It's important to know
+		 *  that it can only be used before the VAP's are created! </p>*/
+		string BaseMACAddress{
+			default "$(WAN_ADDR)";
+/*			write with setBaseMACAddress;*/
+			}
+		/** <p>A non-volatile handle used to reference this instance.
+		 *  Alias provides a mechanism for an ACS to label this
+		 *  instance for future reference. An initial unique value
+		 *  MUST be assigned when the CPE creates an instance of this
+		 *  object.</p> */
+		string Alias;
+		/** 
+		 *  <p>The textual name of the radio as assigned by
+		 *  the CPE.</p> Internal vendor string (<B>DEBUG</B>)   */
+		read-only string Name;
+		/**
+		 * <p>Vendor PCI Signature value.(<B>DEBUG</B>) This is the only
+		 * way to find out what kind of vendor driver is used for this 
+		 * RADIO interface. 
+		 * </p> 
+		 */
+		read-only string VendorPCISig;
+		/**
+		 * <p>The accumulated time in seconds since the radio entered 
+		 * its current operational state.</p> 
+		 */
+		/*uint32 LastChange;*/
+		/* string LowerLayers;            / * -- See NeMo! Guess this isn't needed here? FIX ME */
+
+		/**
+		 * (<B>DEBUG</B>) Contains the NETFINDEX value of the interface.
+		 */
+		read-only uint32 Index;
+
+		/**
+		 * <p>Indicates whether the interface points towards the Internet
+		 * (true) or towards End Devices (false).</p> 
+		 * For example: 
+		 * For an Internet Gateway Device, Upstream will be true for all 
+		 * WAN interfaces and false for all LAN interfaces. For a 
+		 * standalone WiFi Access Point that is connected via Ethernet 
+		 * to an Internet Gateway Device, Upstream will be true for the
+		 * Ethernet interface and false for the WiFi Radio interface. 
+		 * For an End Device, Upstream will be true for all interfaces. 
+		 */
+		read-only bool Upstream;
+
+		/**
+		 * <p>The maximum PHY bit rate supported by this interface 
+		 * (expressed in Mbps).</p> 
+		 */
+		read-only uint32 MaxBitRate;
+		/**
+		*  Comma-separated list of strings.
+		*  List items indicate the frequency bands at which the radio
+		*  can operate. Each list item is an enumeration of:
+		*  <ul>
+		*   <li>2.4 GHz</li>
+		*   <li>5 GHz</li>
+		*  </ul>
+		 */
+		read-only string SupportedFrequencyBands{
+			read with getSupportedFrequencyBands;
+		}
+		/**
+		 * <p>The value MUST be a member of the list reported by the 
+		 * SupportedFrequencyBands  parameter. Indicates the frequency 
+		 * band at which the radio is operating. </p> 
+		 * <p>If the radio supports multiple bands, and 
+		 * OperatingFrequencyBand is changed, then all parameters whose 
+		 * value is not valid for the new frequency band (e.g. Channel) 
+		 * MUST be set to a valid value (according to some CPE 
+		 * vendor-specific behavior).</p>
+		 */
+		string OperatingFrequencyBand{
+			write with setRadioOperatingFrequencyBand;
+			constraint custom validateRadioOperatingFrequencyBand;
+		}
+		/**
+		 * <p>Comma-separated list of strings. List items indicate which
+		 * IEEE 802.11 standards this Radio  instance can support
+		 * simultaneously, in the frequency band specified by
+		 * OperatingFrequencyBand. Each list item is an enumeration
+		 * of:</p>
+		 * <ul>
+		 *  <li>a ([802.11a-1999])</li>
+		 *  <li>b ([802.11b-1999])</li>
+		 *  <li>g ([802.11g-2003])</li>
+		 *  <li>n ([802.11n-2009])</li>
+		 *  <B>
+		 *  <li>bg</li>
+		 *  <li>bgn</li>
+		 *  <li>an</li>
+		 *  </B>
+		 * </ul>
+		 * <p>Each value indicates support for the indicated standard.
+		 * If OperatingFrequencyBand is set to 2.4GHz, only values b, g,
+		 * n are allowed.If OperatingFrequencyBand is set to 5GHz, only
+		 * values a, n are allowed.</p>
+		 */
+		read-only string SupportedStandards;
+		/**
+		   <p>Comma-separated list of strings. Each list item MUST be a
+		   member of the list reported by the SupportedStandards
+		   parameter. List items indicate which IEEE 802.11 standard
+		   this Radio  instance is configured for. Each value indicates
+		   support for the indicated standard.</p>
+		   <p>If OperatingFrequencyBand is set to 2.4GHz, only values b,
+		   g, n are allowed.<b> We support bg and bgn </b></p>
+		   <p>If OperatingFrequencyBand is set to 5GHz, only values a, n
+		   are allowed.<b>We support an</b></p>
+		   <p>For example, a value of "g,b" (or "b,g" - order is not
+		   important) means that the 802.11g standard [802.11g-2003] is
+		   used with a backwards-compatible mode for 802.11b
+		   [802.11b-1999]. A value of "g" means that only the 802.11g
+		   standard can be used.</p>
+		 */
+		string OperatingStandards{
+			write with setRadioOperatingStandards;
+			constraint enum ["auto","a","b","g","n","bg","bgn","an","abgn","ac"]; /* Not all is supported */
+			default "auto";
+		}
+		/**
+		 * <p>Comma-separated list (maximum length 1024) of strings. List
+		 * items represent possible radio channels for the wireless 
+		 * standard (a, b, g, n) and the regulatory domain. 
+		 * Ranges in the form "n-m" are permitted. For example, for 
+		 * 802.11b and North America, would be "1-11". <b>NOT SUPPORTED 
+		 * YET</b> </p> 
+		 */
+		read-only string PossibleChannels;
+
+		/**
+		 * <p>Comma-separated list (maximum length 1024) of strings. List
+		 * items represent channels that the radio determines to be 
+		 * currently in use (including any that it is using itself). 
+		 * Ranges in the form "n-m" are permitted. </p>
+		 */
+		string ChannelsInUse;
+
+		/**
+		 * <p>Indicates whether automatic channel selection is supported
+		 * by this radio. If false, then AutoChannelEnable  MUST be 
+		 * false. </p> */ 
+		read-only bool AutoChannelSupported;
+
+		/**
+		 * <p>Enable or disable automatic channel selection. Set to 
+		 * false to disable the automatic channel selection procedure, 
+		 * in which case the currently selected channel remains 
+		 * selected. Set to true to enable the automatic channel 
+		 * selection procedure. This procedure MUST automatically select 
+		 * the channel, and MAY also change it subsequently. 
+		 * AutoChannelEnable MUST automatically change to false whenever 
+		 * the channel is manually selected, i.e. whenever the Channel 
+		 * parameter is written. Whenever AutoChannelEnable is true, the 
+		 * value of the Channel parameter MUST be the channel selected 
+		 * by the automatic channel selection procedure. </p>
+		 */
+		bool AutoChannelEnable{
+			write with setRadioAutoChannelEnable;
+			default 1;
+		}
+
+		/**
+		 * <p>The time period in seconds between two consecutive 
+		 * automatic channel selections. A value of 0 means that the 
+		 * automatic channel selection is done only at boot time. This 
+		 * parameter is significant only if AutoChannelEnable is set to 
+		 * true. </p> */ 
+		uint32 AutoChannelRefreshPeriod;
+
+		/**
+		 * <p>Indicates if auto channel selection is running currently. </p> */
+		read-only bool AutoChannelSelection;
+
+		/**
+		 * <p>Rerun auto channel selection explicitly, if it was enabled. </p>
+		 */
+		void startAutoChannelSelection();
+
+		/** <p>The current radio channel used by the connection. To
+			 request automatic channel selection, set AutoChannelEnable
+			 to true. Whenever AutoChannelEnable is true, the value of
+			 the Channel parameter MUST be the channel selected by the
+			 automatic channel selection procedure.</p>
+			 <p>Note: Valid Channel values depend on the
+			 OperatingFrequencyBand and RegulatoryDomain values
+			 specified.</p>
+			 # For Atomic write... set channel after autochannel!
+		*/
+		uint32 Channel{
+			constraint range[1,255];
+			write with setRadioChannel;
+			default 6;
+		}
+
+		/**
+		 * <p>The channel bandwidth (applicable to 802.11n specifications
+		 * only). Enumeration of: </p> 
+		 * <ul> 
+		 * <li>20MHz</li>
+		 * <li>40MHz (wide mode)</li>
+		 * <li>Auto</li>
+		 * </ul>
+		 */
+		string OperatingChannelBandwidth{   /* Selected by channel */
+			constraint enum ["20MHz","40MHz","80MHz","160MHz","Auto"];
+			default "Auto";
+			write with setRadioOperatingChannelBandwidth;      /* Set Radio ChannelBandwidth (if supported) */
+			}
+
+		/**
+		 * <p>The secondary extension channel position, applicable when 
+		 * operating in wide channel mode (i.e. when 
+		 * OperatingChannelBandwidth  is set to 40MHz  or Auto). 
+		 * Enumeration of: </p>
+		 * <ul>
+		 *  <li> AboveControlChannel </li> 
+		 *  <li> BelowControlChannel </li> 
+		 *  <li> Auto </li>
+		 * </ul>
+		 */
+		string ExtensionChannel{
+			constraint enum ["AbovecontrolChannel","BelowControlChannel","Auto"];
+			default"Auto";
+			write with setRadioExtensionChannel;      /* Set Radio ExtensionChannel (if supported) */
+		}
+		/** 
+		 * <p>The guard interval value between OFDM symbols (applicable
+		 * to 802.11n specifications only). Enumeration of: </p> 
+		 * <ul>
+		 * <li> 400nsec </li>
+		 * <li> 800nsec </li>
+		 * <li> Auto </li>
+		 * </ul>
+		 */
+		string GuardInterval{
+			constraint enum ["400nsec","800nsec","Auto"];
+			default"Auto";
+			write with setRadioGuardInterval;
+		}
+
+		/**
+		 * <p>The Modulation Coding Scheme index (applicable to 802.11n
+		 * specifications only). Values from 0 to 15 MUST be supported 
+		 * ([802.11n-2009]). A value of -1 indicates automatic selection 
+		 * of the MCS index. </p>
+		 */
+		int32 MCS{
+			constraint range [-1,31];
+		}
+
+		/**
+		 * <p>Comma-separated list (maximum length 64) of integers 
+		 * (value 
+		 * -1 to 100). List items represent supported transmit power 
+		 *  levels as percentage  of full power. For example,
+		 *  "0,25,50,75,100".</p>
+		 *  <p>A -1 item indicates auto mode (automatic decision by
+		 *  CPE). Auto mode allows the Radio to adjust transmit power
+		 *  accordingly. For example, this can be useful for power-save
+		 *  modes such as EU-CoC, where the Radio can adjust power
+		 *  according to activity in the CPE.</p>
+		 */
+		read-only string TransmitPowerSupported;/* Updated by Radio_Init() */
+
+		/**
+		 * <p>Indicates the current transmit power level as a percentage 
+		 * of full power. The value MUST be one of the values reported 
+		 * by the TransmitPowerSupported  parameter. A value of -1 
+		 * indicates auto mode (automatic decision by CPE). </p>
+		 */
+		int32 TransmitPower{
+			constraint range [-1,100];
+			write with setRadioTxPower;      /* Set transmit power - FIX Me, we disable this on driver */
+		}
+
+		/**
+		 * <p>Indicates a bit pattern of the current of active transmit/receive
+		 * antennas. The value MUST be in range of supported driver. Based on 2th wave
+		 * of 11AC targets the MAX is set on 8 Antennas == 255. The PLUGIN default is -1
+		 * and will be translated by driver default. </p>
+		 */
+		int32 ActiveAntennaCtrl{
+			constraint range [-1,255];       /* Max support for 8 antennas (2th wave of 11AC) */
+			write with setRadioAntennaCtrl;  /* Direct dirver interaction for antennas control */
+		}
+
+		/**
+		 * <p>Indicates whether IEEE 802.11h functionality is supported 
+		 * by this radio. The value can be true only if the 802.11a or 
+		 * the 802.11n at 5GHz standard is supported (i.e. 
+		 * SupportedFrequencyBands  includes 5GHz  and 
+		 * SupportedStandards includes a and/or n). </p> 
+		 */
+		read-only bool IEEE80211hSupported;
+
+		/**
+		 * <p>Indicates whether IEEE 802.11h functionality is enabled on 
+		 * this radio. The value can be true only if the 802.11a or the 
+		 * 802.11n at 5GHz standard is supported and enabled (i.e. 
+		 * OperatingFrequencyBand  is 5GHz  and OperatingStandards 
+		 * includes a  and/or n). </p>
+		 */
+		bool IEEE80211hEnabled{
+			write with setRadio80211hEnable; /* Spectrum Managed 802.11a DFS/TPC */
+		}
+		/** <p>The 802.11d Regulatory Domain. First two octets are
+		 * two-character country code. The third octet is either " " 
+		 * (space) (all environments), "O" (outside) or "I" (inside). 
+		 * Possible patterns: </p> 
+		 * <li>[A-Z][A-Z][ OI]</li>
+		 */
+		string RegulatoryDomain{
+			write with setRadioCountryCode;   /* Set the country code - Fix set   */
+			}
+
+		/** <p>Indicates if implicit beam forming is supported by this
+		 * hardware. This feature is also known as 'AnyBeam' on
+		 * Broadcom hardware.</p>
+		 * @version 6.1
+		 */
+		read-only bool ImplicitBeamFormingSupported;
+
+		/** <p>Indicates if implicit beam forming is enabled on this
+ 		 * radio. </p>
+		 * @version 6.1
+		 */
+		bool ImplicitBeamFormingEnabled {
+			default 1;
+			write with setImplicitBeamForming;
+			constraint custom validateImplicitBeamForming;
+		}
+
+		/** <p> Indicates if explicit beam forming is supported by this
+		 * hardware.</p>
+		 * @version 6.1
+		 */
+		read-only bool ExplicitBeamFormingSupported;
+
+		/** <p> Indicates if explicit beam forming is enabled on this
+ 		 * radio. </p>
+		 * @version 6.1
+		 */
+		bool ExplicitBeamFormingEnabled {
+			default 0;
+			write with setExplicitBeamForming;
+			constraint custom validateExplicitBeamForming;
+		}
+
+		/** <p> DFS channel change event counter on this radio. </p>
+		 * @version 6.1
+		*/
+		read-only uint32 DFSChannelChangeEventCounter=0;
+
+		/** <p> DFS channel change timestamp on this radio. </p>
+		 * @version 6.1
+		 */
+		read-only datetime DFSChannelChangeEventTimestamp;
+
+		/** <p> Last channel change reason on this radio. </p>
+		 * @version 6.1
+		 */
+		read-only string ChannelChangeReason;
+
+		/**
+		 * <B>DEBUG</B> Contains the string that shows the supported 
+		 * capabilities of the driver. It's a comma separated list of 
+		 * (IEEE802.11) tokens:
+		 * <ul> 
+		 * "WEP","TKIP","AES","AES_CCM","CKIP","FF","TURBOP","IBSS","PMGT","HOSTAP",
+		 * "AHDEMO","SWRETRY","TXPMGT","SHSLOT","SHPREAMBLE","MONITOR","TKIPMIC",
+		 * "WPA1","WPA2","BURST","WME","WDS","WME_TKIPMIC","BGSCAN","UAPSD","FASTCC"
+		 * </ul>
+		 */
+		read-only string IEEE80211_Caps;     /* Supported vendor caps */
+
+		/**
+		 * <p>Throughput statistics for this interface. 
+		 * The CPE MUST reset the interface's Stats parameters (unless 
+		 * otherwise stated in individual object or parameter 
+		 * descriptions) either when the interface becomes operationally 
+		 * down due to a previous administrative down (i.e. the 
+		 * interface's Status parameter transitions to a down state 
+		 * after the interface is disabled) or when the interface 
+		 * becomes administratively up (i.e. the interface's Enable 
+		 * parameter transitions from false to true). Administrative and 
+		 * operational interface status is discussed in [Section 
+		 * 4.2.2/TR-181i2]. </p>
+		 */
+		object Stats{
+			/** Get driver Stats counters from /proc/net/dev */ 
+			read with getRadioStats;
+			/** The total number of bytes transmitted out of the
+			 *  interface, including framing characters. */
+			volatile read-only uint32 BytesSent;
+			/**The total number of bytes received on the interface, 
+			 * including framing characters. */ 
+			volatile read-only uint32 BytesReceived;
+			/**The total number of packets transmitted out of the 
+			 * interface.  */
+			volatile read-only uint32 PacketsSent;
+			/** The total number of packets received on the interface.  */
+			volatile read-only uint32 PacketsReceived;
+			/** The total number of outbound packets that could not
+			 *  be transmitted because of errors. */
+			volatile read-only uint32 ErrorsSent;
+			/** The total number of inbound packets that contained errors 
+			 * preventing them from being delivered to a higher-layer 
+			 * protocol.*/ 
+			volatile read-only uint32 ErrorsReceived;
+			/** The total number of outbound packets which were chosen to 
+			 * be discarded even though no errors had been detected to 
+			 * prevent their being transmitted. One possible reason for 
+			 * discarding such a packet could be to free up buffer space.*/ 
+			volatile read-only uint32 DiscardPacketsSent;
+			/** The total number of inbound packets which were chosen to be
+			 *  discarded even though no errors had been detected to prevent
+			 *  their being delivered. One possible reason for discarding
+			 *  such a packet could be to free up buffer space. */
+			volatile read-only uint32 DiscardPacketsReceived;
+		}
+
+		/** Enables or Disables the radio */ 
+		bool Enable{
+			default 0;
+			write with setRadioEnable;
+		}
+	} /* object Radio */
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+
+	/** 
+	SSID configuration. Here we config the VAP interface. Name id, 
+	MAC address make SSID visible. 
+
+	<p>WiFi SSID table (a stackable interface object as described in 
+	[Section 4.2/TR-181i2]), where table entries model the MAC 
+	layer. A WiFi SSID entry is typically stacked on top of a Radio 
+	object. WiFi SSID is also a multiplexing layer, i.e. more than 
+	one SSID can be stacked above a single Radio. At most one entry 
+	in this table (regardless of whether or not it is enabled) can 
+	exist with a given value for Alias, or with a given value for 
+	Name. On creation of a new table entry, the CPE MUST choose 
+	initial values for Alias and Name such that the new entry does 
+	not conflict with any existing entries. 
+	At most one enabled entry in this table can exist with a given 
+	value for SSID, or with a given value for BSSID. </p>
+	*/
+	persistent object SSID[]{
+		/**
+		 * <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+		 * <p> Real function <b>bool VerifySSID(string SSID, ...)</b></p>
+		 * Verify 'all' or 'selected' the SSID-object parameters
+		 * @param SSID Name of the SSID interface that will be verified.
+		 * @param &lt;user param&gt; In case empty, the current given parameters are verified.
+		 * If the parameter is filled in (strin=value) it must be one of the SSID object strings:
+		 * Alias, LastChange, LowerLayers, BSSID, SSID or Enable.
+		 * @return Success if &gt;=0!. When &lt;0 it's representing a failure.
+		 */
+		bool VerifySSID(...);
+		/**
+		 * <p><b>OBSOLETE - Use the NeMo MIB interface to control this</b></p>
+		 * <p> Real function <b>bool CommitSSID(string SSID, uint32_t cm, ...)</b></p>
+		 * Sets main SSID data. The function can only be used for setting DATA (not get)!
+		 * @param SSID Name of the SSID interface that will be modified. Needed input field.
+		 * @param cm Commit mode, Or'ed value of following bit fields: 
+			SET(1), NO_COMMIT(2), DIRECT(4). Noet SET is set by default!
+		 * @param ... A sequence of the SSID object parameters. 
+			If nothing is set the current SSID-object config is reparsed.
+		 * @return Success if &gt;=0!. When &lt;0 it's representing a failure.
+		*/
+		bool CommitSSID(uint32_t cm, ...);
+
+		/**
+		 * <p>The current operational state of the SSID entry (see 
+		 * [Section 4.2.2/TR-181i2]). Enumeration of: </p> 
+		 * <ul> 
+		 *     <li> Up</li>
+		 *     <li> Down</li>
+		 *     <li> Unknown</li>
+		 *     <li> Dormant</li>
+		 *     <li> NotPresent</li>
+		 *     <li> LowerLayerDown</li>
+		 *     <li> Error(OPTIONAL)</li>
+		 * </ul>
+		 * <p>When Enable is false then Status SHOULD normally be Down 
+		 * (or NotPresent or Error if there is a fault condition on the 
+		 * interface). When Enable is changed to true then Status SHOULD 
+		 * change to Up if and only if the interface is able to transmit 
+		 * and receive network traffic; it SHOULD change to Dormant if 
+		 * and only if the interface is operable but is waiting for 
+		 * external actions before it can transmit and receive network 
+		 * traffic (and subsequently change to Up if still operable when 
+		 * the expected actions have completed); it SHOULD change to 
+		 * LowerLayerDown if and only if the interface is prevented from 
+		 * entering the Up state because one or more of the interfaces 
+		 * beneath it is down; it SHOULD remain in the Error state if 
+		 * there is an error or other fault condition detected on the 
+		 * interface; it SHOULD remain in the NotPresent state if the 
+		 * interface has missing (typically hardware) components; it 
+		 * SHOULD change to Unknown if the state of the interface can 
+		 * not be determined for some reason. </p>
+		 */
+		read-only string Status{
+			constraint enum ["Up","Down","Unknown","Dormant","NotPresent","LowerLayerdown","Error"];
+			default "Down";
+		}
+		/**
+		 * <p>A non-volatile handle used to reference this instance. 
+		 * Alias provides a mechanism for an ACS to label this 
+		 * instance for future reference. An initial unique value MUST 
+		 * be assigned when the CPE creates an instance of this 
+		 * object.</p> */
+		string Alias;
+		/** 
+		 * <p> The textual name of the SSID entry as assigned by the 
+		 * CPE.</p> */
+		read-only string Name;
+		/** 
+		 * <p>The accumulated time in seconds since the SSID entered 
+		 * its current operational state.</p> */
+		/* uint32 LastChange; */
+		/**
+		 * <p> Comma-separated list (maximum length 1024) of strings. 
+		 * Each list item MUST be the path name of an interface object 
+		 * that is stacked immediately below this interface object. If 
+		 * the referenced object is deleted, the corresponding item MUST
+		 * be removed from the list.</p> */ 
+		string LowerLayers;          /* -- See NeMo! Guess this isn't needed here? FIX ME  */
+		read-only uint32 Index;      /* (DEBUG) Index in the SSID tree                     */
+		/**
+		 * <p>[MACAddress] The Basic Service Set ID.</p> 
+		 * <p>This is the MAC address of the access point, which can 
+		 * either be local (when this instance models an access point 
+		 * SSID) or remote (when this instance models an end point 
+		 * SSID). </p> */
+		string BSSID{
+			write with setSSIDBSSID;  /* The BSSID of the wireless? */
+		}
+		/**
+		 * <p>[MACAddress] The MAC address of this interface.</p> 
+		 * <p>If this instance models an access point SSID, MACAddress is
+		 * the same as MACAddress. Note: This is not necessarily the 
+		 * same as the Ethernet header source or destination MAC 
+		 * address, which is associated with the IP interface and is 
+		 * modeled via the Ethernet.Link.{i}.MACAddress parameter. </p>
+		 */
+		read-only string MACAddress; /* ??? is BSSID != MacAddress? */
+		/**
+		 *  <p> The current service set identifier in use by the
+		 *  connection. The SSID is an identifier that is attached to
+		 *  packets sent over the wireless LAN that functions as an ID
+		 *  for joining a particular radio network (BSS).</p>
+		 */
+		persistent string SSID{
+			write with setSSIDSSID;   /* Track SSID name */
+			constraint custom validateSSIDSSID;
+			default "SSID_NOT_SET";
+		}
+
+		object Stats{
+			read with getSSIDStats;   /* Get driver Stats counters from /proc/net/dev */
+			/** The total number of bytes transmitted out of the
+			 *  interface, including framing characters. */
+			volatile read-only uint32 BytesSent;
+			/** The total number of bytes received on the interface, 
+			 *  including framing characters. */
+			volatile read-only uint32 BytesReceived;
+			/** The total number of packets transmitted out of the
+			 *  interface. */
+			volatile read-only uint32 PacketsSent;
+			/** The total number of packets received on the interface. */
+			volatile read-only uint32 PacketsReceived;
+			/** The total number of outbound packets that could not be
+			 *  transmitted because of errors. */
+			volatile read-only uint32 ErrorsSent;
+			/** The total number of inbound packets that contained errors 
+			 *  preventing them from being delivered to a higher-layer 
+			 *  protocol.*/
+			volatile read-only uint32 ErrorsReceived;
+			/** The total number of packets requested for transmission which
+			 *  were not addressed to a multicast or broadcast address at
+			 *  this layer, including those that were discarded or not
+			 *  sent.*/
+			volatile read-only uint32 UnicastPacketsSent;
+			/** The total number of received packets, delivered by this 
+			 *  layer to a higher layer, which were not addressed to a 
+			 *  multicast or broadcast address at this layer.*/
+			volatile read-only uint32 UnicastPacketsReceived;
+			/** The total number of outbound packets which were chosen to be
+			 *  discarded even though no errors had been detected to prevent
+			 *  their being transmitted. One possible reason for discarding
+			 *  such a packet could be to free up buffer space.*/
+			volatile read-only uint32 DiscardPacketsSent;
+			/** The total number of inbound packets which were chosen to be
+			 *  discarded even though no errors had been detected to prevent
+			 *  their being delivered. One possible reason for discarding
+			 *  such a packet could be to free up buffer space.*/
+			volatile read-only uint32 DiscardPacketsReceived;
+			/** The total number of packets that higher-level protocols 
+			 *  requested for transmission and which were addressed to a 
+			 *  multicast address at this layer, including those that were 
+			 *  discarded or not sent.*/
+			volatile read-only uint32 MulticastPacketsSent;
+			/** The total number of received packets, delivered by this
+			 *  layer to a higher layer, which were addressed to a
+			 *  multicast address at this layer.*/
+			volatile read-only uint32 MulticastPacketsReceived;
+			/** The total number of packets that higher-level protocols
+			 *  requested for transmission and which were addressed to a
+			 *  broadcast address at this layer, including those that were
+			 *  discarded or not sent.*/
+			volatile read-only uint32 BroadcastPacketsSent;
+			/** The total number of received packets, delivered by this
+			 *  layer to a higher layer, which were addressed to a
+			 *  broadcast address at this layer. */
+			volatile read-only uint32 BroadcastPacketsReceived;
+			/** The total number of packets received via the interface which
+			 *  were discarded because of an unknown or unsupported
+			 *  protocol.*/
+			volatile read-only uint32 UnknownProtoPacketsReceived;
+		}
+
+		/** 
+		 * Enables or disables the SSID entry.  */
+		bool Enable{
+			default 0;
+			write with setSSIDEnable;
+		}
+	} /* object SSID */
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+	/** <p>This object models an 802.11 connection from the
+	 *  perspective of a wireless access point. Each AccessPoint
+	 *  entry is associated with a particular SSID  interface
+	 *  instance via the SSIDReference  parameter.</p>
+	 *  <p>For enabled table entries, if SSIDReference is not a valid
+	 *  reference then the table entry is inoperable and the CPE
+	 *  MUST set Status to Error_Misconfigured.</p>
+	 *  <p>Note: The AccessPoint table includes a unique key
+	 *  parameter that is a strong reference. If a strongly
+	 *  referenced object is deleted, the CPE will set the
+	 *  referencing parameter to an empty string. However, doing so
+	 *  under these circumstances might cause the updated
+	 *  AccessPoint row to then violate the table's unique key
+	 *  constraint; if this occurs, the CPE MUST set Status to
+	 *  Error_Misconfigured and disable the offending AccessPoint
+	 *  row.</p>
+	 *  <p>At most one entry in this table (regardless of whether or
+	 *  not it is enabled) can exist with a given value for Alias.
+	 *  On creation of a new table entry, the CPE MUST choose an
+	 *  initial value for Alias such that the new entry does not
+	 *  conflict with any existing entries. At most one enabled
+	 *  entry in this table can exist with a given value for
+	 *  SSIDReference.</p>*/
+	persistent object AccessPoint[]{
+		/**
+		 * <b>kickStation</b>
+		 * @param macaddress (format xx:xx:xx:xx:xx:xx)
+		 * <p> Disassociation of a station with given MAC address </p>
+		*/
+		bool kickStation(string macaddress);
+
+		/** Indicates the status of this access point. Enumeration of:
+		*  <ul>
+		*    <li>Disabled</li>
+		*    <li>Enabled</li>
+		*    <li>Error_Misconfigured</li>
+		*    <li>Error (OPTIONAL)</li>
+		*  </ul>
+		*  The Error_Misconfigured value indicates that a necessary
+		*  configuration value is undefined or invalid. The Error value
+		*  MAY be used by the CPE to indicate a locally defined error
+		*  condition.*/
+		read-only string Status;
+/*		{
+			constraint enum ["Disabled","Enabled","Error_Misconfigured","Error"];
+			default "Disabled";
+		}
+*/
+		/** A non-volatile handle used to reference this instance. Alias
+		 *  provides a mechanism for an ACS to label this instance for
+		 *  future reference. An initial unique value MUST be assigned
+		 *  when the CPE creates an instance of this object.*/
+		string Alias;
+		/** Index in the AccessPoint tree (also for the SSID tree,
+		 *  both are inline) */
+		read-only uint32 Index;
+		/** The value MUST be the path name of a row in the SSID table.
+		 *  If the referenced object is deleted, the parameter value
+		 *  MUST be set to an empty string.  */
+		string SSIDReference;
+		/** Indicates whether or not beacons include the SSID name. */
+		bool SSIDAdvertisementEnabled{
+			write with setAccessPoint;
+		}
+		/** The maximum number of retransmission for a packet. This
+		 *  corresponds to IEEE 802.11 parameter
+		 *  dot11ShortRetryLimit. */
+		uint32 RetryLimit{
+			write with setAccessPoint;
+		}
+		/** Indicates whether this access point supports WiFi 
+		 *  Multimedia (WMM) Access Categories (AC).  */
+		read-only bool WMMCapability;
+		/** <p>Indicates whether this access point supports WMM
+		 *  Unscheduled Automatic Power Save Delivery (U-APSD).</p>
+		 *  Note: U-APSD support implies WMM support.*/
+		read-only bool UAPSDCapability;
+		/** Whether WMM support is currently enabled. When enabled, 
+		 *  this is indicated in beacon frames.*/
+		bool WMMEnable{
+			write with setAccessPoint;
+		}
+		/** <p>Whether U-APSD support is currently enabled. When
+		 *  enabled, this is indicated in beacon frames.</p> Note:
+		 *  U-APSD can only be enabled if WMM is also enabled. */
+		bool UAPSDEnable{
+			write with setAccessPoint;
+		}
+
+		/** <p>Enable / Disable the MultiCast feature on the interface 
+		On a 5GHz by default enabled </p>
+		*/
+		bool MCEnable{
+			write with setAccessPoint;
+			}
+
+		/** <p>APBridgeDisable Disable the Bridged traffic of 
+		STA connected on the same VAP. </p>
+		*/
+		bool APBridgeDisable{
+			write with setAccessPoint;
+		}
+		/** Limit the maximum number of associated devices. -1 means unlimited. */
+		int32 MaxStations{
+			default -1;
+			write with setMaxStations;
+		}
+
+		/** <p> Name of the bridge interface used with this VAP.
+		Some vendor deamons depend on this so we can track it.</p>
+		 */
+		string BridgeInterface{
+			write with setAPBridgeInterface;
+		}
+
+		/** This object contains security related parameters that apply 
+		 * to a CPE acting as an Access Point */
+		persistent object Security{
+			/** <p>Comma-separated list of strings. Indicates which security
+			 *  modes this AccessPoint  instance is capable of supporting.
+			 *  Each list item is an enumeration of:</p>
+			 *  <ul>
+			 *    <li>None</li>
+			 *    <li>WEP-64</li>
+			 *    <li>WEP-128</li>
+			 *    <li>WPA-Personal</li>
+			 *    <li>WPA2-Personal</li>
+			 *    <li>WPA-WPA2-Personal</li>
+			 *    <li>WPA-Enterprise</li>
+			 *    <li>WPA2-Enterprise</li>
+			 *    <li>WPA-WPA2-Enterprise</li>
+			 *  </ul>
+			 *  */
+			read-only string ModesSupported;
+			/**A WEP key expressed as a hexadecimal string. 
+			 * WEPKey is used only if ModeEnabled is set to WEP-64 or 
+			 * WEP-128. 
+			 * <p>A 5 byte WEPKey corresponds to security mode WEP-64 and a 
+			 * 13 byte WEPKey corresponds to security mode WEP-128. <B>A 16 
+			 * byte WEPKey corresponds to security mode WEP-128iv.</B> </p>
+			 * <i>When read, this parameter returns an empty string, 
+			 * regardless of the actual value.</i>*/ 
+			string WEPKey{  /* Must be hexbinary? */
+				write with setSecurity;
+				default "123456789ABCD";
+			}
+
+			/** <p>A literal PreSharedKey (PSK) expressed as a hexadecimal
+			    string. PreSharedKey is only used if ModeEnabled is set to
+			    WPA-Personal or WPA2-Personal or WPA-WPA2-Personal.
+			    If KeyPassPhrase is written, then PreSharedKey is
+			    immediately generated. The ACS SHOULD NOT set both the
+			    KeyPassPhrase and the PreSharedKey directly (the result of
+			    doing this is undefined).</p>
+			    <i>When read, this parameter returns an empty string,
+			    regardless of the actual value.</i>*/
+			string PreSharedKey{
+				write with setSecurity;
+			}
+			/** <p>A passphrase from which the PreSharedKey  is to be
+			 *  generated, for WPA-Personal  or WPA2-Personal  or
+			 *  WPA-WPA2-Personal  security modes. If KeyPassPhrase is
+			 *  written, then PreSharedKey is immediately generated. The ACS
+			 *  SHOULD NOT set both the KeyPassPhrase and the PreSharedKey
+			 *  directly (the result of doing this is undefined). The key is
+			 *  generated as specified by WPA, which uses PBKDF2 from PKCS
+			 *  #5: Password-based Cryptography Specification Version 2.0</p>
+			 * <i> When read, this parameter returns an empty string, 
+			 * regardless of the actual value.</i>*/
+			string KeyPassPhrase{
+				write with setSecurity;
+				default "SoftAtHome";
+			}
+			/**  <p>The interval (expressed in seconds) in which the keys are
+			 *   re-generated. This is applicable to WPA, WPA2 and Mixed
+			 *   (WPA-WPA2) modes in Personal or Enterprise mode (i.e.
+			 *   when ModeEnabled is set to a value other than None or
+			 *   WEP-64 WEP-128 or WEP-128uv.</p>*/
+			uint32 RekeyingInterval{
+				default 3600;
+			}
+
+			/** <p>[IPAddress] The IP Address of the RADIUS server used for
+			 *  WLAN security. RadiusServerIPAddr  is only applicable when
+			 *  ModeEnabled  is an Enterprise type (i.e. WPA-Enterprise,
+			 *  WPA2-Enterprise  or
+			 *  WPA-WPA2-Enterprise).</p>*/
+			string RadiusServerIPAddr{
+				write with setSecurity;
+			}
+			/** <p> The port number of the RADIUS server used for WLAN
+			 *  security. RadiusServerPort is only applicable when
+			 *  ModeEnabled  is an Enterprise type (i.e. WPA-Enterprise,
+			 *  WPA2-Enterprise  or WPA-WPA2-Enterprise). </p> */
+			uint32 RadiusServerPort{
+				write with setSecurity;
+				default 1812;
+			}
+			/** <p> The secret used for handshaking with the RADIUS
+			 *  server </p> <i>When read, this parameter returns an empty
+			 *  string, regardless of the actual value.</i>*/
+			string RadiusSecret{
+				write with setSecurity;
+			}
+
+			/** Default Session-Timeout (expressed in seconds). If set, it will be used
+			 *  as the default Session-Timeout if no timeout is set by the radius server.
+			 *  RadiusDefaultSessionTimeout is only applicable when ModeEnabled is an Enterprise
+			 *  type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+			 */
+			uint32 RadiusDefaultSessionTimeout {
+				write with setSecurity;
+			}
+
+			/** IP address to use for NAS-IP-Address or NAS-IPv6-Address.
+			 *  If set, it will overrule the address of the interface.
+			 *  RadiusOwnIPAddress is only applicable when ModeEnabled is an Enterprise
+			 *  type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+			 */
+			string RadiusOwnIPAddress {
+				write with setSecurity;
+			}
+
+			/** Optional NAS-Identifier string for RADIUS messages.
+			 *  RadiusNASIdentifier is only applicable when ModeEnabled is an Enterprise
+			 *  type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+			 */
+			string RadiusNASIdentifier {
+				write with setSecurity;
+			}
+
+			/** If set, it will override Called-Station-Id in the radius messages.
+			 *  RadiusCalledStationId is only applicable when ModeEnabled is an Enterprise
+			 *  type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+			 */
+			string RadiusCalledStationId {
+				write with setSecurity;
+			}
+
+			/** Request Chargeable-User-Identity (RFC 4372)
+			 *  RadiusChargeableUserId is only applicable when ModeEnabled is an Enterprise
+			 *  type (i.e. WPA-Enterprise, WPA2-Enterprise or WPA-WPA2-Enterprise).
+			 */
+			bool RadiusChargeableUserId {
+				write with setSecurity;
+			}
+
+			/**The value MUST be a member of the list reported by the 
+			 * ModesSupported  parameter. Indicates which security mode is 
+			 * enabled. We put this at the end because we expect that the 
+			 * selected mode got a correct key. In case the key isn't filled in
+			 * the action is ignored.
+			 */ 
+			string ModeEnabled{
+				write with setSecurity;
+				constraint enum ["None",
+				                 "WEP-64","WEP-128","WEP-128iv",
+				                 "WPA-Personal","WPA2-Personal","WPA-WPA2-Personal",
+				                 "E-None",
+				                 "WPA-Enterprise","WPA2-Enterprise","WPA-WPA2-Enterprise"];
+				default "WPA-WPA2-Personal";
+			}
+
+			constraint custom validateSecurity;
+		}
+
+		/** This object contains parameters related to MAC-address based filtering for this access point.  */
+		object MACFiltering {
+			write with writeMACFiltering;
+			/** The MAC-address based filtering mode. Enumeration of: 
+			  * <ul>
+			  *   <li><b>Off</b> All MAC-addresses are allowed.</li>
+			  *   <li><b>WhiteList</b> Access is granted only for MAC-addresses occurring in the Entry table. </li>
+			  *   <li><b>BlackList</b> Access is granted for all MAC-addresses except for the ones occurring in the Entry table. </li>
+			  * </ul>
+			  */
+			string Mode {
+				constraint enum [ "Off", "WhiteList", "BlackList" ];
+				default "Off";
+			}
+			/** This is the list of MAC-addresses to be allowed/denied depending on the MAC-filtering mode. */
+			object Entry[] {
+				write with writeMACFilteringEntry;
+				/** The MAC-address of this table entry. */
+				string MACAddress;
+			}
+		}
+
+		/** This object contains parameters related to Wi-Fi Protected
+		 *  Setup [WPSv1.0] for this access point.*/
+		persistent object WPS{
+			/** Enables or disables WPS functionality for this access
+			 *  point. Note only one VAP/Radio can enable WPS. For this by
+			 *  design the default is disable. */
+			bool Enable{
+				default 0;
+				constraint custom validateWPSenable;
+				write with setWPS_Enable;
+			}
+			/** Keeps track of current (real) WPS activation status.
+			* Some configurations modes disable WPS! 
+			* Still 'the intention of the user' that is tracked in the enable field is backuped. */
+			read-only string Status;
+			/** <p>Comma-separated list of strings. Indicates WPS
+			 *  configuration methods supported by the device. Each list
+			 *  item is an enumeration of:</p>
+			 *  <ul>
+			 *    <li>USBFlashDrive</li>
+			 *    <li>Ethernet</li>
+			 *    <li>ExternalNFCToken</li>
+			 *    <li>IntegratedNFCToken</li>
+			 *    <li>NFCInterface</li>
+			 *    <li>PushButton</li>
+			 *    <li>PIN</li>
+			 *  </ul>
+			 *  This parameter corresponds directly to the "Config
+			 *  Methods" attribute of the WPS specification [WPSv1.0]. The
+			 *  PushButton and PIN methods MUST be supported.
+			 *  S@H comments: PIN covers LABEL, DISPLAY and KEYPAD bit pattern.
+			 *  Note combination KEYPAD and PushButton is forbidden
+			 */
+			read-only string ConfigMethodsSupported;
+			/** Comma-separated list of strings. Each list item MUST
+			 *  be a member of the list reported by the
+			 *  ConfigMethodsSupported  parameter. Indicates WPS
+			 *  configuration methods enabled on the device.*/
+			string ConfigMethodsEnabled{
+					write with setConfigMethodsEnabled;
+				}
+			/*{
+			NEED VALIDATOR FUNCTION FOR THIS!!! 
+				constraint enum ["USB","Ethernet","Label","Display",
+									  "ExternalNFCToken","InternalNFCToken","NFCInterface","PushButton",
+									  "Keypad",
+									  "PIN"];
+				default "PushButton";
+			}*/
+
+			/** 
+			Randomly generated PIN-code, to be entered in client devices to connect to the HGW.
+			This code can be regenerated with generateSelfPIN(). 
+			However, the wlan implementation is free to regenerate this PIN code 
+			whenever needed so it is not guaranteed to be constant between two consecutive 
+			generateSelfPIN()-calls. */
+			string SelfPIN{
+			write with setSelfPIN;
+			}
+
+			/**
+			void pushButton(string clientPIN)
+			This function kicks the WPS registrar. 
+			If no clientPIN is given, this starts the PushButton scenario. 
+			If a clientPIN is provided, connect to the client device with the provided clientPIN. 
+			Notice that the corresponding config method needs to be enabled by ConfigMethodsEnabled.
+			clientPIN: 4-digit or 8-digit WPS PIN code in case of ClientPIN. 
+			Empty or 0 in case of PushButton.
+			The return value indicates that the registrar is started or not.
+			*/
+			bool pushButton(string clientPIN);
+
+			/**
+			string generateSelfPIN()
+			Regenerate the SelfPIN. 
+			It's not specified at this level whether the generated PIN-code should be 
+			a 4-digit or an 8-digit WPS PIN code, but this should be configurable somehow
+			in an implementation specific way. The newly generated PIN-code should be stored
+			in SelfPIN and it should be applied, meaning that devices can connect using this PIN-code.
+			During the ACTIVE registrar period (2 min).
+			The return value indicates that the registrar is started or not.
+			*/
+			string generateSelfPIN();
+
+			/**
+			Cancel WPS registrar if it was runnning.
+			*/
+			void cancelPairing();
+
+			/**
+			 * Not in the spec! 
+			 * We need something to toggle WPS in unconfigured mode.
+			 */
+			bool Configured{
+				default 1;
+			}
+
+			/**
+			Indicates whether WPS pairing is busy.
+			This is after pushButton() is called and before pairing with a device has completed or the registrar timer expired.
+			*/
+			bool PairingInProgress;
+		}
+
+		/** Update the statistics in of the AssociatedDevice[] objects in the datamodel,
+		@return list of variant maps with the AssociatedDevice values
+		@version 6.0
+		*/
+		void getStationStats();
+
+		/** The number of active entries in the AssociatedDevice  table.  */
+		read-only uint32 ActiveAssociatedDeviceNumberOfEntries {
+		   read with read_ActiveAssociatedDeviceNumberOfEntries;
+		}
+
+		/** <p> A table of the devices currently associated with the
+		    accesspoint. At most one entry in this table can exist with
+		    a given value for MACAddress.</p>
+		    @version 6.0
+		  */
+		read-only persistent object AssociatedDevice[]{
+			/** CUI based on Chargeable-User-Identity attribute in Access-Accept
+			@version 6.0  */
+			read-only string ChargeableUserId;
+
+			/**[MACAddress] The MAC address of an associated device.
+			@version 6.0
+			*/
+			read-only string MACAddress;
+			/** Whether an associated device has authenticated (true) or 
+			 * not (false).
+			@version 6.0
+			 */ 
+			read-only bool AuthenticationState;
+			/** The data transmit rate in kbps that was most recently used
+			 *  for transmission from the access point to the associated
+			 *  device.
+			@version 6.0
+			 */ 
+			read-only uint32 LastDataDownlinkRate{
+				constraint range[0,1600000];
+			}
+			/** The data transmit rate in kbps that was most recently used
+			 *  for transmission from the associated device to the access
+			 *  point.
+			@version 6.0
+			 */ 
+			read-only uint32 LastDataUplinkRate{
+				constraint range[0,1600000];
+			}
+			/** An indicator of radio signal strength of the uplink from the
+			 *  associated device to the access point, measured in dBm, as
+			 *  an average of the last 100 packets received from the
+			 *  device. 
+			@version 6.0
+			 */ 
+			read-only int32 SignalStrength{
+				constraint range[-200,0];
+			}
+			/** The number of packets that had to be re-transmitted, from
+			 *  the last 100 packets sent to the associated device. Multiple
+			 *  re-transmissions of the same packet count as one.
+			@version 6.0
+			 */ 
+			read-only uint32 Retransmissions{
+				constraint range[0,100];
+			}
+			/** <p>Whether or not this node is currently present in the WiFi
+			 *  AccessPoint network.</p>
+			 *  <p>The ability to list inactive nodes is OPTIONAL. If the CPE
+			 *  includes inactive nodes in this table, Active MUST be set
+			 *  to false for each inactive node. The length of time an
+			 *  inactive node remains listed in this table is a local
+			 *  matter to the CPE.</p>
+			@version 6.0
+			 */ 
+			read-only bool Active;
+
+			/** Signal to noise ratio in dB	
+			@version 6.0
+			 */ 
+			read-only int32 SignalNoiseRatio;
+			/** Radio noise level in dB 
+			@version 6.0
+			*/
+			read-only int32 Noise;
+			/** The time elapsed since the station was last active, in seconds 
+			@version 6.0
+			*/
+			read-only uint32 Inactive; 
+			/** Number of packets received by the station 
+			@version 6.0
+			*/
+			read-only uint32 RxPacketCount;
+			/** Number of packets sent by the station 
+			@version 6.0
+			*/
+			read-only uint32 TxPacketCount;
+
+			/** MCS Id of the station's uplink */
+			read-only uint32 UplinkMCS;
+			/** Indicates 40Mhz dualchannel bandwidth is used as uplink */
+			read-only bool UplinkIs40mhz;      
+			/** Short guarding interval is applied for uplink */
+			read-only bool UplinkShortGuard;
+
+			/** MCS Id of the station's downlink */
+			read-only uint32 DownlinkMCS;
+			/** Indicates 40Mhz dualchannel bandwidth is used as downlink */
+			read-only bool DownlinkIs40mhz;
+			/** Short guarding interval is applied for downlink */
+			read-only bool DownlinkShortGuard;
+
+		}
+		/** Enables or disables this access point.*/
+		bool Enable{
+			default 0;
+			write with setAccessPointEnable;
+		}
+
+		/* This object contains parameters for HotSpot2.0 */
+		persistent object HotSpot2 {
+			/**
+			# Enable Hotspot 2.0 support
+			*/
+			bool Enable{
+				default 0;
+				write with setHotSpotEnable;
+				constraint custom validateHotSpot2Requirements;
+			}
+
+			/**
+			Disable Downstream Group-Addressed Forwarding (DGAF) This can be used to 
+			configure a network where no group-addressed frames are allowed. The AP will not 
+			forward any group-address frames to the stations and random GTKs are issued for
+			each station to prevent associated stations from forging such frames to other 
+			stations in the BSS. 
+			*/
+			bool DgafDisable {
+				default 0;
+				write with configHotSpot;
+				constraint range [0,1];
+			}
+
+			/**
+			 Connection Capability  [multiple entries separated by ';'] 
+			 This can be used to advertise what type of IP traffic can be sent through the 
+			 hotspot (e.g., due to firewall allowing/blocking protocols/ports).
+			 format: &lt;IP Protocol&gt;:&lt;Port Number&gt;:&lt;Status&gt; IP Protocol: 1 =
+			 ICMP, 6 = TCP, 17 = UDP Port Number: 0..65535 Status: 0 = Closed, 1 = Open, 2 =
+			 Unknown Each hs20_conn_capab line is added to the list of advertised tuples. 
+			 ex: hs20_conn_capab=17:5060:0 
+			*/
+			string L2TrafficInspect {
+				write with configHotSpot;
+			}
+
+			/**
+			 * Don't find anything on this?
+			 */
+			bool IcmpV4Echo {
+				default 1;
+				write with configHotSpot;
+				constraint range [0,1];
+			}
+			/**
+			# Access Network Type
+			# 0 = Private network
+			# 1 = Private network with guest access
+			# 2 = Chargeable public network
+			# 3 = Free public network
+			# 4 = Personal device network
+			# 5 = Emergency services only network
+			# 14 = Test or experimental
+			# 15 = Wildcard
+			*/
+			persistent uint32 Interworking {
+				default 1;
+				write with configHotSpot;
+				constraint range [0,15];
+			}
+
+			/**
+			# Whether the network provides connectivity to the Internet
+			# 0 = Unspecified
+			# 1 = Network provides connectivity to the Internet
+			*/
+			bool Internet {
+				default 0;
+				write with configHotSpot;
+				constraint range [0,1];
+			}
+
+			/**
+			# Additional Step Required for Access
+			# Note: This is only used with open network, i.e., ASRA shall ne set to 0 if
+			# RSN is used. (Hotspot 2.0 Release 1 doesn't allow an open network)
+			*/
+			persistent uint32 Additional {
+				default 0;
+				write with configHotSpot;
+				constraint range [0,1];
+			}
+
+			/** Doesn't sound logic? */
+			bool Hs2Ie {
+				write with configHotSpot;
+				constraint range [0,1];
+			}
+			/**
+			# P2P Device management, allow cross connection
+			*/
+			bool P2PEnable {
+				write with configHotSpot;
+				constraint range [0,1];
+			}
+	
+			int32 GasDelay {
+				write with configHotSpot;
+			}
+
+			uint8 AccessNetworkType {
+				default 2;
+				write with configHotSpot;
+			}
+
+			/**
+			# Venue Info (optional)
+			# The available values are defined in IEEE Std 802.11u-2011, 7.3.1.34.
+			# Example values (group,type):
+			# 0,0 = Unspecified
+			# 1,7 = Convention Center
+			# 1,13 = Coffee Shop
+			# 2,0 = Unspecified Business
+			# 7,1 Private Residence
+			# (Mandatory to support this according to the testplan although the setting is optional)
+			*/
+			uint8 VenueType {
+				default 8;
+				write with configHotSpot;
+			}
+			uint8 VenueGroup {
+				default 2;
+				write with configHotSpot;
+			}
+
+			/**
+			# Venue Name information
+			# This parameter can be used to configure one or more Venue Name Duples for
+			# Venue Name ANQP information. Each entry has a two or three character language
+			# code (ISO-639) separated by colon from the venue name string.
+			# Note that venue_group and venue_type have to be set for Venue Name
+			# information to be complete.
+			#venue_name=eng:Example venue
+			#venue_name=fin:Esimerkkipaikka
+			# Alternative format for language:value strings:
+			# (double quoted string, printf-escaped string)
+			#venue_name=P"eng:Example\nvenue"
+			*/
+			string VenueName {
+				write with configHotSpot;
+			}
+			/**
+			# Homogeneous ESS identifier (optional; dot11HESSID)
+			# If set, this shall be identifical to one of the BSSIDs in the homogeneous
+			# ESS and this shall be set to the same value across all BSSs in homogeneous
+			# ESS. (Mandatory to support this according to the testplan although the setting is optional)
+			# (Can be set to our own BSSID, this is also what the test does)
+			*/
+			string HeSSID {
+				write with configHotSpot;
+			}
+
+			/**
+			# Roaming Consortium List &lt;multiple entries separated by ';'&gt; # Arbitrary 
+			number of Roaming Consortium OIs can be configured with each line # adding a new 
+			OI to the list. The first three entries are available through # Beacon and Probe
+			Response frames. Any additional entry will be available only # through ANQP 
+			queries. Each OI is between 3 and 15 octets and is configured as # a hexstring. 
+			# (Mandatory to support this according to the testplan although the setting is optional)
+			*/
+			string RoamingConsortium {
+				write with configHotSpot;
+			}
+
+			/**
+			# Domain Name
+			# format: &lt;variable-octet str&gt;[,&lt;variable-octet str&gt;]
+			*/
+			string DomainName {
+				write with configHotSpot;
+			}
+
+			/**
+			# 3GPP Cellular Network information
+			# format: &lt;MCC1,MNC1&gt;[;&lt;MCC2,MNC2&gt;][;...]
+			*/
+			string Anqp3gpp_CellNet {
+				write with configHotSpot;
+			}
+
+			/**
+			WAN Metrics
+			format: &lt;WAN Info&gt;:&lt;DL Speed&gt;:&lt;UL Speed&gt;:&lt;DL Load&gt;:&lt;UL 
+			Load&gt;:&lt;LMD&gt; WAN Info: B0-B1: Link Status, B2: Symmetric Link, B3: At 
+			Capabity (encoded as two hex digits) # Link Status: 1 = Link up, 2 = Link 
+			down, 3 = Link in test state Downlink Speed: Estimate of WAN backhaul link 
+			current downlink speed in kbps; 1..4294967295; 0 = unknown # Uplink Speed: 
+			Estimate of WAN backhaul link current uplink speed in kbps 1..4294967295; 0 = 
+			unknown  Downlink Load: Current load of downlink WAN connection (scaled to 255 
+			= 100%)  Uplink Load: Current load of uplink WAN connection (scaled to 255 = 
+			100%)  Load Measurement Duration: Duration for measuring downlink/uplink load 
+			in  tenths of a second (1..65535); 0 if load cannot be determined 
+			*/
+			read-only string WanMetrics;
+
+			/**
+			# Operating Class Indication
+			# List of operating classes the BSSes in this ESS use. The Global operating
+			# classes in Table E-4 of IEEE Std 802.11-2012 Annex E define the values that
+			# can be used in this.
+			# format: hexdump of operating class octets
+			# for example, operating classes 81 (2.4 GHz channels 1-13) and 115 (5 GHz
+			# channels 36-48):
+			# hs20_operating_class=5173
+			*/
+			string OperatingClass{
+				write with configHotSpot;
+			}
+		}
+
+	} /* object AccessPoint */
+
+	/** <p>This object models an 802.11 connection from the
+	    perspective of a wireless end point. Each EndPoint entry is
+	    associated with a particular SSID  interface instance via
+	    the SSIDReference  parameter, and an associated active
+	    Profile  instance via the ProfileReference  parameter. The
+	    active profile is responsible for specifying the actual SSID
+	    and security settings used by the end point.</p>
+	    <p>For enabled table entries, if SSIDReference or
+	    ProfileReference is not a valid reference then the table
+	    entry is inoperable and the CPE MUST set Status to
+	    Error_Misconfigured. Note: The EndPoint table includes a
+	    unique key parameter that is a strong reference. If a
+	    strongly referenced object is deleted, the CPE will set the
+	    referencing parameter to an empty string. However, doing so
+	    under these circumstances might cause the updated EndPoint
+	    row to then violate the table's unique key constraint; if
+	    this occurs, the CPE MUST set Status to Error_Misconfigured
+	    and disable the offending EndPoint row.</p>
+	    <p>At most one entry in this table (regardless of whether or
+	    not it is enabled) can exist with a given value for Alias.
+	    On creation of a new table entry, the CPE MUST choose an
+	    initial value for Alias such that the new entry does not
+	    conflict with any existing entries. At most one enabled
+	    entry in this table can exist with a given value for
+	    SSIDReference.</p>*/
+	persistent object EndPoint[]{
+		/** <p>Indicates the status of this end point. Enumeration
+		*   of:</p>
+		*   <ul>
+		*     <li> Disabled </li>
+		*     <li> Enabled </li>
+		*     <li> Error_Misconfigured </li>
+		*     <li> Error (OPTIONAL) </li>
+		*   </ul>
+		*   The Error_Misconfigured value indicates that a necessary
+		*   configuration value is undefined or invalid. The Error
+		*   value MAY be used by the CPE to indicate a locally defined
+		*   error condition.*/
+		read-only string Status{
+			constraint enum ["Disabled","Enabled","Error_Misconfigured","Error"];
+			default "Disabled";
+		}
+		/*
+		event NOTIFY_PAIRING_DONE name="pairingDone" { 
+			string reason constraint enum ["Collision", "TimeOut", "Success", "Canceled"];
+		}
+		event NOTIFY_PAIRING_READY name="pairingReady" {
+			string reason constraint enum ["Configuring", "Started"];
+		}
+		*/
+
+
+		/** A non-volatile handle used to reference this instance. Alias
+		 *  provides a mechanism for an ACS to label this instance for
+		 *  future reference. An initial unique value MUST be assigned
+		 *  when the CPE creates an instance of this object. */
+		string Alias;
+		/** Index in the EndPoint object tree */
+		read-only uint32 Index;
+		/** The value MUST be the path name of a row in the Profile
+		 *  table. If the referenced object is deleted, the parameter
+		 *  value MUST be set to an empty string. This is the currently
+		 *  active profile, which specifies the SSID and security
+		 *  settings to be used by the end point.*/
+		string ProfileReference {
+			default "";
+		}
+		/** The value MUST be the path name of a row in the SSID table.
+		 *  If the referenced object is deleted, the parameter value
+		 *  MUST be set to an empty string. SSIDReference is determined
+		 *  based on the Profile.{i}.SSID  within the associated Profile
+		 *  Reference) endpoint profile. SSIDReference MUST be an empty
+		 *  string if ProfileReference  is an empty string (i.e. only
+		 *  when an active profile is assigned can the associated SSID
+		 *  interface be determined).*/
+		string SSIDReference;
+
+		/** Throughput statistics for this end point.  <b>Not
+		 *  clear how we can handle this? ToBe Defined!!!</b> */
+		object Stats{
+			read with getEndPointStats;
+			/** The data transmit rate in kbps that was most recently used
+			 *  for transmission from the access point to the end point
+			 *  device.*/
+			read-only uint32 LastDataDownlinkRate{
+				constraint range[0,600000];
+			}
+			/** The data transmit rate in kbps that was most recently used 
+			 *  for transmission from the end point to the access point 
+			 *  device.*/
+			read-only uint32 LastDataUplinkRate{
+				constraint range[0,600000];
+			}
+			/** An indicator of radio signal strength of the downlink from
+			 *  the access point to the end point, measured in dBm, as an
+			 *  average of the last 100 packets received from the device.*/
+			read-only int32 SignalStrength{
+				constraint range[-200,0];
+			}
+			/** The number of packets that had to be re-transmitted, from
+			 *  the last 100 packets sent to the access point.
+			 *  Multiple re-transmissions of the same packet count as
+			 *  one.*/
+			read-only uint32 Retransmissions{
+				constraint range[0,100];
+			}
+		}
+		/**This object contains security related parameters that apply 
+		 * to a WiFi end point.  */
+		object Security{
+			/**
+			 *  <p>Comma-separated list of strings. Indicates which security
+			 *  modes this EndPoint  instance is capable of supporting. Each
+			*   list item is an enumeration of:</p>
+			*   <ul>
+			*     <li> None </li>
+			*     <li> WEP-64 </li>
+			*     <li> WEP-128 </li>
+			*     <li> <b>WEP-128iv</b> </li>
+			*     <li> WPA-Personal </li>
+			*     <li> WPA2-Personal </li>
+			*     <li> WPA-WPA2-Personal </li>
+			*     <li> WPA-Enterprise </li>
+			*     <li> WPA2-Enterprise </li>
+			*     <li> WPA-WPA2-Enterprise </li>
+			*   </ul>
+			*   */
+			string ModesSupported{
+				default "";
+			}
+		}
+		/** EndPoint Profile table.
+		 *  At most one entry in this table (regardless of whether or
+		 *  not it is enabled) can exist with a given value for Alias.
+		 *  On creation of a new table entry, the CPE MUST choose an
+		 *  initial value for Alias such that the new entry does not
+		 *  conflict with any existing entries.
+		 *  At most one enabled entry in this table can exist with all
+		 *  the same values for SSID, Location and Priority.*/
+		object Profile[]{
+			/** Enables or disables this Profile.
+			 *  <p>When there are multiple WiFi EndPoint Profiles, e.g. each
+			 *  instance supports a different SSID and/or different
+			 *  security configuration, this parameter can be used to
+			 *  control which of the instances are currently enabled.</p>*/
+			bool Enable;
+			/**  Indicates the status of this Profile. Enumeration of:
+			*   <ul>
+			*     <li> Active </li>
+			*     <li> Available </li>
+			*     <li> Error (OPTIONAL) </li>
+			*     <li> Disabled  </li>
+			*   </ul>
+			*   The Active value is reserved for the instance that is
+			*   actively connected. The Available value represents an
+			*   instance that is not currently active, but is also not
+			*   disabled or in error. The Error value MAY be used by the
+			*   CPE to indicate a locally defined error condition.*/
+			string Status{
+				constraint enum ["Active","Available","Error","Disabled"];
+				default "Disabled";
+			}
+			/** A non-volatile handle used to reference this instance. Alias
+			 *  provides a mechanism for an ACS to label this instance for
+			 *  future reference. An initial unique value MUST be assigned
+			 *  when the CPE creates an instance of this object.*/
+			string Alias;
+			/** The profile identifier in use by the connection. The SSID is
+			 *  an identifier that is attached to packets sent over the
+			 *  wireless LAN that functions as an ID for joining a
+			 *  particular radio network (BSS).*/
+			string SSID;
+			/** Location of the profile. This value serves as a reminder
+			 *  from the user, describing the location of the profile. For
+			 *  example: "Home", "Office", "Neighbor House", "Airport",
+			 *  etc. An empty string is also valid.*/
+			string Location;
+			/** The profile Priority defines one of the criteria used by the
+			 *  End Point to automatically select the "best" AP when several
+			 *  APs with known profiles are simultaneously available for
+			 *  association. In this situation, the End Point has to select
+			 *  the AP with the higher priority in its profile. If there are
+			 *  several APs with the same priority, providing different SSID
+			 *  or the same SSID, then the wireless end point has to select
+			 *  the APs according to other criteria like signal quality,
+			 *  SNR, etc. <p>0 is the highest priority.</p>*/
+			uint32 Priority{
+				constraint range[0,255];
+				default 0;
+			}
+			/** This object contains security related parameters that apply 
+			 *  to a WiFi End Point profile.*/
+			object Security{
+				/** The value MUST be a member of the list reported by the
+				 *  Security.ModesSupported  parameter. Indicates which
+				 *  security mode is enabled.*/
+				string ModeEnabled {
+					constraint enum  [ "None","WEP-64","WEP-128","WEP-128iv",
+						   "WPA-Personal","WPA2-Personal","WPA-WPA2-Personal",
+						   "E-None",
+						   "WPA-Enterprise","WPA2-Enterprise","WPA-WPA2-Enterprise",
+						   "Auto" ];
+					default "None";
+				}
+
+				/** A WEP key expressed as a hexadecimal string.
+				 *  WEPKey is used only if ModeEnabled is set to WEP-64 or
+				 *  WEP-128. A 5 byte WEPKey corresponds to security mode WEP-64
+				 *  and a 13 byte WEPKey corresponds to security mode WEP-128.
+				 *  When read, this parameter returns an empty string,
+				 *  regardless of the actual value.*/
+				string WEPKey;
+				/** A literal PreSharedKey (PSK) expressed as a hexadecimal
+				 *  string. PreSharedKey is only used if ModeEnabled is set to
+				 *  WPA-Personal or WPA2-Personal or WPA-WPA2-Personal. If
+				 *  KeyPassPhrase is written, then PreSharedKey is immediately
+				 *  generated. The ACS SHOULD NOT set both the KeyPassPhrase and
+				 *  the PreSharedKey directly (the result of doing this is
+				 *  undefined). When read, this parameter returns an empty
+				 *  string, regardless of the actual value.*/
+				string PreSharedKey;
+				/** A passphrase from which the PreSharedKey  is to be
+				 *  generated, for WPA-Personal  or WPA2-Personal  or
+				 *  WPA-WPA2-Personal  security modes. If KeyPassPhrase is
+				 *  written, then PreSharedKey is immediately generated. The ACS
+				 *  SHOULD NOT set both the KeyPassPhrase and the PreSharedKey
+				 *  directly (the result of doing this is undefined). The key is
+				 *  generated as specified by WPA, which uses PBKDF2 from PKCS
+				 *  #5: Password-based Cryptography Specification Version 2.0
+				 *  [RFC2898]. When read, this parameter returns an empty
+				 *  string, regardless of the actual value.*/
+				string KeyPassPhrase;
+			}
+		}
+		/** This object contains parameters related to Wi-Fi
+		 *  Protected Setup [WPSv1.0] for this end point. */
+		object WPS{
+			/** Enables or disables WPS functionality for this endpoint. */
+			bool Enable{
+				default 0;
+			}
+			/** Comma-separated list of strings. Indicates the WPS
+			 *  configuration methods supported by the device. Each list
+			*   item is an enumeration of:
+			*   <ul>
+			*     <li> USBFlashDrive </li>
+			*     <li> Ethernet </li>
+			*     <li> ExternalNFCToken </li>
+			*     <li> IntegratedNFCToken </li>
+			*     <li> NFCInterface </li>
+			*     <li> PushButton </li>
+			*     <li> PIN </li>
+			*   </ul>
+			*   This parameter corresponds directly to the "Config
+			*   Methods" attribute of the WPS specification [WPSv1.0].*/
+			read-only string ConfigMethodsSupported;
+			/*
+				constraint enum ["USB","Ethernet","Label","Display",
+				                 "ExternalNFCToken","InternalNFCToken","NFCInterface","PushButton",
+				                 "PIN"];
+			*/
+			/** Comma-separated list of strings. Each list item MUST be a
+			 *  member of the list reported by the ConfigMethodsSupported
+			 *  parameter. Indicates the WPS configuration methods enabled
+			 *  on the device.*/
+			string ConfigMethodsEnabled;
+
+			/**
+			This function is for WPS enrollment
+			If no arguments are given, this starts the PushButton scenario. 
+			Notice that the corresponding config method needs to be enabled by ConfigMethodsEnabled.
+			* @param clientPIN optional argument to use clientPIN, give a 4-digit or 8-digit WPS PIN code.
+			* @param ssid restrict the wps session to a certain ssid
+			* @param bssid restrict the wps session to the AP with this MAC
+		 	* @version 6.1
+			*/
+			void pushButton(string ssid, string bssid, string clientPIN);
+
+			/**
+			* Cancel WPS registrar if it was runnning.
+		 	* @version 6.1
+			*/
+			void cancelPairing();
+
+			/**
+			* Indicates whether WPS pairing is busy.
+			* This is after pushButton() is called and before pairing with a device has completed or the registrar timer expired.
+			*/
+			read-only bool PairingInProgress;
+		}
+
+		/** When this is toggled, we must check for updating the full 
+		 *  config!
+		 *  <p>Enables or disables this Profile.
+		 *  When there are multiple WiFi EndPoint Profiles, e.g. each
+		 *  instance supports a different SSID and/or different
+		 *  security configuration, this parameter can be used to
+		 *  control which of the instances are currently enabled.</p> */
+		bool Enable{
+			default 0;
+			write with setEndPointEnable;
+		}
+	} /* object EndPoint */
+}
+
+
+/** @location sah_lib_wld /wld.odl */

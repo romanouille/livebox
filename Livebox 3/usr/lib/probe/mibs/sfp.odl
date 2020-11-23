@@ -1,0 +1,4 @@
+mib sfp {
+persistent bool Enable;
+persistent uint32 OpticalLevelInterval;
+}

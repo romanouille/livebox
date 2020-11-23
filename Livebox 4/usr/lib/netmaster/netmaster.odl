@@ -1,0 +1,6 @@
+
+
+include "netmaster-definitions.odl";
+include "netmaster-defaults.odl";
+
+/** @location sah_services_netmaster /netmaster.odl */

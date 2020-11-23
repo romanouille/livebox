@@ -1,0 +1,8 @@
+{
+  "status": 0,
+  "data": {
+    "isDhcpEnabled": true,
+    "addressPrefix":"",
+    "addressGUA":""
+  }
+}

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+PCB_PLUGIN="/bin/pcb_plugin"
+DHCCV6_PLUGIN_ODL="/usr/lib/dhcpv6server/dhcpv6server.odl"
+LOG_LEVEL=300
+PID="/var/run/dhcpv6server.pid"
+
+case $1 in 
+	start)
+		mkdir -p /var/etc/dhcpdv6/ /var/db
+		touch /var/db/dhcpd6.leases
+
+		dhcpv6server=${LOG_LEVEL} $PCB_PLUGIN -n dhcpv6server -c $DHCCV6_PLUGIN_ODL 
+		pcb_cli -q "Firewall.setService(dhcpdv6, lan, 547, 17, 6, true)"
+	;;
+
+	stop)
+		[ -f "${PID}" ] && kill `cat ${PID}`
+		pcb_cli -q "Firewall.deleteService(dhcpdv6)"
+		rm -rf ${PID}
+	;;
+	status)
+		if [ -e $PID ] ; then 
+			echo "dhcpv6server plugin is running."
+		else 
+			echo "dhcpv6server plugin is not running."
+		fi 
+	;;
+	*)
+        	echo "Usage: $0 [start|stop|status]"
+	;;
+esac
+

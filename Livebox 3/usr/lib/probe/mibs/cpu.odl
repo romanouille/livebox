@@ -1,0 +1,4 @@
+mib cpu {
+persistent bool Enable;
+persistent uint32 Interval;
+}

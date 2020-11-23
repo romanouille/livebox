@@ -1,0 +1,45 @@
+using "upgraded_plugin.so";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read,write,execute;
+}
+persistent object Upgrade {
+persistent bool SSLPeerAuthentication {
+default false;
+write with saveHandler;
+}
+persistent bool SSLCheckDomain {
+default false;
+write with saveHandler;
+}
+persistent bool SSLAllowSelfSigned {
+default false;
+write with saveHandler;
+}
+uint32 MaxRetry=0;
+read-only uint32 AuthenticationCheckFailureCode=9019;
+read-only uint32 IncompatibleFirmwareFailureCode=9019;
+read-only uint32 FirmwareFlashFailureCode=9002;
+read-only bool HTTPEnabled=true;
+read-only bool HTTPSEnabled=true;
+read-only bool FTPEnabled=false;
+read-only bool USBEnabled=false;
+string CurrentScenario;
+string CurrentStep;
+string Status="Idle";
+string FailOnScenario;
+string FailOnStep;
+string FailWith;
+string Flags {
+default "ipv4";
+}
+persistent bool ImageVerify {
+default true;
+write with saveHandler;
+}
+persistent string Interface {
+default "data";
+}
+}

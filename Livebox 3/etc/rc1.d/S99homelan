@@ -1,0 +1,69 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+PID="/var/run/homelan.pid"
+NAME=homelan
+
+name="homelan"
+datamodel="HomeLan"
+component="sah_services_homelan"
+
+backup() {
+    if pcb_is_running homelan; then
+        pcb_cli "HomeLan.export()"
+    else
+        echo "HomeLan is not running, impossible to make a backup"
+    fi
+}
+
+restore() {
+    mkdir -p /var/lib/homelan
+    touch /var/lib/homelan/restore
+}
+
+reset() {
+    rm -f /etc/config/homelan.cfg
+}
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "homelan service already started"
+        exit 1;
+    fi
+
+    pidof homelan > $PID
+    pcb_plugin -n homelan -c /usr/lib/homelan/homelan.odl -vv
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill -15 $(cat $PID)
+        rm $PID
+    fi
+}
+
+case $1 in
+    backup)
+        backup
+        ;;
+    restore)
+        restore
+        ;;
+    reset)
+        reset
+        ;;
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 [start|stop|restart|backup|restore]"
+        ;;
+esac

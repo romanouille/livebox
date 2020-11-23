@@ -1,0 +1,58 @@
+<div id="telephoneHD" class="infoSystemPage" xmlns="http://www.orange.com/xhtml/engine/loose">  
+	 <div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_diagnostic">
+			<span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;<span i18n="page.diagnostic.telephoneHD"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.diagnostic.telephoneHD.subtitle"/>
+			<br/>
+		</div>	
+	  </div>
+	<div class="maindiv">		
+		<form action="#">			
+			<div id="MASTERBOX">
+				<div class="headBoxType1 margin-top-10" >
+					<span class="moins" >
+						<span class="h3Text margin-left-30" dataId="Device/DeviceInfo/RouterName"/>
+					</span>	
+				</div>		
+				<div class="sysinfo">
+					<div class="boxType4 border-bottom-1">
+						<span id="print">
+							<a href="javascript:window.print()" i18n="common.print"/>
+						</span>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.telephoneHD.version.materiel">
+							<span class="margin-left-100 bold_font" dataId="Device/VOIPService/DECTFixedPart/HardwareVersion" />
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.telephoneHD.version.software">
+							<span class="margin-left-100 bold_font" dataId="Device/VOIPService/DECTFixedPart/FirmwareVersion" />
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.telephoneHD.version.telHD">
+							<span class="margin-left-100 bold_font" dataId="Device/VOIPService/DECTFixedPart/Standard" />
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.telephoneHD.version.EEPROM">
+							<span class="margin-left-100 bold_font" dataId="Device/VOIPService/DECTFixedPart/EepromVersion" />
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.telephoneHD.version.RFPI">
+							<span class="margin-left-100 bold_font" dataId="Device/VOIPService/DECTFixedPart/RFPI" />
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

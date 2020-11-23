@@ -1,0 +1,25 @@
+{
+  "status": 0,
+  "data": {
+    "deviceId": "33",
+    "name": "Hub",
+    "vendor": "WD",
+    "model": "Elements 10A2",
+    "serialNumber": "WX21AB207424",
+    "connectionType": "usb",
+    "isRemovable": false,
+    "capacity": 476907,
+    "volumeList": [
+      {
+        "volumeId": "62",
+        "name": "MyData",
+        "fileSystem": "ext4",
+        "totalSpace": 2516,
+        "usedSpace": 1024,
+        "freeSpace": 1392,
+        "isMounted": true,
+        "mountPoint": ""
+      }
+    ]
+  }
+}

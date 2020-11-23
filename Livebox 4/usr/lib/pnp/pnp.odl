@@ -1,0 +1,69 @@
+using "pnp.so";
+
+acl {
+    world read,execute;
+    group admin read,execute;
+    group remoteadmin read,execute;
+    group cwmpd read,write,execute;
+}
+
+persistent object PnP {
+
+    string Status {
+        constraint enum ["Idle", "Running", "Error", "OK", "Timeout"];
+        default "Idle";
+    }
+
+    persistent string LastName {
+        default "";
+    }
+
+    persistent string FirstName {
+        default "";
+    }
+
+    persistent string MobilePhoneNumber {
+        constraint maxvalue 10;
+        default "";
+    }
+
+    persistent string ServerURL {
+        acl {
+            world none;
+        }
+        default "https://g2.spnp.orange.com";
+    }
+
+    persistent string WakeUpURL {
+        acl {
+            world none;
+        }
+        default "";
+    }
+
+    persistent uint32 WakeUpPort {
+        acl {
+            world none;
+        }
+        default 52804;
+    }
+
+    persistent string ConnectionMode {
+        acl {
+            world none;
+        }
+        default "";
+    }
+
+    persistent bool Enable {
+        acl {
+            world none;
+        }
+        default "";
+    }
+
+    list get();
+}
+
+
+/** @location sah_services_pnp/pnp.odl */

@@ -1,0 +1,71 @@
+#!/bin/sh
+. /usr/bin/pcb_common.sh
+
+PID="/var/run/upgraded.pid"
+UPGRADED_EXEC="upgraded -vv"
+PCB_PLUGIN="/bin/pcb_plugin"
+UPGRADED_PLUGIN_ODL="/usr/lib/upgraded/upgraded.odl"
+
+trace_zones=""
+
+start() {
+    if [ -e "/etc/config/updated.conf" ]; then
+        logger -t upgraded "Upgrade.conf exists:"
+        cp /etc/config/updated.conf /tmp/updated.conf
+        cat /etc/config/updated.conf
+    fi
+    pcb_start upgraded_plugin -c $UPGRADED_PLUGIN_ODL
+
+    if app_is_running upgraded; then
+        logger -t upgraded "Upgraded already started"
+    else
+        ${UPGRADED_EXEC};
+    fi
+}
+
+stop() {
+    pcb_stop upgraded_plugin
+    if [ -e ${PID} ]; then
+        kill $(cat ${PID});
+    else
+        logger -t upgraded "Upgraded already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PLUGIN_PID}; do
+        sleep 1
+    done
+    while test -e ${PID}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+    ;;
+    stop)
+        stop
+    ;;
+    restart)
+        restart
+        ;;
+    debuginfo)
+        pcb_debug_info upgraded_plugin sah_services_upgraded Upgrade
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log upgraded_plugin $action $trace_zones
+        else
+            pcb_log upgraded_plugin enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo|log]"
+        ;;
+esac
+

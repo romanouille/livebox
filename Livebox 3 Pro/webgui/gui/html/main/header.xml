@@ -1,0 +1,36 @@
+<div id="header" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<a href="javascript:;" id="headerLogo" i18n="data.headerLogo"/>
+	<div id="displayMode">
+		<form>
+		<label for="meshEnabled" style="display: none;">meshEnabled</label>
+		<input id="meshEnabled" type = "text" class="visibledependent-hide" />
+		<label for="menuserviceinternet" style="display: none;">menuserviceinternet</label>
+		<input id="menuserviceinternet" type = "text" class="visibledependent-hide" />
+			<label for="langSelectorselect" style="display: none;">langSelector</label>
+    		<span id="langSelector" class="margin-left-5 margin-right-5 w135" widgetType="EnumInput" widgetArg="'select'" enumerated="['fr']" i18nPrefix="data.preference.lang" i18n="preference.display.lang"/>
+			<label for="levelSelectorselect" style="display: none;">levelSelector</label>
+			<span id="levelSelector" class="margin-left-5 margin-right-5 w135" widgetType="EnumInput" widgetArg="'select'" enumerated="['standard', 'expert']" i18nPrefix="data.preference.display"/>
+		</form>
+		<div class="clear"/>
+	</div>
+	<div class="clear"/>
+	<div id="connectionManagement">
+	    &#160;&#160;
+		<span class="infoLabel" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}" i18n="preference.display.infolabel.standard"/>
+		<span class="infoLabel" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}" i18n="preference.display.infolabel.expert"/>
+		<a id="icoHelp" href="javascript:;"   class="iconAide "  />
+		<form id="isConnected" action="#">		
+			<span class="grey  margin-left-5"> | </span>
+		 	<img class="ico"  i18n="img.data.PuceChevronOrange" widgetType="Image"/>
+		 	&#160;
+			<a href="javascript:;" i18n="data.isConnect.1" onclick="jQuery.orange.config.areacontent.header.disconnect();"/>			
+		</form>
+		
+		<div class="clear"/>
+	</div>
+	<!-- Little trick here: if the browser cache is empty and we ask to reboot the box, we need 
+	the animated gif of the infinite progress bar. So we need to load it before any possibility 
+	of reboot because if the box is rebooting it will be too late -->
+	<div id="preloadRunnerBar" class="runnerBar">
+	</div>
+</div>

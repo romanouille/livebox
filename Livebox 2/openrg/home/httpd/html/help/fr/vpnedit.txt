@@ -1,0 +1,19 @@
+<b>VPN :</b><br>
+<br>
+Sur cette page vous pouvez définir les paramètres de votre connexion VPN.<br>
+<br>
+La configuration en mode Facile est à privilégier  si vous interconnectez 2 Livebox et que vous souhaitez conservez les paramètres de sécurité par défaut.<br>
+<br>
+Le mode Expert permet de définir les paramètres de sécurité d’une connexion entre Livebox. Ce mode permet également de configurer une liaison entre une Livebox et un autre type de équipement VPN.<br>
+<br>
+<span class="boldorange">Configuration du tunnel en mode Facile :</span><br>
+Pour créer une nouvelle connexion vous devez fournir les informations suivantes : 
+- un nom de tunnel (ex : Paris)
+- l’adresse IP (ex : 193.49.124.107) ou le nom DNS de l’hôte distant (ex : mondomaine.dyndns.org )
+- une clé secrète qui doit être identique sur les 2 Livebox (ex : motdepasse)
+- la plage des adresses du réseau local et du réseau distant qui auront accès au VPN. Pour ces 2 dernières informations, il faut rentrer une adresse IP ainsi qu’un masque de sous-réseau. Par exemple : adresse réseau local : 192.168.1.1/24, adresse réseau distant : 192.168.1.2/24<br>
+<br>
+<span class="boldorange">Configuration du tunnel en mode Expert :</span><br>
+Pour créer une nouvelle connexion vous devez fournir les informations suivantes : un nom de tunnel, l’adresse IP ou le nom DNS de l’hôte distant, une clé secrète qui doit être identique sur les 2 Livebox participant à la connexion, la plage des adresses du réseau local et du réseau distant qui auront accès au VPN. Pour ces 2 dernières informations, il faut rentrer une adresse IP ainsi qu’un masque de sous-réseau.<br>
+Vous pouvez conserver les autres paramètres par défaut. La modification des paramètres de sécurité est réservée aux utilisateurs avancés.
+

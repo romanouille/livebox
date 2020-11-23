@@ -1,0 +1,35 @@
+<div id="reinitialisationAP" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<span style="display:none">XpathRouter</span>
+	<div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		 <h1 class="logo_EnvLiveBox_reinitialisation">
+			<span i18n="page.myEquipments.reinitialisation.title"/>&#160;<span class="orange" dataId="XpathRouter/RouterName"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+	    	<strong i18n="page.myEquipments.reinitialisation.subtitle"/>
+	    </div>
+	</div>
+	<div class="maindiv">		
+		<form>
+		<div class="boxType4 margin-top-10  border-bottom-3">
+			<span class="h3Text" i18n="page.myEquipments.reinitialisation.reinit"/>
+			<div class="forminput" i18n="page.myEquipments.reinitialisation.reinit.label"/>
+			<div class="notificationSmall" i18n="page.myEquipments.reinitialisation.reinit.label2"/>
+			<br/>
+			<div widgetType="ButtonContainer" class="center">
+				<span id="btnReinitBox" widgetType="ButtonImage" i18n="page.myEquipments.reinitialisation.btn"/>
+			</div>
+			<div i18n="page.myEquipments.reinitialisation.reinit.label3"/> <!-- class="forminput"  -->
+		</div>				
+			<!-- <div widgetType="ButtonContainer" class="btnPageBack">
+				<span widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'PREVIOUSPAGE'}" i18n="common.page.back"/>
+			</div> -->
+		</form>
+	</div>
+</div>

@@ -1,0 +1,8 @@
+<b>Mot de passe livebox :</b><br>
+<br>
+Vous pouvez modifier le mot de passe d’administration de votre livebox. Entrez un nouveau mot de passe et ressaisissez le dans le champ de confirmation.<br>Le mot de passe d’administration sert à vous authentifier sur votre livebox. Il vous est demandé à chaque connexion.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

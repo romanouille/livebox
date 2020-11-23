@@ -1,0 +1,4 @@
+/etc/asterisk/cdr_custom.conf
+/etc/asterisk/cdr_odbc.conf
+/etc/asterisk/cdr_pgsql.conf
+/etc/asterisk/cdr_tds.conf

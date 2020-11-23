@@ -1,0 +1,12 @@
+using "../nmccore_datatracking.so";
+persistent object NMC {
+persistent object DataTracking {
+persistent bool CustomerAuthorization {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}

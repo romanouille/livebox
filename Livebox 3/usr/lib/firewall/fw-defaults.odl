@@ -1,0 +1,129 @@
+datamodel {
+object Firewall {
+object PortForwarding {
+parameter SourceInterface = "data";
+}
+parameter Enable = true;
+parameter AdvancedLevel = "Medium";
+parameter AdvancedIPv6Level = "Medium";
+parameter MinPort = 1024;
+parameter MaxPort = 65535;
+instance of Policy(0, "Wan2Lan") {
+parameter Name = "Wan2Lan";
+parameter Chain = "Firewall.Chain.Medium";
+parameter ReverseChain = "Off";
+parameter SourceInterface = "data";
+parameter DestinationInterface = "lan";
+parameter Enable = true;
+parameter IPVersion = 4;
+}
+instance of Policy(0, "Voip2Lan") {
+parameter Name = "Voip2Lan";
+parameter Chain = "Firewall.Chain.VOIP_In";
+parameter ReverseChain = "Firewall.Chain.VOIP_Out";
+parameter SourceInterface = "voip";
+parameter DestinationInterface = "lan";
+parameter Enable = true;
+}
+instance of Policy(0, "IPTV2Lan") {
+parameter Name = "IPTV2Lan";
+parameter Chain = "Firewall.Chain.IPTV_In";
+parameter ReverseChain = "Off";
+parameter SourceInterface = "iptv";
+parameter DestinationInterface = "lan";
+parameter Enable = true;
+}
+instance of Policy(0, "Wan2LanIPv6") {
+parameter Name = "Wan2LanIPv6";
+parameter Chain = "Firewall.Chain.Medium_In";
+parameter ReverseChain = "Firewall.Chain.Medium_Out";
+parameter SourceInterface = "data";
+parameter DestinationInterface = "lan";
+parameter Enable = true;
+parameter IPVersion = 6;
+}
+instance of Policy(0, "Wificom") {
+parameter Name = "Wificom";
+parameter Chain = "Firewall.Chain.Hotspot";
+parameter ReverseChain = "Off";
+parameter SourceInterface = "wl2";
+parameter DestinationInterface = "wfc_ppp";
+parameter Enable = true;
+parameter IPVersion = 4;
+}
+instance of Chain(0, "Custom") {
+parameter Name = "Custom";
+}
+instance of Chain(0, "Custom_V6Out") {
+parameter Name = "Custom_V6Out";
+}
+instance of Chain(0, "Custom_V6In") {
+parameter Name = "Custom_V6In";
+}
+instance of Chain(0, "High") {
+parameter Name = "L_High";
+}
+instance of Chain(0, "Low") {
+parameter Name = "L_Low";
+}
+instance of Chain(0, "Medium") {
+parameter Name = "L_Medium";
+}
+instance of Chain(0, "In") {
+parameter Name = "In";
+}
+instance of Chain(0, "Out") {
+parameter Name = "Out";
+}
+instance of Chain(0, "High_In") {
+parameter Name = "L_High_In";
+}
+instance of Chain(0, "High_Out") {
+parameter Name = "L_High_Out";
+}
+instance of Chain(0, "Medium_In") {
+parameter Name = "L_Medium_In";
+}
+instance of Chain(0, "Medium_Out") {
+parameter Name = "L_Medium_Out";
+}
+instance of Chain(0, "NO_ICMP") {
+parameter Name = "NO_ICMP";
+}
+instance of Chain(0, "IPTV_Out") {
+parameter Name = "IPTV_Out";
+}
+instance of Chain(0, "VOIP_Out") {
+parameter Name = "VOIP_Out";
+}
+instance of Chain(0, "IPTV_In") {
+parameter Name = "IPTV_In";
+}
+instance of Chain(0, "VOIP_In") {
+parameter Name = "VOIP_In";
+}
+instance of Chain(0, "Hotspot") {
+parameter Name = "Hotspot";
+}
+instance of Service(0, "upnp") {
+parameter Id = "upnp";
+parameter SourceInterface = "lan";
+parameter DestinationPort = "1900";
+parameter IPVersion = 0;
+parameter Protocol = "17";
+parameter Enable = true;
+}
+instance of Service(0, "ssh_data_ipv4") {
+parameter Id = "ssh_data_ipv4";
+parameter SourceInterface = "data";
+parameter DestinationPort = "50222";
+parameter IPVersion = 4;
+parameter Protocol = "6";
+parameter Enable = false;
+}
+instance of Interface(0, "bridge") {
+parameter SourceAddress6Spoofing = true;
+parameter SourceAddress4Spoofing = true;
+}
+}
+}

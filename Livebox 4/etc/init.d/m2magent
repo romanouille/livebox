@@ -1,0 +1,44 @@
+#!/bin/sh
+
+PID_CLIENT="/var/run/m2magent_client.pid"
+PID_PLUGIN="/var/run/m2magent_plugin.pid"
+
+start() {
+    if [ -e "${PID_PLUGIN}" ]; then
+        echo "m2magent plugin already started"
+    else
+        pcb_app -n m2magent_plugin -vv -c /usr/lib/m2magent/m2magent.odl
+    fi
+
+    if [ -e "${PID_CLIENT}" ]; then
+        echo "m2magent client already started"
+    else
+        pcbs_app -n m2magent_client -l -vv /usr/lib/m2magent/client.so
+    fi
+}
+
+stop() {
+    if [ -e "${PID_CLIENT}" ]; then
+        kill $(cat $PID_CLIENT)
+    else
+        echo "m2magent client not running"
+    fi
+
+    if [ -e "${PID_PLUGIN}" ]; then
+        kill $(cat $PID_PLUGIN)
+    else
+        echo "m2magent plugin not running"
+    fi
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    *)
+        echo "Usage : $0 [start|stop]"
+        ;;
+esac

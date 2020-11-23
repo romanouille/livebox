@@ -1,0 +1,4 @@
+include "voipaad-definition.odl";
+include "voipaad-defaults.odl";
+
+/** @location ext_ft_services_voipaad /voipaad.odl */

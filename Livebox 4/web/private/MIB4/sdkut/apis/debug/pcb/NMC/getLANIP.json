@@ -1,0 +1,10 @@
+{
+    "status": true,
+    "data": {
+      "Address":"192.168.1.1",
+      "Netmask":"255.255.255.0",
+      "DHCPEnable":true,
+      "DHCPMinAddress":"192.168.1.10",
+      "DHCPMaxAddress":"192.168.1.150"
+    }
+}

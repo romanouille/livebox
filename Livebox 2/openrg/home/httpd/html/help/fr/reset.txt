@@ -1,0 +1,8 @@
+<b>Réinitialisation :</b><br>
+<br>
+Cliquez sur le bouton <i>Réinitialiser</i> pour rétablir les valeurs par défaut de tous les paramètres de configuration de votre livebox. Tous les paramètres personnalisés seront perdus une fois les paramètres usine restaurés. C'est pourquoi il est recommandé d'effectuer, au préalable, une sauvegarde des paramètres personnels.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

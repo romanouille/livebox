@@ -1,0 +1,729 @@
+using "cwmp-plugin.so";
+
+/*
+ *  Datamodel definition written using TR98 spec Issue 1 Amendment 2 (September 2008)
+ */
+
+acl {
+	group admin execute;
+	group remoteadmin execute;
+		group cwmpd read,write,execute;
+}
+
+/**
+  * This object contains parameters relating to the CPE’s association with an ACS.
+  */
+persistent object ManagementServer {
+   /**
+    * Enables and disables the CPE’s support for CWMP.
+    * False means that CWMP support in the CPE is disabled, in which case the device MUST NOT send any Inform messages to the ACS or accept any Connection Request notifications from the ACS.
+    * True means that CWMP support on the CPE is enabled.
+    * The factory default value MUST be True.
+    * The subscriber can re-enable the CPE’s CWMP support either by performing a factory reset or by using a LAN-side protocol to change the value of this parameter back to True.
+    * @version 4.5
+    */
+    bool EnableCWMP=1;
+
+   /**
+    * URL, as defined in [8], for the CPE to connect to the ACS using the CPE WAN Management Protocol.
+    * This parameter MUST be in the form of a valid HTTP or HTTPS URL [6].
+    * The "host" portion of this URL is used by the CPE for validating the ACS certificate when using SSL or TLS.
+    * Note that on a factory reset of the CPE, the value of this parameter might be reset to its factory value. If an ACS modifies the value of this parameter, it SHOULD be prepared to accommodate the situation that the original value is restored as the result of a factory reset.
+    * @version 4.5
+    */
+    persistent string URL {
+     default "http://acs-download.qacafe.com";
+     write with writeURL;
+   }
+
+   /**
+    * The ACS IP that was detected
+    * @version 4.5
+    */
+    read-only string ACSIP;
+
+   /**
+    * When this flag is set the tr069 http server will allow connection requests from hosts other then the ACS
+    * @version 4.5
+    */
+    persistent bool AllowConnectionRequestFromUnknownHost=false;
+
+   /**
+    * When this value is set, tr069 will only allow connection requests from the specified IP address (e.g. 195.186.0.5) or IP address range (e.g. 195.186.0.0/16)
+    * This feature is only active when AllowConnectionRequestFromUnknownHost is set to false.
+    * @version 7.0
+    */
+    persistent string AllowConnectionRequestFromAddress;
+
+   /**
+    * Username used to authenticate the CPE when making a connection to the ACS using the CPE WAN Management Protocol.
+    * This username is used only for HTTP-based authentication of the CPE.
+    * Note that on a factory reset of the CPE, the value of this parameter might be reset to its factory value. If an ACS modifies the value of this parameter, it SHOULD be prepared to accommodate the situation that the original value is restored as the result of a factory reset.
+    * @version 4.5
+    */
+    persistent string Username {
+      constraint maxvalue 256;
+      default "cdrouter";
+    }
+
+   /**
+    * Password used to authenticate the CPE when making a connection to the ACS using the CPE WAN Management Protocol.
+    * This password is used only for HTTP-based authentication of the CPE.
+    * When read, this parameter returns an empty string, regardless of the actual value.
+    * Note that on a factory reset of the CPE, the value of this parameter might be reset to its factory value. If an ACS modifies the value of this parameter, it SHOULD be prepared to accommodate the situation that the original value is restored as the result of a factory reset.
+    * @version 4.5
+    */
+    persistent string Password {
+      constraint maxvalue 256;
+      default "cdrouter";
+      acl {
+        group cwmpd read,write;
+      }
+    }
+
+   /**
+    * Whether or not the CPE MUST periodically send CPE information to the ACS using the Inform method call.
+    * @version 4.5
+    */
+    persistent bool PeriodicInformEnable=1;
+
+   /**
+    * The duration in seconds of the interval for which the CPE MUST attempt to connect with the ACS and call the Inform method if PeriodicInformEnable is True.
+    * @version 4.5
+    */
+    persistent uint32 PeriodicInformInterval {
+      constraint minvalue 1;
+      default 432000;
+    }
+
+   /**
+    * An absolute time reference in UTC to determine when the CPE will initiate the periodic Inform method calls. Each Inform call MUST occur at this reference time plus or minus an integer multiple of the PeriodicInformInterval.
+    * PeriodicInformTime is used only to set the "phase" of the periodic Informs. The actual value of PeriodicInformTime can be arbitrarily far into the past or future.
+    * For example, if PeriodicInformInterval is 86400 (a day) and if PeriodicInformTime is set to UTC midnight on some day (in the past, present, or future) then periodic Informs will occur every day at UTC midnight. These MUST begin on the very next midnight, even if PeriodicInformTime refers to a day in the future.
+    * The Unknown Time value defined in section 2.2 indicates that no particular time reference is specified. That is, the CPE MAY locally choose the time reference, and needs only to adhere to the specified PeriodicInformInterval.
+    * If absolute time is not available to the CPE, its periodic Inform behavior MUST be the same as if the PeriodicInformTime parameter was set to the Unknown Time value.
+    * @version 4.5
+    */
+    persistent datetime PeriodicInformTime;
+
+   /**
+    * ParameterKey provides the ACS a reliable and extensible means to track changes made by the ACS. The value of ParameterKey MUST be equal to the value of the ParameterKey argument from the most recent successful SetParameterValues, AddObject, or DeleteObject method call from the ACS.
+    * The CPE MUST set ParameterKey to the value specified in the corresponding method arguments if and only if the method completes successfully and no fault response is generated. If a method call does not complete successfully (implying that the changes requested in the method did not take effect), the value of ParameterKey MUST NOT be modified.
+    * The CPE MUST only modify the value of ParameterKey as a result of SetParameterValues, AddObject, DeleteObject, or due to a factory reset. On factory reset, the
+    * value of ParameterKey MUST be set to empty.
+    * @version 4.5
+    */
+    persistent string ParameterKey;
+
+   /**
+    * HTTP URL, as defined in [8], for an ACS to make a Connection Request notification to the CPE.
+    * In the form:
+    * http://host:port/path
+    * The "host" portion of the URL MAY be the IP address for the management interface of the CPE in lieu of a host name.
+    * @version 4.5
+    */
+    read-only string ConnectionRequestURL {
+      read with readConnectionRequestURL;
+    }
+
+   /**
+    * Username used to authenticate an ACS making a Connection Request to the CPE.
+    * @version 4.5
+    */
+    persistent string ConnectionRequestUsername {
+        constraint maxvalue 256;
+        default "softathome";
+    }
+
+   /**
+    * Password used to authenticate an ACS making a Connection Request to the CPE.
+    * When read, this parameter returns an empty string, regardless of the actual value.
+    * @version 4.5
+    */
+    persistent string ConnectionRequestPassword {
+        constraint maxvalue 256;
+        default "softathome";
+        acl {
+            group cwmpd read,write;
+        }
+   }
+
+   /**
+    * Indicates whether or not the ACS will manage upgrades for the CPE. If True, the CPE SHOULD NOT use other means other than the ACS to seek out available upgrades. If False, the CPE MAY use other means for this purpose.
+    * Note that an autonomous upgrade (reported via an "10 AUTONOMOUS TRANSFER COMPLETE" Inform Event code) SHOULD be regarded as a managed upgade if it is performed according to ACS-specified policy.
+    * @version 4.5
+    */
+    persistent bool UpgradesManaged=1;
+
+   /**
+    * This parameter is used to control throttling of active notifications sent by the CPE to the ACS. It defines the minimum number of seconds that the CPE MUST wait since the end of the last session with the ACS before establishing a new session for the purpose of delivering an active notification.
+    * In other words, if CPE needs to establish a new session with the ACS for the sole purpose of delivering an active notification, it MUST delay establishing such a session as needed to ensure that the minimum time since the last session completion has been met.
+    * The time is counted since the last successfully completed session, regardless of whether or not it was used for active notifications or other purposes. However, if connection to the ACS is established for purposes other than just delivering active notifications, including for the purpose of retrying a failed session, such connection MUST NOT be delayed based on this parameter value, and the pending active notifications MUSTbe communicated during that connection.
+    * The time of the last session completion does not need to be tracked across reboots.
+    * @version 4.5
+    */
+    persistent uint32 DefaultActiveNotificationThrottle;
+
+   /**
+    * Maximum download delay
+    * @version 4.6
+    */
+    persistent uint32 MaxDownloadDelay;
+
+   /**
+    * Maximum upload delay
+    * @version 4.6
+    */
+    persistent uint32 MaxUploadDelay;
+
+   /**
+    * Maximum number of simultaneous downloads,
+    * @version 4.6
+    */
+    persistent uint32 MaxDownloads=100;
+
+   /**
+    * Maximum number of simultaneous downloads error code
+    * @version 4.6
+    */
+    persistent uint32 MaxDownloadsErrorCode=9004;
+
+
+   /**
+    * Number of GetParameterValues requests that have occurred since reboot
+    * @version 4.6
+    */
+    uint32 GetParameterValuesRequests=0;
+
+   /**
+    * Make schedule inform boot persistent (default tr069 behavior=boot persistent)
+    * @version 4.6
+    */
+    persistent bool BootPersistentScheduleInform=true;
+
+   /**
+    * Allow multiple schedule inform in the same inform message (default tr069 behavior=true)
+    */
+    persistent bool AllowMultipleScheduleInform=true;
+
+   /**
+    * always empty post at the end of a session(default behavior=no, tr069 is ambiguous on this topic)
+    */
+    persistent bool AlwaysEmptyPostAtEndOfSession=false;
+
+   /**
+    * Verify parameter type when setting parameters
+    */
+    persistent bool VerifyParameterType=false;
+
+
+   /**
+    * The name of the interface on which to listen for connection requests.
+    *   If empty, no firewall rule will be opened
+    *   If filled in, a firewall rule will be created
+    * @version 4.5
+    */
+    persistent string Interface {
+      write with writeInterface;
+      default "mgmt";
+    }
+
+   /**
+    * Maximum wait time between incoming ipv4 and ipv6 address for the WAN side of the box
+    */
+    persistent uint32 IPV4IPV6WANMaxWaitTime=0;
+
+   /**
+    * IPV4/IPV6 WAN mode:
+    *   - IPV4ONLY: only use IPV4 as WAN address
+    *   - IPV4ANDIPV6: use IPV4 as WAN address, wait for IPV6 for IPV4IPV6WANMaxWaitTime seconds
+    */
+    persistent string IPV4IPV6WANMode {
+       constraint enum ["IPV4ONLY","IPV4ANDIPV6"];
+       default "IPV4ONLY";
+       write with writeIPV4IPV6WANMode;
+    }
+
+
+
+
+     persistent uint32 ManageableDeviceNotificationLimit;
+
+
+
+
+   /**
+    * The connection request host name, may be an ip address, this parameter thould be updated by a service like NetModeConfig when a new WAN IP address is available
+    * @version 4.5
+    */
+    string ConnRequestHost {
+      default "0.0.0.0";
+    }
+
+   /**
+    * The connection request port
+    * @version 4.5
+    */
+    persistent read-only uint32 ConnRequestPort {
+      constraint range [0,65535];
+      default 50805;
+    }
+
+   /**
+    * The connection request path
+    * @version 4.5
+    */
+    persistent string ConnRequestPath;
+
+   /**
+    * The session timeout timer value in seconds.
+    * When the acs stops responding during a session, this timeout is used to stop the current ACS session and accept new incoming ACS sessions
+    * @version 4.5
+    */
+    persistent uint32 SessionTimeout=300;
+
+   /**
+    * To avoid booting all boxes at the same time and overloading the ACS on a power outage, cwmp waits for a random number of seconds before starting. This number defines the maximum startup delay that a box may have.
+    * @version 4.5
+    */
+    persistent uint32 MaxStartupDelay=120;
+
+   /**
+    * Flag indicating that a factory reset has occurred. Once the CPE has succesfully send an inform message this flag will be set to 0. This flag will be reset to 1 when a factory reset occurs
+    * @version 4.5
+    */
+    persistent bool FactoryResetOccurred=1;
+
+   /**
+    * Parameter to keep track of the reboot command key set by the ACS across reboots
+    * @version 4.5
+    */
+    persistent string RebootCommandKey;
+
+   /**
+    * Parameter to indicate the reboot was caused by the ACS.
+    * @version 4.5
+    */
+    persistent bool RebootByACS=0;
+
+   /**
+    * This parameter keeps track of the last succesfull session with the ACS
+    * @version 4.5
+    */
+    persistent datetime LastSession;
+
+   /**
+    * Number of succesfull sessions with ACS since reboot
+    * @version 4.6
+    */
+    uint32 SessionsSinceReboot = 0;
+
+   /**
+    * This parameter displays if the CPE tr69 engine is in session (busy) or waiting for an event (idle) or still not initialized (Initializing)
+    * it displays also session failure when ACS server is not reachable
+    * @version 4.5
+    */
+    string SessionStatus {
+       constraint enum ["Initializing","Idle","Busy","ServerDown"];
+       default "Initializing";
+       write with writeSessionStatus;
+    }
+
+   /**
+    * This parameter changes the behavior of certificate verification:
+    * if 0, self signed certificates will NOT be allowed
+    * if 1, self signed certificates will be allowed
+    * @version 4.5
+    */
+    persistent bool SSLAcceptSelfSigned=0;
+
+   /**
+    * This parameter changes the behavior of certificate verification:
+    * if 0, the host name in the certificate will NOT be checked
+    * if 1, the host name in the certificate will be checked
+    * @version 4.5
+    */
+    persistent bool SSLVerifyHostname=1;
+
+   /**
+    * This parameter changes the behavior of certificate verification:
+    * Never: never accept certificates that are not within the valid period
+    * Always: Do NOT check the valid time of a certificate
+    * NTP: Do NOT check when NTP is NOT synced, otherwise check the valid time of the certificate
+    * @version 4.6
+    */
+    persistent string SSLAcceptExpired {
+        constraint enum ["Never", "Always", "NTP"];
+        default "NTP";
+    }
+
+   /**
+    * This parameter defines which connection request path will be used
+    * - Fixed-Default: The path mentioned in the ConnRequestPath will be used, and will never change
+    * - Random: At cwmpd startup, a new random path will be generated
+    * - Fixed-MacBased: At cwmpd startup, a path will be constructed based on the MAC address
+    * @version 4.5
+    */
+    persistent string ConnRequestPathType {
+       constraint enum ["Fixed-Default","Random","Fixed-MacBased"];
+       default "Random";
+    }
+
+   /**
+    * This parameter defines the maximum number of connection requests per FreqConnectionRequest.
+    * @version 4.5
+    */
+    persistent uint32 MaxConnectionRequest {
+       constraint minvalue 1;
+       default 50;
+    }
+
+   /**
+    * This parameter defines the time window in which MaxConnectionRequest may occur.
+    * @version 4.5
+    */
+    persistent uint32 FreqConnectionRequest {
+       constraint minvalue 60;
+       default 3600;
+    }
+
+   /**
+    * This parameter enables the GetRPCMethods RPC from CPE to ACS. This can be used to validate if the ACS supports all needed RPC's. This parameter is disabled by default.
+    * If this parameter is false, the CPE will not check to see if the ACS method is supported before calling it.
+    * @version 4.5
+    */
+    persistent bool VerifySupportedACSMethods=0;
+
+   /**
+    * This parameter contains the number of QueuedTranfers that are of the type "1 Firmware upgrade image" and NOT finished
+    * @version 4.6
+    */
+    uint32 UpgradesAvailable=0;
+
+    /**
+     * Number of seconds cwmpd has to wait before starting if there is an unfinished download in the message queue.
+     * This parameter is used to avoid sending out 2 separate informs (one containing the boot event and the second the transfer complete)
+     * @version 4.6
+     */
+     uint32 UpgradeBootDelay=30;
+
+   /**
+    * This routine triggers a download request in the tr69 stack
+    * @version 4.5
+    * @param filetype The filetype we want to download
+    * @param args The filetype arguments
+    *
+    * @return true if succesfull, false if an error occurred
+    */
+    bool RequestDownload(string filetype, ...);
+
+   /**
+    * This RPC triggers the CPE cwmpd to add a custom notification to the next inform message
+    * @version 4.5
+    * @param active When true, the notification will be send immediately, if false, it will be send along in the next inform message
+    * @param notificationName The notification name that will be used in the inform message
+    *
+    * @return true if succesfull, false if an error occurred
+    */
+    bool SendCustomNotification(bool active, string notificationName);
+
+   /**
+    * This RPC triggers the CPE cwmpd to add a Diagnostic complete event in the next inform message
+    * @version 4.5
+    *
+    * @return true if succesfull, false if an error occurred
+    */
+    bool SendDiagnosticsComplete();
+
+   /**
+    * This RPC triggers the CPE cwmpd to send out an inform containing a connection request
+    * @version 4.5
+    *
+    * @return true if succesfull, false if an error occurred
+    */
+    bool SendConnectionRequestInform();
+
+
+   /**
+    * This RPC forces the cwmp plugin to save all data. This is a blocking call untill all data has been saved
+    * @version 5.2
+    *
+    * @return true if succesfull, false if an error occurred
+    */
+    bool forceSave();
+
+
+
+   /**
+    * This object contains all the ongoing 'transfers' (Downloads and uploads)
+    * When an upload or download RPC is called in cwmpd:
+    * - a new entry is created with a description of the transfer.
+    * - a pcb client (who has a subscription on 'QueuedTransfers.Entry' object additions, will take
+    *   care of the download or upload.
+    * - Once the client application has finished handling the tranfser, it sets the object state to 'Finished'
+    * - cwmp will react on this change by sending a TransferComplete message to the ACS
+    */
+    persistent object QueuedTransfers {
+       acl {
+              group admin none;
+              group remoteadmin none;
+              world none;
+              group cwmpd none;
+              group technician none;
+       }
+
+       /**
+        * Indicates if the queue is locked
+        * @version 4.5
+        */
+        read-only bool locked = false;
+
+       /**
+        * RPC to lock the queue
+        * @version 4.5
+        *
+        * @return true if succesfull, false if an error occurred
+        */
+        bool LockQueue();
+
+       /**
+        * RPC to unlock the queue
+        * @version 4.5
+        *
+        * @return true if succesfull, false if an error occurred
+        */
+        bool UnlockQueue();
+
+
+       /**
+        * RPC to add a transfer
+        * @version 4.5
+        *
+        * @param beginTime The begin time
+        * @param endTime The end time
+        * @param commandKey The command key
+        * @param isDownload True if it is a download, false in case of upload
+        * @param fileSize The file size
+        * @param fileType The file type
+        * @param url The url
+        * @param userName The user name
+        * @param password The password
+        * @param targetFileName The target file name
+        * @param successUrl The success url
+        * @param failureURL The failure url
+        * @param initiator The initiator
+        * @param status The status
+        *
+        * @return true if succesfull, false if an error occurred
+        */
+        bool AddTransfer(datetime beginTime, datetime endTime, string commandKey, bool isDownload, uint32 fileSize, string fileType, string url, string userName, string password, string targetFileName, string successUrl, string failureURL, string initiator, string status, datetime startTime, datetime completeTime);
+
+       /**
+        * RPC to remove a transfer
+        * @version 4.5
+        * @param object Pointer to the transfer object
+        * @param commandKey The commandkey of the transfer that has to bee removed
+        *
+        * @return true if succesfull, false if an error occurred
+        */
+        bool  RemoveTransfer(string commandKey);
+
+       /**
+        * The multi instance objects containing the transfers
+        */
+        persistent object Entry[] {
+           /**
+            * The time in UTC when the transfer should start
+            * @version 4.5
+            */
+            persistent datetime BeginTime;
+
+           /**
+            * The time in UTC when the transfer should start the latest
+            * CWMPD will remove the item if EndTime has passed the current time
+            * @version 4.5
+            */
+
+            persistent datetime EndTime;
+
+           /**
+            * The command key corresponding to this download (send to us by the ACS)
+            * @version 4.5
+            */
+            persistent string CommandKey;
+
+           /**
+            * true if it's a download, false if it's an upload
+            * @version 4.5
+            */
+            persistent bool IsDownload;
+
+           /**
+            * The filesize as speficied in the incoming ACS message. Note that this
+            * parameter might not be filled in.
+            * @version 4.5
+            */
+            persistent uint32 FileSize;
+
+           /**
+            * A string describing the file type:
+            *  Possible tr69 download strings:
+            *   - "1 Firmware Upgrade Image"
+            *   - "2 Web Content"
+            *   - "3 Vendor Configuration File"
+            *  Possible tr69 upload strings:
+            *   - "1 Vendor Configuration File"
+            *   - "2 Vendor Log File"
+            * @version 4.5
+            */
+            persistent string FileType;
+
+           /**
+            * URL of the transfer
+            * @version 4.5
+            */
+            persistent string URL;
+
+           /**
+            * Username for this transfer
+            * @version 4.5
+            */
+            persistent string Username;
+
+           /**
+            * Password for this transfer
+            * @version 4.5
+            */
+            persistent string Password;
+
+           /**
+            * An optional name of the file to be used on the CPE for downloads.
+            * @version 4.5
+            */
+            persistent string TargetFileName;
+
+           /**
+            * An optional URL which might be used by the webui to indicate which web-page triggered
+            * the transfer (e.g. only used for autonomous transfers)
+            * @version 4.5
+            */
+            persistent string AnnounceURL;
+
+           /**
+            * An optional URL which might be used by the webui to redirect the user browser
+            * in case the transfer is succesfull.
+            * @version 4.5
+            */
+            persistent string SuccessURL;
+
+           /**
+            * An optional URL which might be used by the webui to redirect the user browser
+            * in case the transfer has failed.
+            * @version 4.5
+            */
+            persistent string FailureURL;
+
+           /**
+            * String identifying who initiated the transfer. If the transfer was initiated by
+            * the ACS, this parameter will be "ACS".
+            * @version 4.5
+            */
+            persistent string Initiator;
+
+           /**
+            * String identifying who is currently handling the transfer
+            * @version 4.5
+            */
+            read-only string Owner;
+
+           /**
+            * Time filled in by the pcb client application to indicate when it started transferring the file
+            * @version 4.5
+            */
+            persistent datetime StartTime;
+
+           /**
+            * Time filled in by the pcb client application to indicate when it uploaded or applied the file
+            * @version 4.5
+            */
+            persistent datetime CompleteTime;
+
+           /**
+            * TR69 compatible FaultCode (0 for success, 90XX when an error occurred) set by the pcb client application
+            * @version 4.5
+            */
+            persistent uint32 FaultCode;
+
+           /**
+            * A human readable fault string set by the pcb client application
+            * @version 4.5
+            */
+            persistent string FaultString;
+
+           /**
+            * Parameter indicating the current status of the transfer
+            * @version 4.5
+            */
+            persistent read-only string Status {
+                constraint enum ["Initial","Transfering","Applying","Applied","Finished"];
+                default "Initial";
+            }
+
+           /**
+            * This RPC cancels an ongoing transfer
+            * @version 4.5
+            *
+            * @return true if succesfull, false if an error occurred
+            */
+            bool Cancel();
+
+           /**
+            * This RPC locks down the transfer. If multiple clients call this function at the same time,
+            * only the first caller will get the lock.
+            * @version 4.5
+            *
+            * @return true if succesfull, false if an error occurred
+            */
+            bool Lock(string owner);
+
+           /**
+            * RPC to see if this transfer is locked
+            * @version 4.5
+            *
+            * @return true if succesfull, false if an error occurred
+            */
+            bool IsLocked();
+
+           /**
+            * Trigger DownloadReponse with Status=1. May only be invoker after Lock().
+            * This funcionality is currently not available in cwmpd, but might be added in future releases.
+            * @version 4.5
+            *
+            * @return true if succesfull, false if an error occurred
+            */
+            bool Delay();
+
+           /**
+            * RPC to update the status of the transfer
+            * @version 4.5
+            * @param state The new state
+            *
+            * @return true if succesfull, false if an error occurred
+            */
+            bool ReportProgress(string state);
+
+           /**
+            * RPC to indicate that the client application is done handling this transfer.
+            * This RPC will set the status to "Finished" and fills in the faultcode and faultmessage.
+            * @param faultcode The tr69 faultcode (0 for SUCCES, 90XX for error)
+            * @param faultmessage Human readable string
+            * @version 4.5
+            *
+            * @return true if succesfull, false if an error occurred
+            */
+            bool Finish(uint32 faultcode, string faultmessage);
+        }
+    }
+}
+
+/** @location sah_services_tr069 /source/dmdeviceadapter/pcb/cwmp_plugin/cwmp_plugin-definition.odl.m4 */

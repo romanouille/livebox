@@ -1,0 +1,13 @@
+datamodel {
+    object Hosts {
+        parameter MaximumHosts = 50;
+        object Config {
+            parameter InterfaceTypeOrder = "Ethernet 802.11";
+            parameter IPAddressOrder = "IPv6 IPv4";
+            parameter AddrSourceOrder = "Static DHCP";
+            parameter NameSourceOrder = "UPnP DHCP mDNS webui";
+            parameter IconSourceOrder = "UPnP webui";
+            parameter UserClassTags = "IAD5116:stb:orange,IAD80-16:stb:orange,ITAD81-160:stb:orange,ITAD81 FT:stb:orange,IP2031F:stb:orange,STB_MLTV:stb:orange,PC_MLTV:stb:orange,ITF_MLTV:stb:orange";
+        }
+    }
+}

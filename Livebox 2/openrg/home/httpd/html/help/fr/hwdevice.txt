@@ -1,0 +1,10 @@
+<b>Visualiser :</b><br>
+<br>
+<span class="boldorange">Description de l'équipement :</span> Cette section vous permet de personnaliser l'équipement. Vous pouvez lui donner un nom réseau, préciser le type d'équipement, lui affecter un icône ou encore indiquer son emplacement dans une des pièces de votre maison.<br>
+<span class="boldorange">Connexion :</span> Ce champ précise comment l'équipement est connecté à votre livebox. Le type de connexion (Ethernet, Wifi ou USB), son adresse IP, son adresse MAC et son statut (connecté ou déconnecté).<br>
+<span class="boldorange">Supprimer l'équipement :</span> Ce bouton vous permet de supprimer l'équipement de votre réseau.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

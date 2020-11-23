@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Config Atheros Wifi Driver Ikanos mips
+#
+        modprobe wlan
+        modprobe ath_hal
+        modprobe ath_dfs
+        modprobe ath_rate_atheros
+        modprobe atrcm
+        modprobe wlan_acl
+        modprobe wlan_ccmp
+        modprobe wlan_scan_ap
+        modprobe wlan_tkip
+        modprobe wlan_xauth
+        modprobe wlan_wep
+        modprobe ath_pci
+	# Set MAC address contained in WLAN_ADDR --> done by the plugin on step4
+        echo 2 > /proc/sys/dev/ath/hal/forceBias
+	echo 8192 > /proc/sys/vm/min_free_kbytes

@@ -1,0 +1,11 @@
+﻿<b>Administración:</b><br>
+<br>
+<span class="boldorange">Configuración de la página de inicio:</span><br>
+Esta opción te permite seleccionar si deseas o no visualizar la lista de dispositivos conectados a tu Livebox.<br>
+<br>
+<span class="boldorange">Configuración de alarmas:</span><br>
+Esta opción te permite habilitar o deshabilitar las ventanas de los mensajes de confirmación que aparecen siempre que modificas algún parámetro de configuración de tu Livebox.<br>
+<!--
+<br>
+-->
+

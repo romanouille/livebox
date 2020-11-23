@@ -1,0 +1,12 @@
+#!/bin/sh
+#set the relay in VoIP position
+/bin/relaytest 1
+
+#run the daemon h323
+/bin/h323d&
+
+#Configure
+/bin/h323 configdb_w -i $1
+
+# Run VoIP
+/bin/h323 rundbconf

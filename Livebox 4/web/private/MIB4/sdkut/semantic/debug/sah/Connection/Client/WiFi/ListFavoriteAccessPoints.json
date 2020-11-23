@@ -1,0 +1,18 @@
+{
+    "status": 0,
+    "data": {
+        "accessPointList": [
+            {
+                "linkType": "WIFI_2.4",
+                "ssid": "softathomeWifi",
+                "bssid": "bssid",
+                "signalStrength": 80,
+                "noiseLevel": 2,
+                "frequencyBand": "2.4GHZ",
+                "securityMode": "WEP-64",
+                "channel": "1",
+                "supportedWpsModeList": ["SERVER_PIN","CLIENT_PIN"]
+            }
+        ]
+    }
+}

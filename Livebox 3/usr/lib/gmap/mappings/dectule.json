@@ -1,0 +1,326 @@
+[
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 268,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Door Bell",
+           "Type": 5 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 512,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Simple Detector",
+           "Type": 0 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 513,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Door Detector",
+           "Type": 6 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 514,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Window Detector",
+           "Type": 6 
+        }
+    },
+    
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 515,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Motion Detector",
+           "Type": 7 
+        }
+    },
+    
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 516,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Smoke Alarm",
+           "Type": 1
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 517,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Gas Detector",
+           "Type": 7 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 518,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Flood Detector",
+           "Type": 0 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 519,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Glass Break Detector",
+           "Type": 9 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 768,
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Simple Pendant",
+           "Type": 0 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "interfaceid": 256,
+           "interface": "alert"
+        },
+        "map": {
+           "method": "dectule_alert_to_alarm_simple",
+           "where": "device",
+           "Name": "Generic Alarm",
+           "Type": 0 
+        }
+    },
+    
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 256,
+           "interfaceid": 512,
+           "interface": "on_off"
+        },
+        "map": {
+           "method": "dectule_onoff_simple",
+           "where": "device",
+           "Name": "Simple Switchable",
+           "Type": 0 
+        }
+    }, 
+        
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 260,
+           "interfaceid": 512,
+           "interface": "on_off"
+        },
+        "map": {
+           "method": "dectule_onoff_simple",
+           "where": "device",
+           "Name": "Simple Switchable",
+           "Type": 0 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 262,
+           "interfaceid": 512,
+           "interface": "on_off"
+        },
+        "map": {
+           "method": "dectule_onoff_simple",
+           "where": "device",
+           "Name": "AC Outlet",
+           "Type": 0 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 263,
+           "interfaceid": 768,
+           "interface": "power_metering"
+        },
+        "map": {
+           "method": "dectule_powermeter",
+           "where": "device",
+           "Name": "Power Meter"
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 263,
+           "interfaceid": 512,
+           "interface": "on_off"
+        },
+        "map": {
+           "method": "dectule_onoff_simple",
+           "where": "device",
+           "Name": "AC Outlet",
+           "Type": 0 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 264,
+           "interfaceid": 512,
+           "interface": "on_off"
+        },
+        "map": {
+           "method": "dectule_onoff_simple",
+           "where": "device",
+           "Name": "Light",
+           "Type": 0 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 265,
+           "interfaceid": 512,
+           "interface": "on_off"
+        },
+        "map": {
+           "method": "dectule_onoff_simple",
+           "where": "device",
+           "Name": "Dimmable Light",
+           "Type": 0 
+        }
+    },
+    
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 257,
+           "interfaceid": 512,
+           "interface": "on_off"
+        },
+        "map": {
+           "method": "dectule_onoff_simple",
+           "where": "device",
+           "Name": "Simple Door Lock",
+           "Type": 0 
+        }
+    },
+    
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 640,
+           "interfaceid": 512,
+           "interface": "on_off"
+        },
+        "map": {
+           "method": "dectule_onoff_simple",
+           "where": "device",
+           "Name": "Siren",
+           "Type": 0 
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 269,
+           "interfaceid": 768,
+           "interface": "power_metering"
+        },
+        "map": {
+           "method": "dectule_powermeter",
+           "where": "device",
+           "Name": "Power Meter"
+        }
+    },
+
+    {
+        "match": {
+           "method": "dectule_interface",
+           "unit_type": 0,
+           "interfaceid": 32517,
+           "interface": "suota_dspg"
+        },
+        "map": {
+           "method": "dectule_suota"
+        }
+    }
+
+]

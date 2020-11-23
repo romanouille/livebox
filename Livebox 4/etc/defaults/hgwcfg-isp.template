@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tns:hgwconfig xmlns:tns="http://xml.softathome.org/2009/hgwconfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xml.softathome.org/2009/hgwconfig">
+    <tns:AdminSettings>
+        <tns:AdminPassword/>
+        <tns:CWMP>
+            <tns:CWMPProvisioningCode/>
+        </tns:CWMP>
+      <tns:NTP>
+         <tns:NTPServer1/>
+         <tns:NTPServer2/>
+         <tns:NTPServer3/>
+         <tns:NTPServer4/>
+         <tns:NTPServer5/>
+      </tns:NTP>
+    </tns:AdminSettings>
+    <tns:UI>
+      <tns:HomeNetworkMap>
+         <tns:MaxDevices/>
+      </tns:HomeNetworkMap>
+    </tns:UI>
+</tns:hgwconfig>

@@ -1,0 +1,17 @@
+#!/bin/sh
+TMP_RESOLV_CONF="/var/run/resolv.conf"
+
+case $1 in
+    start)
+        echo "Resolv daemon start ..."
+        echo "nameserver 127.0.0.1" > $TMP_RESOLV_CONF
+        echo "domain home" >> $TMP_RESOLV_CONF
+        resolvd | logger -t resolvd &
+        pcb_cli -q "Firewall.setService(dhcpd, lan, 67, 17, 4, true)"
+        ;;
+    stop)
+        killall -9 resolvd
+        pcb_cli -q 'Firewall.deleteService(dhcpd)'
+        ;;
+    *)
+esac

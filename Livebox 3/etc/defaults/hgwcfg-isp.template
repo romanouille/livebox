@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tns:hgwconfig xmlns:tns="http://xml.softathome.org/2009/hgwconfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xml.softathome.org/2009/hgwconfig">
+   <tns:AdminSettings>
+        <tns:SSHWanEnable/>
+        <tns:SSHWanAccessType/>
+        <tns:SSHWanSourcePrefix/>
+        <tns:SSHWanActivationDuration/>
+        <tns:SSHWanActivationDate/>
+        <tns:CWMP>
+            <tns:CWMPProvisioningCode/>
+        </tns:CWMP>
+      <tns:NTP>
+         <tns:NTPServer1/>
+         <tns:NTPServer2/>
+         <tns:NTPServer3/>
+         <tns:NTPServer4/>
+         <tns:NTPServer5/>
+      </tns:NTP>
+      <tns:Probe>
+        <tns:OutputLocation/>
+        <tns:Interval/>
+        <tns:Enable/>
+      </tns:Probe>
+   </tns:AdminSettings>
+   <tns:Networking>
+      <tns:WANMode>
+         <tns:Name/>
+         <tns:Iface>
+            <tns:Name/>
+            <tns:Alias/>
+            <tns:Mode/>
+            <tns:IPv6/>
+            <tns:VLANID/>
+            <tns:VLANPriority/>
+            <tns:ATMPVC/>
+            <tns:Encapsulation/>
+            <tns:QoSClass/>
+            <tns:PeakCellRate/>
+            <tns:MaximumBurstSize/>
+            <tns:SustainableCellRate/>
+         </tns:Iface>
+      </tns:WANMode>
+      <tns:WANConnection>
+         <tns:BroadbandUsername/>
+         <tns:BroadbandPassword/>
+         <tns:WanMode/>
+         <tns:IPv6UserRequested/>
+      </tns:WANConnection>
+   </tns:Networking>
+    <tns:UI>
+      <tns:HomeNetworkMap>
+         <tns:MaxDevices/>
+      </tns:HomeNetworkMap>
+    </tns:UI>
+</tns:hgwconfig>
+

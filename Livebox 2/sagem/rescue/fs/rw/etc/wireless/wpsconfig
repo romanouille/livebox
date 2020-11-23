@@ -1,0 +1,25 @@
+#!/bin/sh
+# check if hostapd is running?
+#Start WPAtalk command but check our input parameters
+if [ "$2" != "" ]; then
+	if [ "$3" = "1" ]; then
+		# Self Pin, Param <VAP#> <PIN> 1
+		echo "Self PIN"
+        /sbin/wpatalk -noi "$1" "CONFIGME pin=$2"
+	else
+		if [ "$3" = "2" ]; then
+			# Client Pin, Param <VAP#> <PIN> 2
+			echo "Client PIN"
+			/sbin/wpatalk -noi "$1" "CONFIGTHEM pin=$2"
+		else
+			# Error, Param <VAP#> 0 x
+			echo "Invalid input - Stop WPS"
+			/sbin/wpatalk -noi "$1" "CONFIGSTOP"
+		fi
+	fi
+else
+	# Button scenario? Param: <VAP#>
+	echo "Software Button pairing"
+	/sbin/wpatalk -noi $1 'CONFIGTHEM'
+fi
+

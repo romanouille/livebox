@@ -1,0 +1,106 @@
+
+
+using "topologydiagnostics.so";
+
+acl {
+    world read,execute;
+    group technician read,execute;
+    group admin read,execute;
+    group remoteadmin read,execute;
+    group cwmpd read,write,execute;
+}
+
+persistent object TopologyDiagnostics {
+
+    acl {
+        world none;
+    }
+
+    constraint custom topology_object_validate;
+
+    variant get();
+    bool set(variant data);
+
+    string DiagnosticsState {
+        write with topology_diagnosticsState_changed;
+        constraint custom topology_diagnosticsState_validate;
+        default "None";
+    }
+    persistent string DiscoveryMode {
+        write with topology_parameterValue_changed;
+        constraint enum ["Relative", "Absolute"];
+        default "Absolute";
+    }
+    persistent uint32 Timeout {
+        write with topology_parameterValue_changed;
+        default 60;
+    }
+    persistent bool LLTDQuickDiscovery {
+        write with topology_parameterValue_changed;
+        default true;
+    }
+    persistent bool LLTDIcon {
+        write with topology_parameterValue_changed;
+        default true;
+    }
+    persistent bool MMEEnable {
+        write with topology_parameterValue_changed;
+        default true;
+    }
+    persistent bool SSDPEnable {
+        write with topology_parameterValue_changed;
+        default true;
+    }
+    persistent bool BonjourEnable {
+        write with topology_parameterValue_changed;
+        default true;
+    }
+    persistent bool PeriodicEnable {
+        write with topology_periodic_changed;
+        default false;
+    }
+    persistent uint32 PeriodicTopologyInterval {
+        write with topology_periodic_changed;
+        constraint minvalue 30;
+        default 30;
+    }
+    persistent read-only datetime LastUpdate;
+
+    persistent string AutomaticUpload {
+        write with topology_parameterValue_changed;
+        constraint enum ["Local","Remote","Both","None"];
+        default "Remote";
+    }
+    persistent string UploadURL {
+        write with topology_parameterValue_changed;
+        default "http://karmatrack.orange.com/FR/topo";
+    }
+    read-only uint32 TopologyLastResultIndex = 0;
+    persistent bool CustomerAuthorization = false;
+
+    object Results[] {
+        counted with TopologyNumberOfEntries;
+        read-only string Name;
+        read-only string Status {
+            constraint enum ["Uploaded", "Error", "Complete"];
+            default "Complete";
+        }
+        bool SendFile {
+            write with topology_sendFile_changed;
+            default false;
+        }
+        read-only datetime LastUploadTime;
+        read-only string DiagnosticMode;
+
+        bool setState(mandatory string state);
+    }
+
+    variant buildTopology(string discoveryMode,uint32 mmeTimeout);
+    bool uploadTopology();
+
+    bool enableAutomaticUpload(bool enable);
+    bool isAutomaticUploadEnabled();
+    bool setCustomerAuthorization(mandatory bool allowed);
+}
+
+/** @location sah_services_topologydiagnostics /topologydiagnostics-definition.odl.m4 */

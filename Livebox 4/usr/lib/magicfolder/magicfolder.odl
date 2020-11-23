@@ -1,0 +1,6 @@
+
+
+include "magicfolder-definitions.odl";
+include "magicfolder-defaults.odl";
+
+/** @location  commod_datahub_magicfolder  add-on/frontend/pcb/magicfolder.odl.m4 */

@@ -1,0 +1,10 @@
+mib meter {
+object Meter[] {
+read-only string Name;
+read-only uint32 Type;
+read-only uint32 Value;
+read-only uint32 Factor;
+read-only string Unit;
+}
+void getMeterValues(string instanceId);
+}

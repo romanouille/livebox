@@ -1,0 +1,42 @@
+persistent object VoiceService[] {
+acl {
+group admin execute;
+group remoteadmin execute;
+world execute;
+}
+bool register_plugin(string plugin_name) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void deregister_plugin(string plugin_name)  {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+int register_endpoint(string name, string path, uint16 type, bytearray  codeclist) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void deregister_endpoint(int endpoint_id) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+message void event(bytearray event) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}

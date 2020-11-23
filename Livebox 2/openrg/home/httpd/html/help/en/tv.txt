@@ -1,0 +1,21 @@
+<b>Digital television:</b><br>
+<br>
+This page shows the status of the Orange TV service. By default, digital TV is enabled and the yellow port on your livebox is reserved for this service. If you have not subscribed to Orange's TV service, you can use the yellow port on your livebox to connect another computer to the Internet. To do this, simply disable Orange TV.<br>
+Conversely, if you have subscribed to Orange's TV service, the yellow port on your livebox is reserved for the TV decoder. You must therefore use this port to connect the TV decoder to the livebox.<br>
+<br>
+<span class="boldorange">TV by ADSL&nbsp;on the yellow port:</span> Default configuration of TV service. This option in the "Select your TV configuration" pull-down list enables you to connect a TV by ADSL box to the yellow Ethernet port on your livebox.<br>
+By default, TV is enabled and the YELLOW port on your livebox is reserved for this service. Only connect a TV decoder to this port.<br>
+Note: this option is named <span class="boldorange">TV on the yellow port</span> if your livebox is connected to a fibre-optic network.<br>
+<br>
+<span class="boldorange">TV by ADSL&nbsp;on the yellow port and green port:</span> This option enables you to connect a TV by ADSL box to the yellow Ethernet port and the green Ethernet port on your livebox.<br>
+Note: this option is named <span class="boldorange">TV on the yellow port and the green port</span> if your livebox is connected to a fibre-optic network.<br>
+<br>
+<span class="boldorange">TV by ADSL + Sat:</span> This option enables you to connect a <b> Satellite</b> TV by ADSL terminal to the yellow Ethernet port on your livebox.<br>
+Note: this option is not available if your livebox is connected to the a fibre-optic network.<br>
+<br>
+If you have not subscribed to Orange's TV service, you can use the yellow port on your livebox to connect another computer to the Internet. To do this, simply disable the TV service.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

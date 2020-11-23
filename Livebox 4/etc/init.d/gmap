@@ -1,0 +1,91 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="gmap"
+datamodel="Devices"
+component="sah_services_gmap"
+trace_zones="
+dev_type
+upnpDev
+waninfo
+selfhgw selflan
+selfusb usb_dev usb_storage
+voice_handsets
+WMBUS
+bridge
+name_select
+dns
+neighborhood dhcp_neigh
+wifi_bridge
+mme_av
+mme_devolo
+assoc_dev
+
+"
+RESTORE="/var/lib/gmap/restore"
+
+start()
+{
+    pcb_start $name -I /var/run/gmap Interfaces="lan,guest"
+    if pcb_is_available Devices 2; then
+        mtk_load $name "/usr/lib/gmap/modules/gmap_mod_device_type.so" &
+        mtk_load $name "/usr/lib/gmap/modules/gmap_mod_upnp.so" &
+        mtk_load $name "/usr/lib/gmap/modules/gmap_mod_wan.so" &
+        pcb_start gmap_db /usr/lib/gmap/modules/gmap_mod_device_db.so
+    fi;
+}
+
+stop()
+{
+    pcb_stop $name
+    pcb_stop gmap_db
+}
+
+debuginfo()
+{
+    pcb_debug_info $name $component $datamodel
+    pcb_debug_info gmap_db $component
+}
+
+log()
+{
+    action=$1
+    shift 1
+
+    pcb_log $name $action $trace_zones
+    pcb_log gmap_db $action dev_db dev_db_actions
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    debuginfo)
+        debuginfo
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            log $action
+        else
+            log enable
+        fi
+        ;;
+    backup)
+        if [ -e $PID ]; then
+            pcb_cli "Devices.export()"
+        else
+            echo "gmap plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p $(dirname "${RESTORE}") && touch "${RESTORE}"
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo]"
+        ;;
+esac

@@ -1,0 +1,38 @@
+using "processmonitor.so";
+persistent object ProcessMonitor {
+bool set(variant parameters);
+variant get();
+persistent uint32 CycleDuration {
+write with pm_writeCycleDuration;
+default 120;
+}
+read-only uint32 TestInterval {
+read with pm_readTestInterval;
+}
+persistent uint32 MaxReboots = 3;
+persistent read-only datetime LastReboot;
+persistent read-only string RebootReason = "Unknown";
+persistent object Test[] {
+counted with NumberOfTest;
+write with pm_writeTest;
+delete with pm_deleteTest;
+bool set(variant parameters);
+variant get();
+read-only string Health;
+persistent string Type {
+constraint enum [ "Plugin", "Process", "Custom" ];
+default "Plugin";
+}
+persistent string Subject = "";
+persistent int32 MaxFailNum = -1;
+persistent int32 MaxFailDuration = -1;
+persistent string FailAction = "REBOOT";
+read-only datetime LastCheck;
+read-only datetime LastSuccess;
+read-only datetime FailedSince;
+read-only uint32 NumFailed = 0;
+persistent read-only datetime LastReboot;
+persistent read-only uint32 NumReboots = 0;
+bool reset();
+}
+}

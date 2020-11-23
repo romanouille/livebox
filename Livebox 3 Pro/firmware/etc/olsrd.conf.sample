@@ -1,0 +1,201 @@
+#
+# olsr.org OLSR daemon config file
+#
+# $Id: $
+#
+# Copyright (c) 2004-2007 Luceor SAS. All rights reserved.
+#
+# Lines starting with a # are discarded
+#
+# This file was shipped with olsrd 0.X.X
+#
+
+# Debug level(0-9)
+
+DebugLevel	1
+
+# IP version to use (4 or 6)
+
+IpVersion	4
+
+# Clear the screen each time the internal state changes
+
+ClearScreen     no
+
+# HNA IPv4 routes
+# syntax: netaddr netmask
+# Example Internet gateway:
+# 0.0.0.0 0.0.0.0
+
+Hna4
+{
+#   Internet gateway:
+#   0.0.0.0      0.0.0.0
+#   more entries can be added:
+#   192.168.1.0  255.255.255.0
+}
+
+# HNA IPv6 routes
+# syntax: netaddr prefix
+# Example Internet gateway:
+#Hna6
+#{
+#   Internet gateway:
+#   ::              0
+#   more entries can be added:
+#   fec0:2200:106:: 48
+#}
+
+
+# Should olsrd keep on running even if there are
+# no interfaces available? This is a good idea
+# for a PCMCIA/USB hotswap environment.
+# "yes" OR "no"
+
+AllowNoInt	yes
+
+# TOS(type of service) value for
+# the IP header of control traffic.
+# If not set it will default to 240
+
+#TosValue	16
+
+# The fixed willingness to use(0-7)
+# If not set willingness will be calculated
+# dynamically based on battery/power status
+# if such information is available
+
+#Willingness    	4
+
+IpcConnect
+{
+  MaxConnections  0
+}
+
+# Whether to use hysteresis or not
+# Hysteresis adds more robustness to the
+# link sensing but delays neighbor registration.
+# Hysteresis parameters
+# Set to auto by default. Allowed
+# values are floating point values
+# in the interval 0,1
+
+UseHysteresis   yes
+#HystScaling     0.5
+#HystThrHigh     0.8
+#HystThrLow      0.3
+
+# Whether to use the signal-to-noise ratio (SNR) or the plain signal
+# level for the FastMobility and RSSI algorithms.
+#UseSNR  yes
+
+# Former signal-strengh-based hysteresis algorithm
+#UseRSSI         no
+#RSSIThrHigh     20
+#RSSIThrLow      11
+
+# Polling rate in seconds(float). 
+# Default value 0.05 sec
+
+Pollrate	0.05
+
+
+# TC redundancy
+# Specifies how much neighbor info should
+# be sent in TC messages
+# Possible values are:
+# 0 - only send MPR selectors
+# 1 - send MPR selectors and MPRs
+# 2 - send all neighbors
+#
+# defaults to 0
+
+TcRedundancy	2
+
+
+#
+# MPR coverage
+# Specifies how many MPRs a node should
+# try select to reach every 2 hop neighbor
+#
+# Can be set to any integer >0
+#
+# defaults to 1
+
+MprCoverage	2
+
+
+# Olsrd plugins to load
+# This must be the absolute path to the file
+# or the loader will use the following scheme:
+# - Try the paths in the LD_LIBRARY_PATH 
+#   environment variable.
+# - The list of libraries cached in /etc/ld.so.cache
+# - /lib, followed by /usr/lib
+
+LoadPlugin "olsrd_extractor.so.0.1"
+{
+}
+
+#LoadPlugin "olsrd_addmid.so.0.1"
+#{
+#  PlParam "Interface" "br0"
+#  PlParam "Period" "2000"
+#}
+
+#LoadPlugin "olsrd_luceor_auto_hna.so.0.1"
+#{
+#  PlParam "Interface" "wlan0"
+#  PlParam "ProbeInterval" "2000"
+#  PlParam "AutoHNATimeout" "15000"
+#  PlParam "ProbeTimeout" "1800000"
+#  PlParam "ListenIPPackets" "true"
+#  PlParam "AddHNA" "true"
+#}
+
+#LoadPlugin "olsrd_bmf.so.1.5"
+#{
+#  PlParam "NonOlsrIf" "eth0"
+#  PlParam "NonOlsrIf" "wlan0"
+#}
+
+# Interfaces and their rules
+# Omitted options will be set to the
+# default values. Multiple interfaces
+# can be specified in the same block
+# and multiple blocks can be set.
+
+# !!CHANGE THE INTERFACE LABEL(s) TO MATCH YOUR INTERFACE(s)!!
+# (eg. wlan0 or eth1):
+
+Interface "eth0" "eth1" "eth2" "wlan0" "wlan1" "wlan2" "ath0" "ath1" "ath2"
+{
+  Ip4Broadcast			255.255.255.255
+
+  # Emission intervals and validity times
+  #HelloInterval		2.0
+  #HelloValidityTime		6.0
+  #TcInterval			5.0
+  #TcValidityTime		15.0
+  #MidInterval			5.0
+  #MidValidityTime		15.0
+  #HnaInterval			5.0
+  #HnaValidityTime		15.0
+
+  # Signal-strengh-based FastMobility algorithm
+  #UseFastMobility		no
+  #FastMobilityHystSSScaling	0.5
+  #FastMobilityHystSSThrHigh	20
+  #FastMobilityHystSSThrLow	11
+  #FastMobilityDelta		3
+
+  # Defines the RSSI filtering level in the FastMobility algorithm.
+  # A higher number means more filtering, 1 means disabled.
+  #FastMobilityRSSIFilterLevel	1
+
+  # FastMonitoring enables switching to FastHELLO mode
+  #UseFastMonitoring		no
+  #FastHelloInterval		0.1
+
+}
+

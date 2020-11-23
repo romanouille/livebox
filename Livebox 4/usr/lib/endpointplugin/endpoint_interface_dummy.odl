@@ -1,0 +1,78 @@
+using "endpointplugin_dummy.so";
+include "/usr/lib/voiceplugin/voiceplugin_api-definition.odl";
+
+
+
+object "$(SAH_VOICE_PLUGIN_NAME)"  {
+    /**
+      Send HOOKOFF signal to the endpoint
+
+      @param  endpointid
+     */
+    void sendHookOff(uint16 endpointid);
+
+    /**
+      Send HOOKON signal to the endpoint
+
+      @param  endpointid
+     */
+    void sendHookOn(uint16 endpointid);
+
+    /**
+      Let an endpoint dial a number 
+
+      @param  endpointid
+      @param  number
+     */
+    void sendSflNumber(uint16 endpointid, string number);
+    
+    /**
+    Automatically hook off when receiving the libvoice andisp_dwa signal */
+    bool AutoHookOff {
+        default 1;
+    }
+
+    /**
+    Automatically hook after &lt;CallDuration&gt; ms have passed */
+        bool AutoHookOn {
+        default 1;
+    }
+    
+    /**
+    The duration of the calls in ms counting from the hook off event. */
+    uint32 CallDuration {
+        default 20000;
+    }
+
+    /**
+    Audio playback enable */ 
+    bool AudioPlayBack_enable {
+        default false;
+    }
+ 
+    /**
+    Audio playback file */
+    string AudioPlayBack_file {
+        default "";
+    }
+
+    /**
+    Audio playback status : State of the media */ 
+    string AudioPlayBack_status {
+        default "IDLE";
+        constraint enum ["IDLE","CREATE_MEDIA","INIT_AUDIOFILE","PLAY_RTP_FILE","ERROR"];
+    }
+
+    /**
+    The type of endpoint the dummy plugin registers.
+    Supported values are DUMMY, FXS and DECT. */
+    string EndPoint_type {
+        default "DUMMY";
+    }
+    
+    object EndPoint[] {
+        
+    }
+}
+
+/** @location sah_drivers_voice_dummyplugin endpoint_interface_dummy.odl.m4 */

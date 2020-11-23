@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Config Atheros Wireless IKANOS
+# Script will be removed later --> S50wld_ath will cover this!
+    modprobe adf
+    modprobe asf
+    modprobe ath_hal
+    modprobe ath_rate_atheros
+    modprobe ath_dfs
+    modprobe ath_dev
+    modprobe umac
+    modprobe ath_pktlog    
+# Bring Radio down!
+    ifconfig wifi0 down
+    ifconfig wifi1 down
+

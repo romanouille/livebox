@@ -1,0 +1,37 @@
+/*expr:homeplug_av*/
+
+/**
+ * MIB is loaded on all network devices that are indicated as a homeplug AV
+ *
+ * All devices matching expression: "homeplugAv" are extended with this MIB
+ *
+ * @version 6.0
+ */
+ mib homeplugAv {
+    /**
+     * Average physical transmit rate
+     *
+     * @version 6.0
+     */
+    volatile read-only uint32 AveragePhyTx;
+    /**
+     * Average physical recieve rate
+     *
+     * @version 6.0
+     */
+    volatile read-only uint32 AveragePhyRx;
+    /**
+     * Manufacturer of the hardware
+     *
+     * @version 6.0
+     */
+    read-only string Manufacturer;
+    /**
+     * Extra information
+     *
+     * @version 6.0
+     */
+    read-only string User;
+}
+
+/** @location sah_services_gmap /mibs/homeplugAv.odl */

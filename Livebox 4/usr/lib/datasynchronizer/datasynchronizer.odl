@@ -1,0 +1,6 @@
+
+
+include "datasynchronizer-definitions.odl";
+include "datasynchronizer-defaults.odl";
+
+/** @location  commod_mediahub_datasynchronizer  add-on/frontend/pcb/datasynchronizer.odl.m4 */

@@ -1,0 +1,119 @@
+[
+  {
+    "expression"     : "wifi and (edev or hnid)",
+    "start_actions"  : {
+                         "notify" : { "ID": 201, "Name":"wifi_device_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 202, "Name":"wifi_device_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 203, "Name":"wifi_device_removed" }
+                       }
+  },
+  {
+    "expression"     : "eth and (edev or hnid)",
+    "start_actions"  : {
+                         "notify" : { "ID": 204, "Name":"eth_device_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 205, "Name":"eth_device_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 206, "Name":"eth_device_removed" }
+                       }
+  },
+  {
+    "expression"     : "usb and (edev or hnid)",
+    "start_actions"  : {
+                         "notify" : { "ID": 207, "Name":"usb_device_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 208, "Name":"usb_device_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 209, "Name":"usb_device_removed" }
+                       }
+  },
+  {
+    "expression"     : "logical and not self",
+    "start_actions"  : {
+                         "notify" : { "ID": 210, "Name":"logical_device_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 211, "Name":"logical_device_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 212, "Name":"logical_device_removed" }
+                       }
+  },
+  {
+    "expression"     : "self",
+    "start_actions"  : {
+                         "notify" : { "ID": 213, "Name":"self_device_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 214, "Name":"self_device_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 215, "Name":"self_device_removed" }
+                       }
+  },
+  {
+    "expression"     : ".IPv4Address.*.Status==\"error\"",
+    "start_actions"  : {
+                         "notify" : { "ID": 216, "Name":"device_error" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 217, "Name":"device_error_solved" }
+                       }
+  },
+  {
+    "expression"     : "voice",
+    "start_actions"  : {
+                         "notify" : { "ID": 218, "Name":"voice_device_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 219, "Name":"voice_device_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 220, "Name":"voice_device_removed" }
+                       }
+  },
+  {
+    "expression"     : "dect_ule or zwave or ha",
+    "start_actions"  : {
+                         "notify" : { "ID": 221, "Name":"ha_device_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 222, "Name":"ha_device_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 223, "Name":"ha_device_removed" }
+                       }
+  },
+  {
+    "expression"     : "bluetooth and dongle and physical and hnid",
+    "start_actions"  : {
+                         "notify" : { "ID": 224, "Name":"bluetooth_adapter_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 225, "Name":"bluetooth_adapter_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 226, "Name":"bluetooth_adapter_removed" }
+                       }
+  },
+  {
+    "expression"     : "bluetooth and physical and edev",
+    "start_actions"  : {
+                         "notify" : { "ID": 227, "Name":"bluetooth_device_added" }
+                       },
+    "update_actions" : {
+                         "notify" : { "ID": 228, "Name":"bluetooth_device_updated" }
+                       },
+    "stop_actions"   : {
+                         "notify" : { "ID": 229, "Name":"bluetooth_device_removed" }
+                       }
+  }
+]

@@ -1,0 +1,14 @@
+object X_ORANGE-COM_FirewallIPv6 {
+	string Config {
+		constraint enum [ "High", "Medium", "Low", "Drop", "Off", "Custom" ];
+		default "Medium";
+	}
+}
+
+datamodel {
+	object X_ORANGE-COM_FirewallIPv6 {
+		destination "pcb://$(PCB_MAIN_BUS)/Firewall" {
+			parameter Config from AdvancedLevel;
+		}
+	}
+}

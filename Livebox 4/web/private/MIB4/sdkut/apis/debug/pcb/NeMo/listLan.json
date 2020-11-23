@@ -1,0 +1,105 @@
+{
+    "status": true,
+    "data": {
+        "wlanvap": {
+            "wl0": {
+                "VAPStatus": "Up",
+                "LastChangeTime": 57,
+                "LastChange": 314,
+                "BSSID": "98:8B:5D:3C:7B:92",
+                "SSID": "SoftAtHome-7B92",
+                "SSIDAdvertisementEnabled": true,
+                "RetryLimit": 0,
+                "WMMCapability": true,
+                "UAPSDCapability": true,
+                "WMMEnable": true,
+                "UAPSDEnable": false,
+                "MaxStations": -1,
+                "APBridgeDisable": false,
+                "Security": {
+                    "ModesSupported": "None,WEP-64,WEP-128,WEP-128iv,WPA-Personal,WPA2-Personal,WPA-WPA2-Personal,E-None,WPA-Enterprise,WPA2-Enterprise,WPA-WPA2-Enterprise",
+                    "ModeEnabled": "WPA2-Personal",
+                    "WEPKey": "D94F56A3C92EE6626D9FAF591D",
+                    "PreSharedKey": "",
+                    "KeyPassPhrase": "D94F56A3C92EE6626D9FAF591D",
+                    "RekeyingInterval": 3600,
+                    "RadiusServerIPAddr": "",
+                    "RadiusServerPort": 1812,
+                    "RadiusSecret": ""
+                },
+                "WPS": {
+                    "Enable": false,
+                    "ConfigMethodsSupported": "Ethernet,Label,Display,PushButton,Keypad,PIN",
+                    "ConfigMethodsEnabled": "PushButton,Label,Ethernet",
+                    "SelfPIN": "89365908",
+                    "Configured": true,
+                    "PairingInProgress": false
+                },
+                "MACFiltering": {
+                    "Mode": "Off",
+                    "Entry": {
+                        "MACAddress": ""
+                    }
+                },
+                "AssociatedDevice": {
+                    "MACAddress": "",
+                    "AuthenticationState": false,
+                    "LastDataDownlinkRate": 0,
+                    "LastDataUplinkRate": 0,
+                    "SignalStrength": 0,
+                    "Retransmissions": 0,
+                    "Active": false
+                }
+            },
+            "wl1": {
+                "VAPStatus": "Up",
+                "LastChangeTime": 54,
+                "LastChange": 317,
+                "BSSID": "98:8B:5D:3C:7B:93",
+                "SSID": "SoftAtHome-7B92-5GHz",
+                "SSIDAdvertisementEnabled": true,
+                "RetryLimit": 0,
+                "WMMCapability": true,
+                "UAPSDCapability": true,
+                "WMMEnable": true,
+                "UAPSDEnable": false,
+                "MaxStations": -1,
+                "APBridgeDisable": false,
+                "Security": {
+                    "ModesSupported": "None,WEP-64,WEP-128,WEP-128iv,WPA-Personal,WPA2-Personal,WPA-WPA2-Personal,E-None,WPA-Enterprise,WPA2-Enterprise,WPA-WPA2-Enterprise",
+                    "ModeEnabled": "WPA2-Personal",
+                    "WEPKey": "D94F56A3C92EE6626D9FAF591D",
+                    "PreSharedKey": "",
+                    "KeyPassPhrase": "D94F56A3C92EE6626D9FAF591D",
+                    "RekeyingInterval": 3600,
+                    "RadiusServerIPAddr": "",
+                    "RadiusServerPort": 1812,
+                    "RadiusSecret": ""
+                },
+                "WPS": {
+                    "Enable": false,
+                    "ConfigMethodsSupported": "Ethernet,Label,Display,PushButton,Keypad,PIN",
+                    "ConfigMethodsEnabled": "PushButton,Label,Ethernet",
+                    "SelfPIN": "89365908",
+                    "Configured": true,
+                    "PairingInProgress": false
+                },
+                "MACFiltering": {
+                    "Mode": "Off",
+                    "Entry": {
+                        "MACAddress": ""
+                    }
+                },
+                "AssociatedDevice": {
+                    "MACAddress": "",
+                    "AuthenticationState": false,
+                    "LastDataDownlinkRate": 0,
+                    "LastDataUplinkRate": 0,
+                    "SignalStrength": 0,
+                    "Retransmissions": 0,
+                    "Active": false
+                }
+            }
+        }
+    }
+}

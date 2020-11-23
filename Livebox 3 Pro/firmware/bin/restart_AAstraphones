@@ -1,0 +1,8 @@
+#!/bin/sh
+# Copyright (C) 2011 Sagemcom
+echo "rebooting IpPhones" $1
+
+echo "# test" >> /var/aastra-https/aastra.cfg
+echo  $1
+asterisk -rx "sip notify aastra-check-cfg $1"
+

@@ -1,0 +1,66 @@
+#################################
+#                               #
+#    Configuration File         #
+#                               #
+#################################
+#
+# You can edit this file
+# (you SHOULD NOT edit any other file...)
+#
+#
+# Entries must be of the type
+# VARIABLE_NAME=value
+# ! no blank space after the "=" sign!
+# In most of the cases, the predefined/expected values
+# are in comments under the variable name
+#
+
+
+############################
+#   Wi-Fi Configuration
+#
+
+##### 5GHz ####
+
+# Do we use 5GHz wifi ?
+WIFI_5GHZ=1
+# 1 use
+# 0 do not use
+
+# Wi-Fi security on 5GHz band
+WIFI_SEC_5GHZ=2
+# 0 open
+# 2 wpa2
+
+# 5GHz band key
+#PSK_5GHZ=ddaf297099c31acd5b87257c57db9a02
+# PSK is random-generated if no value is specified here
+
+
+# wifi 5GHz canal
+WIFI_5GHZ_FREQ=noDFS
+# use syntax of iwconfig (canal or frequence using M or G
+# multiplier)
+# comment the declaration if you want to use an ACS
+# other non-DFS channel with mode 11NAHT40MINUS are
+# 5.765G, 5.805G, 5.240G
+# If you want a random non-DFS channel, set this option 
+# with "noDFS" value
+
+# Aquila 11n mode
+MODE_5GHZ=11NAHT40
+# Do not modify this unless you know what you are doing...
+# Use 11NAHT40MINUS if you want to use channel TODO
+
+
+############################
+# Interfaces
+############################
+MESH_RADIO=wifi1
+MESH_ADHOC_IFACE=WLAN_ADHOC2
+MESH_PAIRING_IFACE=WLAN_MESHP3
+MESH_ETH_IFACE=eth0.10
+ETH_IFACE=eth1
+
+
+

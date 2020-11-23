@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tns:hgwconfig xmlns:tns="http://xml.softathome.org/2009/hgwconfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xml.softathome.org/2009/hgwconfig">
+   <tns:AdminSettings>
+      <tns:AdminPassword/>
+   </tns:AdminSettings>
+</tns:hgwconfig>
+

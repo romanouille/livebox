@@ -1,0 +1,38 @@
+<div id="wifiVisitorAccessStatus" xmlns="http://www.orange.com/xhtml/engine/loose">
+    <div class="boxType3">
+		<h1 class="logo_generic grey"  i18n="page.myServices.wifiaccessstatus.title"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myServices.wifiaccessstatus.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		 <div class="boxType4 border-bottom-3">
+			<div class="info_content">
+				<span i18n="page.myServices.wifiaccess.content1"/>&#160;<span dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/Enable" i18nPrefix="data.booleanLower"/>.
+			</div>
+			<div class="info_content">
+				<span i18n="page.myServices.wifiaccessstatus.nbuser"/>&#160;<span id="UsersConnected" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/UsersConnected"/>&#160;<span id="UsersConnectedLabel"/>
+			</div>
+			
+			<br/>
+			<div dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/HotspotUsers/HotspotUser" widgetType="Table">
+				<span i18n="page.myServices.wifiaccessstatus.visitor" widgetType="TableColumn" widgetArg="{attr: 'uid'}" />
+				<span i18n="common.ipadress" widgetType="TableColumn" widgetArg="{attr: 'IPAddress'}" />
+				<span i18n="page.myServices.wifiaccessstatus.connectiontime" widgetType="TableColumn" widgetArg="{attr: 'Duration'}" />
+			</div>
+			
+			<div class="info_content">
+				<span i18n="page.myServices.wifiaccessstatus.moreinfo"/>
+			</div>
+			<div class="info_content">
+				<span i18n="page.myServices.wifiaccessstatus.disableservice"/>
+			</div>
+			
+			<div widgetType="ButtonContainer" class="right">
+				<span id="disableBtn" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.myServices.wifiaccessstatus.disableserviceBtn"/>
+			</div>
+		 </div>
+		</form>
+	</div>
+</div>

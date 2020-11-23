@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+		<link rel="stylesheet" type="text/css" href="../../theme/webCorporate/css/theme.css"/>
+	<title>LiveBox</title>
+	    <script language="JavaScript">
+	          function getParam(){
+	
+	                  var params=new Object();
+	
+	                  var tmp=window.location.search.substr(1).split("&");
+	                  for (i=0; i<tmp.length; i++)
+	                  {
+	                          data=tmp[i].split("=");
+	                          params[data[0]]=data[1];
+	                  }
+					document.getElementById("equipement").innerHTML = decodeURIComponent(params['equipment'].replace("%27",  " "));
+	          }
+        </script>
+	
+	</head>
+	<body bgcolor="#eeeeee" onLoad="getParam();">
+		<div class="help_popup">
+			<img  class="float-left" align="absmiddle" src="../../theme/webCorporate/image/icon_inter.png"/>
+			<h2 class="grey" > &nbsp;aide : équipement <span id="equipement"></span> connecté   </h2>
+			<br/><br/>		
+			<div class="content">
+				<span >
+					<strong>personnalisation de l’équipement</strong>
+					<br/>
+					Cette section vous permet de personnaliser l'équipement. Vous pouvez lui donner un nom réseau, préciser le type d'équipement, 
+					voir son adresse MAC, lui affecter un icône ou encore indiquer son emplacement dans une des pièces de votre entreprise.
+					<br/><br/>
+					<strong>connexion de l’équipement</strong>
+					<br/>
+					Cette section précise comment l'équipement est connecté à votre Livebox. Le type de connexion, son adresse IP et son statut 
+					(connecté ou déconnecté).<br/>
+					Vous pouvez aussi rendre l’équipement visible par tout le monde sur le réseau ou au contraire le cacher. 
+					<br/><br/>
+					<strong>accès de l’équipement à Internet</strong>
+					<br/>
+					Pour chaque équipement, vous pouvez choisir d’interdire l’accès à Internet, de l’autoriser en permanence ou avec  des restrictions 
+					d’accès selon des plages horaires. Cliquez alors sur le lien « >> programmer des horaires d’accès ».
+					<br/>
+					Si l’équipement est <img  align="absmiddle" height="13px" src="../../theme/webCorporate/image/ico_nok.gif"/><span class="red bold_font"> désactivé</span>
+					, vous avez la possibilité de le supprimer de votre réseau à l’aide du bouton supprimer.
+					<br/><br/>
+					Pour que les modifications soient prises en compte, n’oubliez pas de cliquer sur le bouton sauvegarder.
+					
+					<br/><br/>
+					Pour plus d'infos, cliquez sur le lien <a class="orange" href="http://assistance.orange.fr/">http://assistance.orange.fr/</a>.
+				</span>			
+			</div>
+		</div>
+	</body>
+</html>
+	

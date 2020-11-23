@@ -1,0 +1,3 @@
+<b>VPN users:</b><br>
+<br>
+This page enables you to create new users, assign them passwords and apply a connection policy defined in the profile. 

@@ -1,0 +1,37 @@
+<div id="update" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<span style="display:none">XpathRouter</span>
+	<span style="display:none">XPathRPC</span>
+	<div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_EnvLiveBox_update">
+			<span i18n="page.myEquipments.update.title"/>&#160;<span  dataId="XpathRouter/RouterName"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myEquipments.update.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form>
+		<div class="boxType4 margin-top-10  border-bottom-3">
+			<span class="h3Text " i18n="page.myEquipments.update.subpart"/>
+			<br/>
+			<div  class="margin-bottom-10 margin-top-5" i18n="page.myEquipments.update.subpart.label1"/> <!-- class="forminput" -->
+			<div class="margin-bottom-10"> 
+				<span i18n="page.myEquipments.update.subpart.label2"/>&#160;<span dataId="XpathRouter/OSVersion"/>
+			</div>
+			<div class=" bold" i18n="page.myEquipments.update.subpart.label3"/><!-- forminput -->
+			<div  i18n="page.myEquipments.update.subpart.label4"/><!-- class="forminput" -->
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnUpdate" widgetType="ButtonImage" i18n="page.myEquipments.update.btn"/>
+			</div>
+		</div>			
+			<!--<div widgetType="ButtonContainer" class="btnPageBack">
+				<span widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'PREVIOUSPAGE'}" i18n="common.page.back"/>
+			</div>-->
+		</form>
+	</div>
+</div>

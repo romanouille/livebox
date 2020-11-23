@@ -1,0 +1,85 @@
+{
+    "Id": "sah_media",
+    "Category": "Media Center",
+    "Version": "0.1",
+    "Title": "sah_media.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Application": { "main": "iframeapp",
+                     "settings": { "target": "/dmc/"
+                                 }
+                   },
+    "Applet": [ 
+                { "width": 2,
+                  "height": 2,
+                  "url": "apps/common/slider.html",
+                  "initializer": "slider2",
+                  "class": "greenbox",
+                  "settings": { "slides": [ "<span class=\"img media\"></span>"
+                                          ],
+                                "apicalls":{}
+                              }
+                },
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "name": "My Video",
+                  "class": "bgvideo",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img video\"></span>",
+                                            "<div class=\"title\">Slow Motion<br>iPhone 5S</div>"
+                                          ],
+                                "title": "sah_media.video"
+                              }
+                },
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "name": "My Pictures",
+                  "class": "bgpictures",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img pictures\"></span>",
+                                            "<div class=\"title\">Aviator poker size<br>playing cards</div>"
+                                          ],
+                                "title": "sah_media.pictures"
+                              }
+                },
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "name": "My Music",
+                  "class": "bgmusic",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img music\"></span>",
+                                            "<div class=\"title\">Michael Jackson<br>Beat it</div>"
+                                          ],
+                                "title": "sah_media.music"
+                              }
+                },
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "name": "My Games",
+                  "class": "bggames",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img games\"></span>",
+                                            "<div class=\"title\">GTA V<br>Rockstar games</div>"
+                                          ],
+                                "title": "sah_media.games"
+                              }
+                }
+              ],
+    "en":{
+        "title":"My Media Controller",
+        "video":"My Video",
+        "pictures":"My Pictures",
+        "music":"My Music",
+        "games":"My Games"
+    },
+    "fr":{
+        "title":"QnIKIMwr",
+        "video":"aWEkdNIC",
+        "pictures":"OIRNIXyB",
+        "music":"gJBidxDP",
+        "games":"qKhAoBWp"
+    }
+}

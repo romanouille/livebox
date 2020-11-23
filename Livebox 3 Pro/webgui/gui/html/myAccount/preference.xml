@@ -1,0 +1,53 @@
+<div id="preference" xmlns="http://www.orange.com/xhtml/engine/loose">
+    <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_myAccount" i18n="menuAccount.preferences"/>
+		<div class="margin-left-40 margin-top-m8">
+		 	<strong i18n="page.myAccount.preferences.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		 <div class="boxType4 margin-top-10 border-bottom-1 ">
+			<span class="h3Text" i18n="page.myAccount.preferences.homeconfig"/>
+			<br/>
+			<div class="margin-left-30" widgetType="FormInput" i18n="page.myAccount.preferences.homeconfig.showconnected">
+			<!-- <span widgetType="Checkbox" widgetArg="[false, true]" dataId="Device/UserInterface/WebUI/DisplayDevice" i18nPrefix="page.myAccount.preferences.homeconfig.showconnected"/> -->	
+				<span   widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"   dataId="Device/UserInterface/WebUI/DisplayDevice" i18nPrefix="page.myAccount.preferences.homeconfig.showconnected"/>
+			</div>
+		</div>
+   		<div class="boxType5 border-bottom-1">
+			<span class="h3Text" i18n="page.myAccount.preferences.alertonfig"/>
+			<br/>
+			<div class="margin-left-30" widgetType="FormInput" i18n="page.myAccount.preferences.alertonfig.disablepopup">
+				<!-- This check box has its values reversed on purpose -->
+				<span   widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"   dataId="Device/UserInterface/WebUI/PopupStatus"  i18nPrefix="page.myAccount.preferences.alertonfig.disablepopup"/>
+			</div>
+			<div class="margin-left-30" widgetType="FormInput" i18n="page.myAccount.preferences.alertonfig.disableSCpopup">
+				<span   widgetType="EnumInput" widgetArg="'radio'" enumerated="[false, true]"   dataId="Device/UserInterface/WebUI/PopupSCStatus"  i18nPrefix="page.myAccount.preferences.alertonfig.disableSCpopup"/>
+			</div>
+		</div>
+		 <div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.myAccount.preferences.timeoutconfig"/>
+			<div class="margin-left-60" widgetType="FormInput" i18n="page.myAccount.preferences.timeoutconfig.timeout">
+			<span class="widthAuto" widgetType="EnumInput" widgetArg="'select'" dataId="Device/UserInterface/WebUI/SessionTimeout" enumerated="['10', '15', '30', '60']"/>
+			</div>
+		 </div>
+			<!-- designed but not displayed in this version.
+			<h3><span i18n="page.myAccount.preferences.secureaccess"/></h3>
+			<div widgetType="FormInput" i18n="page.myAccount.preferences.secureaccess.access">
+				<span widgetType="Checkbox" widgetArg="[false, true]" dataId="Device/UserInterface/WebUI/HTTPSOnly" i18nPrefix="page.myAccount.preferences.secureaccess.access"/>
+			</div>
+			-->
+          
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+<b>Testowanie telefonu podłączonego do modemu Livebox</b><br>
+<br>
+
+
+
+Test telefonów (DECT livephone i Internet phone) podłączonych do modemu Livebox rozpoczniesz poprzez kliknięcie przycisku <b>"Test"</b> na stronie Telefonu internetowego.<br>Jeżeli telefony podłączone są poprawnie, powinny zacząć dzwonić. W przeciwnym wypadku sprawdź podłączenie pomiędzy telefonami a modemem Livebox. Telefon powinien być podłączony kablem RJ11 do niebieskiego portu telefonu na modemie. Dla livephone DEC, jednostka bazowa DEC powinna być podłączona do portu USB modemu Livebox.<br>Jeżeli podłączenie jest poprawne, a telefony nadal nie działają, skontaktuj się z infolinią.<br>Zauważ, że jeśli inicjujesz lub odbierasz połączenie podczas badania, wynik testu jest automatycznie anulowany.
+
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

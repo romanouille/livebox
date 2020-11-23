@@ -1,0 +1,74 @@
+object NeMo {
+object extends MIB(0,"dslline") {
+string Flag = "dslline";
+object DataModel {
+read-only uint32 Line_LastChangeTime;
+volatile read-only uint32 Line_LastChange;
+string LineStatus {
+constraint enum [ "Up", "Initializing", "EstablishingLink", "NoSignal", "Disabled", "Error" ];
+default "Disabled";
+}
+string ChannelEncapsulationType {
+constraint enum["", "G.992.3_Annex_K_ATM", "G.992.3_Annex_K_PTM", "G.993.2_Annex_K_ATM", "G.993.2_Annex_K_PTM", "G.994.1"];
+default "";
+}
+uint32 Line_UpstreamCurrRate;
+uint32 Line_DownstreamCurrRate;
+uint32 Line_UpstreamMaxRate;
+uint32 Line_DownstreamMaxRate;
+int32 Line_UpstreamNoiseMargin;
+int32 Line_DownstreamNoiseMargin;
+int32 Line_UpstreamAttenuation;
+int32 Line_DownstreamLineAttenuation;
+int32 Line_UpstreamLineAttenuation;
+int32 Line_DownstreamAttenuation;
+int32 Line_UpstreamPower;
+int32 Line_DownstreamPower;
+string Line_DataPath {
+constraint enum [ "Interleaved", "Fast", "None" ];
+default "Interleaved";
+}
+uint32 Line_InterleaveDepth = 0;
+uint32 Line_ActualInterleavingDelay;
+int32 Line_ACTINP = -1;
+bool Line_INPREPORT = 0;
+string Line_ModulationType {
+constraint enum [ "ADSL", "ADSL_G.dmt", "ADSL_G.lite", "ADSL_G.dmt.bis", "ADSL_re-adsl", "ADSL_2plus", "ADLS_four", "ADSL_ANSI_T1.413", "G.shdsl", "IDSL", "HDSL", "SDSL", "VDSL", "" ];
+default "";
+}
+persistent string Line_ModulationHint {
+constraint enum [ "Auto", "ADSL", "VDSL" ];
+default "Auto";
+}
+string Line_FirmwareVersion {
+constraint maxvalue 64;
+}
+string Line_StandardsSupported;
+string Line_StandardUsed {
+constraint enum [ "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_L", "G.992.3_Annex_M", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B", "G.993.2_Annex_C", "" ];
+default "";
+}
+string Line_CurrentProfile {
+constraint enum [ "", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a" ] ;
+default "";
+}
+uint32 Line_UPBOKLE {
+constraint range [ 0, 1280 ];
+}
+bool Line_TRELLISds = false;
+bool Line_TRELLISus = false;
+string Line_LATNpbds;
+string Line_LATNpbus;
+string Line_SATNpbds;
+string Line_SATNpbus;
+string Line_SNRMpbds;
+string Line_SNRMpbus;
+string Line_XTURVendor = "00000000";
+string Line_XTUCVendor = "00000000";
+void getDSLLineStats();
+void getDSLStats();
+void getDSLLineTestParams();
+void getDSLChannelStats();
+}
+}
+}

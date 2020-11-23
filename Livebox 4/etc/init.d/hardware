@@ -1,0 +1,184 @@
+#!/bin/sh
+
+# Hardware configuration
+
+
+hdd_init() {
+   for x in bcm63xx_sata libata libahci ahci ahci_platform ; do
+      modprobe $x
+   done
+
+      echo  31 > /sys/class/gpio/export \
+   && ln -s      /sys/class/gpio/gpio31/value /var/dev/hdd \
+   && echo out > /sys/class/gpio/gpio31/direction \
+   && echo   1 > /var/dev/hdd
+}
+
+# Create Broadcom specific devices
+mknod /dev/dect c 197 0
+mknod /dev/dectdbg c 197 1
+mknod /dev/bcmatm0 c 205 0
+mknod /dev/brcmboard c 206 0
+mknod /dev/bcmvdsl0 c 207 0
+mknod /dev/bcmadsl0 c 208 0
+mknod /dev/bcmadsl1 c 208 1
+mknod /dev/bcmendpoint0 c 209 0
+mknod /dev/bcmaal20 c 210 0
+mknod /dev/bcmles0 c 211 0
+mknod /dev/bcm c 212 0
+mknod /dev/bounce c 213 0
+mknod /dev/pmon c 214 0
+mknod /dev/ac97 c 222 0
+mknod /dev/slac c 223 0
+mknod /dev/bcmprof c 224 0
+mknod /dev/si3215 c 225 0
+mknod /dev/bcmatmb0 c 226 0
+mknod /dev/p8021ag0 c 227 0
+mknod /dev/bcmxtmcfg0 c 228 0
+mknod /dev/pktcmf c 232 0
+mknod /dev/spu c 233 0
+mknod /dev/bcmmoca0 c 234 0
+mknod /dev/bcmmoca1 c 234 1
+mknod /dev/bcm_user_ploam c 235 0
+mknod /dev/bcm_omci c 236 0
+mknod /dev/bcm_ploam c 237 0
+mknod /dev/bcmvlan c 238 0
+mknod /dev/pwrmngt c 240 0
+mknod /dev/bcmfap c 241 0
+mknod /dev/fcache c 242 0
+mknod /dev/gmac c 249 0
+mknod /dev/bdmf_shell  c 215 0
+mknod /dev/bcmrdpa c 251 0
+
+LED_DRIVER_MAJOR_NUMBER=`sed -n 's/\(.*\) led$/\1/p' /proc/devices`
+if [ -n "$LED_DRIVER_MAJOR_NUMBER" ]; then
+	mknod /dev/led c $LED_DRIVER_MAJOR_NUMBER 0
+fi
+
+mknod /dev/capi20 c 68 0
+mknod /dev/isdninfo c 45 255
+mknod /dev/ippp0 c 45 128
+mknod /dev/ippp1 c 45 129
+mknod /dev/isdnctrl0 c 45 64
+mknod /dev/isdnctrl c 45 64
+mknod /dev/isdn c 45 0
+mknod /dev/linux-uk-proxy c 125 0
+mknod /dev/linux-user-bde c 126 0
+
+button_major=`sed -n 's/\(.*\) lb_button$/\1/p' /proc/devices`
+for f in 0 1 2 3 4 5 6 7; do
+  mknod /dev/button$f c $button_major $f 2>/dev/null
+done
+
+# MIB4 Buttons
+ln -s /dev/button2 /dev/button_reset
+ln -s /dev/button5 /dev/button_wlan_pairing
+ln -s /dev/button5 /dev/button_dect
+ln -s /dev/button0 /dev/button_screen_wlan
+ln -s /dev/button4 /dev/button_screen
+ln -s /dev/button6 /dev/button_reboot
+ln -s /dev/button7 /dev/button_proximity_push
+ln -s /dev/button7 /dev/button_proximity_release
+
+# Set up GPIO
+# GPIO WIFI 5
+echo 11 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio11/direction
+mkdir -p /var/dev/quantenna_reset
+ln -s /sys/class/gpio/gpio11/value /var/dev/quantenna_reset/value
+# GPIO WIFI 2,4
+echo 12 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio12/direction
+echo 1 >  /sys/class/gpio/gpio12/value
+# GPIO DECT  
+echo 24 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio24/direction
+echo 1 >  /sys/class/gpio/gpio24/value
+
+# GPIO FXS  
+echo 34 > /sys/class/gpio/export
+echo in > /sys/class/gpio/gpio34/direction
+
+# GPIO PROXIMITY_DETECT
+echo 25 > /sys/class/gpio/export
+echo in > /sys/class/gpio/gpio25/direction
+
+# GPIO PROXIMITY_DETECT
+echo 37 > /sys/class/gpio/export
+echo in > /sys/class/gpio/gpio37/direction
+
+# Load Broadcom specific drivers
+modprobe bdmf bdmf_chrdev_major=215
+modprobe rdpa_gpl
+modprobe rdpa
+
+modprobe rdpa_mw
+modprobe chipinfo
+modprobe bcmxtmrtdrv
+modprobe pktflow
+modprobe pktrunner
+modprobe bcmxtmcfg
+modprobe adsldd
+modprobe bcm_enet
+#wlan modules
+modprobe wfd
+modprobe wlcsm
+modprobe wlemf
+modprobe dhd firmware_path=/etc/wlan/dhd mfg_firmware_path=/etc/wlan/dhd/mfg
+modprobe wl
+
+modprobe ip_gre
+
+modprobe bcmvlan
+modprobe pwrmngtd
+modprobe rdpa_cmd_tm
+modprobe rdpa_cmd_spdsvc
+modprobe rdpa_cmd_ds_wan_udp_filter
+modprobe rdpa_cmd_drv
+
+modprobe nf_conntrack_rtsp ports=554,5004,5544,8554
+modprobe nf_nat_rtsp
+modprobe nf_dyndscp
+
+modprobe ssd1322_oled_drv.ko
+
+# Hwmon
+modprobe hwmon.ko
+modprobe lm75.ko
+
+# Fan driver
+modprobe mib4-bcm963xx-fan.ko
+
+# I2C devices Configuration
+echo ina219 0x40 > /sys/class/i2c-dev/i2c-0/device/new_device
+echo tmp112 0x48 > /sys/class/i2c-dev/i2c-0/device/new_device
+echo tmp112 0x49 > /sys/class/i2c-dev/i2c-0/device/new_device
+
+mkdir -p /var/dev/screen
+mkdir -p /var/dev/screen/Backlight
+ln -s /proc/oled_contrast /var/dev/screen/Backlight/brightness
+
+/bin/bdmf_init
+/bin/switch_init
+
+mknod /dev/bpm c `sed -n 's/\(.*\) bpm$/\1/p' /proc/devices` 0
+
+wlctl down
+ethswctl -c wan -i eth0 -o enable
+
+hdd_init &
+
+/bin/swmdk &
+
+ETH_MAC_ADDR=`readrip -m: WAN_ADDR`
+/usr/sbin/ebtables -t nat -N POSTROUTING_igmp_l2l_drop
+/usr/sbin/ebtables -t nat -P POSTROUTING_igmp_l2l_drop RETURN
+/usr/sbin/ebtables -t nat -A POSTROUTING -j POSTROUTING_igmp_l2l_drop
+
+/usr/sbin/ebtables -t nat -A POSTROUTING_igmp_l2l_drop -s ! $ETH_MAC_ADDR -o eth1 -p 0x0800 --ip-protocol igmp -j DROP
+/usr/sbin/ebtables -t nat -A POSTROUTING_igmp_l2l_drop -s ! $ETH_MAC_ADDR -o eth2 -p 0x0800 --ip-protocol igmp -j DROP
+/usr/sbin/ebtables -t nat -A POSTROUTING_igmp_l2l_drop -s ! $ETH_MAC_ADDR -o eth3 -p 0x0800 --ip-protocol igmp -j DROP
+/usr/sbin/ebtables -t nat -A POSTROUTING_igmp_l2l_drop -s ! $ETH_MAC_ADDR -o eth4 -p 0x0800 --ip-protocol igmp -j DROP
+/usr/sbin/ebtables -t nat -A POSTROUTING_igmp_l2l_drop -s ! $ETH_MAC_ADDR -o eth6 -p 0x0800 --ip-protocol igmp -j DROP
+/usr/sbin/ebtables -t nat -A POSTROUTING_igmp_l2l_drop -s ! $ETH_MAC_ADDR -o wl0 -p 0x0800 --ip-protocol igmp -j DROP
+

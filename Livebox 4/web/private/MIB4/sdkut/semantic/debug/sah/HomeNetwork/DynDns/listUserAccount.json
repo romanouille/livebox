@@ -1,0 +1,13 @@
+{
+  "status": 0,
+  "data": {
+    "accountList": [
+      {
+        "hostname": "superman.dyndns.org",
+        "login": "superman",
+        "password": "catwoman",
+        "service": "dyndns"
+      }
+    ]
+  }
+}

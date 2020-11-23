@@ -1,0 +1,7 @@
+<b>Wifi accès visiteurs :</b><br>
+<br>
+Pour permettre à vos visiteurs d'accéder à Internet sans risque pour vos applications informatiques et dans le respect de la loi, activez la fonction wifi accès visiteurs et créez ainsi votre hotspot WiFi pour votre établissement.<br>
+Prenez soin de bien remplir les différents champs de la page, acceptez les condition générales d'utilisation puis cliquez sur le bouton "Enregistrer" pour que nous activions la fonction et pour être référencé directement dans l'annuaire des hotspots WiFi d'Orange.<br>
+<br>
+<b>Pour plus d’infos, cliquez </b> <a href="http://assistance.orange.fr/" target="_blank">http://assistance.orange.fr/</a> <b>ici</b>
+

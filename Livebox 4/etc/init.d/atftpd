@@ -1,0 +1,17 @@
+#!/bin/sh
+
+
+
+case $1 in
+    start)
+        /usr/sbin/atftpd --daemon --bind-address 1.1.1.1 --no-multicast --port 69
+        ;;
+    stop)
+        killall atftpd
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+esac

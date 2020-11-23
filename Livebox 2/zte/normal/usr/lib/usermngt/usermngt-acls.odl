@@ -1,0 +1,194 @@
+/* The access rights are in an independent file so that they can be loaded when user
+* management is configured, otherwise PCB would complain (rightly) about not being 
+* able to find the user for the acl while its not even created...
+*
+* So we first load the datamodel and defaults, then generate the pcb passwd file
+* and then load this file and then the save file.
+*/
+datamodel {
+  acl {
+    group cwmpd read, write, execute;
+    world read, execute;
+    
+  }
+
+  object UserManagement {
+
+    parameter GroupNumberOfEntries {
+      acl { 
+        world none;
+      }
+    }
+
+    parameter UserNumberOfEntries {
+      acl { 
+        world none;
+      }
+    }
+    
+    function addUser {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    } 
+
+    function changeUser {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function changePassword {
+      acl {
+        world read, execute;
+      }
+    }
+
+    function removeUser {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+     }
+    }
+
+    function removeUsers {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function addGroup {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function changeGroup {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function removeGroup {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function getUsers {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function getGroups {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function getUsersAndGroups {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function addUserToGroups {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+    
+    function removeUserFromGroups {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+        world none;
+      }
+    }
+
+    function export {
+      acl {
+        world none;
+      }
+    }
+
+    function import {
+      acl {
+        world none;
+      }
+    }
+
+    function authenticate {
+      acl {
+        world read, execute;
+      }
+    }
+    
+    object Group {
+      acl {
+        world none;
+      }
+    }
+
+    object User {
+      acl {
+        world none;
+      }
+    }
+
+    instance of Group(1, "http") {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+      }
+    }
+
+    instance of Group(2, "admin") {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+      }
+    }
+
+    instance of Group(3, "remoteadmin") {
+      acl {
+        group admin read, execute;
+        group remoteadmin read, execute;
+      }
+    }
+
+    instance of User(1, "admin") {
+      acl {
+        group admin read, execute;
+      }
+      parameter Password {
+        acl {
+          group admin write;
+          group remoteadmin write;
+        }
+      }
+    }
+  }
+}

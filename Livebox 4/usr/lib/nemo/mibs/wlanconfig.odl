@@ -1,0 +1,27 @@
+/**
+ * The WLAN Config MIB is available on all NeMo Intfs that have the "wlanradio", "wlanvap" or "wlanconfig"
+ * flag set.
+ */
+object NeMo {
+	object extends MIB(0, "wlanconfig") {
+
+		string Flag = "wlanradio || wlanvap || wlanendpoint || wlanconfig";
+		object DataModel {
+			/**
+			 * This function is a wrapper for setMIBs() intended for wlan reconfigurations.
+			 * Except for calling setMIBs, it also calls the wland's edit() before setting the
+			 * MIBs and commit() after setting the MIBs for all affected Radios to guarantee
+			 * atomic reconfiguration, minimizing the performance penalty of it. 
+			 * @param mibs A map in the same format as the return value of getMIBs containing
+			 * all parameter values to assign. See also setMIBs().
+			 */
+			void setWLANConfig(/*map*/string mibs) {
+			    acl {
+			        world none;
+			    }
+			}
+		}
+	}
+}
+
+/** @location sah_services_nemo /mibs/wlanconfig.odl */

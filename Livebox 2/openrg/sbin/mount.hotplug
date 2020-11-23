@@ -1,0 +1,182 @@
+#!/bin/sh
+
+# fonction utilisée uniquement sur Hardware Ultimate
+searchHddDevice () {
+	if [ "`cat /proc/driver/gpio/hardware`1" = "2561" ]
+	then
+		cd /sys/block
+		for dev in sd* ; do
+			ls -l $dev | grep "/2-1\.1/" > /dev/null
+			if [ $? -eq 0 ]
+			then 
+				cd -
+				echo $dev > hddDev
+				return
+			fi
+		done
+		# le hdd n'a pas ete trouve
+		cd -
+	fi
+	rm -f hddDev 
+}
+
+proc_createMP (){
+	if [ $2 = "`cat /tmp/hddDev`1" ]
+	then
+		mp="/mnt/DDLB"
+	elif [ -s $1/model ]
+	then
+		model=`cat $1/model | sed 's/ *$//' | tr ' ' '_'`
+		dev=`echo $2 | tr -d [0-9]`
+		if [ `ls -L $1/block | grep -c ${dev}` -gt 1 ]
+		then
+			num=`echo $2 | cut -b4-`
+			mp="/mnt/usb/${model}-${num}"
+		else
+			mp="/mnt/usb/${model}"
+		fi
+	else
+		mp="/mnt/usb/$2"
+	fi
+	mkdir ${mp} >&- 2>&-
+	chown samba ${mp}
+}
+
+proc_mount() {
+	mountok=0
+	mount -t vfat -o uid=1 /dev/$1 $2
+	if [ $? -eq 0 ]
+	then 
+		mountok=1
+	else
+		mount -t ntfs -o uid=1 /dev/$1 $2
+		if [ $? -eq 0 ]
+		then
+			mountok=1
+		else
+			mount /dev/$1 $2
+			if [ $? -eq 0 ]
+			then
+				mountok=1
+				chown -R samba:root $2
+			fi
+		fi
+	fi
+
+	# begin bug 6157 - Daniel - 20070910
+	if [ $mountok -eq 1 ]
+	then
+	    echo "$3 $1 $2" >> /tmp/usb.mounts
+	    /sbin/createDir $1
+	else
+	    rmdir $2	
+	fi
+	# end bug 6157 - Daniel - 20070910
+}
+
+proc_umount() {
+	if [ -e copyInProgress ];
+	then
+		copyFrom=$(cut -d' ' -f1 copyInProgress | tr -d [0-9])
+		device=$(echo $1 | tr -d [0-9])
+		if [ $copyFrom = $device ]
+		then
+			pid1=0
+			pid2=0
+			cpt=0
+			while [ $pid1 -le 0 -a $cpt -le 10 ]; do
+				#Si la cle a ete enleve avant que les process de copie n'aient ete lances, on temporise
+				pid1=$(ps | grep "sh -c cp -r.*/mnt/usb" | grep -v grep | sed 's/^ *//' | cut -d' ' -f1)
+				pid2=$(ps | grep "cp -r /mnt/usb" | grep -v grep | sed 's/^ *//' | cut -d' ' -f1)
+				pid1=${pid1:-0}
+				pid2=${pid2:-0}
+				cpt=$(expr $cpt + 1)
+				sleep 1
+			done
+			kill $pid1 $pid2
+			cpt=0
+			cont=1
+			while [ $cont -ne 0 -a $cpt -le 10 ]; do
+				#il faut laisser le temps aux process de finir 
+				sleep 1
+				cpt=$(expr $cpt + 1)
+				cont=`umount $2`
+			done
+			return
+		fi
+	fi
+		echo "Call forceUmount $2"> /dev/console
+
+		/sbin/forceUmount $2 &
+}
+
+# Permet de detecter que mount.hotplug est deja lance
+#####################################################
+echo " " > /tmp/waitMount
+
+set
+
+case $ACTION in
+add)
+found=0	# bug 6155 - daniel
+ searchHddDevice
+ for block in /sys/$PHYSDEVPATH/block/sd* ; do
+  if [ -d $block ]
+  then 
+	found=1
+	name=$(basename $block)
+	proc_createMP /sys$PHYSDEVPATH $name
+	echo "basename $block = $name"
+	echo "mount /dev/$name on $mp"
+	echo "found1 = $found"
+	proc_mount $name "$mp" $PHYSDEVPATH
+
+ fi
+ done
+# begin bug 6155 - Daniel - 20070817
+if test $found = 0 ; then
+	echo "found2 = $found"
+	device=$(readlink /sys/$PHYSDEVPATH/block )
+	echo "DEVICE = $device"
+	name=$(basename $device)
+	proc_createMP /sys$PHYSDEVPATH $name
+	echo "basename $block = $name"
+	echo "mount 2 /dev/$name on $mp"
+	proc_mount $name "$mp" $PHYSDEVPATH
+fi
+# end bug 6155 - Daniel - 20070817
+;;
+
+remove)
+path=INVALID
+name=INVALID
+echo > usb.mounts.new
+for x in $(cat usb.mounts) ; do
+  if test A$path = A"INVALID" ; then
+	path=$x;
+	continue;
+  fi
+  if test A$name = A"INVALID" ; then
+	name=$x;
+	continue;
+  fi
+  mp=$x
+  if test A$path = A$PHYSDEVPATH ; then
+	echo "test A$path = A$PHYSDEVPATH is true"
+	echo "umount /dev/$name on $mp"
+	proc_umount $name $mp
+	rmdir "$mp"
+  else
+	echo "test A$path = A$PHYSDEVPATH is false"
+	echo $path $name $mp >> usb.mounts.new
+  fi
+  path=INVALID
+  name=INVALID
+done
+mv usb.mounts.new usb.mounts
+;;
+esac
+
+# Annonce la fin de mount.hotplug
+#################################
+rm /tmp/waitMount

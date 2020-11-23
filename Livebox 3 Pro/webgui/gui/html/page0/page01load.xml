@@ -1,0 +1,7 @@
+<div id="page01load" class="status-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<p class="blockTitle bold_font" i18n="page.page0.common.label"/>
+	<form class="page0_container">
+		<span class="waitLabel" i18n="page.page0.load.label1"/>
+	</form>
+	<div widgetType="RunnerBar" widgetArg="{duration:3000, width:500, height:17}"/>
+</div>

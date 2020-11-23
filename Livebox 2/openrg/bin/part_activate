@@ -1,0 +1,146 @@
+#!/bin/sh
+DIR_MOUNTS="/mnt/usb"
+DISKS_CONF_FILE=/usr/local/samba/lib/smb.conf.disks
+DEFAULT_LABEL="Disque_partage" 
+
+get_size()
+{
+  disk=$1
+  partition=$2
+  if [  -d /sys/block/$disk/$partition ]
+  then 
+    size=$(cat /sys/block/$disk/$partition/size)   
+  elif [  -d /sys/block/$disk ]
+  then
+    size=$(cat /sys/block/$disk/size)
+  else
+    size="0000"
+  fi
+  echo "size of $partition is size=$size" >>/tmp/hotplug.scsi
+  result=$(expr $size / 2)
+  echo $result
+}
+
+get_default_label()
+{
+  echo $DEFAULT_LABEL
+}
+
+
+
+read_label_partition()
+{
+  label=$(blkid -s LABEL -o value /dev/$1)
+  if [ -z "$label" ]
+  then
+    label=$(get_default_label)
+  else
+    label=$(echo $label|tr ' ' '-')
+    #label=$(get_duplicate_label $label)
+  fi
+  
+  echo "read_label_partition : $label" >>/tmp/hotplug.scsi
+  echo $label
+}
+
+
+get_default_label_to_mount()
+{
+  
+  label="$DEFAULT_LABEL"
+  let index=0
+  echo "get_default_label : before while $label">>/tmp/hotplug.scsi
+  while [ -f /tmp/labels/$label ]
+  do
+    echo "get_default_label : $label">>/tmp/hotplug.scsi
+    let index=$index+1
+    label="$DEFAULT_LABEL"_"$index"
+  done
+  echo $label
+}
+
+get_duplicate_label_to_mount()
+{
+  label=$1
+  let index=0
+  while [ -f /tmp/labels/$label ]
+  do
+    let index=$index+1
+    label="$1"_"$index"
+  done
+  echo $label
+}
+
+
+read_label_partition_to_mount ()
+{
+  mkdir -p /tmp/labels
+  label=$(blkid -s LABEL -o value /dev/$1)
+  if [ -z "$label" ]
+  then
+    label=$(get_default_label_to_mount)
+  else
+    label=$(echo $label|tr ' ' '-')
+    label=$(get_duplicate_label_to_mount $label)
+  fi
+  
+  echo "read_label_partition : $label" >>/tmp/hotplug.scsi
+  echo $label
+}
+
+
+
+mount_partition()
+{
+  
+  
+  partition=$1
+  label=$(read_label_partition_to_mount $partition)
+  disk=$(echo "$partition" | tr -d [0123456789])
+  echo "mount /dev/$partition on $DIR_MOUNTS/$label" >> /tmp/hotplug.scsi
+  mkdir -p /tmp/devices
+  mkdir -p $DIR_MOUNTS/$label
+  
+  type=$(blkid -s TYPE -o value /dev/$partition)
+  if [ "$type" = "hfsplus" ]
+  then 
+    fsck_hfs -fy /dev/$partition
+  fi
+  mount /dev/$partition $DIR_MOUNTS/$label
+  result=$? 
+  if [ $result -eq 0 ]
+  then 
+      size=$(get_size $disk $partition) 
+      real_label=$(read_label_partition $partition)
+      vendor=$(cat /sys/block/$disk/device/vendor) 
+      model=$(cat /sys/block/$disk/device/model)
+      description=$(echo "$vendor$model"|tr ' ' '_')
+      echo " $disk is $description" >> /tmp/hotplug.scsi
+      mounting_point=$DIR_MOUNTS/$label
+      share=$label
+      link=$(readlink /sys/block/$disk/device)
+      physdevpath=$(echo $link | cut -c 6-)
+      info="$physdevpath $description $mounting_point $share $real_label $size "
+      mkdir -p /tmp/mounts/$disk
+      echo $info > /tmp/mounts/$disk/$label
+      echo "" > /tmp/labels/$label
+      if [ ! -d  /tmp/devices ]
+      then
+      	 mkdir -p /tmp/devices  
+      fi
+      /sbin/createDir $partition
+	  echo "OK" > /tmp/devices/$1
+  else
+    echo "Can't mount /dev/$partition ............................." >> /tmp/hotplug.scsi
+    rmdir $DIR_MOUNTS/$label
+    echo "NOT_SUPPORT" > /tmp/devices/$1
+  fi
+  /usr/local/samba/bin/samba_disks update&
+
+}
+
+if [ $# -ne 1 ]
+then exit 1
+fi
+mount_partition $1
+exit 0

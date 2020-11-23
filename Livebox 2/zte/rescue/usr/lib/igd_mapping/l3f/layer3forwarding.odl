@@ -1,0 +1,32 @@
+object Layer3Forwarding {
+    string DefaultConnectionService {
+        constraint maxvalue 256;
+        default "InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.1";
+    }
+    uint32 ForwardNumberOfEntries = 0;
+    object Forwarding[] {
+        bool Enable = false;
+        read-only string Status {
+            constraint enum [ "Disabled", "Enabled" ];
+            default "Disabled";
+        }
+        read-only bool StaticRoute = true;
+        string Type {
+            constraint enum [ "Default", "Network", "Host" ];
+            default "Host";
+        }
+        string DestIPAddress = "";
+        string DestSubnetMask = "";
+        string SourceIPAddress = "";
+        string SourceSubnetMask = "";
+        string GatewayIPAddress = "";
+        string Interface {
+            constraint maxvalue 256;
+            default "";
+        }
+        int32 ForwardingMetric {
+            constraint minvalue -1;
+            default -1;
+        }
+    }
+}

@@ -1,0 +1,136 @@
+/**
+ * The PPP MIB is available on all NeMo Intfs that have the "ppp"-flag set. For each Intf that has the
+ * "ppp"-flag set, a PPP instance is created through mbus atomic. The LowerIntf of the PPP connection is
+ * the direct LLIntf if it's a netdev or an xtm connection with valid file descriptor.
+ */
+object NeMo { 
+	object extends MIB(0,"ppp") {
+		string Flag = "ppp";
+		object DataModel {
+			/**
+			 * Username to be used for authentication.
+			 */
+			persistent string Username;
+
+			/**
+			 * Password to be used for authentication.
+			 */
+			persistent string Password;
+
+			/**
+			 * Current status of the connection
+			 */
+			read-only string ConnectionStatus="Disconnected";
+
+			/**
+			 * The cause of failure for the last connection setup attempt.
+			 */
+			read-only string LastConnectionError="ERROR_NONE";
+
+			/**
+			 * The maximum allowed size of frames sent from the remote peer.
+			 */
+			persistent uint32 MaxMRUSize=1500;
+
+			/**
+			 * Represents the PPPoE Session ID.
+			 */
+			read-only uint32 PPPoESessionID;
+
+			/**
+			 * PPPoE Access Concentrator.
+			 */
+			string PPPoEACName;
+
+			/**
+			 * PPPoE Service Name.
+			 */
+			string PPPoEServiceName;
+
+			/**
+			 * The remote IPv4 address for this connection received via IPCP.
+			 */
+			read-only string RemoteIPAddress;
+
+			/**
+			 * The local IPv4 address for this connection received via IPCP.
+			 */
+			read-only string LocalIPAddress;
+
+			/**
+			 * Timestamp of the last operational state change, measured in seconds since power
+			 * on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current operational
+			 * state.
+			 */
+			volatile read-only uint32 LastChange;
+
+			/**
+			 * Comma-separated list (up to 2 items) of IPv4Addresses. Items represent DNS
+			 * Server IPv4 address(es) received via IPCP [RFC1877].
+			 */
+			read-only string DNSServers;
+
+			/**
+			 * PPP transport type of the connection. This is determined automatically by NeMo:
+			 * if the LLIntf is an atm connection with LinkType==PPPoA, The TransportType of
+			 * this PPP connection is PPPoA as well. The TransportType is PPPoE in all other
+			 * cases.
+			 */
+			read-only string TransportType="PPPoE";
+
+			/**
+			 * PPP LCP Echo period in seconds.
+			 */
+			persistent uint32 LCPEcho=30;
+
+			/**
+			 * Number of PPP LCP Echo retries within an echo period.
+			 */
+			persistent uint32 LCPEchoRetry=3;
+
+			/**
+			 * Enables or disables IPCP ([RFC1332]) on this interface.
+			 */
+			persistent bool IPCPEnable=true;
+
+			/**
+			 * Enables or disables IPv6CP ([RFC5072]) on this interface. This parameter must
+			 * be the opposite of the IPv6Disable parameter of the NetDev MIB.
+			 */
+			persistent bool IPv6CPEnable=false;
+
+			/**
+			 * The interface identifier for the local end of the PPP link, negotiated using
+			 * the IPv6CP Interface-Identifier option.
+			 */
+			read-only string IPv6CPLocalInterfaceIdentifier;
+
+			/**
+			 * The interface identifier for the remote end of the PPP link, negotiated using
+			 * the IPv6CP Interface-Identifier option.
+			 */
+			read-only string IPv6CPRemoteInterfaceIdentifier;
+
+			/**
+			 * 
+			 */
+			persistent string ConnectionTrigger {
+				constraint enum [ "AlwaysOn", "OnDemand", "Manual" ];
+				default "AlwaysOn";
+			}
+
+			/**
+			 * 
+			 */
+			persistent uint32 IdleDisconnectTime;
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/ppp.odl */

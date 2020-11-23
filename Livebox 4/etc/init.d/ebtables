@@ -1,0 +1,59 @@
+#!/bin/sh
+
+case $1 in
+	start)
+
+		# Create static chain to accept igmp for 224.0.0.0/24 and 239.0.0.0/8
+		/usr/sbin/ebtables -t nat -N POSTROUTING_igmp_l2l_ex
+		/usr/sbin/ebtables -t nat -P POSTROUTING_igmp_l2l_ex RETURN
+		# Should insert at the top of POSTROUTING
+		/usr/sbin/ebtables -t nat -I POSTROUTING -j POSTROUTING_igmp_l2l_ex
+		/usr/sbin/ebtables -t nat -A POSTROUTING_igmp_l2l_ex -p 0x0800 --ip-protocol igmp --ip-dst 224.0.0.0/24 -j ACCEPT
+		/usr/sbin/ebtables -t nat -A POSTROUTING_igmp_l2l_ex -p 0x0800 --ip-protocol igmp --ip-dst 239.0.0.0/8 -j ACCEPT
+
+		# Create static chain to drop all DHCP packets
+		/usr/sbin/ebtables -t nat -N POSTROUTING_No_DHCP
+		/usr/sbin/ebtables -t nat -P POSTROUTING_No_DHCP RETURN
+		/usr/sbin/ebtables -t nat -A POSTROUTING -j POSTROUTING_No_DHCP
+
+		# Create static chain to drop all IGMP packets
+		/usr/sbin/ebtables -t nat -N POSTROUTING_No_IGMP
+		/usr/sbin/ebtables -t nat -P POSTROUTING_No_IGMP RETURN
+		/usr/sbin/ebtables -t nat -A POSTROUTING -j POSTROUTING_No_IGMP
+
+		# Create static chain to drop all traffic except IGMP
+		/usr/sbin/ebtables -t nat -N POSTROUTING_Only_IGMP
+		/usr/sbin/ebtables -t nat -P POSTROUTING_Only_IGMP RETURN
+		/usr/sbin/ebtables -t nat -A POSTROUTING -j POSTROUTING_Only_IGMP
+
+		# Create static chain for vlan isolation
+		/usr/sbin/ebtables -t filter --new-chain FORWARD_Isolation
+		/usr/sbin/ebtables -t filter -P FORWARD_Isolation RETURN
+		/usr/sbin/ebtables -t filter -A FORWARD -j FORWARD_Isolation
+		;;
+	stop)
+		# purge IGMP filtering rules
+		/usr/sbin/ebtables -t nat -D POSTROUTING -j POSTROUTING_igmp_l2l_ex
+		/usr/sbin/ebtables -t nat -F POSTROUTING_igmp_l2l_ex
+		/usr/sbin/ebtables -t nat -X POSTROUTING_igmp_l2l_ex
+
+		/usr/sbin/ebtables -t nat -D POSTROUTING -j POSTROUTING_No_DHCP
+		/usr/sbin/ebtables -t nat -F POSTROUTING_No_DHCP
+		/usr/sbin/ebtables -t nat -X POSTROUTING_No_DHCP
+
+		/usr/sbin/ebtables -t nat -D POSTROUTING -j POSTROUTING_No_IGMP
+		/usr/sbin/ebtables -t nat -F POSTROUTING_No_IGMP
+		/usr/sbin/ebtables -t nat -X POSTROUTING_No_IGMP
+
+		/usr/sbin/ebtables -t nat -D POSTROUTING -j POSTROUTING_Only_IGMP
+		/usr/sbin/ebtables -t nat -F POSTROUTING_Only_IGMP
+		/usr/sbin/ebtables -t nat -X POSTROUTING_Only_IGMP
+
+		/usr/sbin/ebtables -t filter -D FORWARD -j FORWARD_Isolation
+		/usr/sbin/ebtables -t filter -F FORWARD_Isolation
+		/usr/sbin/ebtables -t filter -X FORWARD_Isolation
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+		;;
+esac

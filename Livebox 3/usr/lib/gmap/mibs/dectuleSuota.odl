@@ -1,0 +1,45 @@
+/*expr:dect_ule and suota*/
+
+/**
+ * MIB is loaded on all dect-ule devices supporting suota .
+ *
+ * All devices matching expression: "dect_ule and suota" are extended with this MIB
+ *
+ * @version 8.0
+ */
+ mib dectuleSuota {
+        /**
+         * Upgrade the firmware of a device. 
+         * If no parameters are provided, the device will be upgraded if an upgrade is available according to UpgradeApplicationVersion.
+         * url and sw_version can only be specified if url and sw_version are both provided.
+         * @param url (optional) url for the firmware file
+         * @param sw_version (optional) 
+         */
+        void upgradeFirmware(string url, string sw_version);
+
+        /**
+         * Check the firmware version of a DECT ULE device. If successful, this updates the UpgradeApplicationVersion and UpgradeURL 
+         * fields of all DECT.HAN.Device devices matching the EMC/HWID combination.
+         * @param upgrade if true, also start the upgrade if a newer fw version is available
+         */
+        void checkNewFirmwareVersion(bool upgrade);
+
+        /**
+         * The UpgradeApplicationVersion attribute specifies the Application version available for upgrade. 
+         * If this field is identical to the ApplicationVersion, the device firmware is up-to-date.
+         */
+        read-only string UpgradeApplicationVersion;
+        
+        /**
+         * The UpgradeURL specifies the URL where the firmware file corresponding to UpgradeApplicationVersion can be downloaded.
+         */
+        read-only string UpgradeURL;
+
+        /**
+         * Suota Status. "Normal" for normal operation (no upgrade), "Waiting" if the upgrade request is queued and waiting for the device to respond
+         * "Upgrading" during upgrade, "Error" for normal operation after an upgrade failed.
+         */
+        read-only string SuotaStatus;
+            
+}
+/** @location sah_services_gmap /mibs/dectuleSuota.odl */

@@ -1,0 +1,78 @@
+#!/bin/sh
+
+verify_thomson() {
+
+	if test $ACTION = "add" ;then
+		Vendor_list="06b9 0bdd"
+		ProdID_list="6000 0100 0101 0110 0111 0120 0121 0130 0131"
+	else
+		Vendor_list="6b9 bdd"
+		ProdID_list="6000 100 101 110 111 120 121 130 131"
+
+	fi
+	found=0
+
+	for x in $Vendor_list ; do
+		if test $found = 1 ; then
+			break;
+		fi
+		for y in $ProdID_list ; do
+			if test $found = 1 ; then
+				break;
+			fi
+			if test $ACTION = "add" ;then
+				USB_THOMSON=`cat /proc/bus/usb/devices | grep "Vendor=$x ProdID=$y" `
+			else
+				USB_THOMSON=`echo $PRODUCT |grep "$x/$y" `
+			fi	
+			if ! test -z "$USB_THOMSON" ; then 
+				found=1;
+			fi
+		done
+	done
+
+	
+	if test -z "$USB_THOMSON" ; then
+		exit 1
+	fi
+}
+
+if test $1 = usb-serial ; then
+	
+	#needed at boot time
+	sleep 5
+
+	case $ACTION in
+		add)
+			verify_thomson	            
+			sleep 2			
+
+			while true;
+			do
+			hciattach -t 2 -p /dev/ttyUSB0 bcsp_usb 115200 flow &&
+			hciconfig hci0 up &&
+			insmod /lib/modules/thomson_lower_dect_driver.o hcidevid=0 &&
+			break
+
+			hciattach -t 2 -p /dev/ttyUSB1 bcsp_usb 115200 flow &&
+			hciconfig hci0 up &&
+			insmod /lib/modules/thomson_lower_dect_driver.o hcidevid=0 &&
+			break
+			done
+		;;
+	esac
+fi
+
+# only usb device is passed when removing USB Thomson DECT
+if test $1 = usb ; then
+	case $ACTION in
+		remove)
+				verify_thomson
+				rmmod /lib/modules/thomson_lower_dect_driver.o
+				sleep 2
+				hciconfig hci0 down
+				killall hciattach
+				rm hciattch_bcsp.pid
+		;;
+	esac
+fi

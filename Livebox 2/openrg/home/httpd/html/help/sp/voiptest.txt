@@ -1,0 +1,10 @@
+﻿<b>Prueba de conexión del teléfono al Livebox:</b><br>
+<br>
+Haciendo clic en el botón Test en la página de telefonía por Internet, se desencadena una prueba de los teléfonos (DECT livephone y/o teléfonos de Internet) conectados al Livebox.<br>
+Si están bien conectados al Livebox, deberían empezar a sonar. Si este no es el caso, por favor comprueba las conexiones entre los teléfonos y el Livebox: el teléfono debería estar conectado a la conexión azul del Livebox empleando un cable telefónico RJ11. Para un DECT livephone, la unidad base del DECT debería estar conectada a uno de los puertos USB del Livebox.<br>
+Si los teléfonos no suenan tras realizar esta comprobación, por favor contacta con el Servicio de Atención al Cliente de Orange.<br>
+Ten en cuenta que si haces o recibes una llamada mientras realizas la prueba, el test automáticamente se cancela.<br>
+<!--
+<br>
+-->
+

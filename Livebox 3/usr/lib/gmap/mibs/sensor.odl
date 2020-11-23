@@ -1,0 +1,38 @@
+/*expr:sensor*/
+
+/**
+ * A home automation sensor is used in a variety of devices to report (changes of) measured sensor values.
+ * Refer to gMap documentation SAH_gMap_datamodel_v7.1 for complete list of sensor types. 
+ * @version 7.1
+ */
+mib sensor {
+    object Sensor[] {
+        /**
+         * Name for representation to the user.
+         */
+        string Name;
+        
+        /**
+         * Type of sensor.
+         */
+        uint32 Type; 
+
+        /**
+         * Measured value. This must be divided by Factor to get the correct measured value.
+         */
+        uint32 Value;
+        
+        /**
+         * Factor by which to divide value to get the correct measured value.
+         */ 
+        uint32 Factor;
+        
+        /**
+         * Measurement unit.
+         */
+        string Unit;
+    }
+
+    variant getSensorValues();
+}
+/** @location sah_services_gmap /mibs/sensor.odl */

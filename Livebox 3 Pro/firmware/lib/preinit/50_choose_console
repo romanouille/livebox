@@ -1,0 +1,12 @@
+#!/bin/sh
+# Copyright (C) 2006-2010 OpenWrt.org
+# Copyright (C) 2010 Vertical Communications
+
+choose_console() {
+    M0=/dev/console
+    M1=/dev/console
+    M2=/dev/console
+}
+
+boot_hook_add preinit_essential choose_console
+

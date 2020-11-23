@@ -1,0 +1,3 @@
+mib ssw {
+persistent bool Enable;
+}

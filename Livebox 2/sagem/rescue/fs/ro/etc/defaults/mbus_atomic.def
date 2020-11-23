@@ -1,0 +1,308 @@
+# Atomic MBus defaults
+# ====================
+OBJECT ENV.()
+	PARM Name=CONF_REGION
+	PARM Value=France
+OBJECT ENV.()
+	PARM Name=CONF_DESCRIPTION
+	PARM Value=V2 Defaults ATM 2010-09-30
+OBJECT ENV.()
+	PARM Name=CONF_SERVICE
+	PARM Value=SoftAtHome Internet Service
+OBJECT ENV.()
+	PARM Name=CONF_DATETIME
+	PARM Value=0001-01-01T00:00:00Z
+OBJECT ENV.()
+	PARM Name=SESSIONTIMEOUT
+	PARM Value=300
+OBJECT ENV.()
+	PARM Name=COLUMNS
+	PARM Value=80
+OBJECT ENV.()
+	PARM Name=ROWS
+	PARM Value=25
+OBJECT ENV.()
+	PARM Name=ACSUSER
+	PARM Value=${_OUI}-${_PROD_CLASS}-${_BOARD_SERIAL_NBR}
+OBJECT ENV.()
+	PARM Name=FT_COUNTRY
+	PARM Value=fr
+OBJECT ENV.()
+	PARM Name=CUTOFF_INTERVAL
+	PARM Value=166
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_1
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=PC_MLTV
+	PARM OptionExclude=0
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_2
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=ITF_MLTV
+	PARM OptionExclude=0
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc
+	PARM RuleType=root
+	PARM SubRuleName=DHCP.Rule.mltv_pc_1
+OBJECT DHCP.Rule.mltv_pc.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_2
+	PARM Logical=or
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_stb_1
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=STB_MLTV
+	PARM OptionExclude=0
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_stb_2
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=IAD5116
+	PARM OptionExclude=0
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_stb_3
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=IAD80-16
+	PARM OptionExclude=0
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_stb_4
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=ITAD81-160
+	PARM OptionExclude=0
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_stb_5
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=ITAD81 FT
+	PARM OptionExclude=0
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_stb_6
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=IP2031F
+	PARM OptionExclude=0
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_stb
+	PARM RuleType=root
+	PARM SubRuleName=DHCP.Rule.mltv_stb_1
+OBJECT DHCP.Rule.mltv_stb.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_stb_2
+	PARM Logical=or
+OBJECT DHCP.Rule.mltv_stb.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_stb_3
+	PARM Logical=or
+OBJECT DHCP.Rule.mltv_stb.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_stb_4
+	PARM Logical=or
+OBJECT DHCP.Rule.mltv_stb.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_stb_5
+	PARM Logical=or
+OBJECT DHCP.Rule.mltv_stb.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_stb_6
+	PARM Logical=or
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_1_e
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=PC_MLTV
+	PARM OptionExclude=1
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_2_e
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=ITF_MLTV
+	PARM OptionExclude=1
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_3_e
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=STB_MLTV
+	PARM OptionExclude=1
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_4_e
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=IAD5116
+	PARM OptionExclude=1
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_5_e
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=IAD80-16
+	PARM OptionExclude=1
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_6_e
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=ITAD81-160
+	PARM OptionExclude=1
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_7_e
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=ITAD81 FT
+	PARM OptionExclude=1
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_8_e
+	PARM RuleType=option
+	PARM Option=77
+	PARM Type=ascii
+	PARM Value=IP2031F
+	PARM OptionExclude=1
+	PARM Match=Substring
+OBJECT DHCP.Rule.()
+	PARM Name=mltv_pc_e
+	PARM RuleType=root
+	PARM SubRuleName=DHCP.Rule.mltv_pc_1_e
+OBJECT DHCP.Rule.mltv_pc_e.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_2_e
+	PARM Logical=and
+OBJECT DHCP.Rule.mltv_pc_e.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_3_e
+	PARM Logical=and
+OBJECT DHCP.Rule.mltv_pc_e.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_4_e
+	PARM Logical=and
+OBJECT DHCP.Rule.mltv_pc_e.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_5_e
+	PARM Logical=and
+OBJECT DHCP.Rule.mltv_pc_e.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_6_e
+	PARM Logical=and
+OBJECT DHCP.Rule.mltv_pc_e.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_7_e
+	PARM Logical=and
+OBJECT DHCP.Rule.mltv_pc_e.SubRule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_8_e
+	PARM Logical=and
+OBJECT DHCP.Server.Option.Template.()
+	PARM Name=ntp
+	PARM OptionID=42
+OBJECT DHCP.Server.Option.Template.()
+	PARM Name=www
+	PARM OptionID=72
+OBJECT DHCP.Server.Option.Template.()
+	PARM Name=tr111
+	PARM OptionID=125
+OBJECT DHCP.Server.Option.Instance.()
+	PARM Name=mltv_ntp
+	PARM TemplateName=DHCP.Server.Option.Template.ntp
+	PARM Type=byte_array
+	PARM Value=00000000
+OBJECT DHCP.Server.Option.Instance.()
+	PARM Name=mltv_www
+	PARM TemplateName=DHCP.Server.Option.Template.www
+	PARM Type=byte_array
+	PARM Value=00000000
+OBJECT DHCP.Server.Option.Instance.()
+	PARM Name=gw_tr111
+	PARM TemplateName=DHCP.Server.Option.Template.tr111
+	PARM Policy=always
+	PARM SubOption=4
+	PARM Type=ascii
+	PARM Value=@ENV._OUI.Value
+	PARM Enterprise=3561
+	PARM Dynamic=0
+OBJECT DHCP.Server.Option.Instance.gw_tr111.Field.()
+	PARM SubOption=5
+	PARM Type=ascii
+	PARM Value=@ENV._PROD_SERIAL_NBR.Value
+	PARM Enterprise=3561
+	PARM Dynamic=0
+OBJECT DHCP.Server.Option.Instance.gw_tr111.Field.()
+	PARM SubOption=6
+	PARM Type=ascii
+	PARM Value=@ENV._PROD_CLASS.Value
+	PARM Enterprise=3561
+	PARM Dynamic=0
+OBJECT DHCP.Server.Pool.()
+	PARM Name=mltv_stb
+	PARM IPIntf=bridge
+	PARM MinAddress=192.168.1.10
+	PARM MaxAddress=192.168.1.150
+	PARM MaxLeases=0
+	PARM SubnetMask=255.255.255.0
+	PARM Gateway=192.168.1.1
+	PARM MinLeaseTime=1800
+	PARM DefaultLeaseTime=1800
+	PARM MaxLeaseTime=1800
+	PARM LeaseTime=1800
+	PARM PrimDNSServer=192.168.1.1
+	PARM DomainName=home
+OBJECT DHCP.Server.Pool.mltv_stb.Rule.()
+	PARM RuleName=DHCP.Rule.mltv_stb
+OBJECT DHCP.Server.Pool.mltv_stb.Option.()
+	PARM Instance=DHCP.Server.Option.Instance.mltv_ntp
+	PARM Enable=0
+OBJECT DHCP.Server.Pool.mltv_stb.Option.()
+	PARM Instance=DHCP.Server.Option.Instance.mltv_www
+	PARM Enable=0
+OBJECT DHCP.Server.Pool.()
+	PARM Name=mltv_pc
+	PARM IPIntf=bridge
+	PARM MinAddress=192.168.1.10
+	PARM MaxAddress=192.168.1.150
+	PARM MaxLeases=0
+	PARM SubnetMask=255.255.255.0
+	PARM Gateway=192.168.1.1
+	PARM MinLeaseTime=1800
+	PARM DefaultLeaseTime=1800
+	PARM MaxLeaseTime=1800
+	PARM LeaseTime=1800
+	PARM PrimDNSServer=192.168.1.1
+	PARM DomainName=home
+OBJECT DHCP.Server.Pool.mltv_pc.Rule.()
+	PARM RuleName=DHCP.Rule.mltv_pc
+OBJECT DHCP.Server.Pool.()
+	PARM Name=bridge_default
+	PARM IPIntf=bridge
+	PARM LeaseTime=86400
+	PARM DomainName=home
+OBJECT DHCP.Server.Pool.bridge_default.Rule.()
+	PARM RuleName=DHCP.Rule.mltv_pc_e
+OBJECT DHCP.Server.Pool.bridge_default.Option.()
+	PARM Instance=DHCP.Server.Option.Instance.gw_tr111
+	PARM Enable=1
+OBJECT IGMP.Proxy
+	PARM QI=40
+SYNC IGMP
+OBJECT IGMP.Proxy.Intf.bridge
+	PARM Version=IGMPv2
+	PARM Status=Downstream
+	PARM FastLeave=1
+OBJECT IGMP.Proxy
+	PARM Status=1

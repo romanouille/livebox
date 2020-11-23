@@ -1,0 +1,28 @@
+/*expr:on_off*/
+
+/**
+ * MIB is loaded on all units that are able to switch a device On and Off.
+ * All devices matching expression: "on_off" are extended with this MIB
+ * @version 6.0
+ */
+mib onOff {
+
+    /**
+     * This command is used for turning something On
+     */
+    void on();
+
+    /**
+     * This command is used for turning something Off
+     */
+    void off();
+
+    /**
+     * This command is used for toggling. 
+     * If it was off it will change to On and if it was On it will change to off
+     */
+    void toggle();
+
+    uint32 getStatus();
+}
+/** @location sah_services_gmap /mibs/OnOff.odl */

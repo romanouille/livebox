@@ -1,0 +1,67 @@
+PETT-12;International Date Line West
+SST11;Midway Island, Samoa
+HST10;Hawaii
+AKST9AKDT,M3.2.0,M11.1.0;Alaska
+PST8PDT,M3.2.0,M11.1.0;Pacific Time (US/Canada), Tijuana
+MST7;Arizona
+MST7MDT,M3.2.0,M11.1.0;Mountain Time (US/Canada)
+MST7MDT,M4.1.0,M10.5.0;Chihuahua, Mazatlan
+CST6CDT,M3.2.0,M11.1.0;Central America
+CST6CDT,M3.2.0,M11.1.0;Central Time (US/Canada)
+CST6CDT,M4.1.0,M10.5.0;Guadalajara, Mexico City, Monterrey
+CST6;Saskatchewan
+COT5;Bogota, Lima, Quito
+EST5EDT,M3.2.0,M11.1.0;Eastern Time (US/Canada)
+EST5EDT,M3.2.0,M11.1.0;Indiana (East)
+AST4ADT,M3.2.0,M11.1.0;Atlantic Time (Canada)
+BOT4;Caracas, La Paz
+CLT4;Santiago
+NST3:30NDT,M3.2.0,M11.1.0;Newfoundland
+BRT3;Brasilia
+ART3;Buenos Aires, GeorgetownT
+BRT3;GreenlandT
+GST2;Mid-AtlantiT
+AZOT1AZOST,M3.5.0/0,M10.5.0/1;Azores, Cape Verde Is.
+WET0WEST,M3.5.0/1,M10.5.0;Casablanca, Lisbon, Monrovia
+GMT0BST,M3.5.0/1,M10.5.0;GMT: Dublin, Edinburgh, London
+CET-1CEST,M3.5.0,M10.5.0/3;Amsterdam, Bern, Rome, Stockholm
+CET-1CEST,M3.5.0,M10.5.0/3;Belgrade, Berlin, Budapest, Ljubljana
+CET-1CEST,M3.5.0,M10.5.0/3;Brussels, Copenhagen, Madrid
+CET-1CEST,M3.5.0,M10.5.0/3;Paris
+CET-1CEST,M3.5.0,M10.5.0/3;Bratislava, Prague, Vienna
+CET-1CEST,M3.5.0,M10.5.0/3;Sarajevo, Skopje, Warsaw, Zagreb
+CET-1;West Central Africaa
+EET-2;Bucharest, Cairo
+CAT-2;Harare, Pretoria
+EET-2EEST,M3.5.0/3,M10.5.0/4;Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius
+IST-2;Jerusalem
+AST-3;Baghdad, Kuwait, Riyadh
+MSK-4;Moscow, St. Petersburg, Volgograd
+EAT-3;Nairobi
+IRST-3:30;Tehran
+GST-4;Abu Dhabi, Muscat
+GET-4;Baku, Tbilisi, Yerevan
+AFT-4:30;Kabul
+YEKT-6;Ekaterinburg
+PKT-5;Islamabad, Karachi, Tashkent
+IST-5:30;Chennay, Kolkata, Mumbal, New Delhi
+NPT-5:45;Katmandu
+ALMT-6;Almaty, Novosibirsko
+BDT-6;Astana, Dhaka
+MMT-6:30;Rangoon
+ICT-7;Bangkok, Hanoi, Jakarta
+KRAT-8;Krasnoyarsk
+HKT-8;Beijing, Chongqing, Hong Kong, Urumqi
+IRKT-9;Irkutsk, Ulaan Bataar
+SGT-8;Kuala Lumpur, Singapore
+CST-8;Perth, Taipei
+JST-9;Osaka, Sapporo, Tokyo
+KST-9;Seoul, Yakutsk
+CST-9:30;Adelaide, Darwin
+EST-10;Brisbane
+EST-10EST,M10.1.0,M4.1.0/3;Canberra, Melbourne, Sydney
+ChST-10;Guam, Port Moresby
+EST-10EST,M10.1.0,M4.1.0/3;Hobart, Vladivosto
+VUT-11;Magadan, Solomon Is., New Caledonia
+NZST-12NZDT,M9.5.0,M4.1.0/3;Auckland, Wellington
+FJT-12;Fiji, Kamchatka, Marshall Is.

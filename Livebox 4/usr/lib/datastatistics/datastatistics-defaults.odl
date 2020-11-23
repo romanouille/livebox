@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object DataStatistics {
+    }
+}
+/** @location commod_datahub_datastatistics add-on/frontend/pcb/datastatistics-defaults.odl.m4 */

@@ -1,0 +1,8 @@
+
+
+datamodel {
+  object AutoDiag {
+
+  }
+}
+/** @location sah_services_autodiag /autodiag-defaults.odl.m4 */

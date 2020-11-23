@@ -1,0 +1,93 @@
+<!doctype html>
+<!-- The DOCTYPE declaration above will set the    -->
+<!-- browser's rendering engine into               -->
+<!-- "Standards Mode". Replacing this declaration  -->
+<!-- with a "Quirks Mode" doctype may lead to some -->
+<!-- differences in layout.                        -->
+
+<html lang="fr">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8; IE=EmulateIE9" />
+		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+ 		<meta http-equiv="pragma" content="no-cache"/>
+
+		<title>Livebox</title>
+
+		<link rel="shortcut icon" href="favicon.ico"/>
+
+		<!-- IMPORT CSS -->
+		<link rel="stylesheet" type="text/css" href="theme/webCorporate/css/install.css"/>
+		<link rel="stylesheet" type="text/css" href="theme/webCorporate/css/theme.css"/>
+		<link rel="stylesheet" type="text/css" href="theme/webCorporate/css/menus.css"/>
+		
+		<!--[if!lte IE 8]><!-->
+			<link rel="stylesheet" type="text/css" href="theme/webCorporate/css/print.css"/>
+		<!--><![endif]-->
+		
+		<!--[if lte IE 8]><!-->
+			<link rel="stylesheet" type="text/css" href="theme/webCorporate/css/print.css" media="print"/>
+		<!--><![endif]-->
+
+
+		<!-- TEMP CSS -->
+
+		<!-- IMPORT JS -->
+
+		<!-- Libs from the Livebox -->
+		<script type="text/javascript" src="js/json2.js"></script>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/jquery.printf.js"></script>
+		<script type="text/javascript" src="js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/jquery.random.js"></script>
+		<script type="text/javascript" src="js/jquery.form.js"></script>
+		<script type="text/javascript" src="js/md5.js"></script>
+		<script type="text/javascript" src="js/gui-core.js"></script>
+		<script type="text/javascript" src="js/gui-api.js"></script>
+		
+		<!-- 0) Configuration files (not to be minified) -->
+		<script type="text/javascript" src="html/myNetworks/IPSecEasyMode.js"></script>
+
+		<!--Minified JS -->
+		<script type="text/javascript" src="js/min/main.min.js"></script>
+		
+	    <!--                                           -->
+	    <!-- This script loads your compiled module.   -->
+	    <!-- If you add any GWT meta tags, they must   -->
+	    <!-- be added before this line.                -->
+	    <!--                                           -->
+		<script type="text/javascript" src="gui/gui.nocache.js"></script>
+	</head>
+
+	<!-- CONTENT -->
+	<body>
+	    <!-- OPTIONAL: include this if you want history support -->
+	    <iframe title="gwt history" src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
+	    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+	    <noscript>
+	      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+	        Vous devez activer JavaScript pour utiliser cette application.
+			<br>
+			<br>
+			Your web browser must have JavaScript enabled
+	        in order for this application to display correctly.
+	      </div>
+	    </noscript>
+    
+		<div class="container">
+    		<!-- <div id="header_container"></div> 
+     			 <div id="mainMenu"></div> -->
+			<div id="gwtHeader"></div>
+    		<div id="gwtTopMenuBar"></div>
+     		<div id="gwtGlobal">
+   				<div id="gwtLeftMenuBar"></div>
+   				<div id="gwtActivityPanel"></div> <!-- Panel for GWT pages -->
+   				<div id="global"></div> <!-- Panel for Engine pages -->
+   				<div class="clear"></div>
+     		</div>
+     		<div id="authDialog"></div>
+     		<div id="popups_container"></div>
+   		</div>
+   		<div id="gwtFooter"></div>
+	</body>
+</html>

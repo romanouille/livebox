@@ -1,0 +1,22 @@
+object NeMo {
+object extends MIB(0,"netdev-api") {
+string Flag = "";
+object DataModel {
+list getAddrs(string flag, string traverse) {
+acl {
+world none;
+}
+}
+void luckyAddr(string flag, string traverse) {
+acl {
+world none;
+}
+}
+string luckyAddrAddress(string flag, string traverse) {
+acl {
+world none;
+}
+}
+}
+}
+}

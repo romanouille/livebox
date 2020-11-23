@@ -1,0 +1,23 @@
+{
+  "status": 0,
+  "data": {
+    "serviceList": [
+      {
+        "LCN": 1,
+        "name": "TF1"
+      }, {
+        "LCN": 2,
+        "name": "France 2"
+      }, {
+        "LCN": 3,
+        "name": "France 3"
+      }, {
+        "LCN": 4,
+        "name": "France 4"
+      }, {
+        "LCN": 5,
+        "name": "France 5"
+      }
+    ]
+  }
+}

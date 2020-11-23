@@ -1,0 +1,37 @@
+<b>Strona główna</b><br><br>
+
+Na tej stronie możesz sprawdzić status swojego modemu Livebox.
+
+<br>
+<br>
+<b><span class="boldorange">Ogólne:</span></b><br> 
+
+Ta strona pokazuje status modemu Livebox: nazwę, wersję oprogramowania i obecny adres IP WAN. Jeśli wybrałeś opcję <b>Telefon przez Internet</b>, widoczny jest też numer Twojego telefonu internetowego (VoIP). Ponadto pokazana jest konfiguracja portów Ethernet w Twoim modemie Livebox (Internet, TV lub Internet + TV). 
+
+<br>
+<br>
+<b><span class="boldorange">Sieć bezprzewodowa:</span></b><br> 
+
+Na tej stronie możesz sprawdzić konfigurację Twojej sieci bezprzewodowej: nazwę (SSID), używany kanał Wi-Fi i typ ochrony (bezpieczeństwo). Aby zalogować się do sieci bezprzewodowej, niezbędny jest klucz bezpieczeństwa Wi-Fi. W celu pobrania klucza zaloguj się do GUI modemu Livebox i wejdź na stronę konfiguracji Wi-Fi.
+
+<br>
+<br>
+<b><span class="boldorange">Usługi:</span></b><br>
+Na tej stronie możesz sprawdzić status usług Orange i Twojego modemu Livebox (połączonego lub nie).
+
+<br>
+<br>
+<b><span class="boldorange">Sprzęt podłączony:</span></b><br> 
+Na tej stronie możesz zobaczyć listę urządzeń połączonych z Liveboxem. Wyświetlany jest adres IP i typ połączenia (Ethernet, USB lub Wi-Fi) dla każdego urządzenia.
+
+<br>
+<br>
+<b><span class="boldorange">Konfiguracja:</span></b><br>
+ Musisz zalogować się do GUI modemu Livebox, aby go skonfigurować. W tym celu wprowadź nazwę użytkownika i hasło. Następnie kliknij przycisk <b>"Dostęp"</b> (pomarańczowa strzałka). Po zalogowaniu możesz konfigurować ustawienia modemu Livebox w zakładce <b>Konfiguracja</b>.
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

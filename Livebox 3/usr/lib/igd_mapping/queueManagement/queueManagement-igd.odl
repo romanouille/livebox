@@ -1,0 +1,10 @@
+object QueueManagement {
+bool Enable;
+}
+datamodel {
+object QueueManagement {
+destination "pcb://$(PCB_MAIN_BUS)/QueueManagement" {
+parameter Enable;
+}
+}
+}

@@ -1,0 +1,52 @@
+<div id="userEquipment" xmlns="http://www.orange.com/xhtml/engine/loose">
+<!--   <div class="boxType3"> -->
+  
+<!-- 		<div id="helpPage"> -->
+<!-- 			<a  onclick="ouvrir_popup()" href="#"> -->
+<!-- 			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/> -->
+<!-- 			</a> -->
+<!-- 		</div> -->
+<!-- 		 -->
+<!-- 	 <h1 class="logo_EnvLiveBox grey" i18n="menuEquipments.userEquipment"/> -->
+<!-- 	 <div class="margin-left-40 margin-top-m8"> -->
+<!-- 	 	<strong i18n="menuEquipments.userEquipment.subtitle"/> -->
+<!-- 	 </div> -->
+<!--  </div> -->
+<!-- 	<div class="maindiv"> -->
+<!-- 	 <form action="#"> -->
+<!-- 	  <div class="boxType4 margin-top-10 border-bottom-1"> -->
+<!-- 			<span class="h3Text" i18n="page.myEquipments.userEquipment.filtre"/> -->
+<!-- 			<div widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.lbx"> -->
+<!-- 				<span id="routerlist" class="widthAuto" widgetType="EnumInput" widgetArg="'select'" i18n="page.myEquipments.userEquipment.filtre.lb"/> -->
+<!-- 			</div> -->
+<!-- 			<div widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.type"> -->
+<!-- 				<span id="devicetype" class="widthAuto" widgetType="EnumInput" widgetArg="'select'" enumerated="['ALL', 'MISCELLANEOUS', 'COMPUTER', 'PHONE', 'UNIK', 'NETWORKACCESSPOINT', 'AUDIOVIDEO', 'PERIPHERAL', 'IMAGING', 'NOTEBOOKS', 'GAMECONSOLE', 'STORAGE', 'PRINTER', 'BLACKLISTED', 'HIDDEN']" i18n="page.myEquipments.userEquipment.filtre.type" i18nPrefix="page.myEquipments.userEquipment.filtre.type"/> -->
+<!-- 			</div> -->
+<!-- 			<div widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.status"> -->
+<!-- 				<span id="status" class="widthAuto" widgetType="EnumInput" widgetArg="'select'" enumerated="['ALL', 'CONNECTED', 'DISCONNECTED']" i18n="page.myEquipments.userEquipment.filtre.status" i18nPrefix="page.myEquipments.userEquipment.filtre.status"/> -->
+<!-- 			</div> -->
+<!-- 			<div widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.location"> -->
+<!-- 				<span id="location" class="widthAuto" widgetType="EnumInput" widgetArg="'select'" i18n="page.myEquipments.userEquipment.filtre.location"/> -->
+<!-- 			</div> -->
+			
+<!-- 			<div widgetType="ButtonContainer" class="right"> -->
+<!-- 				<span id="btnReset" widgetType="ButtonImage" i18n="page.myEquipments.userEquipment.filtre.reset"/> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	   <div class="boxType5 border-bottom-3 "> -->
+<!-- 			<span class="h3Text" i18n="page.myEquipments.userEquipment.liste"/> -->
+<!-- 			<br/><br/> -->
+<!-- 			<div class="home eth" i18n="page.home.mynetwork.eth"/> -->
+<!-- 			<div class="home wifi" i18n="page.home.mynetwork.wifi"/> -->
+<!-- 			<div class="home usb" i18n="page.home.mynetwork.usb"/> -->
+<!-- 			<div class="clear"/> -->
+<!-- 			<div class="home colEth"/> -->
+<!-- 			<div class="home colWifi"/> -->
+<!-- 			<div class="home colUsb"/> -->
+<!-- 			<div class="clear"/> -->
+<!-- 		</div> -->
+		
+<!-- 		</form> -->
+<!-- 	</div> -->
+	<div id="myUserEquipment"/>
+</div>

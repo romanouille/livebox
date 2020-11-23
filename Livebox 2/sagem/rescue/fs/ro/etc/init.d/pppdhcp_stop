@@ -1,0 +1,14 @@
+#!/bin/sh
+
+
+case $1 in
+	stop)
+		pcb_cli "NeMo.Intf[~dhcp*].Enable=0"
+		sleep 1
+		pcb_cli "NeMo.Intf[~ppp*].Enable=0"
+	;;
+
+	*)
+	echo "Usage: $0 [stop]"
+	;;
+esac

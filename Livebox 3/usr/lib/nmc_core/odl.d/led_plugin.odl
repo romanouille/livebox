@@ -1,0 +1,9 @@
+using "../nmccore_led.so";
+persistent object NMC {
+persistent object LED {
+acl {
+world none;
+}
+void getLedStatus(mandatory string name, out string state, out string color);
+}
+}

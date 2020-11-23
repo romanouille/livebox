@@ -1,0 +1,23 @@
+# stripped down version of original file
+
+
+# libusb device nodes
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", MODE="0664"
+
+# printer
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{ID_USB_INTERFACES}=="", IMPORT{program}="usb_id --export %p"
+
+# network
+KERNEL=="tun",			MODE="0666", OPTIONS+="static_node=net/tun"
+KERNEL=="rfkill",		MODE="0644"
+
+# CPU
+KERNEL=="cpu[0-9]*",		MODE="0444"
+
+KERNEL=="fuse",			MODE="0666", OPTIONS+="static_node=fuse", \
+  RUN+="/bin/mount -t fusectl fusectl /sys/fs/fuse/connections"
+
+SUBSYSTEM=="rtc", DRIVERS=="rtc_cmos", SYMLINK+="rtc"
+KERNEL=="mmtimer",		MODE="0644"
+KERNEL=="rflash[0-9]*",		MODE="0400"
+KERNEL=="rrom[0-9]*",		MODE="0400"

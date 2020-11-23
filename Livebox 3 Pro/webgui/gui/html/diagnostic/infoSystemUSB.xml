@@ -1,0 +1,71 @@
+<div id="infoSystemUSB" class="infoSystemPage" xmlns="http://www.orange.com/xhtml/engine/loose">  
+	<div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_diagnostic">
+		  <span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;<span i18n="menuDiagnostic.infoSystemUSB"/>
+	     </h1>
+		<div class="margin-left-40 margin-top-m8">
+		     <strong i18n="page.diagnostic.infosystem.subtitle"/>
+		     <br/>
+			<div class="center" widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.lb">
+				<span id="routerlist" widgetType="EnumInput" widgetArg="'select'"/>
+			</div>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">			
+			<div id="MASTERBOX">
+				<div class="headBoxType1 margin-top-10" >
+					<span class="moins" >
+						<span class="h3Text margin-left-30" dataId="Device/DeviceInfo/RouterName"/>
+					</span>
+				</div>		
+				<div class="sysinfo">
+					<div class="boxType4 border-bottom-1">
+						<span class="h2Text orange" i18n="page.diagnostic.infosystem.usb.usb1"/>
+						<span id="print">
+								<a href="javascript:window.print()" i18n="common.print"/>
+						</span>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.usb.usb1.8.1">
+							<span class="margin-left-100" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/USBPort[@Name='Front']/Enable" i18nPrefix="data.diagnostic.infosystem.usb.enable"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.usb.usb1.8.1.1">
+							<span class="margin-left-100" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/USBPort[@Name='Front']/Status" i18nPrefix="data.diagnostic.infosystem.usb.linkstatus"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.usb.usb1.8.1.2">
+							<span class="margin-left-100 bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/USBPort[@Name='Front']/DeviceClass" i18nPrefix="data.diagnostic.infosystem.usb.function"/>
+						</div>
+						<div id="gwc_usb1"/>
+					</div>
+					
+					<div class="boxType5 border-bottom-3">
+						<div class="h2Text orange" i18n="page.diagnostic.infosystem.usb.usb2"/>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.usb.usb2.8.2">
+							<span class="margin-left-100" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/USBPort[@Name='Left']/Enable" i18nPrefix="data.diagnostic.infosystem.usb.enable"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.usb.usb2.8.2.1">
+							<span class="margin-left-100" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/USBPort[@Name='Left']/Status" i18nPrefix="data.diagnostic.infosystem.usb.linkstatus"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.usb.usb2.8.2.2">
+							<span  class="margin-left-100 bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/USBPort[@Name='Left']/DeviceClass" i18nPrefix="data.diagnostic.infosystem.usb.function"/>
+						</div>
+						<div id="gwc_usb2"/>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

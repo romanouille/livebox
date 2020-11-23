@@ -1,0 +1,11 @@
+root:x:0:
+nogroup:x:65534:
+xmo-user:x:1002:lighttpd,tr69
+lighttpd:x:1003:
+media:x:1004:
+firewall:x:1005:tr69,voice
+tr69:x:1006:
+voice:x:1007:
+confedit:x:1008:voice
+ism:x:1009:voice
+ipsec:x:1010:

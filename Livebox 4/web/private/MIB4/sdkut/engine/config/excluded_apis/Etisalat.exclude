@@ -1,0 +1,17 @@
+com.softathome.Config.Input.GetKeymap
+com.softathome.Config.Input.SetKeymap
+com.softathome.Media.Config.GetTimeshiftState
+com.softathome.Media.Player.Live.Timeshift.SetTimePosition
+com.softathome.Media.Player.Resource.Common.GetState
+com.softathome.Media.Player.Resource.Common.SetSourceUriList
+com.softathome.Media.Player.Tracks.Audio.List.GetAdvancedLangList
+com.softathome.Media.Player.VideoControl.SetArea
+com.softathome.Media.Player.Vod.Common.GetState
+com.softathome.PVR.Config.GetOptions
+com.softathome.System.Storage.Device.Associate
+com.softathome.System.Storage.Device.GetAssociationState
+com.softathome.System.Storage.Device.GetPairingState
+com.softathome.System.Storage.Service.SetInfo
+com.softathome.Time.GetLocalTimeZoneName
+com.softathome.Time.ListLocalTimeZoneNames
+com.softathome.Time.SetLocalTimeZoneName

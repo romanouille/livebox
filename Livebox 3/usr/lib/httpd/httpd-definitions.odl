@@ -1,0 +1,231 @@
+acl {
+group admin read, execute;
+group remoteadmin read, execute;
+group technician read, execute;
+}
+mib MatchServer {
+persistent string MatchServerName;
+}
+mib MatchHeader {
+persistent string MatchHeaderName;
+persistent string MatchHeaderValue;
+}
+mib MatchMethod {
+persistent string MatchMethod;
+}
+mib MatchUser {
+persistent string MatchUser;
+}
+mib MatchGroup {
+persistent string MatchGroup;
+}
+mib MatchPath {
+persistent string MatchPath;
+}
+mib MatchParameter {
+persistent string MatchObjectPath;
+persistent string MatchParameterName;
+persistent string MatchParameterValue;
+}
+mib TargetFile {
+persistent string TargetFile;
+}
+mib TargetReply {
+persistent string TargetReplyStatusCode;
+persistent string TargetReplyReasonPhrase;
+persistent string TargetReplyBody;
+}
+mib TargetPlugin {
+persistent string TargetPlugin = "staticfile";
+}
+mib TargetProcess {
+persistent string TargetCommand;
+}
+mib TargetCgi {
+persistent string TargetCGI;
+}
+mib TargetProxy {
+persistent string TargetHost;
+persistent string TargetPort;
+}
+object HTTPService {
+read-only string SSLCertificate {
+default "/usr/share/certificates/srv.pem";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+read-only string SSLCACertificate {
+default "//usr/share/certificates/cacert.pem";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+read-only string Status {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+constraint enum [ "Offline", "Starting", "Online", "Stopping", "Error" ];
+default "Offline";
+}
+persistent string DocumentRoot {
+default "/web/private";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent string Etag {
+default "6aeef51c";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+bool setDocumentRoot(mandatory string docroot, string etag) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+persistent uint32 SessionTimeout {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician read,write,execute;
+}
+default 600;
+}
+bool setSessionTimeout(mandatory uint32 timeout) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician execute;
+}
+}
+persistent uint32 SocketTimeout {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default 120;
+}
+bool getCurrentUser() {
+acl {
+group http read,execute;
+}
+}
+bool getSessions(){
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+}
+string addServer(mandatory string host, mandatory string interface, mandatory string port,
+mandatory bool public, mandatory bool useSSL, mandatory bool persistent,
+string plugin, string routes, string SSLOptions, string SSLCACertificate,
+string RedirectTo, string RedirectPort) {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+world none;
+}
+}
+bool deleteServer(mandatory string name) {
+acl {
+group admin none;
+group remoteadmin none;
+group technician none;
+world none;
+}
+}
+persistent read-only object Server[] {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group technician none;
+}
+persistent bool Enable = true;
+read-only string Status {
+constraint enum [ "Offline", "Starting", "Online", "Stopping", "Error" ];
+default "Offline";
+}
+persistent read-only string Host = "::";
+persistent read-only string Interface;
+persistent read-only string Port;
+persistent read-only bool Public = false;
+persistent read-only bool UseSSL = false;
+persistent read-only string SSLOptions = "";
+persistent read-only string SSLCACertificate = "";
+persistent read-only string Plugin = "";
+persistent read-only string Routes = "";
+read-only string LastError;
+persistent string RedirectTo {
+constraint enum [ "HTTP", "HTTPS", "NOREDIRECT" ];
+default "NOREDIRECT";
+}
+persistent string RedirectPort = "0";
+}
+persistent read-only object Matcher[] {
+acl {
+group admin none;
+group remoteadmin none;
+}
+persistent string Match {
+constraint enum [ "server", "header", "method", "user", "group", "path", "parameter" ];
+default "path";
+}
+persistent string Test {
+constraint enum [ "equal", "regexp" ];
+default "equal";
+}
+}
+persistent read-only object Route[] {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+persistent string Matcher;
+persistent string Target {
+constraint enum [ "file", "reply", "plugin", "process", "cgi", "proxy" ];
+default "plugin";
+}
+persistent object ReplyHeader[] {
+persistent string Name;
+persistent string Value;
+}
+}
+persistent object BruteForceDetection {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+persistent bool Enable;
+persistent uint32 Retries;
+persistent uint32 Interval;
+persistent bool Exponential;
+}
+}

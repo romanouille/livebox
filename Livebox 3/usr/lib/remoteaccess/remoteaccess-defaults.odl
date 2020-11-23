@@ -1,0 +1,6 @@
+datamodel {
+object RemoteAccess {
+parameter SupportedProtocols="HTTPS";
+parameter Interface="data";
+}
+}

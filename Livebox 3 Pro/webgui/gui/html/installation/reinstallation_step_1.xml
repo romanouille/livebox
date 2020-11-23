@@ -1,0 +1,52 @@
+<div id="reinstallation_step_1" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" alt="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+	<div class="alignCenter">
+		<img class="margin-bottom-10" alt="installation de la Livebox" src="theme/webCorporate/image/installation/ill_livebox.png"/>
+	</div>
+	<div id="container2">
+		<div class="h2_install" i18n="page.page0.reinstallation.step1.label"/>
+		<span class="padding-left-40" i18n="page.page0.reinstallation.step1.label0"/>
+		<a class="myInfo" href="#infosBullereinstall1"><img widgetType="Image" class="iconinfointext" align="absmiddle" src="theme/webCorporate/image/installation/ico_info.gif"/></a>
+		<div id="infosBullereinstall1" class="tooltip">
+			<div class="bubbleTop">
+    			<img widgetType="Image" src="theme/webCorporate/image/installation/infoBubble.gif" class="floatLeft margin-right-10 margin-top-20" />
+    			<p>
+    				<span i18n="page.page0.reinstallation.step1.bubbletext"></span>
+    				<span id="extrabubbletext" i18n="page.page0.reinstallation.step1.bubbletext.text"></span>
+    			</p>
+			</div>
+    		<div class="bubbleBottom"></div>
+		</div>
+		
+		
+		<form class="installform">
+			<div widgetType="FormInput" i18n="page.page0.securisation.step1.login">
+				<span style="font-weight:bold" dataId="Device/UserAccounts/ManagedUsers/ManagedUser[Login='admin']/Login"></span>
+			</div>
+			<div widgetType="FormInput" i18n="page.page0.securisation.step1.oldpassword">
+				<span id="uPassword" widgetType="Password" widgetArg="{char: '•', period: 2000}"></span>
+				<div id="erroronpasswordp1" class="forminput error installationerror" i18n="page.page0.reinstallation.step1.erroronpasswordp1" style="display:none"/>
+				<div id="erroronpasswordp2" class="forminput error installationerror" i18n="page.page0.reinstallation.step1.erroronpasswordp2" style="display:none"/>
+			</div>
+			<div widgetType="FormInput" i18n="">
+				<a id="passforget" href="javascript:;" class="orange menuItemLink" i18n="page.page0.reinstallation.step1.passforget"/>
+			</div>
+		</form>
+		<input type="text" style="display:none" id="memoryCardStatus" dataId="Device/DeviceInfo/SmartCard/Status"/>
+		
+		<div class="installButtonBar">
+			<a id="jump2installation" href="javascript:;" i18n="page.page0.previous">
+				<img widgetType="Image" class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_precedente.gif"/>
+			</a>
+			<span class="spacer"/>
+			<a id="jump2reinstallation_step_2" href="javascript:;" class="disableable disabled" i18n="page.page0.next">
+				<img widgetType="Image" class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_suivante_off.gif"/>
+			</a>
+		</div>
+	</div>
+</div>

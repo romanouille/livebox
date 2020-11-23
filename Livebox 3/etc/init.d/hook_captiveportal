@@ -1,0 +1,32 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        # Create the captive portal chains
+        iptables-restore -n < /etc/captiveportal/captiveportal.iptables
+        ip6tables-restore -n < /etc/captiveportal/captiveportal.iptables
+
+        /usr/sbin/iptables -t mangle -I PREROUTING 1 -i br+ -p tcp --dport 80 -j CaptivePortal
+        /usr/sbin/iptables -t mangle -I PREROUTING 2 -i br+ -p tcp --dport 443 -j CaptivePortal
+        /usr/sbin/iptables -t mangle -I FORWARD 1 -o br+ -p tcp --sport 443 -j CaptivePortal
+
+        /usr/sbin/ip6tables -t mangle -I PREROUTING 1 -i br+ -p tcp --dport 80 -j CaptivePortal
+        /usr/sbin/ip6tables -t mangle -I PREROUTING 2 -i br+ -p tcp --dport 443 -j CaptivePortal
+        /usr/sbin/ip6tables -t mangle -I FORWARD 1 -o br+ -p tcp --sport 443 -j CaptivePortal
+    ;;
+    stop)
+        /usr/sbin/iptables -t mangle -F CaptivePortal
+        /usr/sbin/ip6tables -t mangle -F CaptivePortal
+
+        /usr/sbin/iptables -t mangle -D PREROUTING -i br+ -p tcp --dport 80 -j CaptivePortal
+        /usr/sbin/iptables -t mangle -D PREROUTING -i br+ -p tcp --dport 443 -j CaptivePortal
+        /usr/sbin/iptables -t mangle -D FORWARD -o br+ -p tcp --sport 443 -j CaptivePortal
+
+        /usr/sbin/ip6tables -t mangle -D PREROUTING -i br+ -p tcp --dport 80 -j CaptivePortal
+        /usr/sbin/ip6tables -t mangle -D PREROUTING -i br+ -p tcp --dport 443 -j CaptivePortal
+        /usr/sbin/ip6tables -t mangle -D FORWARD -o br+ -p tcp --sport 443 -j CaptivePortal
+    ;;
+    *)
+        echo "Usage : $0 [start|stop]"
+    ;;
+esac

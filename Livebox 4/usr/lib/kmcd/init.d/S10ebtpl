@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		modprobe kmcd_ebtpl
+		ebtables -N FORWARD_kmcd
+		ebtables -P FORWARD_kmcd RETURN
+		ebtables -A FORWARD -j FORWARD_kmcd
+		;;
+	stop)
+		modprobe -r kmcd_ebtpl
+		ebtables -X FORWARD_KMCD
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac
+

@@ -1,0 +1,170 @@
+using "netmaster.so";
+define interface_config_t {
+uint32 VLANID;      
+int32 VLANPriority;    
+string DestinationAddress;
+string Encapsulation;   
+string QoSClass;    
+uint32 PeakCellRate;
+uint32 MaximumBurstSize;
+uint32 SustainableCellRate;
+string Mode; 
+uint32 IPVersion; 
+bool DialOnPlug; 
+uint32 DialOnPlugIdleTimeout; 
+}
+define dhcp_option_t {
+uint8 Tag;
+bool Enable;
+variant Value;
+}
+acl {
+world none;
+group admin read, execute;
+group remoteadmin read, execute;
+group technician read, write, execute;
+group cwmpd read, write, execute;
+}
+persistent object NetMaster {
+persistent bool EnableInterfaces {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with enableInterfacesOnWrite;
+default true;
+}
+void setInterfaceConfig(mandatory string name, mandatory string interfacetype, mandatory map configs);
+map getInterfaceConfig(mandatory string name);
+object WAN[] {
+write with WANModeOnWrite;
+delete with WANModeOnDelete;
+list getConfig(string flag);
+string Name;
+string PhysicalInterface {
+constraint enum ["Ethernet", "ADSL", "VDSL"];
+default "Ethernet";
+}
+object Intf[4] {
+write with WANIntfOnWrite;
+list getConfig(string flag);
+void setReferenceConfig(mandatory string lowerInterface);
+void setUNTAGGEDConfig(uint32 ipversion, bool apply);
+void setVLANConfig(mandatory uint32 vlanid, mandatory int32 vlanpriority, uint32 ipversion, bool apply);
+void setVCConfig(mandatory string destinationAddress, mandatory string encapsulation, mandatory string qosclass, uint32 peakCellRate, uint32 maximumBurstSize, uint32 sustainableCellRate, uint32 ipversion, bool apply);
+void setVLANoVCConfig(mandatory uint32 vlanid, mandatory int32 vlanpriority, mandatory string destinationAddress, mandatory string encapsulation, mandatory string qosclass, uint32 peakCellRate, uint32 maximumBurstSize, uint32 sustainableCellRate, uint32 ipversion, bool apply);
+void setPPPConfig(mandatory string username, mandatory string password, uint32 ipversion, string ppptype, bool enable, bool no_export, uint32 maxmrusize);
+void setDHCP4ClientConfig(mandatory bool enable, string name, bool no_export, bool dialonplug, uint32 dialonplugidletimeout, string option_req, list option_sent, bool check_authentication, string authentication_info);
+void setDHCP6ClientConfig(mandatory bool enable, string name, bool no_export, bool dialonplug, uint32 dialonplugidletimeout, string option_req, list option_sent, bool check_authentication, string authentication_info);
+void setFirewallConfig(mandatory string destinationInterface, mandatory uint32 ipversion, mandatory string level);
+void setBridgeConfig(mandatory uint32 ipversion, string alias, bool apply);
+void setBridgeVLANConfig(mandatory string alias, mandatory uint32 vlanid, mandatory int32 vlanpriority, bool apply);
+void setBridgeVCConfig(mandatory string alias, mandatory string destinationAddress, mandatory string encapsulation, mandatory string qosclass, uint32 peakCellRate, uint32 maximumBurstSize, uint32 sustainableCellRate, bool apply);
+void deleteService(mandatory string type);
+void setStaticRoute(mandatory string name, bool enable, string dst, uint16 dstlen, string gateway, string table);
+void deleteStaticRoute(mandatory string name);
+persistent string Name;
+string Flags = "untagged";
+uint32 IPVersion = 0;
+bool DialOnPlug = false;
+uint32 DialOnPlugIdleTimeout = 30;
+object StaticRoute[10] {
+write with StaticRouteOnWrite;
+bool Enable;
+string Dst;
+uint32 DstLen;
+string Gateway;
+string Table = main;
+}
+object Service[12] {
+write with ServiceOnWrite;
+list getConfig(string flag);
+bool Enable;
+string Name;
+string Flags;
+uint32 IPVersion = 0;
+bool DialOnPlug = false;
+uint32 DialOnPlugIdleTimeout = 30;
+}
+object PPP[] {
+write with PPPIntfOnWrite;
+list getConfig(string flag);
+bool Enable;
+string Name;
+string Username;
+string Password;
+uint32 IPVersion;
+bool DialOnPlug = false;
+uint32 DialOnPlugIdleTimeout = 30;
+uint32 MaxMRUSize = 1492;
+object Service[12] {
+write with ServiceOnWrite;
+list getConfig(string flag);
+bool Enable;
+string Name;
+string Flags;
+uint32 IPVersion = 0;
+bool DialOnPlug = false;
+uint32 DialOnPlugIdleTimeout = 30;
+}
+void setFirewallConfig(mandatory string destinationInterface, mandatory uint32 ipversion, mandatory string level);
+void setDHCP4ClientConfig(mandatory bool enable, string name);
+void setDHCP6ClientConfig(mandatory bool enable, string name);
+void deleteService(mandatory string type);
+}
+}
+}
+string WANMode {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+string getWANMode();
+void setWANMode(mandatory string wanmode, string username, string password);
+void shutdownWANMode();
+list getWANModeList();
+void addWANMode(mandatory string wanmode) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void delWANMode(mandatory string wanmode) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void renameWANMode(mandatory string wanmode, string new_wanmode) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void export(string filename) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void import() {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+persistent object DialOnPlug {
+acl {
+group admin read, write, execute;
+group remoteadmin read, write, execute;
+group technician read, write, execute;
+}
+write with DoPOnWrite;
+persistent bool Enable = false;
+persistent uint32 GlobalIdleTimeout = 30;
+persistent bool EnableGlobalIdleTimeout = true;
+variant get();
+bool set(variant parameters);
+}
+}

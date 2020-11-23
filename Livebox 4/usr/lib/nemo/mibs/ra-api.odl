@@ -1,0 +1,17 @@
+object NeMo {
+	object extends MIB(0,"ra-api") {
+		string Flag = "";
+		object DataModel {
+			void getRAOptions(mandatory in uint8 tag, in string traverse) {
+			    acl {
+			        world none;
+			    }
+			}
+			void getRARouters(in string traverse) {
+			    acl {
+			        world none;
+			    }
+			}
+		}
+	}
+}

@@ -1,0 +1,1263 @@
+object DSL_BROADCOM {
+
+    /** 
+     General DSL Configuration 
+     @Version V6.1 
+     */
+    persistent object Config {
+        write with DSLConfigOnWrite;        
+
+        /**
+        Enable pll workaround
+        @Version V7.0 
+        */
+        persistent bool pll_workaround = false;
+
+        /**
+        Disable autoretrain Force PHY to stay in Showtime for PSD measurement and debug purposes
+        @Version V7.0 
+        */
+        persistent bool autoretrain_disable = false;
+
+        /**
+        Enable to send medley Configure PHY to send MEDLEY signal. Available in dslDiags
+        @Version V7.0 
+        */
+        persistent bool send_medley = false;
+
+        /**
+        Enable to send_reverb Configure PHY to send REVERB signal. Available in DslDiags
+        @Version V7.0 
+        */        
+        persistent bool send_reverb = false;
+
+        /**
+        Enable afe loopback
+        @Version V7.0 
+        */
+        persistent bool afe_loopback = false;
+
+        /**
+        Disable t1p413 upstream 2Ifft
+        @Version V7.0 
+        */
+        persistent bool t1p413_upstream_2Ifft_disable = false;
+
+        /**
+        Enable t1p413 subsample alignment
+        @Version V7.0 
+        */
+        persistent bool t1p413_subsample_alignment = false;
+
+        /**
+        Enable t1p413 higher tone level
+        @Version V7.0 
+        */
+        persistent bool t1p413_higher_tone_level = false;
+
+        /**
+        Enables the use of US and DS Seamless Rate Adaptation
+        @Version V7.1 
+        */
+        persistent bool SRA = false;
+
+        /**
+        Disable drop on data errors
+        @Version V7.1 
+        */        
+        persistent bool drop_on_data_errors_disabled = false;
+
+        /**
+        Enables atuc xmt power minimize
+        @Version V7.1 
+        */
+        persistent bool atuc_xmt_power_minimize = false;
+
+        /**
+        Enable T1p413/G.HS switching with period of 2.1 second. If disabled, switching period is adslHsModeSwitchTime
+        @Version V7.0 
+        */
+        persistent bool T1p413_ghs = false;
+
+        /**
+        Enable ue9000 adi918 fec fix
+        @Version V7.0 
+        */
+        persistent bool ue9000_adi918_fec_fix = false;
+
+        /**
+        Enable If set, this bit forces RACK1 only during T1.413 handshake (i.e., reduces multi-mode training times for non-ADI-based DSLAMs). 
+        Since ADI-based DSLAMs only respond to RACK2 in the T1.413 handshake, this bit should never be used with ADI DSLAMs (i.e., off by default)
+        @Version V7.0 
+        */
+        persistent bool t1p413_use_rack1_only = false;
+
+        /**
+        Enable multimode prefer t1p413 when this bit is enabled, the PHY will try T1.413 for a total of 60 seconds before trying G.DMT.
+        @Version V7.0 
+        */
+        persistent bool multimode_prefer_t1p413 = false;
+
+        /**
+        This bit enables the fix that improves DS CRC error rate when running against Anymedia firmware revision R1.13.03-O36NB. 
+        This fix eliminates US and DS CRCs when running against Anymedia firmware revision R1.13.0.4-O89.1 (i.e., off by default, this fix is not enabled).
+        @Version V7.0 
+        */
+        persistent bool anymedia_gspn_crc_fix = false;
+
+        /**
+        This bit disables the low rate option fix that improves fast path rates with some ADI-based DSLAMs, but only when RS = 0 (i.e., off by default,
+        the fix is enabled)
+        @Version V7.0 
+        */
+        persistent bool adi_lowrate_option_fix = false;
+
+        /**
+        Enable the use of US and DS bitswap
+        @Version V7.0 
+        */
+        persistent bool Bitswap = false;
+
+        /**
+        Enable Attenuation Round UP
+        @Version V7.0 
+        */
+        persistent bool round_up_dsloop_attn = false;
+
+        /**
+        Enable high precision US bitswap
+        @Version V7.0 
+        */
+        persistent bool high_precision_tx_bitswap = false;
+
+        /**
+        Disable tx fitler Id 4 for CNXT coVendorFirmwareID == 0x39 and coVendorSpecificInfo == 0x10
+        @Version V7.0 
+        */
+        persistent bool txfilter7_for_special_cntx_disable = false;
+
+        /**
+        This bit enables transmitter power cutback (on by default)
+        @Version V7.0 
+        */
+        persistent bool Tx_power_cutback = false;
+
+        /**
+        Enable t1p413 issue 1 single byte symbols
+        @Version V7.0 
+        */
+        persistent bool t1p413_issue1_single_bytesym = false;
+
+        /**
+        Enable analog echo cancellor
+        @Version V7.0 
+        */
+        persistent bool analog_echo_cancellor = false;
+
+        /**
+        Enable reed solomon coding
+        @Version V7.0 
+        */
+        persistent bool reed_solomon_coding = false;
+
+        /**
+        Enable digital_echo_canceller
+        @Version V7.0 
+        */
+        persistent bool Digital_echo_canceller = false;
+
+        /**
+        Enable Hardware Automatic Gain Control
+        @Version V7.0 
+        */
+        persistent bool Hw_agc = false;
+
+        /**
+        Enable Hardware Time Tracking 
+        @Version V7.0 
+        */
+        persistent bool Hw_time_track = false;
+
+        /**
+        Enable Use of Trellis encoding
+        @Version V7.0 
+        */
+        persistent bool dsl_trellis = false;
+
+        /**
+        Enable software time tracking
+        @Version V7.0 
+        */
+        persistent bool software_time_tracking = false;
+
+        /**
+        Enable software time errors detection
+        @Version V7.0 
+        */
+        persistent bool Sw_timer_err_detect = false;
+
+        /**
+        Enable echo cancellor
+        @Version V7.0 
+        */
+        persistent bool echo_cancellor = false;
+
+        /**
+        Enable force fast BS
+        @Version V7.0 
+        */
+        persistent bool force_fast_bs = false;
+
+        /**
+        Disable PhyR noDelayQ
+        @Version V7.0 
+        */
+        persistent bool phyr_nodelay_rxq = false;
+
+        /**
+        Disable PhyR DelayQ
+        @Version V7.0 
+        */
+        persistent bool phyr_delay_rxq = false;
+
+        /**
+        Enable reinit counter measure control
+        @Version V7.0 
+        */
+        persistent bool rein_counter_measure_control = false;
+
+        /**
+        Disable instructs the PHY not to use Broadcom proprietary ATM header compression
+        @Version V7.0 
+        */
+        persistent bool nitro_disable = false;
+
+        /**
+        Enable support PhyR retransmission in upstream direction.
+        @Version V7.0 
+        */
+        persistent bool PHY_REXMT_US = false;
+
+        /**
+        Enable support PhyR retransmission in downstream direction.
+        @Version V7.0 
+        */
+        persistent bool PHY_REXMT_DS = false;
+
+        /**
+        Enable instructs the PHY to retrain when reported DS margin goes below the minimum margin communicated by the ATU-C/VTU-O
+        @Version V7.0 
+        */
+        persistent bool retrain_dslam_min_margin = false;
+
+        /**
+        Enable instructs the PHY use extended interleaving memory in ADSL
+        @Version V7.0 
+        */
+        persistent bool 24kbytes_Interleaving = false;
+        
+        /**
+        Enable retrain on SES
+        @Version V7.0 
+        */
+        persistent bool Retrain_on_SES = false;
+
+        /**
+        Disable ShowTime fast update digital EC
+        @Version V7.0 
+        */
+        persistent bool Disable_SyncFastUpdate = false;
+
+        /**
+        Disable showtime digital EC
+        @Version V7.0 
+        */
+        persistent bool	ec_showtime_update_disabled = false;
+
+        /**
+        Disable L2 low power mode
+        @Version V7.0 
+        */
+        persistent bool disable_l2 = false;
+
+        /**
+        Enable Annex I flat SSVI
+        @Version V7.0 
+        */
+        persistent bool annexi_flat_ssvi = false;
+
+        /**
+        Enable Annex I shaped SSVI
+        @Version V7.0 
+        */
+        persistent bool annexi_shaped_ssvi = false;
+
+        /**
+        Enable reverb signal tones interval 6 31 
+        @Version V7.0 
+        */
+        persistent bool annexc_reverb_6_31 = false;
+
+        /**
+        Enable reverb signal tones interval 33 63 
+        @Version V7.0 
+        */
+        persistent bool annexc_reverb_33_63 = false;
+
+        /**
+        Enable a24 b24 tones in Annex C 
+        @Version V7.0 
+        */       
+        persistent bool annexc_a24_b24 = false;
+
+        /**
+        Enable a48 b48 tones in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_a48_b48 = false;
+
+        /**
+        Enable pilot on tone 16 in Annex C 
+        @Version V7.0 
+        */ 
+        persistent bool annexc_pilot_16 = false;
+
+        /**
+        Enable pilot on tone 32 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_pilot_32 = false;
+
+        /**
+        Enable pilot on tone 48 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_pilot_48 = false;
+
+        /**
+        Enable pilot on tone 64 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_pilot_64 = false;
+
+        /**
+        Enable profile 6 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_profile_6 = false;
+
+        /**
+        Enable profile 5 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_profile_5 = false;
+
+        /**
+        Enable profile 4 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_profile_4 = false;
+
+        /**
+        Enable profile 3 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_profile_3 = false;
+
+        /**
+        Enable profile 2 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_profile_2 = false;
+
+        /**
+        Enable profile 1 in Annex C 
+        @Version V7.0 
+        */
+        persistent bool annexc_profile_1 = false;
+
+        /**
+        Enable ADSL upstream rate improvement against conexant CO 
+        @Version V7.0 
+        */
+        persistent bool phy_6328_for_gvt = false;
+
+        /**
+        Enable workaround against the CPE may have long G.994.1 training against some CNXT-based G.992.1 only DSLAMs 
+        @Version V7.0 
+        */
+        persistent bool phy_short_clr = false;
+
+        /**
+        Enable PHYR allows no minimum Reed Solomon overhead
+        @Version V7.0 
+        */
+        persistent bool phyr_allow_no_min_rs_overhead = false;
+
+        /**
+        Enable ROC
+        @Version V7.0 
+        */
+        persistent bool roc = false;
+
+        /**
+        Enable SOS
+        @Version V7.0 
+        */
+        persistent bool sos = false;
+
+        /**
+        Disable Reference Noise Cancellor
+        @Version V7.0 
+        */
+        persistent bool rnc_disable = false;
+
+        /**
+        Enable reduces the PCB in DS to provide more noise immunity
+        @Version V7.0 
+        */
+        persistent bool g992p5_min_ds_pcb = false;
+
+        /**
+        Disable support of PTM Preemption in HS for Adsl2/2+ or in Training for Vdsl2
+        @Version V7.0 
+        */
+        persistent bool ptm_preemption_disable = false;
+
+        /**
+        Enable sets the rate select default to channel policy 2
+        @Version V7.0 
+        */
+        persistent bool CI_Policy2 = false;
+
+        /**
+        Enable Tx filter against IKNS DSLAMs that works better for CO4
+        @Version V7.0 
+        */
+        persistent bool IKNS_CO4_ADSLFILT = false;
+
+        /**
+        Enable monitoring REIN condition and retrain to adjust AGC/Pilot to pass REIN test
+        @Version V7.0 
+        */   
+        persistent bool g992_bt_feature_bit = false;
+
+        /**
+        Enable ENR measure for ADSL2
+        @Version V7.0 
+        */           
+        persistent bool enr_measure_for_adsl2 = false;
+
+        /**
+        Enable CPE sometimes connects in T1.413 mode against certain multimode DSLAMs with G.DMT enabled. This issue can be resolved by this bit setting
+        @Version V7.0 
+        */      
+        persistent bool hs_prefer_gdmt_over_t1p413 = false;
+
+        /**
+        Enables standard retransmission G.998.4 in US
+        @Version V7.0 
+        */     
+        persistent bool phy_ginp_us = false;
+
+        /**
+        Enables standard retransmission G.998.4 in DS
+        @Version V7.0 
+        */ 
+        persistent bool phy_ginp_ds = false;
+
+        /**
+        Enable monitoring MAXNOPSD to reduce gi. Not recommended for TR-100 type of tests
+        @Version V7.0 
+        */
+        persistent bool g992p5_monitor_nom_psd_ds = false;
+
+        /**
+        Enable Rate selection reduces achieved DS delay in ADSL modes
+        @Version V7.0 
+        */
+        persistent bool g992p5_minimize_ds_delay = false;
+
+        /**
+        Disable Monitor Tone
+        @Version V7.0 
+        */
+        persistent bool monitor_tone_disable = false;
+
+        /**
+        Disable the PHY applied interop of using only 13 bits per tone in Tx against Globespan
+        @Version V7.0 
+        */
+        persistent bool gspn_13bit_limit_fix_disable = false;
+
+        /**
+        Enable applies France Telecom/Orange features for HBI DSLAMS
+        @Version V7.0 
+        */
+        persistent bool FT_Feature_Bit = false;
+
+        /**
+        Disable G.994.1 A43C tones
+        @Version V7.0 
+        */
+        persistent bool g994p1_a43c_disable = false;
+
+        /**
+        Disable the use Annex A/Annex B G.994.1 toggling
+        @Version V7.0 
+        */
+        persistent bool annexj_handshake_B43J43_toggle = false;
+
+        /**
+        Disable T1413 CACT1 signal
+        @Version V7.0 
+        */
+        persistent bool t1413_cact1_disable = false;
+
+        /**
+        Enable Indicates PTM bonding in G.994.1 and report the result of the negotiation. Gets set in the xDSL driver based on TpsTc setting
+        @Version V7.1 
+        */
+        persistent bool Ptm_bond = false;
+
+        /**
+        Enable Indicates ATM bonding in G.994.1 and report the result of the negotiation. Gets set in the xDSL driver based on TpsTc setting
+        @Version V7.1 
+        */
+        persistent bool atm_bonding_supported = false;
+
+        /**
+        Enable G.994.1 prefer to MP mode
+        @Version V7.1 
+        */
+        persistent bool g994p1_prefer_to_mp = false;
+
+        /**
+        Enable G.994.1 prefer to decide mode
+        @Version V7.0 
+        */
+        persistent bool G994_prefer_decide = false;
+
+        /**
+        Enable G.994.1 prefer exchange capabilities
+        @Version V7.0 
+        */
+        persistent bool G994_prefer_exchange = false;
+
+        /**
+        Enable v43_autonomous
+        @Version V7.0 
+        */
+        persistent bool V43_autonomous = false;
+
+        /**
+        Enable instructs the PHY to handle V43 enable/disable autonomously. Will enable it only when deemed needed by interop, mostly for Ikanos based DSLAMs.
+        Has no effect if CfgFlagsDisableV43 is set
+        @Version V7.0 
+        */
+        persistent bool Dynamic_V43 = false;
+
+        /**
+        Enables PHY negotiation of the G.993.2 Annex Y (Full vectoring friendly). Automatically disables support of G.993.5
+        @Version V7.0 
+        */       
+        persistent bool g993p2_annexy = false;
+
+        /**
+        Enable error sample packet counter
+        @Version V7.0 
+        */
+        persistent bool Err_sample_packet_counter = false;
+
+        /**
+        Enable use of channel policy 2 in G.993.2
+        @Version V7.0 
+        */
+        persistent bool CI_Policy2_Default_VDSL = false;
+
+        /**
+        Enable G993.2 interoperability against IKNOS CO4 can be enabled
+        @Version V7.0 
+        */
+        persistent bool ikanos_co4_interop = false;
+
+        /**
+        Enable VDSL Line probe
+        @Version V7.0 
+        */
+        persistent bool vdsl_line_probe = false;
+
+        /**
+        Enable extra power cutback
+        @Version V7.0 
+        */
+        persistent bool extra_power_cutback = false;
+
+        /**
+        Disables the use of G.994.1 V43 tone set
+        @Version V7.0 
+        */
+        persistent bool Disable_V43 = false;
+
+        /**
+        Enable alternative attainable data rate computation taking framing constrain into account
+        @Version V7.0 
+        */
+        persistent bool attn_dr_framing_constrains = false;
+
+        /**
+        Disables G.993.5 crosstalk cancelling support
+        @Version V7.0 
+        */
+        persistent bool Disable_Vectoring = false;
+
+        /**
+        Enable VDSL US0 full PSD against IKANOS
+        @Version V7.0 
+        */        
+        persistent bool vdsl_ikns_us0_full_psd = false;
+
+        /**
+        Disable VDSL HighPower Profile 8 against IKANOS
+        @Version V7.0 
+        */
+        persistent bool vdsl_ikns_high_pwr_profile8_disable = false;
+
+        /**
+        Disables SOS in G.993.2
+        @Version V7.0 
+        */
+        persistent bool sos_disable = false;
+
+        /**
+        Disable dynamic feature on fast path
+        @Version V7.0 
+        */
+        persistent bool Disable_dynamic_feature = false;
+
+        /**
+        Disables dynamic interleaver depth during G.993.2 SRA
+        @Version V7.0 
+        */
+        persistent bool dynamic_d_feature_disable = false;
+
+       /**
+        Enables Ifx Periodic start shift offset
+        @Version V7.0 
+        */
+        persistent bool vdsl_if_periodic = false;
+
+       /**
+        Disables ATM support in G.993.2
+        @Version V7.0 
+        */
+        persistent bool vdsl_noatm_support = false;
+
+       /**
+        Disables PTM support in G.993.2
+        @Version V7.0 
+        */
+        persistent bool vdsl_noptm_support = false;
+
+       /**
+        Enable Rate variation may happen in VDSL2 against Alcatel NVLT-C DSLAMs with CO5 FW 1.0.9r48b
+        @Version V7.0 
+        */
+        persistent bool align_after_periodics = false;
+
+       /**
+        Enable forces G.994.1 not to apply Tx filter toggling, to avoid band plan selection issues against Ikanos based DSLAM
+        @Version V7.0 
+        */
+        persistent bool noG994_avdsl_toggle = false;
+
+       /**
+        Enable forces to skip PTM crc calculation on PTM layer
+        @Version V7.0 
+        */
+        persistent bool noptm_crc_calc = false;
+
+        /**
+        Enable bit turned on by driver for interop with early BCM CO
+        @Version V7.0 
+        */
+        persistent bool Raw_ethernet_ds = false;
+
+        /**
+        Enable Indicates support of FEXT equalized UPBO in G.993.2
+        @Version V7.0 
+        */
+        persistent bool FEXT_Equalize = false;
+
+        /**
+        Enable Enables line diagnostic mode in G.993.2
+        @Version V7.0 
+        */
+        persistent bool ld = false;
+
+        /**
+        Enable Enables line diagnostic mode in G.993.2
+        @Version V7.0 
+        */
+        persistent bool attn_dr_framing_all_targets = false;
+
+        /**
+        Enable indicates los drop timing bit5
+        @Version V7.0 
+        */
+        persistent bool los_drop_timing_bit5 = false;
+
+        /**
+        Enable indicates los drop timing bit4
+        @Version V7.0 
+        */
+        persistent bool los_drop_timing_bit4 = false;
+
+        /**
+        Enable indicates los drop timing bit3
+        @Version V7.0 
+        */
+        persistent bool los_drop_timing_bit3 = false;
+
+        /**
+        Enable indicates los drop timing bit2
+        @Version V7.0 
+        */
+        persistent bool los_drop_timing_bit2 = false;
+
+        /**
+        Enable indicates los drop timing bit1
+        @Version V7.0 
+        */
+        persistent bool los_drop_timing_bit1 = false;
+
+        /**
+        Enable indicates los drop timing bit0
+        @Version V7.0 
+        */
+        persistent bool los_drop_timing_bit0 = false;
+
+        /**
+        Disable indicates that the minINP 2 applied by BRCM CPE against CNXT CO in G.992.5 can be disabled
+        @Version V7.0 
+        */
+        persistent bool g992_cnxt_inp_min2_disable = false;
+
+        /**
+        Enable DT Lab ADSL Annex B HIGH Noise feature
+        @Version V7.0 
+        */
+        persistent bool g992_dt_feature_bit = false;
+
+        /**
+        Enable when enabled, reduce C-Tone detection delay after xmt R-Tone-Req for Anymedia DSLAM
+        @Version V7.0 
+        */
+        persistent bool reduce_ctone_detection_delay = false;
+
+        /**
+        Enable sets extra PSD level : 01 with 10dB down / 10 with 15dB down / 11 with 20dB down
+        @Version V7.0 
+        */
+        persistent bool v43_psd_level2 = false;
+        persistent bool v43_psd_level1 = false;
+
+        /**
+        Disable rx delay management
+        @Version V7.0 
+        */
+        persistent bool rxdelay_management_disable = false;
+
+        /**
+        Enable, interpolate HAM band notching when SNR is below 6dB
+        @Version V7.0 
+        */
+        persistent bool hlog_interpolation = false;
+
+        /**
+        Enable, force downstream FFT size of 512 for G.DMT and ADSL2
+        @Version V7.0 
+        */
+        persistent bool dsfft512_interop = false;
+
+        /**
+        Enable HDLC control bit work around against CXSY
+        @Version V7.0 
+        */
+        persistent bool include_cxsyoami_interop = false;
+
+        /**
+        Enable ADSL1 in Bonding CLR
+        @Version V7.0 
+        */
+        persistent bool include_adsl1_inbonding_clr = false;
+
+        /**
+        Enable limits the total L2 power to maxL2PCB set by DSLAM at L2 request
+        @Version V7.0 
+        */
+        persistent bool enhanced_l2bit_disable = false;
+
+        /**
+        Enables ADSL negative margin adjustment option for very low noise loops
+        @Version V7.0 
+        */
+        persistent bool neg_mgn_adjustment = false;
+
+        /**
+        Enable boosts the current INP setting PHY computes needed INP beyond INPmin based on impulse noise measurement
+        @Version V7.0 
+        */
+        persistent bool CPE_IGNP_Boost_Set = false;
+        
+        /**
+        Disable margin equalization under high REIN event
+        @Version V7.0 
+        */
+        persistent bool Disable_MEQ_IGNP_REIN = false;
+
+        /**
+        Disable training impulse gating when set
+        @Version V7.0 
+        */
+        persistent bool training_impgating_disable = false;
+
+        /**
+        Enable specific Telecom Poland interoperability flag
+        @Version V7.0 
+        */
+        persistent bool Telecom_Poland_Interop = false;
+
+        /**
+        Enable monitoring tone for L2 modem Power Save state
+        @Version V7.0 
+        */
+        persistent bool monitoring_tone_for_l2 = false;
+
+        /**
+        Enable external bonding slave
+        @Version V7.0 
+        */
+        persistent bool external_bonding_slave = false;
+
+        /**
+        Enable external bonding discovery
+        @Version V7.0 
+        */
+        persistent bool external_bonding_discovery = false;
+
+        /**
+        Enable Belgacom interop behavior, which is NVLT-D specific
+        @Version V7.0 
+        */
+        persistent bool belgacom_interop = false;
+        /*xdslCfg2:*/
+
+        /**
+        Enable Alternate Bonding Reed Solomon For High Noise Environment
+        @Version V7.0 
+        */
+        persistent bool alt_bonding_rs_for_high_noise = false;
+
+        /**
+        Enable Detect Training On Xtalk
+        @Version V7.0 
+        */
+        persistent bool detect_training_on_xtalk = false;
+
+        /**
+        Disable Ptm Non Bonding Connection
+        @Version V7.0 
+        */
+        persistent bool ptm_nonbonding_connection_disable = false;
+
+        /**
+        Enable Laboratory Test Mode In Bonding
+        @Version V7.0 
+        */
+        persistent bool labtest_inbonding = false;
+
+        /**
+        Enable TxPaf
+        @Version V7.0 
+        */
+        persistent bool tx_paf = false;
+
+        /**
+        Enable Send WIRE to Gspn in G.992.3
+        @Version V7.0 
+        */
+        persistent bool send_wire_to_gspn_g992p3 = false;
+
+        /**
+        Enable Reference Noise cancelling for BCM63138/148
+        @Version V7.0 
+        */
+        persistent bool CPE_RNC_QLN_test = false;
+
+       /**
+        Enable TSSI handling for STGR_LIM_A2P_48_HB firmware TAO 9.14.2
+        @Version V7.0 
+        */
+        persistent bool stgrtssi_handling = false;
+
+        /**
+        Enable gfast back-to-back mode in the cpe image
+        @Version V7.0 
+        */
+        persistent bool enable_gfast_b2b = false;
+
+        /**
+        Enable gfast vdsl multimode enable
+        @Version V7.0 
+        */
+        persistent bool gfast_vdsl_multimode = false;
+        /*adslAnnexAParam:*/
+
+        /**
+        Disable TPS-TC Ptm Preemption
+        @Version V7.0 
+        */
+        persistent bool tpstc_ptmpre_disable = false;
+
+        /**
+        Enable ATM as TPS-TC in VDSL
+        @Version V7.0 
+        */
+        persistent bool tpstc_atm_vdsl = false;
+
+        /**
+        Enable PTM as TPS-TC in VDSL
+        @Version V7.0 
+        */
+        persistent bool tpstc_ptm_vdsl = false;
+
+        /**
+        Enable ATM as TPS-TC in ADSL
+        @Version V7.0 
+        */
+        persistent bool tpstc_atm_adsl = false;
+
+        /**
+        Enable PTM as TPS-TC in ADSL
+        @Version V7.0 
+        */
+        persistent bool tpstc_ptm_adsl = false;
+
+        /**
+        Enable adslDemodCap2 profile extensions 
+        @Version V7.0 
+        */
+        persistent bool demod_cap2_on = false;
+
+        /**
+        Enable PWM Sync Clock
+        @Version V7.0 
+        */
+        persistent bool pwm_sync_clock_on = false;
+
+        /**
+        Enable No Spectrum Overlap
+        @Version V7.0 
+        */
+        persistent bool nospectrum_overlap = false;
+
+        /**
+        Enable sets extra Upstream size : 00 UpstreamMax 01 UpstreamSingle 02 UpstreamDouble 03 UpstreamTriple
+        @Version V7.0 
+        */
+        persistent bool upstream2 = false;
+        persistent bool upstream1 = false;
+
+        /**
+        Enable VDSL2 modulation
+        @Version V7.0 
+        */
+        persistent bool mod_vdsl2_only = false;
+
+        /**
+        Enable ADSL2plus modulation
+        @Version V7.0 
+        */
+        persistent bool mod_adsl2p_only = false;
+
+        /**
+        Enable ADSL2 modulation
+        @Version V7.0 
+        */
+        persistent bool mod_adsl2_only = false;
+
+        /**
+        Enable adslDemodCap profile extensions
+        @Version V7.0 
+        */
+        persistent bool demod_cap_on = false;
+
+        /**
+        Enable Margin Monitoring
+        @Version V7.0 
+        */
+        persistent bool margin_monitoring_on = false;
+
+        /**
+        Enable LOS Monitoring Off
+        @Version V7.0 
+        */
+        persistent bool los_monitoring_off = false;
+
+        /**
+        Enable Trellis
+        @Version V7.0 
+        */
+        persistent bool trellis_on = false;
+
+        /**
+        Enable extra data
+        @Version V7.0 
+        */
+        persistent bool extra_data = false;
+
+        /**
+        Enable centillium crc workaround
+        @Version V7.0 
+        */
+        persistent bool centillium_crc_workaround = false;
+
+        /**
+        Enable select 1 choose LineOuterPair Unselect 0 choose LineInnerPair
+        @Version V7.0 
+        */
+        persistent bool outerpair_innerpair = false;
+
+        /**
+        Enable FBM SoL
+        @Version V7.0 
+        */
+        persistent bool fbm_sol = false;
+
+        /**
+        Enable select 1 choose FBM Unselect 0 choose DBM , FBMSol should be unselected 
+        @Version V7.0 
+        */
+        persistent bool fbm_dbm = false;
+
+        /**
+        Enable t1413 modulation ( ANSI )
+        @Version V7.0 
+        */
+        persistent bool mod_t1413_only = false;
+
+        /**
+        Enable G.lite modulation
+        @Version V7.0 
+        */
+        persistent bool mod_glite_only = false;
+
+        /**
+        Enable G.DMT modulation
+        @Version V7.0 
+        */
+        persistent bool mod_gdmt_only = false;
+        /*adsl2Param:*/
+
+        /**
+        Enable Annex M p5 
+        @Version V7.0 
+        */
+        persistent bool annex_mp5 = false;
+
+        /**
+        Enable Annex M p3 
+        @Version V7.0 
+        */
+        persistent bool annex_mp3 = false;
+
+        /**
+        Enable Annex M only 
+        @Version V7.0 
+        */
+        persistent bool annex_m_only = false;
+
+        /**
+        Enable Annex L Downsteam Overlap 
+        @Version V7.0 
+        */
+        persistent bool annex_ldnovlap = false;
+
+        /**
+        Enable Annex L Upstream Narrow
+        @Version V7.0 
+        */
+        persistent bool annex_lu_upnarrow = false;
+
+        /**
+        Enable Annex L Upstream wide
+        @Version V7.0 
+        */
+        persistent bool annex_lu_upwide = false;
+
+        /**
+        Enable Annex M custom PSD 
+        @Version V7.0 
+        */
+        persistent bool annex_m_custom_psd = false;
+
+        /**
+        Enable Annex M Upstream 64 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up64 = false;
+
+        /**
+        Enable Annex M Upstream 60 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up60 = false;
+
+        /**
+        Enable Annex M Upstream 56 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up56 = false;
+
+        /**
+        Enable Annex M Upstream 52 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up52 = false;
+
+        /**
+        Enable Annex M Upstream 48 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up48  = false;
+
+        /**
+        Enable Annex M Upstream 44 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up44 = false;
+
+        /**
+        Enable Annex M Upstream 40 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up40 = false;
+
+        /**
+        Enable Annex M Upstream 36 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up36 = false;
+
+        /**
+        Enable Annex M Upstream 32 tones
+        @Version V7.0 
+        */
+        persistent bool annex_m_up32 = false;
+
+        /**
+        Enable admit Annex M modulation sync
+        @Version V7.0 
+        */
+        persistent bool annex_m = false;
+
+        /**
+        Enable Adsl2 Reach Extension loop
+        @Version V7.0 
+        */
+        persistent bool reach_ex_on = false;
+
+        /**
+        Enable 17a US0 Mask
+        @Version V7.0 
+        */
+        persistent bool us0_mask_17a = false;
+
+        /**
+        Enable 12b US0 Mask
+        @Version V7.0 
+        */
+        persistent bool us0_mask_12b = false;
+
+        /**
+        Enable 12a US0 Mask
+        @Version V7.0 
+        */
+        persistent bool us0_mask_12a = false;
+
+        /**
+        Enable 8d US0 Mask
+        @Version V7.0 
+        */
+        persistent bool us0_mask_8d = false;
+
+        /**
+        Enable 8c US0 Mask
+        @Version V7.0 
+        */
+        persistent bool us0_mask_8c = false;
+
+        /**
+        Enable 8b US0 Mask
+        @Version V7.0 
+        */
+        persistent bool us0_mask_8b = false;
+
+        /**
+        Enable 8a US0 Mask
+        @Version V7.0 
+        */
+        persistent bool us0_mask_8a = false;
+
+        /**
+        Enable profile 30a
+        @Version V7.0 
+        */
+        persistent bool profile_30a = false;
+
+        /**
+        Enable profile 17a
+        @Version V7.0 
+        */
+        persistent bool profile_17a = false;
+
+        /**
+        Enable profile 12b
+        @Version V7.0 
+        */
+        persistent bool profile_12b = false;
+
+        /**
+        Enable profile 12a
+        @Version V7.0 
+        */
+        persistent bool profile_12a = false;
+
+        /**
+        Enable profile 8d
+        @Version V7.0 
+        */
+        persistent bool profile_8d = false;
+
+        /**
+        Enable profile 8c
+        @Version V7.0 
+        */
+        persistent bool profile_8c = false;
+
+        /**
+        Enable profile 8b
+        @Version V7.0 
+        */
+        persistent bool profile_8b = false;
+
+        /**
+        Enable profile 8a
+        @Version V7.0 
+        */
+        persistent bool profile_8a = false;
+    }
+}
+
+

@@ -1,0 +1,169 @@
+@prefix nao: <http://www.semanticdesktop.org/ontologies/2007/08/15/nao#> .
+@prefix nie: <http://www.semanticdesktop.org/ontologies/2007/01/19/nie#> .
+@prefix nrl: <http://www.semanticdesktop.org/ontologies/2007/08/15/nrl#> .
+@prefix nco: <http://www.semanticdesktop.org/ontologies/2007/03/22/nco#> .
+@prefix nfo: <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix tracker: <http://www.tracker-project.org/ontologies/tracker#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sah: <http://www.softathome.com/ontologies/2014/08/20/sah#> .
+@prefix mto: <http://www.tracker-project.org/temp/mto#> .
+
+sah: a tracker:Namespace, tracker:Ontology ;
+	tracker:prefix "sah" ;
+	nao:lastModified "2014-09-16T17:35:00Z" .
+
+sah:owner a rdf:Property ;
+	rdfs:label "owner" ;
+	rdfs:comment "The nco:Contact owning the resource. Webservices filter by this." ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain rdfs:Resource ;
+	rdfs:range nco:Contact ;
+	tracker:indexed true .
+
+#
+# Privacy ontology, very simple.
+# should use PIMO eventually. Not yet in Tracker though.
+#
+sah:Privacy a rdfs:Class ;
+	rdfs:label "Privacy";
+	rdfs:comment "Predefined set of privacy levels" ;
+	rdfs:subClassOf rdfs:Resource .
+
+sah:privacy-full a sah:Privacy .
+sah:privacy-limited a sah:Privacy .
+sah:privacy-public a sah:Privacy .
+
+sah:privacy a rdf:Property ;
+	rdfs:label "privacy" ;
+	rdfs:comment "The sah:Privacy for a given resource" ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain rdfs:Resource ;
+	rdfs:range sah:Privacy ;
+	tracker:indexed true .
+
+sah:privacyGroup a rdf:Property ;
+	rdfs:label "privacyGroup" ;
+	rdfs:comment "One or more nco:ContactGroup properties for those with access to the resource." ;
+	rdfs:domain rdfs:Resource ;
+	rdfs:range nco:ContactGroup .
+
+#
+# Device ontology, very simple.
+# Should use DDO eventually. Not yet in Tracker though.
+#
+sah:Device a rdfs:Class ;
+	rdfs:label "Device";
+	rdfs:comment "Used to subclass tracker:Volume with some specific properties" ;
+	rdfs:subClassOf tracker:Volume .
+
+sah:DeviceType a rdfs:Class ;
+	rdfs:label "DeviceType";
+	rdfs:comment "Predefined set of device types" ;
+	rdfs:subClassOf rdfs:Resource .
+
+sah:device-type-unknown a sah:DeviceType .
+sah:device-type-dlna a sah:DeviceType .
+sah:device-type-occ a sah:DeviceType .
+sah:device-type-est a sah:DeviceType .
+sah:device-type-records a sah:DeviceType .
+sah:device-type-fs a sah:DeviceType .
+sah:device-type-app a sah:DeviceType .
+
+sah:deviceManufacturer a rdf:Property ;
+	rdfs:label "deviceManufacturer" ;
+	rdfs:comment "The manufacturer of the equipment" ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain sah:Device ;
+	rdfs:range xsd:string .
+
+sah:deviceType a rdf:Property ;
+	rdfs:label "deviceType" ;
+	rdfs:comment "The sah:DeviceType for a device" ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain sah:Device ;
+	rdfs:range sah:DeviceType .
+
+sah:DeviceAlias a rdfs:Class ;
+	rdfs:label "DeviceAlias" ;
+	rdfs:comment "Device for a specific user. There are many sah:DeviceAlias classes to one sah:Device, each one is for an enabled user giving them the ability to also name that device personnally with nie:title" ;
+	rdfs:subClassOf nie:InformationElement .
+
+sah:device a rdf:Property ;
+	rdfs:label "device" ;
+	rdfs:comment "The sah:Device for a given sah:DeviceAlias" ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain rdfs:Resource ;
+	rdfs:range sah:DeviceAlias ;
+	tracker:indexed true .
+
+#
+# Small additions needed for metadata
+#
+sah:converted a rdf:Property ;
+	rdfs:label "converted" ;
+	rdfs:comment "If a media or data object was converted, for example, for transcoding, then this property exists and is set to 'true' otherwise, it's unset. It's usually unset for only one resource mentioned in hasPart for the nfo:Container class it belongs to - the original data object." ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain nie:DataObject ;
+	rdfs:range xsd:boolean .
+
+
+#
+# Content states, synchronization & deletion
+
+sah:State a rdfs:Class ;
+	rdfs:label "State" ;
+	rdfs:comment "state class" ;
+	tracker:notify true ;
+	rdfs:subClassOf nie:InformationElement .
+
+sah:StateValue a rdfs:Class ;
+	rdfs:label "StateValue";
+	rdfs:comment "Predefined set of states values" ;
+	rdfs:subClassOf rdfs:Resource .
+
+sah:state-unknown a sah:StateValue .
+sah:state-indexing a sah:StateValue .
+sah:state-indexed a sah:StateValue .
+sah:state-enriching a sah:StateValue .
+sah:state-enriched a sah:StateValue .
+sah:state-synchronizing a sah:StateValue .
+sah:state-synchronized a sah:StateValue .
+
+sah:syncDate a rdf:Property ;
+	rdfs:label "syncDate" ;
+	rdfs:comment "last synchronization date" ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain sah:State ;
+	rdfs:range xsd:string .
+
+sah:update a rdf:Property ;
+	rdfs:label "update" ;
+	rdfs:comment "flag to inform that the content has been updated";
+	nrl:maxCardinality 1 ;
+	rdfs:domain sah:State ;
+	rdfs:range xsd:boolean .
+
+sah:delete a rdf:Property ;
+	rdfs:label "delete" ;
+	rdfs:comment "flag to inform that a delete is pending";
+	nrl:maxCardinality 1 ;
+	rdfs:domain sah:State ;
+	rdfs:range xsd:boolean .
+
+sah:state a rdf:Property ;
+	rdfs:label "state" ;
+	rdfs:comment "state of a content state: indexing, indexed, enriching, enriched..." ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain sah:State ;
+	rdfs:range sah:StateValue .
+
+sah:contentState a rdf:Property ;
+	rdfs:label "contentState" ;
+	rdfs:comment "linked to an element that gives informations about the content state " ;
+	tracker:indexed true ;
+	nrl:maxCardinality 1 ;
+	rdfs:domain nfo:DataContainer ;
+	rdfs:range sah:State .
+

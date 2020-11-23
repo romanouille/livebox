@@ -1,0 +1,148 @@
+using "hosts/tr181_hosts.so";
+object Hosts {
+uint32 HostNumberOfEntries;
+uint32 X_ORANGE-COM_MaximumHosts;
+object Host [] {
+string Alias;                             
+string PhysAddress;                       
+string IPAddress;                         
+string AddressSource;                     
+int32 LeaseTimeRemaining;                 
+string DHCPCLient;                        
+string AssociatedDevice;                  
+string Layer1Interface;                   
+string Layer3Interface;                   
+string VendorClassID;                     
+string ClientID;                          
+string UserClassID;                       
+string HostName;                          
+bool Active;                              
+uint32 IPv4AddressNumberOfEntries;        
+object IPv4Address {
+string IPAddress;                     
+}
+uint32 IPv6AddressNumberOfEntries;        
+object IPv6Address {
+string IPAddress;                     
+}
+string VendorClassIDv6;                   
+string X_ORANGE-COM_AccessPoint;                  
+string X_ORANGE-COM_AccessPointLayer1Interface;   
+string X_ORANGE-COM_AccessPointLayer3Interface;   
+string X_ORANGE-COM_InterfaceType;                
+string X_ORANGE-COM_DetectedDeviceType;           
+datetime X_ORANGE-COM_LastConnection;             
+string X_ORANGE-COM_UserFriendlyName;             
+string X_ORANGE-COM_UserHostName;                 
+string X_ORANGE-COM_UserDeviceType;               
+string X_ORANGE-COM_Icon;                         
+string X_ORANGE-COM_Room;                         
+bool X_ORANGE-COM_Blacklisted;                    
+bool X_ORANGE-COM_Hidden;                         
+object X_ORANGE-COM_DHCPOption {
+string Alias;                         
+uint32 Tag;                           
+string Value;                         
+}
+string X_ORANGE-COM_ManufacturerOUI;              
+string X_ORANGE-COM_ProductClass;                 
+string X_ORANGE-COM_SerialNumber;                 
+string X_ORANGE-COM_HostName;                     
+string X_ORANGE-COM_LinkSpeed;                    
+}
+}
+datamodel {
+object Hosts from "pcb://$(PCB_MAIN_BUS)/Hosts" recursive {
+accept parameter"X_ORANGE-COM_MaximumHosts";
+drop parameter "^ManageableDeviceNumberOfEntries$";
+drop function ".*";
+drop object "(Config|ManageableDevice)";
+accept object "^Host$" {
+drop parameter ".*";
+accept object ".*" {
+accept request parameter "PhysAddress" {
+rename with rename_HostsPhysAddress_Name;
+}
+accept object parameter "MACAddress" {
+rename with rename_HostsPhysAddress_Name;
+}
+accept parameter "X_ORANGE-COM_DetectedTypes";
+accept parameter "X_ORANGE-COM_DeviceType";
+accept parameter "X_ORANGE-COM_UPnPFriendlyNames";
+accept parameter "X_ORANGE-COM_mDNSServicesNames";
+accept parameter "(IPAddress)";
+accept parameter "(AddressSource)";
+accept parameter "(LeaseTimeRemaining)";
+accept parameter "(VendorClassID)";
+accept parameter "(ClientID)";
+accept parameter "(UserClassID)";
+accept parameter "X_ORANGE-COM_LLTDDevice";
+accept request parameter "X_ORANGE-COM_HostName" {
+rename with rename_HostName;
+}
+accept object parameter "HostName" {
+rename with rename_HostName;
+}
+accept parameter "(Active)";
+accept parameter "(IPv4AddressNumberOfEntries)";
+accept parameter "(IPv6AddressNumberOfEntries)";
+accept request parameter "X_ORANGE-COM_InterfaceType" {
+rename with rename_InterfaceType;
+}
+accept object parameter "InterfaceType" {
+rename with rename_InterfaceType;
+}
+accept request parameter "X_ORANGE-COM_LastConnection" {
+rename with rename_LastConnection;
+}
+accept object parameter "X_ORANGE-COM_LastChange" {
+rename with rename_LastConnection;
+}
+accept request parameter "X_ORANGE-COM_ManufacturerOUI" {
+rename with rename_ManufacturerOUI;
+}
+accept object parameter "ManufacturerOUI" {
+rename with rename_ManufacturerOUI;
+}
+accept request parameter "X_ORANGE-COM_ProductClass" {
+rename with rename_ProductClass;
+}
+accept object parameter "ProductClass" {
+rename with rename_ProductClass;
+}
+accept request parameter "X_ORANGE-COM_SerialNumber" {
+rename with rename_SerialNumber;
+}
+accept object parameter "SerialNumber" {
+rename with rename_SerialNumber;
+}
+accept parameter "(Tags)";
+accept parameter "X_ORANGE-COM_mDNSServiceNumberOfEntries";
+accept parameter "X_ORANGE-COM_UPnPDeviceNumberOfEntries";
+accept parameter "X_ORANGE-COM_DeviceNamesNumberOfEntries";
+drop parameter ".*";
+accept object "IPv4Address";
+accept object "IPv6Address";
+accept object "mDNSService";
+accept object "X_ORANGE-COM_DeviceNames";
+accept object "UPnP" {
+accept object "^Device$" {
+drop parameter ".*";
+accept object ".*" {
+accept parameter "(Status|UUID|USN|Location|Server|DeviceType|FriendlyName|Manufacturer|ManufacturerURL|ModelName|ModelURL|PresentationURL)";
+drop parameter ".*";
+accept object "^Icon$" {
+drop parameter ".*";
+accept object ".*" {
+accept parameter "(URL|MimeType)";
+drop parameter ".*";
+}
+}
+}
+}
+}
+drop object  ".*";
+}
+}
+}
+}

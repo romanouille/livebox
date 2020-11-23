@@ -1,0 +1,52 @@
+datamodel {
+object LED {
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+}
+instance of LED(1, "Power Led") {
+parameter Name="Power Led";
+parameter Colors="Green";
+parameter SupportedStates="Off,Solid,FlashSlow,FlashFast";
+parameter Color="Green";
+parameter State="FlashSlow";
+}
+instance of LED(2, "Internet Led") {
+parameter Name="Internet Led";
+parameter Colors="Green,Orange,Red";
+parameter SupportedStates="Off,Solid,FlashSlow,FlashFast";
+parameter Color="Red";
+parameter State="FlashFast";
+}
+instance of LED(3, "VoIP Led") {
+parameter Name="VoIP Led";
+parameter Colors="Green";
+parameter SupportedStates="Off,Solid,FlashSlow,FlashFast";
+parameter Color="Green";
+parameter State="Off";
+}
+instance of LED(4, "Lan Led") {
+parameter Name="Lan Led";
+parameter Colors="Green";
+parameter SupportedStates="Off,Solid,FlashSlow,FlashFast";
+parameter Color="Green";
+parameter State="Off";
+}
+instance of LED(5, "Wifi Led") {
+parameter Name="Wifi Led";
+parameter Colors="Green";
+parameter SupportedStates="Off,Solid,FlashSlow,FlashFast";
+parameter Color="Green";
+parameter State="Off";
+}
+instance of LED(6, "Upgrade Led") {
+parameter Name="Upgrade Led";
+parameter Colors="Blue";
+parameter SupportedStates="Off,Solid,FlashSlow,FlashFast";
+parameter Color="Blue";
+parameter State="Off";
+}
+}

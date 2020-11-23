@@ -1,0 +1,29 @@
+#!/bin/sh
+
+start()
+{
+    # Launch file plugin
+    LD_LIBRARY_PATH=/lib:/usr/lib:/usr/lib/tracker-1.0 data-indexer -u files 2>/dev/null &
+}
+
+stop()
+{
+    killall data-indexer
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        sleep 1
+        start
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart]"
+        ;;
+esac

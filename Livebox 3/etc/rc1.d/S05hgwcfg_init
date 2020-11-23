@@ -1,0 +1,56 @@
+#!/bin/sh
+
+HGWCFGDEF=/etc/defaults/hgwcfg.def
+
+case $1 in
+	start)
+		if [ ! -e /var/run/hgwcfg ]
+		then
+			mkdir /var/run/hgwcfg
+			mount -t tmpfs -o noexec,nosuid,nodev tmpfs /var/run/hgwcfg
+			chmod 777 /var/run/hgwcfg
+		fi
+
+		HGWCFGTMP="/var/run/hgwcfg/hgwcfg.tmp"
+		HGWCFGUSR="/etc/config/hgwcfg.usr"
+		HGWCFGISP="/etc/config/hgwcfg.isp"
+		HGWCFGRESTORE="/etc/config/hgwcfg.restore"
+		TEMPLATE="/etc/defaults/hgwcfg.template"
+		ISPTEMPLATE="/etc/defaults/hgwcfg-isp.template"
+
+		touch /var/run/hgwcfg/hgwcfg.lock
+		chmod 600 /var/run/hgwcfg/hgwcfg.lock
+
+		[ ! -f $HGWCFGDEF ] && exit 0
+
+		if [ ! -f /etc/config/db_ready ]
+		then
+			restorefile=""
+			if [ -f "$HGWCFGRESTORE" ]; then
+				restorefile="$HGWCFGRESTORE"
+			elif [ -f "$HGWCFGUSR" ]; then
+				restorefile="$HGWCFGUSR"
+			fi
+			if [ -n "$restorefile" ]; then
+				hgwcfg_scrub "$restorefile" "$HGWCFGTMP"
+				rm -f "$HGWCFGUSR"
+				hgwcfg_strip "$HGWCFGTMP" "$TEMPLATE" "$HGWCFGUSR" > /dev/null
+				chmod 600 "$HGWCFGUSR"
+				if [ -e "$ISPTEMPLATE" ]; then
+					hgwcfg_strip "$HGWCFGISP" "$ISPTEMPLATE" "$HGWCFGISP" > /dev/null
+				fi
+				rm -f "$HGWCFGTMP"
+				rm -f "$HGWCFGRESTORE"
+				sync
+			fi
+			hgwcfg.sh exec_restore_scripts
+		fi
+		;;
+	stop)
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+		;;
+esac
+
+

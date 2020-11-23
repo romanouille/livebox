@@ -1,0 +1,74 @@
+object RouterAdvertisement {
+object  InterfaceSetting [] {
+bool    Enable;
+read-only string  Status;
+read-only string  Alias;
+read-only string  Interface;
+read-only  string  ManualPrefixes;
+read-only  string  Prefixes;
+uint32  MaxRtrAdvInterval;
+uint32  MinRtrAdvInterval;
+bool    AdvManagedFlag;
+bool    AdvOtherConfigFlag;
+bool    AdvMobileAgentFlag;
+string  AdvPreferredRouterFlag;
+bool    AdvNDProxyFlag;
+uint32  AdvLinkMTU;
+uint32  AdvReachableTime;
+uint32  AdvRetransTimer;
+uint32  AdvCurHopLimit;
+uint32  AdvDefaultLifetime;
+uint32  X_ORANGE-COM_DefaultAdvRDNSSLifetime;
+uint32  X_ORANGE-COM_DefaultAdvDNSSLLifetime;
+uint32  X_ORANGE-COM_DefaultAdvValidLifetime;
+uint32  X_ORANGE-COM_DefaultAdvPreferredLifetime;
+}
+}
+datamodel {
+object RouterAdvertisement {
+instance of InterfaceSetting (0,"BR_LAN") {
+parameter   Alias="BR_LAN";
+destination "pcb://$(PCB_MAIN_BUS)/RouterAdvertisement/InterfaceSetting/lan" {
+parameter   Enable;
+parameter   Status;
+parameter   Interface;
+parameter   MaxRtrAdvInterval;
+parameter   MinRtrAdvInterval;
+parameter   AdvManagedFlag;
+parameter   AdvOtherConfigFlag;
+parameter   AdvMobileAgentFlag;
+parameter   AdvPreferredRouterFlag;
+parameter   AdvNDProxyFlag;
+parameter   AdvLinkMTU;
+parameter   AdvReachableTime;
+parameter   AdvRetransTimer;
+parameter   AdvCurHopLimit;
+parameter   AdvDefaultLifetime;
+parameter   X_ORANGE-COM_DefaultAdvRDNSSLifetime from AdvRDNSSLifetime;
+parameter   X_ORANGE-COM_DefaultAdvDNSSLLifetime from AdvDNSSLLifetime;
+}
+}
+instance of InterfaceSetting (0,"BR_GUEST") {
+parameter   Alias="BR_GUEST";
+destination "pcb://$(PCB_MAIN_BUS)/RouterAdvertisement/InterfaceSetting/guest" {
+parameter   Enable;
+parameter   Status;
+parameter   Interface;
+parameter   MaxRtrAdvInterval;
+parameter   MinRtrAdvInterval;
+parameter   AdvManagedFlag;
+parameter   AdvOtherConfigFlag;
+parameter   AdvMobileAgentFlag;
+parameter   AdvPreferredRouterFlag;
+parameter   AdvNDProxyFlag;
+parameter   AdvLinkMTU;
+parameter   AdvReachableTime;
+parameter   AdvRetransTimer;
+parameter   AdvCurHopLimit;
+parameter   AdvDefaultLifetime;
+parameter   X_ORANGE-COM_DefaultAdvRDNSSLifetime from AdvRDNSSLifetime;
+parameter   X_ORANGE-COM_DefaultAdvDNSSLLifetime from AdvDNSSLLifetime;
+}
+}
+}
+}

@@ -1,0 +1,6 @@
+{
+  "status": 0,
+  "data": {
+    "bouquetList": ["DVBT_CHANNEL_TV", "DVBT_CHANNEL_RADIO", "DVBT_CHANNEL_OTHER"]
+  }
+}

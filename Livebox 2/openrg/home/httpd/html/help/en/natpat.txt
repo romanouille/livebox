@@ -1,0 +1,9 @@
+<b>Port range redirection:</b><br>
+<br>
+Certain applications need specific ports to be open to operate correctly. This can be the case for certain online games, FTP, e-mail and web servers, etc. Certain Internet applications may not require any redirection. If a request is received from the Internet for a specific port, the router transfers the data to the corresponding computer. For security reasons you may wish to enable or disable port transfers when they are not in use. This can be done using the Enable check box.<br>
+The Trash icon can be used to delete rules from the table.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

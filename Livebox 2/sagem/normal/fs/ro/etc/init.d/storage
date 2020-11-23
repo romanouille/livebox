@@ -1,0 +1,60 @@
+#!/bin/sh
+
+ODL="/usr/lib/storage/storage.odl"
+PID="/var/run/storage.pid"
+
+plugboot() {
+    for PHYSDEV in $(find /sys/block -maxdepth 1 -name 'sd*'); do
+        PHYSDEV="$(basename ${PHYSDEV})"
+        ACTION=add MDEV="${PHYSDEV}" /usr/lib/storage/mdev.sh
+        for LOGDEV in $(find "/sys/block/${PHYSDEV}/" -maxdepth 1 -type d -name "${PHYSDEV}*" | tail -n +2); do
+            ACTION=add MDEV="$(basename ${LOGDEV})" /usr/lib/storage/mdev.sh
+        done
+    done
+}
+
+start() {
+    FS_MODULE_PATH="/lib/modules/$(uname -r)/kernel/fs"
+    if [ -d "${FS_MODULE_PATH}" ]; then
+        for MODULE in $(find "${FS_MODULE_PATH}" -type f -name '*.ko'); do
+            modprobe -q "${MODULE}"
+        done
+    fi
+
+    if [ -e "${PID}" ]; then
+        echo "storage service already started"
+        exit 1;
+    fi
+    mkdir -p /var/usbmount
+    pcb_plugin -n storage -c "${ODL}" -vv
+    plugboot
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID)
+    else
+        echo "storage not running"
+        exit 1
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+    	status
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status]"
+        ;;
+esac

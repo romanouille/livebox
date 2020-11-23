@@ -1,0 +1,56 @@
+
+
+object Services {
+
+    object X_ORANGE-COM_SSH[] {
+        bool Enable;
+        string AuthorizedAddresses;
+    }
+
+    object X_ORANGE-COM_VerboseLog {
+        bool Enable;
+        uint32 PeriodicInterval;
+        string CollectorURL;
+    }
+}
+
+
+object Users {
+
+    object User [] {
+        string Alias;
+        string Password;
+    }
+}
+
+
+datamodel {
+
+    object Services {
+
+        instance of X_ORANGE-COM_SSH(0, "WAN") {
+            destination "pcb://$(PCB_MAIN_BUS)/DeviceManagement/SSH/remote" {
+                parameter Enable from Enable;
+                parameter AuthorizedAddresses from SourcePrefix;
+            }
+        }
+
+        object X_ORANGE-COM_VerboseLog {
+            destination "pcb://$(PCB_MAIN_BUS)/DeviceManagement/BulkData/Profile/Default" {
+                parameter Enable from Enable;
+                parameter PeriodicInterval from ReportingInterval;
+                parameter CollectorURL from FileTransferURL;
+            }
+        }
+    }
+
+    object Users {
+        instance of User(0, "ssh") {
+            parameter Alias = "supportssh";
+            destination "pcb://$(PCB_MAIN_BUS)/DeviceManagement" {
+                parameter Password from SSHPassword;
+            }
+        }
+    }
+}
+

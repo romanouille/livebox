@@ -1,0 +1,16 @@
+<div id="pageBody" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<!--**********************
+	     USING B9 MENU in GWT 
+	    **********************
+	<div class="leftMenu">
+		<ul>
+			<li widgetType="VisibleDependent" widgetArg="{id : 'menuserviceinternet', value : 'true'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1.m10'" i18n="menuServices.internet"></a></li>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1.m11'" i18n="menuServices.phone"></a></li>
+			<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1.m13'" i18n="menuServices.wifiaccess"></a></li>
+			<li id="meshNework"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1.m14'" i18n="menuServices.meshLb"></a></li>
+		</ul>
+	</div>
+	-->
+	<div id="content"></div>
+	<div class="clear"/>
+</div>

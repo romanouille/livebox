@@ -1,0 +1,46 @@
+<div id="natpat" xmlns="http://www.orange.com/xhtml/engine/loose">
+  <div class="boxType3">
+  	<div id="helpPage">
+		<a  id="help" href="javascript:;">
+		<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+		</a>
+	</div>
+	<h1 class="logo_param" i18n="menuNetwork.natpat"/>
+	<div class="margin-left-40 margin-top-m8">
+		<span i18n="page.myNetwork.natpat.subtitle"/>
+	</div>	
+	<!-- <h4 i18n="page.myNetwork.natpat.label"/> -->	
+ </div>
+	<div class="maindiv">		
+		<form action="#">
+			<div class="natpatCloud ">
+				<div class="natpatLeft">						
+					<span i18n="page.myNetwork.natpat.togw"/>&#160;<span class="orange" id="externalport" i18n="page.myNetwork.natpat.extport"/>
+				</div>
+           
+				<div class="natpatRight">
+					<span i18n="page.myNetwork.natpat.toserver"/>&#160;<span class="orange" id="internalport" i18n="page.myNetwork.natpat.intport"/>
+				</div>
+			</div>
+            <div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.myNetwork.natpat.redirections"/>
+			<br/>
+			 <!-- <div id="natpatTable" dataId="Device/NAT/PortMappings/PortMapping[Creator='USER']" widgetType="Table" widgetArg="{selectable: true, extendable: true, deletable: true}" i18n="page.myNetwork.natpat.redirections"> -->
+			 <div id="natpatTable" dataId="Device/NAT/PortMappings/PortMapping[Creator='USER']" widgetType="Table" widgetArg="{selectable: true, extendable: true, deletable: true}" i18n="page.myNetwork.natpat.redirections">
+				<span i18n="page.myNetwork.natpat.redirections.appliservice" widgetType="TableColumn" widgetArg="{attr: 'Description', editable: true, editNodeAttrs: {errnodeparent: 'natpatTableErr'}, sortable: false}" required="true"/>
+				<span i18n="page.myNetwork.natpat.redirections.extport" widgetType="TableColumn" widgetArg="{attr: 'ExternalPortRange', editable: true, editWidgetType: 'PortRange', editNodeAttrs: {errnodeparent: 'natpatTableErr'}, sortable: false}" required="true" i18nError="page.myNetwork.natpat.redirections.extport.error"/>
+				<span i18n="page.myNetwork.natpat.redirections.intport" widgetType="TableColumn" widgetArg="{attr: 'InternalPortRange', editable: true, editWidgetType: 'PortRange', editNodeAttrs: {errnodeparent: 'natpatTableErr'}, sortable: false}" required="true" i18nError="page.myNetwork.natpat.redirections.intport.error"/>
+				<span i18n="page.myNetwork.natpat.redirections.protocol" widgetType="TableColumn"	widgetArg="{attr: 'Protocol', editable: true, editNodeName: 'select', sortable: false}" enumerated="['ALL','TCP','UDP','ICMP','GRE','ESP','AH']" i18nPrefix="page.myNetwork.natpat.redirections.protocol"/>
+				<span i18n="page.myNetwork.natpat.redirections.equipmentip" widgetType="TableColumn" widgetArg="{attr: 'InternalClient', editable: true, editNodeAttrs: {errnodeparent: 'natpatTableErr'}, sortable: false}" namedregex="ipaddress" i18nError="page.myNetwork.natpat.redirections.equipmentip.error"/>
+				<!-- <span i18n="page.myNetwork.natpat.redirections.order" widgetType="TableColumn" widgetArg="{attr: 'Order', sortable: false, editable: true, editWidgetType: 'NatpatOrder'}"/> -->
+				<span i18n="common.activate" widgetType="TableColumn"	widgetArg="{attr: 'Enable', editable: true, booleanSetAll: true, editNodeAttrs: {type: 'checkbox'}, sortable: false}" i18nPrefix="page.myNetwork.natpat.redirections.activate"/>
+			</div>
+			<div id="natpatTableErr" class="error table"/>
+			</div>
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnCancel" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span id="btnSave" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myNetwork.natpat.save"/>
+			</div>
+		</form>
+	</div>
+</div>

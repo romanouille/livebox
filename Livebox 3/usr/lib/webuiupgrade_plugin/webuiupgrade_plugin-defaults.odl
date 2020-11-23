@@ -1,0 +1,86 @@
+datamodel {
+object WebuiupgradeService {
+acl {
+group cwmpd read, write;
+}
+function openfile {
+acl {
+group cwmpd none;
+}
+}
+function verifyRUIVersion {
+acl {
+group cwmpd none;
+}
+}
+parameter SOPMinimumVersion {
+acl {
+group cwmpd none;
+}
+}
+parameter URL  {
+acl {
+group cwmpd none;
+}
+}
+parameter MinimumDelay  {
+acl {
+group cwmpd none;
+}
+}
+parameter LastSyncTime {
+acl {
+group cwmpd none;
+}
+}
+parameter MaxCachedVersionAge {
+acl {
+group cwmpd none;
+}
+}
+parameter NewVersion {
+acl {
+group cwmpd none;
+}
+}
+parameter Enable {
+acl {
+group cwmpd read, write;
+}
+}
+parameter Enable="false";
+parameter Status {
+acl {
+group cwmpd none;
+}
+}
+function getLatestVersion {
+acl {
+group admin execute;
+group remoteadmin execute;
+group cwmpd none;
+}
+}
+function upgrade  {
+acl {
+group admin execute;
+group remoteadmin execute;
+group cwmpd none;
+}
+}
+function import {
+acl {
+group admin none;
+group remoteadmin none;
+group cwmpd none;
+}
+}
+function export {
+acl {
+group admin none;
+group remoteadmin none;
+group cwmpd none;
+}
+}
+}
+}

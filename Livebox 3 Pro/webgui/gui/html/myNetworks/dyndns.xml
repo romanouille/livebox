@@ -1,0 +1,42 @@
+<div id="dyndns" xmlns="http://www.orange.com/xhtml/engine/loose">
+ <div class="boxType3">
+   <div id="helpPage">
+		<a  id="help" href="javascript:;">
+		<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+		</a>
+	</div>
+	<h1 class="logo_param grey" i18n="menuNetwork.dyndns"/>
+	<h4 i18n="page.myNetwork.dyndns.subtitle"/>	
+	<!-- <h4 i18n="page.myNetwork.dyndns.label"/> -->
+	
+ </div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 border-bottom-3">
+			<span class="h3Text" i18n="page.myNetwork.dyndns.table"/>
+			<!-- <div class="forminput">
+				<span class="forminput-label" i18n="common.refresh"/>
+				<div widgetType="ButtonContainer" class="inline">
+					<span id="btnRefresh" widgetType="Button" widgetArg="{type: 'simple'}" class="refresh" i18n="common.refreshtip"/>
+				</div>
+			</div> -->
+			<br/><br/>
+
+			<div id="dyndnsTable" widgetType="Table" dataId="Device/DynamicDNS/DynDNS"
+				widgetArg="{extendable: true, deletable: true}" i18n="page.myNetwork.dyndns.table">
+				<span i18n="page.myNetwork.dyndns.service" widgetType="TableColumn" widgetArg="{attr: 'Service', editable: true, sortable: false, editNodeName: 'select'}" enumerated="['NO_IP', 'DYNDNS', 'DTDNS', 'STATDNS', 'CUSTOM']" i18nPrefix="page.myNetwork.dyndns.service.names"/>
+				<span i18n="page.myNetwork.dyndns.hostname" widgetType="TableColumn" widgetArg="{attr: 'Name', editable: true, sortable: false, editNodeAttrs: {errnodeparent: 'dyndnsTableErr'}}" required="true"/>
+				<span i18n="page.myNetwork.dyndns.ident" widgetType="TableColumn" widgetArg="{attr: 'UserName', editable: true, sortable: false, editNodeAttrs: {errnodeparent: 'dyndnsTableErr'}}" required="true"/>
+				<span i18n="page.myNetwork.dyndns.password" widgetType="TableColumn"	widgetArg="{attr: 'Password', editWidgetType: 'Password', editWidgetArg: {char: '•', period: 2000}, editable: true, sortable: false, editNodeAttrs: {errnodeparent: 'dyndnsTableErr'}}" required="true"/>
+				<span i18n="page.myNetwork.dyndns.lastupdate" widgetType="TableColumn" widgetArg="{attr: 'LastUpdate', viewWidgetType: 'Timestamp', viewWidgetArg: 'dddd dd mmmm yyyy'}" />
+				<span i18n="common.activate" widgetType="TableColumn"	widgetArg="{attr: 'Enable', editable: true, sortable: false, booleanSetAll: true, editNodeAttrs: {type: 'checkbox'}}" i18nPrefix="page.myNetwork.dyndns.activate"/>
+			</div>
+			<div id="dyndnsTableErr" class="error table"/>
+		</div>
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myNetwork.dyndns.save"/>
+			</div>	
+		</form>
+	</div>
+</div>

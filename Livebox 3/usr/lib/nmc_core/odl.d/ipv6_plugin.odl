@@ -1,0 +1,53 @@
+using "../nmccore_ipv6.so";
+persistent object NMC {
+persistent object IPv6 {
+persistent bool Enable {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+persistent bool UserRequested {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+persistent bool IPv4UserRequested {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+persistent string UsernameSuffix {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+void set(in bool Enable, in bool UserRequested, in bool IPv4UserRequested) {
+acl {
+world none;
+}
+}
+void get(out bool Enable, out string IPv6Address) {
+acl {
+world none;
+}
+}
+void reset() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}

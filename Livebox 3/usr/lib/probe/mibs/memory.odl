@@ -1,0 +1,6 @@
+mib memory {
+persistent bool Enable;
+persistent uint32 GlobalInterval;
+persistent uint32 PerProcessInterval;
+persistent uint32 MemThreshold;
+}

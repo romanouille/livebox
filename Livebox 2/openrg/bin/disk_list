@@ -1,0 +1,1 @@
+fdisk -l |grep Disk | cut -d' ' -f2,3,4 | tr -d ',' | tr -d ':' | cut -b6- | tr ' ' ':' >  /tmp/disk_list.txt

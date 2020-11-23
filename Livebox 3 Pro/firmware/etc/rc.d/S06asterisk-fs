@@ -1,0 +1,19 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+
+START=06
+ 
+UBIDEV=/dev/ubi0
+
+start() {
+	# Create partition if not exist and mount it
+	if [ "`grep mevo /proc/mtd`" == "" ]; then
+		ubimkvol $UBIDEV -N mevo -s 31600000 -t dynamic
+	fi
+	mkdir -p /usr/spool/asterisk/voicemail/default
+	mount -t ubifs ubi!mevo /usr/spool/asterisk/voicemail/default -o sync
+}
+
+stop() {
+	umount /usr/spool/asterisk/voicemail/default
+}

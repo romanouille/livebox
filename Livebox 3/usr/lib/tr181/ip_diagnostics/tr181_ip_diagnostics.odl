@@ -1,0 +1,46 @@
+object IP {
+object Diagnostics {
+object UDPEchoConfig {
+string Interface;
+string X_ORANGE-COM_SourceV4HostName;
+string X_ORANGE-COM_SourceV6HostName;
+string X_ORANGE-COM_SourceV4Ip;
+string X_ORANGE-COM_SourceV6Ip;
+uint32 UDPPort;
+bool EchoPlusEnabled;
+bool EchoPlusSupported;
+read-only uint32 PacketsReceived;
+read-only uint32 PacketsResponded;
+read-only uint32 BytesReceived;
+read-only uint32 BytesResponded;
+read-only datetime TimeFirstPacketReceived;
+read-only datetime TimeLastPacketReceived;
+bool Enable;
+}
+}
+}
+datamodel {
+object IP {
+object Diagnostics {
+object UDPEchoConfig {
+destination "pcb://$(PCB_MAIN_BUS)/UDPEchoConfig" {
+parameter Interface;
+parameter X_ORANGE-COM_SourceV4HostName from SourceV4HostName;
+parameter X_ORANGE-COM_SourceV6HostName from SourceV6HostName;
+parameter X_ORANGE-COM_SourceV4Ip from SourceIPAddress;
+parameter X_ORANGE-COM_SourceV6Ip from SourceIPv6Address;
+parameter UDPPort;
+parameter EchoPlusEnabled;
+parameter EchoPlusSupported;
+parameter PacketsReceived;
+parameter PacketsResponded;
+parameter BytesReceived;
+parameter BytesResponded;
+parameter TimeFirstPacketReceived;
+parameter TimeLastPacketReceived;
+parameter Enable;
+}
+}
+}
+}
+}

@@ -1,0 +1,16 @@
+{
+  "status": 0,
+  "data": {
+    "isEthernetConnected": true,
+    "ethernetSpeed": 100,
+    "ethernetMode": 100,
+    "isDhcpActivated": true,
+    "dhcpStatus": "BOUND",
+    "ipIpv4": "192.168.1.10",
+    "maskIpv4": "255.255.255.0",
+    "gatewayIpv4": "192.168.1.1",
+    "dnsPrimaryIpv4": "192.168.1.1",
+    "dnsSecondaryIpv4": "0.0.0.0",
+    "macAddress": "123456789"
+  }
+}

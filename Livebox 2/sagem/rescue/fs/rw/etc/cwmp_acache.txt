@@ -1,0 +1,3 @@
+InternetGatewayDevice.DeviceInfo.X_ORANGE-COM_RescueVersion,3,
+InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.1.Username,2,
+InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.IPInterface.1.X_ORANGE-COM_IPv6Address.2.IPAddress,3,

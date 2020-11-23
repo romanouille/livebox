@@ -1,0 +1,4 @@
+#!/bin/sh
+#Hostapd config files should have taken care to set wps_disable=1, we just start the hostapd
+sleep 1
+hostapd -B /var/lib/wld/secwl_$1

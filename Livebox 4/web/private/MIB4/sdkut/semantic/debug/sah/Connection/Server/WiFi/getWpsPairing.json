@@ -1,0 +1,18 @@
+{
+    "status": 0,
+    "data": {
+        "accessPointList": [
+            {
+                "accessPointId": "wl0",
+                "isPairingEnabled": true,
+                "isPairingInProgress": false
+            },
+            {
+                "accessPointId": "wl1",
+                "isPairingEnabled": true,
+                "isPairingInProgress": false
+            }
+        ],
+        "isPairingInProgress": false
+    }
+}

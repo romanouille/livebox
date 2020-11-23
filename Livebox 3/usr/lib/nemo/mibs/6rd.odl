@@ -1,0 +1,15 @@
+object NeMo {
+object extends MIB(0, "6rd") {
+string Flag = "6rd";
+object DataModel {
+string Interface;
+uint32 IPv4MaskLength {
+constraint range[0, 32];
+}
+string SPIPv6Prefix;
+string BorderRelayIPv4Addresses;
+string WANIPv4Address;
+string DelegatedPrefix;
+}
+}
+}

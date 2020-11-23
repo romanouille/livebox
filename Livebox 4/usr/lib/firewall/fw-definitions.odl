@@ -1,0 +1,1303 @@
+using "fw.so";
+
+/**
+ * data structure to indicate ping is enabled for ipv4 and/or ipv6.
+ */
+define service_enable_t {
+	bool enableIPv4;
+	bool enableIPv6;
+}
+
+/** 
+ * A service result parameter contains:
+ * The name of the service, human readable format.
+ * The configured ports: this can be acl {
+ group cwmpd read,write,execute;
+ }a comma separated list of port (ranges). 
+ * This parameter can be used to return a port assigned by the server. 
+ */
+define service_result_t {
+	string name;
+	string port;
+}
+
+acl {
+	group cwmpd read,write,execute;
+	group admin read,execute;
+	group remoteadmin read,execute;
+}
+
+/**
+ * Root-object for Firewall configuration 
+ * @version V4.5
+ */ 
+persistent object Firewall {
+
+	/**
+	 * Enable/Disable firewall 
+	 * @version V4.5
+	 */
+	persistent bool Enable {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with firewallEnableOnWrite;
+		default true;
+	}
+
+	/**
+	 * Status of the firewall.
+	 * A space separated list of the following keywords: Enabled, Disabled, SharedAddressSpace, NoInboundNAT.
+	 * @version V7.1
+	 */
+	read-only string Status = "";
+
+	/**
+	 * Firewall mode description, currently only Advanced is supported
+	 * @version V4.5
+	 */
+	persistent string Config {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		default "Advanced";
+	}
+
+	/**
+	 * Link to firewall level, where the source interface is 'data' and the destination interface is 'lan'.
+	 * This parameter is used for the webui, to configure the firewall for the users internet connection.
+	 * @version V4.5
+	 */ 
+	persistent string AdvancedLevel {
+		acl {
+			group admin read,execute;
+			group remoteadmin none;
+		}
+		constraint enum ["High", "Medium", "Low", "Drop", "Off", "Custom"];
+		default "Medium";
+		write with advancedLevelOnWrite;
+	}
+
+	/**
+	 * Link to firewall IPv6 level, where the source interface is 'data' and the destination interface is 'lan'.
+	 * This parameter is used for the webui, to configure the firewall for the users internet connection.
+	 * @version V5.2
+	 */ 
+	persistent string AdvancedIPv6Level {
+		acl {
+			group admin read,execute;
+			group remoteadmin none;
+		}
+		constraint enum ["High", "Medium", "Low", "Drop", "Off", "Custom"];
+		default "Medium";
+		write with advancedIPv6LevelOnWrite;
+	}
+
+	/**
+	 * Firewall Type, only 'Stateful' is supported, implemented for tr69 compliance
+	 * @version V4.5
+	 */
+	persistent string Type {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		constraint enum ["Stateful"];
+		default "Stateful";
+	}
+
+	/** 
+	 * You can define a range of ports, each listening port on a interface should be 
+	 * greater than MinPort and less than MaxPort.
+	 * If a free port needs to be chosen for portforwarding, a pinhole or a local service, 
+	 * the port must be greater than MinPort.
+	 * @version V4.5
+	 */
+	persistent uint32 MinPort {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with minPortOnWrite;
+		default 0;
+	}
+
+	/** 
+	 * You can define a range of ports, each listening port on a interface should be 
+	 * greater than MinPort and less than MaxPort.
+	 * If a free port needs to be chosen for portforwarding, a pinhole or a local service, 
+	 * the port must be smaller than MaxPort.
+	 * @version V4.5
+	 */
+	persistent uint32 MaxPort {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with maxPortOnWrite;
+		default 65535;
+	}
+
+	/**
+	 * A space-separated list of origins that are prohibited to set port forwarding rules
+	 * when Carrier Grade NAT / Shared Address Space has been detected.
+	 * @version V7.0
+	 */
+	persistent string ProhibitedOriginsCGNAT {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with prohibitedOriginsCGNATOnWrite;
+		default "webui upnp";
+	}
+
+	/**
+	 * firewall chain definition 
+	 * @version V4.5
+	 */
+	persistent object Chain[] {
+		write with chainOnWrite;
+
+		/** 
+		 * Descriptive name 
+		 * @version V4.5
+		 */
+		persistent string Name {
+			constraint minvalue 0;
+			constraint maxvalue 28;
+		}
+
+		/**
+		 * Number of Rules in the Chain
+		 * @version V4.6
+		 */
+		read-only int32 RuleNumberOfEntries {
+			read with nrOfRuleOnRead;
+		}
+
+		/**
+		 * Defines the default policy of all unmatched packets 
+		 * @version V4.5
+		 */
+		persistent string DefaultPolicy {
+			constraint enum ["Drop", "Reject", "Accept", "None"];
+			default "None";
+		}
+		// persistent string Description;
+
+		/**
+		 * Firewall rule definition 
+		 * @version V4.5
+		 */
+		persistent object Rule[] {
+			write with ruleOnWrite;
+
+			/**
+			 * Unique id of the rule. 
+			 * @version V4.5
+			 */
+			persistent string Id;
+
+			/**
+			 * Drop, Accept or jump to other chain
+			 * @version V4.5
+			 */ 
+			persistent string Target {
+				constraint enum ["Drop", "Reject", "Accept", "TargetChain"];
+				default "Drop";
+			}
+
+			/**
+			 * Status of the firewall rule 
+			 * @version V4.5
+			 */
+			read-only string Status {
+				constraint enum ["Enabled", "Disabled", "Error"];
+				default "Disabled";
+				read with ruleStatusOnRead;
+			}
+
+			/**
+			 * Indication if rule is applied for incoming(Local) traffic or forwarded traffic. For the Firewall it will always be Forward. 
+			 * @version V4.5
+			 */
+			persistent string Class {
+				constraint enum ["Local", "Forward", "PortFW", ""];
+				default "Forward";
+			}
+
+			/** 
+			 * IPv4, IPv6 or both 
+			 * @version V4.5
+			 */
+			persistent int32 IPVersion = 4;
+
+			/**
+			 * Comma separated list of IP protocol numbers.
+			 * @version V4.5
+			 */
+			persistent string Protocol;
+
+			/**
+			 * Destination port in case of UDP/TCP 
+			 * @version V4.5
+			 */
+			persistent string DestinationPort;
+
+			/**
+			 * Source port in case of UDP/TCP
+			 * @version V4.5
+			 */
+			persistent string SourcePort;
+
+			/**
+			 * Destination MAC address, will be internally mapped to destination IP address(es). 
+			 * @version V6.0
+			 */
+			persistent string DestinationMACAddress;
+
+			/**
+			 * Source MAC address, will be internally mapped to source IP address(es). 
+			 * @version V6.0
+			 */
+			persistent string SourceMACAddress;
+
+			/**
+			 * Destination IP address(ipv4, ipv6), netmask is optional. Comma separated list of addresses must be supported.(TODO)
+			 * @version V4.5
+			 */
+			persistent string DestinationPrefix;
+
+			/**
+			 * Source IP address(ipv4, ipv6), netmask is optional. Comma separated list of addresses must be supported. (TODO)
+			 * @version V4.5
+			 */
+			persistent string SourcePrefix;
+
+			/**
+			 * Reference to new chain(Chains in chains are not supported now) 
+			 * @version V4.5
+			 */
+			persistent string TargetChain;
+
+			/**
+			 * Free format description of the firewall rule.  
+			 * @version V4.5
+			 */
+			persistent string Description;
+
+			read-only string Time {
+				read with timeRuleOnRead;
+			}
+			/**
+			 * Enable or disable the rule. 
+			 * @version V4.5
+			 */
+			persistent bool Enable = false;
+		}
+	}
+
+	/**
+	 * This object describes the policy between two interfaces, this includes what to do with
+	 * packets coming from SourceInterface going to Destination interface and visa versa. 
+	 * @version V4.5
+	 */
+	persistent object Policy[] {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with policyOnWrite;
+
+		/**
+		 * Descriptive name
+		 * @version V4.5
+		 */
+		persistent string Name {
+			constraint minvalue 0;
+			constraint maxvalue 28;
+		}
+
+		/**
+		 * NeMo interface name specifying the incoming interface. 
+		 * @version V4.5
+		 */
+		persistent string SourceInterface;
+
+		/**
+		 * NeMo interface name specifying the outgoing interface. 
+		 * @version V4.5
+		 */
+		persistent string DestinationInterface;
+
+		/**
+		 * Current status of the policy,
+		 * @version V4.5
+		 */
+		read-only string Status {
+			constraint enum ["Enabled", "Disabled", "Error"];
+			default "Disabled";
+			read with policyStatusOnRead;
+		}
+
+		/**
+		 * By default the policy is applicable for ipv4 and ipv6, 
+		 * in the future, we need to be able to set different policies in ipv4 and ipv6. i.e. 
+		 * when dslite, 6rd comes into the picture.
+		 * Two Data2Lan Policies needs to be available in the defaults file:
+		 * 1. Wan2Lan: to define a policy for ipv4 traffic.
+		 * 2. Wan2LanIPv6: to define a policy for ipv6 traffic.
+		 * The SourceInterface needs to be set correcly in the defaults file.
+		 * @version V4.5
+		 */
+		persistent int32 IPVersion = 0;
+
+		/**
+		 * Name of a chain, a reference to a predefined chain or a custom chain. 
+		 * This is applicable for traffic from the SourceInterface to the DestinationInterface.
+		 * @version V4.5
+		 */
+		persistent string Chain {
+			constraint minvalue 0;
+			constraint maxvalue 64;
+		}
+
+		/**
+		 * Name of the reverse chain, a reference to a predefined chain or a custom chain. 
+		 * This is applicable for traffic from the DestinationInterface to the SourceInterface.
+		 * @version V4.5
+		 */
+		persistent string ReverseChain {
+			constraint minvalue 0;
+			constraint maxvalue 64;
+		}
+
+		/**
+		 * Is the entry enabled or disabled. 
+		 * @version V4.5
+		 */
+		persistent bool Enable = false;
+	}
+
+	/**
+	 * Firewall Service. 
+	 * @version V4.5
+	 */
+	object Service[] {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with serviceOnWrite;
+
+		/**
+		 * Unique id of the service. 
+		 * @version V4.5
+		 */
+		persistent string Id;
+
+		/**
+		 * Status of the firewall service 
+		 * @version V4.5
+		 */
+		read-only string Status {
+			constraint enum ["Enabled", "Disabled", "Error"];
+			default "Disabled";
+			read with serviceStatusOnRead;
+		}
+
+		/**
+		 * NeMo reference to incoming interface 
+		 * @version V4.5
+		 */
+		persistent string SourceInterface;
+
+		/**
+		 * Comma separated list of ports in case the protocol is UDP/TCP. 
+		 * @version V4.5
+		 */
+		persistent string DestinationPort;
+
+		/**
+		 * Comma separated list of IP protocol numbers 	 
+		 * @version V4.5
+		 */
+		persistent string Protocol;
+
+		/**
+		 * Reference to a Firewall chain. 
+		 * @version V4.5
+		 */
+		persistent string Chain;
+
+		/**
+		 * ipv4, ipv6 or both 
+		 * @version V4.5
+		 */
+		persistent uint32 IPVersion = 4;
+
+		/**
+		 * ICMP type will only be used if protocol is 1(ipv4) or 58(ipv6) 
+		 * @version V4.5
+		 */
+		persistent int32 ICMPType = 0;
+
+		read-only string Time {
+			read with timeServiceOnRead;
+		}
+		/**
+		 * Comma separated list of source prefixes. The parameter is optional. IPV4 and ipv6 addresses may not be mixed. If used the ipversion parameter must be set to either 4 or 6 to match the source prefix address familily. A prefix can be defined as an ip address / netmask or a ip address without netmask. In the latter case, the prefix will be considered as a host ip address.
+		 * @version V5.0
+		 */
+		persistent string SourcePrefix;
+
+		/** 
+		 * Set the policy of the service entry: The default is 'Accept', in rare conditions you want to disable traffic on tcp/udp ports explicitly. This can be done by setting the Action parameter to 'Drop'. If an invalid action is provided, a FW_INVALID_PARAMETER(action) will be returned.
+		 * @version V5.0
+		 */
+		persistent string Action {
+			constraint enum ["Accept", "Drop"];
+			default "Accept";
+		} 
+
+		/**
+		 * Enable/Disable the service 
+		 * @version V4.5
+		 */
+		persistent bool Enable;
+	}
+	/**
+	 * Total number of portForwarding entries, it includes the upnp entries and the webui entries. 
+	 * @version V4.5
+	 */
+	read-only uint32 PortForwardingNumberOfEntries {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		read with portForwardingNumberOfEntriesOnRead;
+	}
+
+	/**
+	 * Portforwarding entries, only used for ipv4.
+	 * @version V4.5
+	 */
+	persistent object PortForwarding[] {
+		write with portForwardingOnWrite;
+
+		/**
+		 * Unique name of the entry. 
+		 * @version V4.5
+		 */
+		persistent string Id {
+			constraint minvalue 0;
+			constraint maxvalue 64;
+		}
+
+		/**
+		 * Indicates the creator of the entry.
+		 * @version V4.5
+		 */
+		persistent string Origin {
+			constraint enum ["webui", "upnp", "internal","cwmp"];
+			default "cwmp";
+		}
+
+		/**
+		 * Free format description of the entry. 
+		 * @version V4.5
+		 */
+		persistent string Description;
+
+		/**
+		 * Status of the port forwarding entry. 
+		 * @version V4.5
+		 */
+		read-only string Status {
+			constraint enum ["Enabled", "Disabled", "Error", "Pending"];
+			default "Disabled";
+			read with ruleStatusOnRead;
+		}
+
+		/**
+		 * Nemo Reference, used for port forwarding, defines incoming interface. 
+		 * @version V4.5
+		 */
+		persistent string SourceInterface;
+
+		/**
+		 * Comma separated list of IP protocol numbers.
+		 * @version V4.5
+		 */
+
+		persistent string Protocol {
+			constraint custom portforwarding_validate_protocol;
+		}
+
+		/**
+		 * External port on WAN interface, ranges are supported if PCP is disabled
+		 * @version V4.5
+		 */
+		persistent string ExternalPort;
+
+		/** 
+		 * External port end rage
+		 * @version V5.2
+		 */
+		persistent uint32 ExternalPortEndRange = 0;
+		/** 
+		 * Internal port, ranges are supported, if the value is zero, 
+		 * the external port will be the same as the internal port, 
+		 * if the external port is a range, the range will be mapped to the new internal port.
+		 * Ranges are not supported for PCP
+		 * @version V4.5
+		 */
+		persistent string InternalPort;
+
+		/** 
+		 * Source IP address, optionally with a netmask, can be defined. A comma separated list of IP addresses must be supported. 
+		 * @version V4.5
+		 */
+		persistent string SourcePrefix;
+
+		/** 
+		 * Destination IP address, mapped IP address. 
+		 * @version V4.5
+		 */
+		persistent string DestinationIPAddress {
+			write with destinationIPAddressOnWrite;
+		}
+
+		/** 
+		 * Destination MAC address, will be internally mapped to it's IP address. 
+		 * @version V6.0
+		 */
+		persistent string DestinationMACAddress;
+
+		/**
+		 * Indication how long the portforwarding must be active.
+		 * @version V4.5
+		 */
+		uint32 LeaseDuration = 0;
+
+		read-only string Time {
+			read with timeRuleOnRead;
+		}
+
+		/** 
+		 * Allow hairpin NAT, i.e. Allow LAN clients to access portForwardings via the LAN network.
+		 * @version V5.1
+		 */
+		persistent bool HairpinNAT = true;
+
+		/** 
+		 * Allow Symmetric SNAT, for each DNAT rule you create a symmetric SNAT rule.
+		 * example:
+		 * iptables -t nat -A PREROUTING_PortForwarding -p udp -d x --dport y -j DNAT --to-destination y:z
+		 * iptables -t nat -A POSTROUTING_PortForwarding -p udp -s y --sport z -j SNAT --to-source x:y
+		 * This feature is used in a setForwardingService() scenario.
+		 * @version V5.1
+		 */
+		persistent bool SymmetricSNAT = false;
+
+		/**
+		 * Enable or disable the entry.
+		 * @version V4.5
+		 */
+		persistent bool Enable {
+			constraint custom portForwardingEnableVerify;
+			default false;
+		}
+
+	}
+
+	/**
+	 * Pinhole multi instance object 
+	 * @version V4.5
+	 */
+	persistent object Pinhole[] {
+		write with pinholeOnWrite;
+
+		/**
+		 * Unique name of the entry. 
+		 * @version V4.5
+		 */
+		persistent string Id {
+			constraint minvalue 0;
+			constraint maxvalue 64;
+		}
+
+		/**
+		 * Indicates the creator of the entry.
+		 * @version V4.5
+		 */
+		persistent string Origin {
+			constraint enum ["webui", "upnp"];
+			default "webui";
+		}
+
+		/**
+		 * Free format description of the entry.
+		 * @version V4.5
+		 */
+		persistent string Description;
+
+		/**
+		 * Status of the entry. 
+		 * @version V4.5
+		 */
+		read-only string Status {
+			constraint enum ["Enabled", "Disabled", "Error", "Pending"];
+			default "Disabled";
+			read with ruleStatusOnRead;
+		}
+
+		/**
+		 * Nemo Reference, used for port forwarding, defines incoming interface. 
+		 * @version V4.5
+		 */
+		persistent string SourceInterface;
+
+		/**
+		 * Comma separated list of IP protocol numbers.
+		 * @version V4.5
+		 */
+		persistent string Protocol;
+
+		/**
+		 * ipv4, ipv6(default) or both 
+		 * @version V4.5
+		 */
+		persistent int32 IPVersion = 6;
+
+		/**
+		 * Source port matching the source port of the incoming packet.
+		 * @version V4.5
+		 */
+		persistent string SourcePort;
+
+		/**
+		 * Destination port for the incoming packet.
+		 * @version V4.5
+		 */
+		persistent string DestinationPort;
+
+		/**
+		 * Source IP address, optionally a netmask can be defined. 
+		 * @version V4.5
+		 */
+		persistent string SourcePrefix;
+
+		/**
+		 * Destination IP address matching the destination ip address of the incoming packet. 
+		 * @version V4.5
+		 */
+		persistent string DestinationIPAddress;
+
+		/** 
+		 * Destination MAC address, will be internally mapped to it's IP address. 
+		 * @version V6.0
+		 */
+		persistent string DestinationMACAddress;
+
+		/**
+		 * Enable the entry.
+		 * @version V4.5
+		 */
+		persistent bool Enable = false;
+	}
+
+
+	/**
+	 * Firewall DMZ configuration, only applicable for ipv4.
+	 * @version V4.5
+	 */
+	persistent object DMZ[] {
+		write with dmzOnWrite;
+
+		/**
+		 * Nemo reference to incoming interface .
+		 * @version V4.5
+		 */
+		persistent string SourceInterface;
+
+		/** 
+		 * Mapped ipv4 address. 
+		 * @version V4.5
+		 */
+		persistent string DestinationIPAddress;
+
+		/**
+		 * Source IP address, optionally with a specified netmask. 
+		 * @version V4.5
+		 */
+		persistent string SourcePrefix;
+
+		/**
+		 * Status of the DMZ entry 
+		 * @version V4.5
+		 */
+		read-only string Status {
+			constraint enum ["Enabled", "Disabled", "Error"];
+			default "Disabled";
+			read with dmzStatusOnRead;
+		}
+
+		/**
+		 * Enable/Disable DMZ.
+		 * @version V4.5
+		 */
+		persistent bool Enable {
+			constraint custom dmzEnableVerify;
+		}
+	}
+
+	/**
+	 * This object describes interface specific firewall configuration:
+	 * If NAT is enabled, 
+	 * If spoofing must be enabled/disabled.
+	 * @version V4.5
+	 */
+	persistent object Interface[] {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with interfaceOnWrite;
+		delete with interfaceOnDelete;
+
+		/** 
+		 * mapped Linux name of the interface, for debugging purposes 
+		 * @version V4.5
+		 */
+		read-only string LinuxInterface {
+			default "";
+			read with linuxInterfaceOnRead;
+		}
+
+		/** 
+		 * Enables/Disables NAT on the interface, the default is false. 
+		 * If the object is created by the NAT activation via NeMo, this parameter is set to true;
+		 * @version V4.5
+		 */ 
+		persistent bool NATEnable = false;
+
+		/**
+		 * Shows the status of NAT on interface, the parameter is read-only and is retrieved from NeMo. 
+		 * @version V4.5
+		 */
+		read-only string NATStatus {
+			constraint enum ["Enabled", "Disabled", "Error"];
+			default "Disabled";
+			read with natStatusOnRead;
+		}
+
+		/** 
+		 * Enables strict NAT protection on a NAT interface, 
+		 * i.e. We filter on incoming message and drop all packets which have a destination adrress, 
+		 * different from the address of the NAT interface. (except multicast and broadcast addresses.)
+		 * @version V4.5
+		 */
+		persistent bool StrictNATInterface = true;
+
+		/**
+		 * This is the current ipv4 address for the NAT interface, 
+		 * mainly for debugging purposes. Only applicable for NAT interfaces and when strictNATInterface is set to true;
+		 * @version V4.5
+		 */
+		read-only string IPV4Address {
+			default "";
+			read with ipv4AddressOnRead;
+		}
+
+		/**
+		 * Protect against source address spoofing, only allow packets from the LAN interface 
+		 * if the source ipv6 address is in the prefix range. i.e. ULA addresses will be blocked.
+		 * Make sure that different ipv6 addresses can be active at the same time.
+		 * @version V4.5
+		 */
+		persistent bool SourceAddress6Spoofing = true;
+
+		/**
+		 * Protect against source address spoofing, only allow packets from the LAN interface 
+		 * if the source ipv4 address is in the prefix range. 
+		 * Drop packets with source address in the LAN range if they are entering via this interface.
+		 * @version V5.2
+		 */
+		persistent bool SourceAddress4Spoofing = false;
+
+
+		/** 
+		 * IPV6Prefix, this is a debug parameter to show the current ipv6 address in use. 
+		 * It should be possible to support a list of ipv6 prefixes.
+		 * This parameter value is only valid if the sourceAddress6Spoofing is enabled;
+		 * @version V4.5
+		 */
+		read-only string IPV6Address {
+			default "";
+			read with ipv6AddressOnRead;
+		}	
+	}
+
+	// functions 
+	/**
+	  save the firewall configuration persistently in order to survive a reboot.
+	  @return true 
+	 * @version V4.5
+	 */
+	bool save();
+
+	/** 
+	  Remove the existing saved configuration. After a reboot, you will start from the default settings. 
+	  @return true
+	 * @version V4.5
+	 */
+	bool reset();
+
+	/**
+	  If changes are done directly in the data model, we need to do an explicit commit to apply the changes.
+	  This is mainly a debug function, webui and upnp will use specific functions for this.
+	  @return true;
+	 * @version V4.5
+	 */
+	bool commit();
+
+	/* functions to configure local services */
+	/**
+	  The firewall service rules are not persistent. 
+	  The Service entry will not be created if a local service is already listening on the same port as the externalPort with the same protocol and the same interface or if a dynamic or static port forwarding entry with the same incoming port, protocol and source-interface already exists. 
+
+	  @return variant map, which contains the instance name of the service and the chosen port number(s): 
+
+	  @param id - Unique string identifying the service 
+	  @param sourceInterface - NeMo reference to the interface, where the service must be enabled. 
+	  @param destinationPort - comma separated list of destination ports, minimum and maximum values can be specified, using the x-y format, up to 10 port(ranges) are supported. Example: ("22,23-34,54-55,65), it is important to specify the protocol(udp(17) or tcp(6). A value x, means the firewall need to choose the ports, the chosen ports will be returned in the return variant. 
+	  @param protocol - comma separated list of protocols, tcp(6) and udp(17) can currently be configured in one rule. 
+	  @param ipversion - 4 for ipv4, 6 for ipv6, other values(0): both ipv4 and ipv6 are supported. 
+	  @param enable - Enable(true) or disable(false) the service in the firewall plugin 
+	  @param icmpType - a valid icmpType, only used if the protocol is 1(icmp) or 58(icmpv6). 
+	  @param sourcePrefix - comma separated list of prefix elements, the parameter is optional. A prefix is an ip address optionally followed by a "/" and a netmask in integer format.
+	  @param action - The default action is ACCEPT, for special cases we can also define a DROP action to be able to drop specific traffic explicitly.
+	   @error If we find a portforwarding entry with conflicting ports, a 'FW_OVERLAPPING_RULE' ('Overlapping rule') is returned. If we have an service with overlapping ports, we return 'FW_OVERLAPPING_SERVICE' ("Overlapping service"). An extra error message is returned, specifying the conflicting range and the name of the portForwarding entry or the local service name.
+	  @version V4.5
+	 */
+	service_return_t setService(mandatory string id, string sourceInterface, string destinationPort, mandatory string protocol, int32 ipversion, bool enable, int32 icmpType, string sourcePrefix, string action) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+	/** 
+	  @return - 'true' if deletion is successful, 'false' if not. 
+	  @param id - (mandatory)Unique name, identifying the service to be deleted. 
+	  @version V4.5
+	 */
+	bool deleteService(mandatory string id) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+	/** 
+	  Service rules will be returned, also rules set by the setRespondToPing function will be visible here. 
+	  @return - A list of service entries if the id parameter is not set. A list with one entry if an existing id is specified, return an error if the specified id is wrong. 
+	  @param id - (optional)Unique name, identifying the service to be retrieved. 
+	  @version V4.5
+	 */
+	list getService(mandatory string id);
+
+	/* ping service */
+	/**
+	  The function is implemented as a jump to an ICMP chain. 
+	  The INPUT_ICMP and INPUT6_ICMP chain must be preconfigured in the firewall-defaults with the correct iptables rules. 
+	  The default policy for incoming ICMP(v6) tarffic is ACCEPT. 
+	  The function is modelled as a service (see Firewall.Services.i) 
+	  Services set by the setRespondToPing function are stored persistently. 
+	  deleting and monitoring the pingServices can also be done with deleteService() and getService(). 
+	  @return - false for failure, true for success 
+	  @param sourceInterface - NeMo interface name. 
+	  @param service_enable - respond to ping requests from sourceInterface per protocol version (IPv4 and IPv6) 
+	  @version V4.5
+	 */
+
+	bool setRespondToPing(mandatory string sourceInterface, mandatory service_enable_t service_enable);
+
+	/**
+	  @return - respond to ping requests from sourceInterface per protocol version (IPv4 and IPv6) 
+	  @param sourceInterface - NeMo interface name 
+	  @version V4.5
+	 */
+	service_enable_t getRespondToPing(mandatory string sourceInterface);
+
+	/* functions to configure port forwarding services */
+	/**
+	  The IPv4 forwarding entry will not be created if: 
+	  A dynamic or static port forwarding entry with the same incoming port, protocol and source-interface already exists, or if a local service is already listening on the same port as the externalPort with the same protocol on the same interface. 
+	  You should not mix protocols using a port(tcp, upd) with other protocols(icmp, ah, esp, ...) If you want to specify both, create 2 separate rules. 
+
+	  @return - return the port forwarding instance id of the new/modified port forwarding entry. 
+	  @error A 'FW_OBJECT_NOT_FOUND' ("Object not found") error is returned if the PortForwarding chain is not found. This should never occur. If a wrong parameter value is configured, a 'FW_INVALID_PARAMETER' ("Invalid parameter") is returned, the name of the faulty parameter value is specified. If the specified internal or external ports are invalid, a 'FW_INVALID_PORT_RANGE' ("Invalid port-range") error is returned. If we have a conflict with other portForwarding entries a 'FW_OVERLAPPING_RULE' ("Overlapping rule") error is returned. If we have an service with overlapping ports, we return 'FW_OVERLAPPING_SERVICE' ("Overlapping service"). In both cases, FW_OVERLAPPING_RULE, FW_OVERLAPPING_SERVICE, an extra error message is returned, specifying the conflicting range and the name of the portForwarding entry or the local service name.
+	  
+	  @param id - If the id/origin combination already exists, we change the existing entry; if the id/origin combination does not exist, a new entry will be created. (format: [a-zA-Z0-9]*) 
+	  @param origin - an unique identifier per client, e.g. "webui", "upnp" 
+	  @param sourceInterface - A NeMo like interface name: the default is "data" 
+	  @param externalPort - listening port on sourceInterface, ranges are supported 
+	  @param internalPort - remapped port, if empty, the internal port will be mapped to external port, can be a single port or a port range. 
+	  @param destinationIPAddress - LAN IP address to send packets to. 
+	  @param sourcePrefix - source IP address (range) from the WAN hosts which are allowed to use the port forwarding. Format: a.b.c.d[/p][,...] 
+	  @param protocol - a comma separated string of supported protocol numbers, e.g. "6,17" for TCP and UDP. externalPort and internalPort are ignored for protocols other than TCP and UDP. 
+	  @param enable - enable or disable the entry. 
+	  @param persistent - parameter to indicate if the port forwarding entry must be saved or not. Persistent port forwarding entries and non persistent entries(upnp) will be stored in the same (iptables) chains. (Firewall.PortForwarding.Rule) 
+	  @param description - free format information about the entry. 
+	  @param destinationMACAddress Destination where you want to sent the data to, is internally resolved to an ip address. This parameter has priority over the DestinationIPAddress.
+	  @version V4.5
+	 */
+	string setPortForwarding(string id, mandatory string origin, mandatory string sourceInterface, string externalPort, mandatory string internalPort, mandatory string destinationIPAddress, string sourcePrefix, mandatory string protocol, bool enable, bool persistent, string description, string destinationMACAddress);
+
+	/**
+	  Suspend an active portForwarding temporary.  This state is not saved nor imported/exported.
+	  @return - void 
+	  @param id - the instance name of the port forwarding entry to be deleted. (The name can also be the full pcb reference string). format ([a-zA-Z0-9]*) 
+	  @param origin - an unique identifier per client, e.g. "webui", "upnp". If only origin is specified, all entries from the specified origin will be deleted. 
+	  @param suspend - suspend a portForwarding, or resume a portForwarding.
+	  @error FW_OBJECT_NOT_FOUND if portforwarding entry is not found.
+	  @version V5.2
+	 */
+	void suspendPortForwarding(string id, mandatory string origin, mandatory bool suspend);
+
+	/**
+	  @return - "true" if the rule is deleted, "false" if the rule does not exist or the entry cannot be deleted. 
+	  @param id - the instance name of the port forwarding entry to be deleted. (The name can also be the full pcb reference string). format ([a-zA-Z0-9]*) 
+	  @param origin - an unique identifier per client, e.g. "webui", "upnp". If only origin is specified, all entries from the specified origin will be deleted. 
+	  @param destinationIPAddress - Address to match
+	  @version V4.5
+	 */
+	bool deletePortForwarding(string id, mandatory string origin, string destinationIPAddress);
+
+	/**
+	  A portforwarding entry is a list of parameters which includes: (Id, Origin, Description, Status, SourceInterface, Protocol, ExternalPort, InternalPort, SourcePrefix, DestinationIPAddress, Enable) 
+
+	  @return - a list of portForwarding entries or an empty list if no 'id' and 'origin' parameter is specified. 
+	  @return - a list with one element if the 'id' and 'origin' is specified and exists, otherwise an error is returned. 
+	  @return - a list with all elements matching the 'origin' parameter if this is specified. 
+
+	  @param id - (optional) if empty all entries will be returned, if specified the specific entry will be returned in the list. ([a-zA-Z0-9]*) 
+	  @param origin - (optional) return only the entries that match the client id. Leave empty to list all entries. Either 'id' and 'origin' must be specified or none of these parameter must be specified. 
+	  @version V4.5
+	 */
+	list getPortForwarding(string id, string origin);
+
+	/**
+	  Function to return a specific Id if it matches specific index, or a combination of destinationIpAddress, sourcePort and protocol. Return an error (FW_ROOT_NOT_FOUND) if the Firewall object is not found, return (FW_OBJECT_NOT_FOUND) if no element is found matching the criteria.
+	  Three scenarios are supported:
+	  1. getSpecificPortForwarding(index); return the name of the portForwarding with index x.
+	  2. getSpecificPortForwarding(-1, destinationIPAddress, sourceport, protocol); return the name of the portForwarding with matches destination address, the port and the protocol.
+	  3. getSpecificPortForwarding(-1, "", sourceport, protocol, sourceinterface); return the name of the portForwarding with matches the port, the protocol and the sourceInterface. (This feature is introduced in V5.2)
+	  @param index - Index in the portForwarding list. The value must be between 0 ..NmbrOfPortmappingEntries-1. -1 match (destinationIPAddress, sourcePort,protocol) or (sourcePort, protocol, sourceInterface) tuple.
+	  @param index - Index in the portForwarding list. The value must be between 0 ..NmbrOfPortmappingEntries-1. -1 match (destinationIPAddress, sourcePort,protocol) or (sourcePort, protocol, sourceInterface) tuple.
+	  @param destinationIPAddress - Address to match
+	  @param sourcePort - Port to match
+	  @param protocol - Protocol to match
+	  @param sourceInterface - sourceInterface to match
+	  @return - return the Id of the PortForwarding entry.
+	  @version V4.5
+	 */ 
+	string getSpecificPortForwarding(int32 index, string destinationIPAddress, string sourcePort, string protocol, string sourceInterface);
+
+	/* functions to configure pinholes */
+	/**
+	  @return - return the instance id of the new/modified pinhole. A 'FW_OBJECT_NOT_FOUND' ("Object not found") error is returned if the Pinhole chain is not found. This should never occur. If a wrong parameter value is configured, a 'FW_INVALID_PARAMETER' ("Invalid parameter") is returned, the name of the faulty parameter value is specified. If the specified internal or external ports are invalid, a 'FW_INVALID_PORT_RANGE' ("Invalid port-range") error is returned. If we have a conflict with other pinhole entries or local services, a 'FW_OVERLAPPING_RULE' ("Overlapping rule") error is returned.
+	  @param id - If the id/origin combination already exists, we change the existing entry; if the id/origin combination does not exist, a new entry will be created. (format: [a-zA-Z0-9]*) 
+	  @param origin - an unique identifier per client, e.g. "webui", "upnp" 
+	  @param sourceInterface - A NeMo interface name: the default is "data" 
+	  @param sourcePort - source port or source port range of the packet. 
+	  @param destinationPort - destination port or destination port range of the packet. 
+	  @param destinationIPAddress - IP address to send packets to. 
+	  @param sourcePrefix - source IP address ranges from the WAN hosts which are allowed to send packets. Format: a.b.c.d[/p][,...] 
+	  @param protocol - Comma separated string of supported protocol numbers, e.g. "6,17" for TCP and UDP. 
+	  externalPort and internalPort are ignored for protocols other than TCP and UDP. 
+	  @param ipversion - ipv4 pinhole or ipv6 pinhole[4,6] 
+	  @param enable - enable or disable the entry. 
+	  @param persistent - boolean value to indicate if the pinhole entry must be saved or not. 
+	  @param description - extra information about the entry. 
+	  @param destinationMACAddress Destination where you want to sent the data to, is internally resolved to an ip address. This parameter has priority over the DestinationIPAddress.
+	  @version V4.5
+	 */
+	string setPinhole(string id, mandatory string origin, mandatory string sourceInterface, string sourcePort, mandatory string destinationPort, mandatory string destinationIPAddress, string sourcePrefix, mandatory string protocol, int32 ipversion, bool enable, bool persistent, string description, string destinationMACAddress);
+
+	/** 
+	  Suspend or resume a pinhole. The setting is not persistent. 
+	  @return - void
+	  @param id - the instance name of the pinhole to be deleted. (The name can also be the full pcb reference string). ([a-zA-Z0-9]*) 
+	  @param origin - an unique identifier per service, e.g. "webui", "upnp". If only origin is specified, all entries from the specified origin will be deleted. 
+	  @param suspend, suspend or resume a pinhole
+	  @error FW_OBJECT_NOT_FOUND if the pinhole is not found.
+	  @version V5.2
+
+	 */
+	void suspendPinhole(string id, mandatory string origin, mandatory bool suspend);
+
+	/** 
+	  @return - "true" if the rule is deleted, "false" if the rule does not exist or the entry cannot be deleted. 
+	  @param id - the instance name of the pinhole to be deleted. (The name can also be the full pcb reference string). ([a-zA-Z0-9]*) 
+	  @param origin - an unique identifier per service, e.g. "webui", "upnp". If only origin is specified, all entries from the specified origin will be deleted. 
+	  @version V4.5
+
+	 */
+	bool deletePinhole(string id, mandatory string origin);
+
+	/**
+	  A pinhole is a list of parameters which includes: 
+	  (Id, Origin, Description, Status, SourceInterface, Protocol, SourcePort, DestinationPort, SourcePrefix, DestinationIPAddress, IPVersion, Enable) 
+	  @return - a list of pinholes or an empty list if no 'id' and 'origin' parameter is specified. 
+	  @return - a list with one element if the 'id' and 'origin' is specified and exists, otherwise an error is returned. 
+	  @param id - (optional) if empty all entries will be returned, if specified the specific entry will be returned in the list. ([a-zA-Z0-9]*) 
+	  @param origin - (optional) return only the entries that match the client id. Leave empty to list all entries. either 'id' and 'origin' must be specified or none of these parameter must be specified. 
+	  @version V4.5
+	 */
+	list getPinhole(string id, string origin);
+
+	/**
+	  Function to return a specific Id if it matches specific index, or a combination of destinationIpAddress, sourcePort and protocol
+	  @param index - Index in the pinhole list. The value must be between 0 ..NmbrOfPinholeEntries-1.
+	  @param destinationIPAddress - Address to match
+	  @param sourcePort - Port to match
+	  @param protocol - Protocol to match
+	  @return - return the Id of the pinhole entry.
+	 */ 
+	string getSpecificPinhole(int32 index, string destinationIPAddress, string sourcePort, string protocol);
+
+
+	/* Configure DMZ, or delete existing dmz rule. */
+	/**
+	  @return - the instance name to the modified or new DMZ entry. An empty string is returned if the function failed. 
+	  @param id - if the id exists, change the existing DMZ entry, otherwise create new DMZ entry. 
+	  @param sourceInterface - interface on which the DMZ will be enabled. Only one entry per interface can be configured. 
+	  @param destinationIPAddress - this is the ip address of the host the packets will be sent to. 
+	  @param sourcePrefix - optional parameter, only packets from this address(range) will be accepted. Comma-separated list of prefixes. 
+	  @param enable - Enable or disable the DMZ entry. 
+	  @version V4.5
+	 */
+	string setDMZ(string id, mandatory string sourceInterface, mandatory string destinationIPAddress, string sourcePrefix, mandatory bool enable);
+
+	/**
+	  @return - "true" if the rule is successfully deleted, "false" otherwise. 
+	  @param id - instance name of the DMZ entry to be deleted. 
+	  @version V4.5
+	 */
+	bool deleteDMZ(mandatory string id);
+
+	/**
+	  The return value contains: SourceInterface, DestinationIPAddress, SourcePrefix, Status, Enable.
+	  @return - if 'id' is specified, the DMZ element is returned, if it exists, an error is returned when it does not exits, if 'id' is not specified all elements from the dmz list will be returned and an empty list if none exists. 
+	  @param id - (optional) the index/key of a DMZ rule to be retrieved. 
+	  @version V4.5
+	 */
+	list getDMZ(string id);
+
+	/* functions to configure custom firewall rules */
+	/**
+	  Create a new firewall rule for a specific chain. If the chain parameter is not specified, the default value "Custom" is taken. This means an IPv4, outgoing custom rule is created.
+	  @return - A reference to the new firewall rule, empty if an error occurred. A 'FW_OBJECT_NOT_FOUND' ("Object not found") error is returned if the Firewall.Chain.Custom does not exists. If a invalid parameter is configured, A 'FW_INVALID_PARAMETER' ("Invalid parameter") is returned. The parameter name is also specified.
+	  @param id - A unique id, if the id already exists, change the existing entry; a new name will create a new entry. 
+	  @param chain - The chain where the rule must be added, The default value is "Custom". 
+	  @param action - "Accept", "Drop" or "Reject" the matched packets. 
+	  @param destinationPort - Destination port of the incoming packet, ranges are supported (format: x-y). An Empty port string allows any port. 
+	  @param sourcePort - Source port of the incoming packet, ranges are supported (format: x-y). Empty allows anything.
+	  @param destinationPrefix - Destination IP address of the incoming packet (a mask can be specified as well). In case of ipv6, it must be a ipv6 address, in case of ipv4, an ipv4 address. A comma-separated list of prefixes is allowed.
+	  @param sourcePrefix - Source IP address of the incoming packet (a mask can be specified as well). In case of ipv6, it must be a ipv6 address, in case of ipv4, an ipv4 address. A comma-separated list of prefixes is allowed.
+	  @param enable - Enable or disable the entry at creation. 
+	  @param protocol - A comma separated string of supported protocols. In combination with sourcePort and destinationPort, only TCP (6) and UDP (17) can be used. 
+	  @param ipversion - (4) for ipv4, (6) for ipv6, the value '0' for both. 
+	  @param enable - Enable or disable the rule. 
+	  @param description - Free format description of the rule. 
+	  @param destinationMAC - destination MAC address, overwrites destination prefix if any. The MAC address will be resolved into one or more IPv4 or IPv6 addresses.
+	  @param sourceMAC - source MAC address, overwrites source prefix if any. The MAC address will be resolved into one or more IPv4 or IPv6 addresses.
+	  @error FW_OBJECT_NOT_FOUND is raised if the chain name is not found, FW_OBJECT_NOT_CREATED is raised if the rule cannot be created, FW_INVALID_PARAMETER if an error occured in a specific parameter.
+	  @version V4.5
+	 */
+	string setCustomRule(string id, string chain, mandatory string action, string destinationPort, string sourcePort, string destinationPrefix, string sourcePrefix, string protocol, int32 ipversion, bool enable, string description, string destinationMAC, string sourceMAC);
+
+	/**
+	  This function deletes a specific rule from a specific chain. If the chain parameter is not specified, The default chain "Custom" is taken.
+	  @return - "true" if the rule is deleted, "false" if the rule does not exist or the entry cannot be deleted. 
+	  @param id - The instance name of the firewall rule. 
+	  @param chain - The chain where the rule must be deleted from. 
+	  @error FW_OBJECT_NOT_FOUND is raised if the chain name is not found or the rule name is not found.
+	  @version V4.5
+	 */
+	bool deleteCustomRule(mandatory string id, string chain);
+
+	/**
+	  This functions returns information from all custom rules of a certain chain or a specific rule from a specific chain. If the chain parameter is not specified, The default chain "Custom" is taken.
+	  The return value contains: Description, Target, Status, Class, IPVersion, Protocol, DestinationPort, SourcePort, DestinationPrefix, SourcePrefix, TargetChain, Enable 
+	  @return - A list of information from the custom firewall chains. 
+	  @param id - Optional parameter, if it is left empty, it returns all entries from the chain, if it is specifie, we return the specific chain entry. 
+	  @param chain - Optional parameter, it specifies from which chain the parameters must be returned from. 
+	  @error FW_OBJECT_NOT_FOUND is raised if the chain name is not found or the rule name is not found.
+	  @version V4.5
+	 */
+	list getCustomRule(string id, string chain);
+
+	/**
+	 * Sets a default policy of the specified chain. Policy 'None' means that no default policy is explicitly set. This is the default. (It is the same as doing deleteChainPolicy().) This means all packets without an explicit match are dropped.
+	 * @param chain name of the chain where you want to change the default policy from.
+	 * @param policy new policy, this can be 'Accept', 'Drop', 'Reject', 'None'.
+	 * @return none if successfull or an error if something goes wrong.
+	 * @error 'Object not found', if the chain is not specified.
+	 * @version V5.2
+	 */ 
+	void setChainPolicy(mandatory string chain, mandatory string policy);
+
+	/**
+	 * Gets the default policy of the specified chain. "None" means that no default chain policy is currently set. 
+	 * @param chain name of the chain where you want to get the default policy from.
+	 * @return the policy string if successfull or an empty value or an error if something goes wrong.
+	 * @error 'Object not found', if the specified chain is not found.
+	 * @version V5.2
+	 */ 
+	string getChainPolicy(mandatory string chain);
+
+	/**
+	 * This function resets the default policy of the specified chain. (Set the chainPolicy to 'None').
+	 * @param chain name of the chain where you want to reset the default policy from.
+	 * @return void if successfull or an error if something goes wrong.
+	 * @error 'Object not found', if the specified chain is not found.
+	 * @version V5.2
+	 */ 
+	void deleteChainPolicy(mandatory string chain);
+
+	/* configure Firewall Level */
+	/**
+	  setFirewallLevel can be used by the webui to switch between predefined chains (using data interface, as WAN interface and bridge interface as LAN interface). 
+	  @return - "true" if modifying the firewall level succeeded, "false" if it failed. 
+	  @param level - The parameter must be a string of the format: "Custom", "High", "Low", "Medium", "Off", "Drop". 
+	  @version V4.5
+	 */
+	bool setFirewallLevel(mandatory string level);
+
+	/**
+	  setFirewallIPv6Level can be used by the webui to switch between predefined chains (using data interface, as WAN interface and bridge interface as LAN interface). 
+	  @return "true" if modifying the firewall level succeeded, "false" if it failed. 
+	  @param level The parameter must be a string of the format: "Custom", "High", "Low", "Medium", "Off", "Drop". 
+	  @version V5.2
+	 */
+	bool setFirewallIPv6Level(mandatory string level);
+
+	/**
+	 * @return Firewall.AdvancedIPv6Level 
+	 * @version V5.2
+	 */
+	string getFirewallIPv6Level();
+
+	/**
+	  The setForwardingService function creates a Service and a PortForwarding entry. If 'Action' equals 'Drop', the specified port will be blocked on the specified interface in the INPUT chain, in the same time a portForwarding entry will be created with similar parameters. If the action is set to 'Accept', the portforwarding entry is enabled and the service is disabled. In this order, to make sure the packets are always triggered by either the service or the portforwarding entry.
+	  If a dynamic or static port forwarding entry with the same external port, protocol and source-interface already exists, or if a local service is already listening on the same port as the externalPort with the same protocol on the same interface, no forwarding service is created and an error is returned. 
+	  This feature is currently only applicable for IPv4.
+
+	  @return - Nothing if everything is correct. 
+	  @error - If the ports are already in use, return an error("Invalid port-range"). If the service or portForwarding entry could not be created, return an error("Object could not be created"). If a problem occurs during the configuration of the Service/PortForwarding entry, an "Invalid Parameter" error is raised.
+	  @param id - If the id already exists, we change the existing entry; if the id does not exist, a new Service/PorForwarding entry will be created. 
+	  @param action - 'Drop' blocks packet at the INPUT level, A corresponding Service entry is created with as action Drop and a portForwardingEntry is created. 
+	  @param sourceInterface - A NeMo interface name, the name of the interface where the packets arrive on.
+	  @param destinationInterface - A NeMo interface name, the name of the interface where the packets should leave. (Currently not used)
+	  @param externalPort - Listening port on sourceInterface, ranges are supported.
+	  @param internalPort - remapped port, if empty, the portforwarding entry will not be activated. 
+	  @param destinationIPAddress - LAN IP address to send packets to, if empty, the portforwarding entry will not be activated.
+	  @param sourcePrefix - source IPv4 address (range) from the WAN hosts which are allowed to use the port forwarding.
+	  @param protocol - a comma separated string of supported protocol numbers, e.g. "6,17" for TCP and UDP. The externalPort and internalPort parameters are ignored for protocols other than TCP and UDP. 
+	  @param enable - enable or disable the entries.
+	  @param persistent - parameter to indicate if the forwarding and service entry must be saved or not.
+	  @param description - free format information about the entry. Will be saved in the PortForwarding Entry.
+	  @version V5.1
+	 */
+	void setForwardingService(mandatory string id, mandatory string action, mandatory string sourceInterface, string destinationInterface, string externalPort, string internalPort, string destinationIPAddress, string sourcePrefix, mandatory string protocol, bool enable, bool persistent, string description);
+
+	/**
+	  Change the action of an existing forwardingService. You can also change the internal port and the destination IP address. This makes it possible to call first the setForwardingService() function to set up the Drop rule, after this you can call this function to complete the PortForwarding configuration.
+
+	  @return - return nothing if everything is correct.
+	  @error - return an error ("entry not found") if the 'id' could not be found. If a problem occurs during the configuration of the Service/PortForwarding entry, an "Invalid Parameter" error is raised.
+	  @param id - The instance name of the forwarding service entry to be changed.
+	  @param action - 'Drop' or 'Accept' 
+	  @param internalPort - remapped port to the internal IP Address.
+	  @param destinationIPAddress - IP Address to route traffic to.
+	  @param sourcePrefix - Match the source IP Address of the incoming traffic.
+	  @version V5.1
+	 */
+	void setForwardingServiceAction(mandatory string id, mandatory string action, string internalPort, string destinationIPAddress, string sourcePrefix);
+
+	/**
+	  This function deletes a forwardingEntry with a given id. 
+	  @return - Nothing is returned if the delete is successful.
+	  @error - An error("Object not found") is returned if the id is not found. 
+	  @param id - The instance name of the forwarding service entry to be deleted. The parameter is mandatory.
+	  @version V5.1
+	 */
+	void deleteForwardingService(mandatory string id);
+
+	/**
+	 * @return -Firewall.AdvancedLevel 
+	 * @version V4.5
+	 */
+	string getFirewallLevel();
+
+	/** 
+	 * @param id Mandatory parameter to address the Firewall Policy. If it does not exists, that policy is created.  
+	 * @param sourceInterface Nemo name of the interface where the packet comes in.
+	 * @param destinationInterface Nemo name of the interface where the packet goes out.
+	 * @param level Supported Levels are "High", "Medium", "Low", "Custom", "Drop", "Off". The level will set both the Firewall.Policy.x.Chain and Firewall.Policy.x.ReverseChain
+	 * @param ipversion 4 if the policy applies for IPv4, 6 if the policy applies for IPv6, 0 if the policy is applicable for both.
+	 * @param enable true if enabled, false if disabled.
+	 * @error none if the function is executed successfully, an "Object could not be created" error if the Policy object could not be created.
+	 * @return none if the function is executed successfully. 
+	 * @version V5.1
+	 */
+	void setPolicyLevel(mandatory string id, mandatory string sourceInterface, mandatory string destinationInterface, mandatory string level, int32 ipversion, bool enable); 
+
+	/**
+	 * @param id Mandatory parameter to indicate the Policy id.
+	 * @error return an error ("entry not found") if the 'id' could not be found.
+	 * @return A predefined policy level("High", "Medium", "Low", "Custom", "Drop", "Off", Undefined). An empty string if no level could be mapped. 'Undefined' means the chain and reverseChain is not configured according to a known level.
+	 * @version V5.1
+	 */
+	string getPolicyLevel(mandatory string id);
+
+	/**
+	 * @param id Name of the policy to be deleted.
+	 * @error return an error ("entry not found") if the 'id' could not be found.
+	 * @return nothing if the Policy is successfully deleted. 
+	 * @Version V5.1
+	 */
+	void deletePolicy(mandatory string id);
+
+	/** 
+	 * Backup/restore user settings for firewall 
+	 * @param filename optional parameter to save the configuration to. 
+	 * @version V4.6
+	 */
+	bool export( string fileName ) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+	/**
+	 * @param filename optional parameter to import the configuration from. 
+	 * @version V4.6
+	 */
+	bool import( string fileName ) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+}
+
+/** @location sah_services_fw /fw-definitions.odl */

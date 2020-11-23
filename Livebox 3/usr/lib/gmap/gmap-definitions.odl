@@ -1,0 +1,328 @@
+using "gmap.so";
+define name_t {
+string Name;
+string Source;
+}
+define devtype_t {
+string Type;
+string Source;
+}
+define device_t {
+string Key;
+string DiscoverySource;
+string Name;
+string Active;
+string Tags;
+datetime LastConnection;
+list Names;
+list deviceTypes;
+list Children;
+}
+define query_t {
+uint32 Index;
+uint32 Id;
+string Name;
+list devices;
+}
+acl {
+world read, execute;
+group admin read, execute;
+group remoteadmin read, execute;
+group gmap read, execute;
+group cwmpd read, write, execute;
+}
+persistent object Devices {
+persistent object Config {
+acl {
+world none;
+}
+bool create(mandatory string module) {
+acl {
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+void set(mandatory string module, mandatory string option, mandatory variant value);
+variant get(mandatory string module, mandatory string option);
+bool load(mandatory string module);
+bool save(mandatory string module);
+void scanMibDir(mandatory string path) {
+acl {
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+}
+persistent read-only object Device[] {
+persistent read-only string Key;
+persistent read-only string DiscoverySource;
+persistent read-only string Name;
+persistent read-only string DeviceType;
+read-only bool Active;
+persistent string Tags;
+persistent read-only datetime FirstSeen;
+volatile persistent datetime LastConnection;
+volatile persistent datetime LastChanged;
+persistent read-only string Master;
+persistent read-only object Alternative[];
+persistent object Names[] {
+persistent read-only string Name;
+persistent read-only string Source;
+}
+persistent object DeviceTypes[] {
+persistent read-only string Type;
+persistent read-only string Source;
+}
+read-only object UDevice[] {
+read-only string Type;
+}
+read-only object LDevice[] {
+read-only string Type;
+}
+device_t get(string flags);
+bool set(mandatory device_t parameters) {
+acl {
+world none;
+}
+}
+void setActive(bool active) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool hasTag(mandatory string tag, string expression, string traverse);
+void setTag(mandatory string tag, string expression, string traverse) {
+acl {
+world none;
+}
+}
+void clearTag(mandatory string tag, string expression, string traverse) {
+acl {
+world none;
+}
+}
+variant getFirstParameter(mandatory string parameter, string expression, string traverse);
+list getParameters(mandatory string parameter, string expression, string traverse);
+variant topology(string expression, string traverse, string flags);
+bool isLinkedTo(mandatory string device, string traverse);
+bool setName(mandatory string name, string source) {
+acl {
+world none;
+}
+}
+bool addName(mandatory string name, string source) {
+acl {
+world none;
+}
+}
+bool removeName(mandatory string source)  {
+acl {
+world none;
+}
+}
+bool delName(mandatory string name, string source) {
+acl {
+world none;
+}
+}
+bool setType(mandatory string type, string source) {
+acl {
+world none;
+}
+}
+bool removeType(mandatory string source)  {
+acl {
+world none;
+}
+}
+bool addAction(mandatory string function, string name) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool setInstance(mandatory string sub_object, mandatory string key, variant data) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool removeInstance(mandatory string sub_object, mandatory string key, variant data) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool sendNotification(mandatory uint32 type, mandatory string name, variant parameters) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool setFunction(mandatory string function) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool removeFunction(mandatory string function) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool setAlternative(mandatory string alternative) {
+acl {
+world none;
+}
+}
+bool removeAlternative(mandatory string alternative) {
+acl {
+world none;
+}
+}
+bool isAlternative(mandatory string alternative) {
+acl {
+world none;
+}
+}
+}
+read-only object Query[] {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+read-only string Expression;
+list matchingDevices();
+}
+bool createDevice(mandatory string key, string discovery_source, string tags, bool persistent, string default_name, variant values) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool destroyDevice(mandatory string key) {
+acl {
+world none;
+}
+}
+list find(variant expression, string flags);
+list get(variant expression, string flags);
+bool link(mandatory string upper_device, mandatory string lower_device, string type) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool setLink(mandatory string upper_device, mandatory string lower_device, string type) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool unlink(string upper_device, string lower_device) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+query_t openQuery(mandatory string expression, string_t name) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+void block(mandatory string key) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+void unblock(mandatory string key) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool isBlocked(mandatory string key) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+void closeQuery(mandatory uint32 index, mandatory uint32 id) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+void notify(mandatory string key, mandatory uint32 id, string name, variant data) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool csiFinished(mandatory uint32 ID, mandatory uint32 status, mandatory variant retval, list errors) {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool import() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+bool export() {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group gmap none;
+}
+}
+}

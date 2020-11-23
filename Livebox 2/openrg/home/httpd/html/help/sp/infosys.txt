@@ -1,0 +1,8 @@
+﻿<b>Información del sistema:</b><br>
+<br>
+Esta página muestra información técnica del estado general de tu Livebox.<br>
+<!--
+<br>
+<b>
+-->
+

@@ -1,0 +1,10 @@
+<b>Support:</b><br>
+<br>
+<span class="boldorange">Save:</span> you can save your current configuration in case you ever need to reset your livebox to its factory configuration. To save the current configuration of your livebox, click the <b>Save</b> button.<br>
+<br>
+<span class="boldorange">Restore:</span> Click the <b>Browse</b> button to find a stored configuration file on your computer. Then click the <b>Restore</b> button to replace the current configuration of your livebox with that in the configuration file.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,84 @@
+/*expr:lltd*/
+/**
+ * MIB is loaded on all network devices that have the lltd tag set
+ *
+ * All devices matching expression: "lltd" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib lltd {
+    object LLTD {
+        /**
+        * The url of the management page
+        *
+        * @version 6.0
+        */
+        string ManagementURL;
+
+        /**
+        * Physical medium of the network interface
+        *
+        * @version 6.0
+        */
+        uint32 PhysicalMedium;
+
+        /**
+        * The method by which a responder's IEEE 802.11 network interface connects
+        * to the network.
+        *
+        * @version 6.0
+        */
+        uint8 WirelessMode;
+
+        /**
+        * The mac address of the AP
+        *
+        * @version 6.0
+        */
+        string BSSID;
+
+        /**
+        * Name of the access point
+        *
+        * @version 6.0
+        */
+        string SSID;
+
+        /**
+        * Name of the access point
+        *
+        * @version 6.0
+        */
+        uint8 WirelessPhysicalMedium;
+
+        /**
+        * maximum data rate at which the radio can run
+        *
+        * @version 6.0
+        */
+        uint16 MaxRate;
+
+        /**
+        * The network interface maximum speed in units op 100
+        *
+        * @version 6.0
+        */
+        uint32 LinkSpeed;
+
+        /**
+        * The interface RSSI
+        *
+        * @version 6.0
+        */
+        int32 RSSI;
+
+        /**
+        * Support information
+        *
+        * @version 6.0
+        */
+        string Support;
+    }
+}
+
+/** @location sah_services_gmap /mibs/lltd.odl */

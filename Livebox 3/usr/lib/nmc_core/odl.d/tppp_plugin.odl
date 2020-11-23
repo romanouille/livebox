@@ -1,0 +1,25 @@
+using "nmcclient_tppp.so";
+persistent object NMC {
+object TPPP {
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+bool Enable {
+default false;
+}
+uint32 Timeout {
+constraint minvalue 1;
+default 79200;
+}
+uint32 ExtraTimeout {
+constraint minvalue 1;
+default 7200;
+}
+uint32 ExtensionDelay {
+default 0;
+}
+bool force();
+}
+}

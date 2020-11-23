@@ -1,0 +1,78 @@
+/*expr:usb and (edev or hnid)*/
+
+/**
+ * MIB is loaded on all usb decives.
+ *
+ * All devices matching expression: "usb and (edev or hnid)" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib usbDev {
+    /**
+     * USB specification version with which the device complies
+     *
+     * Example: "1.1"
+     *
+     * @version 6.0
+     */
+    read-only string USBVersion;
+    /**
+     * Device release number
+     *
+     * @version 6.0
+     */
+    read-only uint16 DeviceVersion;
+    /**
+     * Protocol code (assigned by USB-IF)
+     *
+     * @version 6.0
+     */
+    read-only string DeviceProtocol;
+    /**
+     * Product ID (assigned by manufacturer)
+     *
+     * @version 6.0
+     */
+    read-only uint16 ProductID;
+    /**
+     * Vendor ID (assigned by USB-IF)
+     *
+     * @version 6.0
+     */
+    read-only uint16 VendorID;
+    /**
+     * Device Manufacturer string descriptor
+     *
+     * @version 6.0
+     */
+    read-only string Manufacturer;
+    /**
+     * Device SerialNumber string descriptor
+     *
+     * @version 6.0
+     */
+    read-only string SerialNumber;
+    /**
+     * USB port number
+     *
+     * @version 6.0
+     */
+    read-only uint8 Port;
+    /**
+     * Speed of the USB device.
+     *
+     * Enumeration of:
+     * - Low (1.5 Mbits/sec (187.5 KB/sec) defined in [USB1.0])
+     * - Full (12 Mbits/sec (1.5 MB/sec) defined in [USB1.0])
+     * - High (480 Mbits/sec (60 MB/sec) defined in [USB2.0])
+     * - Super (5.0 Gbits/sec (625 MB/sec) defined in [USB3.0])
+     *
+     * Internal signaling between the connected USB device and the USB Host Controller
+     * provide the information needed to determine the negotiated rate.
+     *
+     * @version 6.0
+     */
+    read-only string Rate;
+}
+
+/** @location sah_services_gmap /mibs/usbDev.odl */

@@ -1,0 +1,171 @@
+using "../nmccore_wifi.so";
+
+persistent object NMC {
+    persistent object Wifi {
+
+        acl {
+            group admin read, write, execute;
+            group remoteadmin read, write, execute;
+        }
+
+        /**
+         * Set global wifi ON (1) or OFF (0)
+         * The setting is reboot persistent
+         * @version V5.2
+         */
+        persistent bool Enable {
+            default true;
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Set global wifi ON (1) or OFF (0)
+         * The setting is not reboot persistent
+         * (to be used by the Wi-Fi scheduling)
+         * @version V5.2
+         */
+        bool Status {
+            default false;
+        }
+
+        /**
+         * Change the configuration mode
+         * Combined when true and Separated when false
+         * @version V5.2
+         */
+        persistent bool ConfigurationMode {
+            default true;
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Flag to trigger pairing with PINCode
+         * @version V6.0
+         */
+        string PINCode {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default "";
+        }
+
+        /**
+         * Flag to trigger pairing
+         * @version V6.0
+         */
+        string PairingStatus {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            constraint enum ["Idle", "Pairing", ""];
+            default "Idle";
+        }
+
+        /**
+         * Flag to indicate the Wi-Fi scheduler status
+         * @version V6.0
+         */
+        bool SchedulingEnabled {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            default "Idle";
+        }
+
+        /**
+         * Flag to describe the Wi-Fi activation schedule
+         * @version V6.0
+         */
+        string SchedulingActivationTimeSlots {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+        }
+
+        /**
+         * Flag to trigger auto channel selection
+         * @version V5.2
+         */
+        bool TriggerAutoChannelSelection {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+            }
+            write with triggerACSOnWrite;
+            default false;
+        }
+
+        /**
+         * Start pairing on one or both interfaces
+         * depending on the config of each radios
+         * @version V5.2
+         */
+        void startPairing(string clientPIN) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Stop pairing on one or both interfaces
+         * depending on the config of each radios
+         * @version V6.0
+         */
+        void stopPairing() {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Start ACS on one or both interfaces
+         * depending on the config of each radios
+         * @version V5.2
+         */
+        void startAutoChannelSelection() {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Retrieve the combined statistics
+         * on all VAPs (Rx and Tx bytes)
+         * @version V6.0
+         */
+        void getStats(out uint32_t RxBytes, out uint32_t TxBytes) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Generic getter
+         * @version V5.2
+         */
+        variant get();
+
+        /**
+         * Generic setter
+         * @version V5.2
+         */
+        bool set(variant parameters) {
+            acl {
+                world none;
+            }
+        }
+    }
+}

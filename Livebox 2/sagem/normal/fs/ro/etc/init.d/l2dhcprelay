@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case $1 in
+		start)
+			modprobe ebt_dhcp_relay.ko
+			;;
+		stop)
+			;;
+		*)
+			echo "Usage: $0 [start|stop]"
+			;;
+esac

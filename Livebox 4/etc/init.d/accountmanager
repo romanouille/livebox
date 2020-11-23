@@ -1,0 +1,49 @@
+
+#!/bin/sh
+
+PID="/var/run/accountmanager.pid"
+
+
+
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "Account Manager plugin already started"
+    else
+        pcbs_app -ln accountmanager
+    fi
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID) || killall accountmanager || rm $PID
+    else
+        echo "Account Manager plugin not running"
+    fi
+}
+
+
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+
+    restart)
+        stop
+        start
+        ;;
+    debuginfo)
+        if [ -f "${PID}" ]; then
+            echo "accountmanager is running, pid=$(cat ${PID})"
+        else
+            echo "accountmanager is not running"
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo]"
+        ;;
+esac

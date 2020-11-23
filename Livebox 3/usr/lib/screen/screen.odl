@@ -1,0 +1,66 @@
+using "screen_plugin.so";
+// Todo : transform to template object zone (cf SDL_Surface)
+// child of screen ( luminosity, etc )
+// see http://balloonboard.org/trac/browser/balloon/branches/display-dev/Module/ssd1305/ssd1305.c
+// for ssd1305 features.
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+object Screen {
+persistent bool ShowWifiPassword {
+acl {
+group admin execute;
+group remoteadmin execute;
+}
+default true;
+}
+void wakeUp(string Source) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void printText(string String) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void printTextLogo(string String, string Logo) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void setDisplay(mandatory uint8 Type, string String, string Logo) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void setShowWifiPassword(bool Enable) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+bool getShowWifiPassword() {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+bool export(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool import(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}

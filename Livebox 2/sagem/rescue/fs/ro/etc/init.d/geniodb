@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case $1 in 
+	start)
+		# load geniodb driver and create /dev/geniodb access point
+		/bin/echo "Loading geniodb kernel module..."
+		modprobe geniodb
+		mknod /dev/geniodb c `sed -n 's/\(.*\) geniodb$/\1/p' /proc/devices` 0
+	;;
+	stop)
+		# unload geniodb driver and remove /dev/geniodb access point
+		/bin/echo "Unloading geniodb kernel module..."
+		modprobe -r geniodb
+		rm -f /dev/geniodb
+	;;
+	*)
+	;;
+esac

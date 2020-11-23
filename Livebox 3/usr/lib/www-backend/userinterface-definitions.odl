@@ -1,0 +1,53 @@
+using "www-backend.so";
+acl {
+world read, execute;
+group technician read, write, execute;
+}
+persistent object UserInterface {
+read-only string AvailableLanguages = "en,fr";
+persistent string CurrentLanguage {
+constraint enum [ "en","fr" ];
+default "fr";
+}
+persistent string BackupFileName {
+acl {
+group admin read;
+group remoteadmin read;
+}
+default "backup.hgw";
+}
+string getLanguage(out string availableLanguages);
+bool setLanguage(mandatory string currentLanguage);
+persistent string CurrentState {
+default "";
+write with write_currentState;
+}
+string setState(mandatory string currentState) {
+acl {
+group admin read, execute;
+}
+}
+string getState();
+bool export(string fileName) {
+acl {
+world none;
+}
+}
+bool import(string fileName) {
+acl {
+world none;
+}
+}
+variant getDebugInformation();
+}
+object DeviceManager {
+read-only string DeviceSources = "network,usb,voice";
+read-only string DeviceTypes = "Computer,Notebook,Phone,Network Access Point,Audio/Video,Peripheral,Imaging,GameConsole,Storage,Miscellaneous,iPod/iPhone/iPad,Printer,Set-top Box Orange,Tv,Liveradio,Photo,Photoframe";
+list getDevices(string sources, string types);
+bool enableNotifications();
+object Connectivity {
+read-only string ConnectivitySources = "data,wl0,lan,voip,iptv";
+variant getStatus(string sources);
+bool enableNotifications();
+}
+}

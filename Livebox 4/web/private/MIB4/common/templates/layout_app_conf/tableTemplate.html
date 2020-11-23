@@ -1,0 +1,28 @@
+﻿<p {{#if id}}id="{{id}}" {{/if}} class="bodytxt">{{#if label}} <label {{#if id}}for="{{id}}_table" {{/if}}>{{{label}}}</label><br>{{/if}}
+<table class="conf-table" {{#if id}}id="{{id}}_table" {{/if}}>
+{{#if titlevalue}}
+  <tr class="conf-table-row">
+  {{#each titlevalue}}
+    <td class="conf-table-title">{{{this}}}</td>
+  {{/each}}
+  </tr>
+{{/if}}
+{{#ifEqual style "zebra"}}
+  {{#each value}}
+    <tr class="conf-table-row-zebra">
+      {{#if number}}
+      <td class="conf-table-cell-zebra-number"><div class='conf-table-cell-zebra-label'>{{{number}}}</div></td>
+      {{/if}}
+      <td class="conf-table-cell-zebra"><div class='conf-table-cell-zebra-label'>{{{label}}}</div><div class='conf-table-cell-zebra-value'>{{{value}}}</div></td>
+    </tr>
+  {{/each}}
+{{else}}
+  {{#each value}}
+    <tr class="conf-table-row">
+      {{#each this}} 
+        <td class="conf-table-cell">{{{this}}}</td>
+      {{/each}}        
+    </tr>
+  {{/each}}
+{{/ifEqual}}
+</table></p>

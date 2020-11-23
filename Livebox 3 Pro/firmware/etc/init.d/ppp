@@ -1,0 +1,8 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+START=550
+
+start() {
+	mkdir -p /tmp/etc/ppp
+}
+

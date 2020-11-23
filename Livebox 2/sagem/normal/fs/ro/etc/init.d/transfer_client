@@ -1,0 +1,43 @@
+#!/bin/sh
+PIDTRANSFER_CLIENT="/var/run/transfer_client.pid"
+TRANSFER_CLIENT="/bin/transfer_client -vv"
+
+start() {
+
+    if [ -e ${PIDTRANSFER_CLIENT} ]; then
+        echo "Transfer client already started"
+    else
+        ${TRANSFER_CLIENT};
+    fi
+}
+
+stop() {
+    if [ -e ${PIDTRANSFER_CLIENT} ]; then
+        kill $(cat ${PIDTRANSFER_CLIENT});
+    else
+        echo "Transfer client already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDTRANSFER_CLIENT}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac
+

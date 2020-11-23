@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case $1 in
+    start)	
+	crond &
+	
+	;;
+    stop)
+	[ -f /var/run/crond.pid ] && kill $(cat /var/run/crond.pid)
+	rm -f /var/run/crond.pid
+	;;
+    *)
+	echo "Usage : $0 [start, stop]"
+esac
+

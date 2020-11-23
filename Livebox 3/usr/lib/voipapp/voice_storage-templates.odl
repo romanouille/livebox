@@ -1,0 +1,641 @@
+datamodel
+{
+object VoiceService {
+object VoiceProfile {
+parameter Enable
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Reset
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter NumberOfLines
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Name
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_MWIActivationNumber
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_MWIDeactivationNumber
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_Interface
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_LocalIPAddress
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_PluginIPAddress
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter SignalingProtocol
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter MaxSessions
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter DTMFMethod
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter DTMFMethodG711
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Region
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter DigitMap
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter DigitMapEnable
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter STUNEnable
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter STUNServer
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter NonVoiceBandwidthReservedUpstream
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter NonVoiceBandwidthReservedDownstream
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter PSTNFailOver
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter FaxPassThrough
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter ModemPassThrough
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_WaitSipExtRegTime
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object ServiceProviderInfo
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object H323
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+parameter Gatekeeper {
+acl {
+world none;
+}
+}
+parameter GatekeeperPort {
+acl {
+world none;
+}
+}
+}
+object X_ORANGE-COM_CATIQ
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Tone
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object ButtonMap
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object FaxT38
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object SpecialCharacters
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object SIP {
+parameter ProxyServer {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter ProxyServerPort {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter OutboundProxy {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+parameter OutboundProxyPort {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}
+object Line {
+object SIP {
+parameter AuthUserName {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}
+}
+}
+instance of VoiceService(1,"VoiceApplication")
+{
+instance of VoiceProfile(1,"ATA")
+{
+object SIP
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object RTP
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object NumberingPlan
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Line
+{
+parameter X_ORANGE-COM_StatusInfo
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_EndpointId
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_EndpointHWVersion
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_EndpointSWVersion
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_HandsetModel
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter CallState
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter PhyReferenceList
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter RingMuteStatus
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter RingVolumeStatus
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_OutgoingLineReference
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_SIPExtensionIPAddress
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_SIPExtensionForceUsingTCPClientInitiatedConnection
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_HandsetReachability
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object SIP
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object H323
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_CATIQ
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Ringer
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object CallingFeatures
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+parameter CallTransferEnable=false;
+}
+object VoiceProcessing
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Codec
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Session
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Stats
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}
+instance of VoiceProfile(2,"SIP-Trunk")
+{
+object SIP
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object RTP
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object NumberingPlan
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Line
+{
+parameter X_ORANGE-COM_EndpointType
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_EndpointId
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_EndpointHWVersion
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_EndpointSWVersion
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_HandsetModel
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter CallState
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter PhyReferenceList
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter RingMuteStatus
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter RingVolumeStatus
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_OutgoingLineReference
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_Name
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_SIPExtensionIPAddress
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter X_ORANGE-COM_SIPExtensionForceUsingTCPClientInitiatedConnection
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object H323
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object X_ORANGE-COM_CATIQ
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Ringer
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object CallingFeatures
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object VoiceProcessing
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Codec
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Session
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Stats
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object SIP
+{
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}
+}
+}

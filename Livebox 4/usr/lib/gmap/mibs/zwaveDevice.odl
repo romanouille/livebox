@@ -1,0 +1,28 @@
+/*expr:zwave physical edev*/
+
+/**
+ * MIB is loaded on all zwave devices .
+ *
+ * All devices matching expression: "zwave physical edev" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib zwaveDevice {
+    /**
+     * @brief Id
+     * @version 6.1
+     */
+    read-only uint8 NodeId;
+
+    /**
+     * @brief ManufacturerId
+     * @version 6.1
+     */
+    read-only string ManufacturerId;
+
+    /**
+     * @brief ModelId
+     * @version 6.1
+     */
+    read-only string ModelId;
+}

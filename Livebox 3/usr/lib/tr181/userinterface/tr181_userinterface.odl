@@ -1,0 +1,20 @@
+object UserInterface {
+object RemoteAccess {
+bool Enable;
+uint32 Port;
+string SupportedProtocols;
+string Protocol;
+}
+}
+datamodel {
+object UserInterface {
+object RemoteAccess {
+destination "pcb://$(PCB_MAIN_BUS)/RemoteAccess" {
+parameter Enable;
+parameter Port;
+parameter SupportedProtocols;
+parameter Protocol;
+}
+}
+}
+}

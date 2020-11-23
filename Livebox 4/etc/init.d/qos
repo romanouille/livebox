@@ -1,0 +1,28 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+backup() {
+    if pcb_is_running firewall_plugin; then
+        pcb_cli "QueueManagement.export()"
+    else
+        echo "Firewall (QoS) is not running, impossible to make a backup"
+    fi  
+}
+
+restore() {
+    mkdir -p /var/lib/queuemanagement
+    touch /var/lib/queuemanagement/restore
+}
+
+case $1 in
+    backup)
+        backup
+        ;;
+    restore)
+        restore
+        ;;
+    *)
+        echo "Usage : $0 [backup|restore]"
+        ;;
+esac

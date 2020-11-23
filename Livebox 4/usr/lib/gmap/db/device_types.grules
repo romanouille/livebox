@@ -1,0 +1,124 @@
+[
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*PS3.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "GameConsole",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*MSFT 5\\.0.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Computer",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.*.Name matches \".*[aA]ndroid.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Mobile",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .mDNSService.*.ServiceName matches \".*_workstation\\._tcp.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Computer",
+                                              "TypeSource" : "mdns"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .mDNSService.*.ServiceName matches \".*(_printer|_ipp|_pdl-datastream)\\._tcp.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Printer",
+                                              "TypeSource" : "mdns"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and homeplug_av or homeplug_devolo",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "HomePlug",
+                                              "TypeSource" : "plc"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and usb and physical and .VendorID==\"0x21e7\" && .ProductID==\"0x0022\"",
+    "start_actions" : {
+                        "set_tags" : "wmbus",
+                        "add_device_type" : {
+                                              "Type"       : "WMbus Dongle",
+                                              "TypeSource" : "usb"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and usb and physical and storage",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Disk",
+                                              "TypeSource" : "usb"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and logical and volume",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Partition",
+                                              "TypeSource" : "storage"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and physical and voice",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Phone",
+                                              "TypeSource" : "tags"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and physical and not (usb or .DeviceTypes.hasInstances() or wmbus)",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Computer",
+                                              "TypeSource" : "default"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and physical and (dect_ule or zwave)",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "HomeAutomation",
+                                              "TypeSource" : "default"
+                                            }
+                      }
+  },
+  {
+    "expression"    : ".DeviceTypes.*.Type matches \".*[Cc]amera.*\" or .VendorClassID matches \"[Cc]amera\"",
+    "start_actions" : {
+                        "set_tags" : "camera"
+                      }
+  },
+  {
+    "expression"    : "bluetooth and physical and edev and .Names.*.Name matches \"Flower power.*\"",
+    "start_actions" : {
+                        "set_tags" : "sensor home_automation",
+                        "notify" : { "ID": 1000, "Name":"flower_power_dongle_added" }
+                      }
+  }
+]

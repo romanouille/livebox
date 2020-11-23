@@ -1,0 +1,12 @@
+<b>Firewall customisation:</b><br>
+<br>
+This feature enables you to customise the firewall on your livebox.<br>
+The Respond to Pings option authorises the livebox to respond to ping requests (to test the livebox status over a network). This option is enabled by default and is useful for network games in particular.<br>
+By default, custom mode uses all the firewall rules of high mode. You can then remove firewall rules or add them using the Add button.<br>
+The priority of the rules can be changed by modifying their order in the table using the orange up and down arrows. You can also enable or disable rules with the Enable check box.<br>
+The Trash icon can be used to delete rules from the table. Lastly, the Reset button enables you to delete all your changes and return to the standard configuration (high mode).<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

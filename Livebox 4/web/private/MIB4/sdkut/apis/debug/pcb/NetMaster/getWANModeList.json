@@ -1,0 +1,4 @@
+{
+  "status": true,
+  "data": "Ethernet_PPP;Ethernet_DHCP;VDSL_DHCP;VDSL_PPP;DSL_DHCP;DSL_PPP"
+}

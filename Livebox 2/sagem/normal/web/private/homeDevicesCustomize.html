@@ -1,0 +1,618 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=1085"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Livebox</title>
+<script type="text/javascript">
+	appUrl = '';
+	appConfig = 'fr';
+	appUid = '7c9c85ce';
+	config = {
+		BUILD_CUSTOMER: 'ft',
+		BUILD_PROJECT: 'lbv2fr',
+		BUILD_HARDWARE: 'sagem_ftthv2',
+		SESSION_DURATION: '600'
+	};
+	if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+		config.BUILD_PROJECT = "lbv2.8fr";
+	}
+
+</script>
+<link href="/styles.css?7c9c85ce" rel="stylesheet" type="text/css"/>
+<script src="/scripts.js?7c9c85ce" type="text/javascript" charset="utf-8"></script>
+<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?7c9c85ce"/>
+<link rel="shortcut icon" href="/images/fr/common/favicon.ico?7c9c85ce" type="image/x-icon"/>
+</head>
+<body class="accessibility-small">
+<!-- Popup and backlayer from Cytadelle Technology Light framework -->
+<div id="ct-popup" class="fixed" style="height: 70px">
+	<div>
+		<img id="ct-popup-header" src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.general.popup.img.header" alt=""/>
+		<h4>
+		<div id="ct-popup-header-title" class="translation Translations.home.authentication.header"></div>
+		</h4>
+		<a id="popup-close-btn" class="nologin">
+		<img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.general.popup.img.close" alt=""/>
+		</a>
+	</div>
+	<div id="ct-popup-content">
+		<span class="translation Translations.home.authentication.label.subtitle"></span>
+	</div>
+	<img src="/images/fr/common/transparent.gif?7c9c85ce" class="png ct-popup-footer voice Voice.general.popup.img.footer" alt=""/>
+</div>
+<div id="ct-msgbox" class="fixed">
+	<img id="ct-popup-header-small" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/>
+	<div id="ct-msgbox-content">
+		<img src="/images/fr/common/transparent.gif?7c9c85ce" id="ct-msgbox-img" class="png"/>
+		<div id="ct-msgbox-msg">
+		</div>
+		<input type="button" id="ct-msgbox-button1" value="annuler" class="input-btn input-small-btn-gray translation Translations.general.btn.cancel"/><input type="button" id="ct-msgbox-button2" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/><input type="button" id="ct-msgbox-button3" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/>
+	</div>
+	<img id="ct-popup-footer" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/>
+</div>
+<div id="ct-tooltip" class="fixed">
+</div>
+<div id="ct-waiting" class="fixed">
+	<img src="/images/fr/common/transparent.gif?7c9c85ce" alt="" class="voice Voice.general.waiting.img.waiting"/>
+</div>
+<div id="ct-backlayer" class="fixed" style="display:none; top:120px">
+</div>
+<div class="devicemenu" id="deviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="devicemenuheader">
+			<span id="hostName"></span>
+			<br/>
+			<span id="ipaddress-device-menu" class="translation Translations.general.label.ipaddress" style="display: none"></span> : <span id="ip"></span>
+		</div>
+		</lh>
+		<li><a id="accessscheduling" href=""><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+		<li><a id="devicescustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="catIqMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="catIqdevicemenuheader">
+			<span id="catIqName"></span>
+		</div>
+		</lh>
+		<li><a id="catIqCustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="disconnectedDeviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="disconnectedDevicemenuheader">
+			<span id="dHostName"></span>
+		</div>
+		</lh>
+		<li><a id="dAccessscheduling" href=""><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+		<li><a id="dDevicescustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+		<!-- 		<li><span id="deletedevicemenuitem" class="translation Translations.notconnecteddevices.label.deletedevice"></span></li> -->
+	</ul>
+</div>
+<div class="devicemenu" id="usbDeviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="UdbDevicemenuheader">
+		</div>
+		</lh>
+		<li><a id="usbBrowse" href="" onclick="return false;"><span id="usbBrowse" class="first active translation Translations.general.btn.files"></span></a></li>
+		<li><a id="usbEject" href="" onclick="return false;"><span class="first active translation Translations.general.btn.eject"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="contextualMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="open">
+			 Open
+		</div>
+		</lh>
+		<li><a id="copy" href=""><span class="auth-required first translation Translations.filesbrowser.label.copy"></span></a></li>
+		<li><a id="paste" href=""><span class="auth-required translation Translations.filesbrowser.label.paste" style="display: none"></span></a></li>
+		<li><a id="rename" href=""><span class="auth-required translation Translations.filesbrowser.label.rename"></span></a></li>
+	</ul>
+</div>
+<!-- Scrollable document container -->
+<div id="document-container">
+	<div id="document-background-header">
+		<div id="document-background-footer">
+			<div id="document">
+				<div id="header">
+				<a href="/" ><div id="header-logo-livebox">
+					</div></a>
+					<div id="header-controls-login" style="overflow: visible">
+						<div id="authenticationerrors" style=" position: absolute; top:6px; right: 350px; width: 300px; color: red; text-align: right;">
+							<span id="emptyauthfields" style="display: none" class="translation Translations.home.authentication.error.empty"></span>
+							<span id="emptyauthinvalid" style="display: none" class="translation Translations.home.authentication.error.invalid"></span>
+						</div>
+						<form name="Home/Accessibility"></form>
+						<form name="Login" id="Login">
+							<div id="login-inputs-div">
+								<input name="username" type="hidden" id="Username"/>
+								<input name="password" type="hidden" id="Password"/>
+								<input type="text" style="width:100px;" id="PopupUsername" class="input-text input-text-gray" maxlength="32" value="" disabled="disabled"/>
+								<input type="password" style="width:100px;" id="PopupPassword" class="input-text input-text-gray " value="" maxlength="32"/>
+								<input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.authenticate" value="" id="bt_authenticate"/>
+							</div>
+							<div id="logout-link-div" style="display: none;">
+								<span id="logged_in_username"></span>: <a href="#" id="logout_link"><span class="translation Translations.general.label.logout"></span></a>
+							</div>
+						</form>
+					</div>
+					<div id="header-controls">
+						<form name="Admin/UserInterface/Language" action="">
+							<div id="header-controls-languages">
+								<select id="Language-select" name="Language-select">
+								</select>
+							</div>
+						</form>
+						<div id="header-controls-accessibility-minus" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.fontsize.img.decrease" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-plus" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.fontsize.img.increase" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast1" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level1" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast2" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level2" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast3" class="header-controls-accessibility">
+							<a href="" title="" class="nologin voice Voice.accessibility.contrast.link.level3"><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level3" alt=""/></a>
+						</div>
+						<form name="Home/Information">
+						</form>
+						<form name="Home/RemoteBackup">
+						</form>
+					</div>
+					<div id="header-hmenu">
+						<ul class="hmenu">
+							<li onclick="return Sah.redirect('/');" id="hmenu-home" class="first active"><a href="/"><span class="first active translation Translations.general.label.vmenu.home.title"></span></a></li>
+							<li onclick="return Sah.redirect('/configWifi.html');" id="hmenu-wifi" class="normal auth-required"><a href="/configWifi.html" class="auth-required"><span class="translation Translations.general.label.vmenu.config.title"></span></a></li>
+							<li onclick="return Sah.redirect('/myFiles.html');" id="hmenu-myfiles" class="normal auth-required"><a href="/myFiles.html" class="auth-required"><span class="translation Translations.general.label.vmenu.files.title"></span></a></li>
+							<!--<li id="hmenu-myipphone" class="normal auth-required"><a href="/phonebook.html" onclick="return Sah.redirect('/phonebook.html');" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li> -->
+							<li onclick="return Sah.redirect('/phoneRingTest.html');" id="hmenu-myipphone" class="normal auth-required"><a href="/phoneRingTest.html" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li>
+							<li onclick="return Sah.redirect('/supportLedsStatus.html');" id="hmenu-support" class="normal auth-required"><a href="/supportLedsStatus.html" class="auth-required"><span class="translation Translations.general.label.vmenu.support.title"></span></a></li>
+							<li onclick="return Sah.redirect('/advConfigNetworkDhcp.html');" id="hmenu-advconfig" class="last gray auth-required"><a href="/advConfigNetworkDhcp.html" class="auth-required"><span class="translation Translations.general.label.vmenu.advconfig.title"></span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="content">
+					
+<div id="content-left">
+	<ul id="content-left-vmenu" class="lbx2vmenu">
+		<li id="left-home-link" >
+			<a href="/">
+				<span class="translation Translations.general.label.vmenu.connecteddevices.title"></span>
+			</a>
+		</li>
+		<li id="left-discondevices-link">
+			<a href="/notConnectedDevices.html" >
+				<span class="translation Translations.general.label.vmenu.notconnecteddevices.title"></span>
+			</a>
+		</li>
+		<li id="left-datarate-link">
+			<a href="/datarate.html" >
+				<span class="translation Translations.general.label.vmenu.datarate.title"></span>
+			</a>
+		</li>
+	</ul>
+</div>
+<script type="text/javascript">
+	$("left-home-link").observe("click",function(e){Sah.redirect('/')});
+	$("left-discondevices-link").observe("click",function(e){Sah.redirect('/notConnectedDevices.html')});
+	$("left-datarate-link").observe("click",function(e){Sah.redirect('/datarate.html')});
+	
+</script>
+<style type="text/css">
+	.right {
+		left: 480px;
+		right: 5px;
+	}
+
+	#DeviceToCustomize {
+		margin-top: 10px;
+		width: 504px;
+	}
+
+	#list {
+		width: 454px;
+		margin-left: 25px;
+		height: 94px;
+	}
+
+	.list-devices-horizontalCustomize {
+		left: 0;
+		width: 2300px;
+	}
+
+	ul.list-devices-horizontalCustomize li.selected {
+		border: 2px solid #FF6600;
+	}
+
+	#deviceInfoPanel {
+		margin-left: 2px;
+	}
+
+	#DeviceName {
+		text-align:center;
+		overflow: hidden;
+		float: left;
+		margin-top: 15px;
+		margin-left: 8px;
+	}
+
+	#DeviceIcon {
+		float: left;
+	}
+
+	#DeviceIcon span {
+		display: block;
+	}
+
+	#customizationPanel {
+		margin-left: 55px;
+		margin-top: 20px;
+	}
+	#list ul li a{
+		display: block;
+		height: 95%;
+		width: 95%;
+	}
+</style>
+
+<div id="content-center">
+	<script type="text/javascript">	
+		var oVMenuItem = $CYT('#content-left-vmenu span.Translations.general.label.vmenu.connecteddevices.title')[0];
+		ctl.style.klass.Add(oVMenuItem.parentNode.parentNode,"current");
+
+		// Remove active tab and active the new one
+		ctl.style.klass.Remove($CYT('#header-hmenu li.active'),"active");
+		ctl.style.klass.Add($CYT('#hmenu-home'),"active");
+	</script>
+
+	<a href="/"><span class="translation Translations.general.label.vmenu.home.title"></span></a> > <a id="devices-sourcepage" href="/"><span class="translation Translations.general.label.vmenu.connecteddevices.title"></span></a> > <span class="translation Translations.home.devicescustomize.label.title"></span>
+	<div class="hr hr-orange"></div>
+	<br/>
+
+	<h1><span class="translation Translations.home.devicescustomize.label.title"></span></h1>
+	<div class="hr"></div>
+	<h2><span class="translation  Translations.home.devicescustomize.label.subtitle"></span></h2>
+	<br>
+	<div id="deviceInfoPanel">
+		<div id="DeviceIcon">
+			<span class="icon">
+				<img width="55" height="43" alt="" src="" class="img-zoom"/>
+			</span>
+		</div>
+		<div id="DeviceName"></div>
+	</div>
+
+	<div id="customizationPanel">
+		<form name="Home/CustomizeDevice">
+			<h2><span class="translation Translations.home.devicescustomize.label.name.title"></span></h2>
+			<input type="text" class="input-text input-text-gray voice Voice.home.devicescustomize.label.name.title" maxlength="64" id="DeviceToCustomize.$UserFriendlyName" name="DeviceToCustomize.$UserFriendlyName" style="width:365px;"/>
+			<h5>
+				<span class="translation Translations.home.devicescustomize.label.name.info" style="font-size:0.8em;"  id="device_info"></span>
+				<div id="device_error" style="display: none;">
+					<img src="/images/fr/icons/icons-error.png?7c9c85ce" style="vertical-align: middle;" class="voice Voice.general.icon.error"/>
+					<span style="font-size:0.8em;" class="device_error_value translation Translations.home.devicescustomize.label.name.error.empty"></span>
+				</div>
+			</h5>
+			<br>
+			<h2 id="selectLabel"><span class="translation Translations.home.devicescustomize.label.type.title"></span></h2>
+
+			<!--Carrosel -->
+			<div id="DeviceToCustomize">
+				<div class="scroll left"></div>
+				<div class="list" id="list">
+					<ul class="list-devices-horizontalCustomize" id="customize-devices-list">
+						<li class="desktop">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img width="45" height="43" alt="desktop" src="/images/fr/devices/icons-devices-desktop.png?7c9c85ce" class="img-zoom"/>
+								</div>
+
+								<div class="title translation Translations.home.devicescustomize.label.type.computer"></div>
+							</a>
+						</li>
+						<li class="smartphone">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img width="45" height="43" alt="mobile" src="/images/fr/devices/icons-devices-smartphone.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.mobile"></div>
+							</a>
+						</li>
+						<li class="tablette">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img width="45" height="43" alt="mobile" src="/images/fr/devices/icons-devices-tablet.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.tablet"></div>
+							</a>
+						</li>
+						<li class="printer">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="printer" src="/images/fr/devices/icons-devices-printer.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.printer"></div>
+							</a>
+						</li>
+						<li class="stb">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="stb" src="/images/fr/devices/icons-devices-stb.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.stb"></div>
+							</a>
+						</li>
+						<li class="laptop">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img width="45" height="43" alt="laptop" src="/images/fr/devices/icons-devices-laptop.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.laptop"></div>
+							</a>
+						</li>
+						<li class="game">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img width="45" height="43" alt="game" src="/images/fr/devices/icons-devices-game.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.game"></div>
+							</a> 
+						</li>
+						<li class="tv">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="tv" src="/images/fr/devices/icons-devices-tv.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.tv"></div>
+							</a>
+						</li>
+						<li class="liveradio">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="liveradio" src="/images/fr/devices/icons-devices-liveradio.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.liveradio"></div>
+							</a>
+						</li>
+						<li class="mass-storage">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="mass storage" src="/images/fr/devices/icons-devices-usb-hdd.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.massstorage"></div>
+							</a>
+						</li>						
+						<li class="dect-phone">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="dect-phone" src="/images/fr/devices/icons-devices-telephoneparinternet.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.dectphone"></div>
+							</a>
+						</li>
+						<li class="notebook">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img width="45" height="43" alt="notebook" src="/images/fr/devices/icons-devices-notebook.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.notebook"></div>
+							</a>
+						</li>
+						<li class="homelibrary">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="homelibrairy" src="/images/fr/devices/icons-devices-homelibrairy.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.homelibrary"></div>
+							</a>
+						</li>
+
+						<li class="liveplugwifi">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="liveplugwifi" src="/images/fr/devices/icons-devices-liveplugwifi.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.liveplugwifi"></div>
+							</a>
+						</li>
+						<li class="squeezebox">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="squeezebox" src="/images/fr/devices/icons-devices-squeezebox.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.squeezebox"></div>
+							</a>
+						</li>
+						<li class="sensorhome">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="sensorhome" src="/images/fr/devices/icons-devices-sensorhome.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.sensorhome"></div>
+							</a>
+						</li>
+						<li class="default">
+							<a onclick="return false;" href="">
+								<div class="icon png">
+									<img  width="45" height="43" alt="default" src="/images/fr/devices/icons-devices-default.png?7c9c85ce" class="img-zoom"/>
+								</div>
+								<div class="title translation Translations.home.devicescustomize.label.type.default"></div>
+							</a>
+						</li>
+
+					</ul>
+				</div>
+				<div class="scroll right"></div>
+			</div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<div style="float:right">
+				<input type="button" id="bt_cancel" value="annuler" class="input-btn input-btn-gray translation Translations.general.btn.cancel"/>
+				<input type="button" id="bt_save" value="enregistrer" class="input-btn input-btn-orange translation Translations.general.btn.save"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div id="content-right">
+	<div class="input-info-help">
+		<div class="header"><h6><span class="translation Translations.general.label.help"></span></h6></div>
+		<div class="content translation Translations.home.devicescustomize.label.help"></div>
+		<div class="footer"></div>
+	</div>
+</div>
+				</div>
+				<div id="footer">
+					<div id="footer-logo-ft">
+					</div>
+					<div id="footer-menu">
+						<a href="/legal.html" onclick="return Sah.redirect('/legal.html');"><span class="translation Translations.legal.label.title"></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+		function bindReady(handler){
+			var called = false
+			function ready() {
+				if (called) return
+				called = true
+				handler()
+			}
+			if ( document.addEventListener ) { // native event
+				document.addEventListener( "DOMContentLoaded", ready, false )
+			} else if ( document.attachEvent ) {  // IE
+				try {
+					var isFrame = window.frameElement != null
+				} catch(e) {}
+				// IE, the document is not inside a frame
+				if ( document.documentElement.doScroll && !isFrame ) {
+					function tryScroll(){
+						if (called) return
+						try {
+							document.documentElement.doScroll("left")
+							ready()
+						} catch(e) {
+							setTimeout(tryScroll, 10)
+						}
+					}
+					tryScroll()
+				}
+				// IE, the document is inside a frame
+				document.attachEvent("onreadystatechange", function(){
+					if ( document.readyState === "complete" ) {
+						ready()
+					}
+				})
+			}
+			// Old browsers
+			if (window.addEventListener)
+				window.addEventListener('load', ready, false)
+			else if (window.attachEvent)
+				window.attachEvent('onload', ready)
+			else {
+				var fn = window.onload // very old browser, copy old onload
+				window.onload = function() { // replace by new onload and call the old one
+					fn && fn()
+					ready()
+				}
+			}
+		}
+		bindReady(function() {		
+			var login = Cookie.get('login');
+			  if (login != null && (!login.match(/^[A-Za-z0-9 ]+$/) || login.length > 24)){
+				Cookie.unset('sessid');
+				Cookie.unset('expirydate');
+				Cookie.unset('login');
+				Cookie.unset('context');
+
+				new Ajax.Request("/logout", {
+					onComplete: function(){Sah.redirect('/');},
+					method: "get"
+				});
+			}
+			
+			if (Cookie.get('expirydate') !== undefined && Cookie.get('expirydate') !== null){
+				
+				var expiryValue = Cookie.get('expirydate'),	
+					expiryDate = new Date(expiryValue);
+									
+				if ( Object.prototype.toString.call(expiryDate) !== '[object Date]' || !isFinite(expiryDate) )
+					expiryDate = new Date(parseInt(expiryValue));			
+					
+				var currentDate = new Date(),
+					remainingTime = expiryDate.getTime() - currentDate.getTime();
+				
+				if(remainingTime < 0 ){
+					Cookie.unset('expirydate');
+				} else {
+					setTimeout(function(){
+						Cookie.unset('sessid');
+						Cookie.unset('expirydate');
+						Cookie.unset('login');
+						Cookie.unset('context');
+						
+						new Ajax.Request("/logout", {
+							onComplete: function(){Sah.redirect('/');},
+							method: "get"
+						});
+					}, remainingTime);
+				}
+
+			}
+			
+			if ( appConfig === 'fr' ) {
+				$('hmenu-myfiles').remove();
+				if ( $('advConfigPorts') !== null ) {
+					$('advConfigPorts').remove();
+				}
+				if ( $('left-fxo-link') !== null ) {
+					$('left-fxo-link').remove();
+				}
+			}
+			if (config.BUILD_PROJECT.indexOf("2.8") < 0) {
+				if ( $('left-fxo-link') !== null ) {
+					$("left-fxo-link").show();
+				}
+			}
+			$('Login').observe("submit",function(e){
+				Event.stop(e);
+				$('Username').setValue($F('PopupUsername'));
+				$('Password').setValue($F('PopupPassword'));
+				return true;
+			}.bind(this));
+			
+			$("popup-close-btn").observe("click",function(e){
+				ctl.popup.Close();
+				return false;
+			});
+			
+			$$('.hmenu li a').each(function (el) {
+				Event.observe(el, 'mouseup', function(event) {
+					Sah.redirect(el.href);
+				});
+			});
+		});
+</script>
+</body>
+</html>

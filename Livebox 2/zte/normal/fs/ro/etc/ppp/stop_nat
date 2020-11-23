@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ $# != "1" ] ; then 
+    echo "Usage : firewall_stop pppx"
+    exit 127
+fi
+net_device=$1
+
+/usr/sbin/iptables -t nat -F POSTROUTING
+/usr/sbin/iptables -t nat -F PREROUTING
+/usr/sbin/iptables -F FORWARD
+/usr/sbin/iptables -F INPUT
+
+

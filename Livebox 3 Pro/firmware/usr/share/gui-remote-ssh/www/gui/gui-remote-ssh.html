@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="fr" />
+<meta http-equiv="pragma" content="no-cache" />
+<title></title>
+<link rel="shortcut icon" href="img/orange_mini.jpg" />
+<link rel="stylesheet" type="text/css" href="css/gui-core.css" />
+<link rel="stylesheet" type="text/css" href="css/gui-common.css" />
+<link rel="stylesheet" type="text/css" href="css/gui-remote-ssh.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.20.custom.css" />
+
+<!-- Libs from the Livebox -->
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery.printf.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery.random.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript" src="js/md5.js"></script>
+<script type="text/javascript" src="js/gui-core.js"></script>
+<script type="text/javascript" src="js/gui-api.js"></script>
+<script type="text/javascript" src="js/gui-common.js"> // </script>
+<script type="text/javascript" src="js/gui-remote-ssh.js"></script>
+
+<script type="text/javascript">
+jQuery(function ($, gui) {
+        var gui = $.gui;
+        gui.i18n.add("msg/%L/gui-api-msg.json"/*,
+                     "msg/%L/gui-xmo-msg.json"*/);
+        gui.alert = function (text, agrs) {
+          alert($.sprintf.apply($, arguments));
+        };
+        gui.refreshPage = function () {
+			$("#GUI-Header").guiLoadURL();
+			$("#GUI-Content").guiLoadURL();
+          // delete the xmoObjset to allow automatic reconnection
+	  if (gui.rmsshObjset !== undefined) {
+             gui.rmsshObjset = undefined;
+          }
+        };
+        gui.openLoginForm = function (error) {
+          gui.alert("Error (%d): %s", error.code, error.description);
+          this.refreshPage();
+        };
+        gui.init("en", "gtw");
+      // Creation of new middleware client
+      gui.client = new gui.api.Client({
+        cookie: "rmssh_session",
+        "session": {
+          "context-flags": {
+              "no-default": false
+          },
+          "capability-flags": {
+            flags: true,
+            "default-value": true,
+            type: true
+          },
+          depth: 2,
+          "capability-depth": 2,
+          "write-only-string": "_XMO_WRITE_ONLY_",
+          "undefined-write-only-string": "_XMO_UNDEFINED_WRITE_ONLY_"
+        }
+      });      
+      
+        gui.refreshPage();
+      });
+</script>
+</head>
+<body>
+<div id="GUI-Main">
+  <div id="GUI-Header" url="rmssh/header.gtpl"></div>
+  <div id="GUI-Content" url="rmssh/main.gtpl"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+#!/bin/sh
+
+USB_DEV_PATH=/dev/usb/tts
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export LD_LIBRARY_PATH=/lib:/usr/lib
+
+start_dect()
+{
+   TTY=" "
+
+# check if a dongle is already connected   
+   if [ -f /var/run/dect_start ]; 
+   then
+          echo "already a DECT device connected!"
+          exit 1
+   else
+         touch /var/run/dect_start
+   fi;
+   
+   for PARAM in $USB_DEV_PATH/0 $USB_DEV_PATH/1 $USB_DEV_PATH/2 $USB_DEV_PATH/3 
+   do
+      if [ -f $PARAM ];
+      then
+         echo $PARAM >> /var/run/dect_start
+         TTY=$PARAM
+         break;
+      else
+         continue;
+      fi;
+      
+   done;
+   
+   if [ $TTY = " " ];
+   then
+      echo "no USB DECT device found!"
+      rm -f /var/run/dect_start
+   else
+      echo "add DECT on serial port $TTY"
+      /etc/init.d/mdg start 
+   fi;
+}
+
+stop_dect()
+{
+   echo "remove dect device"
+   /etc/init.d/mdg stop
+   rm -f /var/run/dect_start
+}
+
+case $ACTION in
+   add)
+      start_dect
+      ;;
+      
+   remove)
+      stop_dect
+      ;;
+esac;	
+

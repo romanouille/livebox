@@ -1,0 +1,2 @@
+nf_conntrack_rtsp ports=554,5004
+nf_nat_rtsp

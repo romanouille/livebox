@@ -1,0 +1,13 @@
+datamodel{
+
+	object WOLProxy{
+		parameter Enable = true ;
+		parameter Status = KO ;
+		parameter Port = 48911 ;
+		parameter EnablerV4HostName = "wakeupenabler.orange.com" ;
+		parameter EnablerV6HostName = "wakeupenabler.orange.com" ;
+	}
+}
+
+
+/** @location sah_services_wolproxy /plugin/wolproxy-defaults.odl */

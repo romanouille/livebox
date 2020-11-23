@@ -1,0 +1,40 @@
+include "deviceinfo/deviceinfo.odl";
+include "wandevice/wandevice.odl";
+include "cwmp/managementserver.odl";
+include "l3f/layer3forwarding.odl";
+include "lan/lan.odl";
+include "cwmp/IPPingDiagnostics_map.odl";
+include "time/time_plugin_map.odl";
+include "services/voiceservice.odl";
+include "services/voipaad_map.odl";
+include "services/cups-igd.odl";
+include "services/wificom-igd.odl";
+include "services/wolproxy-igd.odl";
+include "services/audiphone_map.odl";
+include "services/devicemngt-igd.odl";
+include "services/Ezpairing_igd.odl";
+include "services/usbdectphone.odl";
+include "udpechoconfig/UDPEchoConfig_map.odl";
+include "netmodeconfig/nmc_obj_map.odl";
+include "firewall/firewall_map.odl";
+include "usb/usbhost-igd.odl";
+include "custom/ipv6.odl";
+include "userinterface/userinterface-igd.odl";
+
+{
+    acl {
+        group cwmpd read,write,execute;
+    }
+    read-only string DeviceSummary;
+    read-only string LANDeviceNumberOfEntries;
+    read-only string WANDeviceNumberOfEntries;
+}
+
+datamodel {
+    {
+        parameter LANDeviceNumberOfEntries = 1;
+        parameter WANDeviceNumberOfEntries = 2;
+        parameter DeviceSummary = "InternetGatewayDevice:1.4[](Baseline:2, EthernetLAN:2, ADSLWAN:1, EthernetWAN:1, Time:2, IPPing:1, UDPEcho:1, UDPEchoPlus:1, DHCPCondServing:1)";
+    }
+}
+

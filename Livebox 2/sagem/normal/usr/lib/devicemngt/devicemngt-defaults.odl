@@ -1,0 +1,36 @@
+datamodel {
+
+    object DeviceManagement {
+
+        object BulkData {
+
+            parameter MinReportingInterval=3600;
+
+            instance of Profile(0, "Default") {
+                parameter ReportingInterval=21600;
+                parameter ProfileType="bulkdata_debuginfo";
+                parameter FileTransferURL="http://karmatrack.orange.com/FR/log";
+            }
+        }
+
+        /*
+         * SSH is explictly disabled (regardless of
+         * the default value specified in "devicemngt-definitions.odl").
+         * Its port is set to the Orange-specific value 50222.
+         */
+        instance of SSH(0, "remote") {
+            parameter AccessType="wan";
+            parameter Enable=0;
+            parameter PersistentEnable=1;
+            parameter IPVersion=4;
+            parameter Ports=50222;
+            parameter AllowRootLogin=1;
+            parameter ActivationDuration=30;
+            parameter SourcePrefix="80.12.68.41,80.12.68.8,80.12.209.10,161.106.2.11,161.106.2.17";
+            parameter SourcePrefixNonEmpty=1;
+        }
+
+    }
+}
+
+/** @location sah_services_system /devicemngt/devicemngt-defaults.odl */

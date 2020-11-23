@@ -1,0 +1,10 @@
+<b>Redémarrer :</b><br>
+<br>
+<span class="boldorange">Redémarrer :</span> vous pouvez redémarrer votre livebox en cliquant sur le bouton <b>Redémarrer</b>.<br>
+<br>
+<span class="boldorange">Redémarrer WiFi :</span> vous pouvez redémarrer le service WiFi de votre livebox en cliquant sur le bouton <b>Redémarrer le WiFi</b>.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

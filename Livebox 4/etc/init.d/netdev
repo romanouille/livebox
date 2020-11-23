@@ -1,0 +1,62 @@
+#!/bin/sh
+
+
+. /usr/bin/pcb_common.sh
+
+name="netdev"
+datamodel="NetDev"
+trace_zones=""
+component="sah_services_netdev"
+ 
+case $1 in
+	start)
+		[ -e /proc/sys/net/bridge/bridge-nf-call-iptables ] && \
+			echo "0" > /proc/sys/net/bridge/bridge-nf-call-iptables
+		[ -e /proc/sys/net/bridge/bridge-nf-call-ip6tables ] && \
+			echo "0" > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+		echo "1" > /proc/sys/net/ipv4/ip_forward
+		echo "1" > /proc/sys/net/ipv4/conf/default/forwarding
+		echo "0" > /proc/sys/net/ipv4/conf/default/accept_redirects
+		echo "1" > /proc/sys/net/ipv4/conf/default/promote_secondaries
+		echo "1" > /proc/sys/net/ipv4/conf/all/forwarding
+		echo "0" > /proc/sys/net/ipv4/conf/all/accept_redirects
+		echo "1" > /proc/sys/net/ipv4/conf/all/promote_secondaries
+		[ -e /proc/sys/net/ipv4/netfilter/ip_conntrack_udp_timeout ] && \
+			echo "120" > /proc/sys/net/ipv4/netfilter/ip_conntrack_udp_timeout
+		[ -e /proc/sys/net/netfilter/nf_conntrack_udp_timeout ] && \
+			echo "120" > /proc/sys/net/netfilter/nf_conntrack_udp_timeout
+		echo "1" > /proc/sys/net/ipv6/conf/default/accept_ra
+		echo "1" > /proc/sys/net/ipv6/conf/default/forwarding
+		echo "1" > /proc/sys/net/ipv6/conf/all/accept_ra
+		echo "1" > /proc/sys/net/ipv6/conf/all/forwarding
+
+		# Respect RFC4862 5.4.5
+		echo "2" > /proc/sys/net/ipv6/conf/all/accept_dad
+		echo "2" > /proc/sys/net/ipv6/conf/default/accept_dad
+		if pcb_is_running $name; then
+			echo $name " already started"
+		else
+			pcb_app -vv -n $name -I /var/run/netdev -c /usr/lib/netdev/netdev.odl
+			mtk_load nemo-core /usr/lib/nemo/modules/netdev.so
+		fi
+		;;
+	stop)
+		mtk_unload nemo-core netdev
+		pcb_stop $name
+		;;
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+		;;
+	log)
+		action=$2
+		if [ -n "$action" ]; then
+			pcb_log $name $action $trace_zones
+		else
+			pcb_log $name enable $trace_zones
+		fi
+		;;
+	*)
+		echo "Usage : $0 [start|stop|debuginfo|log]"
+		;;
+esac
+

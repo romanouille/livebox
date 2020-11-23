@@ -1,0 +1,13 @@
+<b>DynDNS :</b><br>
+<br>
+Le service DynDNS vous permet d'attribuer un nom de domaine et d'hôte fixe à une adresse IP Internet dynamique. Cela peut s'avérer utile si vous hébergez votre site Web personnel, un serveur FTP ou tout autre type de serveur derrière votre livebox.<br> 
+<span class="boldorange">Service :</span> Choisissez le fournisseur DynDNS, auquel vous avez souscrit le nom DynDNS.<br>
+<span class="boldorange">Hostname :</span> Choisissez votre nom de domaine<br>
+<span class="boldorange">Identifiant/e-mail :</span> Saisissez le nom d’utilisateur correspondant à votre compte DynDNS<br>
+<span class="boldorange">Mot de passe :</span> Saisissez le mot de passe correspondant à votre compte DynDNS.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+
+

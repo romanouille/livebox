@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# /proc/sys/net/ipv6/conf/all/mc_forwarding is removed in newer kernels
+# the echo is only done for compatibility with older versions
+# the 'permission denied' can be ignored. 
+
+case $1 in
+	start)
+        if [ -w /proc/sys/net/ipv6/conf/all/mc_forwarding ]; then
+		    sh -c "echo 1 > /proc/sys/net/ipv6/conf/all/mc_forwarding" 2>/dev/null
+        fi
+		modprobe kmcd_mrt
+		;;
+	stop)
+		modprobe -r kmcd_mrt
+        if [ -w /proc/sys/net/ipv6/conf/all/mc_forwarding ]; then
+		    sh -c "echo 0 > /proc/sys/net/ipv6/conf/all/mc_forwarding" 2>/dev/null
+        fi
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac
+

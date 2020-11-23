@@ -1,0 +1,24 @@
+#!/bin/sh
+PATH=/bin:/sbin
+export PATH
+CONF=/etc/syslog.conf
+
+case $1 in
+    start)
+        if [ -f $CONF ]
+        then
+            . $CONF
+            syslogd -O $O -S -s $s -b $b
+        else
+            syslogd -S -s 80
+        fi
+        klogd
+        echo 4 > /proc/sys/kernel/printk
+    ;;
+    stop)
+        killall klogd
+        killall syslogd
+        echo 10 > /proc/sys/kernel/printk
+    ;;
+    *)
+esac

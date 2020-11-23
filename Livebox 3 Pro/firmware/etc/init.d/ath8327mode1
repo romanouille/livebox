@@ -1,0 +1,43 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+
+START=45
+
+start() {
+	swtool='sysutil athr83xxregrw write'
+
+	# Avoid lan traffic to go on FTTH port.
+	# Cut all connectivity except for P1 (for debuging purpose) and wait for xmo to configure correctly
+	# ssdk_sh portVlan member update 0 0x1e   # MII0 see P1/P2/P3/P4
+	$swtool 0x0660 0x14001e
+	# ssdk_sh portVlan member update 1 0x1d   # P1 sees MII0/P2/P3/P4
+	$swtool 0x066c 0x14001d
+	# ssdk_sh portVlan member update 2 0x1b   # P2 sees MII0/P1/P3/P4
+	$swtool 0x0678 0x14001b
+	# ssdk_sh portVlan member update 3 0x17   # P3 sees MII0/P1/P2/P4
+	$swtool 0x0684 0x140017
+	# ssdk_sh portVlan member update 4 0x00   # P4 sees nothing
+	$swtool 0x0690 0x140000
+	# ssdk_sh portVlan member update 5 0x00   # P5 sees nothing
+	$swtool 0x069c 0x140000
+	# ssdk_sh portVlan member update 6 0x00   # MII1 sees nothing
+	$swtool 0x06a8 0x140000
+
+	# configure Atheros AR8327 v1.0 ethernet switch in RGMII mode with Ikanos vx185 processor in mode 1
+
+	$swtool 0x0004 0x07000000	# MAC0 is connected to CPU through RGMII interface (check delay)
+	$swtool 0x000c 0x07000000	# MAC6 is connected to CPU through RGMII interface (check delay)
+	$swtool 0x0010 0x40000000	# Power-on Strap register: got from Jeanson@Atheros  
+	$swtool 0x007c 0x7e			# Configure Port0 status register (Gigabit, full duplex) 
+	$swtool 0x0090 0x1280		# Configure Port5 status register 
+	$swtool 0x0094 0x7e			# Configure Port6 status register 
+
+	sysutil ethphy write 4 29 12
+	sysutil ethphy write 4 30 4c04
+	sysutil ethphy write 4 29 0
+	sysutil ethphy write 4 30 02ee
+	sysutil ethphy write 4 29 5
+	sysutil ethphy write 4 30 3c47
+	sysutil ethphy write 4 29 b
+	sysutil ethphy write 4 30 bc40
+}

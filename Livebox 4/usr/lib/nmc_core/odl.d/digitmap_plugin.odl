@@ -1,0 +1,16 @@
+using "../nmccore_digitmap.so";
+
+persistent object NMC {
+
+    /**
+     * Apply digitmap from given file else default file /etc/config/digitmap_tmp.xml.
+     * Only digitmap from default file /etc/config/digitmap_tmp.xml will be reloaded for next boot.
+     */
+    bool applyDigitMap(string filename) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+}

@@ -1,0 +1,57 @@
+using "ConMon.so";
+ /**
+  * Monitoring of the WAN IP connectivity between the livebox and the default route.
+  */
+object ConMon[] {
+	
+	/**
+	 * The WAN interface that is being used.
+	 */
+	string Interface {
+	 constraint maxvalue 256;
+	 default "data"; 
+	}
+
+	/**
+	 * Length of the timer of the main refresh cycle.
+	 */
+  	uint32 MainLoopTimerLength {
+	 default 60;
+	}
+	/**
+	 * Length of the timer after no router entry is found.
+	 */
+	uint32 FailTimerLength {
+	 default 15;
+	}
+	/**
+	 * The number of retries when no router entry is found.
+	 * This also includes the first try!
+	 */
+	uint32 NumberOfRetries {
+	 default 3;
+	}
+
+	/**
+	  * Is the plugin active or not. This can be 0 when 
+	  * wan-connection is down, or when we have a dsl desync.
+	  */
+	bool Up {
+	 default 1;
+	}
+
+	/**
+	  * In which state of the algorithm are we.
+	  * 0 : main refresh interval.
+	  * >0: retrying 
+	  */
+	uint16 State {
+	 default 0;
+	}
+
+	/** MUST be enabled to monitor ipv4 connectivity. 
+    	 */
+  	persistent bool Enable;
+}
+
+/** @location sah_services_ipdiagnostics /conmon/ConMon.odl */

@@ -1,0 +1,134 @@
+using "upgraded_plugin.so";
+
+acl {
+  world none;
+  group admin none;
+  group remoteadmin none;
+  group cwmpd read,write,execute;
+}
+
+/**
+  * This object exposes the upgraded configuration/status.
+  */
+persistent object Upgrade {
+  /**
+    * Enable ssl peer authentication for downloads
+    */
+  persistent bool SSLPeerAuthentication {
+    default false;
+    write with saveHandler;
+  }
+
+  /**
+    * Check the ssl domain for downloads
+    */
+  persistent bool SSLCheckDomain {
+    default false;
+    write with saveHandler;
+  }
+
+  /**
+    * Allow self signed certificates
+    */
+  persistent bool SSLAllowSelfSigned {
+    default false;
+    write with saveHandler;
+  }
+
+  /**
+    * Maximum attempts before failing
+    */
+  uint32 MaxRetry=0;
+
+  /**
+    * If the firmware signature received is not valid.
+    */
+  read-only uint32 AuthenticationCheckFailureCode=9019;
+
+  /**
+    * If the firmware(s) received:
+    * - are too big for the flash
+    * - not of valid type(s)
+    */
+  read-only uint32 IncompatibleFirmwareFailureCode=9019;
+
+  /**
+    * If the firmware(s) flashing failed
+    */
+  read-only uint32 FirmwareFlashFailureCode=9002;
+
+  /**
+    * Flag to see if http download is enabled on this build
+    */
+  read-only bool HTTPEnabled=true;
+
+  /**
+    * Flag to see if https download is enabled on this build
+    */
+  read-only bool HTTPSEnabled=true;
+
+  /**
+    * Flag to see if ftp download is enabled on this build
+    */
+  read-only bool FTPEnabled=false;
+
+  /**
+    * Flag to see if usb upgrade is enabled on this build
+    */
+  read-only bool USBEnabled=false;
+
+  /**
+    * The current scenario in use
+    */
+  string CurrentScenario;
+
+  /**
+    * The active step in the scenario
+    */
+  string CurrentStep;
+
+  /**
+    * The status
+    */
+  string Status="Idle";
+
+  /**
+    * Error induction mechanism: force a step to fail
+    */
+  string FailOnScenario;
+
+  /**
+    * Error induction mechanism: force a step to fail
+    */
+  string FailOnStep;
+
+  /**
+    * Error code with which to fail or "reboot" which will trigger a sudden reboot
+    */
+  string FailWith;
+
+  /**
+   * Flags, to detect if the download URL must be ipv4 or ipv6.
+   */
+  string Flags {
+    default "ipv4";
+  }
+
+  /**
+   * Flag to enable/disable the image verification (signature)
+   */
+  persistent bool ImageVerify {
+    default true;
+    write with saveHandler;
+  }
+
+
+  /**
+   * WAN Interface name
+   */
+  persistent string Interface {
+    default "data";
+  }
+}
+
+/** @location sah_services_upgraded /src/settings/upgraded-definition.odl */

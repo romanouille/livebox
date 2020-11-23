@@ -1,0 +1,9 @@
+object NeMo { 
+	object extends MIB(0,"bridge") {
+		string Flag = "bridge";
+		object DataModel {
+			persistent uint32 Ageing;
+		}
+	}
+}
+

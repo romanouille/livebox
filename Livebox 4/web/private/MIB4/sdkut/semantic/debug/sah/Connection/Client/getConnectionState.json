@@ -1,0 +1,16 @@
+{
+    "status": 0,
+    "data": {
+        "linkModeList": [
+            {
+                "linkMode": "ETHERNET",
+                "linkType": "ETHERNET_DHCP",
+                "state": "OK",
+                "stateIpv4":"OK",
+                "stateIpv6":"ERROR",
+                "lastError": "NONE"
+            }
+        ]
+    }
+}
+

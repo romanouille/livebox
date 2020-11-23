@@ -1,0 +1,11 @@
+<b>Mise à jour :</b><br>
+<br>
+Si une mise à jour est disponible, le téléchargement se fera automatiquement et le voyant de mise à jour (bleu) clignotera jusqu’à la fin du processus.<br>
+Si lors de la mise à jour un problème se produit, le voyant de mise à jour et le voyant internet resteront allumés fixes.<br>
+<span class="boldorange">Version courante du firmware :</span> Firmware utilisé sur votre livebox.<br>
+Le logiciel de votre livebox est mis à jour à distance pour que vous bénéficiez des derniers services disponibles. Ce logiciel évolutif s'appelle Firmware.<br> Orange le met à jour régulièrement automatiquement, de nuit pour ne pas gêner l’utilisation de la livebox. Cela se manifeste par l'allumage de la diode bleue.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

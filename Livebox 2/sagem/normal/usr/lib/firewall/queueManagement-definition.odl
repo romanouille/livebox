@@ -1,0 +1,580 @@
+using "queueManagement.so";
+
+/** 
+	The structure defines a queue with the basic queue parameters
+	The name of the queue, if it is enabled, the shapingRate and the assuredRate
+*/
+define qos_queue_t {
+	string queueName;
+	bool enable;
+	uint32 shapingRate;
+	uint32 assuredRate;
+}
+
+acl {
+	group cwmpd read,write,execute;
+	group admin read,execute;
+	group remoteadmin read,execute;
+}
+
+persistent object QueueManagement {
+	persistent bool Enable {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with enableQueueManagementOnWrite;
+		default true;
+	}
+	persistent uint32 MaxClassificationEntries {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with maxClassificationsOnWrite;
+		default 100;
+	}
+	persistent uint32 MaxQueuesEntries {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with maxQueuesOnWrite;
+		default 100;
+	}
+	persistent int32 DefaultTrafficClass {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		default -1;
+	}
+
+/** 
+ * Value is fixed set to "default", for compatibility with tr81.
+ */
+	persistent string DefaultForwardingPolicy {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		default "default";
+	}
+
+/** 
+ * The value is fixed set to 0, for compatibility with tr81.
+ */
+	persistent uint32 DefaultQueue {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		default 0;
+	}
+
+/** 
+ * The value is set to -1, for compatibility with tr81.
+ */
+	persistent int32 DefaultDSCPMark {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with defaultDSCPMarkOnWrite;
+		default -1;
+	}
+
+/** 
+ * The value is fixed set to -1, for compatibility with tr81. Sets the Default vlan priority.
+ * In fact this parameter is not very useful. The default ethernet priority will be set per 
+ * interface in the NeMo config.
+ */
+	persistent int32 DefaultEthernetPriorityMark {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		default -1;
+	}
+
+/** 
+ * This object defines queue, the configuration is highly dependant on the hardware QoS capabilities.
+ * Currently we have support for software QoS (HTB), ikanos Qos(WFQ) and broadcom specific QoS implementation.
+ */
+	persistent object Queue[] {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with queueOnWrite;
+		delete with queueOnDelete;
+
+/** 
+ * Human readable name for the Queue.
+ */
+		persistent string Name;
+
+/** 
+ * Unique Key for the Queue, the implementation is different per QoS implementation.
+*/
+		persistent int32 QueueKey;
+
+/** 
+* Enable the Queue, if the root queue is disabled all child queues are disabled as well. 
+*/
+		persistent bool QueueEnable = false;
+
+/** 
+* Status of the Queue. Can be Enabled, Disabled or Error.
+*/
+		read-only string QueueStatus {
+			read with queueStatusOnRead;
+			constraint enum ["Error", "Disabled", "Enabled"];
+			default "Disabled"; 
+		}
+		persistent string TrafficClasses {
+			constraint maxvalue 256;
+		}
+
+/** 
+* NeMo interface name for which interface this queue is applicable.
+*/
+		persistent string QueueInterface {
+			constraint maxvalue 256;
+		}
+
+/** 
+ * The behaviour is dependent per QoS implementation. 
+ * As per HTB, WFQ, brcm QoS, this parameter is not implemented. 
+ */
+		persistent uint32 QueueBufferLength;
+
+/** 
+ * The behaviour is dependent per QoS implementation. 
+ * As per HTB, WFQ, brcm QoS, this parameter is not implemented. 
+ */
+		persistent uint32 QueueWeight;
+
+/**
+* For WFQ this is the number of the Queue. 0 is used as the defaultQueue and must be provided.
+* A number from 0 to 7 is allowed.
+*/
+		persistent uint32 QueuePrecedence;
+
+/** 
+ * The behaviour is dependent per QoS implementation. 
+ * As per HTB, WFQ, brcm QoS, this parameter is not implemented. 
+ */
+		persistent uint32 REDTreshold {
+			constraint maxvalue 100;
+			default 0;
+		}
+
+/** 
+ * The behaviour is dependent per QoS implementation. 
+ * As per HTB, WFQ, brcm QoS, this parameter is not implemented. 
+ */
+		persistent uint32 REDPercentage {
+			constraint maxvalue 100;
+			default 0;
+		}
+
+		persistent string DropAlgorithm {
+			constraint enum ["RED", "DT", "WRED", "BLUE", "SFQ"];
+			default "DT";
+		}
+/** 
+* For ikanos targets, use WFQ. Currently HTB and WFQ cannot be used in the saem build.
+* It is decided at compile time which schedule algorithm to use.
+*/
+		persistent string SchedulerAlgorithm {
+			constraint enum ["WFQ", "WRR", "SP", "HTB"];
+			default "SP"; 
+		}
+
+/** 
+* This parameter defines the maximum bandwidth the queue can get. 
+* If the value is smaller or equal than 100 then the value is considered a percentage.
+* If the value is greater than 100 the value is interpreted as bps.  
+*/
+		persistent int32 ShapingRate = -1;
+
+/** 
+* This read-only parameter gives the current assured(minimum)bandwidth in Bps.
+*/
+		read-only int32 CurrentShapingRate {
+			read with queueCurrentShapingRateOnRead;
+		}
+		persistent int32 ShapingBurstSize =-1;
+
+/** 
+* This parameter defines the minimum bandwidth the queue can get. 
+* If the value is smaller or equal than 100 then the value is considered a percentage.
+* If the value is greater than 100 it is expressed in bps.  
+*/
+		persistent int32 AssuredRate =-1;
+
+/** 
+* This read-only parameter gives the current assured(minimum)bandwidth in Bps.
+*/
+		read-only int32 CurrentAssuredRate {
+			read with queueCurrentAssuredRateOnRead;
+		}
+		persistent int32 AssuredBurstSize =-1;
+
+/**
+* RootQueue is a string parameter to point to the root queue in the datamodel.
+* It must be defined before it's children and it can not be changed on the fly.
+*/
+		persistent string RootQueue;
+
+/**
+* Boolean parameter to indicate if this queue is a default queue are not. 
+* This is important for HTB. For WFQ the default queue has to set the queuePrecedence to 0.
+*/
+		persistent bool DefaultQueue = false;
+
+/**
+* This Parameter is only applicable for HTB in the rootQueue, for other configurations, 
+* it will not be taken into account.
+* The parameter verifies the per packet overhead. for instance for vlans you have 2 bytes
+* overhead, this will be needed for the QoS calculations. 
+*/
+		persistent int32 PerPacketOverhead = -1;
+	}
+
+/**
+ * This object is implemented for compatibility with tr69. 
+ * TODO, the implementation only supports HTB(software QoS).
+ */
+	persistent object QueueStats[] {
+		write with queueStatsOnWrite;
+		delete with queueStatsOnDelete;
+
+		persistent bool Enable = false;
+		read-only string Status {
+			read with queueStatsStatusOnRead;
+			constraint enum ["Disabled", "Enabled", "Error"];
+			default "Disabled";
+		}
+		persistent uint32 Queue = 0;
+		persistent string Interface;
+		read-only uint32 OutputPackets = 0;
+		read-only uint32 OutputBytes = 0;
+		read-only uint32 DroppedPackets =0;
+		read-only uint32 DroppedBytes = 0;
+	}
+
+	persistent object Classification[] {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+		write with classificationOnWrite;
+		delete with classificationOnDelete;
+
+/** 
+ * Human readable name for a classification 
+ */
+		persistent string Name;
+
+/**
+* This parameter is translated in a nfmark iptables rule. This mark is used mainly in HTB.
+* Set the parameter to 0 if not needed.
+*/  
+		persistent uint32 ClassificationKey;
+
+/**
+* Enable or disable the Classification 
+*/
+		persistent bool ClassificationEnable = false;
+
+/**
+ * The status can be Disabled, Enabled or Error
+*/
+		read-only string ClassificationStatus {
+			read with classificationStatusOnRead;
+			constraint enum ["Disabled", "Enabled", "Error"];
+			default "Disabled";
+		}
+
+/**
+* This parameter is not supported.
+*/
+		persistent uint32 ClassificationOrder;
+
+/**
+ * Indicates which packets are matched:
+ * Local: locally generated packets are matched: (iptables OUTPUT chain in the mangle table.)
+ * Forward: matches forwarded packets: (iptables FORWARD chain in the mangle table)
+ * Postrouting: matches both forwarded and locally generated packets (iptables POSTROUTING chain in mangle table.)
+ * "empty": matches both in PREROUTING and local generated traffic.
+ */
+		persistent string ClassInterface {
+			constraint maxvalue 256;
+		}
+
+/**
+* Defines a Outgoing Interface if applicable: nemo name or linux name are supported.
+*/
+		persistent string OutInterface {
+			constraint maxvalue 256;
+		}
+
+/** 
+* matches the destination ip address. Important, if you specify ipv4 addresses,
+* the ipversion has to be set to 4, if you specify ipv6 addresses the ipversion 
+* has to be set to 6.
+*/ 
+		persistent string DestIP {
+			constraint maxvalue 40;
+		}
+/**
+* Destination mask, both integer or dotted notation are supported
+*/
+		persistent string DestMask {
+			constraint maxvalue 40;
+		}
+
+/**
+* Matches all but the defined destination ip address/mask. 
+* At least the ip address must be non-empty.
+*/
+		persistent bool DestIPExclude = false;
+
+/** 
+* matches the source ip address. Important, if you specify ipv4 addresses,
+* the ipversion has to be set to 4, if you specify ipv6 addresses the ipversion 
+* has to be set to 6.
+*/ 
+		persistent string SourceIP {
+			constraint maxvalue 40;
+		}
+/**
+* Source mask, both integer or dotted notation are supported
+*/
+		persistent string SourceMask {
+			constraint maxvalue 40;
+		}
+/**
+* Matches all but the defined source ip address/mask. 
+* At least the ip address must be non-empty.
+*/
+
+		persistent bool SourceIPExclude = false;
+
+/** 
+* matches a protocol: The protocol must be set as a numeric value
+* i.e. TCP = 6, UDP = 17, IGMP = 2, ...
+*/ 
+		persistent int32 Protocol = -1;
+
+/** 
+* set to true if you want to match all but the defined protocol.
+*/
+		persistent bool ProtocolExclude = false;
+
+/**
+* Minimum destination port
+*/
+		persistent int32 DestPort = -1;
+
+/**
+* Maximum destination port, must be bigger (or equal) than DestPort.
+*/
+		persistent int32 DestPortRangeMax = -1;
+
+/**
+* Match all but the destionation port(range)
+*/
+		persistent bool DestPortExclude = false;
+
+/**
+* Minimum source port
+*/
+		persistent int32 SourcePort = -1;
+
+/**
+* Maximum source port, must be bigger (or equal) than SourcePort.
+*/
+		persistent int32 SourcePortRangeMax = -1;
+
+/**
+* Match all but the source port(range)
+*/
+		persistent bool SourcePortExclude = false; 
+
+/** 
+* Source Mac address to be matched. If empty no source mac address will be checked.
+*/
+		persistent string SourceMacAddress {
+			constraint maxvalue 18;
+		}
+
+/**
+* Invert the source mac address check.
+*/
+		persistent bool SourceMacExclude = false;
+
+/**
+* The DestMACAddress parameter is not supported 
+*/
+		persistent string DestMACAddress {
+			constraint maxvalue 18;
+		}
+/**
+* The DestMACExclude parameter is not supported 
+*/
+		persistent bool DestMACExclude = false;
+
+/** 
+ * We can match on packet lenght features. This can be used to match for instance small TCP Ack packets.
+ * Minimum packet lenght to be matched.
+*/
+		persistent int32 IPLengthMin = 0;
+
+/**
+ * We can match on packet lenght features. This can be used to match for instance small TCP Ack packets.
+ * Minimum packet lenght to be matched.
+ */
+		persistent int32 IPLengthMax = 0;
+
+/**
+* Check on DSCP values, a comma separated list of DSCP values is supported
+*/
+		persistent string DSCPCheck {
+			constraint maxvalue 100;
+		}
+		persistent bool DSCPExclude = false;
+
+/**
+* This parameter can be used to mark packets with a defined DSCP mark. 
+* It can be used in combination with ClassificationKey(HTB) or QueuePrecedence(WFQ)
+* Or it can be used with both parameters unset. Then we see only a set DSCP iptables rule.
+* both decimal or hexadecimal values are supported.
+*/
+		persistent int32 DSCPMark = -1;
+		persistent string ForwardingPolicy;
+		persistent int32 TrafficClass = -1;
+		persistent int32 ClassPolicer = -1;
+
+/** 
+* This parameter is a reference to the Queue it must link to. 
+*/
+		persistent string ClassQueue;
+
+/**
+* Not supported 
+*/
+		persistent int32 EthernetPriorityCheck = -1;
+
+/** 
+* Not supported
+*/
+		persistent bool EthernetPriorityExclude = false;
+
+/**
+* EthernetPriority mark: between 0 and 7, the value is set fixed.
+* If we specify -2, we do a mapping from the DSCP value of the packet to the pbit/
+*/
+		persistent int32 EthernetPriorityMark = -1;
+		persistent int32 VLANIDCheck = -1;
+		persistent bool VLANIDExclude = false;
+
+/** 
+* Classification can used for ipv4(4), ipv6(6) or both(0)
+*/
+		persistent int32 IPVersion = 0;
+
+/**
+* Normally a packet will not stop when it matches a classification. 
+* It will continue to traverse all the rules in a chain. 
+* If you want to a packet to stop traversing the chain, set this parameter to true.
+* It will result in a iptables rules "-j RETURN"
+*/
+		persistent bool StopTraverse = false;
+	}
+
+/**
+* Function to save the QoS configuration. setQosConfig saves the function implicitly. 
+* In setClassification, a parameter exists where you can specify if the configuration must be persistent or not.
+*/ 
+	bool save() {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+/** 
+ * Remove the saved configuration, will be applied after a reboot.
+*/
+	bool reset() {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+/** 
+* Apply the changes if the datamodel is changed by manually. Should not be used anymore.
+*/
+	bool commit() {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+/**
+	This function configures the qos configuration on a specific interface, with a specific scheduling mechanism.
+	All this data will be set atomic.
+	@param Interface - NeMo interface name on which the queue must be applied.
+	@param Enable - Enable or disable the queue.
+	@param Algorithm - WFQ, HTB is supported
+	@param WanQueue - A map object containing an Enable parameter, a minimum and maximum bandwidth.
+	@param SubQueue - A list of qos_queue_t objects describing the children queues.
+*/
+	bool setQosConfig(mandatory string Interface, mandatory bool Enable, mandatory string Algorithm, qos_queue_t WanQueue, list SubQueue) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+/** 
+	setClassification function, sets parameters to a classification function
+	@param Id - the name of the classification to be changed. If it does not exists, an error is returned.
+	@param Enable - mandatory parameter, must be true or false to enable, disable the classification.
+	@param OutInterface - outgoing interface, optional parameter.
+	@param DestinationPrefix - destination ip address match, optional parameter.
+	@param Persistent - store the configuration persistently or not.
+
+	@return - true if the function is executed correctly, false if an error occured.
+*/
+	bool setClassification(mandatory string Id, mandatory bool Enable, string OutInterface, string DestinationPrefix, bool Persistent) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+/** 
+	setClassifications function, sets a number of classifications at once
+	@param Classifications: list of Classification: Each Classification contains the following parameters.
+	@param Id - the name of the classification to be changed. If it does not exists, an error is returned.
+	@param Enable - mandatory parameter, must be true or false to enable, disable the classification.
+	@param OutInterface - outgoing interface, optional parameter.
+	@param DestinationPrefix - destination ip address match, optional parameter.
+	@param Persistent - store the configuration persistently or not.
+
+	@return - true if the function is executed correctly, false if an error occured.
+*/
+	bool setClassifications(list Classifications) {
+		acl {
+			group admin none;
+			group remoteadmin none;
+		}
+	}
+
+}

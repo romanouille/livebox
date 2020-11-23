@@ -1,0 +1,10 @@
+persistent object DataHub
+{
+    persistent object Accounts
+    {
+        read-only uint32 NumberOfUsers
+        {
+            default 0;
+        }
+    }
+}

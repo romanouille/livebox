@@ -1,0 +1,17 @@
+﻿<div class="button-container">
+  <div class="button-content">
+    <input type="button" class="button" value="parcourir"> <input type="text" {{#if id}}id="{{id}}" {{/if}} class="file-field" value="{{label}}"> 
+    <input type="file" {{#if id}}id="{{id}}_file" {{/if}}> 
+    {{#each value}}
+      {{#ifEqual style "orange"}}
+      <input {{#if id}}id="{{id}}" {{/if}} type="button" class="button" value="{{label}}">          
+      {{/ifEqual}}
+      {{#ifEqual style "lightgrey"}}
+      <input {{#if id}}id="{{id}}" {{/if}} type="button" class="button button-disabled" value="{{label}}">          
+      {{/ifEqual}}
+      {{#ifEqual style "grey"}}
+      <input {{#if id}}id="{{id}}" {{/if}} type="button" class="button grey-button" value="{{label}}">          
+      {{/ifEqual}}
+    {{/each}}  
+  </div>
+</div>

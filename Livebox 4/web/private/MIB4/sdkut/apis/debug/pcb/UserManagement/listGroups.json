@@ -1,0 +1,20 @@
+{
+  "status": [
+    {
+      "name": "http",
+      "enable": true
+    }, {
+      "name": "admin",
+      "enable": true
+    }, {
+      "name": "remoteadmin",
+      "enable": true
+    }, {
+      "name": "ftp",
+      "enable": true
+    }, {
+      "name": "phonebook",
+      "enable": true
+    }
+  ]
+}

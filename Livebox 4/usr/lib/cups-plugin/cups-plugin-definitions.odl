@@ -1,0 +1,23 @@
+using "cups-plugin.so";
+
+acl {
+  group cwmpd read,write,execute;
+}
+
+/**
+  * This object exposes the CUPS configuration/status. 
+  */
+object CupsService {
+  persistent string NetworkDevice = "lan";
+  persistent string ServerName = "LIVEBOX";
+
+  persistent bool Enable {
+    default true;
+    write with enableHandler;
+  }
+
+}
+
+
+
+/** @location sah_services_cups /cups-plugin/cups-plugin-definitions.odl */

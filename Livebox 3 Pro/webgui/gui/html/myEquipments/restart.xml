@@ -1,0 +1,40 @@
+<div id="restart" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<span style="display:none">XpathRouter</span>
+	<span style="display:none">XPathRPC</span>
+  	<div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_EnvLiveBox_restart">
+			<span i18n="page.myEquipments.restart.title"/>&#160;<span  dataId="XpathRouter/RouterName"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myEquipments.restart.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form>
+		<div class="boxType4 margin-top-10 border-bottom-1">
+			<span class="h3Text" i18n="page.myEquipments.restart.reboot"/>
+			<br/>
+			<div i18n="page.myEquipments.restart.reboot.label"/> <!-- class="forminput"  -->
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnRebootBox" widgetType="ButtonImage" i18n="page.myEquipments.restart.btn"/>
+			</div>
+		</div>
+		<div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.myEquipments.restart.rebootwifi"/>
+			<div  i18n="page.myEquipments.restart.rebootwifi.label"/><!-- class="forminput" -->
+			<br/>
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnRebootWiFi" widgetType="ButtonImage" i18n="page.myEquipments.restart.btnwifi"/>
+			</div>
+		</div>	
+			<!--<div widgetType="ButtonContainer" class="btnPageBack">
+				<span widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'PREVIOUSPAGE'}" i18n="common.page.back"/>
+			</div>-->
+		</form>
+	</div>
+</div>

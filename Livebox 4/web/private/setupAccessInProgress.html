@@ -1,0 +1,223 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=1085" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Livebox</title>
+        <script type="text/javascript">
+		appUrl = '';
+		appConfig ='fr';
+		appUid = getEtag();
+
+		config = {
+			BUILD_CUSTOMER: 'ft',
+			BUILD_PROJECT: 'mib4',
+			BUILD_HARDWARE: 'sagem-mib4',
+			SESSION_DURATION: '600'
+		};
+
+		if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+				config.BUILD_PROJECT = "lbv2.8fr";
+		}
+        function getEtag(){
+            var req = new XMLHttpRequest();
+            req.open('GET', document.location, false);
+            req.send(null);
+            return req.getResponseHeader("etag");
+        }
+        
+        function fillHeader(){
+			var currentUrlArray = document.URL.split("/");
+			var currentHeaderLogo = document.getElementById("header-logo-livebox").outerHTML;
+			var headerLogoReplacement = '<a href="/"><div id="header-logo-livebox"><img src="/images/fr/common/transparent.gif?30d0a8ef" alt="" class="config-fr png"/></div></a>';
+			if(currentUrlArray[currentUrlArray.length-1] == "sav-lan.html") {				
+				document.getElementById("header-logo-livebox").outerHTML = headerLogoReplacement;
+			}
+		}
+        </script>
+        <link href="/styles.css?30d0a8ef" rel="stylesheet" type="text/css"/>
+		<script src="/scripts.js?30d0a8ef" type="text/javascript" charset="utf-8"></script>
+		<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?30d0a8ef"/>
+		<link rel="shortcut icon" href="/images/fr/common/favicon.ico?30d0a8ef" type="image/x-icon"/>
+    </head>
+
+    <body class="accessibility-normal" onLoad="fillHeader()">
+
+        <img src="/images/fr/common/transparent.gif?30d0a8ef" style="display: none;"/>
+        <img src="/images/fr/common/header-accessibility-minus.png?30d0a8ef" style="display: none;"/>
+        <img src="/images/fr/common/header-accessibility-plus.png?30d0a8ef" style="display: none;"/>
+
+        <!-- Popup and backlayer from Cytadelle Technology Light framework -->
+        <div id="ct-popup" class="fixed"><img id="ct-popup-header" src="/images/fr/common/transparent.gif?30d0a8ef" class="png" alt=""/><div id="ct-popup-header-title"><h4>My PopUp</h4></div><a href="#" onclick="ctl.popup.Close(); return false;"><img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?30d0a8ef" class="png" alt=""/></a><div id="ct-popup-content"><br/></div><img id="ct-popup-footer" src="/images/fr/common/transparent.gif?30d0a8ef" class="png" alt=""/></div>
+        <div id="ct-msgbox" class="fixed"><img id="ct-popup-header-small" src="/images/fr/common/transparent.gif?30d0a8ef" class="png" alt=""/><div id="ct-msgbox-content"><img src="/images/fr/common/transparent.gif?30d0a8ef" id="ct-msgbox-img" class="png"/><div id="ct-msgbox-msg"></div><input type="button"  id="ct-msgbox-button1" value="annuler" 	class="input-btn input-small-btn-gray translation Translations.general.btn.cancel"/><input type="button" id="ct-msgbox-button2" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/><input type="button" id="ct-msgbox-button3" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/></div><img id="ct-popup-footer" src="/images/fr/common/transparent.gif?30d0a8ef" class="png" alt=""/></div>
+        <div id="ct-tooltip" class="fixed"></div>
+        <div id="ct-waiting" class="fixed"><img src="/images/fr/common/transparent.gif?30d0a8ef"/></div>
+        <div id="ct-backlayer" class="fixed"></div>
+
+
+        <!-- Scrollable document container -->
+        <div id="document-container">
+            <div id="document-background-header">
+                <div id="document-background-footer">
+                    <div id="document">
+                        <div id="header">
+							<div id="header-logo-livebox"><img src="/images/fr/common/transparent.gif?30d0a8ef" alt="" class="config-fr png"/></div>
+                            <div id="header-controls">
+                                <form name="Admin/UserInterface/Language">
+                                    <div id="header-controls-languages">
+                                        <select id="Language-select" name="Language-select"></select>
+                                    </div>
+                                </form>
+                                <form name="Home/Accessibility">
+                                    <div id="header-controls-accessibility-minus" class="header-controls-accessibility">
+                                        <a href="#" onclick="return false;"><img src="/images/fr/common/transparent.gif?30d0a8ef" alt=""/></a>
+                                    </div>
+                                    <div id="header-controls-accessibility-plus" class="header-controls-accessibility">
+                                        <a href="#" onclick="return false;"><img src="/images/fr/common/transparent.gif?30d0a8ef" alt=""/></a>
+                                    </div>
+                                    <div id="header-controls-accessibility-contrast1" class="header-controls-accessibility">
+                                        <a href="#" onclick="return false;"><img src="/images/fr/common/transparent.gif?30d0a8ef" alt=""/></a>
+                                    </div>
+                                    <div id="header-controls-accessibility-contrast2" class="header-controls-accessibility">
+                                        <a href="#" onclick="return false;"><img src="/images/fr/common/transparent.gif?30d0a8ef" alt=""/></a>
+                                    </div>
+                                    <div id="header-controls-accessibility-contrast3" class="header-controls-accessibility">
+                                        <a href="#" onclick="return false;"><img src="/images/fr/common/transparent.gif?30d0a8ef" alt=""/></a>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        <div id="content">
+                            
+<style type="text/css">
+	#content {
+		height: auto !important;
+		min-height: 570px;
+		overflow: visible;
+	}
+
+	#content-center {
+		float: left;
+		width: 710px;
+		height: auto !important;
+	}
+
+	h1{
+		font-size: 1.4em;
+	}
+
+</style>
+
+<div id="content-left"></div>
+
+<div id="content-center" style="text-align:left">		
+<form name="Home/SetupAccessInProgress">
+		<div style="text-align:center" id="content-center">		
+
+        <br><br><br><br><br>
+
+        <h1>
+            <span class="translation Translations.setup.accessconfirmation.label.inprogress">Connection in progress.<br><br>Please wait…</span>
+        </h1>
+
+        <br><br><br>
+
+	    <h1>
+            <img width="64px" height="64px" alt="" class="png" style="float:none; margin-bottom:-20px; margin-right:5px;" src="/images/fr/common/throbber.gif?30d0a8ef">
+ 
+            <br><br>
+        </h1>
+
+    </div>
+</form>
+</div>
+
+<div id="content-right"></div>
+
+                        </div>
+                        <div id="footer">
+                            <div id="footer-menu"><a  href="#"><span class="translation Translations.legal.label.title"></span></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<script type="text/javascript">
+		// Remove empty info Panel
+/*
+		if ($$(".input-info-help .content").length > 0 && $$(".input-info-help .content")[0].innerHTML === "") {
+			$$(".input-info-help")[0].setStyle("display:none");
+		}
+*/
+
+		function bindReady(handler){
+			var called = false
+			function ready() {
+				if (called) return
+				called = true
+				handler()
+			}
+			if ( document.addEventListener ) { // native event
+				document.addEventListener( "DOMContentLoaded", ready, false )
+			} else if ( document.attachEvent ) {  // IE
+				try {
+					var isFrame = window.frameElement != null
+				} catch(e) {}
+				// IE, the document is not inside a frame
+				if ( document.documentElement.doScroll && !isFrame ) {
+					function tryScroll(){
+						if (called) return
+						try {
+							document.documentElement.doScroll("left")
+							ready()
+						} catch(e) {
+							setTimeout(tryScroll, 10)
+						}
+					}
+					tryScroll()
+				}
+				// IE, the document is inside a frame
+				document.attachEvent("onreadystatechange", function(){
+					if ( document.readyState === "complete" ) {
+						ready()
+					}
+				})
+			}
+			// Old browsers
+			if (window.addEventListener)
+				window.addEventListener('load', ready, false)
+			else if (window.attachEvent)
+				window.attachEvent('onload', ready)
+			else {
+				var fn = window.onload // very old browser, copy old onload
+				window.onload = function() { // replace by new onload and call the old one
+					fn && fn()
+					ready()
+				}
+			}
+		}
+		bindReady(function() {
+			var login = Cookie.get('login');
+			if (login != null && (!login.match(/^[A-Za-z ]+$/) || login.length > 24)){
+				Cookie.unset('sessid');
+				Cookie.unset('expirydate');
+				Cookie.unset('login');
+				Cookie.unset('context');
+
+				new Ajax.Request("/logout", {
+					onComplete: function(){Sah.redirect('/');},
+					method: "get"
+				});
+			}
+		});
+		</script>
+    </body>
+</html>

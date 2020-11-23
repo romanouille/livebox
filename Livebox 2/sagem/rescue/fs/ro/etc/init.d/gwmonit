@@ -1,0 +1,39 @@
+# When this script is started with the 'start' argument,
+# it will be terminated.  This is NOT a joke!  This way, 
+# another script to stop the monitoring of gatewayd could 
+# be avoided.  Simplicity rulez!
+
+if [ "$1" = "start" ]
+then
+  if [ -f /tmp/gwmonit.pid ]
+  then
+    echo "Stop monitoring the gatewayd process..."
+    kill -9 `cat /tmp/gwmonit.pid`
+    rm /tmp/gwmonit.pid
+  fi
+  exit
+fi
+
+# This part will be executed when started without arguments (from gatewayd)
+
+echo $$ > /tmp/gwmonit.pid
+runmode=`/usr/bin/bootmode get`
+sleep 10
+echo "Starting to monitor the gatewayd process..."
+while true
+do
+  # generic processes to monitor
+  if [ `ps | grep gatewayd | wc -l | tr -d ' '` -lt 2 ]
+  then
+    echo "Process gatewayd crashed, rebooting..."
+    bootmode set system
+    reboot
+  fi
+  # processes to monitor
+  # all monitor commands must be inside /etc/init.d, have +rx attributes and a .gwmonit extension
+  for file in `ls -1 /etc/init.d/*.gwmonit 2>/dev/null`
+  do
+    . $file
+  done
+  sleep 30
+done

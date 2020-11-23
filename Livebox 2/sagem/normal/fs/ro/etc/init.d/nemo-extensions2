@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		pcb_cli -l "NeMo.loadModule(ppp.so)" \
+		           "NeMo.loadModule(dhcp.so)"
+		;;
+	stop)
+		pcb_cli -l "NeMo.unloadModule(ppp.so)" \
+		           "NeMo.unloadModule(dhcp.so)"
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac
+

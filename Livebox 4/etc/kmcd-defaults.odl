@@ -1,0 +1,27 @@
+datamodel {
+    object KMCD {
+        instance of Intf(0, "iptv") {
+            parameter NeMoIntf = "iptv";
+            parameter MRTIIFDeleteDelay = 2000;
+            parameter WANEnable=1;
+        }
+        instance of Intf(0, "data") {
+            parameter NeMoIntf = "data";
+            parameter MRTIIFDeleteDelay = 2000;
+        }
+        instance of Intf(0, "lan") {
+            parameter NeMoIntf = "lan";
+            parameter SnoopingEnable = 1;
+            parameter QuerierEnable = 1;
+            parameter FastLeaveEnable = 1;
+            parameter QuerierVersion = 2;
+            parameter MRTOIFEnable = 1;
+            parameter EBTPortLearnEnable = 1;
+            parameter NoForwardEnable = 1;
+        }
+        object Tuner {
+            parameter QI = 40000;
+            parameter LMQI = 100;
+        }
+    }
+}

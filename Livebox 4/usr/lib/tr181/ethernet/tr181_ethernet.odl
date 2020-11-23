@@ -1,0 +1,66 @@
+
+
+
+using "ethernet/tr181_ethernet.so";
+
+object Ethernet {
+	object Link [] {
+		string Alias;
+		string MACAddress;
+		string Status;
+	}
+	object Interface [] {
+		string Alias;
+		bool Enable;
+		string Status;
+		string Name;
+		uint32 LastChange;
+		bool Upstream = true;
+		string MACAddress;
+		int32 MaxBitRate;
+		uint32 CurrentBitRate;
+		string DuplexMode;
+		object Stats {
+			uint32 ErrorsSent;
+			uint32 ErrorsReceived;
+			uint32 DiscardPacketsSent;
+			uint32 DiscardPacketsReceived;
+		}
+	}
+}
+
+datamodel {
+	object Ethernet {
+		instance of Link(1,"LINK_DATA") {
+			parameter Alias="LINK_DATA";
+			destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+				parameter MACAddress from LLAddress;
+				parameter Status translate with ethernet_translate_status;
+			}
+		}
+		instance of Link(2,"LINK_DHCP") {
+			parameter Alias="LINK_DHCP";
+			destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+				parameter MACAddress from LLAddress;
+				parameter Status translate with ethernet_translate_status;
+			}
+		}
+		instance of Interface(1,"PHY5") {
+			parameter Alias="PHY5";
+			destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+				parameter Enable;
+				parameter Status translate with ethernet_translate_status;
+				parameter Name;
+				parameter LastChange;
+				parameter MACAddress from LLAddress;
+				parameter MaxBitRate from MaxBitRateSupported;
+				parameter CurrentBitRate;				
+				parameter DuplexMode;
+			}
+		}
+	}
+}
+
+
+
+/** @location sah_services_tr181 /ethernet/ethernet.odl */

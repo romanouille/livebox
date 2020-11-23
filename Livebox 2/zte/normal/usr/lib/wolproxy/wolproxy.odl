@@ -1,0 +1,37 @@
+using "wolproxy_plugin.so";
+
+acl {
+	group cwmpd read,write,execute;
+}
+
+persistent object WOLProxy{
+
+		persistent bool Enable {
+			write with EnableOnWrite;
+		}
+
+		read-only string Status {
+			constraint enum[RUNNING, KO];
+			default KO;
+		}
+
+		persistent uint32 Port {
+			write with PortOnWrite;
+		}
+
+		persistent string EnablerV4HostName{
+			write with EnablerV4HostNameOnWrite;
+		}
+
+		persistent string EnablerV6HostName{
+			write with EnablerV6HostNameOnWrite;
+		}
+
+		read-only string EnablerV4IPAddress;
+
+		read-only string EnablerV6IPAddress;
+
+}
+
+
+/** @location sah_services_wolproxy /plugin/wolproxy.odl */

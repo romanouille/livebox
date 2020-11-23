@@ -1,0 +1,3 @@
+include "/usr/lib/voiceplugin/dspplugin_api-definition.odl";
+
+/** @location sah_drivers_voice_bcmplugin /src/pcb/scripts/dsp_plugin.odl */

@@ -1,0 +1,203 @@
+/*expr:bluetooth and physical and edev*/
+
+mib bluetoothDevice {
+    /**
+    * Bluetooth dbus path name. read only
+    * @version V6.1
+    */
+    read-only string Path;
+
+    /**
+    * Bluetooth address (mac address) contains 6 hex values and is written in following convention:
+    * XX:XX:XX:XX:XX:XX
+    * The bluetooth address is also used as unique id.
+    * @version V6.1
+    */
+    read-only string Address;
+
+    /**
+    * Proposed icon name according to the freedesktop.org icon naming specification.
+    * @version V6.1
+    */
+    read-only string Icon;
+
+    /**
+    * The Bluetooth class of device of the remote device.
+    * @version V6.1
+    */
+    read-only uint32 Class;
+
+    /**
+    * External appearance of device, as found on GAP service.
+    * @version V6.1
+    */
+    read-only uint16 Appearance;
+
+    /**
+    * Comman seperated list of 128-bit UUIDs that represents the available remote services.
+    * @version V7.0
+    */
+    read-only string UUIDs;
+
+    /**
+    * Comman seperated list of user friendly descriptions of the available remote services.
+    * @version V7.0
+    */
+    read-only string UUIDsDescription;
+
+    /**
+    * Indicates if the remote device is paired.
+    * @version V6.1
+    */
+    read-only bool Paired;
+
+    /**
+    * Indicates if the remote device is currently connected.
+    * @version V6.1
+    */
+    read-only bool Connected;
+
+    /**
+    * Indicates if the remote is seen as trusted. This setting can be changed by the application.
+    * @version V6.1
+    */
+    bool Trusted;
+
+    /**
+    * If set to true any incoming connections from the device will be immediately rejected.
+    * @version V6.1
+    */
+    bool Blocked;
+
+    /**
+    * The name alias for the remote device. The alias can be used to have a different friendly name for the remote device.
+    * @version V6.1
+    */
+    string Alias;
+
+    /**
+    * The dbus object path of the adapter the device belongs to.
+    * @version V6.1
+    */
+    read-only string Adapter;
+
+    /**
+    * Set to true if the device only supports the pre-2.1 pairing mechanism. This property is useful during
+    * device discovery to anticipate whether legacy or simple pairing will occur if pairing is initiated.
+    * @version V6.1
+    */
+    read-only bool LegacyPairing;
+
+    /**
+    * Remote Device ID information in modalias format used by the kernel and udev.
+    * @version V7.0
+    */
+    read-only string Modalias;
+
+    /**
+    * Received Signal Strength Indicator of the remote  device (inquiry or advertising).
+    * @version V7.0
+    */
+    read-only int16 RSSI;
+
+    /**
+    * This is a generic method to connect any profiles the remote device supports that can be connected
+    * to and have been flagged as auto-connectable on our side. If only subset of profiles is already
+    * connected it will try to connect currently disconnected ones.
+    * @return none
+    * @error pcb_error_function_exec_failed in case the adapter is not ready or the connection failed
+    * @version V7.0
+    */
+    void doconnect();
+
+    /**
+    * This method gracefully disconnects all connected profiles and then terminates low-level ACL connection.
+    * ACL connection will be terminated even if some profiles were not disconnected properly e.g. due to misbehaving device.
+    * This method can be also used to cancel a preceding Connect call before a reply to it has been received.
+    * @return none
+    * @error pcb_error_function_exec_failed in case the adapter is not ready or the disconnection failed
+    * @version V7.0
+    */
+    void disconnect();
+
+    /**
+    * This method connects a specific profile of this device.
+    * @param uuid the remote service UUID to connect to
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @error pcb_error_function_exec_failed in case the adapter is not ready or the connection failed
+    * @version V7.0
+    */
+    void connectProfile(string uuid);
+
+    /**
+    * This method disconnects a specific profile of this device.
+    * @param uuid the remote service UUID to disconnect from
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @error pcb_error_function_exec_failed in case the adapter is not ready or the disconnection failed
+    * @version V7.0
+    */
+    void disconnectProfile(string uuid);
+
+    /**
+    * This method will connect to the remote device, initiate pairing and then retrieve all SDP records (or GATT primary services).
+    * @return none
+    * @error pcb_error_function_exec_failed in case the adapter is not ready or the disconnection failed
+    * @version V7.0
+    */
+    void pair();
+
+    /**
+    * This method can be used to cancel a pairing operation initiated by the Pair method.
+    * @return none
+    * @error pcb_error_function_exec_failed in case the adapter is not ready or the disconnection failed
+    * @version V7.0
+    */
+    void cancelPairing();
+
+    /**
+    * Set the agent pin code, this function has to be called when a request for a pincode comes in (custom notification 800 - "Bluetooth agent request pincode")
+    * Only usefull when implementing a pairing agent e.g. in webui or screen plugin.
+    * @param id The ID attached to the custom notification
+    * @param pincode The pincode
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @version V7.0
+    */
+    void setAgentPinCode(uint32 id, string pincode);
+
+    /**
+    * Set the agent passkey code, this function has to be called when a request for a pincode comes in (custom notification 801 - "Bluetooth agent request passkey")
+    * Only usefull when implementing a pairing agent e.g. in webui or screen plugin.
+    * @param id The ID attached to the custom notification
+    * @param passkey The passkey
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @version V7.0
+    */
+    void setAgentPasskey(uint32 id, uint32 passkey);
+
+    /**
+    * Set the agent confirmation, this function has to be called when a request for a pincode comes in (custom notification 805 - "Bluetooth agent confirmation")
+    * Only usefull when implementing a pairing agent e.g. in webui or screen plugin.
+    * @param id The ID attached to the custom notification
+    * @param confirm True to confirm, false to deny
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @version V7.0
+    */
+    void setAgentConfirmationMessage(uint32 id, bool confirm);
+
+    /**
+    * Set the agent authorization message, this function has to be called when a request for a pincode comes in (custom notification 806 - "Bluetooth agent authorization")
+    * Only usefull when implementing a pairing agent e.g. in webui or screen plugin.
+    * @param id The ID attached to the custom notification
+    * @param authorize True to confirm, false to deny
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @version V7.0
+    */
+    void setAgentAuthorizationMessage(uint32 id, bool authorize);    
+}
+

@@ -1,0 +1,9 @@
+
+
+datamodel {
+  object M2MAgent {
+
+  }
+}
+
+/** @location sah_services_m2magent /m2magent-defaults.odl.m4 */

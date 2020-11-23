@@ -1,0 +1,28 @@
+<b>DynDNS</b><br>
+<br>
+Usługa DynDNS (dynamiczny DNS) służy do przypisywania stałej nazwy domeny i hosta do zmiennego adresu IP. Może to być przydatne, jeśli chcesz założyć swój własny serwer sieciowy, serwer FTP lub jakikolwiek inny serwer w podsieci Twojego modemu Livebox.
+
+<br><br>
+<b><span class="boldorange">Usługi:</span></b><br>
+Wybierz dostawcę DynDNS, od którego otrzymałeś nazwę DynDNS.<br>
+
+<br>
+<b><span class="boldorange">Pełna nazwa hosta:</span></b><br> 
+Wpisz nazwę swojej domeny.<br>
+
+<br>
+<b><span class="boldorange">Nazwa użytkownika/E-mail:</span></b><br> 
+
+Wpisz nazwę użytkownika dla Twojego konta DynDNS.<br><br>
+
+<b><span class="boldorange">Hasło:</span></b><br> 
+ 
+Wpisz hasło dla Twojego konta DynDNS.
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+
+

@@ -1,0 +1,35 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="upnpdiscd_plugin"
+datamodel="UPnP"
+trace_zones=""
+component="sah_services_upnpdiscd"
+
+case $1 in
+    start)
+        if pcb_is_running $name; then
+            echo "$name already running"
+        else
+            pcb_app -vv -n $name -f -o syslog -c /usr/lib/upnpdiscovery/upnpdiscovery.odl &
+        fi
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|debuginfo|log]"
+        ;;
+esac

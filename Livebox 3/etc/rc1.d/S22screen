@@ -1,0 +1,82 @@
+#!/bin/sh
+
+PID_PLUGIN="/var/run/screen_plugin.pid"
+export SDL_NOKEYBOARD=1
+export SDL_NOMOUSE=1
+
+start() {
+    if [ ! -e ${PID_PLUGIN} ]; then
+        sahenv -f /etc/environment pcb_app -f -o syslog -vv -n screen_plugin -c /usr/lib/screen/screen.odl &
+    fi
+}
+
+stop() {
+    if [ -e $PID_PLUGIN ] ; then
+        kill $(cat $PID_PLUGIN)
+        sleep 1
+    fi
+    if [ -e $PID_PLUGIN ] ; then
+       rm $PID_PLUGIN
+    fi
+}
+
+reset() {
+    sleep 15
+}
+
+restart() {
+    stop
+    echo
+
+    while test -e ${PID_PLUGIN}; do
+        sleep 1
+    done
+
+    start
+}
+
+status() {
+    if [ -e $PID_PLUGIN ] ; then
+        echo "screen plugin: RUNNING"
+    else
+        echo "screen plugin: NOT RUNNING"
+    fi
+}
+
+backup() {
+    if [ -e $PID_PLUGIN ]; then
+        pcb_cli "Screen.export($2)"
+    fi
+}
+
+restore() {
+    mkdir -p /var/lib/screen
+    touch /var/lib/screen/restore
+}
+
+case $1 in
+start)
+start
+;;
+stop)
+stop
+;;
+reset)
+reset
+;;
+restart|fail)
+restart
+;;
+status)
+status
+;;
+restore)
+restore
+;;
+backup)
+backup
+;;
+*)
+echo "Usage : $0 [start|stop|restart|reset|status]"
+;;
+esac

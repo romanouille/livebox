@@ -1,0 +1,25 @@
+datamodel {
+object Devices {
+object Config {
+acl {
+world none;
+}
+object bluetooth {
+parameter Alias="SoftAtHome";
+parameter Discoverable=1;
+parameter DiscoverableTimeout=0;
+parameter Pairable=1;
+parameter PairableTimeout=0;
+parameter Powered=1;
+parameter AgentCapabilities="DisplayYesNo";
+parameter AgentTimeout=0;
+parameter AgentAcceptAll=1;
+parameter ProximityEnable=1;
+parameter ProximityTimeout=20000;
+parameter ProximityFailuresBeforeDisabled=2;
+parameter NAPEnabled=1;
+parameter NAPInterface="bridge";
+}
+}
+}
+}

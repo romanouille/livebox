@@ -1,0 +1,48 @@
+{
+  "status": 0,
+  "data": {
+    "physicalMediumList": [
+      {
+        "name": "",
+        "vendor": "",
+        "model": "",
+        "serialNumber": "",
+        "firmwareVersion": "1100",
+        "connectionType": "USB 2.0",
+        "removable": false,
+        "capacity": 3908142,
+        "status": "Online",
+        "uptime": 0,
+        "smartcapable": false,
+        "health": "OK",
+        "hotSwappable": false,
+        "uri": "1",
+        "logicalVolumeList": [
+          {
+            "name": "MYUSB",
+            "status": "Online",
+            "enable": true,
+            "flags": "",
+            "physicalReference": "StorageService.PhysicalMedium.1",
+            "physicalURI": "1",
+            "fileSystem": "FAT32",
+            "capacity": 3816,
+            "usedSpace": 0,
+            "encrypted": false,
+            "folderNumberOfEntries": 0,
+            "mountPoint": "/tmp/mnt/USB/MYUSB",
+            "lastError": "",
+            "uri": "1",
+            "kernel": {
+              "uuid": "E840-1B68",
+              "label": "MYUSB"
+            },
+            "deviceType": ["Storage"],
+            "deviceSource": "storage",
+            "deviceID": "storage_1"
+          }
+        ]
+      }
+    ]
+  }
+}

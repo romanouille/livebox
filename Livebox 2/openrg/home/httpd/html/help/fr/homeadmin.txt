@@ -1,0 +1,12 @@
+<b>Administration :</b><br>
+<br>
+<span class="boldorange">Configuration de la page d'accueil :</span><br>
+Cette fonctionnalité vous permet d'afficher ou non la liste des périphériques connectés à votre livebox.<br>
+<br>
+<span class="boldorange">Paramètres des messages de confirmation :</span><br>
+Cette fonctionnalité vous permet d'activer ou non les messages de confirmation qui s'afficheront à chaque modification de la configuration de votre livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,8 @@
+datamodel {
+object NMC {
+object IPv6 {
+parameter Enable = true;
+parameter UserRequested = false;
+}
+}
+}

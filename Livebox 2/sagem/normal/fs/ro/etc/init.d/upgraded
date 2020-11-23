@@ -1,0 +1,64 @@
+#!/bin/sh
+PID="/var/run/upgraded.pid"
+UPGRADED_EXEC="/bin/upgraded -vv"
+PCB_PLUGIN="/bin/pcb_plugin"
+UPGRADED_PLUGIN_ODL="/usr/lib/upgraded/upgraded.odl"
+PLUGIN_PID="/var/run/upgraded_plugin.pid"
+
+start() {
+    if [ -e "/etc/config/updated.conf" ]; then
+        logger -t upgraded "Upgrade.conf exists:"
+        cp /etc/config/updated.conf /tmp/updated.conf
+        cat /etc/config/updated.conf
+    fi
+    if [ -e ${PLUGIN_PID} ]; then
+        logger -t upgraded "Upgraded plugin already started"
+    else
+        $PCB_PLUGIN -n upgraded_plugin -c $UPGRADED_PLUGIN_ODL
+    fi
+
+    if [ -e ${PID} ]; then
+        logger -t upgraded "Upgraded already started"
+    else
+        ${UPGRADED_EXEC};
+    fi
+}
+
+stop() {
+    if [ -e ${PLUGIN_PID} ]; then
+        kill $(cat ${PLUGIN_PID});
+    else
+        logger -t upgraded "Upgraded plugin already stopped"
+    fi
+    if [ -e ${PID} ]; then
+        kill $(cat ${PID});
+    else
+        logger -t upgraded "Upgraded already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PLUGIN_PID}; do
+        sleep 1
+    done
+    while test -e ${PID}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac
+

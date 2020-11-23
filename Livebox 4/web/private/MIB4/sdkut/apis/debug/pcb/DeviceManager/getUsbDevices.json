@@ -1,0 +1,50 @@
+{
+    "status": true,
+    "data": [
+        {
+            "name": "TEST",
+            "status": "Online",
+            "enable": "1",
+            "flags": "",
+            "physicalReference": "StorageService.PhysicalMedium.5",
+            "physicalURI": "5",
+            "fileSystem": "FAT32",
+            "capacity": "7639",
+            "usedSpace": "22",
+            "encrypted": "0",
+            "folderNumberOfEntries": "3",
+            "mountPoint": "/var/usbmount/kernel::dev-sda1",
+            "lastError": "",
+            "uri": "1",
+            "PhysicalMedium": {
+                "name": "",
+                "vendor": "",
+                "model": "",
+                "serialNumber": "",
+                "firmwareVersion": "8.02",
+                " connectionType": "USB 2.0",
+                "removable": "0",
+                "capacity": "7832637",
+                "status": "Online",
+                "uptime": "0",
+                "smartcapable": "0",
+                "health": "OK",
+                "hotSwappable": "0",
+                "uri": "5"
+            },
+            "Kernel": {
+                "uuid": "1ADE-D897",
+                "label": "TEST"
+            },
+            "CIFS": {
+                "uri": "TEST",
+                "name": "TEST"
+            },
+            "deviceType": [
+                "Storage"
+            ],
+            "deviceSource": "storage",
+            "deviceID": "storage_1"
+        }
+    ]
+}

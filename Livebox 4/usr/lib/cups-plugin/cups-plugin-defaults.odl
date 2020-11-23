@@ -1,0 +1,8 @@
+
+
+datamodel {
+  object CupsService {
+
+  }
+}
+/** @location sah_services_cups-plugin /cups-plugin-defaults.odl.m4 */

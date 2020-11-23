@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="fr" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title></title>
+    <link rel="shortcut icon" href="img/orange_mini.jpg">
+    <!-- IMPORT CSS -->
+    <link rel="stylesheet" type="text/css" href="css/gui-core.css">
+    <link rel="stylesheet" type="text/css" href="css/gui-common.css">
+    <link rel="stylesheet" type="text/css" href="css/gui-livebox-min.css">
+    <!--[if IE 7]>
+    <![endif]-->
+    <!-- IMPORT JS -->
+    <script type="text/javascript" src="js/json2.js"> </script>
+    <script type="text/javascript" src="js/jquery-1.3.2-sc.js"> </script>
+    <script type="text/javascript" src="js/jquery-ui-1.7.3.custom-sc.js"> </script>
+    <script type="text/javascript" src="js/jquery.printf.js"> </script>
+    <script type="text/javascript" src="js/jquery.cookie.js"> </script>
+    <script type="text/javascript" src="js/jquery.jcarousel.js"> </script>
+    <script type="text/javascript" src="js/jquery.random.js"> </script>
+    <script type="text/javascript" src="js/md5.js"> </script>
+    <script type="text/javascript" src="js/gui-core.js"> </script>
+    <script type="text/javascript" src="js/gui-api.js"> </script>
+    <script type="text/javascript" src="js/gui-common.js"> </script>
+    <!-- script type="text/javascript" src="js/gui-livebox-min.js"> </script-->
+    
+    <script type="text/javascript">
+    jQuery(function ($) {
+        var gui = $.gui, target = gui.currentTarget;	
+        gui.i18n.add(/*"msg/%L/gui-msg.json",*/
+            "msg/%L/gui-api-msg.json",
+            "msg/%L/gui-livebox-min-msg.json");
+        gui.init({ dataModel: "gtw", language: null, refreshPage: false });
+        $("#GUI-Master").guiLoadURL();
+    });
+    </script>
+  </head>
+  <body>
+    <div id="GUI-Master" url="main/main.gtpl"></div>
+  </body>
+</html>

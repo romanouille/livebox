@@ -1,0 +1,10 @@
+{
+  "status": 0,
+  "data": {
+    "ipIpv4": "192.168.1.15",
+    "packetsSent": 5,
+    "packetsFailed": 2,
+    "packetSize": 23,
+    "averageTime": 12
+  }
+}

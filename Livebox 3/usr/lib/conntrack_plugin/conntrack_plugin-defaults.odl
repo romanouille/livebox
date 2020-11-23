@@ -1,0 +1,10 @@
+datamodel {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read,write,execute;
+}
+object Conntrack {
+}
+}

@@ -1,0 +1,42 @@
+#!/bin/sh
+TARGET_DIR="/var/lib/wld"
+
+. /usr/bin/pcb_common.sh
+
+name="wld_bcm"
+datamodel="WiFiBCM"
+trace_zones="wld wld_hw wld_ssid wld_rad wld_vap wld_bcm"
+component="sah_drivers_wifi_broadcom"
+
+case $1 in
+	start)
+		logger -t wifi "Firewall changes for wps upnp"
+		pcb_cli -q "Firewall.setService(wps_upnp, lan, \"1990\",6,4,true)"
+
+		logger -t wifi "Execute extra driver commands"
+		[ -e "/usr/lib/wld/wifi_drv_cfg.sh" ] && /usr/lib/wld/wifi_drv_cfg.sh
+
+		logger -t wifi "Create wld target directory"
+		mkdir -p -m 700 "$TARGET_DIR"
+		chmod 700 "$TARGET_DIR"
+		export LD_LIBRARY_PATH=/usr/lib/wld:/usr/lib/wld/bcm
+		export WIFIROOT=WiFiBCM
+		set -a
+		. /etc/environment
+		pcb_start $name -c /usr/lib/wld/bcm/wld-bcm.odl
+		pcb_cli -q "NeMo.Module.wlan.addVendor(root=\"WiFiBCM\", suffix=\"_bcm\", dst=\"pcb://ipc:[/var/run/wld_bcm]\")"
+		;;
+	stop)
+		pcb_cli -q "NeMo.Module.wlan.deleteVendor(root=\"WiFiBCM\")"
+		pcb_stop $name
+		;;
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+		;;
+	log)
+		action=$2
+		pcb_log $name ${action:-enable} $trace_zones
+		;;
+	*)
+		echo "Usage: $0 [start|stop|debuginfo|log]"
+esac

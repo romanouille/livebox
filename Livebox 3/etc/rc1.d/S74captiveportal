@@ -1,0 +1,40 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="captiveportal"
+start_options="-c /usr/lib/$name/$name.odl"
+datamodel="CaptivePortal"
+trace_zones="$name "$name"_https "$name"_connrescue "$name"_URLMon"
+component="sah_services_"$name
+
+
+
+case $1 in
+    start)
+        /etc/init.d/hook_captiveportal start
+        pcb_start $name $start_options
+        ;;
+    stop)
+        pcb_stop $name
+        /etc/init.d/hook_captiveportal stop
+        ;;
+    restart)
+        pcb_restart $name $start_options
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo|log]"
+        ;;
+esac

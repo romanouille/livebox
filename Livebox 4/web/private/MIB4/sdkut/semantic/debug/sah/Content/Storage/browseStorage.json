@@ -1,0 +1,62 @@
+{
+  "status": 0,
+  "data": {
+    "entryList": [
+      {
+        "type": "file",
+        "name": "AVI_Dexter_mpeg4p2_mp3_642x652_23.96fps.avi",
+        "size": 576997376,
+        "created": "2012-11-22T00:00:00Z",
+        "modified": "2011-05-02T18:51:12Z"
+      }, {
+        "type": "file",
+        "name": "AVI_heroes_624x352_mp2_h264_25fps.avi",
+        "size": 475668502,
+        "created": "2012-11-22T00:00:00Z",
+        "modified": "2011-05-02T18:46:58Z"
+      }, {
+        "type": "file",
+        "name": "AVI_HouseS04E08_624x352_mpeg4Xvid_mp3_24fps.avi",
+        "size": 368119584,
+        "created": "2012-11-22T00:00:00Z",
+        "modified": "2011-05-02T18:50:00Z"
+      }, {
+        "type": "file",
+        "name": "MKV01_1280x720_AVC_AC3_5.1_29.970fps.mkv",
+        "size": 110571412,
+        "created": "2012-11-22T00:00:00Z",
+        "modified": "2011-05-02T19:01:06Z"
+      }, {
+        "type": "file",
+        "name": "MP4HD_Armagadon_720p_h264_aac_25fps.mp4",
+        "size": 35934248,
+        "created": "2012-11-22T00:00:00Z",
+        "modified": "2011-05-02T19:05:46Z"
+      }, {
+        "type": "file",
+        "name": "MP4_Blender_480x320_264_aac_30fps.mp4",
+        "size": 6781188,
+        "created": "2012-11-22T00:00:00Z",
+        "modified": "2011-05-02T19:04:00Z"
+      }, {
+        "type": "file",
+        "name": "Thumbs.db",
+        "size": 4096,
+        "created": "2011-05-20T00:00:00Z",
+        "modified": "2011-05-12T17:52:44Z"
+      }, {
+        "type": "file",
+        "name": "TS_FT_TS_MPEG2_AC3_5.1_Vaillant_pigeon_de_combat_5min.ts",
+        "size": 124967548,
+        "created": "2012-11-22T00:00:00Z",
+        "modified": "2011-05-02T19:09:36Z"
+      }, {
+        "type": "directory",
+        "name": "streams",
+        "size": 4096,
+        "created": "2011-06-06T00:00:00Z",
+        "modified": "2011-06-06T10:04:04Z"
+      }
+    ]
+  }
+}

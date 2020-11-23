@@ -1,0 +1,18 @@
+<b>Ogólne</b><br>
+<br>
+<b><span class="boldorange">Ustawienia strony głównej:</span></b><br>
+Ta opcja pozwala wybrać, czy chcesz wyświetlać listę urządzeń połączonych z modemem Livebox.
+
+<br>
+<br>
+<b><span class="boldorange">Konfiguracja ostrzeżeń:</span></b><br>
+
+Wybranie tej opcji spowoduje, że przy zmianie konfiguracji modemu Livebox nie będą wyświetlane potwierdzenia.
+
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

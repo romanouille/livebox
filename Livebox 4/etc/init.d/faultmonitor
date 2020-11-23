@@ -1,0 +1,61 @@
+#!/bin/sh
+
+show_cmd()
+{
+    echo "[$(date)]: $@"
+    eval "$@"
+}
+
+parse_config() {
+  if [ -e $1 ]; then
+    NEWCONFIG=$(grep COREBASEDIR $1 | sed -nr "s# *\t*COREBASEDIR *= *([A-Za-z0-9/]+|\"[A-Za-z0-9 /:]+\") *\t*#FAULTBASEDIR=\\1#p" )
+    eval $NEWCONFIG
+  fi
+}
+
+loadconfig()
+{
+    FAULTBASEDIR=/ext/faults
+    parse_config /usr/lib/faultmonitor/faultmonitor.defaults
+    parse_config /etc/faultmonitor.conf
+    parse_config /cfg/system/faultmonitor.conf
+}
+
+debuginfo()
+{
+    show_cmd cat /proc/sys/kernel/core_pattern
+    loadconfig
+    if [ -e $FAULTBASEDIR/count ]; then
+        show_cmd cat $FAULTBASEDIR/count
+    fi
+    if [ -e $FAULTBASEDIR/log ]; then
+        show_cmd cat $FAULTBASEDIR/log
+    fi
+}
+
+deletefaults()
+{
+    loadconfig
+    rm -rf $FAULTBASEDIR
+}
+
+case $1 in
+	start)
+		loadconfig
+		if [ -e /tmp/upgrade_occurred ]; then mv $FAULTBASEDIR $FAULTBASEDIR.OLD; (rm -r $FAULTBASEDIR.OLD &); fi
+		echo "|/usr/lib/faultmonitor/faultmonitor %p %s %t" > /proc/sys/kernel/core_pattern
+	;;
+
+	stop)
+		echo "core" > /proc/sys/kernel/core_pattern
+	;;
+	debuginfo)
+		debuginfo
+	;;
+	reset)
+		deletefaults
+	;;
+	*)
+		echo "Usage : $0 [start|stop|debuginfo]"
+	;;
+esac

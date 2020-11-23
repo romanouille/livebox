@@ -1,0 +1,292 @@
+datamodel {
+	object QueueManagement {
+		instance of Queue(1, "MotherQ") {
+			parameter Name = "MotherQ";
+			parameter QueueEnable = false;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter ShapingRate = 100;
+			parameter QueueInterface = "atm_data";
+		}
+		instance of Queue(2, "Q1") {
+			parameter Name = "Q1";
+			parameter QueuePrecedence = 7;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_data";
+			parameter RootQueue = "MotherQ";
+		}
+		instance of Queue(3, "Q2") {
+			parameter Name = "Q2";
+			parameter QueuePrecedence = 6;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_data";
+			parameter RootQueue = "MotherQ";
+		}
+		instance of Queue(4, "Q3") {
+			parameter Name = "Q3";
+			parameter QueuePrecedence = 5;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_data";
+			parameter RootQueue = "MotherQ";
+		}
+		instance of Queue(5, "Q4") {
+			parameter Name = "Q4";
+			parameter QueuePrecedence = 1;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_data";
+			parameter RootQueue = "MotherQ";
+		}
+		instance of Queue(6, "Q5") {
+			parameter Name = "Q5";
+			parameter QueuePrecedence = 0;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_data";
+			parameter RootQueue = "MotherQ";
+		}
+		instance of Queue(7, "FTTH_MotherQ") {
+			parameter Name = "FTTH_MotherQ";
+			parameter QueueEnable = false;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter AssuredRate = 100000000;
+			parameter ShapingRate = 100000000;
+			parameter QueueInterface = "eth1";
+		}
+		instance of Queue(8, "FTTH_Q1") {
+			parameter Name = "FTTH_Q1";
+			parameter QueuePrecedence = 1;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "eth1";
+			parameter RootQueue = "FTTH_MotherQ";
+		}
+		instance of Queue(9, "FTTH_Q2") {
+			parameter Name = "FTTH_Q2";
+			parameter QueuePrecedence = 0;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "eth1";
+			parameter RootQueue = "FTTH_MotherQ";
+		}
+		instance of Queue(10, "FTTH_Q3") {
+			parameter Name = "FTTH_Q3";
+			parameter QueuePrecedence = 7;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "eth1";
+			parameter RootQueue = "FTTH_MotherQ";
+		}
+		instance of Queue(11, "VC851_MotherQ") {
+			parameter Name = "VC851_MotherQ";
+			parameter QueueEnable = false;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter ShapingRate = 100;
+			parameter QueueInterface = "atm_voip";
+		}
+		instance of Queue(12, "VC851_Q1") {
+			parameter Name = "VC851_Q1";
+			parameter QueuePrecedence = 7;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_voip";
+			parameter RootQueue = "VC851_MotherQ";
+		}
+		instance of Queue(13, "VC851_Q2") {
+			parameter Name = "VC851_Q2";
+			parameter QueuePrecedence = 6;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_voip";
+			parameter RootQueue = "VC851_MotherQ";
+		}
+		instance of Queue(14, "VC851_Q3") {
+			parameter Name = "VC851_Q3";
+			parameter QueuePrecedence = 5;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_voip";
+			parameter RootQueue = "VC851_MotherQ";
+		}
+		instance of Queue(15, "VC851_Q4") {
+			parameter Name = "VC851_Q4";
+			parameter QueuePrecedence = 0;
+			parameter SchedulerAlgorithm = "WFQ";
+			parameter QueueInterface = "atm_voip";
+			parameter RootQueue = "VC851_MotherQ";
+		}
+		instance of Classification(0, "INTERNET_default_forward") {
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = forward;
+			parameter ClassQueue = 5;
+			parameter OutInterface = data;
+			parameter IPVersion = 0;
+		}
+		instance of Classification(0, "IGMP_WAN") {
+			parameter Protocol = 2;
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = Local;
+			parameter OutInterface = bridge_aiptv;
+			parameter IPVersion = 4;
+			parameter DSCPMark = 36;
+		}
+		instance of Classification(0, "IGMP_LAN") {
+			parameter Protocol = 2;
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = Postrouting;
+			parameter OutInterface = bridge;
+			parameter IPVersion = 4;
+			parameter DSCPMark = 32;
+		}
+		instance of Classification(0, "VOIP_LAN") {
+			parameter Protocol = 17;
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = Local;
+			parameter OutInterface = bridge;
+			parameter DestPort = 5060;
+			parameter IPVersion = 4;
+			parameter DSCPMark = 48;
+		}
+		instance of Classification(0, "DHCPv4_LAN") {
+			parameter Protocol = 17;
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = Local;
+			parameter OutInterface = bridge;
+			parameter DestPort = 68;
+			parameter IPVersion = 4;
+			parameter DSCPMark = 48;
+		}
+		instance of Classification(0, "DHCPv6_server") {
+			parameter Protocol = 17;
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = Local;
+			parameter OutInterface = bridge;
+			parameter DestPort = 546;
+			parameter IPVersion = 6;
+			parameter DSCPMark = 48;
+		}
+		instance of Classification(0, "DHCPv6_client") {
+			parameter Protocol = 17;
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = Local;
+			parameter DestPort = 547;
+			parameter IPVersion = 6;
+			parameter DSCPMark = 48;
+		}
+		instance of Classification(0, "INTERNET_default_local") {
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = local;
+			parameter ClassQueue = 5;
+			parameter OutInterface = data;
+			parameter IPVersion = 0;
+		}
+		instance of Classification(0, "wfc") {
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = PostRouting;
+			parameter OutInterface = wl1;
+			parameter IPVersion = 4;
+			parameter DSCPMark = 8;
+		}
+		instance of Classification(0, "PacketQ1") {
+			parameter DSCPCheck = "40,46";
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 2;
+			parameter IPVersion = 0;
+		}
+		instance of Classification(0, "PacketQ2") {
+			parameter DSCPCheck = "48,56";
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 3;
+			parameter IPVersion = 0;
+		}
+		instance of Classification(0, "PacketQ2_SEGW0") {
+			parameter DSCPCheck = 46;
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 3;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ2_SEGW1") {
+			parameter DSCPCheck = 46;
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 3;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ2_SEGW2") {
+			parameter DSCPCheck = 46;
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 3;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ2_SEGW3") {
+			parameter DSCPCheck = 46;
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 3;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ2_SEGW4") {
+			parameter DSCPCheck = 46;
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 3;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ3") {
+			parameter DSCPCheck = "38,36,34,32,30,28,26,24,18";
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 4;
+			parameter IPVersion = 0;
+		}
+		instance of Classification(0, "PacketQ3_SEGW0") {
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 4;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ3_SEGW1") {
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 4;
+			parameter IPVersion = 4 ;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ3_SEGW2") {
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 4;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ3_SEGW3") {
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 4;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "PacketQ3_SEGW4") {
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 4;
+			parameter IPVersion = 4;
+			parameter StopTraverse = 1;
+		}
+		instance of Classification(0, "FTTH_832_PBIT") {
+			parameter ClassificationEnable = true;
+			parameter ClassInterface = PostRouting;
+			parameter OutInterface = bridge_vmulti;
+			parameter EthernetPriorityMark = -2;
+		}
+		instance of Classification(0, "gretap_wfc") {
+			parameter ClassificationEnable = false;
+			parameter ClassInterface = PostRouting;
+			parameter ClassQueue = 7;
+			parameter StopTraverse = 1;
+		}
+		parameter Enable = true;
+	}
+}
+

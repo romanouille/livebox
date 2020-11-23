@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ $1 = "`cat /tmp/hddDev`1" ]
+then
+	mp=/mnt/DDLB
+	mkdir "$mp/Ma musique"
+	mkdir "$mp/Mes photos"
+	mkdir "$mp/Mes videos"
+	mkdir "$mp/Contenus telecharges"
+fi

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        echo 3600 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_established
+        echo 0 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_close
+        echo 1 > /proc/sys/vm/panic_on_oom
+        echo 1 > /proc/sys/kernel/softlockup_panic
+    ;;
+    stop)
+    ;;
+    *)
+esac

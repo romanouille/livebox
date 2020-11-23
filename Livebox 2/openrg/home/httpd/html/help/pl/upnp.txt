@@ -1,0 +1,13 @@
+<b>UPnP</b>
+
+<br>
+<br>
+
+
+Usługa UPnP jest włączona domyślnie. Możesz ją wyłączyć, jeśli nie chcesz pozwolić na automatyczne otwieranie portów.<br>
+Jeśli chcesz włączyć lub wyłączyć usługę UPnP, pamiętaj, aby kliknąć przycisk <b>"Zapisz"</b> w celu zachowania zmian.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

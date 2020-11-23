@@ -1,0 +1,42 @@
+object Services {
+object X_ORANGE-COM_WASSUPClient {
+string URL;
+bool Enable;
+int32 SPR;
+datetime LastCheck;
+datetime NextCheck;
+string ServiceMatrix;
+int32 CheckPeriodicity;
+int32 CheckPeriodicityWindow;
+object Options[] {
+int32 CheckPeriodicity;
+int32 CheckPeriodicityWindow;
+string SubscriptionStatus;
+}
+}
+object X_ORANGE-COM_Antivirus {
+string SubscriptionStatus;
+}
+}
+datamodel {
+object Services {
+object X_ORANGE-COM_WASSUPClient {
+destination "pcb://$(PCB_MAIN_BUS)/OrangeServices" {
+parameter URL;
+parameter Enable;
+parameter SPR;
+parameter LastCheck;
+parameter NextCheck;
+parameter ServiceMatrix;
+parameter CheckPeriodicity;
+parameter CheckPeriodicityWindow;
+}
+object Options from  "pcb://$(PCB_MAIN_BUS)/OrangeServices/Options" recursive;
+}
+object X_ORANGE-COM_Antivirus {
+destination "pcb://$(PCB_MAIN_BUS)/OrangeServices/Options/AVFWPC" {
+parameter SubscriptionStatus;
+}
+}
+}
+}

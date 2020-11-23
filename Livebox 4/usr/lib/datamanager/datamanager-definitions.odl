@@ -1,0 +1,65 @@
+using "datamanager.so";
+
+define statistics_t
+{
+   string stat;
+}
+
+define info_t
+{
+   string name;
+   string uuid;
+   string version;
+   string manufacturer;
+}
+
+define device_t
+{
+	string uri;
+	string name;
+	string uuid;
+	string type;
+	string version;
+	string manufacturer;
+	string enable;
+	string available;
+	string url;
+}
+
+object DataManager {
+    acl {
+        world none;
+        group admin read,execute;
+        group mediahub read, execute;
+    }
+    int32 addDeviceSource(in device_t device,
+                          in info_t info);
+                          
+    int32 restore(mandatory in string srcUri);    
+    int32 save(mandatory in string dstUri);    
+
+    int32 getStatistics(in string username,
+                        out statistics_t stats);
+
+    int32 getStatus( out list listOfStatuses);
+
+    int32 reset(mandatory in string mode);
+
+    int32 setDeviceState(mandatory in string deviceUri,
+                         mandatory in string state);
+
+    int32 getDeviceState(mandatory in string deviceUri, 
+                         out string state);
+
+    int32 getDeviceList(mandatory in string srcType,
+                        out int32 numberOfDevice,
+                        out list listOfDevice);
+
+
+    int32 delDeviceSource(mandatory in string deviceUri);
+
+    int32 setDeviceName(in string deviceUri, in string friendlyName);
+    
+}
+
+/** @location commod_datahub_datamanager /usr/lib/datamanager/datamanager-definitions.odl.m4 */

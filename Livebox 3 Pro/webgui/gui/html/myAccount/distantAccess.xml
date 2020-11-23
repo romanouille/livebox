@@ -1,0 +1,114 @@
+<div id="distantAccess" xmlns="http://www.orange.com/xhtml/engine/loose">
+    <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_myAccount" i18n="menuAccount.distantaccess"/>
+		<div class="margin-left-40 margin-top-m8">
+			 <strong i18n="page.myAccount.distantaccess.subtitle"/>&#160;
+			 <span class="bold" ><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m28'" i18n="page.myAccount.distantaccess.subtitle.link"/>.</span>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+	     <div class="boxType4 margin-top-10 border-bottom-1">
+			<span class="h3Text" i18n="page.myAccount.distantaccess.ident"/>
+			<div widgetType="FormInput" i18n="page.myAccount.distantaccess.ident.login">
+				<span id="noneditablelogin" dataId="Device/UserAccounts/ManagedUsers/ManagedUser[Login='remote']/Login"/>
+				<div id="loginCustomErrNode" class="error" style="width:360px"/>
+				<div id="loginCustomErrForbidden" class="forminput error" style="display:none;padding-left:0px;width:360px" i18n="page.myAccount.distantaccess.ident.login.error"/>
+			</div>
+
+			<div widgetType="FormInput" i18n="common.password">
+				<span class="w150px" id="password"  widgetType="Password" widgetArg="{char: '•', period: 2000}" i18n="page.myAccount.distantaccess.ident.password" required="true" minlength="8" regex=".*[0-9]+.*[^a-zA-Z0-9]+.*[a-z]+.*|.*[^a-zA-Z0-9]+.*[0-9]+.*[a-z]+.*|.*[^a-zA-Z0-9]+.*[a-z]+.*[0-9]+.*|.*[a-z]+.*[0-9]+.*[^a-zA-Z0-9]+.*|.*[a-z]+.*[^a-zA-Z0-9]+.*[0-9]+.*|.*[0-9]+.*[a-z]+.*[^a-zA-Z0-9]+.*" i18nError="page.myAccount.distantaccess.ident.password.error" errnode="passwordCustomErrNode"/>
+				<div id="passwordCustomErrNode" class="error" style="width:360px"/>
+			</div>
+        </div>
+        <div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.myAccount.distantaccess.config"/>
+			<div widgetType="FormInput" i18n="page.myAccount.distantaccess.config.activate">
+				<!-- <span id="userremoteaccess"  widgetType="Checkbox" widgetArg="[false, true]" i18nPrefix="page.myAccount.distantaccess.config.activate"/>-->
+					<span  id="userremoteaccess"   widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"     i18nPrefix="page.myAccount.distantaccess.config.activate"/>
+					<br/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="common.port">
+				<input class="w60px" id="port" type="text" dataId="Device/UserInterface/RemoteAccess/RemoteHTTPSPort" minvalue="10000" maxvalue="30000" minlength="5" maxlength="5" i18n="page.myAccount.distantaccess.config.port" i18nError="page.myAccount.distantaccess.config.port.error" errnode="portCustomErrNode"/>
+				<div id="portCustomErrNode" class="error" style="width:360px"/>
+				<div id="identicalPorterror" class="forminput error" style="display:none;padding-left:0px;width:360px" i18n="page.myAccount.distantaccess.config.port.error.identical"/>
+			</div>
+			
+			<br/>
+			<div widgetType="FormInput" i18n="page.myAccount.distantaccess.config.currentip">
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED'}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span class="vert" dataId="Device/Networks/WAN[@name='WAN']/ExternalIPAddress"/>
+				</span>
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span class="error" i18n="page.myAccount.distantaccess.error.noip"/>
+				</span>
+			</div>
+			
+			<div widgetType="FormInput" i18n="page.myAccount.distantaccess.config.currenturl">
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED'}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span id="currenturl" class="vert"/>
+				</span>
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span class="error" i18n="page.myAccount.distantaccess.error.nourl"/>
+				</span>
+			</div>
+			<br/>		
+     
+         	<div > <!-- class="forminput" -->
+				<div class="forminput-label" i18n="page.myAccount.distantaccess.config.info"/>
+				<div class="clear"/>
+		   </div>
+      
+		</div>
+  <!-- à remettre  pour la fonction SSH 
+   <div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.myAccount.distantaccess.configssh"/></h3>
+			<div widgetType="FormInput" i18n="page.myAccount.distantaccess.configssh.activate">
+				<span id="userremoteaccessssh"  widgetType="Checkbox" widgetArg="[false, true]" i18nPrefix="page.myAccount.distantaccess.configssh.activate"/>
+			</div>
+			
+			<div widgetType="FormInput" i18n="common.port">
+				<input id="portssh" type="text" dataId="Device/UserInterface/RemoteAccess/RemoteSSHPort" minvalue="10000" maxvalue="30000" i18n="page.myAccount.distantaccess.config.portssh" i18nError="page.myAccount.distantaccess.config.port.error" errnode="portSSHCustomErrNode"/>
+				<div id="portSSHCustomErrNode" class="error" style="width:360px"/>
+				<div id="identicalSSHPorterror" class="forminput error" style="display:none;padding-left:0px;width:360px" i18n="page.myAccount.distantaccess.config.port.error.identical"/>
+			</div>
+			<br/>
+			<div class="orange" widgetType="FormInput" i18n="page.myAccount.distantaccess.configssh.currentip">
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED'}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span class="vert"  dataId="Device/Networks/WAN[@name='WAN']/ExternalIPAddress"/>
+				</span>
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span class="error" i18n="page.myAccount.distantaccess.error.noip"/>
+				</span>
+			</div>
+			
+			<div class="orange" widgetType="FormInput" i18n="page.myAccount.distantaccess.configssh.currentaccesscommand">
+				<span class="vert" widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED'}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					ssh&#160;<span id="login2"/>@<span dataId="Device/Networks/WAN[@name='WAN']/ExternalIPAddress"/>:<span dataId="Device/UserInterface/RemoteAccess/RemoteSSHPort"/>
+				</span>
+				<span widgetType="VisibleDependent" widgetArg="{value: 'MODEM_CONNECTED', equals: false}" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus">
+					<span class="error" i18n="page.myAccount.distantaccess.error.nosshcmd"/>
+				</span>
+			</div>
+			<br/>
+			<div class="forminput">
+				<div class="forminput-label" i18n="page.myAccount.distantaccess.configssh.info"/>
+				<div class="clear"/>
+			</div>
+	</div>	
+		-->
+
+   
+			<div widgetType="ButtonContainer" class="right">
+				<span id="annuler" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span id="btnSave" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,275 @@
+#!/bin/sh
+
+. /etc_ro_fs/autoconf.conf
+. /etc_ro_fs/init.d/common
+
+bt_reset()
+{
+	echo bt-reset > /proc/bt_reset
+}
+
+get_hci_dev()
+{
+	# get the list of usb modules - dect modules display version ericsson
+	for dev in $(hciconfig | sed -n 's/\(hci.\).*/\1/p'); do
+		hciconfig $dev up
+		hciconfig $dev version | grep -q Ericsson || echo $dev
+	done
+}
+	
+
+start () {
+
+	force_start="$1"
+	echo "Param: $1"
+	
+	if [ -f /var/run/bluetooth ]; then
+		echo "bluez already started"
+		exit 1
+	fi
+	
+	readconf /etc/bluedsl.conf BT_WATCHDOG
+	readconf /etc/hardware.conf BLUETOOTH_ADDR_0
+	readconf /etc/bt_firmware.conf  DISABLE_BT_UPDATE BT_SW_REQUIRED_HEX
+	
+	
+	modprobe bt_reset	
+	
+	# bluetooth configuration
+	/bin/echo "Bluetooth configuration ..."
+	modprobe bluez
+	modprobe l2cap
+	modprobe rfcomm
+	modprobe bnep
+	modprobe hci_uart
+	modprobe sco	
+	
+	# start hcid if not running yet
+	killall -0 hcid 2>/dev/null || hcid
+		
+	# hack, comme on est sur qu'il n'y a qu'une seule version de hardware
+	hard_ver=0x31303032   #il n'y a qu'une version de hard, c'est la 1002
+	if [ ! -f /etc/bt_hard.ver ] || [ "$(cat /etc/bt_hard.ver)" != "HW_ver=$hard_ver" ]; then
+		echo "write hard version in /etc/bt_hard.ver"
+		echo "HW_ver=$hard_ver" > /etc/bt_hard.ver
+	fi
+	
+	
+	
+	[ ! -f /etc/bluetooth/link_key ] && touch /etc/bluetooth/link_key
+	
+	# no watchdog as it doesn't properly if more that one hci device (bt+dect)
+	#[ "$BT_WATCHDOG" -eq 1 ] && WD="-w 60" || WD=""
+	WD=""  
+	bt_reset
+	sleep 1
+		
+	hciattach_pid=$(hciattach -p -t 2 $WD /dev/ttySPI0 bcsp 19200 no)
+	if [ "$hciattach_pid" = "" ]; then
+		echo "Can't join Bluetooth module through HCI -> try to udpate"
+		[ "$DISABLE_BT_UPDATE" != "y" ] && exec /usr/blue/update_bt -f >> /root/adsld.log 
+		exit 1
+	fi
+	
+	hcidev=$(get_hci_dev)
+	hciconfig $hcidev reset
+		
+	# Read hardware and software version
+	tmp=$(hcitool -i $hcidev cmd 0x3F 0x10)
+	set ${tmp##*plen}
+	shift 4
+	SW_current=0x$9$8$7$6
+	HW_current=0x$13$12$11$10
+	echo "Hardware version: $HW_current - Software version: $SW_current" > /var/run/bluetooth_version
+	cat /var/run/bluetooth_version
+	
+	if [ "$DISABLE_BT_UPDATE" != "y" ] && [ "$SW_current" != "$BT_SW_REQUIRED_HEX" ]; then
+		echo "BT update needed to get version '$BT_SW_REQUIRED_HEX'"
+		kill $hciattach_pid
+		exec /usr/blue/update_bt -f >> /root/adsld.log  # try to update now
+	fi
+		
+		
+	#save info for BT
+	echo "
+		BT_HCIDEV=$hcidev
+		BT_HCIDEV_ID=$(echo $hcidev | sed -e 's/hci//')
+		BD_ADDR=$BLUETOOTH_ADDR_0
+		HCIATTACH_PID=$hciattach_pid
+		BT_HCIATTACH_PID=$hciattach_pid
+		" > /var/run/bluetooth
+
+	# Bluetooth services
+	if [ "$CONFIG_BLUETOOTH_OFF" = "y" ] && [ "$force_start" != "force" ]; then 
+		echo "Bluetooth is OFF in this configuration. Disable scan and exit."
+		hciconfig $hcidev noscan
+		exit 0 
+	fi ; 
+	
+	hciconfig $hcidev reset
+	#change the BD_addf
+	set $(echo $BLUETOOTH_ADDR_0 | sed -e 's/:/ /g')
+	hcitool -i $hcidev cmd 0x3F 0x2 $6 $5 $4 $3 $2 $1
+	
+	#autres initialisations
+	hciconfig $hcidev reset
+	update_name
+	hciconfig $hcidev lm master
+	
+	echo "Connecting Daemons ..."
+	echo "Launching sdp and rfcomm services ..."
+	/sbin/sdpd
+	# /usr/sbin/ip_server -i br0 &
+	/bin/dund -s -P 1 --pppd /usr/sbin/memuld
+	sdptool add DUN
+	if [ "$CONFIG_UMA" = y ]; then
+		/etc/init.d/start_uma start
+	else
+		/bin/pand -s -r NAP
+	fi
+	if [ "$CONFIG_BLUEZ_PHONE" = y ] || [ "$CONFIG_VOIP_INVH323_CTP" = y ] || [ "$CONFIG_VOIP_SIP_CTP" = y ]; then
+		sdptool add CTP
+	fi
+	echo "restart pairingd"
+	/etc/init.d/pair restart > /dev/null 2>&1
+	
+	echo "Configuring AFH"
+	if [ -f /etc/wifi.conf ]; then
+		readconf /etc/wifi.conf WIFI_CHANNEL WIFI_ENABLE
+		if [ "$WIFI_ENABLE" = 1 ]; then
+			case $WIFI_CHANNEL in
+				1)	hcitool -i $hcidev cmd 0x3 0x3f 0x00 0x00 0x00 0xfe 0xff 0xff 0xff 0xff 0xff 0xff;;
+				2)	hcitool -i $hcidev cmd 0x3 0x3f 0x00 0x00 0x00 0xc0 0xff 0xff 0xff 0xff 0xff 0xff;;
+				3)	hcitool -i $hcidev cmd 0x3 0x3f 0x1f 0x00 0x00 0x00 0xf8 0xff 0xff 0xff 0xff 0xff;;
+				4)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0x03 0x00 0x00 0x00 0xff 0xff 0xff 0xff 0xff;;
+				5)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0x7f 0x00 0x00 0x00 0xe0 0xff 0xff 0xff 0xff;;
+				6)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0xff 0x0f 0x00 0x00 0x00 0xfc 0xff 0xff 0xff;;
+				7)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0xff 0xff 0x01 0x00 0x00 0x80 0xff 0xff 0xff;;
+				8)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0xff 0xff 0x3f 0x00 0x00 0x00 0xf0 0xff 0xff;;
+				9)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0x07 0x00 0x00 0x00 0xfe 0xff;;
+				10)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0xff 0x00 0x00 0x00 0xc0 0xff;;
+				11)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0xff 0x1f 0x00 0x00 0x00 0xf8;;
+				12)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0xff 0xff 0x03 0x00 0x00 0x00;;
+				13)	hcitool -i $hcidev cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0xff 0xff 0x7f 0x00 0x00 0x00;;
+			esac
+		fi
+	fi
+	if [ "$CONFIG_WIFI_BLUETOOTH_COEXISTENCE" = y ] ; then 
+		echo "Testing and configuring WIFI coexistence"
+		/etc/init.d/coexistence
+	fi
+}
+
+
+stop () 
+{
+	if [ ! -f /var/run/bluetooth ]; then
+		echo "bluez not started"
+		exit 1 
+	fi
+	[ -f /etc/init.d/start_uma ] && /etc/init.d/start_uma stop
+	BT_HCIATTACH_PID=
+	readconf /var/run/bluetooth  BT_HCIATTACH_PID
+	kill $BT_HCIATTACH_PID
+	
+	#if no more bluetooth or dect device attached, remove hcid
+	killall -0 hciattach 2>/dev/null || killall hcid
+	killall sdpd dund pand 2>/dev/null
+	rmmod rfcomm
+	rmmod bnep
+	rmmod hci_uart
+	rmmod sco
+	rmmod l2cap
+	rmmod bluez
+	rm -f /var/run/bluetooth
+}
+
+hcidev ()
+{
+	if [ -f /var/run/bluetooth ]; then
+		readconf /var/run/bluetooth  BT_HCIDEV
+		echo -n "$BT_HCIDEV"
+	else
+		echo -n "none"
+	fi
+}
+
+update_afh ()
+{
+	if [ ! -f /var/run/bluetooth ]; then
+		echo "Bluetooth not running"
+		return
+	fi
+	readconf /var/run/bluetooth  BT_HCIDEV
+	echo "Configuring AFH"
+	if [ -f /etc/wifi.conf ]; then
+		readconf /etc/wifi.conf WIFI_CHANNEL WIFI_ENABLE
+		if [ "$WIFI_ENABLE" = 1 ]; then
+			case $WIFI_CHANNEL in
+				1)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0x00 0x00 0x00 0xfe 0xff 0xff 0xff 0xff 0xff 0xff;;
+				2)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0x00 0x00 0x00 0xc0 0xff 0xff 0xff 0xff 0xff 0xff;;
+				3)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0x1f 0x00 0x00 0x00 0xf8 0xff 0xff 0xff 0xff 0xff;;
+				4)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0x03 0x00 0x00 0x00 0xff 0xff 0xff 0xff 0xff;;
+				5)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0x7f 0x00 0x00 0x00 0xe0 0xff 0xff 0xff 0xff;;
+				6)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0xff 0x0f 0x00 0x00 0x00 0xfc 0xff 0xff 0xff;;
+				7)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0xff 0xff 0x01 0x00 0x00 0x80 0xff 0xff 0xff;;
+				8)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0xff 0xff 0x3f 0x00 0x00 0x00 0xf0 0xff 0xff;;
+				9)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0x07 0x00 0x00 0x00 0xfe 0xff;;
+				10)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0xff 0x00 0x00 0x00 0xc0 0xff;;
+				11)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0xff 0x1f 0x00 0x00 0x00 0xf8;;
+				12)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0xff 0xff 0x03 0x00 0x00 0x00;;
+				13)	hcitool -i $BT_HCIDEV cmd 0x3 0x3f 0xff 0xff 0xff 0xff 0xff 0xff 0x7f 0x00 0x00 0x00;;
+			esac
+		fi
+	fi
+}
+
+update_name ()
+{
+	if [ ! -f /var/run/bluetooth ]; then
+		echo "Bluetooth not running"
+		return
+	fi
+	readconf /var/run/bluetooth  BT_HCIDEV
+	echo "Configuring BT name"
+	if [ ! -z "$CONFIG_BTNAME_WIFI" ]; then
+		readconf /etc/wifi.conf WIFI_ESSID
+		name=$WIFI_ESSID
+	else 
+		readconf /etc/bluedsl.conf HOSTNAME 
+		name=$HOSTNAME
+	fi
+	hciconfig $BT_HCIDEV name $name
+	sed -e '/NAME=/d' /var/run/bluetooth > /var/run/bluetooth.tmp
+	echo "NAME=$name
+		BT_NAME=$name" >> /var/run/bluetooth.tmp
+	mv -f /var/run/bluetooth.tmp /var/run/bluetooth
+}
+
+case $1 in 
+	start)
+		start
+		;;
+	force-start)
+		start force
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	hcidev)
+		hcidev 
+		;;
+	update_afh)
+		update_afh
+		;;
+	update_name)
+		update_name
+		;;
+	*)
+		echo "Usage : $0 [start | stop | restart | hcidev | update_afh |update_name]"
+		;;
+esac

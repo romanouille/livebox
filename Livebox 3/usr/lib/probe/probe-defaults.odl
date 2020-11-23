@@ -1,0 +1,32 @@
+datamodel {
+object Probe {
+parameter Enable="true";
+parameter Mode=0;
+parameter Compression = "GZIP";
+parameter OutputLocation="https://system-lb3-fr.odmtrack.orange.com/KTUploader/system";
+instance of Module(0, "wifi") {
+extend using mib wifi;
+parameter Enable = 1;
+parameter StationStatsInterval = 360;
+parameter ScriptStatsInterval = 0;
+object Scan {
+parameter Enable = 0;
+parameter Opportunistic = 1;
+parameter Interval = 3600;
+parameter MaxChannelLoad = 10;
+}
+}
+instance of Module(0, "cpu") {
+extend using mib cpu;
+parameter Enable = 1;
+parameter Interval = 300;
+}
+instance of Module(0, "memory") {
+extend using mib memory;
+parameter Enable = 1;
+parameter GlobalInterval = 300;
+parameter PerProcessInterval = 300;
+parameter MemThreshold = 1;
+}
+}
+}

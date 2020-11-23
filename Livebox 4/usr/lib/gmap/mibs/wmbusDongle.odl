@@ -1,0 +1,59 @@
+/*expr:wmbus and logical and dongle*/
+
+/**
+ * MIB is loaded on all wmbus dongles .
+ *
+ * All devices matching expression: "wmbus logical dongle" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib wmbusDongle {
+    /**
+     * @brief ManufacturerId
+     * @version 6.1
+     */
+    string ManufacturerId;
+    /**
+     * @brief HardwareVersion
+     * @version 6.1
+     */
+    string HardwareVersion;
+    /**
+     * @brief FirmwareVersion
+     * @version 6.1
+     */
+    string FirmwareVersion;
+    /**
+     * @brief NetworkStatus
+     * @version 6.1
+     */
+    string NetworkStatus;
+    /**
+     * Allow registration of wmbus devices 
+     * @param duration the period of time in seconds
+     * @return none
+     * @version 6.1
+     */
+    void openNetwork(uint32 duration);
+    /**
+     * Block registration of wmbus device
+     * @return none
+     * @version 6.1
+     */
+    void closeNetwork();
+    /**
+     * Add a device to the list of wmbus registered devices
+     * @param deviceId the device to add 
+     * @return none
+     * @version 6.1
+     */
+    void addDevice(mandatory string deviceId);
+    /**
+     * Remove a device from the list of wmbus registered devices 
+     * @param deviceId the device to delete 
+     * @return none
+     * @version 6.1
+     */
+    void removeDevice(mandatory string deviceId);
+}
+

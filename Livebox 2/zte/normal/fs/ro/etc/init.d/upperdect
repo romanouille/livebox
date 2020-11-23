@@ -1,0 +1,43 @@
+#!/bin/sh
+
+name="Upperdect plugin"
+pid_file=/var/run/upperdect.pid
+
+create_nodes() {
+        mknod /dev/dsp       c   115 15
+        mknod /dev/voice     c   115 16 
+        mknod /dev/fxo       c   115 17 
+        mknod /dev/t38dev    c   115 18 
+}
+
+case $1 in
+    start)
+        if [ -e $pid_file ]; then
+            echo "$name already started"
+            exit 1
+        fi
+        echo "Start $name..."
+        create_nodes
+
+        export PCB_SYS_BUS=pcb://ipc:[/var/run/pcb_sys_voice]
+	sleep 1
+        pcb_plugin -o syslog --priority=-20 -n upperdect -c /usr/lib/endpointplugin/endpoint_interface_upperdect.odl -I /tmp/dspplugin
+        ;;
+    stop)
+        if [ -e $pid_file ]; then
+            echo "Stop $name..."
+            kill $(cat $pid_file) 2>/dev/null
+            [ $? == 0 ] || echo "$name crashed"
+            rm -f $pid_file
+        else
+            echo "$name not running"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
+
+

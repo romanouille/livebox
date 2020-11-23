@@ -1,0 +1,25 @@
+{
+  "status": 0,
+  "data": {
+    "userRules": [
+      {
+        "name": "myRule",
+        "isEnabled": true,
+        "protocol": "tcp",
+        "externalPortRange": "1234-2345",
+        "internalPortRange": "1234-2345",
+        "ipAddress": "192.168.1.10"
+      }
+    ],
+    "upnpRules": [
+      {
+        "name": "itsRule",
+        "isEnabled": true,
+        "protocol": "tcp",
+        "externalPortRange": "3456",
+        "internalPortRange": "3456",
+        "ipAddress": "192.168.1.12"
+      }
+    ]
+  }
+}

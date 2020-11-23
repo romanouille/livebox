@@ -1,0 +1,550 @@
+#GUI-Content{
+  display:block;
+  background-color:#FFFFFF;
+  width:780px;
+}
+
+#GUI-Content #Content{
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    color: #444444;
+    font-size: 0.69em;
+}
+.frame{
+  border:1px solid #CACACA;
+  background-color:#FFFFFF;
+  margin-left: auto; 
+  margin-right: auto; 
+  width:582px;
+  height:auto;
+  margin-bottom: 78px;
+  margin-top: 83px;
+  padding: 15px 5px 5px;
+}
+
+.title {
+    background-color: white;
+    float: left;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-top: -22px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: -moz-max-content;
+    z-index: 100;
+}
+.content div{
+  margin-bottom:18px;
+}
+
+#buttonBar2{
+  width: 50%;
+  margin-left: auto; 
+  margin-right: auto; 
+  margin-bottom:42px;
+  /margin-bottom:0px;
+}
+
+#buttonBar3{
+  margin-bottom: 42px;
+ /* /margin-bottom:0px;*/
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+#btnL{
+  float:left;
+}
+#btnR{
+  float:right;
+}
+#waitBox{
+  width: 350px;
+  margin-left: auto; 
+  margin-right: auto; 
+  margin-top:0; 
+  margin-bottom:0;
+}
+
+#waiting{
+  width:350px;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -15px;
+}
+#connectionFrame #waiting{
+ margin-bottom:-20px;
+}
+#waitMsg{
+  margin-bottom:0;
+  padding:15px 10px 15px 35px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-image: url('../img/ico_notification.gif');
+  /height:1%;			/*Hack ie7 */
+}
+
+#waitMsg .warnWait{
+  margin-bottom:0;
+}
+
+#puce1, #puce2, #puce3{
+  float:left;
+  margin:3px 3px 16px 3px;
+  /*/margin: 15px 3px 16px 3px;	/*Hack ie7 */*/
+}
+
+.titleStep {
+    background-color: white;
+    float: right;
+    margin-right: 50px;
+    margin-top: -22px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: -moz-max-content;
+    z-index: 100;
+}
+
+#imgStep{
+    float: right;
+    margin-right: 5px;
+    margin-top: -26px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    /position:absolute; 	/*Hack ie7 */
+    /left: 640px; 		/*Hack ie7 */
+    /padding: 0;		/*Hack ie7 */
+    z-index: 100;
+}
+#usrInput, #pwdInput{
+  width:100%;
+}
+.labelUsr, .labelPwd{
+  float:left;
+}
+#inputUsr, #inputPwd{
+  width:100%;
+}
+.loginInputs #inputUsrInput, .loginInputs #inputPwdInput{
+  width:180px;
+  margin-top:-6px;
+  float:right;
+  margin-right: 230px;
+  margin-left:10px;
+  /margin-top:-16px;		/*Hack ie7 */
+}
+
+.loginInputs span{
+  font-weight:bold;
+  padding-right:5px;
+}
+@charset "utf-8";
+
+body{
+  background-color:#FFFFFF;
+}
+
+#GUI-Header{ 
+  background-color:#FFFFFF;
+  height:120px;
+  width:780px;
+  display:block;
+}
+
+#logo{
+  margin:20px;
+  height:60px;
+  width:60px;
+  display:block;
+  float:left;
+}
+#LangOption{
+  width:30%;
+  margin:20px;
+  font-family:Helvetica Neue LT Std,Arial,sans-serif;
+  float:right;
+}
+.label { 
+  margin-right:10px;
+  font-family:Helvetica Neue LT Std,Arial,sans-serif;
+  float:right;
+}
+
+#Select-Lang {	
+  color:#000000;
+  font-family:Helvetica Neue LT Std,Arial,sans-serif;
+  float:right;
+  cursor:pointer;
+}
+#Select-Lang div select{	
+cursor:pointer;
+}
+.titleInfo1{
+  margin-bottom: 10px;
+}
+.titleInfo2{
+  margin-bottom: 10px;
+}
+.updateInfo{
+  margin-bottom: 10px;
+}
+
+.warn{
+  margin-bottom: 10px;
+  font-weight: bold;
+
+} 
+.problemInfo{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.progressBar{
+  margin-bottom: 10px; 
+  width: -moz-max-content;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+.progressBarTitle{
+  vertical-align: middle;
+  font-weight: bold;
+  height: 24px;
+  line-height: 15px;
+}
+
+barInfo{
+  width:300px;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+div#barInfo div{
+  vertical-align: middle;
+  margin:0px;
+}
+
+div#barInfo img{
+  vertical-align: middle;
+  float:left;
+}
+
+
+
+div.gui-button div.button-left{
+  margin-left: 20px;  
+ 
+}
+div.gui-button div.button-right{
+  margin-right: 20px;  
+
+}
+
+div.gui-button div.button-left, 
+div.gui-button div.button-right {
+  height: 18px;
+
+} 
+
+div.gui-button div.button-left {
+  background-image: url(../img/small_left.png); 
+  width: 6px; 
+}
+
+div.gui-button div.button-right {
+  background-image: url(../img/small_right.png); 
+  padding-right: 8px; 
+}
+
+div.gui-button div.button-right p.gui-button-text {
+  font-style:normal;
+  font-family:Verdana,Arial,sans-serif;
+  font-size:12px;
+  font-weight:bold;
+  color:#000000;
+  margin-top:2px;
+}
+div.gui-button:focus div.button-right p.gui-button-text{
+  color:#FF6600;
+}
+div.gui-button:focus div.button-left p.gui-button-text{
+  color:#FF6600;
+}
+
+div.gui-button-hover div.button-left {
+  background-image: url(../img/small_left.png); 
+}
+
+div.gui-button-hover div.button-right {
+  background-image: url(../img/small_right.png); 
+}
+
+div.gui-button-hover div.button-right p.gui-button-text {
+  color:#FF6600;
+}
+
+div.gui-button-down div.button-left {
+  background-image: url(../img/small_left.png); 
+}
+
+div.gui-button-down div.button-right {
+  background-image: url(../img/small_right.png); 
+}
+
+div.gui-button-down div.button-right p.gui-button-text {
+  color:#FFFFFF;
+}
+
+div.gui-guiButton-disabled div.button-left {
+  background-image: url(../img/small_left.png); 
+}
+
+div.gui-guiButton-disabled div.button-right {
+  background-image: url(../img/small_right.png); 
+}
+
+div.gui-guiButton-disabled div.button-right p.gui-button-text {
+  color:#666666;
+}
+div.gui-guiButton-disabled:focus div.button-right p.gui-button-text {
+  color:#666666;
+}
+
+
+#radioFirstCon1, #radioFirstCon2{
+  cursor:pointer;
+  float:left;
+  margin-top:-4px;  
+}
+#radioFirstCon1 input, #radioFirstCon2 input{
+  cursor:pointer;
+  }
+
+.radioInfo1, .radioInfo2{
+  margin-top:18px;
+  margin-left: 22px;  
+}
+
+.typeInfo1, .typeInfo2{
+  text-align:justify;
+}
+
+
+.radioLine{
+  width: 100%;
+  height:32px;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+#AdslType, #FiberType{
+  width: -moz-max-content;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+#AdslType{
+  float:left;
+  margin-left:130px;
+} 
+
+#FiberType{
+  float:right;
+  margin-right:130px;
+}
+
+#iconAdsl, #iconFiber{
+  float:left;
+}
+
+#radioTypeCon1, #radioTypeCon2{
+  float:left;
+  margin-top:5px;
+}
+#radioTypeCon1 input, #radioTypeCon2 input{
+  cursor:pointer;
+  }
+
+.radioTypeLabel1, .radioTypeLabel2{
+  float:left;
+  margin-top:10px;
+}
+
+#iconAdsl, #radioTypeCon1, .radioTypeLabel1{
+  margin-left: 10px; 
+}
+#iconFiber, #radioTypeCon2, .radioTypeLabel2{
+  margin-right: 10px; 
+}
+#typeconnectionframe #waitBox{
+  width:100%;
+  margin-top:0;
+}
+#iconNotif, #iconErr{
+  float:left;
+  margin-top:-5px;
+}
+#error, .errorLabel{
+  width: 100%;
+  float:left;
+  margin-top: -10px;
+  /margin-top: 10px;	/*Hack ie7 */
+}
+#error{
+  display:block;
+  margin-bottom:0px;
+}
+#Step{
+  float:right;
+}
+#connectionFrame .content #error {
+ display:block;
+ margin-top : 0;
+}
+#Help3901 .errorLabel{
+ font-size: 0.76em;
+}
+.loginInputs{
+ margin-bottom:0;
+}
+
+#connectionFrame{
+  border:1px solid #CACACA;
+  background-color:#FFFFFF;
+  margin-left: auto; 
+  margin-right: auto; 
+  width:582px;
+  height:auto;
+  margin-bottom: 78px;
+  margin-top: 83px;
+  padding: 15px 5px 18px;
+}
+
+#confirmContainer{
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  background-image: url('../img/ico_notification.gif');
+  text-align: center;
+  margin-top:100px;
+  border: 2px solid #5FEF6B;
+  width: 380px;
+  height: 80px;
+  margin-left:auto;
+  margin-right:auto;
+}
+#confirmLabel{
+height:14px;
+margin-top:32px;
+}
+.frame{
+  min-height:200px;
+}
+
+#buttonBar{
+  display:block;
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#buttonBar input{
+ cursor:pointer;
+}
+#titleInfo1, #titleInfo2{
+  margin-left:10px;
+}
+#warn{
+  margin-left:10px;
+}
+#loginInputs{
+  margin-top: 15px;
+  margin-left: 12%;
+}
+#Qinputs{
+  margin-top: 15px;
+  margin-left: 12%;
+  margin-bottom:0;
+}
+#Qinputs #inputQuestionInput, #Qinputs #inputAnswerInput{
+  width:180px;
+  margin-top:-6px;
+  float:right;
+  margin-right: 230px;
+  margin-left:10px;
+  /margin-top:-16px;        /*Hack ie7 */
+}
+#loadInfo{
+  margin-left: auto; 
+  margin-right: auto; 
+  margin-top:40px;
+  width: -moz-max-content;
+  text-align:justify;
+  white-space: pre; 
+}
+#loadInfo #iconNotif{
+margin-top:10px;
+}
+.cardPwdLostInfo, .abortInfo, #pwdLost, #abort{
+  float:left;
+}
+.abortInfo, #abort{
+  margin-top: -5px;
+  font-size: 0.69em;
+}
+a {
+  cursor:pointer;
+  color:#FF6600;
+}
+#buttonBar{
+  margin-top:20px;
+}
+.content #cardSecure{
+  min-height:230px;
+}
+
+.content #error{
+  margin-top:155px;
+  margin-top:50px\0/;		/*Hack ie8 */
+  /margin-bottom:-22px;		/*Hack ie7 */
+}
+#errorAuth, #errorSync{
+  margin-top: 20px;
+}
+#waitBox{
+margin-top: 30px;
+}
+.abortRestore{
+ font-size: 0.76em;
+ margin-left:12px; 
+ margin-bottom:1px;
+ display:inline;
+}
+#cardFrame #buttonBar3{
+  margin-bottom: 100px;
+}
+.question div{
+  margin-bottom: 18px;
+}
+.question{
+  margin-top: 18px;
+}
+#loadInfo{
+  margin-left: auto; 
+  margin-right: auto; 
+  width: -moz-max-content;
+}
+
+.notifReboot{
+  display:block;
+  white-space:nowrap;
+}
+
+#rebooting{
+  display:block;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+ }

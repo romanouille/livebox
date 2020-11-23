@@ -1,0 +1,87 @@
+#!/bin/sh
+
+
+. /usr/bin/pcb_common.sh
+
+name="storage"
+datamodel="StorageService"
+component="sah_services_storage"
+trace_zones=""
+
+start() {
+    SO_TO_LOAD=
+    ARGS=
+    FS_MODULE_PATH="/lib/modules/$(uname -r)/kernel/fs"
+    if [ -d "${FS_MODULE_PATH}" ]; then
+        for MODULE in $(find "${FS_MODULE_PATH}" -type f -name '*.ko'); do
+            modprobe -q "${MODULE}"
+        done
+    fi
+
+    if pcb_is_running $name; then
+        echo "storage service already started"
+        exit 1;
+    fi
+    mkdir -p /var/usbmount/
+    for filename in /usr/lib/storage/mibs/*.so; do
+        SO_TO_LOAD=$SO_TO_LOAD" -s "$filename
+        NEXT_PLUGIN=${filename%.*}
+        NEXT_PLUGIN=${NEXT_PLUGIN##*/}
+        ARGS=$ARGS" -a "$NEXT_PLUGIN
+    done
+    pcb_start $name -S -c /usr/lib/storage/storage.odl $SO_TO_LOAD $ARGS
+    /usr/lib/storage/storage-coldplug.sh &
+}
+
+stop() {
+    pcb_stop $name
+}
+
+restart() {
+    stop
+    start
+}
+
+debuginfo() {
+     pcb_debug_info $name $component $datamodel
+
+     show_cmd find /sys/block
+     show_cmd find /sys/block/sd* -follow -maxdepth 1
+     show_cmd blkid
+     show_cmd mount
+     show_cmd ls -l /var/usbmount//
+     show_cmd ls -l /var/usbmount//*
+     show_cmd df
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    backup)
+        if pcb_is_running $name; then
+            pcb_cli "StorageService.export($2)"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/storage
+        touch /var/lib/storage/restore
+        ;;
+    debuginfo)
+        debuginfo
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore|debuginfo|log]"
+        ;;
+esac

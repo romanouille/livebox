@@ -1,0 +1,53 @@
+#!/bin/sh
+TARGET_DIR="/var/lib/wld"
+
+
+
+
+. /usr/bin/pcb_common.sh
+
+name="wld_quan"
+datamodel="WiFiQUAN"
+trace_zones="wld wld_hw wld_ssid wld_rad wld_vap wld_quan"
+component="sah_drivers_wifi_quantenna"
+
+do_start()
+{
+	mkdir -p -m 700 "$TARGET_DIR"
+	chmod 700 "$TARGET_DIR"
+	## Open Firewall for IPC/Data to Quantenna.
+	iptables -A INPUT_First -i eth6.2 -j ACCEPT
+
+	export LD_LIBRARY_PATH=/usr/lib/wld:/usr/lib/wld/quan 
+	export WIFIROOT=WiFiQUAN
+	set -a
+	. /etc/environment
+	offset=5
+	WLAN_ADDR=`macoffset $WAN_ADDR $offset`
+
+	pcb_start $name -c /usr/lib/wld/wld.odl -I /var/run/wld_quan
+	pcb_cli -q "NeMo.Module.wlan.addVendor(root=\"WiFiQUAN\", suffix=\"_quan\", dst=\"pcb://ipc:[/var/run/wld_quan]\")"
+}
+
+case $1 in
+	start)
+		# This has to be done asynchronously, because starting the plugin is
+		# blocked by the Quantenna chip startup. That takes longer than we're
+		# willing to wait.
+		do_start &
+		;;
+	stop)
+		pcb_cli -q "NeMo.Module.wlan.deleteVendor(root=\"WiFiQUAN\")"
+		pcb_stop $name
+		;;
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+		;;
+	log)
+		action=$2
+		pcb_log $name ${action:-enable} $trace_zones
+		;;
+	*)
+		echo "Usage: $0 [start|stop|debuginfo|log]"
+esac
+

@@ -1,0 +1,42 @@
+#!/bin/sh
+PID="/var/run/remoteaction.pid"
+NAME=remoteaction
+ODL=/usr/lib/remoteaction/remoteaction.odl
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "remoteaction service already started"
+        exit 1;
+    fi
+    pcbs_plugin -l -n $NAME -c "${ODL}"
+    pidof $NAME > $PID
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID)
+    else
+        echo "remoteaction not running"
+        exit 1
+    fi
+}
+
+case $1 in
+    backup)
+        ;;
+    restore)
+        ;;
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 [start|stop|restart|backup|restore]"
+        ;;
+esac

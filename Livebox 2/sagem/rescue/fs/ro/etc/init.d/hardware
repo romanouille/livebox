@@ -1,0 +1,79 @@
+#!/bin/sh
+BMEFILE=/etc/config/ADSL
+case $1 in
+	start)
+		echo "create SAGEM specific nodes"
+		mknod /dev/dsp c 115 15
+		mknod /dev/voice c 115 16
+		mknod /dev/fxo c 115 17
+		mknod /dev/t38dev c 115 18
+		mknod /dev/adsl_mon c 249 0
+		mknod /dev/switch c 232 0
+		mknod /dev/usbdect_phone c 240 0
+		mknod /dev/ttyUSB0 c 188 0
+		mknod /dev/led c `sed -n 's/\(.*\) led$/\1/p' /proc/devices` 0
+		mknod /dev/bsp c 215 0
+
+		echo "start SAGEM specific drivers"
+		modprobe pwrmgmtdrv_lkm
+		modprobe fusivlib_lkm
+		modprobe ap2ap_lkm
+		modprobe timers_lkm
+		modprobe ethdriver_lkm eth0_mii=2 eth1_mii=1
+		modprobe sysKCode_lkm
+		modprobe atmdriver_lkm
+		modprobe periap_driver_lkm
+		modprobe ipqos_lkm
+		modprobe marvell6061
+		modprobe ap2ap_lkm
+		modprobe igmpsnoop_lkm
+		modprobe dspvoice
+		modprobe monif_lkm
+		modprobe thomson_upper_dect_driver
+
+		sysutil apfeature ALL VLANBRIDGE enable
+
+		modprobe nf_conntrack
+		modprobe nf_conntrack_ftp
+		modprobe nf_conntrack_tftp
+		modprobe nf_conntrack_ipv4
+		modprobe nf_conntrack_rtsp
+		modprobe nf_conntrack_pptp
+		modprobe nf_conntrack_irc
+		modprobe nf_nat_ftp
+        modprobe nf_nat_tftp
+		modprobe nf_nat_sip
+		modprobe nf_nat_rtsp
+		modprobe nf_nat_snmp_basic
+		modprobe nf_nat_pptp
+		modprobe nf_nat_irc
+		modprobe bmdriver_lkm
+
+		button_major=`sed -n 's/\(.*\) lb_button$/\1/p' /proc/devices`
+		for f in 0 1 2; do
+			mknod /dev/button$f c $button_major $f
+		done
+		ln -s /dev/button0 /dev/button_wlan_pairing
+		ln -s /dev/button0 /dev/button_wlan
+		ln -s /dev/button0 /dev/button_dect
+		ln -s /dev/button1 /dev/button_reboot
+		ln -s /dev/button2 /dev/button_reset
+
+                 mkdir -p /var/dev/led
+		[ -d /sys/class/leds/led_0 ] && ln -s /sys/class/leds/led_0 /var/dev/led/Power
+		[ -d /sys/class/leds/led_1 ] && ln -s /sys/class/leds/led_1 /var/dev/led/InternetRed
+		[ -d /sys/class/leds/led_2 ] && ln -s /sys/class/leds/led_2 /var/dev/led/Internet
+		[ -d /sys/class/leds/led_3 ] && ln -s /sys/class/leds/led_3 /var/dev/led/Voip
+		[ -d /sys/class/leds/led_4 ] && ln -s /sys/class/leds/led_4 /var/dev/led/Lan
+		[ -d /sys/class/leds/led_5 ] && ln -s /sys/class/leds/led_5 /var/dev/led/Wireless
+		[ -d /sys/class/leds/led_6 ] && ln -s /sys/class/leds/led_6 /var/dev/led/Upgrade
+
+		switchctl port show | sed -r "s/^\[...\] *([0-9]*): .*$/switchctl port force \1 detect/" | sh
+		;;
+	stop)
+		# stop drivers if necessary
+		echo "stop CSSP specific drivers"
+	;;
+	*)
+	;;
+esac

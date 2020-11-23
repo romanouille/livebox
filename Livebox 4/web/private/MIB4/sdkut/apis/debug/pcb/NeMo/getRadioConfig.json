@@ -1,0 +1,27 @@
+{
+    "status": true,
+    "data": {
+        "wlanradio": {
+            "wifi0_bcm": {
+                "RadioStatus": "Up",
+                "LastChangeTime": 61,
+                "LastChange": 612214,
+                "MaxBitRate": 0,
+                "SupportedFrequencyBands": "2.4GHz,5GHz,",
+                "OperatingFrequencyBand": "2.4GHz",
+                "SupportedStandards": "a,b,g,n,bg,bgn,an",
+                "OperatingStandards": "bgn",
+                "PossibleChannels": "1,2,3,4,5,6,7,8,9,10,11,12,13",
+                "Channel": 1,
+                "AutoChannelSupported": true,
+                "AutoChannelEnable": true,
+                "AutoChannelRefreshPeriod": 0,
+                "AutoChannelSelecting": false,
+                "ActiveAntennaCtrl": 3,
+                "OperatingChannelBandwidth": "20MHz",
+                "ExtensionChannel": "Auto",
+                "GuardInterval": "Auto"
+            }
+        }
+    }
+}

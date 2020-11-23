@@ -1,0 +1,40 @@
+#!/bin/sh
+mkdir -p /tmp/devices
+if [ $# -gt 4 ]
+then exit 1
+fi
+cd /dev
+
+if [ `grep -c $1 /etc/mtab` -gt 0 ]
+then exit 4
+fi
+case $2 in
+ext3)   echo mkfs $2 on $1 
+	echo "FORMATING" > /tmp/devices/$1
+	echo "$1:0" > /tmp/format_#_#_$1 
+	mkfs.ext2 -j $1
+	if [ -f /tmp/format_#_#_$1 ]
+	then
+	  rm /tmp/format_#_#_$1
+	fi
+	;;
+vfat)   echo  mkfs $2 on $1
+	echo "FORMATING" > /tmp/devices/$1
+	echo "$1:0" > /tmp/format_#_#_$1 
+	if [ -z "$3" ]
+	then        
+	  mkdosfs -I $1
+	else
+	  mkdosfs -I -n  $3 $1
+	fi
+	if [ -f /tmp/format_#_#_$1 ]
+	then
+	  rm /tmp/format_#_#_$1
+	fi		
+	;;
+*) exit 8;;
+esac
+if [ $? -ne 0 ]
+then exit 16
+fi
+

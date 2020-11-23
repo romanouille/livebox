@@ -1,0 +1,1281 @@
+{
+  "categories": {
+    "status": [
+      "Network",
+      "Hub",
+      "Advanced",
+      "Support",
+      "Applications"
+    ]
+  },
+  "manifests": {
+    "status": [
+      {
+        "Id": "favorites",
+        "Category": "Favorites",
+        "Version": "0.1",
+        "Title": "favorites.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": { "main": "favapp",
+                         "settings": {}
+                       },
+        "Applet": [ 
+                    { "width": 1,
+                      "height": 1,
+                      "url": "services/ws/mhs/apps/tile_favorites.html",
+                      "class": "greenbox_s",
+                      "favorite": 1,
+                      "initializer": "tile_favorites",
+                      "settings": { "slides": [ "<div class=title translate={{title}}></div><div><span class=\"icon icon-star\"></span></div>"
+                                              ],
+                                    "apicalls":{},
+                                    "nonremovable":1
+                                  }
+                    }
+                  ]
+      },
+      {
+        "Id": "internal_devicesList",
+        "Category": "Network",
+        "Version": "0.1",
+        "Title": "devicesList.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/devicesList/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/devicesList/tile.html",
+            "class": "internal_devicesList",
+            "initializer": "internal_devicesList",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_devicesList",
+        "Category": "Favorites",
+        "Version": "0.1",
+        "Title": "devicesList.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/devicesList/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/devicesList/tile.html",
+            "class": "internal_devicesList",
+            "initializer": "internal_devicesList",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_devicesHistory",
+        "Category": "Network",
+        "Version": "0.1",
+        "Title": "devicesHistory.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/devicesHistory/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/devicesHistory/tile.html",
+            "class": "internal_devicesHistory",
+            "initializer": "internal_devicesHistory",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_wifiScheduling",
+        "Category": "Network",
+        "Version": "0.1",
+        "Title": "wifiScheduling.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/wifiScheduling/index.html#redirecttoscheduler"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/wifiScheduling/tile.html",
+            "class": "internal_wifiScheduling",
+            "initializer": "internal_wifiScheduling",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_wifiGuest",
+        "Category": "Network",
+        "Version": "0.1",
+        "Title": "wifiGuest.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/wifiGuest/index.html#redirecttoguest"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/wifiGuest/tile.html",
+            "class": "internal_wifiGuest",
+            "initializer": "internal_wifiGuest",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_wifiAdvanced",
+        "Category": "Network",
+        "Version": "0.1",
+        "Title": "wifiAdvanced.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/wifiAdvanced/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/wifiAdvanced/tile.html",
+            "class": "internal_wifiAdvanced",
+            "initializer": "internal_wifiAdvanced",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_wifiAdvanced",
+        "Category": "Favorites",
+        "Version": "0.1",
+        "Title": "wifiAdvanced.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/wifiAdvanced/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/wifiAdvanced/tile.html",
+            "class": "internal_wifiAdvanced",
+            "initializer": "internal_wifiAdvanced",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_internetState",
+        "Category": "Network",
+        "Version": "0.1",
+        "Title": "internetState.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/internetState/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/internetState/tile.html",
+            "class": "internal_internetState",
+            "initializer": "internal_internetState",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_internetState",
+        "Category": "Favorites",
+        "Version": "0.1",
+        "Title": "internetState.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/internetState/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/internetState/tile.html",
+            "class": "internal_internetState",
+            "initializer": "internal_internetState",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_televisionState",
+        "Category": "Network",
+        "Version": "0.1",
+        "Title": "televisionState.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/televisionState/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/televisionState/tile.html",
+            "class": "internal_televisionState",
+            "initializer": "internal_televisionState",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_televisionState",
+        "Category": "Favorites",
+        "Version": "0.1",
+        "Title": "televisionState.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/televisionState/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/televisionState/tile.html",
+            "class": "internal_televisionState",
+            "initializer": "internal_televisionState",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_voiceAdvanced",
+        "Category": "Network",
+        "Version": "0.1",
+        "Title": "voiceAdvanced.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/voiceAdvanced/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/voiceAdvanced/tile.html",
+            "class": "internal_voiceAdvanced",
+            "initializer": "internal_voiceAdvanced",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_voiceAdvanced",
+        "Category": "Favorites",
+        "Version": "0.1",
+        "Title": "voiceAdvanced.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/voiceAdvanced/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "favorite": 1,
+            "url": "internal/voiceAdvanced/tile.html",
+            "class": "internal_voiceAdvanced",
+            "initializer": "internal_voiceAdvanced",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_hubCloud",
+        "Category": "Hub",
+        "Version": "0.1",
+        "Title": "hubCloud.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/hubCloud/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/hubCloud/tile.html",
+            "class": "internal_hubCloud",
+            "initializer": "internal_hubCloud",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_hubState",
+        "Category": "Hub",
+        "Version": "0.1",
+        "Title": "hubState.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/hubState/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/hubState/tile.html",
+            "class": "internal_hubState",
+            "initializer": "internal_hubState",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_hubUser",
+        "Category": "Hub",
+        "Version": "0.1",
+        "Title": "hubUser.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/hubUser/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/hubUser/tile.html",
+            "class": "internal_hubUser",
+            "initializer": "internal_hubUser",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_hubApps",
+        "Category": "Hub",
+        "Version": "0.1",
+        "Title": "hubApps.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/hubApps/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/hubApps/tile.html",
+            "class": "internal_hubApps",
+            "initializer": "internal_hubApps",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_hubDiagnostic",
+        "Category": "Hub",
+        "Version": "0.1",
+        "Title": "hubDiagnostic.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/hubDiagnostic/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/hubDiagnostic/tile.html",
+            "class": "internal_hubDiagnostic",
+            "initializer": "internal_hubDiagnostic",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_hubSupport",
+        "Category": "Hub",
+        "Version": "0.1",
+        "Title": "hubSupport.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/hubSupport/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/hubSupport/tile.html",
+            "class": "internal_hubSupport",
+            "initializer": "internal_hubSupport",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_hubMaintenance",
+        "Category": "Hub",
+        "Version": "0.1",
+        "Title": "hubMaintenance.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/hubMaintenance/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/hubMaintenance/tile.html",
+            "class": "internal_hubMaintenance",
+            "initializer": "internal_hubMaintenance",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_hubVersions",
+        "Category": "Hub",
+        "Version": "0.1",
+        "Title": "hubVersions.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/hubVersions/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/hubVersions/tile.html",
+            "class": "internal_hubVersions",
+            "initializer": "internal_hubVersions",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_networkAdvanced",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "networkAdvanced.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/networkAdvanced/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/networkAdvanced/tile.html",
+            "class": "internal_networkAdvanced",
+            "initializer": "internal_networkAdvanced",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_networkFirewall",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "networkFirewall.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/networkFirewall/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/networkFirewall/tile.html",
+            "class": "internal_networkFirewall",
+            "initializer": "internal_networkFirewall",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_userPassword",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "userPassword.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/userPassword/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/userPassword/tile.html",
+            "class": "internal_userPassword",
+            "initializer": "internal_userPassword",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_internetRemote",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "internetRemote.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/internetRemote/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/internetRemote/tile.html",
+            "class": "internal_internetRemote",
+            "initializer": "internal_internetRemote",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_systemInformation",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "systemInformation.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/systemInformation/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/systemInformation/tile.html",
+            "class": "internal_systemInformation",
+            "initializer": "internal_systemInformation",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_internetConnection",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "internetConnection.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/internetConnection/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/internetConnection/tile.html",
+            "class": "internal_internetConnection",
+            "initializer": "internal_internetConnection",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_systemBackup",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "systemBackup.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/systemBackup/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/systemBackup/tile.html",
+            "class": "internal_systemBackup",
+            "initializer": "internal_systemBackup",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_systemUpgrade",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "systemUpgrade.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/systemUpgrade/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/systemUpgrade/tile.html",
+            "class": "internal_systemUpgrade",
+            "initializer": "internal_systemUpgrade",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_localSettings",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "localSettings.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/localSettings/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/localSettings/tile.html",
+            "class": "internal_localSettings",
+            "initializer": "internal_localSettings",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_localSession",
+        "Category": "Advanced",
+        "Version": "0.1",
+        "Title": "localSession.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/localSession/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/localSession/tile.html",
+            "class": "internal_localSession",
+            "initializer": "internal_localSession",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_internetHotline",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "internetHotline.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/internetHotline/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/internetHotline/tile.html",
+            "class": "internal_internetHotline",
+            "initializer": "internal_internetHotline",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeLivebox",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "orangeLivebox.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeLivebox/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeLivebox/tile.html",
+            "class": "internal_orangeLivebox",
+            "initializer": "internal_orangeLivebox",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_systemRestart",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "systemRestart.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/systemRestart/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/systemRestart/tile.html",
+            "class": "internal_systemRestart",
+            "initializer": "internal_systemRestart",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_systemReset",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "systemReset.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/systemReset/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/systemReset/tile.html",
+            "class": "internal_systemReset",
+            "initializer": "internal_systemReset",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeDiagnostic",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "orangeDiagnostic.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeDiagnostic/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeDiagnostic/tile.html",
+            "class": "internal_orangeDiagnostic",
+            "initializer": "internal_orangeDiagnostic",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeDomino",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "orangeDomino.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeDomino/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeDomino/tile.html",
+            "class": "internal_orangeDomino",
+            "initializer": "internal_orangeDomino",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeHelp",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "orangeHelp.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeHelp/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeHelp/tile.html",
+            "class": "internal_orangeHelp",
+            "initializer": "internal_orangeHelp",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeUser",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "orangeUser.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeUser/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeUser/tile.html",
+            "class": "internal_orangeUser",
+            "initializer": "internal_orangeUser",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeAccount",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "orangeAccount.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeAccount/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeAccount/tile.html",
+            "class": "internal_orangeAccount",
+            "initializer": "internal_orangeAccount",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_localLicense",
+        "Category": "Support",
+        "Version": "0.1",
+        "Title": "localLicense.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/localLicense/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/localLicense/tile.html",
+            "class": "internal_localLicense",
+            "initializer": "internal_localLicense",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeLivebox",
+        "Category": "Applications",
+        "Version": "0.1",
+        "Title": "orangeLivebox.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeLivebox/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeLivebox/tile.html",
+            "class": "internal_orangeLivebox",
+            "initializer": "internal_orangeLivebox",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeCloud",
+        "Category": "Applications",
+        "Version": "0.1",
+        "Title": "orangeCloud.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeCloud/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeCloud/tile.html",
+            "class": "internal_orangeCloud",
+            "initializer": "internal_orangeCloud",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeTv",
+        "Category": "Applications",
+        "Version": "0.1",
+        "Title": "orangeTv.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeTv/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeTv/tile.html",
+            "class": "internal_orangeTv",
+            "initializer": "internal_orangeTv",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangePhone",
+        "Category": "Applications",
+        "Version": "0.1",
+        "Title": "orangePhone.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangePhone/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangePhone/tile.html",
+            "class": "internal_orangePhone",
+            "initializer": "internal_orangePhone",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      },
+      {
+        "Id": "internal_orangeApps",
+        "Category": "Applications",
+        "Version": "0.1",
+        "Title": "orangeApps.header.title",
+        "AllowedGroups": "admin,remoteadmin",
+        "Application": {
+          "main": "iframeapp",
+          "settings": {
+            "target": "internal/orangeApps/index.html"
+          }
+        },
+        "Applet": [
+          {
+            "width": 1,
+            "height": 1,
+            "url": "internal/orangeApps/tile.html",
+            "class": "internal_orangeApps",
+            "initializer": "internal_orangeApps",
+            "settings": {
+              "slides": [],
+              "apicalls":{}
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "profiles" : {
+    "status": {
+      "centerPages": 1,
+      "pagesInLargeView": 1.300000e+00,
+      "pagesInMediumView": 1.100000e+00,
+      "pagesInSmallView": 1.010000e+00,
+      "enableTileDrag": true,
+      "gridSize": "auto",
+      "tileSizes":
+        [
+          {
+              "width": 90,
+              "height": 90
+          },
+          {
+              "width": 150,
+              "height": 150
+          },
+          {
+              "width": 180,
+              "height": 180
+          }
+        ],
+      "tileMargin": 10,
+      "title": "",
+      "enableFavorites": true,
+      "defaultLanguage": "fr",
+      "autologin": null,
+      "styleScheme": "sah",
+      "useRandomAnimations": true,
+      "enableTimeout": true,
+      "enableCategoryButtons": true,
+      "profileScript": "",
+      "profile":"orange"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+
+DEFAULT_CIPHER_SUITE="EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:+CAMELLIA256:+AES256:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!ECDSA:CAMELLIA256-SHA:AES256-SHA:CAMELLIA128-SHA:AES128-SHA"
+export DEFAULT_CIPHER_SUITE
+
+# mount all other filesystems
+echo "Mounting other filesystems ..."
+mount -a
+
+cd /
+
+ifconfig lo 127.0.0.1 netmask 255.0.0.0 broadcast 127.255.255.255 up
+
+# For now, we use the real etc file system
+/etc/init.d/rc 1
+
+# this indicates software loaded succesfully (next reboot will start normal firmware)
+bootmode set system
+
+echo "Sysinit done."
+pcb_cli --daemon "DeviceInfo.DeviceStatus=Up"

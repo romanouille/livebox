@@ -1,0 +1,32 @@
+/*expr:association*/
+
+/**
+ * MIB is loaded on all devices that are able to command other devices.
+ *
+ * All devices matching expression: "association" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib association {
+
+    /**
+      * This command is used to add a device to the group to command
+      * 
+      */
+    void Associate(String Id) {
+        acl {
+            world none;
+        }
+    }
+    
+    /**
+      * This command is used to remove a device from the group to command
+      *  
+      */
+    void Dissociate(String Id) {
+        acl {
+            world none;
+        }
+    }
+}
+/** @location sah_services_gmap /mibs/association.odl */

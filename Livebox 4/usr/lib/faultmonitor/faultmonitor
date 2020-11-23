@@ -1,0 +1,124 @@
+#! /bin/sh
+
+# Monitor and store core dumps of crashing processes
+# Installation:
+#   echo "|/tmp/faultmonitor %p %s %t" > /proc/sys/kernel/core_pattern
+
+# default configuration
+COREBASEDIR=/ext/faults
+MINFREESPACE=3000
+MAXCOREDUMPS=20
+LOCKDIR=/tmp/faultmonitor.lock
+UPLOADSERVER=""
+UPLOADTIMEOUT=60
+
+# robust parsing of the configuration file.
+# the configuration file must be updated atomically (eg. with 'mv')
+parse_config() {
+  if [ -e $1 ]; then
+    while read line; do
+      NEWCONFIG=$(echo "$line" | sed -nr "s# *\t*([A-Z][A-Z0-9]*) *= *([A-Za-z0-9/]+|\"[A-Za-z0-9 /:]+\") *\t*#\\1=\\2#p" )
+      eval $NEWCONFIG
+    done < $1
+  fi
+}
+parse_config /usr/lib/faultmonitor/faultmonitor.defaults
+parse_config /etc/faultmonitor.conf
+parse_config /etc/config/faultmonitor.conf
+
+# Basic characteristics of the fault
+PID=$1
+SIGNAL=$2
+TIME=$3
+# For systems where the arguments are seperated by null bytes, translate
+# those in semi-colons (;).
+CMDLINE=$(tr \\0 ";" < /proc/$PID/cmdline)
+
+# Do not handle crash dumps of ourself
+if grep -q faultmonitor /proc/$PID/cmdline; then
+   exit 0
+fi
+
+# Compute the crash id and store the count of crashes
+mkdir -p $COREBASEDIR
+while ! mkdir $LOCKDIR 2> /dev/null; do
+  # poor mans busy waiting mutex
+  sleep 0
+done
+COUNTFILE=$COREBASEDIR/count
+CRASHID=0
+if [ -e $COUNTFILE ]; then
+  CRASHID=$(cat $COUNTFILE)
+fi
+COUNT=$(expr $CRASHID + 1)
+# Store counter/crash id
+echo $COUNT > $COUNTFILE
+rmdir $LOCKDIR
+
+# Store in log
+FAULTSLOG=$COREBASEDIR/log
+echo "$CRASHID $PID $SIGNAL $TIME $CMDLINE" >> $FAULTSLOG
+
+# Compute local core dump path and check limits
+# note: those checks are racy
+COREDUMPPATH=$COREBASEDIR/dump/$CRASHID/
+FREESPACE=$(df -k $COREBASEDIR | tail -f -n 1 | awk "{ print \$4 }")
+if [ $FREESPACE -lt $MINFREESPACE ]; then
+    COREDUMPPATH=""
+fi
+if [ $MAXCOREDUMPS -eq 0 ]; then
+    COREDUMPPATH=""
+fi
+if [ -e $COREBASEDIR/dump ]; then
+  TOTALCOREDUMPS=$( ls -l $COREBASEDIR/dump/ | /usr/bin/wc -l )
+  if [ $TOTALCOREDUMPS -gt $MAXCOREDUMPS ]; then
+    COREDUMPPATH=""
+  fi
+fi
+
+# Store details
+if ! test -z "$COREDUMPPATH"
+then
+    mkdir -p $COREDUMPPATH
+    for i in wchan maps smaps fdinfo "stat*"; do
+       echo cp -r /proc/$PID/$i $COREDUMPPATH
+       cp -r /proc/$PID/$i $COREDUMPPATH
+    done
+    ls -l /proc/$PID/fd/ > $COREDUMPPATH/fd-listing.txt
+fi
+
+cat_fault_details() {
+    for i in /proc/$PID/status /proc/$PID/stat /proc/$PID/maps /proc/$PID/statm /proc/$PID/wchan /proc/$PID/smaps /web/version.txt /proc/$PID/cmdline
+    do
+        echo "*************** $i ***************"
+        cat $i
+        echo
+    done
+    echo "*************** fault ***************"
+    echo "PID=$PID"
+    echo "SIGNAL=$SIGNAL"
+    echo "TIME=$TIME"
+    echo "*************** core.gz ***************"
+    if ! test -z "$COREDUMPPATH"
+    then
+        gzip -c | tee $COREDUMPPATH/core.gz
+    else
+        gzip -c
+    fi
+}
+
+if ! test -z "$UPLOADSERVER"
+then
+    MANUFACTURER=$(readrip -s MANUFACTURER)
+    MODELNAME=$(readrip -s MODELNAME)
+    MACADDRESS=$(readrip -m- WAN_ADDR)
+    SOFTWAREVERSION=$(sed -nr "s/SoftwareVersion=([0-9a-z\.]+)/\1/p" /etc/build)
+
+    UPLOADURL=$UPLOADSERVER/$SOFTWAREVERSION/$MANUFACTURER/$MODELNAME/$MACADDRESS/$CRASHID
+    cat_fault_details | curl -T - -m $UPLOADTIMEOUT $UPLOADURL/info
+else
+    if ! test -z "$COREDUMPPATH"
+    then
+        gzip -c > $COREDUMPPATH/core.gz
+    fi
+fi

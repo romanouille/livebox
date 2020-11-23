@@ -1,0 +1,30 @@
+<div id="restartInProgress" xmlns="http://www.orange.com/xhtml/engine/loose">
+  <div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		 <h1 class="logo_EnvLiveBox_restart">
+			<span i18n="page.myEquipments.restart.title"/>&#160;<span  dataId="XpathRouter/RouterName"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myEquipments.restart.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">	
+	<div class="boxType4 margin-top-10  border-bottom-3">	
+		<form>
+			<span class="h3Text" i18n="page.myEquipments.restartinprogress.reboot"/>
+			<br/>
+			<div i18n="page.myEquipments.restartinprogress.reboot.label"/>
+		</form>
+		<div class="centered">
+			<span class="waitLabel oneline" i18n="page.myEquipments.restartinprogress.reboot.wait"/>
+		</div>
+		<div widgetType="RunnerBar" widgetArg="{duration:3000, width:500, height:17}"/>
+	</div>
+	</div>
+</div>

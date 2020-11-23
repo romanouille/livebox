@@ -1,0 +1,14 @@
+{
+  "status": 0,
+  "data": {
+    "staticLeaseList": [
+      {
+        "ipAddress": "192.168.1.15",
+        "deviceId": "EC:F4:BB:58:66:FC"
+      }, {
+        "ipAddress": "192.168.1.16",
+        "deviceId": "18:87:96:E0:92:93"
+      }
+    ]
+  }
+}

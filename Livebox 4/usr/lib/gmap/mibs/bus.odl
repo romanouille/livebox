@@ -1,0 +1,20 @@
+/*expr:sysbus or apbus or bus*/
+
+
+/**
+ * Indicates the device is connected to another core.
+ *
+ * HGWs with multi-core architecture (like stargate), can detect devices on the other core then the core gMap is running on.
+ * Mostly these devices are USB devices, as on the other core a USB-host can be active as well, with one or more usb-ports.
+ * To indeicate on which core the device is discovered, the PCB bus name is added to the device object using this MIB.
+ *
+ * @version 6.0
+ */
+mib bus {
+    /**
+     * The bus name of the PCB system bus of the other core.
+     *
+     * @version 6.0
+     */
+    string BusName;
+}

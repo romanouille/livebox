@@ -1,0 +1,28 @@
+<div xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+	 	<!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<h1 class="logo_wifi" i18n="menuDiagnostic.snmp"/>
+		 <div class="margin-left-40 margin-top-m8">
+			 <strong i18n="page.diagnostic.snmp.subtitle"/>
+		 </div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+			 <div class="boxType4 border-bottom-3">
+				<div widgetType="FormInput" i18n="page.diagnostic.snmp.button">
+					<input type="checkbox" dataId="Device/DeviceInfo/SNMP" i18nPrefix="page.diagnostic.snmp.button"/>
+				</div>
+			 </div>	
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+			</div>
+		</form>
+	</div>
+</div>

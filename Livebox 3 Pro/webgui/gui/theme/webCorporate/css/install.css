@@ -1,0 +1,382 @@
+/************************************/
+/********** g�n�rique ***************/
+.steps1 {
+    background-position: center bottom;
+}
+.steps2 {
+    background-position: center 100px;
+}
+.steps3 {
+    background-position: center 150px;
+}
+.steps4 {
+    background-position: center top;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.floatLeft {
+    float: left;
+}
+
+.padding-left-40 {
+    padding-left: 40px;
+}
+
+.margin-right-40 {
+    margin-right: 40px;
+}
+.margin-right-20 {
+	margin-left-20:20px;
+}
+
+.margin-right-20 {
+    margin-right: 20px;
+}
+
+.liner.margin-left-40 {
+    margin-left: 40px;
+    margin-top: 10px;
+}
+
+.margin-top-30 {
+    margin-top: 30px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-top-60 {
+    margin-top: 60px;
+}
+
+.margin-top-23 {
+    margin-top: 23px;
+}
+
+.margin-bottom-50 {
+    margin-top: 50px;
+}
+
+.liner {
+    -moz-border-radius: 5px 5px 5px 5px;
+    background-color: #F2F2F2;
+    color: #999999;
+    font-size: 17px;
+    font-weight: bold;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 30px;
+}
+
+.black {
+    color: #333333;
+}
+
+.orangered{
+	color: #D60000;
+}
+
+.erroricon.orangered{
+	color: #D60000;
+}
+
+/************************************/
+/********** Pages 0 *****************/
+
+/*********** step 0 *****************/
+
+#installation, 
+#installation_step_1, 
+#installation_step_2,
+#installation_step_3,
+#installation_step_3_1, 
+#installation_step_4,  
+#securisation_step_1,
+#securisation_step_2,
+#securisation_step_3,
+#reinstallation_step_1,
+#reinstallation_step_1_1,
+#reinstallation_step_1_2,
+#reinstallation_step_2 {
+    margin: auto;
+    width: 759px;
+    /* width: 70%; */
+}
+
+.install-block {
+    background-image: url("../image/installation/bg_inner.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #CCCCCC;
+    height: 538px;
+    padding: 0 20px 30px;
+}
+
+.h1_install {
+    color: #333333;
+    font-size: 65px;
+    /* line-height: inherit; */
+    line-height: 14px;
+    margin: 0;
+    padding: 20px 0 0;
+}
+
+#installBanner>img {
+    float: left;
+    margin-right: 25px;
+}
+
+#modal {
+    height: 20px;
+    line-height: 20px;
+    text-align: right;
+    width: 773px;
+}
+
+#container2.longer {
+	    height: 333px;
+}
+
+#container2 {
+    border: 1px solid #CCCCCC;
+    /* height: 295px; */
+    height: 300px;
+    padding: 20px 20px 0;
+    position: relative;
+}
+
+.h2_install {
+    color: #FF6600;
+    font: 28px Arial,Helvetica,sans-serif;
+    margin: 0;
+    padding-bottom: 15px;
+    padding-left: 30px;
+}
+
+.puce_arrow {
+	border: medium none;
+}
+
+.installlink {
+	text-decoration: none !important;
+	color: #999999 !important;	
+}
+
+.installlink:hover {
+	text-decoration: none !important;
+	color: #333333 !important;
+}
+
+.installlink.disabled:hover,
+.installbutton.disabled:hover {
+	color: #999999 !important;
+	cursor: default;	
+}
+
+.disableable.disabled:hover{
+	cursor: default !important;
+}
+
+.iconinfo {
+	border: medium none;
+	margin-left: 30px;
+}
+
+.iconinfointext {
+    border: medium none;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.jump2home.menuItemLink {
+	color: #FF6600 !important;
+	cursor: pointer !important;
+	margin-left: 0 !important;
+}
+
+.jump2home.menuItemLink:hover {
+	text-decoration: none;
+}
+
+/*** coincer la bulle ***/
+.tooltip {
+    width: 326px;
+    font-size: 12px;
+    font: 0.7em/1.74em Arial,Helvetica,sans-serif;
+ 	color: #333333;
+}
+.bubbleTop {
+    background: url("../image/installation/bubbleTop.png") repeat scroll center top transparent;
+    padding: 20px;
+}
+
+.tooltip p {
+    color: #333333;
+    font-size: 12px;
+}
+
+.bubbleBottom {
+    background: url("../image/installation/bubbleBottom.png") repeat scroll center top transparent;
+    height: 34px;
+}
+
+#barnav {
+    background-image: url("../image/installation/bg_process.gif");
+    height: 50px;
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+
+#barnav2 {
+    background-image: url("../image/installation/bg_process_3steps.gif");
+    height: 50px;
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+
+.steps1 {
+    background-position: center bottom;
+}
+
+#barnav .steps.firstACtive, 
+#barnav2 .steps.firstACtive {
+    color: #FF6600;
+ /*   padding-left: 2%;
+    width: 23%; */
+}
+
+#barnav .steps.active,
+#barnav2 .steps.active {
+    color: #FF6600;
+}
+
+#barnav .steps.first,
+#barnav2 .steps.first {
+   /* padding-left: 2%;
+    width: 23%; */
+}
+
+#barnav .steps,
+#barnav2 .steps {
+    color: #999999;
+    font-size: 15px;
+    height: 50px;
+    line-height: 50px;
+    /* padding-left: 7%;
+    width: 18%; */
+    padding-left: 30px;
+    padding-right: 75px;
+}
+
+#connOptions{
+	margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+.adslLogo {
+	background: url("../image/installation/ico_priseADSL.png") no-repeat scroll left center transparent;
+	width:50px;
+    height: 50px;
+    vertical-align: middle;
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.adslLabel {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.ftthLogo {
+	background: url("../image//installation/ico_fibre.png") no-repeat scroll left center transparent;
+	width:50px;
+    height: 50px;
+    vertical-align: middle;	
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.ftthLabel {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.installButtonBar {
+    background-color: #F5F5F5;
+    bottom: 1px;
+    left: 0;
+    padding: 10px 0;
+    position: absolute;
+    text-align: right;
+    width: 100%;
+}
+
+.inbarbutton{
+	border: medium none;
+}
+
+.specificwidth.forminput label{
+	width:180px;
+	margin-left:40px;
+}
+
+.decalage {
+	margin-left:-3px;
+}
+
+.runnerBar {
+   	background: url("../image/progression.png") repeat-y scroll -100px center transparent;
+    border: 1px solid lightgrey;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.erroricon {
+    background-image: url("../image/installation/ico_error.gif");
+    background-position: left top;
+    background-repeat: no-repeat;
+    line-height: 28px;
+    margin-top: 0;
+    padding-left: 40px;
+}
+
+.erroricon.duallines {
+	line-height: 17px;
+    margin-left: 90px;
+    margin-top: 20px;
+    width: 420px;
+}
+
+.installform{
+	margin-top:17px;
+	margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+}
+
+.errorStyle{
+    background: url("../image/error_logo.png") no-repeat scroll left top transparent;
+    /* font-weight: bold; */
+    margin-bottom: 25px;
+    margin-left: 15px;
+    /* min-height: 33px; */
+    padding-left: 35px;
+}
+
+#letter_std_img {
+	background: url('../image/installation/exempleCourrier.png') no-repeat scroll center transparent;
+	height: 586px;
+  width: 671px;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+.forminput.error.installationerror {
+	padding-left:0px;
+	width:280px;
+	font-weight:normal;
+}

@@ -1,0 +1,20 @@
+/*expr:lan and not self and mac and physical and wifi*/
+
+/**
+ * MIB is loaded on all units that are able to command a dimmable device.
+ *
+ * All devices matching expression: "lan and not self and mac and physical and wifi" are extended with this MIB
+ * These devices are handled in the module assoc_dev
+ *
+ * @version 7.1
+ */
+
+mib wifiStats {
+
+    /* Received Signal Strength Indicator in dbm */
+    read-only int32 SignalStrength;
+
+    /* Signal to noise ratio in dB */
+    read-only int32 SignalNoiseRatio;
+}
+/** @location sah_services_gmap /mibs/wifiStats.odl */

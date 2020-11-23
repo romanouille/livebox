@@ -1,0 +1,6 @@
+{
+  "status": 0,
+  "data": {
+    "timezoneList": ["Australia, Adelaide", "Australia, Auckland, Wellington", "Australia, Brisbane", "Australia, Darwin", "Australia, Hobart", "Australia, Perth", "Europe, Amsterdam, Netherlands", "Europe, Athens, Greece", "Europe, Barcelona, Spain", "Europe, Berlin, Germany", "Europe, Brussels, Belgium", "Europe, Budapest, Hungary", "Europe, Copenhagen, Denmark", "Europe, Dublin, Ireland", "Europe, Geneva, Switzerland", "Europe, Helsinki, Finland", "Europe, Kyiv, Ukraine", "Europe, Lisbon, Portugal", "Europe, London, Great Britain", "Europe, Madrid, Spain", "Europe, Moscow, Russia", "Europe, Oslo, Norway", "Europe, Paris, France", "Europe, Prague, Czech Republic", "Europe, Roma, Italy", "Europe, St.Petersburg, Russia", "Europe, Stockholm, Sweden", "Europe, Tallinn, Estonia", "USA & Canada, Hawaii Time", "USA & Canada, Alaska Time", "USA & Canada, Pacific Time", "USA & Canada, Mountain Time", "USA & Canada, Arizona", "USA & Canada, Central Time", "USA & Canada, Eastern Time", "USA & Canada, Atlantic Time", "USA & Canada, New Brunswick", "USA & Canada, Newfoundland Time", "Asia, Jakarta", "Asia, Singapore", "Asia, Ulaanbaatar, Mongolia", "South America, Brazil, São Paulo", "South America, Argentina", "Central America"]
+  }
+}

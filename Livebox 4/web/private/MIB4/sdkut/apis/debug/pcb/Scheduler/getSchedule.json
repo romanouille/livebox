@@ -1,0 +1,25 @@
+{
+    "status": true,
+    "data": {
+        "scheduleInfo": {
+            "ID": "wl0",
+            "enable": true,
+            "base": "Weekly",
+            "def": "Enable",
+            "override": "",
+            "value": "Unsynchronized",
+            "schedule": [
+                {
+                    "begin": 14400,
+                    "end": 18000,
+                    "state": "Disable"
+                },
+                {
+                    "begin": 28800,
+                    "end": 32400,
+                    "state": "Disable"
+                }
+            ]
+        }
+    }
+}

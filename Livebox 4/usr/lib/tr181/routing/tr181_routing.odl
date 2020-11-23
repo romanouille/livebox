@@ -1,0 +1,156 @@
+using "routing/tr181_routing.so";
+
+object Routing {
+    object Router[] {
+        counted with RouterNumberOfEntries;
+
+        bool Enable = true; // TODO This should map to ...??? Maybe NeMo.Intf.x.Enable or NeMo.Intf.x.Flags=netdev?
+        read-only string Status {
+            constraint enum [ "Disabled", "Enabled" ];
+            default "Enabled";
+        }
+
+        object IPv4Forwarding[] {
+            counted with IPv4ForwardingNumberOfEntries;
+
+            bool Enable = false;
+            read-only string Status {
+                constraint enum [ "Disabled", "Enabled", "Error_Misconfigured" ];
+                default "Disabled";
+            }
+            string DestIPAddress {
+                constraint maxvalue 15;
+                default "";
+            }
+            string DestSubnetMask {
+                constraint maxvalue 15;
+                default "";
+            }
+            int32 ForwardingPolicy {
+                /*constraint custom constraint_ForwardingPolicy;*/
+                default -1;
+            }
+            string GatewayIPAddress {
+                constraint maxvalue 15;
+                default "";
+            }
+        }
+
+        object IPv6Forwarding[] {
+            counted with IPv6ForwardingNumberOfEntries;
+
+            bool Enable = false;
+            read-only string Status {
+                constraint enum [ "Disabled", "Enabled", "Error_Misconfigured" ];
+                default "Disabled";
+            }
+            string DestIPPrefix = "";
+            int32 ForwardingPolicy {
+                /*constraint custom constraint_ForwardingPolicy;*/
+                default -1;
+            }
+            string NextHop = "";
+        }
+    }
+}
+
+datamodel {
+    object Routing {
+         instance of Router(1, "Router1");
+    }
+}
+/*
+datamodel {
+    object Routing {
+        object Router from "pcb://$(PCB_MAIN_BUS)/NeMo.Intf" recursive {
+            drop parameter ".*";
+            drop object "(ULIntf|LLIntf|Query)";
+            drop function ".*";
+
+            accept object ".*" {
+                accept object "^IPv4Route$" {
+                    drop parameter ".*";
+                    drop function ".*";
+
+                    accept object ".*" {
+                        accept parameter "^Enable$";
+                        accept parameter "^Status$" {
+                            translate with "translate_IPv4RouteStatus";
+                        }
+                        accept request parameter "^DestIPAddress$" {
+                            rename with rename_IPv4RouteDst;
+                        }
+                        accept object parameter "^Dst$" {
+                            rename with rename_IPv4RouteDst;
+                        }
+                        accept request parameter "^DestSubnetMask$" {
+                            rename with rename_IPv4RouteDstLen;
+                            translate with translate_IPv4RouteDstLen;
+                        }
+                        accept object parameter "^DstLen$" {
+                            rename with rename_IPv4RouteDstLen;
+                            translate with translate_IPv4RouteDstLen;
+                        }
+                        accept request parameter "^ForwardingPolicy$" {
+                            rename with rename_IPv4RouteTable;
+                        }
+                        accept object parameter "^Table$" {
+                            rename with rename_IPv4RouteTable;
+                        }
+                        accept request parameter "^GatewayIPAddress$" {
+                            rename with rename_IPv4RouteGateway;
+                        }
+                        accept object parameter "^Gateway$" {
+                            rename with rename_IPv4RouteGateway;
+                        }
+
+                        drop parameter ".*";
+                        drop object ".*";
+                        drop function ".*";
+                    }
+                }
+
+                accept object "^IPv6Route$" {
+                    drop parameter ".*";
+                    drop function ".*";
+
+                    accept object ".*" {
+                        accept parameter "^Enable$";
+                        accept parameter "^Status$" {
+                            translate with "translate_IPv6RouteStatus";
+                        }
+                        accept request parameter "^DestIPPrefix$" {
+                            rename with rename_IPv6RouteDst;
+                        }
+                        accept object parameter "^Dst$" {
+                            rename with rename_IPv6RouteDst;
+                        }
+                        accept request parameter "^ForwardingPolicy$" {
+                            rename with rename_IPv6RouteTable;
+                        }
+                        accept object parameter "^Table$" {
+                            rename with rename_IPv6RouteTable;
+                        }
+                        accept request parameter "^NextHop$" {
+                            rename with rename_IPv6RouteGateway;
+                        }
+                        accept object parameter "^Gateway$" {
+                            rename with rename_IPv6RouteGateway;
+                        }
+
+                        drop parameter ".*";
+                        drop object ".*";
+                        drop function ".*";
+                    }
+                }
+
+                drop parameter ".*";
+                drop object ".*";
+                drop function ".*";
+            }
+        }
+    }
+}
+*/
+
+/** @location sah_services_igd_mapper /routing/routing-definition.odl */

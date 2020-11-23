@@ -1,0 +1,82 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+trace_zones=""
+
+MODULES="/usr/lib/nmc_core/nmcclient_dns.so      \
+         /usr/lib/nmc_core/nmcclient_led.so      \
+         /usr/lib/nmc_core/nmcclient_sensing.so  \
+         /usr/lib/nmc_core/nmcclient_tppp.so"
+
+led_reset () {
+    mssleep=500000
+    first="Solid"
+    second="Off"
+
+    pcb_cli "LED.Internet Led.Color=Green"
+    pcb_cli "LED.[].State=Off"
+    for i in 1 2 3 4
+    do
+        pcb_cli \
+            "LED.Power Led.State=$first" \
+            "LED.VoIP Led.State=$first" \
+            "LED.Wifi Led.State=$first" \
+            "LED.Internet Led.State=$second" \
+            "LED.Lan Led.State=$second" \
+            "LED.Upgrade Led.State=$second"
+        usleep $mssleep
+        temp=$first
+        first=$second
+        second=$temp
+	done
+    pcb_cli "LED.[].State=Off"
+}
+
+case $1 in
+    start)
+        mkdir -p /var/state/netmodeconfig
+        if ! pcb_is_running nmc_core; then
+            sahenv -f /var/etc/environment pcb_app -n nmc_core -vv
+        fi
+        if ! pcb_is_running nmc_client; then
+            sahenv -f /var/etc/environment pcb_app -n nmc_client -vv $MODULES
+        fi
+        mtk_load nemo-core /usr/lib/nmc_core/nmcnemo_wifi.so
+        ;;
+    stop)
+        if pcb_is_running nmc_client; then
+            mtk_unload nmc_client nmcclient_dns
+            mtk_unload nmc_client nmcclient_led
+            mtk_unload nmc_client nmcclient_sensing
+            mtk_unload nmc_client nmcclient_tppp
+        fi
+        pcb_stop nmc_client;
+        pcb_stop nmc_core;
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    reset)
+        rm -rf /var/state/netmodeconfig
+        rm -f /etc/config/digitmap*.xml
+        rm -f /etc/config/networkconfig
+        led_reset
+        ;;
+    debuginfo)
+        pcb_debug_info nmc_core sah_services_netmodeconfig NMC
+        pcb_debug_info nmc_client sah_services_netmodeconfig
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage: $0 [start|stop|restart|reset|debuginfo|log]"
+        ;;
+esac

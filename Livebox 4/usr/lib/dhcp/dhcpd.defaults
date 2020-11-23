@@ -1,0 +1,167 @@
+datamodel {
+    object DHCPv4 {
+        object Server {
+            parameter Enable=true;
+            parameter VerifyFirst=true;
+            parameter TrustClient=true;
+            parameter RtBehaviour="traditional";
+            parameter AckInform=false;
+            persistent instance of Pool(1,"otv_itf") {
+                parameter Name="otv_itf";
+                parameter Allocation="dynamic";
+                parameter Interface="bridge";
+                parameter MinLeaseTime=1800;
+                parameter MaxLeaseTime=1800;
+                parameter LeaseTime=1800;
+                parameter DomainName="home";
+                parameter Unnumbered=false;
+                parameter IncludeOption125=true;
+                parameter LeasesOnHold=true;
+                persistent instance of Option(1,"www") {
+                    parameter Name="www";
+                    parameter Enable=false;
+                    parameter Tag=72;
+                    parameter Value="";
+                    parameter Policy="always";
+                }
+                persistent instance of Option(2,"ntp") {
+                    parameter Name="ntp";
+                    parameter Enable=false;
+                    parameter Tag=42;
+                    parameter Value="";
+                    parameter Policy="always";
+                }
+                persistent instance of Rule(1,"otv_itf_1") {
+                    parameter Name="otv_itf_1";
+                    parameter UserClassID="PC_MLTV";
+                    parameter UserClassIDExclude=false;
+                    parameter UserClassIDMode="Substring";
+                }
+                persistent instance of Rule(2,"otv_itf_2") {
+                    parameter Name="otv_itf_2";
+                    parameter UserClassID="ITF_MLTV";
+                    parameter UserClassIDExclude=false;
+                    parameter UserClassIDMode="Substring";
+                }
+            }
+            persistent instance of Pool(2,"otv_stb") {
+                parameter Name="otv_stb";
+                parameter Allocation="dynamic";
+                parameter Interface="bridge";
+                parameter MinLeaseTime=1800;
+                parameter LeaseTime=1800;
+                parameter MaxLeaseTime=1800;
+                parameter DomainName="home";
+                parameter Unnumbered=false;
+                parameter IncludeOption125=true;
+                parameter LeasesOnHold=true;
+                persistent instance of Option(1,"www") {
+                    parameter Name="www";
+                    parameter Enable=false;
+                    parameter Tag=72;
+                    parameter Value="";
+                    parameter Policy="always";
+                }
+                persistent instance of Option(2,"ntp") {
+                    parameter Name="ntp";
+                    parameter Enable=false;
+                    parameter Tag=42;
+                    parameter Value="";
+                    parameter Policy="always";
+                }
+                persistent instance of Rule(1,"otv_stb_1") {
+                    parameter Name="otv_stb_1";
+                    parameter UserClassID="STB_MLTV";
+                    parameter UserClassIDExclude=false;
+                    parameter UserClassIDMode="Substring";
+                }
+                persistent instance of Rule(2,"otv_stb_2") {
+                    parameter Name="otv_stb_2";
+                    parameter UserClassID="IAD5116";
+                    parameter UserClassIDExclude=false;
+                    parameter UserClassIDMode="Substring";
+                }
+                persistent instance of Rule(3,"otv_stb_3") {
+                    parameter Name="otv_stb_3";
+                    parameter UserClassID="IAD80-16";
+                    parameter UserClassIDExclude=false;
+                    parameter UserClassIDMode="Substring";
+                }
+                persistent instance of Rule(4,"otv_stb_4") {
+                    parameter Name="otv_stb_4";
+                    parameter UserClassID="ITAD81-160";
+                    parameter UserClassIDExclude=false;
+                    parameter UserClassIDMode="Substring";
+                }
+                persistent instance of Rule(5,"otv_stb_5") {
+                    parameter Name="otv_stb_5";
+                    parameter UserClassID="ITAD81 FT";
+                    parameter UserClassIDExclude=false;
+                    parameter UserClassIDMode="Substring";
+                }
+                persistent instance of Rule(6,"otv_stb_6") {
+                    parameter Name="otv_stb_6";
+                    parameter UserClassID="IP2031F";
+                    parameter UserClassIDExclude=false;
+                    parameter UserClassIDMode="Substring";
+                }
+            }
+            persistent instance of Pool(3,"default") {
+                parameter Name="default";
+                parameter Allocation="dynamic";
+                parameter Interface="bridge";
+                parameter MinLeaseTime=0;
+                parameter LeaseTime=86400;
+                parameter MaxLeaseTime=86400;
+                parameter DomainName="home";
+                parameter Unnumbered=false;
+                parameter IncludeOption125=true;
+                persistent instance of Rule(1,"default") {
+                    parameter Name="default";
+                }
+                function getStaticLeases {
+                    acl {
+                        group cwmpd read,execute;
+                        group admin read,execute;
+                        group remoteadmin read,execute;
+                    }
+                }
+                function addStaticLease {
+                    acl {
+                        group cwmpd read,execute;
+                        group admin read,execute;
+                        group remoteadmin read,execute;
+                    }
+                }
+                function deleteStaticLease {
+                    acl {
+                        group cwmpd read,execute;
+                        group admin read,execute;
+                        group remoteadmin read,execute;
+                    }
+                }
+            }
+            persistent instance of Pool(4,"guest") {
+                parameter Name="guest";
+                parameter Enable=1;
+                parameter Allocation="dynamic";
+                parameter Interface="brguest";
+                parameter MinAddress="192.168.144.2";
+                parameter MaxAddress="192.168.144.254";
+                parameter SubnetMask="255.255.255.0";
+                parameter IPRouters="192.168.144.1";
+                parameter Server="192.168.144.1";
+                parameter MinLeaseTime="0";
+                parameter LeaseTime="600";
+                parameter MaxLeaseTime="600";
+                parameter DNSServers="192.168.144.1";
+                parameter DomainName="guest";
+                parameter Unnumbered=false;
+                parameter IncludeOption125=true;
+                persistent instance of Rule(1,"default") {
+                    parameter Name="default";
+                }
+            }
+        }
+    }
+}

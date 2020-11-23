@@ -1,0 +1,54 @@
+
+#!/bin/sh
+
+# Add specific tools for datamanager
+export LD_LIBRARY_PATH=/usr/lib/datamanager/tools
+
+PID="/var/run/datamanager.pid"
+
+
+
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "data-manager already started"
+    else
+        echo "starting data-manager ..."
+        glib-app -n datamanager -c /usr/lib/datamanager/datamanager.odl
+    fi
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        echo "stopping data-manager ..."
+        killall datamanager
+    else
+        echo "data-manager not running"
+    fi
+}
+
+
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+
+    restart)
+        stop
+        start
+        ;;
+    debuginfo)
+        if [ -f "${PID}" ]; then
+            echo "datamanager is running, pid=$(cat ${PID})"
+        else
+            echo "datamanager is not running"
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo]"
+        ;;
+esac

@@ -1,0 +1,203 @@
+using "pppd_plugin.so";
+object PPP {
+object Intf [20] {
+write with writeIntf;
+string Name {
+constraint maxvalue 31;
+read with readName;
+}
+read-only string Status {
+constraint enum ["Unknown","Used","Listening","Retrying","Resolving","Connecting","Connected","Recovering","Trigger"];
+default "Unknown";
+}
+read-only string PPPStatus {
+constraint enum ["Disconnected","Connecting","Authenticating","Connected","Unconfigured"];
+default "Unconfigured";
+}
+read-only string ReceivedLocalAddress {
+default "0.0.0.0";
+}
+read-only string ReceivedRemoteAddress {
+default "0.0.0.0";
+}
+read-only string DNSServers;
+string LowerIntf {
+constraint maxvalue 31;
+}
+string UserName {
+constraint maxvalue 64;
+}
+string Password {
+constraint maxvalue 80;
+}
+read-only string LastConnectionError {
+constraint enum ["ERROR_NONE","ERROR_USER_DISCONNECT","ERROR_ISP_DISCONNECT","ERROR_IDLE_DISCONNECT","ERROR_ISP_TIMEOUT","ERROR_UNKNOWN","ERROR_AUTHENTICATION_FAILURE","ERROR_IP_CONFIGURATION"];
+default "ERROR_NONE";
+}
+read-only uint32 Uptime {
+read with readUptime;
+}
+string PPPoEACName {
+constraint maxvalue 64;
+write with writePPPoEACName;
+}
+string PPPoEServiceName {
+constraint maxvalue 64;
+write with writePPPoEServiceName;
+}
+read-only uint32 PPPoESessionID;
+bool PPPoEAC {
+default false;
+}
+string ACName {
+constraint maxvalue 64;
+write with writeACName;
+}
+string ServiceName {
+constraint maxvalue 64;
+write with writeServiceName;
+}
+string Authentication {
+constraint enum ["PAP","CHAP","Auto"];
+default "Auto";
+}
+bool Pcomp {
+default false;
+}
+bool Restart {
+default true;
+}
+uint32 RetryInterval {
+constraint maxvalue 65535;
+default 10;
+}
+bool Passive {
+default false;
+}
+bool Silent {
+default false;
+}
+uint32 MRU {
+constraint range [293,8192];
+default 1492;
+}
+string LocalAddress;
+string RemoteAddress;
+string NetMask;
+string NetMaskFormat {
+constraint enum ["cidr","dotted","none"];
+default "none";
+}
+bool SavePassword {
+default true;
+}
+bool DialOnDemand {
+default false;
+}
+uint32 DoDDelay {
+constraint maxvalue 3600;
+default 0;
+}
+uint32 DNSMetric {
+constraint maxvalue 100;
+default 0;
+}
+uint32 IdleTimeout {
+constraint maxvalue 1000000;
+default 0;
+}
+string IdleTrigger {
+constraint enum ["RxTx","Rx","Tx"];
+default "RxTx";
+}
+uint32 EchoTolerance {
+constraint range [1,100];
+default 3;
+}
+bool Unnumbered {
+default false;
+}
+uint32 EchoTotalToleranceTime {
+default 90;
+}
+string ACcomp {
+constraint enum ["disabled","enabled","negotiate"];
+default "enabled";
+}
+bool Trace {
+default false;
+}
+uint32 Echo {
+default 30;
+}
+read-only bool FlagMagic {
+read with readFlagMagic;
+}
+read-only bool FlagNegACcomp {
+read with readFlagNegACcomp;
+}
+read-only bool FlagMSChap {
+read with readFlagMSChap;
+}
+read-only bool FlagMRU {
+read with readFlagMRU;
+}
+read-only bool FlagAddress {
+read with readFlagAddress;
+}
+read-only bool FlagIncoming {
+read with readFlagIncoming;
+}
+read-only uint32 IdleTimeRemaining {
+read with readIdleTimeRemaining;
+}
+read-only uint32 DoDTimeRemaining {
+read with readDoDTimeRemaining;
+}
+read-only string LCPStatus {
+constraint enum ["initial","starting","closed","stopped","closing","stopping","reqsent","ackrcvd","acksent","opened"];
+read with readLCPStatus;
+default "initial";
+}
+read-only uint32 LCPRetransmits {
+read with readLCPRetransmits;
+}
+read-only string LCPTermReason {
+read with readLCPTermReason;
+}
+read-only string IPCPStatus {
+constraint enum ["initial","starting","closed","stopped","closing","stopping","reqsent","ackrcvd","acksent","opened"];
+read with readIPCPStatus;
+default "initial";
+}
+read-only uint32 IPCPRetransmits {
+read with readIPCPRetransmits;
+}
+read-only string IPCPTermReason {
+read with readIPCPTermReason;
+}
+read-only bool FlagCloned {
+read with readFlagCloned;
+}
+read-only bool Locked {
+read with readLocked;
+}
+string TransportType {
+constraint enum ["PPPoE", "PPPoA"];
+default "PPPoE";
+}
+bool IPCPEnable {
+default true;
+}
+bool IPv6CPEnable {
+default false;
+}
+read-only string IPv6CPLocalInterfaceIdentifier {
+default "0000:0000:0000:0000";
+}
+read-only string IPv6CPRemoteInterfaceIdentifier  {
+default "0000:0000:0000:0000";
+}
+bool Enable;
+}
+}

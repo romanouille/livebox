@@ -1,0 +1,515 @@
+using "endpointplugin_dspg.so";
+include "/usr/lib/voiceplugin/voiceplugin_api-definition.odl";
+
+acl {
+    group admin read,execute;
+    group remoteadmin read,execute;
+    group cwmpd read,write,execute;
+}
+
+persistent object DECT {
+    /**
+     * Subobject to group HAN-related parts of the data model. 
+     * This object gives low level access to HAN features.
+     */
+    object HAN {
+        /**
+         * Get the HAN status from the base.
+         */
+        void getHANStatus();
+        
+        /**
+         * Get the device structure as listed in the DECT.HAN.Device Template
+         */
+        void getDevices();
+            
+        /**
+         * Status parameter. 
+         * When true - the base has been initialized and is able to respond to han device messages. When false - the base is not yet started
+         */    
+        read-only bool Ready = false;
+        
+        /**
+         * Set a parameter in a HAN Device or HAN Device Unit.
+         * Send a HAN message to a Device-Unit with paramName as InterfaceId and value as InterfaceMember
+         * @param deviceId HAN Device ID
+         * @param unitId HAN Device Unit ID (zero if the attribute is at the device level)
+         * @param paramName HAN Device Interface ID (the attribute name as presented in the Device template)
+         * @param value HAN Device Interface Value  
+         */
+        void setParam ( mandatory uint16 deviceId, uint16 unitId, mandatory string paramName, mandatory variant value);
+
+        /**
+         * Get a HAN Device Interface Value of a HAN Device or HAN Device Unit.
+         * This function gets the attribute value of a Device or a Unit
+         * @param deviceId HAN device ID
+         * @param unitId HAN Unit ID (zero if the attribute is at the device level)
+         * @param paramName Device Interface ID (the attribute name as presented in the Device template)
+         */
+        void getParam ( mandatory uint16 deviceId, uint16 unitId, mandatory string paramName);
+
+
+        /**
+         * Invoke an action to a HAN Device or HAN Device Unit.
+         * Send a HAN message to a Device-Unit with action as a description for the correct interfaceId and Member
+         * @param deviceId HAN device ID
+         * @param unitId HAN Unit ID (zero if the action should be invoked at the device level)
+         * @param action Description for the correct interfaceId and MemberDevice Interface ID (on,off,toggle)
+         * @param value not used
+         */
+        void invokeAction ( mandatory uint16 deviceId, uint16 unitId, mandatory string action, variant value);
+        
+        /**
+         * Remove all HAN Devices
+         */
+        void removeAllDevices();
+
+        /**
+         * Device Template : containing all device information attributes and its functions
+         */
+        read-only object Device[] {
+             /**
+              * Unique Id representing the HAN Device
+              */
+             read-only uint16 id;
+             
+            /**
+             * The version of the HAN-FUN release implemented on the device. 
+             * A HF release encompasses a specific version of the HF Protocol Specification and of the HF Core Services and Interfaces.
+             */
+            read-only uint8 HFCoreReleaseVersion;
+
+            /**
+             * The version of the HF Profile Release implemented on the device.
+             */
+            read-only uint8 ProfileReleaseVersion;
+
+            /**
+             * The version of the HF Interface Release implemented on the device
+             */
+            read-only uint8 InterfaceReleaseVersion;
+
+            /**
+             * Iinforms upon the paging and broadcast capabilities of the device.
+             * Bit number 1  – Page capabilities
+             *    0 – The device is not page able
+             *    1 – The device is page able
+             * Bit number 2  – Broadcast capabilities
+             *    0 – The device does not have broadcast capabilities
+             *    1 – The device has broadcast capabilities
+             */
+            uint8   PagingCapabilities;
+
+            /**
+             * The Minimum Response Time attribute specifies the interval for paging; this Attribute is set by the
+             * manufacture. Optional Attribute
+             */
+            read-only uint32 MinimumSleepTime;
+
+            /**
+             * The Actual Response Time attribute specifies the interval for paging;
+             */
+            read-only uint32 ActualResponseTimePagingInterval;
+
+            /**
+             * The Application Version attribute specifies the application version number of the application software contained in
+             * the device or FP. The usage of this attribute is manufacturer dependent.
+             */
+            read-only string ApplicationVersion;
+
+            /**
+             * The HWVersion specifies the version number of the hardware of the device or FP. The usage of this attribute is
+             * manufacturer dependent.
+             */
+            read-only string HardwareVersion;
+
+            /**
+             * The EMC specifies the EMC number of the hardware of the device or FP. The usage of this attribute is
+             *  manufacturer dependent.
+             */
+            read-only string EMC{
+                constraint maxvalue 11; // including the '\0'
+            }
+            /**
+             * The IPUI (International Portable User Identity) is a unique identifeir for each DECT device.
+            */
+            read-only string IPUI{
+                constraint maxvalue 11; // including the '\0'
+            }
+
+            /**
+             * The ManufacturerName specifies the name of the manufacturer.
+             */
+            read-only string ManufacturerName {
+                constraint maxvalue 33; // including the '\0
+            }
+
+            /**
+             * The PrimaryPowerSource source of power available to the device
+             * 0x00  Unknown
+             * 0x01  Battery 
+             * 0x02  DC source 
+             * 0x03-0x7F Reserved 
+             */
+            read-only uint8  PrimaryPowerSource;
+
+            /**
+             * The SecondaryPowerSource source of power available to the device
+             * 0x00  Unknown
+             * 0x01  Battery 
+             * 0x02  DC source 
+             * 0x03-0x7F Reserved 
+             */
+            read-only string  SecondaryPowerSource {
+                constraint enum ["Unknown", "Battery", "DC source", "Reserved"];
+                default "Unknown";
+            }
+
+            /**
+             * The Location specifies the location of the device
+             * Note: The motivation that technicians know the device location in the house
+             */
+            string Location {
+            constraint maxvalue 33; // including the '\0
+            }
+
+            /**
+             * The Device Enable specifies if the device Enable or Disable, there is option to Enable/Disable the device by Device
+             * Enable field
+             */
+            bool DeviceEnable;
+
+            /**
+             * Device Friendly Name
+             */
+            string FriendlyName;
+
+            /**
+             * Number of Units attached to this device.
+             */
+            read-only uint16 NumberOfUnits;
+            
+            /**
+             * Indicates that the device is currently active or not.
+             *
+             * Is set to true if the device is active and reachable, to false in all other cases
+             *
+             * @version 6.1
+             */
+            read-only bool Active;
+
+            /**
+             * Deregister this device.
+             */
+            void deregister();
+
+            /**
+             * Send a query to the device to get all the Device Information attributes
+             */
+            void query();
+
+            /**
+             * List of the device units
+             * HAN device is a container of one or more Units
+             */
+            read-only object DeviceUnits[] {
+                /**
+                 * Unique Id representing the HAN Device Unit
+                 */
+                read-only uint16 id;
+                /**
+                 * Device Type of the Unit - represented as a decimal number
+                 */
+                read-only uint16 type;
+                 /**
+                 * Pipe seperated stringlist of Interfaces - deduced from the type and the han profile database file.
+                 * Possible interface are : (on_off;alert;level_control;power_metering)
+                 */
+                read-only string interfaces;
+            }
+        }
+    }
+
+    string PairingStatus {
+        default "Idle";
+    }
+
+    /**
+    * Put the base in pairing mode
+    */
+    void startPairing();
+
+    void stopPairing();
+
+    /* */
+    void reset();
+
+    /* Return the base RFPI */
+    string getRFPI();
+
+    /**
+    Returns the firwmare version
+    @return standard version
+    */
+    string getStandardVersion();
+
+    /**
+    Returns the PIN code
+    @return PINcode
+    */
+    string getPIN();
+
+    /**
+    Sets the PIN code
+    @return
+    */
+    void setPIN(string pin);
+
+    /**
+    Returns the firwmare in BCD format
+    @return Firmware version in BCD format
+    */
+    string getVersion();
+
+    /** Set the base station name
+    * @param name Base station name
+    */
+    void setName(string name);
+
+    string getName();
+
+    bool getBaseState();
+
+    void setBaseState(bool state);
+
+    bool getRadioState();
+
+    void setRadioState(bool state);
+
+    bool getNEMoState();
+
+    void setNEMoState(bool state);
+
+    string getClockMode();
+
+    void setClockMode(string mode);
+
+    void removeAllHandsets();
+
+    /**
+    * TEST_MODE_NORMAL = 0x0
+    * TEST_MODE_TBR6  = 0x81
+    * TEST_MODE_TBR10 = 0x82
+    */
+    void setTestMode(u8 mode);
+
+    /**
+    * ANT_SWITCH_NONE = 0
+    * ANT_SWITCH_ANT0 = 1
+    * ANT_SWITCH_ANT1 = 2
+    */
+    void setAntennaSwitch(u8 antenna);
+
+    /**
+    * Container for Line settings. It is a multi-instance object, meaning that:
+    * - It can hold different settings for different Lines. However, in the current version only a single Line is exposed to the
+    *   DECT subsystem.
+    * - It can hold "dummy" Lines that serve purely as a data container.
+    *   This way we can support Line profiles. Example: there can be different profiles per country, which
+    *   facilitates the definition and selection of country specific defaults. 
+    */
+    persistent object LineSettings[] {
+
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+
+        write with lineset_writeLineSettings;
+
+        /** 
+        * Enable/disable this Line. Disabled Lines shall be ignored by the implementation. Line settings profiles can be defined
+        * by creating LineSettings instances with Enable=false. 
+        */
+        persistent bool Enable {
+            constraint custom lineset_validateEnable;
+        }
+        
+        /**
+        The ID of this Line.
+        This is a key parameter, in the sense that
+        - It can only be set at object creation time and it must remain constant thereafter.
+        - There should always be at most one enabled Line with a given LineID. 
+        .
+        For disabled lines (or profiles), this parameter is meaningless. 
+        */
+        persistent uint32 LineID {
+            constraint custom lineset_validateLineID;
+        }
+        
+        persistent string LineName;
+        persistent bool MultipleCalls;
+        persistent bool Intrusion;
+        /** CLIR stands for Calling Line Identification Restriction. */
+        persistent bool CLIRActivated;
+        persistent string CLIRActivationCode;
+        persistent string CLIRDeactivationCode;
+        /** CFU stands for Call Forwarding Unconditional.  */
+        persistent bool CFUActivated;
+        persistent string CFUActivationCode;
+        persistent string CFUDeactivationCode;
+        persistent string CFUNumber;
+        /** CFNA stands for Call Forwarding No Answer. */
+        persistent bool CFNAActivated;
+        /** Number of seconds to elapse before concluding that the user is not answering. */
+        persistent uint32 CFNATimeout {
+            constraint minvalue 1;
+            default 25;
+        }
+        persistent string CFNAActivationCode;
+        persistent string CFNADeactivationCode;
+        persistent string CFNANumber;
+        /** CFB stands for Call Forwarding Busy.  */
+        persistent bool CFBActivated;
+        persistent string CFBActivationCode;
+        persistent string CFBDeactivationCode;
+        persistent string CFBNumber;
+    }
+}
+
+persistent object "$(SAH_VOICE_PLUGIN_NAME)" {
+
+    acl {
+        group admin none;
+        group remoteadmin none;
+        group cwmpd read,write,execute;
+    }
+
+    persistent bool Enable {
+        write with HandleDectBaseState;
+        default false;
+    }
+
+    string Status {
+        constraint enum ["Init", "Upgrading", "Ready"];
+        default "Init";
+    }
+
+    /* Base station name */
+    persistent string Name {
+        default "Softathome";
+    }
+
+    /* current PinCode */
+    persistent string PinCode {
+        default "0000";
+    }
+
+    /* EcoMode */
+    persistent bool NEMoState {
+        default true;
+    }
+
+    persistent string ClockMode {
+        constraint enum ["Auto", "Manual"];
+        default "Auto";
+    }
+
+    void EndPoint_register();
+
+    void sendHookOff(uint16 endpointid);
+
+    void sendHookOn(uint16 endpointid);
+
+    void sendSflNumber(uint16 endpointid);
+
+    void createEpDect(string name);
+
+    /**
+    Enable/disable encryption
+    @param enable true enable encryption, false disbale encryption
+    */
+    void encryption(bool enable);
+
+    /** Start logging all Host &lt;---&gt; Target messages to a file.
+     * @param filename Filename to log everything to.
+     */
+    void startLog(string filename);
+
+    /** Stop logging all Host &lt;---&gt; Target messages.
+     */
+    void stopLog();
+
+    /* Set the base RFPI */
+    void setRFPI(string RFPI);
+
+    void deleteEeProm();
+
+    void deleteSubscriptionData();
+
+    /* Debug only: this allow to test tones country selection easily */
+    void setInbandCountry(uint8 country);
+
+    /** Requests the base station to perform a system reboot
+    */
+    void rebootBase();
+
+    /**
+     * Export settings to hgwcfg
+     * @param fileName name of the file to export to
+     */
+    bool export(string fileName);
+    
+    /**
+     * Import settings from hgwcfg
+     * @param fileName name of the file to import from
+     */
+    bool import(string fileName);
+
+    /*
+     * Data Model Interface for LAS, used for debugging and testing only.
+     */
+    object LAS {
+        bool Enable = true;
+        bool CertificationMode = false;
+        uint32 AllCallListMaxNumberOfEntries;
+        uint32 ReceivedCallListMaxNumberOfEntries;
+        uint32 MissedCallListMaxNumberOfEntries;
+        uint32 DialedCallListMaxNumberOfEntries;
+        object Cache {
+            uint16 saveContact(uint16 entryId, string contact);
+            void deleteContact(uint16 entryId);
+            void clearContacts();
+            list getContacts();
+
+            uint16 saveCall(string callList, uint16 entryId, string call);
+            void deleteCall(string callList, uint16 entryId);
+            void clearCalls(string callList);
+            list getCalls(string callList);
+
+            void getLineSettings();
+        }
+        object Session {
+            void startSession(in uint16 sessionId, in uint16 listId, in uint16 hsId, in out list sortFields, out uint16 currNumOfEntries);
+            void endSession(in uint16 sessionId);
+            void getDataBuffer(in uint16 sessionId, out byte_array data);
+            void appendDataBuffer(in uint16 sessionId, in byte_array data);
+            void getSupportedFields(in uint16 sessionId, out list editFields, out list constFields);
+            void readEntries(in uint16 sessionId, in out uint16 startIdx, in bool forward, in string mark, in list requestedFields, in out uint16 numOfReqEntries);
+            void editEntry(in uint16 sessionId, in uint16 entryId, in list requestedFields);
+            void searchEntries(in uint16 sessionId, in string match, in bool caseSensitive, in string searchedValue, in bool forward, in string mark, in list requestedFields, in out uint16 numOfReqEntries, out uint16 startIdx);
+            void setSaveEntryId(in uint16 sessionId, in uint16 entryId);
+            void saveEntry(in uint16 sessionId, out uint16 entryId, out uint16 positionIdx, out uint16 totalNumEntries);
+            void deleteEntry(in uint16 sessionId, in uint16 entryId, out uint16 numOfEntries);
+            void deleteAllEntries(in uint16 sessionId);
+            list listSessions();
+        }
+    }
+
+    read-only object Channels[] {
+        read-only uint32 NarrowbandSlots;
+        read-only uint32 WidebandSlots;
+    }
+}
+
+/** @location sah_drivers_voice_dspgplugin /dect-definition.odl */

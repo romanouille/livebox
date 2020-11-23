@@ -1,0 +1,8 @@
+datamodel {
+  object Upgrade {
+    parameter MaxRetry=3;
+    parameter AuthenticationCheckFailureCode=9800;
+    parameter IncompatibleFirmwareFailureCode=9801;
+    parameter FirmwareFlashFailureCode=9001;
+  }
+}

@@ -1,0 +1,216 @@
+
+
+using "filetransfer.so";
+
+define transfer_list_t {
+    uint32 transferId;
+    string status;
+    uint32 completion;
+}
+
+define progress_per_file_t {
+    string file;
+    string status;
+    uint32 completion;
+}
+
+define transfer_param_t {
+    string torrentObject;
+    list fileAndSignatures;
+}
+
+define associate_file_and_signature_t {
+    string fileName;
+    string signature;
+//    uint16 resourceId;
+}
+
+define add_return_t {
+    uint64 transferId;
+}
+
+define status_return_t {
+    string serviceStatus;
+    uint32 announceUrlPort;
+    string announceUrlPath;
+}
+
+/* TODO: Is there a mediahub group ? */
+acl {
+  world none;
+  group admin read,execute;
+  group http read,execute;
+}
+
+persistent read-only object FileTransfer {
+  
+  persistent read-only int32 Counter;
+  
+  persistent read-only string Status {
+    constraint enum ["Unavailable","Starting","Running","Stopping"];
+    default "Unavailable";
+  }
+
+  /**
+   * Port on which the internal bitorrent-tracker is listening on.
+   */
+  persistent read-only uint32 AnnounceUrlPort;
+  /**
+   * URL subpath to access gateway internal bitorrent-tracker
+   */
+  persistent read-only string AnnounceUrlPath;
+
+  /**
+    List of transfers that are added/ongoing.
+  */
+  // TODO make read-only!
+  persistent object Transfer[] {
+    /**
+      * Fix ACL to Transfer[]. B default, nobody can access it.
+      */
+    acl {
+      world none;
+      group admin none;
+      group http none;
+    }
+    /**
+      * User who initiated this transfer
+      */
+    persistent read-only string Owner;
+    /**
+     * transfer type
+     */
+    persistent read-only string "Type" {
+      constraint enum ["Torrent"];
+      default "Torrent";
+    }
+    /**
+     * the state of the given transfer
+     *
+     * "Starting": the transfer is initializing, no data exchange occured yet.
+     * "Ongoing": the transfer is running, data are currently exchanged.
+     * "Pause": the transfer is currently paused, no data are currently exchanged.
+     * "Done": the transfer is ended, either completed or not; not, when errors occurred.
+     * "Stalled": the transfer is waiting for the counterpart torrent.
+     */
+    persistent read-only string "Status" {
+      constraint enum ["Starting", "Ongoing", "Pause", "Done", "Stalled"];
+      default "Starting";
+    }
+    /**
+     TODO
+    */
+    persistent read-only string AccessURL {
+        default "";
+    }
+    /**
+     Id of the device from which the transfer was initiated.
+    */
+    persistent read-only string DeviceId;
+    /**
+     The ID of the transfer for further control.
+    */
+    persistent read-only uint32 TransferId;
+    
+    /**
+     Hash of the torrent file
+     */
+    persistent read-only string Hash;
+    
+    /**
+     Progress of the transfer
+    */
+    persistent read-only uint16 Completion;
+    
+    /**
+     List of the files for this transfer.
+    */
+    // TODO make read-only!!
+    persistent object Files[] {
+      /**
+        The signature of the file.
+      */
+      persistent read-only string Signature;
+      /**
+        The filename (may include part of its local path) as it appears in the torrent
+      */
+      persistent read-only string FileName;
+      /**
+        The resourceId for this file. As the Signature only refers to a set of resource
+        files (transcodings, etc.) for a given entry. The resource Id is under the device application control.
+        However, the id 0 is usualy dedicated to the original content file.
+        The resourceId value must exist in the Hub index.
+      */
+      persistent read-only uint16 ResourceId;
+      persistent read-only string "Status" {
+       constraint enum ["Starting", "Ongoing", "Pause", "Done", "Stalled"];
+       default "Starting";
+      }
+    
+      /**
+       Progress of the file
+      */
+      persistent read-only uint16 Completion;
+           
+    }
+  }
+    
+  /**
+   * Use this function to trigger a transfer of files in case of mirroring or sideloading.
+   * Transfers are defined per user, so transfer created with this function will be associated to logged in
+   * user.
+   * Great care should be taken whith bundled transfers as resulting request/answer may become large,
+   * and thus affect responsivness of this API.
+   *
+   * @param method Method to be used for transfer. At the moment, only "torrent" is supported.
+   * @param param Parameters dependant on the transferMethod choosen.
+   *
+   * @return returns an add_return_t object.
+   */
+  bool "add"(mandatory string method, mandatory transfer_param_t param, out add_return_t data);
+  
+  /**
+   * Use this function to stop and remove a transfer. After calling this API, the corresponding transferId
+   * will not be valid anymore.
+   *
+   * BEWARE: this API must be called when the transfer is done as it will not be removed automatically.
+   */
+  bool remove(mandatory uint32 transferId);
+
+  /**
+   * Use this function to pause a transfer. Transfer may be resume or stopped and removed 
+   * afterward using dedicated API.
+   */
+  bool pause(mandatory uint32 transferId);
+
+  /**
+   * Use this function to resume a paused transfer. Transfer may be paused again or stoped and 
+   * removed afterward using dedicated API. This concerns all the file incomplete files in the transfer.
+   */
+  bool resume(mandatory uint32 transferId);
+
+  /**
+   * Retrieve global file transfer servive status.
+   * Also return essential information used to build the transfer start request.
+   *
+   * @return Returns true if success and sets data with status_return_t object
+   */
+  bool getStatus(out status_return_t data);
+
+  /**
+   * Returns a list of all currently available transfers for current logged in user with their statuses.
+   * 
+   * @param transfers returns a list of transfer_list_t entries
+   */
+  bool "list"(out list transfers);
+
+  /**
+   * returns a list of all the files involved in this given transfer and details their current download
+   * progress (snapshot).
+   * 
+   * returns a list of progress_per_file_t entries
+   */
+  bool progressPerFile(mandatory in uint32 transferId, out list transfers);
+}
+
+/** @location sah_services_filetransfer /filetransfer-definitions.odl.m4 */

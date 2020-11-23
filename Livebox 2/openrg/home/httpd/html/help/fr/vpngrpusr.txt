@@ -1,0 +1,16 @@
+<b>VPN client :</b><br>
+<br>
+Cette page vous permet de visualiser et définir  les utilisateurs et les profils autorisés à se connecter à votre Boxer en mode client/serveur.<br>
+<br>
+En cliquant sur le bouton « Ajouter» du tableau « Profils » vous pouvez définir de nouveaux profils.<br>
+<br>
+En cliquant sur le bouton Ajouter du tableau « Utilisateurs » vous pouvez définir de nouveaux utilisateurs.<br>
+<br>
+Pour créer une nouvelle connexion de type serveur VPN, il faut créer un définir un couple utilisateur/profil.<br>
+<br>
+Les paramètres, tels que la clé de sécurité ou le protocole de cryptage sont définis un niveau du profil.<br>
+<br>
+Le mot de passe de connexion est un paramètre propre à l'utilisateur.<br>
+<br>
+
+

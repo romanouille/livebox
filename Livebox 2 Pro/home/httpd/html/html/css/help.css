@@ -1,0 +1,37 @@
+html, body {
+	background-color: #FFFFFF;
+	margin: 0px;
+	text-align: left;
+}
+
+img {
+	border: 0px;
+}
+
+
+
+
+b {
+	font-weight: bold;
+}
+
+u {
+	text-decoration: underline;
+}
+
+
+i{
+        font-style: italic;
+
+}
+
+
+.orange {
+
+       color:#FF6600;
+
+}
+
+
+
+

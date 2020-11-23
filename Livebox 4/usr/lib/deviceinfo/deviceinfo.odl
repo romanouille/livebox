@@ -1,0 +1,4 @@
+include "deviceinfo-definitions.odl";
+include "deviceinfo-defaults.odl";
+
+/** @location sah_services_system /deviceinfo/deviceinfo.odl */

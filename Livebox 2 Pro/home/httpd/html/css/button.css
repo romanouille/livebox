@@ -1,0 +1,125 @@
+#button {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+#button table {
+	cursor: pointer;
+	padding: 0px;
+	margin: 0px;
+	border-collapse: collapse;
+}
+
+#button tr {
+	font-size: 12px;
+	font-weight: bold;
+	background: url(../images/button/right-normal.gif) no-repeat right bottom;
+}
+
+#button td {
+	padding: 0px;
+	margin: 0px;
+}
+
+#button td.buttleft {
+	padding: 0px;
+	margin: 0px;
+}
+
+#button td.buttright {
+	padding-left: 5px;
+	padding-right: 20px;
+	white-space: nowrap;
+}
+
+td.buttMaxi #button  td.buttright {
+	padding-left: 0px;
+	padding-right: 10px;
+	font-size: 8px;
+	white-space: nowrap;
+}
+
+#button td.buttright1 {
+	padding-left: 50px;
+         width: 80px;        
+}
+
+#button a {
+	font-size: 12px;
+	font-weight: bold;
+	text-decoration: none;
+	
+}
+
+#button img {
+        margin: 0px;
+	padding: 0px;
+}
+
+.BTCancel #button tr {
+	font-weight: normal;		
+}
+
+#array #button a {
+	font-size: 11px;		
+}
+
+#bt_help #button td.buttright {
+	padding-left: 0px;
+	padding-right: 12px;
+	white-space: nowrap;
+        font-size: 15px;
+}
+#bt_help #button td.buttright a{
+        font-size: 15px;
+}
+
+.txtbuttstyle{
+padding-top: 6px;
+text-align: center;
+font-size: 11px;
+}
+
+
+input.QbuttonSmall {
+background:transparent url(../images/button/butt_act.gif) no-repeat scroll 50%;
+border:0pt solid #FFFFFF;
+color:#000000;
+height:30px;
+margin:0px;
+padding-bottom:15px;
+padding-top:5px;
+font-weight: bold;
+text-align:center;
+vertical-align:middle;
+width:64px;
+}
+
+input.QbuttonSmallDown {
+background:transparent url(../images/button/butt_enf.gif) no-repeat scroll 50%;
+border:0pt solid #FFFFFF;
+color:#FFFFFF;
+height:30px;
+margin:0px;
+padding-bottom:15px;
+padding-top:5px;
+font-weight: bold;
+text-align:center;
+vertical-align:middle;
+width:64px;
+}
+
+
+input.QbuttonSmallOver {
+background:transparent url(../images/button/butt_act.gif) no-repeat scroll 50%;
+border:0pt solid #FFFFFF;
+color:#FF6600 ;
+height:30px;
+margin:0px;
+padding-bottom:15px;
+padding-top:5px;
+font-weight: bold;
+text-align:center;
+vertical-align:middle;
+width:64px;
+}
+

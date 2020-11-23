@@ -1,0 +1,27 @@
+/**
+ * This MIB is only a data container and has no functional meaning.
+ */
+
+persistent object DataHub
+{
+    persistent object DynDNSOrange
+    {
+        read-only string Status
+        {
+            constraint enum ["Stopped","Starting","Started","Error"];
+            default "Stopped";
+        }
+        persistent int32 RetryInterval
+        {
+            constraint minvalue 0;
+            default 600;
+        }
+        persistent uint32 PeriodicInterval
+        {
+            default 172800;
+        }
+        read-only persistent datetime LastRegister;
+    }
+}
+
+/** @location sah_lib_dyndnsorangeapi */

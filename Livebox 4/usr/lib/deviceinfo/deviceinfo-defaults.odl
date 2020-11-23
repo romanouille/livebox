@@ -1,0 +1,26 @@
+datamodel {
+    object DeviceInfo {
+function get {
+            acl {
+                world read,execute;
+            }
+        }
+        parameter ProductClass {
+            acl {
+                world read,execute;
+            }
+        }
+        parameter AdditionalSoftwareVersion {
+            acl {
+                world read,execute;
+            }
+        }
+        parameter SoftwareVersion {
+            acl {
+                world read,execute;
+            }
+        }
+    }
+}
+
+/** @location sah_services_system /deviceinfo/deviceinfo-defaults.odl */

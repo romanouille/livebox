@@ -1,0 +1,49 @@
+#!/bin/sh
+
+usage()
+{
+    echo "Usage: $0 start|start_fg|debug|stop"
+    exit 1
+}
+
+if [ $# == 0 ]; then
+    usage
+fi
+
+command=$1
+
+odl=/usr/lib/endpointplugin/endpoint_interface_dummy.odl
+pid_file=/var/run/dummy_ep.pid
+pcb_sys_voice=/var/run/pcb_sys
+export SAH_VOICE_PLUGIN_NAME="DummyPlugin"
+export PCB_SYS_BUS=pcb://ipc:[$pcb_sys_voice]
+
+case $command in
+    start)
+        if [ -e $pid_file ]; then
+            echo "dummy endpointplugin already started"
+            exit 1
+        fi
+        pcb_plugin -vv -n dummy_ep -c $odl -a dummy_ep &
+        ;;
+    start_fg)
+        pcb_plugin -vvvvf -n dummy_ep -c $odl -a dummy_ep
+        ;;
+    debug)
+        gdb --args ./pcb_plugin -vvvvf -n dummy_ep -c $odl -a dummy_ep
+        ;;        
+    stop)
+        if [ -e $pid_file ]; then
+            kill $(cat $pid_file) 2>/dev/null
+            [ $? == 0 ] || echo "dummy endpointplugin crashed"
+            rm -f $pid_file
+        else
+            echo "dummy endpointplugin not running"
+            exit 1
+        fi
+        ;;
+    *)
+        usage
+        ;;
+esac
+

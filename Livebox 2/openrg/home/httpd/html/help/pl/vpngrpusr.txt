@@ -1,0 +1,13 @@
+<b>Konfiguracja serwera VPN:</b>
+
+<br>
+<br>
+
+
+Ta strona umożliwia wyświetlanie oraz definiowanie użytkowników oraz profili grup upoważnionych do tworzenia połączeń VPN z Twoim modemem Livebox.
+
+<br><br>Kliknij przycisk <b>"Dodaj"</b> w tabeli <b>Profile</b>, aby utworzyć nowy profil grupy.
+
+<br>Kliknij przycisk <b>"Dodaj"</b> w tabeli <b>Użytkownicy</b>, aby dodać nowych użytkowników.
+
+<br><br>W celu utworzenia nowego połączenia VPN musisz dodać zarówno nowego użytkownika, jak i profil grupy. Ustawienia, (klucz bezpieczeństwa oraz protokół szyforwania), są zdefiniowane w profilu grupy, natomiast nazwa użytkownika oraz jego osobiste hasło w profilu użytkownika.<br>

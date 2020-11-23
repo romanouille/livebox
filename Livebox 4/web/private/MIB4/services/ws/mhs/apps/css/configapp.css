@@ -1,0 +1,397 @@
+.sah_app.configapp{
+    overflow: scroll;
+}
+
+.configapp input, .configapp  button {
+    cursor: pointer;
+}
+
+.configapp .title{
+    font-size: large;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.configapp .content-cont {
+	width: 96%;
+	margin-left: auto;
+	margin-right: auto;
+	display: none;
+	max-width: 1000px;
+	position: relative;
+    margin-top: 100px;
+    min-width: 600px
+}
+.configapp .content-title{
+    margin: 20px auto;
+    position: relative;
+    height: auto;
+    width: 90%;
+    max-width: 1000px;
+    min-width: 260px;
+    font-size: 24px;
+    border-bottom: 2px dashed #ccc;
+    color: #000;
+    cursor: pointer;
+}
+.configapp .content-title:hover{
+    border-bottom: 2px dashed #C4D600;
+    text-shadow: 0 0 3px #C4D600;
+}
+.configapp .content-title.inner{
+	color: #333;
+}
+.configapp .content-data{
+	margin:20px auto; 
+	position:relative; 
+	height:auto; 
+	width:90%; 
+	left:0px; 
+	max-width:900px; 
+	min-width:260px;
+	padding: 1%;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+.configapp .content-data.light{
+	background-color:#fff;
+}
+.configapp .content-data.dark{
+	background-color: #f8f8f8;
+}
+.configapp .content-title-sub{
+	text-align: left;
+	margin-left: 10px;
+	margin-right: 10px;
+	cursor: auto;
+	text-align: right;
+	margin-top: 0px;
+}
+.configapp .content-title-sub span{
+	font-size: 20px;
+	font-weight: bold;
+	color:#686859;
+}
+.configapp .content-data-section{
+	position: relative;
+	width: 100%;
+	margin: 8px 0px;
+}
+.configapp .options-cont{
+	position: relative;
+	display: inline;
+}
+.configapp .content-data-section input.neutral{
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	width: 94%;
+	height: 25px;
+	padding: 0.5%;
+	background-color: #fff;
+	margin: 2px 2%;
+	cursor:pointer;
+    font-size: 16px;
+}
+.configapp .wan-mode{
+	display: block;
+	width: 96%;
+	height: 28px;
+	margin: 0% 1%;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 5px;
+	line-height: 45px;
+	cursor: pointer;
+	/* border-bottom: 0px; */
+	overflow: hidden;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+
+.configapp .sub{
+	display:block;
+	width: 100%;
+	text-align: left;
+	line-height: 30px;
+}
+.configapp .sub span{
+	line-height: 20px;
+}
+.configapp .sub-pvc span{
+	line-height: 20px;
+}
+.configapp .sub > div{
+	display: inline-block;
+	width: 49%;
+}
+.configapp .sub > div:first-child{
+	text-align: left;
+}
+.configapp .sub > div:last-child{
+	text-align: right;
+}
+.configapp span.last{text-align: left;}
+
+.configapp .subtitle{
+	font-weight: bold;
+}
+.configapp .sub > div input.neutral{
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	width: 90%;
+	height: 25px;
+	padding: 5px;
+	background-color: #fff;
+	margin: 2px;
+}
+.configapp .sub > div input.readonly{
+    border: none;
+    background-color: transparent;
+}
+
+.configapp .content-data-buttons{
+	text-align :right;
+	padding-right: 2%;
+}
+.configapp .content-data-buttons button{
+	padding: 5px;
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	text-align: center;
+	margin: 10px 0px;
+	width: 100px;
+	background-color: #fff;
+	/* margin-top: 20px; */
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+.configapp .content-data-buttons2{
+	text-align: left;
+}
+.configapp .content-data-buttons2 button{
+	padding: 5px;
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	text-align: center;
+	margin: 10px 0px;
+	width: 200px;
+	background-color: #fff;
+	/* margin-top: 20px; */
+	margin-bottom: 10px;
+	margin-left: 10px;
+    font-weight: bolder;
+}
+.configapp .content-data-buttons2 button.enabled{
+	background-color: #fff;
+    color: #000;
+}
+.configapp .content-data-buttons2 button.disabled{
+	background-color: #333333;
+    color: #fff;
+}
+
+
+.configapp .plus{
+	width: 35px;
+	height: 35px;
+	border-radius: 20px;
+	background-color: #C4D600;
+	float: right;
+	display: inline;
+	color:#fff;
+	font-size: 30px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 40px;
+	margin-top: 5px;
+	cursor: pointer;
+}
+
+.tooltips{
+	position: absolute;
+	z-index: 500;
+	background-color: #fff;
+	display: none;
+	height: auto;
+	padding: 15px;
+	font-size: 16px;
+    font-family: arial;
+	border: 1px solid #ccc;
+	box-shadow: 0px 0px 5px 2px rgb(204, 204, 204);
+}
+.tooltips-options div{
+	cursor: pointer;
+	width: 100%;
+	display: block;
+	min-width: 80px;
+    text-align: left;
+}
+.tooltips-options div:hover{
+	background-color: #ccc;
+}
+
+.error{
+	position: absolute;
+	z-index: 500;
+	background-color: #fff;
+	display: none;
+	height: auto;
+	padding: 15px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	box-shadow: 0px 0px 5px 2px rgb(204, 204, 204);
+}
+
+.modal-content{
+	position: fixed;
+	width: 400px;
+	height: auto;
+	background-color: #fff;
+	/* box-shadow: 0px 0px 5px 2px #999; */
+	border: 1px solid #ccc;
+	z-index: 1001;
+	top: 10%;
+	left: 50%;
+	margin-left: -220px;
+	border-radius: 10px;
+	padding: 10px 20px;
+}
+.modal-content div.content-data-section{
+	background-color: #f8f8f8;
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	padding: 5px;
+	width: 390px;
+}
+
+
+.configapp .spinner{
+    position: fixed;
+    border: 1px solid #666666;
+    top: 50%;
+    left: 50%;
+    width: 173px;
+    height: 80px;
+    z-index: 90;
+    margin-top: -40px;
+    margin-left: -86px;
+    margin-right: auto;
+    display: none;
+    border-radius: 10px;
+    background-color: #cccccc;
+    /* vertical-align: middle; */
+    -moz-box-shadow: 0px 0px 5px #ccc;
+    -webkit-box-shadow: 0px 0px 5px #ccc;
+    box-shadow: 0px 0px 5px #ccc;
+}
+
+
+
+.configapp #outer-barG{   
+height: 37px;
+width: 128px;
+border: 2px solid #666666;
+overflow: hidden;
+background-color: #FFFFFF;
+vertical-align: middle;
+margin-top: 20px;
+margin-left: 20px;}
+
+.configapp .bar-lineG{
+background-color:#666666;
+float:left;
+width:18px;
+height:120px;
+margin-right:24px;
+margin-top:-28px;
+-moz-transform:rotate(45deg);
+-webkit-transform:rotate(45deg);
+-ms-transform:rotate(45deg);
+-o-transform:rotate(45deg);
+transform:rotate(45deg);
+}
+
+.configapp .bar-animationG{
+margin-left:168px;
+width:168px;
+-moz-animation-name:bar-animationG;
+-moz-animation-duration:1.2s;
+-moz-animation-iteration-count:infinite;
+-moz-animation-direction:linear;
+-webkit-animation-name:bar-animationG;
+-webkit-animation-duration:1.2s;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-direction:linear;
+-ms-animation-name:bar-animationG;
+-ms-animation-duration:1.2s;
+-ms-animation-iteration-count:infinite;
+-ms-animation-direction:linear;
+-o-animation-name:bar-animationG;
+-o-animation-duration:1.2s;
+-o-animation-iteration-count:infinite;
+-o-animation-direction:linear;
+animation-name:bar-animationG;
+animation-duration:1.2s;
+animation-iteration-count:infinite;
+animation-direction:linear;
+}
+
+.configapp #front-barG{
+}
+
+@-moz-keyframes bar-animationG{
+0%{
+margin-left:155px;
+margin-top:-18px}
+
+100%{
+margin-left:-128px;
+margin-top:-18px}
+
+}
+
+@-webkit-keyframes bar-animationG{
+0%{
+margin-left:155px;
+margin-top:-18px}
+
+100%{
+margin-left:-128px;
+margin-top:-18px}
+
+}
+
+@-ms-keyframes bar-animationG{
+0%{
+margin-left:155px;
+margin-top:-18px}
+
+100%{
+margin-left:-128px;
+margin-top:-18px}
+
+}
+
+@-o-keyframes bar-animationG{
+0%{
+margin-left:155px;
+margin-top:-18px}
+
+100%{
+margin-left:-128px;
+margin-top:-18px}
+
+}
+
+@keyframes bar-animationG{
+0%{
+margin-left:155px;
+margin-top:-18px}
+
+100%{
+margin-left:-128px;
+margin-top:-18px}
+
+}
+

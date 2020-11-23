@@ -1,0 +1,8 @@
+
+
+datamodel {
+  object UserInterface {
+
+  }
+}
+/** @location sah_services_www_backend /userinterface-defaults.odl.m4 */

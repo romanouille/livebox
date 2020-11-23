@@ -1,0 +1,19 @@
+{
+  "status": 0,
+  "data": {
+    "controlProtocol": "diseqc_1_0",
+    "controlRepeat": 2,
+    "isPowerSupplyUsed": true,
+    "connectedFrontEndList": [
+      {
+        "frontEnd": "1"
+      }, {
+        "frontEnd": "2"
+      }, {
+        "frontEnd": "3"
+      }, {
+        "frontEnd": "4"
+      }
+    ]
+  }
+}

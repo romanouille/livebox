@@ -1,0 +1,171 @@
+/**
+ * This MIB is only a data container and has no functional meaning.
+ */
+
+persistent object DataHub 
+{
+	persistent object MediaHub
+    {
+        bool Enable
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default true;
+        }
+        // Hub info
+        read-only persistent string HubID;
+
+        uint32 MaxHubNumber
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default 1;
+        }
+        // version
+        read-only string SoftwareVersion
+        {
+            default "0.0.30";
+        }
+        // statuses
+        read-only  string ProvisioningStatus
+        {
+            constraint enum ["Provisioned", "Unknown", "NotProvisioned"];
+            default "Unknown";
+        }
+        read-only string OperationalStatus 
+        {
+            constraint enum ["Ok", "Unknown", "Error"];
+            default "Unknown";
+        }
+        read-only string AdministrativeStatus
+        {
+            constraint enum ["Enabled", "Disabled"];
+            default "Enabled";
+        }
+        // platforms
+        //  WT
+        persistent string WassupURL
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "https://ssl-tb1n.orange.fr";                       // Qualification
+        }
+        //  OCC
+        persistent string OCCBackEndURL
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "https://occ-mediation-partners4.rec.orange.fr";    // Qualification TB1-FR4
+        }
+        persistent string OCCUploadURL
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "https://cloud-apifileselector4.rec.orange.fr/cloudUpDown/V04.01.58/UpDownCloud";     // Qualification
+        }
+        //  PNS
+        persistent string PNSReadURL
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "https://tb1n.orange.fr/hub-mm";                    // Qualification
+        }
+        persistent string PNSWriteURL
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "https://tb1n.orange.fr/hub-mm";                    // Qualification
+        }
+        //  DynDns
+        persistent string DynDNSServerURL
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "https://dyndns.hubmm.integ.lfb.orange.com/v1/dyndns";        // Qualification
+        }
+        persistent string MailDynDNSServerURL
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "https://mail.hubmm.integ.lfb.orange.com/v1/mail";          // Qualification
+        }
+        persistent string XsmsDynDNSServerURL
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "https://xsms.hubmm.integ.lfb.orange.com/v1/sms";          // Qualification
+        }
+        // DNS
+        persistent string DnsDomainName
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default "livebox.integ.dns-orange.fr";
+        }
+        // Remote Content access (WebDav)
+        bool RemoteFileSystemAccessEnable 
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+            default true;
+        }
+        // mediahub disk type
+        read-only persistent string HardDiskType
+        {
+            constraint enum ["None","SATA", "USB2", "USB3"];
+            default "None";
+        }
+        // user
+        read-only persistent string MainMailUserAccount;
+	}
+}
+
+/** @location commod_datahub_dataservice */

@@ -1,0 +1,46 @@
+/*expr:zwave dongle*/
+
+/**
+ * MIB is loaded on all zwave dongles .
+ *
+ * All devices matching expression: "zwave dongle" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib zwaveDongle {
+    /**
+     * @brief Unique zwave node id
+     * @version 6.1
+     */
+    uint8 NodeId;
+    /**
+     * @brief ManufacturerId of the dongle
+     * @version 6.1
+     */
+    string ManufacturerId;
+
+    /**
+     * @brief HardwareVersion of the dongle
+     * @version 6.1
+     */
+    string HardwareVersion;
+
+    /**
+     * @brief FirmwareVersion of the dongle
+     * @version 6.1
+     */
+    string FirmwareVersion;
+
+    /**
+     * Enter in pairing mode with the Z-Wave controller 
+     * @version 6.1
+     */
+    void startInclusion();
+
+    /**
+     * Enter in unpairing mode with the Z-Wave controller
+     * @version 6.1
+     */
+    void startExclusion();
+}
+

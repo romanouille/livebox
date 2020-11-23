@@ -1,0 +1,28 @@
+datamodel {
+instance of Wificom(0, "OpenMode") {
+parameter WfcInterface = "wfc";
+parameter DataInterface = "primdata";
+parameter Secure = 0;
+parameter Enable = 0;
+parameter ActivationThreshold = 1;
+parameter WiFigwName = "gw.wifi.mobile.orange.fr";
+parameter VLANID = 0;
+parameter SSID = "orange";
+parameter MaxAssociation = 5;
+}
+instance of Wificom(0, "SecureMode") {
+parameter WfcInterface = "wfcsec";
+parameter DataInterface = "primdata";
+parameter Secure = 1;
+parameter Enable = 0;
+parameter ActivationThreshold = 1;
+parameter WiFigwName = "gw.wifi.mobile.orange.fr";
+parameter VLANID = 0;
+parameter SSID = "orange autoconnect";
+parameter RadiusServerName = "eap.wifi.mobile.orange.fr";
+parameter RadiusServerPort = 1812;
+parameter RadiusSecret = "OrAnGe01*";
+parameter RadiusReAuthWhen = 3600;
+parameter MaxAssociation = 5;
+}
+}

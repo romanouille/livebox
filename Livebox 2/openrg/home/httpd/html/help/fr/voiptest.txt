@@ -1,0 +1,11 @@
+<b>Test du Téléphone relié à la livebox :</b><br>
+<br>
+En cliquant sur le bouton Tester de la page Téléphonie par Internet, vous avez déclenché le test des téléphones reliés à la livebox : livephone (DECT) et/ou Téléphone Internet.<br>
+Si ils sont correctement connectés à votre livebox, ils doivent sonner. Dans le cas contraire, merci de bien vérifier les branchements entre les téléphones et la livebox : le téléphone doit être relié à la livebox sur le port Téléphone bleu par un câble de type RJ11. Pour un livephone (DECT), la base DECT doit être correctement connectée au port USB de la livebox.<br>
+Si après cette vérification, le ou les téléphones ne sonnent toujours pas, merci de contacter l’assistance.<br>
+Attention, si au moment où le test est lancé, un appel est initié ou reçu, le test est automatiquement abandonné.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

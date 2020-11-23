@@ -1,0 +1,747 @@
+using "vendor.so";
+acl {
+group cwmpd read,write,execute;
+}
+persistent object "$(WIFIROOT)" {
+uint32 addVAPIntf(string vap, string radio); 
+uint32 delVAPIntf(string vap);               
+uint32 addEndPointIntf(string radio, string endpoint);
+uint32 delEndPointIntf(string endpoint);
+uint32 FSM_Start(string vap, uint32 bitnr);  
+//	bool activateVAPIntf(string vap, bool state);
+//	bool activateRADIOIntf(string radio, bool state);
+//	bool getWebVAPData(string vap, bool enable, string ssid, bool hideSSID, string secKey, string secMode, string encrypMode);
+//	bool setWebVAPData(string vap, bool enable, string ssid, bool hideSSID, string secKey, string secMode, string encrypMode);
+//	bool getWebRadioData(string radio, string mode, uint16 selectchannel, uint16 channel);
+//	bool setWebRadioData(string radio, string mode, uint16 selectchannel);
+// bool getWebWPSData(string vap, bool enable, string wpsMode, string wpsClientPin, string wpsSelfPin);
+// bool setWebWPSData(string vap, bool enable, string wpsMode, string wpsClientPin);
+bool checkWPSPIN(string PIN);
+object wps_DefParam{         
+string DefaultPin;
+string DevName;
+string OUI;
+string FriendlyName;
+string Manufacturer;
+string ManufacturerUrl;
+string ModelDescription;
+string ModelName;
+string ModelNumber;
+string ModelUrl;
+string OsVersion;
+string SerialNumber;
+string UUID;
+int32 wpsSupVer;
+int32 wpsUUIDShared;
+uint32 wps_GenSelfPIN();
+}
+persistent object Radio[] {
+counted with RadioNumberOfEntries;
+void getSpectrumInfo(bool update);
+bool edit();
+bool verify(...);
+bool commit(...);
+bool startACS(...);
+void startScan();
+void stopScan();
+void scan(out variant results);
+void getScanResults(out variant results);
+void refreshProbeRequests();
+void getRadioAirStats();
+void getPerAntennaRssi();
+read-only string Status{
+constraint enum ["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+default "Down";
+}
+string BaseMACAddress {
+default "$(WAN_ADDR)";
+}
+string Alias;
+read-only string Name;
+read-only string VendorPCISig;
+read-only uint32 Index;
+read-only bool Upstream;
+read-only uint32 MaxBitRate;
+read-only string SupportedFrequencyBands{
+read with getSupportedFrequencyBands;
+}
+string OperatingFrequencyBand{
+write with setRadioOperatingFrequencyBand;
+constraint custom validateRadioOperatingFrequencyBand;
+}
+read-only string SupportedStandards;
+string OperatingStandards{
+write with setRadioOperatingStandards;
+constraint enum ["auto","a","b","g","n","bg","gn","bgn","an","abgn","ac"]; 
+default "auto";
+}
+read-only string PossibleChannels;
+read-only uint32 OperatingClass {
+default 0;
+}
+string ChannelsInUse;
+read-only bool AutoChannelSupported;
+bool AutoChannelEnable{
+write with setRadioAutoChannelEnable;
+default 1;
+}
+uint32 AutoChannelRefreshPeriod;
+read-only bool AutoChannelSelection;
+void startAutoChannelSelection();
+uint32 Channel{
+constraint range[1,255];
+write with setRadioChannel;
+default 6;
+}
+string OperatingChannelBandwidth{   
+constraint enum ["20MHz","40MHz","80MHz","160MHz","Auto"];
+default "Auto";
+write with setRadioOperatingChannelBandwidth;      
+}
+string ExtensionChannel{
+constraint enum ["AbovecontrolChannel","BelowControlChannel","Auto"];
+default"Auto";
+write with setRadioExtensionChannel;      
+}
+string GuardInterval{
+constraint enum ["400nsec","800nsec","Auto"];
+default"Auto";
+write with setRadioGuardInterval;
+}
+int32 MCS{
+constraint range [-1,31];
+}
+read-only string TransmitPowerSupported;
+int32 TransmitPower{
+constraint range [-1,100];
+read with getRadioTxPower;       
+write with setRadioTxPower;      
+}
+int32 ActiveAntennaCtrl{
+constraint range [-1,255];       
+write with setRadioAntennaCtrl;  
+}
+read-only bool IEEE80211hSupported;
+bool IEEE80211hEnabled{
+write with setRadio80211hEnable; 
+constraint custom validateIEEE80211hEnabled;
+}
+string RegulatoryDomain{
+write with setRadioCountryCode;   
+}
+read-only bool ImplicitBeamFormingSupported;
+bool ImplicitBeamFormingEnabled {
+default 1;
+write with setImplicitBeamForming;
+constraint custom validateImplicitBeamForming;
+}
+read-only bool ExplicitBeamFormingSupported;
+bool ExplicitBeamFormingEnabled {
+default 0;
+write with setExplicitBeamForming;
+constraint custom validateExplicitBeamForming;
+}
+bool RIFSEnabled {
+default 1;
+write with setRIFS;
+}
+bool AirtimeFairnessEnabled {
+default 0;
+write with setAirTimeFairness;
+}
+bool RxPowerSaveEnabled {
+default 0;
+write with setRxPowerSave;
+}
+bool MultiUserMIMOEnabled {
+default 0;
+write with setMultiUserMIMO;
+}
+read-only uint32 DFSChannelChangeEventCounter=0;
+read-only datetime DFSChannelChangeEventTimestamp;
+read-only string ChannelChangeReason;
+read-only string IEEE80211_Caps;     
+int32 dbgRADEnable{
+default 0;
+write with setdbgRADEnable;
+}
+string dbgRADFile{
+write with setdbgRADFile;
+}
+object Stats{
+read with getRadioStats;
+volatile read-only uint32 BytesSent;
+volatile read-only uint32 BytesReceived;
+volatile read-only uint32 PacketsSent;
+volatile read-only uint32 PacketsReceived;
+volatile read-only uint32 ErrorsSent;
+volatile read-only uint32 ErrorsReceived;
+volatile read-only uint32 DiscardPacketsSent;
+volatile read-only uint32 DiscardPacketsReceived;
+}
+object Vendor{
+write with writeVendorRadioData;
+}
+read-only uint16 ChannelLoad;
+read-only uint16 Interference;
+read-only bool AntennaDefect{
+default 0;
+}
+object ScanResults{
+read-only uint16 NrCoChannelAP;
+object SurroundingChannels[]{
+read-only uint16 Channel;
+object Accesspoint[]{
+read-only string BSSID;
+read-only int16 RSSI;
+object SSID[]{
+read-only string SSID;
+read-only uint16 Bandwidth;
+read-only string BSSID;
+}
+}
+}
+}
+bool IntelligentAirtimeSchedulingEnable{
+default 0;
+write with setIntelligentAirtime;
+}
+bool Enable{
+default 0;
+write with setRadioEnable;
+}
+object RadCaps{
+read-only string Available{
+default "";
+}
+string Enabled{
+default "";
+write with wld_rad_capability_setEnable;
+}
+read-only string Status{
+default "";
+}
+void Enable(string Capability);
+void Disable(string Capability);
+} 
+persistent object ChannelMgt{
+read-only string ClearedDfsChannels{
+default "";
+}
+read-only string RadarTriggeredDfsChannels{
+default "";
+}
+read-only bool Status{
+default false;
+}
+persistent object ChannelSelectParams{
+write with csm_update_parameters;
+persistent int32 DfsWeight{
+default 100;
+}
+persistent int32 HighPowerWeight{
+default 100;
+}
+persistent int32 ApCountPenalty{
+default 3;
+}
+persistent int32 ApCountMaxPenalty{
+default 45;
+}
+persistent int32 AvailabilityWeight{
+default 1;
+}
+persistent int32 NoiseBonus{
+default 1;
+}
+persistent int32 WeightDifference{
+default 25;
+}
+persistent int32 LongWaitPenalty{
+default 25;
+}
+persistent int32 LowPowerPenaltyOnFarSta{
+default 10;
+}
+}
+persistent object ChannelSelectConfig{
+write with csm_update_config;
+persistent bool EnableDFSChannels{
+default true;
+}
+persistent bool EnableLongWaitChannels{
+default false;
+}
+persistent bool LongWaitOnlyWhenCleared{
+default true;
+}
+persistent bool OnlyNonOverlappingChans{
+default true;
+}
+persistent int32 NrMeasurements{
+default 3;
+constraint minvalue 1;
+}
+persistent int32 TimeBetweenScans{
+default 600;
+constraint minvalue 60;
+}
+persistent int32 TimeBetweenUpdates{
+default 0;
+constraint minvalue 0;
+}
+persistent int32 FarStaRssiThreshold{
+default -78;
+}
+persistent int32 DecayFactor{
+default 90;
+constraint minvalue 0;
+constraint maxvalue 99;
+}
+persistent int32 BonusDecayFactor{
+default 90;
+constraint minvalue 0;
+constraint maxvalue 99;
+}
+}
+void debugPrintScorelist();
+void debugDoOp(string op);
+void performSelection();
+void retrievePerformanceLog(bool reset);
+void getLatestChannelMeasurement();
+void getAverageChannelMeasurement();
+void getBandScores();
+} 
+} 
+persistent object SSID[]{
+counted with SSIDNumberOfEntries;
+bool VerifySSID(...);
+bool CommitSSID(uint32_t cm);
+read-only string Status{
+constraint enum ["Up","Down","Unknown","Dormant","NotPresent","LowerLayerdown","Error"];
+default "Down";
+}
+string Alias;
+read-only string Name;
+string LowerLayers;          
+read-only uint32 Index;      
+string BSSID;
+read-only string MACAddress; 
+persistent string SSID{
+write with setSSIDSSID;   
+constraint custom validateSSIDSSID;
+default "SSID_NOT_SET";
+}
+object Stats{
+read with getSSIDStats;   
+volatile read-only uint32 BytesSent;
+volatile read-only uint32 BytesReceived;
+volatile read-only uint32 PacketsSent;
+volatile read-only uint32 PacketsReceived;
+volatile read-only uint32 ErrorsSent;
+volatile read-only uint32 ErrorsReceived;
+volatile read-only uint32 UnicastPacketsSent;
+volatile read-only uint32 UnicastPacketsReceived;
+volatile read-only uint32 DiscardPacketsSent;
+volatile read-only uint32 DiscardPacketsReceived;
+volatile read-only uint32 MulticastPacketsSent;
+volatile read-only uint32 MulticastPacketsReceived;
+volatile read-only uint32 BroadcastPacketsSent;
+volatile read-only uint32 BroadcastPacketsReceived;
+volatile read-only uint32 UnknownProtoPacketsReceived;
+}
+bool Enable{
+default 0;
+write with setSSIDEnable;
+}
+} 
+persistent object AccessPoint[]{
+counted with AccessPointNumberOfEntries;
+bool kickStation(string macaddress);
+bool sendBssTransferRequest(string mac, string target, int class, int channel);
+read-only string Status;
+string Alias;
+read-only uint32 Index;
+read-only string RadioReference;
+string SSIDReference;
+bool SSIDAdvertisementEnabled{
+write with setAccessPoint;
+}
+uint32 RetryLimit{
+write with setAccessPoint;
+}
+read-only bool WMMCapability;
+read-only bool UAPSDCapability;
+bool WMMEnable{
+write with setAccessPoint;
+}
+bool UAPSDEnable{
+write with setAccessPoint;
+}
+bool MCEnable{
+write with setAccessPoint;
+}
+bool APBridgeDisable{
+write with setAccessPoint;
+}
+int32 MaxStations{
+default -1;
+write with setMaxStations;
+}
+string BridgeInterface{
+write with setAPBridgeInterface;
+}
+int32 IEEE80211wEnabled{
+constraint range[0,2];
+default 0;
+write with set80211wEnable;
+}
+string DefaultDeviceType{
+constraint enum ["Video","Data","Guest"];
+default "Data";
+write with setApDefaultDeviceType;
+}
+persistent object Security{
+read-only string ModesSupported;
+string WEPKey{  
+write with setSecurity;
+default "123456789ABCD";
+}
+string PreSharedKey{
+write with setSecurity;
+}
+string KeyPassPhrase{
+write with setSecurity;
+default "SoftAtHome";
+}
+uint32 RekeyingInterval{
+default 3600;
+}
+bool SHA256Enable{
+write with setSecurity;
+default 0;
+}
+string RadiusServerIPAddr{
+write with setSecurity;
+}
+uint32 RadiusServerPort{
+write with setSecurity;
+default 1812;
+}
+string RadiusSecret{
+write with setSecurity;
+}
+uint32 RadiusDefaultSessionTimeout {
+write with setSecurity;
+}
+string RadiusOwnIPAddress {
+write with setSecurity;
+}
+string RadiusNASIdentifier {
+write with setSecurity;
+}
+string RadiusCalledStationId {
+write with setSecurity;
+}
+bool RadiusChargeableUserId {
+write with setSecurity;
+}
+string ModeEnabled{
+write with setSecurity;
+constraint enum ["None",
+"WEP-64","WEP-128","WEP-128iv",
+"WPA-Personal","WPA2-Personal","WPA-WPA2-Personal",
+"E-None",
+"WPA-Enterprise","WPA2-Enterprise","WPA-WPA2-Enterprise"];
+default "WPA-WPA2-Personal";
+}
+constraint custom validateSecurity;
+}
+object MACFiltering {
+write with writeMACFiltering;
+string Mode {
+constraint enum [ "Off", "WhiteList", "BlackList" ];
+default "Off";
+}
+object Entry[] {
+write with writeMACFilteringEntry;
+string MACAddress;
+}
+void addEntry(string mac);
+void delEntry(string mac);
+}
+persistent object WPS{
+bool Enable{
+default 0;
+constraint custom validateWPSenable;
+write with setWPS_Enable;
+}
+read-only string Status;
+read-only string ConfigMethodsSupported;
+string ConfigMethodsEnabled{
+write with setConfigMethodsEnabled;
+}
+bool CertModeEnable{
+write with setCertModeEnable;
+default 0;
+}
+string SelfPIN{
+write with setSelfPIN;
+}
+bool pushButton(string clientPIN);
+bool setCompatibilityWPS(string supVerWPS);
+string generateSelfPIN();
+void cancelPairing();
+bool Configured{
+default 1;
+}
+bool PairingInProgress;
+}
+object AssociationCount {
+read-only uint32 Success;
+read-only uint32 Fail;
+read-only uint32 FailSecurity;
+bool ResetCounters{
+write with doAssociationCountReset;
+}
+}
+void getStationStats();
+read-only uint32 ActiveAssociatedDeviceNumberOfEntries;
+read-only persistent object AssociatedDevice[]{
+counted with AssociatedDeviceNumberOfEntries;
+read-only string ChargeableUserId;
+read-only string MACAddress;
+read-only bool AuthenticationState;
+read-only uint32 LastDataDownlinkRate{
+constraint range[0,1600000];
+}
+read-only uint32 LastDataUplinkRate{
+constraint range[0,1600000];
+}
+read-only int32 SignalStrength{
+constraint range[-200,0];
+}
+read-only uint32 Retransmissions;
+read-only bool Active;
+read-only int32 SignalNoiseRatio;
+read-only int32 Noise;
+read-only uint32 Inactive;
+read-only uint32 RxPacketCount;
+read-only uint32 TxPacketCount;
+read-only uint32 TxBytes;
+read-only uint32 RxBytes;
+read-only uint32 Rx_Retransmissions;
+read-only uint32 Tx_Retransmissions;
+read-only uint32 UplinkMCS;
+read-only bool UplinkIs40mhz;
+read-only bool UplinkShortGuard;
+read-only uint32 DownlinkMCS;
+read-only bool DownlinkIs40mhz;
+read-only bool DownlinkShortGuard;
+read-only string Mode{
+constraint enum ["a","an","b","bg","bgn","ac","Unknown"];
+default "Unknown";
+}
+string DeviceType{
+constraint enum ["Video","Data","Guest"];
+default "Data";
+write with updateAssocDev;
+}
+uint32 DevicePriority{
+default 1;
+write with updateAssocDev;
+}
+read-only datetime LastStateChange;
+}
+bool Enable{
+default 0;
+write with setAccessPointEnable;
+}
+persistent object HotSpot2 {
+bool Enable{
+default 0;
+write with setHotSpotEnable;
+constraint custom validateHotSpot2Requirements;
+}
+bool DgafDisable {
+default 0;
+write with configHotSpot;
+constraint range [0,1];
+}
+string L2TrafficInspect {
+write with configHotSpot;
+}
+bool IcmpV4Echo {
+default 1;
+write with configHotSpot;
+constraint range [0,1];
+}
+persistent uint32 Interworking {
+default 1;
+write with configHotSpot;
+constraint range [0,15];
+}
+bool Internet {
+default 0;
+write with configHotSpot;
+constraint range [0,1];
+}
+persistent uint32 Additional {
+default 0;
+write with configHotSpot;
+constraint range [0,1];
+}
+bool Hs2Ie {
+write with configHotSpot;
+constraint range [0,1];
+}
+bool P2PEnable {
+write with configHotSpot;
+constraint range [0,1];
+}
+int32 GasDelay {
+write with configHotSpot;
+}
+uint8 AccessNetworkType {
+default 2;
+write with configHotSpot;
+}
+uint8 VenueType {
+default 8;
+write with configHotSpot;
+}
+uint8 VenueGroup {
+default 2;
+write with configHotSpot;
+}
+string VenueName {
+write with configHotSpot;
+}
+string HeSSID {
+write with configHotSpot;
+}
+string RoamingConsortium {
+write with configHotSpot;
+}
+string DomainName {
+write with configHotSpot;
+}
+string Anqp3gpp_CellNet {
+write with configHotSpot;
+}
+read-only string WanMetrics;
+string OperatingClass{
+write with configHotSpot;
+}
+}
+int32 dbgAPEnable{
+default 0;
+write with setdbgAPEnable;
+}
+string dbgAPFile{
+write with setdbgAPFile;
+}
+void dbgClearInactiveEntries();
+} 
+persistent object EndPoint[]{
+counted with EndPointNumberOfEntries;
+read-only string Status{
+constraint enum ["Disabled","Enabled","Error_Misconfigured","Error"];
+default "Disabled";
+}
+read-only string ConnectionStatus {
+constraint enum ["Disabled", "Idle", "Discovering", "Connecting", "WPS_Pairing", "WPS_PairingDone", "WPS_Timeout", "Connected", "Disconnected", "Error", "Error_Misconfigured"];
+default "Disabled";
+}
+read-only string LastError {
+constraint enum ["None", "SSID_Not_Found", "Invalid_PassPhrase", "SecurityMethod_Unsupported", "WPS_Timeout", "WPS_Canceled", "Error_Misconfigured"];
+default "None";
+}
+int32 ThresholdMin {
+default -200;
+constraint range[-200,0];
+}
+int32 ThresholdMax {
+default 0;
+constraint range[-200,0];
+}
+int32 ThresholdRate {
+default 2000;
+constraint range[500,10000];
+}
+read-only string ThresholdStatus {
+constraint enum ["Normal", "Low", "High"];
+default "Normal";
+}
+int32 ThresholdHys;
+string Alias;
+read-only uint32 Index;
+string ProfileReference {
+default "";
+}
+string SSIDReference;
+object Stats{
+read with getEndPointStats;
+read-only uint32 LastDataDownlinkRate{
+constraint range[0,600000];
+}
+read-only uint32 LastDataUplinkRate{
+constraint range[0,600000];
+}
+read-only int32 SignalStrength{
+constraint range[-200,0];
+}
+read-only uint32 Retransmissions{
+constraint range[0,100];
+}
+}
+object Security{
+string ModesSupported{
+default "";
+}
+}
+object Profile[]{
+counted with ProfileNumberOfEntries;
+bool Enable;
+string Status{
+constraint enum ["Active","Available","Error","Disabled"];
+default "Disabled";
+}
+string Alias;
+string SSID;
+string ForceBSSID;
+string Location;
+uint32 Priority{
+constraint range[0,255];
+default 0;
+}
+object Security{
+string ModeEnabled {
+constraint enum  [ "None","WEP-64","WEP-128","WEP-128iv",
+"WPA-Personal","WPA2-Personal","WPA-WPA2-Personal",
+"E-None",
+"WPA-Enterprise","WPA2-Enterprise","WPA-WPA2-Enterprise",
+"Auto" ];
+default "None";
+}
+string WEPKey;
+string PreSharedKey;
+string KeyPassPhrase;
+}
+}
+object WPS{
+bool Enable{
+default 0;
+}
+read-only string ConfigMethodsSupported;
+string ConfigMethodsEnabled;
+void pushButton(string ssid, string bssid, string clientPIN);
+void cancelPairing();
+read-only bool PairingInProgress;
+}
+bool Enable{
+default 0;
+write with setEndPointEnable;
+}
+} 
+}

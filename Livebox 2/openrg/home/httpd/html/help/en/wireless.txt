@@ -1,0 +1,25 @@
+<b>WiFi parameters:</b><br>
+<br>
+<span class="boldorange">Network name (SSID):</span> corresponds to the name of your livebox, shown on the label. This corresponds to the name of your WiFi network.<br>
+<br>
+<span class="boldorange">Mode:</span> If you only have 802.11g and 802.11b devices on your network, keep the default parameter 802.11 b+g. If you use 802.11g, 802.11b and 802.11n devices, select 802.11b+g+n. If you do not have any wireless devices on your network, disabling WiFi is recommended.<br>
+<br>
+<span class="boldorange">Channel:</span> WiFi uses a specific frequency band which is sub-divided into 13 channels.<br>
+<br>
+<span class="boldorange">Security key:</span> The security key is used to secure your WiFi network. By default the WEP key shown on the livebox label is used.<br>
+<br>
+<span class="boldorange">Security mode:</span>To prevent unauthorised use of your wireless network, WiFi connections are encrypted using the WEP or WPA protocols.  Only terminals and computers which have given the WEP or WPA key on your livebox may access your wireless network. This WEP key, comprising 26 hexadecimal characters (digits from 0 to 9 and letters A, B, C, D, E and F) is totally confidential.<br>
+If you choose <b>No security</b>, your home WiFi network is open and accessible to anybody.<br>
+The WEP protocol, selected by the <b>WEP-64</b> or <b>WEP-128</b> option, requires the WEP key to be recognised for all exchanges of data between your livebox and a wireless device. The key must therefore be entered when you configure a new wireless device.<br>
+The WPA protocol, selected by the default <b>WPA-PSK (TKIP)</b> option, adds additional security to the WEP protocol by regularly changing encryption mode. Where possible, WPA should be used in preference to WEP.<br>
+The <b>WPA2-PSK (AES)</b> protocol provides even greater security for your home WiFi network.<br>
+The <b>Mixed</b> protocol automatically selects the highest security mode. <br> 
+<br>
+<span class="boldorange">Enable easy WiFi&nbsp;installation:</span> This option enables you to connect a wireless device to the livebox without needing to enter the settings of your home WiFi network.<br>
+<br>
+<span class="boldorange">Enable filtering by MAC address:</span> Each device has its own physical address, known as a MAC address. This address is represented by 12 hexadecimal characters, grouped in pairs and separated by dashes or colons.<br> 
+If you enable this filtering, and you then want to authorise a new machine to join your network, press the WiFi button on your livebox or click the "Add" button in the list of devices connected to your livebox and enter the MAC address of the device you want to allow.<br>
+If this filtering is disabled, any device can connect to your livebox without you needing to press the WiFi button or enter its MAC address in the table.<br>
+This option is disabled by default. <br>
+<br>
+<b>For more details, click here </b>(link: <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>) 

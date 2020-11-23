@@ -1,0 +1,5 @@
+include "dyndns-definition.odl";
+include "dyndns-defaults.odl";
+
+
+/** @location sah_services_dyndns /dyndns.odl */

@@ -1,0 +1,39 @@
+/*expr:arm_disarm*/
+
+/**
+ * MIB is loaded on all DECTULE Alert units.
+ *
+ * All devices matching expression: "arm_disarm" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib armDisarm {
+    /**
+     * This interface is used for switching devices (detector) to Arm or Disarm mode
+     */
+     
+    /**
+     * ArmDisarmState:
+     0x00=Disarm
+     0x01=Arm
+     */
+    read-only uint8 ArmDisarmState;
+
+    /**
+      * This command is used for Arm a detector
+      */
+    list Arm() {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+      * This command is used for Disarm a detector
+      */
+    list Disarm() {
+        acl {
+            world none;
+        }
+    }
+}

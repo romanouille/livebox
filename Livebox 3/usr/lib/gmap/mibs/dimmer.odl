@@ -1,0 +1,12 @@
+mib dimmer {
+void on(string instanceId);
+void off(string instanceId);
+void toggle(string instanceId);
+void setLevel(mandatory uint32 level, string instanceId);
+void getLevel(string instanceId);
+object Dimmer[] {
+read-only string Name;
+read-only uint32 Type;
+read-only uint32 Level;
+}
+}

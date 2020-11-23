@@ -1,0 +1,12 @@
+using "cups-plugin.so";
+acl {
+group cwmpd read,write,execute;
+}
+object CupsService {
+persistent string NetworkDevice = "lan";
+persistent string ServerName = "LIVEBOX";
+persistent bool Enable {
+default true;
+write with enableHandler;
+}
+}

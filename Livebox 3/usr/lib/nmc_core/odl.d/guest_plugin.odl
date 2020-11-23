@@ -1,0 +1,26 @@
+using "../nmccore_guest.so";
+persistent object NMC {
+persistent object Guest {
+acl {
+world none;
+group admin read, execute;
+group remoteadmin read, execute;
+}
+persistent bool Enable {
+write with enable_interface using "../nmccore_wlantimer.so";
+default false;
+}
+read-only string Status {
+constraint enum ["Disabled", "Enabled"];
+default "Disabled";
+}
+persistent read-only uint64 ActivationTimeout {
+default 0;
+}
+persistent uint32 ActivationDuration = 0;
+persistent read-only datetime StartTime;
+persistent read-only datetime ValidTime;
+void set(in bool Enable);
+void get();
+}
+}

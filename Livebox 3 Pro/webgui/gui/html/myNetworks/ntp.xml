@@ -1,0 +1,37 @@
+<div id="ntp" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param"  i18n="menuNetwork.ntp"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myNetwork.ntp.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 margin-top-10 border-bottom-3">
+			<br/>
+			<div class="margin-left-100" widgetType="FormInput" i18n="page.myNetwork.ntp.curdate">
+				<span id="CurrentLocalTime" dataId="Device/Time/CurrentLocalTime" widgetType="Timestamp" widgetArg="'dddd dd mmmm yyyy, HH:MM:ss'"/>
+			</div>
+			
+			<div class="margin-left-100"  widgetType="FormInput" i18n="page.myNetwork.ntp.timezone">
+				<span id="ntptimezone" widgetType="EnumInput" widgetArg="'select'" dataId="Device/Time/LocalTimeZoneName" i18n="page.myNetwork.ntp.timezone" i18nPrefix="data.ntp.timezone"/>
+			</div>
+				
+			<div class="margin-left-100"  widgetType="FormInput">
+				<div class="ntpmap">
+					<div id="ntpmapselection"/>
+				</div>
+			</div>
+		</div>
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+			</div>	
+		</form>
+	</div>
+</div>

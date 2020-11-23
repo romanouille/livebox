@@ -1,0 +1,20 @@
+#!/bin/sh
+
+list_check=$(ls /tmp/check_#_#_*) 2> /dev/null
+
+if [ -z "$list_check" ]
+then
+	echo >  /tmp/check_progress 	
+	exit 0
+else
+  let index=0 
+  echo  > /tmp/check_progress
+  for part in $list_check
+  do
+    cat $part >> /tmp/check_progress
+    let index=$index+1
+  done
+  cat /tmp/check_progress
+fi
+
+exit 0

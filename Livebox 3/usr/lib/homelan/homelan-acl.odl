@@ -1,0 +1,39 @@
+datamodel
+{
+acl {
+group cwmpd read,write,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+object HomeLan {
+acl {
+group cwmpd read,write,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+parameter Enable {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Status {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter MaxNumberOfRecords {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter ReadingInterval {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}

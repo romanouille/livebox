@@ -1,0 +1,8 @@
+<b>DMZ:</b><br>
+<br>
+If you configure this option, the selected computer is exposed to the Internet. All ports will be accessible from the Internet and redirected to the device's IP address (recommended for experts only).<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

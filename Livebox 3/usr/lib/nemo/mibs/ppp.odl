@@ -1,0 +1,32 @@
+object NeMo {
+object extends MIB(0,"ppp") {
+string Flag = "ppp";
+object DataModel {
+persistent string Username;
+persistent string Password;
+read-only string ConnectionStatus="Disconnected";
+read-only string LastConnectionError="ERROR_NONE";
+persistent uint32 MaxMRUSize=1500;
+read-only uint32 PPPoESessionID;
+string PPPoEACName;
+string PPPoEServiceName;
+read-only string RemoteIPAddress;
+read-only string LocalIPAddress;
+read-only uint32 LastChangeTime;
+volatile read-only uint32 LastChange;
+read-only string DNSServers;
+read-only string TransportType="PPPoE";
+persistent uint32 LCPEcho=30;
+persistent uint32 LCPEchoRetry=3;
+persistent bool IPCPEnable=true;
+persistent bool IPv6CPEnable=false;
+read-only string IPv6CPLocalInterfaceIdentifier;
+read-only string IPv6CPRemoteInterfaceIdentifier;
+persistent string ConnectionTrigger {
+constraint enum [ "AlwaysOn", "OnDemand", "Manual" ];
+default "AlwaysOn";
+}
+persistent uint32 IdleDisconnectTime;
+}
+}
+}

@@ -1,0 +1,23 @@
+/*expr:tamper_alert*/
+
+/**
+ * MIB is loaded on all DECTULE Alert units.
+ *
+ * All devices matching expression: "tamper_alert" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib tamperAlert {
+    /**
+     * This interface is used by any devices wishes to send temper alerts
+     */
+
+    /*
+     * @brief: tamper bit mask:
+     *    0x0000= All Alerts Idle
+     *    0x0001= Alert 0 is Alerting
+     *    0x0021= Alerts 0 & 5 are Alerting, all other Idle
+     */
+    uint16 TamperAlertState;
+}
+

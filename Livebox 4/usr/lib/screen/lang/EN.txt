@@ -1,0 +1,55 @@
+FIRST BOOT & BOOT OR REBOOT:
+Labels:EN_FR
+boot.phase 1:Boot in progress
+boot.phase 2.processing:Synchronization in progress
+boot.phase 2.OK:Synchronization OK
+boot.phase 2.NOK:Synchronization failure. Check the cables connection
+boot.phase 3:please enter your login Internet
+boot.pnp.requireConfirmation:Finish the installation on your web browser
+boot.phase 3TP.processing:
+boot.phase 3TP.OK:
+boot.phase 3bisTP:
+boot.phase 3bisTP.NOK:
+boot.phase 3.processing:Internet connection in progress
+boot.phase 3.OK:Internet connection OK
+boot.phase 3.NOK:Internet connection failure please enter your login
+boot.phase 4:Your Livebox is operational
+boot.pnp.welcome:Hello%s, your Livebox is operational
+boot.phase 5.processing:Internet phone in progress
+boot.phase 5.OK:Internet phone, your Nb %s
+boot.phase 6.VoIPOK:Internet OK... Phone OK, your Nb %s
+boot.phase 6.VoIPNOK:Internet OK
+FIRMWARE UPGRADE:
+Labels:EN_FR
+firmware.upgrade.phase 1:update in progress, do not turn off the Livebox
+firmware.upgrade.OK:update completed. Livebox reboot.
+DECT UPGRADE:
+dect.upgrade.phase 1:update in progress, do not turn off the Livebox
+dect.upgrade.OK:update completed.
+FAILURES:
+Labels:EN_FR
+failure.Internet connection:Internet connection stopped please restart the Livebox
+failure.synchronisation connection:synchronization lost please restart the Livebox
+failure.VoIP connection:Internet phone is unavailable please restart the Livebox
+failure.network:Network failure. Contact your customer assistance
+failure.diagnostic:Failure detected. Diagnostic in progress
+DECT and WPS pairing:
+Labels:EN_FR
+pairing.DECT.processing:pairing in progress
+pairing.WPS.processing:pairing in progress
+pairing.DECT.OK:HD handset connected
+pairing.WPS.OK:equipment connected to wifi
+pairing.DECT.NOK:no device detected
+pairing.WPS.NOK:no device detected
+pairing.DECT.NOK.erreur appairage livebox:DECT equipment failure pairing
+pairing.WPS.NOK.erreur appairage livebox:failure of pairing wifi equipment
+pairing.DECT.NOK.max number:too many phones connected, remove one pairing
+USB detection:
+Labels:EN_FR
+detection.USB.processing:USB device detected
+detection.USB.OK:USB device available
+detection.USB.NOK:unknown USB device
+detection.USB.readyToBeEjected:You can unplug your USB equipment
+detection.USB.ejected:USB equipment unplugged
+Scheduler:
+scheduler.override:wifi activated till the next deactivation by the scheduler

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+VOIP_ZONES="all:100,CAC:300,EVENT:300,FXO:300,H323:300,MAIN:300,MDMEXT:300,MEDIA:300,SIGNAL:300,SIPT:300,VOIPCFG:300,APPLI:300,APPSM:300,FAX:500"
+
+case $1 in
+	start)
+	    if [ -e "/var/lib/voice/restore" ]; then
+			echo "Restoring voice configuration"
+			/bin/hgwcfg_voice restore /etc/config/hgwcfg.usr
+		fi
+		pcb_sysbus --priority=-20 -I /var/run/pcb_sys_voice
+                export SAH_TRACE_ZONES=$VOIP_ZONES
+		PCB_SYS_BUS_DRV=pcb://ipc:[/var/run/pcb_sys_voice] voipapp -d 300 -s &
+		pcb_cli pcb://ipc:[/var/run/pcb_sys_voice] -w 60 VoiceCmdVoicePlugin?
+		;;
+	stop)
+		echo "voipapp stop ..."
+                killall -TERM voipapp
+		;;
+	restore)
+		mkdir -p /var/lib/voice
+		touch /var/lib/voice/restore
+		;;
+	backup)
+		echo "backing up voice settings"
+		/bin/hgwcfg_voice backup /etc/config/hgwcfg.tmp
+		;;
+	*)
+		echo "Usage: /etc/init.d/voipapp {start|stop|backup}"
+		exit 1
+		;;
+esac
+

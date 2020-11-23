@@ -1,0 +1,52 @@
+using "routing/tr181_routing.so";
+object Routing {
+object Router[] {
+counted with RouterNumberOfEntries;
+bool Enable = true; // TODO This should map to ...??? Maybe NeMo.Intf.x.Enable or NeMo.Intf.x.Flags=netdev?
+read-only string Status {
+constraint enum [ "Disabled", "Enabled" ];
+default "Enabled";
+}
+object IPv4Forwarding[] {
+counted with IPv4ForwardingNumberOfEntries;
+bool Enable = false;
+read-only string Status {
+constraint enum [ "Disabled", "Enabled", "Error_Misconfigured" ];
+default "Disabled";
+}
+string DestIPAddress {
+constraint maxvalue 15;
+default "";
+}
+string DestSubnetMask {
+constraint maxvalue 15;
+default "";
+}
+int32 ForwardingPolicy {
+default -1;
+}
+string GatewayIPAddress {
+constraint maxvalue 15;
+default "";
+}
+}
+object IPv6Forwarding[] {
+counted with IPv6ForwardingNumberOfEntries;
+bool Enable = false;
+read-only string Status {
+constraint enum [ "Disabled", "Enabled", "Error_Misconfigured" ];
+default "Disabled";
+}
+string DestIPPrefix = "";
+int32 ForwardingPolicy {
+default -1;
+}
+string NextHop = "";
+}
+}
+}
+datamodel {
+object Routing {
+instance of Router(1, "Router1");
+}
+}

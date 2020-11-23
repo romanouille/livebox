@@ -1,0 +1,20 @@
+/**
+ * The PEnable MIB is available on all NeMo Intfs that have the "penable"-flag set.
+ */
+object NeMo {
+	object extends MIB(0,"penable") {
+		string Flag = "penable";
+		object DataModel {
+			/**
+			 * Enables/Disables this Intf persistently. Recall from the NeMo Core data model
+			 * that Enable is a non-persistent parameter. Setting PersistentEnable will
+			 * automatically set Enable, but not the other way around. This way Intfs that
+			 * support this MIB can still be enabled/disabled dynamically using the Enable
+			 * parameter directly.
+			 */
+			persistent bool PersistentEnable;
+		}
+	}
+}
+
+/** @location sah_services_nemo /mibs/penable.odl */

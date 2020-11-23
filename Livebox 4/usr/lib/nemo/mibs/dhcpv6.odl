@@ -1,0 +1,182 @@
+/**
+ * The DHCPv6 MIB is available on all NeMo Intfs that have the "dhcpv6"-flag set. For each Intf that
+ * has the "dhcpv6"-flag set, a DHCPv6 client instance is created. The interface on which the DHCPv6
+ * client shall run is the direct LLIntf if it's a netdev.
+ */
+object NeMo { 
+	object extends MIB(0,"dhcpv6") {
+		string Flag = "dhcpv6";
+		object DataModel {
+			/**
+			 * The client's DHCP Unique Identifier (DUID) [Section 9/RFC3315].
+			 */
+			persistent string DUID;
+
+			/**
+			 * Enables or disables inclusion of the Identity Association (IA) for
+			 * Non-Temporary Address option OPTION_IA_NA(3) [Section 22.4/RFC3315] in
+			 * Solicit messages.
+			 */
+			persistent bool RequestAddresses = true;
+
+			/**
+			 * Enables or disables inclusion of the Identity Association (IA) for Prefix
+			 * Delegation option OPTION_IA_PD(25) [Section 10/RFC3633] in Solicit messages.
+			 */
+			persistent bool RequestPrefixes = false;
+
+			/**
+			 * Enables or disables inclusion of the Rapid Commit option
+			 * OPTION_RAPID_COMMIT(14) [Section 22.14/RFC3315] in Solicit messages.
+			 */
+			persistent bool RapidCommit = false;
+
+			/**
+			 * T1 value, in seconds, that the client uses when sending IA options,
+			 * e.g. OPTION_IA_NA [Section 22.4/RFC3315] and OPTION_IA_PD
+			 * [Section 10/RFC3633]. A value of -1 indicates that no T1 value is specified.
+			 */
+			persistent int32 SuggestedT1 = -1;
+
+			/**
+			 * T2 value, in seconds, that the client uses when sending IA options,
+			 * e.g. OPTION_IA_NA [Section 22.4/RFC3315] and OPTION_IA_PD
+			 * [Section 10/RFC3633]. A value of -1 indicates that no T2 value is specified.
+			 */
+			persistent int32 SuggestedT2 = -1;
+
+			/**
+			 * Comma-separated list of unsigned integers. The options that the client is
+			 * able to process in server responses. This list includes both top-level and
+			 * encapsulated options, e.g. if the client is able to process
+			 * OPTION_IA_NA (3) with an encapsulated OPTION_IAADDR (5), the list contains
+			 * both 3 and 5.
+			 */
+			persistent string SupportedOptions;
+
+			/**
+			 * Comma-separated list of unsigned integers. An ordered list of the top-level
+			 * options (i.e. not encapsulated options) that the client will explicitly
+			 * request from the server.
+			 *
+			 * This parameter is intended only for options that are not necessary for the
+			 * basic operation of the protocol, and are not modeled elsewhere. For
+			 * example, it is appropriate for OPTION_DNS_SERVERS [RFC3646] but is not
+			 * appropriate for OPTION_SERVERID (which is part of the protocol),
+			 * OPTION_IA_NA (which is modeled via RequestAddresses) or OPTION_IA_PD (which
+			 * is modeled via RequestPrefixes). However, the HGW does not reject an
+			 * attempt to set this parameter to a value that includes options that it
+			 * regards as inappropriate; instead, it accepts the requested options and
+			 * handle them as best it can. Loosely speaking, these are the options that
+			 * the client will include in OPTION_ORO [RFC3315] but the client is free to
+			 * decide (in accordance with [RFC3315]) in which messages to request which
+			 * option, whether also to request additional options, whether not to request
+			 * inappropriate options, and in which order to request any options that are
+			 * also in SupportedOptions.
+			 */
+			persistent string RequestedOptions;
+
+			/**
+			 * When set to true, the Client will renew its DHCPv6-supplied information
+			 * (i.e. the HGW will do a renew or information request as needed, updating
+			 * both stateful and stateless parameter values discovered by this Client
+			 * instance). Always false when read.
+			 */
+			bool Renew;
+
+			/**
+			 * A DHCPv6 client is never started before its lower layers are up. Whether
+			 * and when the DHCPv6 client should be shut down again when one of the lower
+			 * layers go down can be configured by this parameter. If it is set to zero,
+			 * which is the default, the DHCPv6 client is shut down immediately after a
+			 * lower layer went down. A positive value indicates a timeout in seconds: the
+			 * DHCPv6 client will only be shut down if a lower layer remains down for at
+			 * least ResetOnPhysDownTimeout seconds. A negative value indicates that the
+			 * DHCPv6 client should never be shut down based on lower layer states. In any
+			 * case, when the lower layers are up again, the DHCPv6 client is always
+			 * restarted if it was down.
+			 */
+			persistent int32 ResetOnPhysDownTimeout;
+
+			/**
+			 * Check server authentication if CheckAuthentication is true and AuthenticationInfo is filled in.
+			 */
+			persistent bool CheckAuthentication = true;
+
+			/**
+			 * 
+			 */
+			persistent string AuthenticationInfo;
+
+			/**
+			 * Apply retry algorithm if authentication failed.
+			 */
+			persistent bool RetryOnFailedAuth = false;
+
+
+			/**
+			 * Alternative flavour for renewing the DHCPv6-supplied information. (TR-198
+			 * specifies the Renew parameter, see above).
+			 */
+			void renew() {
+			    acl {
+			        world none;
+			    }
+			}
+
+			/**
+			 * The top-level options and option values (including any encapsulated
+			 * options) that the client will send to the server. This table is intended
+			 * only for options that are not part of the basic operation of the protocol,
+			 * and whose values are simple, do not often change and are not modeled
+			 * elsewhere. For example, it is appropriate for OPTION_USER_CLASS (whose
+			 * value is a list of user classes) but is not appropriate for
+			 * OPTION_RECONF_MSG (which is part of the protocol), OPTION_IA_NA (which is
+			 * modeled via RequestAddresses) or OPTION_RAPID_COMMIT (which is modeled via
+			 * RapidCommit).
+			 */
+			persistent object SentOption[] {
+				/**
+				 * Enables or disables this SentOption entry.
+				 */
+				persistent bool Enable = true;
+
+				/**
+				 * A non-volatile handle used to reference this instance. If it's left
+				 * blank at creation time, a unique value is auto-generated.
+				 */
+				persistent string Alias;
+
+				/**
+				 * Option tag (code) [Section 22.1/RFC3315].
+				 */
+				persistent uint16 Tag; 
+
+				/**
+				 * A hexbinary encoded option data [Section 22.1/RFC3315].
+				 */
+				persistent string Value; 
+			}
+
+			/**
+			 * This is a transitory table that lists all the options received from all
+			 * servers. Table entries are automatically created to correspond with
+			 * received options.
+			 */
+			object ReceivedOption[] {
+				/**
+				 * Option tag (code) [Section 22.1/RFC3315].
+				 */
+				uint16 Tag;
+
+				/**
+				 * A hexbinary encoded option data [Section 22.1/RFC3315].
+				 */
+				string Value;
+			}
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/dhcpv6.odl */

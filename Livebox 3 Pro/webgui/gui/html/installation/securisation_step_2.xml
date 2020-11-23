@@ -1,0 +1,47 @@
+<div id="securisation_step_2" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+
+	<div id="barnav2" class="margin-bottom-30 steps2">
+		<div class="floatLeft steps first">
+			<strong class="black">1</strong> - <span i18n="page.page0.barnav2.step1"/>
+		</div>
+		<div class="floatLeft steps active">
+			<strong>2</strong> - <span i18n="page.page0.barnav2.step2"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">3</strong> - <span i18n="page.page0.barnav2.step3"/>
+		</div>
+	</div>
+	
+	<div id="container2">
+		<div class="h2_install" i18n="page.page0.secure.step2.label"/>
+		<div class="padding-left-40" i18n="page.page0.secure.step2.label0"/>
+		<div class="padding-left-40" i18n="page.page0.secure.step2.label1"/>
+	
+		<form class="installform">
+			<div widgetType="FormInput" i18n="page.page0.securisation.step2.questionsecrete">
+				<span id="sQuery" style="font-weight:bold" dataId="Device/UserAccounts/ManagedUsers/ManagedUser[Login='admin']/SecretQuery"></span>
+			</div>
+			<div widgetType="FormInput" i18n="page.page0.securisation.step2.reponsesecrete">
+				<span id="sAnswer" widgetType="Password" widgetArg="{char: '•', period: 2000}"></span>
+				<div id="emptySecretAnswer" class="forminput error installationerror" i18n="page.page0.securisation.step2.emptySecretAnswer" style="display:none"/>
+			</div>
+			<input id="userlogin" style="display:none" dataId="Device/UserAccounts/ManagedUsers/ManagedUser[Login='admin']/Login"></input>
+		</form>
+			
+		<div class="installButtonBar">
+			<a id="jump2securisation_step_1" href="javascript:;">
+				<img class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_precedente.gif" widgetType="Image"/>
+			</a>
+			<span class="spacer"/>
+			<a id="jump2securisation_step_3" href="javascript:;" class="disableable disabled">
+				<img class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_suivante_off.gif" widgetType="Image"/>
+			</a>
+		</div>
+	</div>
+</div>

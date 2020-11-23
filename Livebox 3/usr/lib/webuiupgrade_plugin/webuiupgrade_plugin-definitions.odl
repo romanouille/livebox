@@ -1,0 +1,54 @@
+using "webuiupgrade_plugin.so";
+define filemap_t {
+string filename;
+string filetype;
+int filesize;
+}
+define openfile_return_t {
+string filepath;
+int filedesc;
+}
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd none;
+}
+persistent object WebuiupgradeService {
+openfile_return_t openfile(filemap_t filemap);
+bool verifyRUIVersion(string filetype, string version);
+persistent string SOPMinimumVersion = "";
+persistent string URL;
+persistent uint32 MinimumDelay;
+read-only datetime LastSyncTime;
+persistent uint32 MaxCachedVersionAge;
+read-only string NewVersion;
+persistent bool Enable {
+default true;
+}
+read-only string Status;
+void getLatestVersion(bool useCachedValue, out bool updateAvailable, out string currentVersion, out string newVersion){
+acl {
+group admin execute;
+group remoteadmin execute;
+}
+}
+void upgrade() {
+acl {
+group admin execute;
+group remoteadmin execute;
+}
+}
+bool import( string fileName ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool export( string fileName ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}

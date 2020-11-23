@@ -1,0 +1,85 @@
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_among.ko: 
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_ip.ko: 
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_snat.ko: 
+/lib/modules/2.6.28.8/extra/wlan_acl.ko: /lib/modules/2.6.28.8/extra/wlan.ko
+/lib/modules/2.6.28.8/extra/ath_rate_atheros.ko: /lib/modules/2.6.28.8/extra/wlan.ko /lib/modules/2.6.28.8/extra/ath_hal.ko
+/lib/modules/2.6.28.8/kernel/net/ipv6/netfilter/ip6t_LOG.ko: 
+/lib/modules/2.6.28.8/kernel/net/netfilter/xt_owner.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko: 
+/lib/modules/2.6.28.8/extra/wlan_scan_sta.ko: /lib/modules/2.6.28.8/extra/wlan.ko
+/lib/modules/2.6.28.8/extra/wlan_wep.ko: /lib/modules/2.6.28.8/extra/wlan.ko
+/lib/modules/2.6.28.8/extra/wlan_tkip.ko: /lib/modules/2.6.28.8/extra/wlan.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko: 
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_ip6.ko: 
+/lib/modules/2.6.28.8/kernel/drivers/scsi/scsi_wait_scan.ko: 
+/lib/modules/2.6.28.8/kernel/net/ipv4/netfilter/nf_nat_h323.ko: /lib/modules/2.6.28.8/kernel/net/netfilter/nf_conntrack_h323.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_ipv6_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_pkttype.ko: 
+/lib/modules/2.6.28.8/kernel/fs/ext2/ext2.ko: 
+/lib/modules/2.6.28.8/kernel/net/ipv6/xfrm6_mode_transport.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/extra/lanled.ko: /lib/modules/2.6.28.8/extra/marvell6061.ko
+/lib/modules/2.6.28.8/extra/ath_dfs.ko: /lib/modules/2.6.28.8/extra/ath_hal.ko
+/lib/modules/2.6.28.8/extra/ath_pktlog.ko: /lib/modules/2.6.28.8/extra/ath_pci.ko /lib/modules/2.6.28.8/extra/ath_rate_atheros.ko /lib/modules/2.6.28.8/extra/wlan.ko /lib/modules/2.6.28.8/extra/ath_hal.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ipqos/ipqos_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/pppoe_passthru/pppoePassthrough_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/timerlib/timers_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/extra/ath_hal.ko: 
+/lib/modules/2.6.28.8/extra/ath_pci.ko: /lib/modules/2.6.28.8/extra/ath_rate_atheros.ko /lib/modules/2.6.28.8/extra/ath_dfs.ko /lib/modules/2.6.28.8/extra/wlan.ko /lib/modules/2.6.28.8/extra/ath_hal.ko
+/lib/modules/2.6.28.8/kernel/net/ipv6/xfrm6_mode_tunnel.ko: 
+/lib/modules/2.6.28.8/kernel/net/netfilter/nf_conntrack_h323.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/ipv6/netfilter/ip6t_hbh.ko: 
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebtable_filter.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/igmpsnoop/igmpsnoop_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/timerlib/timers_lkm.ko: 
+/lib/modules/2.6.28.8/extra/wlan_scan_ap.ko: /lib/modules/2.6.28.8/extra/wlan.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/bm/bmdriver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/timerlib/timers_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_stp.ko: 
+/lib/modules/2.6.28.8/kernel/net/netfilter/xt_CLASSIFY.ko: 
+/lib/modules/2.6.28.8/kernel/net/ipv6/netfilter/ip6t_eui64.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/netfilter/xt_iprange.ko: 
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_limit.ko: 
+/lib/modules/2.6.28.8/extra/athconf.ko: /lib/modules/2.6.28.8/extra/ath_hal.ko
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_arp.ko: 
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_802_3.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/atm/atmdriver_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/monif/monif_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/bm/bmdriver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/pppoe_passthru/pppoePassthrough_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/timerlib/timers_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/extra/ath_tx99.ko: /lib/modules/2.6.28.8/extra/wlan.ko /lib/modules/2.6.28.8/extra/ath_hal.ko
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_vlan.ko: 
+/lib/modules/2.6.28.8/kernel/net/netfilter/xt_tcpmss.ko: 
+/lib/modules/2.6.28.8/extra/atrcm.ko: 
+/lib/modules/2.6.28.8/kernel/fs/fat/fat.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_vcell_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/atm/atmdriver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_arpreply.ko: 
+/lib/modules/2.6.28.8/kernel/net/ipv6/netfilter/ip6t_ipv6header.ko: 
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_dnat.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/pppoer/pppRelay_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/timerlib/timers_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_vpkt_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_redirect.ko: 
+/lib/modules/2.6.28.8/kernel/fs/nls/nls_iso8859-1.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/monif/monif_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebt_mark_m.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/voice/ipvoice/dspvoice.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/bm/bmdriver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ethdriver/sysKCode_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/extra/wlan_ccmp.ko: /lib/modules/2.6.28.8/extra/wlan.ko
+/lib/modules/2.6.28.8/kernel/net/ipv6/netfilter/ip6t_frag.ko: 
+/lib/modules/2.6.28.8/extra/wlan.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/peri_ap/periap_driver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/bridge/netfilter/ebtable_broute.ko: 
+/lib/modules/2.6.28.8/kernel/fs/fat/msdos.ko: /lib/modules/2.6.28.8/kernel/fs/fat/fat.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_atm_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/static_rft/static_rft_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/atm/atmdriver_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/net/netfilter/xt_CONNMARK.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/spi/spi_driver_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/opensrc/opensrc_lkm.ko
+vmlinux: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/switch/icplus/ip175d_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/bm/bmdriver_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/extra/geniodb.ko: 
+/lib/modules/2.6.28.8/kernel/net/netfilter/xt_SKIPLOG.ko: 
+/lib/modules/2.6.28.8/extra/marvell6061.ko: 
+/lib/modules/2.6.28.8/kernel/net/netfilter/xt_connmark.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/switch/icplus/ip175c_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ethdriver/ethdriver_lkm.ko
+/lib/modules/2.6.28.8/kernel/fs/fat/vfat.ko: /lib/modules/2.6.28.8/kernel/fs/fat/fat.ko
+/lib/modules/2.6.28.8/kernel/fs/nls/nls_ascii.ko: 
+/lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/policyVlan/vlan_classifier_lkm.ko: /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/drivers/ap2ap/ap2ap_lkm.ko /lib/modules/2.6.28.8/kernel/fusiv_src/kernel/ap_code/lib/fusivlib_lkm.ko
+/lib/modules/2.6.28.8/kernel/fs/nls/nls_cp850.ko: 
+/lib/modules/2.6.28.8/kernel/net/ipv6/netfilter/ip6t_hl.ko: 
+/lib/modules/2.6.28.8/extra/wlan_xauth.ko: /lib/modules/2.6.28.8/extra/wlan.ko

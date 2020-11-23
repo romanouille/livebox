@@ -1,0 +1,8 @@
+object NeMo {
+object extends MIB(0,"penable") {
+string Flag = "penable";
+object DataModel {
+persistent bool PersistentEnable;
+}
+}
+}

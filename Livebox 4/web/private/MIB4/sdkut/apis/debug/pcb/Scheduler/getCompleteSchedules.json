@@ -1,0 +1,77 @@
+{
+    "status": true,
+    "data": {
+        "scheduleInfo": [
+            {
+                "ID": "wl0",
+                "enable": true,
+                "base": "Weekly",
+                "def": "Disable",
+                "override": "",
+                "value": "Unsynchronized",
+                "schedule": [
+                    {
+                        "begin": 0,
+                        "end": 28800,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 36000,
+                        "end": 68400,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 79200,
+                        "end": 115200,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 122400,
+                        "end": 154800,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 165600,
+                        "end": 201600,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 208800,
+                        "end": 241200,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 252000,
+                        "end": 288000,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 295200,
+                        "end": 327600,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 338400,
+                        "end": 374400,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 381600,
+                        "end": 414000,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 424800,
+                        "end": 453600,
+                        "state": "Enable"
+                    },
+                    {
+                        "begin": 518400,
+                        "end": 540000,
+                        "state": "Enable"
+                    }
+                ]
+            }
+        ]
+    }
+}

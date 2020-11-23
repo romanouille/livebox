@@ -1,0 +1,52 @@
+#!/bin/sh
+
+PID="/var/run/filetransfer.pid"
+RESTORE="/var/lib/filetransfer/restore"
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "filetransfer service already started"
+        exit 1;
+    fi
+
+    pcb_app -n filetransfer -vv
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID)
+    else
+        echo "filetransfer service not running"
+        exit 1
+    fi
+}
+
+show_cmd()
+{
+        echo "[$(date)]: $@"
+        eval "$@"
+}
+
+debuginfo() {
+    if [ -e $PID ] ; then
+         echo "Status [filetransfer plugin]: running."
+         show_cmd cat /proc/$(cat $PID)/status
+    else
+         echo "Status [filetransfer plugin]: not running."
+    fi
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    debuginfo)
+        debuginfo
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore]"
+        ;;
+esac

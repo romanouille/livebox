@@ -1,0 +1,29 @@
+#On vx185 we need to have a file in /var/run to indicate if we're using ADSL or VDSL before the modules are loaded.
+#!/bin/sh
+
+case $1 in
+    start)
+
+        if [ -f /cfg/common/config/wanmode.info ] ; then
+            PHYSICALTYPE="`/bin/fetchwan type`"
+        else
+            # To support migration case where wanmode is only backupped into hgwcfg.usr
+            PHYSICALTYPE=$(sed -n 's/.*WanMode>\(.*\)<\/tns:WanMode.*/\1/p' /etc/config/hgwcfg.usr | grep VDSL | cut -c -4)
+        fi
+
+        if [ "$PHYSICALTYPE" = "VDSL" ] ; then
+            file="/var/run/VDSL"
+        else
+            file="/var/run/ADSL"
+        fi
+
+        touch $file
+    ;;
+    *)
+        echo "Usage: $0 start"
+        ;;
+esac
+
+
+
+

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+XDSL_ROOT="DSL_LEGACY"
+XTM_ROOT="XTM_LEGACY"
+
+name="dsl_legacy"
+datamodel="${XDSL_ROOT} ${XTM_ROOT}"
+trace_zones="dsl_legacy libdsl"
+component="sah_drivers_xdslplugin_legacy"
+
+case $1 in
+	start)
+		export XDSL_ROOT=${XDSL_ROOT}
+		export XTM_ROOT=${XTM_ROOT}
+		sahenv -f /etc/environment pcb_app -vv -n $name -I /var/run/dsl -c /usr/lib/dsl/dsl.odl
+		mtk_load nemo-core /usr/lib/nemo/modules/xdsl.so dslroot="${XDSL_ROOT}" xtmroot="${XTM_ROOT}" dst="pcb://ipc:[/var/run/dsl]"
+		;;
+	stop)
+		pcb_stop $name
+		mtk_unload nemo-core xdsl
+		;;
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+		;;
+	log)
+		action=$2
+		if [ -n "$action" ]; then
+			pcb_log $name $action $trace_zones
+		else
+			pcb_log $name enable $trace_zones
+		fi
+		;;
+	*)
+		echo "Usage: $0 [start|stop|debuginfo|log]"
+		;;
+esac

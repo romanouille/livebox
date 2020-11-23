@@ -1,0 +1,13 @@
+<b>Téléphone par Internet :</b><br>
+<br>
+Cette page affiche l’état de votre service de téléphonie par Internet. Le lien vous permet d’accéder directement à votre portail de gestion du service de téléphonie par Internet.<br>
+Si le service est activé, le voyant téléphone en haut débit de la livebox est vert et la page vous l’indiquera via le message : <b>Le service de téléphonie par Internet est activé.</b> Cela signifie que le service de téléphonie par Internet est opérationnel.<br>
+Dans le cas contraire, le voyant téléphone en haut débit de la livebox est éteint et le message <b>Le service de téléphonie par Internet est désactivé</b> s’affichera.<br>
+Si le service ne s’active pas automatiquement, essayez de redémarrer votre livebox. Si le problème persiste, veuillez contacter l’assistance.<br>
+Lorsque le service est activé, votre numéro de téléphone par Internet est affiché sur la page.<br>
+Vous pouvez aussi tester l’état du téléphone relié à votre livebox grâce au bouton Tester.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

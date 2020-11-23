@@ -1,0 +1,492 @@
+datamodel
+{
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+object Firewall {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+parameter Enable {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Status {
+acl {
+group admin read;
+group remoteadmin read;
+}
+}
+parameter Config {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter AdvancedLevel {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter AdvancedIPv6Level {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter Type {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter MinPort {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter MaxPort {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter ProhibitedOriginsCGNAT {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Chain {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+instance of Chain(0, "Custom_Guest")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Custom_V6GuestOut")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Custom_V6GuestIn")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "High")
+{
+parameter Name = "L_High";
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Low")
+{
+parameter Name = "L_Low";
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Medium")
+{
+parameter Name = "L_Medium";
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "In")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Out")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "High_In")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "High_Out")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Medium_In")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Medium_Out")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "NO_ICMP")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "IPTV_Out")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "VOIP_Out")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "VOIP_In")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "IPTV_In")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Hotspot")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+instance of Chain(0, "Guest")
+{
+acl
+{
+group admin none;
+group remoteadmin none;
+}
+}
+object Policy {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Service {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+parameter PortForwardingNumberOfEntries {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object Interface {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+object PCP {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function save {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function reset {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function commit {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function setService {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function deleteService {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function getService {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setRespondToPing {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function getRespondToPing {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function setPortForwarding {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function suspendPortForwarding {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function deletePortForwarding {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function getPortForwarding {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function getSpecificPortForwarding {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setPinhole {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function suspendPinhole {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function deletePinhole {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function getPinhole {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function getSpecificPinhole {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setDMZ {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function deleteDMZ {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function getDMZ {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function setCustomRule {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function deleteCustomRule {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function getCustomRule {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function setChainPolicy {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function getChainPolicy {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function deleteChainPolicy {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setFirewallLevel {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function setFirewallIPv6Level {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function getFirewallIPv6Level {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function setForwardingService {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setForwardingServiceAction {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function getFirewallLevel {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+function deleteForwardingService {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setPolicyLevel {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function getPolicyLevel {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function deletePolicy {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function export {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function import {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}
+}

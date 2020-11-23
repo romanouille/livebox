@@ -1,0 +1,41 @@
+# /etc/profile
+
+# System wide environment and startup programs
+# Functions and aliases go in /etc/bashrc
+PROFILE_LOADED=1
+
+USER=$(id -un)
+LOGNAME=$USER
+
+HOSTNAME=$(/bin/hostname)
+HISTSIZE=1000
+
+DEFAULT_CIPHER_SUITE="EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:+CAMELLIA256:+AES256:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!ECDSA:CAMELLIA256-SHA:AES256-SHA:CAMELLIA128-SHA:AES128-SHA"
+
+export PATH PS1 USER LOGNAME HOSTNAME HISTSIZE DEFAULT_CIPHER_SUITE
+
+# Different type of ls
+
+alias d="ls"
+alias l="ls"                    # classique listing.
+alias ll="ls -l"                # List detailled.
+alias la='ls -A -k'             # List all.
+alias lsd="ls -d */"            # List only the directory.
+alias cd..="cd .."
+alias s="cd .."
+alias p="cd -"
+
+alias md="mkdir"
+alias rd="rmdir"
+alias cp="cp -i"
+alias mv="mv -i"
+alias rm="rm -i"
+
+alias du='du -h'
+alias df='df -h'
+
+alias AT="echo OK"
+alias at="echo OK"
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+export PATH

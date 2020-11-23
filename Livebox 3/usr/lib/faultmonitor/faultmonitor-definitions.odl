@@ -1,0 +1,19 @@
+using "faultmonitorplugin.so";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read,write,execute;
+}
+object FaultMonitor {
+read-only uint32 Count {
+read with readCount;
+}
+list listFaults();
+void removeDumps();
+persistent uint32 MaximumCoreDumps;
+persistent uint32 MinimumFreeSpace;
+persistent uint32 MaximumLogEntries;
+persistent string UploadServer;
+persistent uint32 UploadTimeout;
+}

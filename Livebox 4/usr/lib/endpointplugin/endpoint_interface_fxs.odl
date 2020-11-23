@@ -1,0 +1,25 @@
+using "bcm_fxs.so";
+include "dsp_plugin.odl";
+
+include "/usr/lib/voiceplugin/voiceplugin_api-definition.odl";
+
+object BCMPlugin{ 
+
+void dsp_mips();
+
+void print_vhds();
+
+void endptvhd_stats();
+
+void vhd_stats();
+void power_save(u8 ep_id, u8  enabled);
+
+void set_ecan( u8 ep_id, u8 ecan_ebabled);
+void send_offhook( u8 ep_id);
+void send_onhook( u8 ep_id);
+void deinit();
+void reinit();
+void get_prov( u8 ep_id, u8 prov_id);
+
+}
+/** @location sah_drivers_voice_bcmplugin /src/pcb/scripts/endpoint_interface.odl */

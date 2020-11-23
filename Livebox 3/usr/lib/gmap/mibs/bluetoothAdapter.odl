@@ -1,0 +1,141 @@
+/*expr:bluetooth and dongle and physical and hnid*/
+/**
+* This object contains data of the bluetooth adapter connected to the gateway.
+* @version V6.1
+*/
+mib bluetoothAdapter {
+    /**
+    * Bluetooth dbus path name. read only
+    * @version V6.1
+    */
+    read-only string Path;
+
+    /**
+    * Bluetooth address (mac address) contains 6 hex values and is written in following convention:
+    * XX:XX:XX:XX:XX:XX
+    * The bluetooth address is also used as unique id.
+    * @version V6.1
+    */
+    read-only string Address;
+
+    /**
+    * The alias for this device. This is user friendly device name that will be shown on end user devices.
+    * @version V6.1
+    */
+    string Alias;
+
+    /**
+    * The Bluetooth class of device. This property represents the value that is either
+    * automatically configured by DMI/ACPI information or provided as static configuration.
+    * @version V6.1
+    */
+    read-only string Class;
+
+    /**
+    * Switch an adapter on or off. This will also set the appropriate connectable state of the controller.
+    * @version V6.1
+    */
+    bool Powered;
+
+    /**
+    * Switch an adapter to pairable or non-pairable.
+    * Note that this property only affects incoming pairing requests.
+    * @version V6.1
+    */
+    bool Pairable;
+
+    /**
+    * Switch an adapter to discoverable or non-discoverable to either make it visible or hide it.
+    * The adapter will remain discoverable for 'DiscoverableTimeout' seconds.
+    * @version V6.1
+    */
+    bool Discoverable;
+
+    /**
+    * The discoverable timeout in seconds. A value of zero means that the timeout is disabled and it will stay in
+    * discoverable/limited mode forever.
+    * @version V6.1
+    */
+    uint32 DiscoverableTimeout;
+
+    /**
+    * The pairable timeout in seconds. A value of zero means that the timeout is disabled and it will stay in
+    * pairable mode forever.
+    * @version V6.1
+    */
+    uint32 PairableTimeout;
+
+    /**
+    * Indicates that a device discovery procedure is active.
+    * @version V6.1
+    */
+    read-only bool Discovering;
+
+    /**
+    * Comman seperated list of 128-bit UUIDs that represents the available local services.
+    * @version V7.0
+    */
+    read-only string UUIDs;
+
+    /**
+    * Comman seperated list of user friendly descriptions of the available local services.
+    * @version V7.0
+    */
+    read-only string UUIDsDescription;
+
+    /**
+    * Local Device ID information in modalias format used by the kernel and udev.
+    * @version V7.0
+    */
+    read-only string Modalias;
+
+    /**
+    * This function remove the found bluetooth device explicitly from bluez backend.
+    * @param device The dbus device path or the MAC address in the normal notation e.g. XX:XX:XX:XX:XX:XX
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @error pcb_error_function_exec_failed in case the removal failed
+    * @version V6.1
+    */
+    void removeDevice(string device);
+
+    /**
+    * This method starts the device discovery session. This includes an inquiry procedure and remote device name
+    * resolving. Use StopDiscovery to release the sessions acquired.
+    * This process will start creating Device objects as new devices are discovered.
+    * @return none
+    * @error pcb_error_function_exec_failed in case the adapter is not ready or the discovery failed
+    * @version V6.1
+    */
+    void startDiscovery();
+
+    /**
+    * This method will cancel any previous StartDiscovery transaction.
+    * @return none
+    * @error pcb_error_function_exec_failed  in case the adapter is not ready or stop discovery failed
+    * @version V6.1
+    */
+    void stopDiscovery();
+
+    /**
+    * Register the NAP (Network access point) profile to enable bluetooth to act as an IP gateway
+    * @param uuid A uuid chosen by the user to identify the network access point. This can be any string.
+    * @param bridge The name of the bridge device to connect to.
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @error pcb_error_function_exec_failed in case the registration failed
+    * @version V7.0
+    */
+    void registerNAP(string uuid, string bridge);
+
+    /**
+    * Unregister the NAP (Network access point) profile to enable bluetooth to act as an IP gateway
+    * @param uuid The uuid used during the registration of the NAP device.
+    * @return none
+    * @error pcb_error_invalid_value in case there is an invalid argument (value)
+    * @error pcb_error_function_exec_failed in case the unregistration failed
+    * @version V7.0
+    */
+    void unregisterNAP(string uuid);
+}
+

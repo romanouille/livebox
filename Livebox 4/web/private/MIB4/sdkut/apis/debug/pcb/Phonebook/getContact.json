@@ -1,0 +1,40 @@
+{
+    "status": true,
+    "data": {
+        "key": "2",
+        "lastRevision": "1970-01-01T01:02:46Z",
+        "uniqueID": "urn:uuid:afb2ea90-9d60-405a-bee4-1e6216d9be2b",
+        "name": "N:User;Telnet;",
+        "formattedName": "User Telnet",
+        "birthDay": "0001-01-01T00:00:00Z",
+        "title": "",
+        "organisation": "",
+        "url": "",
+        "ringtone": "3",
+        "tags": "",
+        "addresses": [],
+        "labels": [],
+        "telephoneNumbers": [
+            {
+                "key": "1",
+                "name": "123",
+                "type": "HOME",
+                "preferred": false
+            },
+            {
+                "key": "2",
+                "name": "456",
+                "type": "CELL",
+                "preferred": false
+            },
+            {
+                "key": "3",
+                "name": "789",
+                "type": "WORK",
+                "preferred": false
+            }
+        ],
+        "emails": [],
+        "photos": []
+    }
+}

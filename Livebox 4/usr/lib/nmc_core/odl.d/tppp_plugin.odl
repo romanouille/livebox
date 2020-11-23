@@ -1,0 +1,40 @@
+persistent object NMC {
+
+    /**
+     * Settings for the PPP session
+     * automatic refresh
+     */
+    object TPPP {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+
+        /**
+        * True if the feature is enabled
+        */
+        bool Enable {
+            default false;
+        }
+
+        /**
+        * Timeout of the current session
+        * in sec
+        */
+        uint32 Timeout {
+            constraint minvalue 1;
+            default 79200;
+        }
+
+        /**
+        * Extra timeout in sec, used
+        * in case a voice call is ongoing
+        */
+        uint32 ExtraTimeout {
+            constraint minvalue 1;
+            default 7200;
+        }
+    }
+}
+

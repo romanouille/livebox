@@ -1,0 +1,97 @@
+using "usermngt.so";
+define user_t {
+string name;
+bool enable;
+list groups;
+string friendlyname;
+bool linux_user;
+}
+define users_groups_t {
+list users;
+list groups;
+}
+persistent object UserManagement {
+persistent read-only uint32 GroupNumberOfEntries {
+read with getGroupNumberOfEntries;
+default 0;
+}
+persistent read-only uint32 UserNumberOfEntries {
+read with getUserNumberOfEntries;
+default 0;
+}
+read-only string groupRestoreFilter {
+default "cwmpd,technician";
+}
+bool addUser(string name, string password, list groups, bool enable, string usertype, string salt, uint32 uid, bool linux_user, string friendlyname);
+bool changeUser(string name, string password, list groups, bool enable, string usertype, string friendlyname);
+bool changePassword(string name, string password);
+bool removeUser(string name);
+bool removeUsers(string name, string type);
+bool addGroup(string name, bool enable, bool linux_group);
+bool changeGroup(string name, bool enable);
+bool removeGroup(string name);
+list getUsers();
+list getGroups();
+bool getUsersAndGroups(out list users, out list groups);
+bool addUserToGroups(string name, list groups);
+bool removeUserFromGroups(string name, list groups);
+bool authenticate(mandatory string name, mandatory string password, string groupName);
+bool export(string filename);
+bool import(string filename);
+bool setUserCustomData(mandatory string name, mandatory list custom_data);
+bool getUserCustomData(mandatory string name, list keys, out variant custom_data);
+bool removeUserCustomData(mandatory string name, mandatory list keys);
+bool getUserFromKeyValue(mandatory string key, mandatory string value, out list users);
+persistent object Group[16] {
+add with groupAdded;
+delete with groupDeleted;
+persistent bool Enable = true;
+persistent read-only uint32 GID;
+persistent read-only string GroupName {
+constraint maxvalue 64;
+}
+persistent read-only bool System = false;
+persistent read-only bool LinuxGroup = false;
+}
+persistent object User[16] {
+add with userAdded;
+persistent bool Enable = true;
+persistent read-only uint32 UID;
+persistent read-only bool LinuxUser = false;
+persistent read-only string UserName {
+constraint maxvalue 64;
+}
+persistent string Password {
+constraint maxvalue 64;
+}
+persistent read-only string PasswordType {
+constraint enum [ "MD5", "SSHA256", "PREHASHED-SSHA256", "INVALID", "PREHASHED-INVALID" ];
+default "SSHA256";
+}
+persistent read-only string Salt {
+constraint custom validateSalt;
+default "                                                                ";
+}
+persistent read-only string UserGroupParticipation {
+constraint maxvalue 1024;
+}
+bool AllowFTPAccess = 0;
+bool AllowHTTPAccess = 0;
+bool RemoteAccessCapable = 0;
+persistent read-only string UserType {
+constraint enum [ "system", "limited" ];
+default "system";
+}
+persistent string FriendlyName {
+constraint custom validateSafeString;
+}
+persistent read-only string Shell {
+constraint custom validateSafeString;
+default "/bin/false";
+}
+persistent read-only string CustomData {
+default "";
+constraint maxvalue 16384; 
+}
+}
+}

@@ -1,0 +1,72 @@
+/*expr:netdev_stats and lan and not self*/
+
+/**
+ * Data structure containing network statistics information.
+ *
+ * The {netdev_stats_t} data structure contains the network statistics for a given device.
+ *
+ * @version 7.0
+ */
+define netdev_stats_t {
+
+    /**
+     * @brief Number of received packets
+     * @version 7.0
+     */
+    uint64 RxPackets;
+
+    /**
+     * @brief Number of transmitted packets
+     * @version 7.0
+     */
+    uint64 TxPackets;
+
+    /**
+     * @brief Number of received bytes
+     * @version 7.0
+     */
+    uint64 RxBytes;
+
+    /**
+     * @brief Number of transmitted bytes
+     * @version 7.0
+     */
+    uint64 TxBytes;
+}
+
+/**
+ * MIB is loaded on devices for which network traffic is monitored.
+ *
+ * All devices matching expression: "netdev_stats and lan and not self" are extended with this MIB
+ *
+ * @version 7.0
+ */
+mib netdevStats {
+
+    acl {
+        world none;
+        group admin read,execute;
+        group admin read,execute;
+    }
+
+    /**
+     * @brief Return the network statistics
+     * @return A structure containing the statistics
+     * @version 7.0
+     */
+    /* netdev_stats_t */ void getNetDevStats();
+
+    /**
+     * @brief Sum the provided statistics to the current values
+     * @param A structure containing the statistics to be added
+     * @version 7.0
+     */
+    void addNetDevStats(mandatory netdev_stats_t stats);
+
+    /**
+     * @brief Reset the network statistics
+     * @return A structure containing the statistics before they were reset
+     * @version 7.0
+     */
+    /* netdev_stats_t */ void resetNetDevStats();
+}

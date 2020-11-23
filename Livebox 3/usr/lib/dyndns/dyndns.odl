@@ -1,0 +1,2 @@
+include "dyndns-definition.odl";
+include "dyndns-defaults.odl";

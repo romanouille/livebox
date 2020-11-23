@@ -1,0 +1,10 @@
+<b>Telewizja cyfrowa</b><br>
+<br>Ta strona pokazuje status usługi Orange TV. Włączona telewizja cyfrowa oraz żółty port na Twoim modemie Livebox są domyślnie zarezerwowane dla tej usługi. Jeśli nie masz abonamentu na usługę Orange TV, możesz użyć żółtego portu w Twoim modemie Livebox do połączenia innego komputera z Internetem. Aby to zrobić, wyłącz Orange TV.<br>Natomiast jeżeli posiadasz abonament na usługę Orange TV, żółty port na Twoim modemie Livebox jest zarezerwowany dla dekoderów telewizji. Należy więc korzystać z tego portu do podłączenia dekodera telewizora do modemu.<br>
+<br>
+<span class="boldorange">Telewizja przez ADSL w żółtym porcie.</span> Domyślna konfiguracja usługi TV. Ta opcja "Wybierz konfigurację telewizora", rozwijana w liście, pozwala podłączyć TV przez ADSL do żółtego portu Ethernet w Twoim modemie Livebox.<br>
+Włączony TV i żółty port na Twoim modemie Livebox są domyślnie zarezerwowane dla tej usługi. Podłącz tylko dekoder telewizora do tego portu.<br>Uwaga: Opcja ta nosi nazwę<span class="boldorange" >
+Telewizja na żółtym porcie,</span> jeżeli Twój Livebox jest podłączony do sieci optycznej.<br>
+<br>
+<span class="boldorange">Telewizja przez ADSL&nbsp na żółtym i zielonym porcie:</span> Ta opcja pozwala na podłączenie TV przez pole ADSL do żółtego portu Ethernet i zielonego portu Ethernet na Twoim modemie Livebox.<br>Uwaga: Ta opcja jest nazywana<span class="boldorange"> Telewizja na żółtym i zielonym porcie,</span> jeżeli Twój Livebox jest podłączony do sieci optycznej.<br>
+<br>
+<br> Jeżeli nie posiadasz abonamentu na usługę Orange TV, możesz użyć żółtego portu w Twoim modemie Livebox do połączenia innego komputera z Internetem. Aby to zrobić odłącz usługę TV.

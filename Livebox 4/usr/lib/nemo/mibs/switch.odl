@@ -1,0 +1,100 @@
+/**
+ * The Switch MIB is available on all NeMo Intfs that have the "switch"-flag set. Intfs that have this
+ * flag represent a port on an external switch. An external switch has 2 types of ports: physical ports
+ * and internal ports. The main difference between those types is that in a physical port an Ethernet
+ * cable can be plugged while an internal port is hard wired to the CPU. In the CPU only the internal
+ * ports are visible (as linux network interfaces), but the physical ports are invisible, which explains
+ * why it's called an "external" switch. This external character implies that managing and monitoring the
+ * physical ports using standard Linux methods is impossible, so it needs to happen through a proprietary
+ * interface. NeMo hides this major hardware dependency partially by simply modelling switch ports as
+ * Intfs. Example: the Status parameter of a NeMo Intf that represents a physical switch port reflects the
+ * physical link status of that switch port. However, there are still switch-specific configuration
+ * options, these are available in the Switch MIB.
+ */
+object NeMo { 
+	object extends MIB(0,"switch") {
+		string Flag = "switch";
+		object DataModel {
+			/**
+			 * Hardware specific port number that identifies this port on the switch. If it
+			 * equals -1, this Intf is ignored by the Switch MIB implementation (as if it
+			 * doesn't have the "switch"-flag set).
+			 */
+			persistent int8 SwitchIndex=-1;
+
+			/**
+			 * Switch ports can be grouped together in the switch by assigning them the same
+			 * group number. Two ports having a different SwitchGroup (or: being in a
+			 * different switch group) means packets will never be forwarded between those two
+			 * ports. (This is by the switch itself. Forwarding between different switch
+			 * groups can be done by the CPU; in that case the packet traverses the switch
+			 * twice: once from a physical port to an internal port and once from an internal
+			 * port to a physical port).
+			 */
+			persistent int8 SwitchGroup=0;
+
+			/**
+			 * Specifies the VLAN ingress policy. Enumeration of:
+			 * - disable: VLAN tag is not considered, packets are forwarded according to 
+			 * normal switch port grouping rules.
+			 * - fallback: If a matching SwitchVLAN object exists, packet is forwarded 
+			 * according to SwitchVLAN rules. If there is not a single matching SwitchVLAN 
+			 * entry at any NeMo Intf, packet is forwarded according to normal switch port 
+			 * grouping rules.
+			 *  -check, secure: If a matching SwitchVLAN object exists, packet is forwarded
+			 * according to SwitchVLAN rules. If there is not a single matching SwitchVLAN
+			 * entry at any NeMo Intf, packet is dropped.
+			 */
+			persistent string SwitchVLANIngressMode {
+				constraint enum [ "disable", "fallback", "check", "secure" ];
+				default "disable";
+			}
+
+			/**
+			 * The SwitchVLAN object allows to create specific forwarding rules per VLANID.
+			 * These rules do not overrule standard switch port grouping, but are applied on
+			 * top of switch grouping (more specifically SwitchVLAN entries can not forward
+			 * packets accross group boundaries). When a packet enters with a VLANID for which
+			 * a SwitchVLAN instance exists, it can only be forwarded to ports that also have
+			 * a SwitchVLAN instance for that VLANID. Additionally VLAN tags can be added
+			 * stripped off while forwarding packets.
+			 */
+			persistent object SwitchVLAN[] {
+				/**
+				 * Enable/disable this SwitchVLAN membership.
+				 */
+				persistent bool Enable;
+
+				/**
+				 * Specifies the VLANID of this SwitchVLAN entry.
+				 */
+				persistent uint16 VLANID;
+
+				/**
+				 * Specifies the VLAN tag forwarding mode. This mode significantly affects
+				 * the behavior on both ingress and egress. Enumeration of:
+				 * - tagged
+				 *    - Ingress: Only packets that are tagged with this SwitchVLAN entry's
+				 *      VLANID match this SwitchVLAN entry.
+				 *    - Egress: Untagged packets are tagged with this SwitchVLAN entry's
+				 *      VLANID.
+				 * - untagged
+				 *    - Ingress: Untagged packets match this SwitchVLAN entry. This
+				 *      implies that switch ports should be untagged member of at most one
+				 *      SwitchVLAN group.
+				 *    - Egress: VLAN tags of tagged packets are stripped off.
+				 * - unmodified
+				 *    - Ingress: same as tagged.
+				 *    - Egress: both tagged and untagged packets are forwarded as is.
+				 */
+				persistent string Mode {
+					constraint enum [ "untagged", "tagged", "unmodified" ];
+					default "tagged";
+				}
+			}
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/switch.odl */

@@ -1,0 +1,67 @@
+datamodel {
+    object DHCPv4 {
+        object Server {
+            parameter Enable=true;
+            parameter VerifyFirst=true;
+            parameter TrustClient=true;
+            parameter RtBehaviour="traditional";
+            parameter AckInform=false;
+            function setDHCPServerPool {
+                    acl {
+                        group admin none;
+                        group remoteadmin none;
+			world none;
+                    }		
+            }
+            function deleteDHCPServerPool {
+                    acl {
+                        group admin none;
+                        group remoteadmin none;
+			world none;
+                    }		
+            }
+            function setDHCPServerPoolRange {
+                    acl {
+                        group admin none;
+                        group remoteadmin none;
+			world none;
+                    }		
+            }
+            persistent instance of Pool(1,"default") {
+                parameter Name="default";
+                parameter Allocation="dynamic";
+                parameter Interface="bridge";
+                parameter MinLeaseTime=0;
+                parameter LeaseTime=86400;
+                parameter MaxLeaseTime=86400;
+                parameter DomainName="home";
+                parameter Unnumbered=false;
+                parameter IncludeOption125=true;
+                persistent instance of Rule(1,"default") {
+                    parameter Name="default";
+                }
+                function getStaticLeases {
+                    acl {
+                        group cwmpd read,execute;
+                        group admin read,execute;
+                        group remoteadmin read,execute;
+                    }
+                }
+                function addStaticLease {
+                    acl {
+                        group cwmpd read,execute;
+                        group admin read,execute;
+                        group remoteadmin read,execute;
+                    }
+                }
+                function deleteStaticLease {
+                    acl {
+                        group cwmpd read,execute;
+                        group admin read,execute;
+                        group remoteadmin read,execute;
+                    }
+                }
+            }
+        }
+    }
+}

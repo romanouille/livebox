@@ -1,0 +1,21 @@
+<b>Télévision numérique :</b><br>
+<br>
+Cette page vous indique l’état du service TV d’Orange. Par défaut, la Télévision numérique  est activée et le port jaune de votre livebox est réservé à ce service. Si vous n’avez pas souscrit à l’offre TV d’Orange, vous pouvez utiliser le port jaune de votre livebox pour connecter un autre ordinateur à Internet. Pour cela, il vous suffit de désactiver la TV d’Orange.<br>
+A l’inverse, si vous avez souscrit au service TV d’Orange, le port jaune de votre livebox est réservé au décodeur TV. C’est donc sur ce port que vous allez connecter le décodeur TV à la livebox.<br>
+<br>
+<span class="boldorange">TV par ADSL sur le port jaune :</span> Configuration par défaut du service TV. Dans la liste déroulante indiquez votre configuration TV, cette option vous permet de raccorder un terminal de TV par ADSL sur la prise Ethernet jaune de votre livebox<br>
+Par défaut, la TV est activée et le port JAUNE de votre livebox est réservé à ce service. Seul un décodeur TV peut être connecté sur ce port.<br>
+A noter : cette option est nommée <span class="boldorange">TV sur le port jaune</span> lorsque votre livebox est raccordée au réseau Fibre.<br>
+<br>
+<span class="boldorange">TV par ADSL sur le port jaune et le port vert :</span> Cette option vous permet de raccorder un terminal de TV par ADSL sur la prise Ethernet jaune ainsi que sur le port Ethernet vert de votre livebox.<br>
+A noter : cette option est nommée <span class="boldorange">TV sur le port jaune et le port vert</span> lorsque votre livebox est raccordée au réseau Fibre.<br>
+<br>
+<span class="boldorange">TV par ADSL + Sat :</span> cette option vous permet de raccorder un terminal <b>Satellite</b> de TV par ADSL sur la prise Ethernet jaune de votre livebox.<br>
+A noter : cette option n’est pas disponible lorsque votre livebox est raccordée au réseau Fibre.<br>
+<br>
+Si vous n’avez pas souscrit à l’offre TV d’Orange, vous pouvez utiliser le port JAUNE de votre livebox pour connecter un autre ordinateur à Internet. Pour cela, il suffit de désactiver le service TV.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

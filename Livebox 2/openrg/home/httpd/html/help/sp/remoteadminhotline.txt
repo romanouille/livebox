@@ -1,0 +1,10 @@
+﻿<b>Administración remota:</b><br>
+<br>
+Para resolución de incidencias, puedes dar un acceso temporal a tu Livebox de 15 minutos al Servicio de Atención al Cliente.<br>
+Para ello, haz clic sobre el botón "Comenzar". Los parámetros de configuración se mostraran por pantalla. No proporciones esta la información a nadie que no sea un agente de Soporte Técnico.<br>
+Puedes extender el tiempo de este acceso temporal haciendo clic en el botón "Extender".<br>
+Para deshabilitar el acceso temporal, haz clic en el botón "Detener".<br>
+<!--
+<br>
+-->
+

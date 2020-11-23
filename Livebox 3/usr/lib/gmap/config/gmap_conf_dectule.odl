@@ -1,0 +1,12 @@
+datamodel {
+object Devices {
+object Config {
+acl {
+world none;
+}
+object dectule {
+parameter Mappings="";
+}
+}
+}
+}

@@ -1,0 +1,45 @@
+{
+    "Id": "sah_access",
+    "Category": "Connectivity",
+    "Version": "0.1",
+    "Title": "sah_access.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Applet": [ 
+                { "width": 2,
+                  "height": 2,
+                  "url": "apps/common/slider.html",
+                  "class": "greenbox",
+                  "initializer": "slider_access",
+                  "settings": { "slides": [ "<span class=\"img access\" style=\"top:10%\"></span><div class=status style=\"top:65%\"><span class=caption><span class=\"black\"><span translate=common.connection></span>:</span> <span class=\"sah_green_dark accessstate\">?</span></span><span class=caption><span class=\"black\"><span translate=sah_access.linktype></span>:</span> <span class=\"sah_green_dark accesstype\">?</span></span><span class=caption><span class=\"black\"><span translate=sah_access.linkproto></span>:</span> <span class=\"sah_green_dark accessproto\">?</span></span></div>",
+                                            "<div class=title><span translate=sah_access.connection_state></span><br><div class=accessstate></div></div>"
+                                          ],
+                                "apicalls":{"class":"accessstate", "ws":"Devices.Device.HGW:get", "filter": "ConnectionState",
+                                             "translate_prefix":"sah_access.reply", "event": ["self_device_updated"]}
+                              }
+                }
+              ],
+    "en": {
+        "title": "My Access",
+        "connection_state": "Connection state",
+        "reply":{
+            "invalid":"no connection",
+            "idle":"no connection",
+            "init":"connecting...",
+            "bound":"connected"
+        },
+        "linktype":"type",
+        "linkproto":"protocol"
+    },
+    "fr": {
+        "title": "Connexion",
+        "connection_state": "l'état de la connexion",
+        "reply":{
+            "invalid":"pas de connexion",
+            "idle":"pas de connexion",
+            "init":"en train de connecter...",
+            "bound":"connecté"
+        },
+        "linktype":"type",
+        "linkproto":"protocole"
+    }
+}

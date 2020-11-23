@@ -1,0 +1,32 @@
+{
+    "status": true,
+    "data": {
+        "Manufacturer" : "Sagemcom",
+        "ManufacturerOUI" : "40F201",
+        "ModelName": SagemcomFast5360_MIB4,
+        "Description": SagemcomFast5360_MIB4 Sagemcom fr,
+        "ProductClass": Livebox 4,
+        "SerialNumber":LK14305DP520008,
+        "HardwareVersion": "SG_LB4_1.0.0",
+        "SoftwareVersion": "SG40_sip-fr-1.2.6.1",
+        "RescueVersion": "SG40_sip-fr-1.2.4.1",
+        "ModemFirmwareVersion": "",
+        "EnabledOptions": "",
+        "AdditionalHardwareVersion": "",
+        "AdditionalSoftwareVersion": "g0-sip-fr",
+        "SpecVersion": "1.1",
+        "ProvisioningCode": "",
+        "UpTime": 19972,
+        "FirstUseDate": "0001-01-01T00:00:00Z",
+        "DeviceLog": "",
+        "VendorConfigFileNumberOfEntries": 1,
+        "ManufacturerURL": "http://www.sagemcom.com/",
+        "Country": "fr",
+        "ExternalIPAddress": "",
+        "DeviceStatus": "Up",
+        "NumberOfReboots": 3,
+        "UpgradeOccurred": 0,
+        "ResetOccurred": 0,
+        "RestoreOccurred": 0
+    }
+}

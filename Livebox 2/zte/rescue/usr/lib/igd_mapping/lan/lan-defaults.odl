@@ -1,0 +1,118 @@
+using "lan/lan.so";
+
+datamodel {
+    instance of LANDevice(1,"bridge") {
+        parameter LANEthernetInterfaceNumberOfEntries = 1;
+        parameter LANUSBInterfaceNumberOfEntries = 0;
+        parameter LANWLANConfigurationNumberOfEntries = 0;
+
+        object LANHostConfigManagement {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/bridge" {
+                parameter MACAddress from LLAddress;
+            }
+            parameter DHCPServerConfigurable = true;
+            destination "pcb://$(MBUS_ATOMIC)/DHCP/Server" {
+                parameter DHCPServerEnable from Enable;
+            }
+            parameter DHCPRelay = false;
+            destination "pcb://$(MBUS_ATOMIC)/DHCP/Server/Pool/bridge_default" {
+                parameter MinAddress;
+                parameter MaxAddress;
+                parameter SubnetMask;
+                parameter DNSServers from PrimDNSServer;
+                parameter DomainName;
+            }
+            parameter ReservedAddresses = "";
+            parameter IPRouters = "";
+            parameter IPInterfaceNumberOfEntries = 1;
+
+            instance of IPInterface(1,"default") {
+                parameter Enable = true;
+                destination "pcb://$(MBUS_ATOMIC)/DHCP/Server/Pool/bridge_default" {
+                    parameter IPInterfaceIPAddress from Server;
+                    parameter IPInterfaceSubnetMask from SubnetMask;
+                }
+                parameter IPInterfaceAddressingType = "DHCP";
+            }
+
+            instance of DHCPConditionalServingPool(1,"mltv_stb") {
+                destination "pcb://$(MBUS_ATOMIC)/DHCP/Server/Pool/mltv_stb" {
+                    parameter Enable from State;
+                    parameter PoolOrder from Index;
+                    parameter MinAddress;
+                    parameter MaxAddress;
+                    parameter SubnetMask;
+                    parameter DNSServers from PrimDNSServer;
+                    parameter DomainName;
+                    parameter IPRouters from Gateway;
+                    parameter DHCPLeaseTime from LeaseTime;
+                    parameter DHCPServerIPAddress from Server;
+                }
+                parameter LocallyServed = true;
+            }
+
+            instance of DHCPConditionalServingPool(2,"mltv_pc") {
+                destination "pcb://$(MBUS_ATOMIC)/DHCP/Server/Pool/mltv_pc" {
+                    parameter Enable from State;
+                    parameter PoolOrder from Index;
+                    parameter MinAddress;
+                    parameter MaxAddress;
+                    parameter SubnetMask;
+                    parameter DNSServers from PrimDNSServer;
+                    parameter DomainName;
+                    parameter IPRouters from Gateway;
+                    parameter DHCPLeaseTime from LeaseTime;
+                    parameter DHCPServerIPAddress from Server;
+                }
+                parameter LocallyServed = true;
+            }
+        }
+
+        instance of LANEthernetInterfaceConfig(0,"swport1") {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+                parameter MACAddress from LLAddress;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/swport1" {
+                parameter Enable;
+                parameter Status from Enable, Status translate with translate_LANEthernetInterfaceConfig_Status; 
+                parameter Name;
+            }
+            parameter MACAddressControlEnabled = false;
+            parameter MaxBitRate = "auto";
+            parameter DuplexMode = "Full";
+            // TODO : Stats
+        }
+        instance of LANEthernetInterfaceConfig(0,"swport2") {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+                parameter MACAddress from LLAddress;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/swport2" {
+                parameter Enable;
+                parameter Status from Enable, Status translate with translate_LANEthernetInterfaceConfig_Status; 
+                parameter Name;
+            }
+            parameter MACAddressControlEnabled = false;
+            parameter MaxBitRate = "auto";
+            parameter DuplexMode = "Full";
+            // TODO : Stats
+        }
+        instance of LANEthernetInterfaceConfig(0,"swport3") {
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/eth0" {
+                parameter MACAddress from LLAddress;
+            }
+            destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/swport3" {
+                parameter Enable;
+                parameter Status from Enable, Status translate with translate_LANEthernetInterfaceConfig_Status; 
+                parameter Name;
+            }
+            parameter MACAddressControlEnabled = false;
+            parameter MaxBitRate = "auto";
+            parameter DuplexMode = "Full";
+            // TODO : Stats
+        }
+    }
+
+    object LANInterfaces {
+        parameter LANEthernetInterfaceNumberOfEntries = 1;
+    }
+}

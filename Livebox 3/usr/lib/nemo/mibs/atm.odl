@@ -1,0 +1,35 @@
+object NeMo {
+object extends MIB(0,"atm") {
+string Flag = "atm";
+object DataModel {
+read-only uint32 LastChangeTime;
+volatile read-only uint32 LastChange;
+persistent string LinkType {
+constraint enum [ "EoA", "IPoA", "PPPoA" ];
+default "EoA";
+}
+string LinkStatus {
+constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+default "Down";
+}
+persistent string DestinationAddress;
+persistent string Encapsulation {
+constraint enum [ "LLC", "VCMUX" ];
+default "VCMUX";
+}
+persistent bool FCSPreserved;
+persistent string QoSClass {
+constraint enum [ "UBR", "CBR", "GFR", "VBR-nrt", "VBR-rt", "UBR+", "ABR" ];
+default "UBR";
+}
+persistent uint32 PeakCellRate;
+persistent uint32 MaximumBurstSize;
+persistent uint32 SustainableCellRate;
+bool oamPing() {
+acl {
+world none;
+}
+}
+}
+}
+}

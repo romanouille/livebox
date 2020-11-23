@@ -1,0 +1,39 @@
+.sah_popup .console{
+    background-color: #000;
+    color: #a0b828;
+}
+
+.sah_popup .stats{
+    height: 150px;
+    background-color: #000;
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(80,80,80,1) 100%); /* W3C */
+    box-shadow: inset 0px 0px 4px 6px rgba(193,208,26,1);
+    color: #a0b828;
+}
+
+.sah_popup .stats .graph{
+    height: 70px;
+    position: relative;
+}
+
+.sah_popup .stats .graph .bar{
+    bottom: 0px;
+    background-color: #a0b828;
+    background: linear-gradient(to top, rgba(160,184,40,1) 0%, rgba(193,208,26,1) 65px); /* W3C */
+    position: absolute;
+}
+
+.sah_popup .statstext{
+    font-size: 14px;
+}
+
+.sah_popup .dark{
+    color: #808A16;
+    font-weight: bold;
+}
+
+.sah_popup .white{
+    color: #F5F8D6;
+    font-weight: bold;
+}
+

@@ -1,0 +1,16 @@
+
+datamodel {
+    object USBHosts {
+        instance of PortName(0,"") {
+            parameter DevicePath = "USBHosts.Host.1.Device.1";
+            parameter Port = 0;
+            parameter Name = "Port2";
+        }
+
+        instance of PortName(0,"") {
+            parameter DevicePath = "USBHosts.Host.1.Device.1";
+            parameter Port = 1;
+            parameter Name = "Port1";
+        }
+    }
+}

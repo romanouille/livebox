@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DEV_PATH=/dev/$MDEV
+MNT_PATH=/mnt/$MDEV
+
+if [ "$ACTION" == "remove" ]
+then
+    /bin/umount -l $MNT_PATH
+    [ -d $MNT_PATH ] && /bin/rmdir $MNT_PATH
+else
+    [ ! -d $MNT_PATH ] && /bin/mkdir $MNT_PATH
+    /bin/mount $DEV_PATH $MNT_PATH
+fi

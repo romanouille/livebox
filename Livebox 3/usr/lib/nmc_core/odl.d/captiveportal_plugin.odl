@@ -1,0 +1,86 @@
+using "../nmccore_captiveportal.so";
+persistent object NMC {
+persistent object Error {
+persistent bool FirstBoot {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default true;
+}
+bool Enable {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+string ErrorID {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+bool Detected {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+string Status {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+constraint enum ["Enabled", "Disabled", "Error_URLEmpty", "Error"];
+default Disabled;
+}
+persistent uint32 TimeWaiting {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default 90;
+}
+read-only uint32 TotalErrorDuration {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default 0;
+}
+string STBList {
+constraint maxvalue 1000;
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+persistent string URL {
+constraint maxvalue 2000;
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default "http://livebox/captivePortal.html";
+}
+persistent string NoRedirectDomain {
+constraint maxvalue 2000;
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+string getPrimaryErrorCode();
+}
+}

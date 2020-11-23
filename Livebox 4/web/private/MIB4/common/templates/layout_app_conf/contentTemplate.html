@@ -1,0 +1,58 @@
+﻿{{#with page}}
+  {{#each content}}
+    {{#ifEqual type 'submenu'}}
+      {{> submenuTemplate}}
+    {{/ifEqual}}        
+    {{#ifEqual type 'title'}}
+      {{> titleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'subtitle'}}
+      {{> subtitleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'text'}}
+      {{> textTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'textfield'}}
+      {{> textfieldTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'searchfield'}}
+      {{> searchfieldTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'table'}}
+      {{> tableTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'dynamictable'}}
+      {{> dynamicTableTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'radio'}}
+      {{> radioTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'checkbox'}}
+      {{> checkboxTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'button'}}
+      {{> buttonTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'separator'}}
+      {{> separatorTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'bullet'}}
+      {{> bulletTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'select'}}
+      {{> selectTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'form'}}
+      {{> formTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'schedule'}}
+      {{> scheduleTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'spinner'}}
+      {{> spinnerTemplate}}
+    {{/ifEqual}}
+    {{#ifEqual type 'file'}}
+      {{> fileTemplate}}
+    {{/ifEqual}}
+  {{/each}}
+{{/with}}

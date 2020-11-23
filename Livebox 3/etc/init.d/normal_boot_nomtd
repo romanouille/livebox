@@ -1,0 +1,134 @@
+#!/bin/sh
+
+PATH=/sbin:/bin
+
+. /etc/init.d/atomics.sh
+
+FORMAT_JFFS2()
+{
+   if [ ! -f /cfg/formatted ]
+   then
+       echo
+       echo "*********************** Cleaning /cfg"
+       echo
+       rm -rf /cfg/*
+
+       ATOMIC_TOUCH /cfg/formatted
+       touch /tmp/reset_hard_occurred
+   fi
+}
+
+POPULATE_COMMON_CONFIG()
+{
+  if [ ! -f /etc/config/${FIRMTYPE} ]
+  then
+    echo
+    echo "*********************** Populating /cfg/common/config"
+    echo
+
+     if [ ! -f /etc/config/${ALT_FIRMTYPE} ]
+     then
+        echo
+        echo "*********************** Erase /cfg/common/config before population"
+        echo
+        rm -f -r /cfg/common/config
+     fi
+
+     mkdir -p /cfg/common/config
+     mkdir -p /cfg/common/var/lib
+
+    echo
+    echo "*********************** /mnt/jffs2/jffs2_3/common/config Populated"
+    echo
+    ATOMIC_CP /etc/version /etc/config/$FIRMTYPE
+
+    if [ -e /usr/lib/nmc_core/wanmode.info.default ]
+    then
+        ATOMIC_CP /usr/lib/nmc_core/wanmode.info.default /cfg/common/config/wanmode.info
+    fi
+
+  fi
+}
+
+DEBUG_ACTIVE=debug_active
+
+POPULATE_JFFS2()
+{
+   if [ ! -n "$CONFIG_GENERATION_RESC" ]; then
+       if [ -f /etc/config/db_ready ]
+       then
+           CONFIGVERSION=`cat /web/version.txt | grep CONFIG_VERSION_NAME_MAJOR`
+           DBREADYVERSION=`cat /etc/config/db_ready`
+           echo "## CV=$CONFIGVERSION DB=$DBREADYVERSION"
+           if [ "$DBREADYVERSION" != "$CONFIGVERSION" ]
+           then
+               rm -f /cfg/system/Populated
+               rm -f /etc/config/db_ready
+               touch /tmp/upgrade_occurred
+           fi
+       fi
+       if [ -f /etc/config/package_installation_failed ]
+       then
+           echo "Package installation failed, trigger restore"
+           rm -f /cfg/system/Populated
+           rm -f /etc/config/db_ready
+       fi
+   fi
+   if [ ! -e /cfg/system/version -o ! -e /cfg/system/Populated ]
+   then
+       rm -f /cfg/system/Populated
+   fi
+
+   if [ ! -e /cfg/system/Populated ]
+   then
+       echo
+       echo "*********************** Populating /cfg/system"
+       echo
+
+       # PUT FACTORY PARAMETERS IN JFFS2
+
+       rm -f -r /cfg/system
+
+       sync
+
+       echo
+       echo "*********************** /mnt/jffs2/jffs2_3/${FIRMTYPE} Populated"
+       echo
+
+       mkdir -p /cfg/system/root/.ssh
+       cp /usr/lib/dropbear/.ssh/* /cfg/system/root/.ssh/
+       mkdir -p /cfg/system/home
+       ATOMIC_TOUCH /cfg/system/Populated
+   fi
+}
+
+# BEGIN OF MAIN PROCESS
+
+unset FIRMTYPE
+unset ALT_FIRMTYPE
+FIRMTYPE=system
+ALT_FIRMTYPE=rescue
+
+if [ "$FIRMTYPE" = "system" ]
+then
+	echo
+	echo "> BOOT SYSTEM <"
+	echo
+else
+	echo
+	echo "> BOOT RESCUE <"
+	echo
+fi
+
+FORMAT_JFFS2
+
+POPULATE_JFFS2
+
+POPULATE_COMMON_CONFIG
+
+mkdir -p /cfg/common/var/lib
+ln -sf /cfg/common/var/lib /var/state
+mkdir -p /var/lib
+
+exit 0
+

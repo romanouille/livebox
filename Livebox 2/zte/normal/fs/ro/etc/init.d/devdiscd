@@ -1,0 +1,92 @@
+#!/bin/sh
+
+PCB_PLUGIN="pcb_plugin"
+PCB_CLIENT="pcb_client"
+PID_PLUGIN="/var/run/devdisc_plugin.pid"
+PID_CLIENT="/var/run/devdisc_client.pid"
+
+start() {
+    if [ -e ${PID_PLUGIN} ]; then
+        echo "device discovery plug-in already started"
+    else
+        sahenv -f /etc/environment mafia pcb_plugin -n devdisc_plugin -c /usr/lib/hosts/host.odl -vv
+    fi
+    pcb_cli -w 5 "Hosts"
+    if [ -e ${PID_PLUGIN} ]; then
+        if [ -e ${PID_CLIENT} ]; then
+            echo "device discovery client already started"
+        else
+            pcb_client -n devdisc_client -s /usr/lib/hosts/devdisc_client.so -vvvvv
+        fi
+    else
+        echo "device discovery plugin failed to start"
+    fi
+}
+
+stop() {
+    if [ -e $PID_CLIENT ] ; then
+        kill $(cat $PID_CLIENT)
+    else
+        echo "Device discovery client not running."
+    fi
+    if [ -e $PID_PLUGIN ] ; then
+        kill $(cat $PID_PLUGIN)
+    else
+        echo "device discovery plugin not running."
+    fi
+}
+
+restart() {
+    stop
+
+    while test -e ${PID_CLIENT}; do
+        sleep 1
+    done
+    while test -e ${PID_PLUGIN}; do
+        sleep 1
+    done
+
+    start
+}
+
+status() {
+    if [ -e $PID_PLUGIN ] ; then
+        echo "device discovery plugin: RUNNING"
+    else
+        echo "device discovery plugin: NOT RUNNING"
+    fi
+    if [ -e $PID_CLIENT ] ; then
+        echo "device discovery client: RUNNING"
+    else
+        echo "device discovery client: NOT RUNNING"
+    fi
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    backup)
+        if [ -e $PID_PLUGIN ] ; then
+            pcb_cli "Hosts.export($2)"
+        else
+            echo "Hosts plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/devdiscd
+        touch /var/lib/devdiscd/restore
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|status|backup|restore]"
+        ;;
+esac

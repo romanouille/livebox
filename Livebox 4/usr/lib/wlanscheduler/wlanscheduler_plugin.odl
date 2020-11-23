@@ -1,0 +1,106 @@
+using "wlanscheduler_plugin.so";
+
+/**
+ *
+ * <h1>WLanScheduler plugin</h1>
+ * 
+ * At startup the wlanscheduler plugin registers itself with the scheduling plugin.
+ * From that point on the wlanscheduler plugin will wait for WLanScheduler.SetState("wl0,UserFriendlyScheduleName","Disable") RPC call to come in.
+ * - On Enable, the interface will be enabled
+ * - On Disable, the interface will be disabled
+ *
+ * <pre>
+ * 
+ *  Example interactions between a client plugin and the schedule plugin
+ *
+ *  wlanscheduler PLUGIN                                                                SCHEDULE PLUGIN             
+ *  ===========                                                                        ===============            
+ *      --- Scheduler.registerScheduleType("WLAN","WLanScheduler",["Enable","Disable"],NULL) --> Activate wlanscheduler schedules
+ *    
+ *      <-- WLanScheduler.setState("00:11:22:33:44:55,ChildPCOff","Enable") ----------------------------------------------
+ *                     
+ *                              ...
+ *  
+ *      <-- WLanScheduler.setState("00:11:22:33:44:55,ChildPCOff","Disable") ---------------------------------------------
+ *
+ *
+ *
+ *  Example interactions between the scheduler and the webui
+ *
+ *  WEBUI                                                                                                  SCHEDULE PLUGIN             
+ *  =====                                                                                                  ===============    
+ *      --- Scheduler.addSchedule("WLAN",{"00:11:22:33:44:55,ChildPCOff",true,"Weekly","Disable","", ----> Enable PC on wed, sat + sun
+ *               [{ "state": "Enable", "begin": 3*24*60*60, "end": 4*24*60*60},
+ *                { "state": "Enable", "begin:" 5*24*60*60, "end": 7*24*60*60]})
+ *
+ *      --- Scheduler.addSchedule("WLAN",{"00:11:22:33:44:56,PapaGoToSleep",true,"Daily","Enable","",----> Disable PC between 22:00->7:00
+ *               [{ "state": "Disable", "begin": 0, "end": 7*60*60},
+ *                { "state": "Disable", "begin:" 22*60*60, "end": 24*60*60]})
+ *
+ * </pre>
+ */
+
+
+/**
+  * The wireless lan scheduler object
+  */
+object WLanScheduler {
+
+  acl {
+    group admin read,execute;
+    group remoteadmin read,execute;
+  }
+
+ /**
+  * Register a scheduler, the function calling this routine should implement
+  * the setState() RPC to handle state changes.
+  * @param ID: The unique ID. In this case the ID will be the name of the wireless interface to enable/disable
+  * @param state: The new state
+  *
+  * @return True if OK, false in case of error
+  */
+  message  bool setState(string ID, string state);
+
+ /**
+  * Export the wireless lan scheduler settings to hgwcfg.
+  * @param fileName The filename to which to
+  * @return Success or failure.
+  */
+  bool export(string fileName) {
+    acl {
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+ /**
+  * Import the wireless lan scheduler settings from hgwcfg.
+  * @param fileName The filename from which to load.
+  * @return Success or failure.
+  */
+  bool import(string fileName) {
+    acl {
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** @location sah_services_wlansched /wlanscheduler_plugin.odl */

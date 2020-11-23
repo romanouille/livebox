@@ -1,0 +1,74 @@
+/lib/modules/3.4.11-rt19/extra/endpointdd.ko: 
+/lib/modules/3.4.11-rt19/extra/rdpa_cmd_spdsvc.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/fan/mib4-bcm963xx-fan.ko: /lib/modules/3.4.11-rt19/kernel/drivers/hwmon/hwmon.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/bluetooth/btusb.ko: /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/bluetooth/bfusb.ko: /lib/modules/3.4.11-rt19/kernel/drivers/base/firmware_class.ko /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/kernel/net/netfilter/nfnetlink_log.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/watchdog/softdog.ko: 
+/lib/modules/3.4.11-rt19/extra/wlemf.ko: 
+/lib/modules/3.4.11-rt19/extra/bcmxtmcfg.ko: /lib/modules/3.4.11-rt19/extra/bcmxtmrtdrv.ko
+/lib/modules/3.4.11-rt19/extra/rdpa_mw.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/extra/kmcd_ebtpl.ko: /lib/modules/3.4.11-rt19/extra/kmcd_core.ko
+/lib/modules/3.4.11-rt19/kernel/fs/jbd2/jbd2.ko: 
+/lib/modules/3.4.11-rt19/extra/ebt_dhcp_relay.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/bluetooth/bcm203x.ko: /lib/modules/3.4.11-rt19/kernel/drivers/base/firmware_class.ko /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/kernel/net/netfilter/nf_conntrack_rtsp.ko: 
+/lib/modules/3.4.11-rt19/extra/ebt_TCPMSS.ko: 
+/lib/modules/3.4.11-rt19/extra/pcmshim.ko: 
+/lib/modules/3.4.11-rt19/extra/rdpa.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/extra/kmcd_brcm.ko: /lib/modules/3.4.11-rt19/extra/kmcd_core.ko
+/lib/modules/3.4.11-rt19/kernel/fs/ext4/ext4.ko: /lib/modules/3.4.11-rt19/kernel/fs/jbd2/jbd2.ko
+/lib/modules/3.4.11-rt19/extra/kmcd_core.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/oled_ssd1322/ssd1322_oled_drv.ko: /lib/modules/3.4.11-rt19/kernel/drivers/video/fb.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/bluetooth/hci_uart.ko: /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/extra/adsldd.ko: /lib/modules/3.4.11-rt19/extra/bcmxtmcfg.ko
+/lib/modules/3.4.11-rt19/kernel/net/bridge/netfilter/ebt_wmm_mark.ko: 
+/lib/modules/3.4.11-rt19/extra/bcm_enet.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/usb/serial/cp210x.ko: 
+/lib/modules/3.4.11-rt19/extra/pktflow.ko: /lib/modules/3.4.11-rt19/extra/bcmxtmrtdrv.ko /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/bluetooth/hci_vhci.ko: /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/net/macvlan.ko: 
+/lib/modules/3.4.11-rt19/extra/wl.ko: /lib/modules/3.4.11-rt19/extra/bcm_enet.ko /lib/modules/3.4.11-rt19/extra/wfd.ko /lib/modules/3.4.11-rt19/extra/wlemf.ko
+/lib/modules/3.4.11-rt19/extra/wlcsm.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/video/syscopyarea.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/hwmon/lm75.ko: /lib/modules/3.4.11-rt19/kernel/drivers/hwmon/hwmon.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/ata/libahci.ko: /lib/modules/3.4.11-rt19/kernel/drivers/ata/libata.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/video/metronomefb.ko: /lib/modules/3.4.11-rt19/kernel/drivers/base/firmware_class.ko /lib/modules/3.4.11-rt19/kernel/drivers/video/syscopyarea.ko /lib/modules/3.4.11-rt19/kernel/drivers/video/fb.ko /lib/modules/3.4.11-rt19/kernel/drivers/video/sysfillrect.ko /lib/modules/3.4.11-rt19/kernel/drivers/video/sysimgblt.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/ata/libata.ko: 
+/lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko: /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/net/bonding/bonding.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/bluetooth/ath3k.ko: /lib/modules/3.4.11-rt19/kernel/drivers/base/firmware_class.ko /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/kernel/net/wireless/cfg80211.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/base/firmware_class.ko: 
+/lib/modules/3.4.11-rt19/extra/dhd.ko: /lib/modules/3.4.11-rt19/extra/wlemf.ko /lib/modules/3.4.11-rt19/extra/wfd.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/video/sysfillrect.ko: 
+/lib/modules/3.4.11-rt19/kernel/crypto/ecb.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/video/sysimgblt.ko: 
+/lib/modules/3.4.11-rt19/kernel/arch/arm/plat-bcm63xx/bcm63xx_sata.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/ata/ahci.ko: /lib/modules/3.4.11-rt19/kernel/drivers/ata/libahci.ko /lib/modules/3.4.11-rt19/kernel/drivers/ata/libata.ko
+/lib/modules/3.4.11-rt19/extra/rdpa_cmd_drv.ko: /lib/modules/3.4.11-rt19/extra/rdpa_cmd_spdsvc.ko /lib/modules/3.4.11-rt19/extra/rdpa_cmd_ds_wan_udp_filter.ko /lib/modules/3.4.11-rt19/extra/rdpa_cmd_tm.ko
+/lib/modules/3.4.11-rt19/kernel/net/bluetooth/rfcomm/rfcomm.ko: /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/hwmon/hwmon.ko: 
+/lib/modules/3.4.11-rt19/kernel/net/ipv4/netfilter/nf_nat_rtsp.ko: /lib/modules/3.4.11-rt19/kernel/net/netfilter/nf_conntrack_rtsp.ko
+/lib/modules/3.4.11-rt19/extra/rdpa_cmd_tm.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/kernel/net/ipv4/ip_gre.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/ata/ahci_platform.ko: /lib/modules/3.4.11-rt19/kernel/drivers/ata/libahci.ko /lib/modules/3.4.11-rt19/kernel/drivers/ata/libata.ko
+/lib/modules/3.4.11-rt19/extra/bdmf.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/bluetooth/bpa10x.ko: /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/extra/bcmvlan.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/extra/bcmxtmrtdrv.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/extra/pwrmngtd.ko: /lib/modules/3.4.11-rt19/extra/bcm_enet.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/bluetooth/btmrvl.ko: /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko
+/lib/modules/3.4.11-rt19/kernel/net/netfilter/nf_dyndscp.ko: 
+/lib/modules/3.4.11-rt19/extra/wfd.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/usb/serial/ftdi_sio.ko: 
+/lib/modules/3.4.11-rt19/kernel/drivers/video/fb_sys_fops.ko: 
+/lib/modules/3.4.11-rt19/extra/pktrunner.ko: /lib/modules/3.4.11-rt19/extra/pktflow.ko /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/scsi/scsi_wait_scan.ko: 
+/lib/modules/3.4.11-rt19/extra/chipinfo.ko: 
+/lib/modules/3.4.11-rt19/extra/rdpa_cmd_ds_wan_udp_filter.ko: /lib/modules/3.4.11-rt19/extra/rdpa_gpl.ko /lib/modules/3.4.11-rt19/extra/bdmf.ko
+/lib/modules/3.4.11-rt19/extra/kmcd_pc.ko: /lib/modules/3.4.11-rt19/extra/kmcd_core.ko
+/lib/modules/3.4.11-rt19/extra/kmcd_mrt.ko: /lib/modules/3.4.11-rt19/extra/kmcd_core.ko
+/lib/modules/3.4.11-rt19/kernel/drivers/video/fb.ko: 
+/lib/modules/3.4.11-rt19/kernel/net/bluetooth/bnep/bnep.ko: /lib/modules/3.4.11-rt19/kernel/net/bluetooth/bluetooth.ko

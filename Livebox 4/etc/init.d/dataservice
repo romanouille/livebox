@@ -1,0 +1,63 @@
+#!/bin/sh
+
+PID="/var/run/dataservice.pid"
+
+# NEMO_IPC="ipc:{/var/run/nemo}" PCB_MAIN_BUS="ipc:{/var/run/pcb_sys}" /bin/pcb_app -I /var/run/tr181 -vv -n tr181 -N Device -c /usr/lib/igd_mapping/mediahub_mapped.odl
+# pcb_cli pcb://ipc:[/var/run/tr181]
+# pcb_cli -q -w -1 'DataService'
+# pcb_cli -q -w -1 'Process.concat(BUSNAME,`_'COMPONENT).loadSharedObject("/usr/lib/`COMPONENT'/modules/mediahub.so")';
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "dataservice already started"
+    else
+        echo "dataservice starting ..."
+        mtks=""
+        for it in /usr/lib/dataservice/modules/*.so; do
+            mtks="${mtks} -s ${it}"
+        done
+        mibs=""
+        for it in $(ls -1 /usr/lib/dataservice/mibs); do
+            tmp=${it%.odl}
+            if [ ${tmp} != ${it} ]; then
+                mibs="${mibs} ${tmp}"
+            fi
+        done
+        pcbs_app -l -S -n dataservice -c /usr/lib/dataservice/dataservice.odl ${mtks} -a ${mibs}
+    fi
+}
+
+stop() {
+    killall dataservice
+
+    if [ -e "${PID}" ]; then
+        echo "kill dataservice daemon"
+        rm -f $PID
+    else
+        echo "dataservice not running"
+    fi
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    debuginfo)
+        if [ -f "${PID}" ]; then
+            echo "dataservice is running, pid=$(cat ${PID})"
+        else
+            echo "dataservice is not running"
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo]"
+        ;;
+esac
+

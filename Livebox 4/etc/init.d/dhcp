@@ -1,0 +1,68 @@
+#!/bin/sh
+. /usr/bin/pcb_common.sh
+
+HINTSLOCATION=/cfg/system
+
+name="dhcp_plugin"
+datamodel="DHCPv4"
+trace_zones="dhccd dhcpd"
+component="sah_services_dhcp"
+
+start()
+{
+	if pcb_is_running $name; then
+		echo "$name is already running"
+	else
+		sahenv -f /etc/environment pcb_app -vv -n $name -I/var/run/dhcpv4 --priority=-4 -c /usr/lib/dhcp/dhcp.odl
+		mtk_load nemo-core /usr/lib/nemo/modules/dhcp.so dst=\"pcb://ipc:[/var/run/dhcpv4]\"
+	fi
+}
+
+stop()
+{
+	mtk_unload nemo-core dhcp
+	pcb_stop $name
+}
+
+case $1 in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	debuginfo)
+		pcb_debug_info $name $component $datamodel
+		echo "DHCP check PERMANENT arp entries"
+		ip -4 neigh
+		echo "DHCP check hints file"
+		cat $HINTSLOCATION/dhcp_*.hints
+		;;
+	log)
+		action=$2
+		if [ -n "$action" ]; then
+			pcb_log $name $action $trace_zones
+		else
+			pcb_log $name enable $trace_zones
+		fi
+		;;
+	backup)
+		if pcb_is_running $name ; then
+			pcb_cli "DHCPv4.Server.export($2)"
+		else
+			echo "DHCP plugin is not running, unable to backup settings"
+		fi
+	;;
+	restore)
+		mkdir -p /var/lib/dhcp
+		touch /var/lib/dhcp/restore
+		rm -rf $HINTSLOCATION/dhcp_*.hints
+	;;
+	*)
+		echo "Usage : $0 [start|stop|restart|debuginfo|log|backup|restore]"
+		;;
+esac

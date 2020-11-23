@@ -1,0 +1,28 @@
+#!/bin/sh
+offon()
+{
+	for n in 1 2 3 4; do
+		echo 1 > /proc/bt_reset
+	done	
+	echo 0 > /proc/bt_reset
+	sleep 1
+}
+
+if [ -f /etc/init.d/ntp ]; then
+   if [ -f /var/run/ntp_delta ]; then     
+      current_date=$(date -n +"%Y/%m/%d %X")
+   else
+      current_date=$(date +"%j ------ %X")
+   fi
+else
+   current_date=$(date +"%j %X")
+fi
+echo "$current_date  Bluetooth watchdog." >> /root/adsld.log
+echo 1 > /proc/tty_selector
+cat /dev/ttyS1 >> /root/adsld.log &
+pid=$!
+sleep 5
+kill $pid
+echo "-- end BT trace --" >> /root/adsld.log
+offon
+reboot

@@ -1,0 +1,283 @@
+[
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*PS3.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "GameConsole",
+                                              "TypeSource" : "dhcp"
+                                            },
+                        "set_name": {
+                                       "Name" :   "PS3",
+                                       "Source" : "dhcp"
+                                    },
+                        "set_tags" : "sony"
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .VendorClassID matches \".*MSFT 5\\.0.*\"",
+    "start_actions" : {
+                        "set_tags" : "microsoft"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.*.Name matches \".*[aA]ndroid.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Mobile",
+                                              "TypeSource" : "dhcp"
+                                            },
+                        "set_tags" : "android"
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .mDNSService.*.ServiceName matches \".*_workstation\\._tcp.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Computer",
+                                              "TypeSource" : "mdns"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and .mDNSService.*.ServiceName matches \".*(_printer|_ipp|_pdl-datastream)\\._tcp.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Printer",
+                                              "TypeSource" : "mdns"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not self and homeplug_av or homeplug_devolo",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "HomePlug",
+                                              "TypeSource" : "plc"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and usb and physical and .VendorID==\"0x21e7\" && .ProductID==\"0x0022\"",
+    "start_actions" : {
+                        "set_tags" : "wmbus",
+                        "add_device_type" : {
+                                              "Type"       : "WMbus Dongle",
+                                              "TypeSource" : "usb"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and usb and physical and storage",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Disk",
+                                              "TypeSource" : "usb"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and logical and volume",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Partition",
+                                              "TypeSource" : "storage"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and physical and voice",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Phone",
+                                              "TypeSource" : "tags"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and physical and not (usb or .DeviceTypes.hasInstances() or wmbus)",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Computer",
+                                              "TypeSource" : "default"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "not self and physical and (dect_ule or zwave)",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "HomeAutomation",
+                                              "TypeSource" : "default"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and .VendorClassID matches \"[Cc]amera\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Camera",
+                                              "TypeSource" : "dhcp"
+                                            },
+                        "set_tags" : "camera"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \"QBeeCamera.*\" and .VendorClassID matches \"udhcp 1.10.4\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Camera",
+                                              "TypeSource" : "dhcp"
+                                            },
+                        "set_tags" : "camera"
+                      }
+  },
+  {
+    "expression"    : "bluetooth and physical and edev and .Names.*.Name matches \"Flower power.*\"",
+    "start_actions" : {
+                        "set_tags" : "sensor ha",
+                        "notify" : { "ID": 1000, "Name":"flower_power_dongle_added" }
+                      }
+  },
+  {
+    "expression"    : "bluetooth and physical and edev and .DeviceTypes.*.Type matches \"input-keyboard\"",
+    "start_actions" : {
+                        "set_tags" : "button ha",
+                        "notify" : { "ID": 1001, "Name":"btbutton_added" }
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \".*iPhone.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Mobile",
+                                              "TypeSource" : "dhcp"
+                                            },
+                        "set_tags" : "apple"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \".*iPad.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Tablet",
+                                              "TypeSource" : "dhcp"
+                                            },
+                        "set_tags" : "apple"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \".*Windows-Phone.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Mobile",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and mdns and .Names.mdns.Name matches \".*imac.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Computer",
+                                              "TypeSource" : "mdns"
+                                            },
+                        "set_tags" : "apple"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \".*Apple-TV.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "TV",
+                                              "TypeSource" : "dhcp"
+                                            },
+                        "set_tags" : "apple"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and mdns and .Names.mdns.Name matches \".*Apple-TV.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "TV",
+                                              "TypeSource" : "mdns"
+                                            },
+                        "set_tags" : "apple"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \".*[sS]urface.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Tablet",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and mdns and .Names.mdns.Name matches \".*[mM]ac[bB]ook.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Laptop",
+                                              "TypeSource" : "mdns"
+                                            },
+                        "set_tags" : "apple"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and upnpd and .Names.upnp.Name matches \".*Xbox-SystemOS.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "GameConsole",
+                                              "TypeSource" : "upnp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \".*Xbox-SystemOS.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "GameConsole",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and mdns and .Names.mdns.Name matches \".*PS4-.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "GameConsole",
+                                              "TypeSource" : "mdns"
+                                            },
+                        "set_tags" : "sony"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and mdns and .Names.upnp.Name matches \".*[TV].*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "GameConsole",
+                                              "TypeSource" : "upnp"
+                                            },
+                        "set_tags" : "samsung"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \".*[sS]onos.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "HiFi",
+                                              "TypeSource" : "dhcp"
+                                            },
+                        "set_tags" : "sonos"
+                      }
+  },
+  {
+    "expression"    : "lan and not (self or logical) and dhcp and .Names.dhcp.Name matches \".*[cC]hromecast.*\"",
+    "start_actions" : {
+                        "add_device_type" : {
+                                              "Type"       : "Chromecast",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  }
+]

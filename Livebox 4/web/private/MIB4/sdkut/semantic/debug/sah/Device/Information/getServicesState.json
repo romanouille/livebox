@@ -1,0 +1,20 @@
+{
+    "status": 0,
+    "data": {
+        "globalState": "STARTED",
+        "serviceList": {
+            "sah.Device.Time":"STARTED", 
+            "sah.Device.RemoteManagement":"STARTED", 
+            "sah.Device.Network":"STARTED", 
+            "sah.Content.DlnaServer":"STOPPED", 
+            "sah.Content.DlnaController":"STOPPED", 
+            "sah.Player.LocalDlnaRenderer":"STARTED", 
+            "sah.Browser.RemoteUIServer":"STARTED", 
+            "sah.Browser.RemoteUIClient":"STARTED", 
+            "sah.Browser.RemoteUIController":"STARTED", 
+            "sah.Recorder":"STARTED", 
+            "sah.Content.Epg":"STARTED", 
+            "sah.Device.FrontPanel":"STARTED"
+        }
+    }
+}

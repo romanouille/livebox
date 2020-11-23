@@ -1,0 +1,58 @@
+<div class="loading_screen">
+  <div class="loading_screen_spinner"></div>
+</div>
+<div class="popup_screen">  
+</div>
+{{> popupTemplate}}
+<!-- header -->
+<nav class="navbar navbar-default navbar-fixed-top header-fixed">
+  <div class="container main-header" id="header_template_container">    
+    <!-- headerTemplate SPOT -->
+    {{> headerTemplate}}
+  </div>
+</nav>
+
+<div class="navbar navbar-default navbar-fixed-top notification-fixed">
+  <div class="container notification-container"></div>
+</div>  
+
+{{#if page.tab}}
+<!-- tab -->
+<div class="navbar navbar-default navbar-fixed-top tab-fixed">
+  <div class="container tab-menu">
+    <div class="row tab-menu-row">
+      <div class="tab-menu-col" tabindex=0 id="tab_template_container">
+        <!-- tabTemplate SPOT -->
+        {{> tabTemplate}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- content -->
+<div class="container container-content">
+{{else}}
+<div class="container container-content container-content-notab">
+{{/if}}
+
+  <div class="row no-margin">
+    <div class="col-xs-9 no-padding" id="content_template_container">
+      <!-- contentTemplate SPOT -->
+      {{> contentTemplate}}
+      <div class="content-separator">
+        <hr class="separator">
+      </div>
+    </div>
+    
+    <!-- info -->
+    {{#if page.tab}}
+      <div class="col-xs-3 info_template_container">
+    {{else}}
+      <div class="col-xs-3 info_template_container_less_margin">
+    {{/if}}
+      <!-- infoTemplate SPOT -->
+      {{> infoTemplate}}
+    </div>
+    
+  </div>
+</div>  

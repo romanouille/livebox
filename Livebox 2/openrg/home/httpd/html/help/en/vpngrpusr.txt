@@ -1,0 +1,16 @@
+<b>VPN client:</b><br>
+<br>
+This page enables you to display and define users and profiles authorised to log on to your Boxer in client/server mode.<br>
+<br>
+Click the "Add" button in the "Profiles" table to define new profiles.<br>
+<br>
+Click the "Add" button in the "Users" table to define new users.<br>
+<br>
+To set up a new VPN server connection you must create a user and profile pair.<br>
+<br>
+Settings, such as the security key and the encryption protocol, are defined in the profile.<br>
+<br>
+The connection password is a user-specific setting.<br>
+<br>
+
+

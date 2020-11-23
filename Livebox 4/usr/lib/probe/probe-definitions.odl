@@ -1,0 +1,47 @@
+
+
+using "plugin.so";
+
+acl {
+  world none;
+  group admin none;
+  group remoteadmin none;
+  group cwmpd read,write,execute;
+
+}
+
+
+/**
+ * Please document your datamodel
+ * http://wiki.be.softathome.com/mediawiki/index.php/PCB_ODL
+ */
+persistent object Probe {
+	void enable();
+	void disable();
+	void trigger();
+	void setConfig(uint32 newmode, string newinputlocation, string newoutputlocation);
+	persistent string InputLocation {
+		default "/tmp";
+		write with P_plugin_inputLocationChanged;
+	}
+	persistent string OutputLocation {
+        default "https://figaroserver.softathome.com";
+		write with P_plugin_outputLocationChanged;
+	}
+	bool Trigger {
+		default false;
+		write with P_plugin_triggerChanged;
+	}
+	persistent uint32 Mode {
+        constraint minvalue 0;
+		default 3600;
+		write with P_plugin_modeChanged;
+	}
+	persistent bool Enable {
+		default false;
+		write with P_plugin_enableChanged;
+	}
+
+}
+
+/** @location sah_services_probe /probe-definitions.odl.m4 */

@@ -1,0 +1,13 @@
+@prefix dsc: <http://www.tracker-project.org/temp/dsc#> .
+
+<virtual-ontology-uri:99-sah.ontology> a dsc:Ontology ;
+	dsc:title "SoftAtHome specific ontology" ;
+	dsc:description "Adds privacy and small additions to the ontology needed for multi-user separation of data" ;
+
+	dsc:author "SoftAthome" ;
+	dsc:editor "Martyn Russell" ;
+	dsc:gitlog "http://git.gnome.org/cgit/tracker/log/data/ontologies/99-sah.ontology";
+
+	dsc:localPrefix "sah" ;
+	dsc:baseUrl "http://www.tracker-project.org/ontologies/sah#";
+	dsc:relativePath "./99-sah.ontology" .

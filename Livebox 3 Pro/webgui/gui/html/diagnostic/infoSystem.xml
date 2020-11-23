@@ -1,0 +1,125 @@
+<div id="infoSystem" class="infoSystemPage" xmlns="http://www.orange.com/xhtml/engine/loose">  
+	 <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_diagnostic">
+		<span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;<span i18n="menuDiagnostic.infoSystemGeneral"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.diagnostic.infosystem.subtitle"/>
+			<br/>
+			<div class="center" widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.lb">
+				<span id="routerlist" widgetType="EnumInput" widgetArg="'select'"/>
+			</div>
+		</div>
+	 </div>
+	<div class="maindiv"> 	
+		<form action="#">			
+			<div id="MASTERBOX">
+				<div class="headBoxType1 margin-top-10" >
+					<span class="moins" >
+						<span class="h3Text margin-left-30" dataId="Device/DeviceInfo/RouterName"/>
+					</span>
+				</div>
+				<div class="sysinfo">
+					<div class="boxType4 border-top-0 border-bottom-1">
+						<span class="h2Text orange" i18n="page.diagnostic.infosystem.general"/>
+						<span id="print">
+								<a href="javascript:window.print()" i18n="common.print"/>
+						</span>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput"  widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.1">
+							<span class="bold_font" dataId="Device/DeviceInfo/Manufacturer"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.2">
+							<span class="bold_font" dataId="Device/DeviceInfo/ModelName"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.3">
+							<span class="bold_font" dataId="Device/DeviceInfo/Country" i18nPrefix="data.diagnostic.infosystem.country"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.4">
+							<span class="bold_font" dataId="Device/DeviceInfo/OSVersion"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.5">
+							<span class="bold_font" dataId="Device/DeviceInfo/GUIVersion"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.6">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus" i18nPrefix="data.diagnostic.infosystem.connection.status"/>
+						</div>
+						<!-- ADSL Specific -->
+						<div class="margin-leftInfSys-30" widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.7.adsl">
+								<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/DSLStatus" i18nPrefix="data.diagnostic.infosystem.dsl.status"/>
+							</div>
+						</div>
+						<!-- FTTH Specific -->
+					 <div class="margin-leftInfSys-30" widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable">
+							<div widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.7.ftth">
+								<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/ONTLANStatus"/>
+							</div>
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.8">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/PPPoESessionID" i18nPrefix="data.diagnostic.infosystem.ppp.pppoesessionid"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.9">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPP/Username"/>
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.10">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/ExternalIPAddress"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.11">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PPPoEACName"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.12">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/PrimaryDNS"/>
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.1.13">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/SecondaryDNS"/>
+						</div>
+					</div>
+					
+					<div class="boxType5 border-bottom-3" widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+						<div class="h2Text orange" i18n="page.diagnostic.infosystem.general.tech"/>
+						<div class="clear"/>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.14">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/UpstreamAttenuation"/>&#160;dB
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.15">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/DownstreamAttenuation"/>&#160;dB
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.16">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/UpstreamNoiseMargin"/>&#160;dB
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.17">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/DownstreamNoiseMargin"/>&#160;dB
+						</div>
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.18">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/UpstreamMaxBitRate"/>&#160;kb/s
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.19">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/DownstreamMaxBitRate"/>&#160;kb/s
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.20">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/UpstreamPower"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.21">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/DownstreamPower"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.22">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/PacketsReceived"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.23">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/PacketsSent"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.general.tech.1.24">
+							<span class="bold_font" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/LossFrame"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form> 		
+   </div>
+</div>

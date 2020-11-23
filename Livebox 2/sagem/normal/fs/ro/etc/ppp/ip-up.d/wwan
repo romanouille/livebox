@@ -1,0 +1,16 @@
+#!/bin/sh
+
+INTERFACE=$1
+OUR_IP=$4
+
+if [ "$6" == "WWAN" ]
+then
+	logger -t wwan "ip-up called with INTERFACE=$INTERFACE OUR_IP=$OUR_IP DNS1=$DNS1 DNS2=$DNS2"
+
+	pcb_cli -t "NeMo.Intf.$INTERFACE{Flags=\"enabled up netdev\"}"
+	pcb_cli "NeMo.linkIntfs(wwan, $INTERFACE)" \
+		"NeMo.Intf.wwan.DNSServers=\"$DNS1,$DNS2\"" \
+		"NeMo.Intf.wwan.LocalIPAddress=\"$OUR_IP\"" \
+		"NeMo.Intf.wwan.ConnectionStatus=\"Connected\"" \
+		"NeMo.Intf.wwan.Status=1"
+fi

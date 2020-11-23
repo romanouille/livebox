@@ -1,0 +1,13 @@
+datamodel {
+	object DHCPv6 {
+		object Server {
+			parameter Enable = true;
+			instance of Pool(1, "lan") {
+				parameter Interface = "lan";
+				parameter Enable = false;
+			}
+		}
+	}
+}
+
+/** @location sah_services_dhcpv6server /dhcpv6server-defaults.odl */

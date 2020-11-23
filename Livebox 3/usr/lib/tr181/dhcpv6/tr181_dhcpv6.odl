@@ -1,0 +1,11 @@
+using "dhcpv6/tr181_dhcpv6.so";
+object DHCPv6 {
+object Client [];
+object Server;
+}
+datamodel {
+object DHCPv6 {
+instance of Client(1,"Client1");
+object Server from "pcb://$(PCB_MAIN_BUS)/DHCPv6/Server" recursive;
+}
+}

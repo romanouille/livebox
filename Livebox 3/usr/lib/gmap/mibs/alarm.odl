@@ -1,0 +1,9 @@
+mib alarm {
+void resetAlarm(string id);
+object Alarm[] {
+string Name;
+uint32 Type;
+uint32 Value;
+datetime Time;
+}
+}

@@ -1,0 +1,13 @@
+<b>Internet phone:</b><br>
+<br>
+This page shows the status of your Internet phone service. The link gives you direct access to your Internet phone service portal.<br>
+If the service is enabled, the broadband phone light on the livebox is green and the message <b>Internet phone service is enabled</b> is displayed to show that the service is operational.<br>
+If this is not the case, the broadband phone light on the livebox is off and the message <b>Internet phone service is disabled</b> is displayed.<br>
+If the service is not enabled automatically, try to restart your livebox. If the problem persists, please contact the hotline.<br>
+If the service is enabled, your Internet phone number is displayed on this page.<br>
+You can also use the Test button to test the status of the phone connected to your livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

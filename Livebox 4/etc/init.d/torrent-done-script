@@ -1,0 +1,5 @@
+#!/bin/sh
+
+logger -t torrent -p 0 "Download ${TR_TORRENT_NAME} is finished, delete torrent"
+
+/etc/init.d/transmission deletetorrent ${TR_TORRENT_HASH}

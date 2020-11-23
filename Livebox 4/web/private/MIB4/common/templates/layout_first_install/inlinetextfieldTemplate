@@ -1,0 +1,34 @@
+<div class="txtandfield">
+  <div class="txtandfield-field">
+    {{#if id}}
+      <span id="{{id}}_label" class="col-xs-4 no-padding" >{{{label}}} : 
+     
+	    {{#ifEqual required 'true'}}
+		<span style="float:right;">*</span>
+		 
+	    {{/ifEqual}}
+	
+      
+    {{else}}
+      {{#if label}}
+        {{{label}}} :
+        
+	    {{#ifEqual required 'true'}}
+		<span style="float:right;">*</span>
+		 
+	    {{/ifEqual}}
+       
+      {{/if}}
+    {{/if}}  
+   </span>
+  <input class="col-xs-2 no-padding" {{#if id}}id="{{id}}" {{/if}} type="text" value="{{value}}"
+  {{#if data-translation}}
+    class="Translation field" data-translation="{{data-translation}}" >        
+  {{else}}
+    class="field">
+  {{/if}}
+  </div>
+  {{#if warning}}
+    <div class="txtandfield-warning" {{#if id}}id="{{id}}_warning"{{/if}}><span class="redtxt">{{{warning}}}</span></div>    
+  {{/if}}
+</div>

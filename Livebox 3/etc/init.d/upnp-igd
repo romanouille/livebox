@@ -1,0 +1,50 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="upnp-igd_plugin"
+start_options="-c /usr/lib/upnp-igd/upnp-igd.odl"
+datamodel="UPnP-IGD"
+trace_zones=""
+component="sah_services_upnpigd"
+
+TARGET_DIR="/var/lib/linuxigd"
+
+case $1 in
+    start)
+        while ! mkdir -m 700 "$TARGET_DIR"
+        do
+            rm -rf $TARGET_DIR
+        done
+        pcb_start $name $start_options
+    ;;
+
+    stop)
+        pcb_stop $name
+    ;;
+    backup)
+        if pcb_is_running $name ; then
+            pcb_cli "UPnP-IGD.export($2)"   
+        else
+            echo "UPnP-IGD plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/upnp-igd
+        touch /var/lib/upnp-igd/restore
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore|debuginfo|log]"
+    ;;
+esac

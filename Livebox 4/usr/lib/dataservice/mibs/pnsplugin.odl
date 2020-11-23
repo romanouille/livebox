@@ -1,0 +1,30 @@
+/**
+ * This MIB is only a data container and has no functional meaning.
+ */
+
+persistent object DataHub
+{
+    persistent object PnS
+    {
+        read-only string Status
+        {
+            constraint enum ["Stopped","Started","Error"];
+            default "Stopped";
+        }
+
+        read-only persistent datetime LastUpdate;
+
+        persistent int32 RetryInterval
+        {
+            constraint minvalue 0;
+            default 600;
+        }
+
+        persistent uint32 PeriodicInterval
+        {
+            default 172800;
+        }
+    }
+}
+
+/** @location sah_lib_pnsapi */

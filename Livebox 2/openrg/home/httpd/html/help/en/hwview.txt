@@ -1,0 +1,9 @@
+<b>View:</b><br>
+<br>
+Displays the list of devices that are connected or have been connected to your livebox. You can then click on one of the devices to access the device customisation page or implement an Internet access restriction policy.<br> 
+The display filter may be used to display only one type of device (WiFi, Ethernet, USB, Console, etc.).<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

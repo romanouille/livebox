@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        if [ -f /etc/config/db_ready ]
+        then
+        cli -c DeviceConfig.ConfigSaveFlush=1
+        else
+            cli -c DeviceConfig.ConfigSave=1
+            cli -c DeviceConfig.ConfigSaveFlush=1
+            pcb_cli "NMC.backup()"
+
+            cat /web/version.txt | grep CONFIG_VERSION_NAME_MAJOR > /etc/config/db_ready
+        fi
+        ;;
+    stop)
+        ;;
+    *)
+        echo "Usage : $0 [start|stop]"
+        ;;
+esac

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+PROGRAM="pcscd"
+
+case $1 in
+    start)
+        /sbin/$PROGRAM
+        ;;
+    stop)
+        kill `cat /var/run/$PROGRAM/$PROGRAM.pid`
+        ;;
+    *)
+        echo "Usage : $0 [start|stop]"
+        ;;
+esac
+

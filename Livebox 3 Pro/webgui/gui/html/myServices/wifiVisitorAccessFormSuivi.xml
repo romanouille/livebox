@@ -1,0 +1,15 @@
+<div xmlns="http://www.orange.com/xhtml/engine/loose">
+    <div class="boxType3">
+		<h1 class="logo_generic grey"  i18n="page.myServices.wifiaccessform.title"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong  i18n="page.myServices.wifiaccessformsuivi.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form>
+		 <div class="boxType4 border-bottom-3">
+			<span i18n="page.myServices.wifiaccessformsuivi.label"/>
+		 </div>
+		</form>
+	</div>
+</div>

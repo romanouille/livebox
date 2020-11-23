@@ -1,0 +1,130 @@
+
+using "smtp_plugin.so";
+
+acl {
+    world none;
+    group admin none;
+    group remoteadmin none;
+    group cwmpd read,write,execute;
+}
+
+/**
+ * root object of a Message Service Client
+ * @version 5.1
+ */
+object SMTP {
+
+   /**
+    *  List of available SMTP profiles
+    * @version 5.1
+    */
+    persistent object Profiles [] {
+
+         /**
+          * Unique Name for this mail profile
+          * @version 5.1
+          */
+         persistent string Name;
+         /**
+          * SmtpHost host where MTA can be contacted via SMTP
+          * @version 5.1
+          */
+         persistent string SmtpHost;
+         /**
+          * SmtpPort port where MTA can be contacted via SMTP
+          * @version 5.2
+          */
+         persistent uint32 SmtpPort {
+             default 25;
+             constraint maxvalue 65535;
+         }
+         /**
+          * Email address of the sender
+          * @version 5.1
+          */
+         persistent string FromAddress;
+         /**
+          * Default Email addresses of one recipient
+          * Used when no mail is specified in the [TO] section of the URI while sending a message
+          * @version 5.1
+          */
+         persistent string DefaultTo;
+    }
+
+   /**
+    * Set a new profile
+    *
+    * @param profilemap a variant_map holding key_value pair parameters of the profile
+    * @version 5.1
+    */
+    void setProfile(mandatory object profilemap);
+
+   /**
+    * Remove an existing profile
+    *
+    * @param name The name of the profile
+    * @version 5.1
+    */
+    void removeProfile(mandatory string name);
+
+   /**
+    * List the existing profiles
+    *
+    * @return A list of existing profiles (struct containing both the alias and orangeid)
+    * @version 5.1
+    */
+    list listProfiles();
+
+   /**
+    * Send a message using the specified uri
+    * The message is passed directly as a string
+    *
+    * @param id A unique id of the message
+    * @param profile The profile that has to be used to send the message
+    * @param uri The uri to which to send the message
+    * @param message The message to send
+    * @version 5.1
+    */
+    void send(mandatory uint32 id, mandatory string profile, mandatory string uri, mandatory string message);
+
+   /**
+    * Send a message using the specified uri
+    * The message is read from a file
+    *
+    * @param id A unique id of the message
+    * @param profile The profile that has to be used to send the message
+    * @param uri The uri to which to send the message
+    * @param message Path to the file containing the message
+    * @param delete If true, the file shall be deleted after sending
+    * @version 6.0
+    */
+    void sendFile(mandatory uint32 id, mandatory string profile, mandatory string uri, mandatory string message, bool delete);
+
+   /**
+    * Import settings from hgwcfg
+    *
+    * @param path The hgwcfg.usr path
+    * @version 5.1
+    */
+    void import(string path) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+   /**
+    * Export settings to hgwcfg
+    *
+    * @param path The hgwcfg.usr path
+    * @version 5.1
+    */
+    void export(string path) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+}
+
+/** @location sah_services_message /plugins/smtp/smtp-definition.odl */

@@ -1,0 +1,40 @@
+{
+    "Id": "sah_contacts",
+    "Category": "Communication",
+    "Version": "0.1",
+    "Title": "sah_contacts.title",
+    "Icon": "apps/dummy_apps/images/test_black_32.png",
+    "AllowedGroups": "admin,remoteadmin",
+    "Application": { "main": "iframeapp",
+                     "settings": { "target": "/configurator/phonebook.html",
+                                   "filter": "#header"
+                                 }
+                   },
+    "Applet": [ { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider_contact",
+                  "settings": { "slides": [ "<span class=\"img contacts\"></span><div class=status><span class=caption><span class=\"black\"><span translate=sah_contacts.entries></span>:</span> <span class=\"sah_green_dark pbnum\">?</span></span></div>",
+                                            "<div class=status style=\"top:15%\"><span class=caption><span class=\"black\"><span translate=sah_contacts.number></span>: </span><span class=\"sah_green_dark pbnum\"></span></span></div>"
+                                          ],
+                                "apicalls":{"class":"pbnum", "ws":"Phonebook:getNumberOfContacts", 
+                                             "event":["contactCreated","contactDeleted"]}
+                              }
+                }
+              ],
+    "en": {
+        "title": "My Contacts",
+        "number": "Number of contacts",
+        "entries": "entries",
+        "contactCreated": "new contact",
+        "contactDeleted": "contact removed"
+    },
+    "fr": {
+        "title": "yNqYngBl",
+        "number": "NehDIHmF",
+        "entries": "IEjHxfmW",
+        "contactCreated": "MzeCIfrV",
+        "contactDeleted": "UxzaEbPx"
+    }
+}

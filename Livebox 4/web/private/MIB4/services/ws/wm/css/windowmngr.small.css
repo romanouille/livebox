@@ -1,0 +1,123 @@
+/* 1. RESET */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    line-height: 1.1em;
+    min-height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+p, ul, ol, dl, blockquote {
+    font-size: 0.8em;
+}
+
+/* 2 SPECIFIC */
+
+/* Window Manager */
+
+/* HEADER */
+.sah_header {
+    height: 40px;
+}
+
+.sah_header_bar {
+    height: 40px;
+}
+
+.sah_action_bar {
+    height: 30px;
+    line-height: 30px;
+}
+
+.sah_action_bar li {
+    height: 30px;
+    font-size: 22px;
+    line-height: 30px;
+}
+
+/* MAIN */
+.sah_category_shuffle {
+    top: 40px;
+}
+
+.sah_ui_pages_container {
+    top: 0%;
+}
+
+.sah_ui_page .sah_ui_title {
+    font-size: 1.4em;
+    line-height: 0.8em;
+    margin: 1% 0 1% 1%;
+}
+
+.sah_ui_page .sah_ui_dropzone {
+    font-size: 1.4em;
+    line-height: 0.8em;
+    margin: 0.5% 0.5% 0.5% 0.5%;
+    padding: 0.5% 0.5% 0.5% 0.5%;
+    text-align: center;
+    color:#888;
+}
+
+/* FOOTER */
+.sah_footer {
+    min-height: 28px;
+    height: 4%;
+}
+
+.sah_page_selector {
+    height: 20px;
+    font-size: 100%;
+    line-height: 20px;
+}
+
+.sah_page_selector input {
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.sah_page_selector .left {
+    top: 5px;
+}
+
+.sah_page_selector .right {
+    top: 5px;
+}
+
+/* DIALOGS */
+.sah_dialog_header {
+    height: 28px;
+}
+
+.sah_dialog_buttons li {
+    height: 28px;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.sah_dialog_body {
+    padding: .5em 1em;
+}
+
+/* UI CLASSES */
+.sah_icon_small {
+    font-size: 11px;
+}
+
+.sah_icon_medium {
+    font-size: 18px;
+}
+
+.sah_icon_large {
+    font-size: 24px;
+}
+
+.sah_icon_huge {
+    font-size: 32px;
+}
+
+.sah_dialog_body .title {
+    font-size: 1.5em;
+    line-height: 1em;
+}

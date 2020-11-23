@@ -1,0 +1,4 @@
+include "cups-plugin-definitions.odl";
+include "cups-plugin-defaults.odl";
+
+/** @location sah_services_cups-plugin /cups-plugin/cups-plugin.odl */

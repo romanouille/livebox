@@ -1,0 +1,739 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=1085"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Livebox</title>
+<script type="text/javascript">
+	appUrl = '';
+	appConfig = 'fr';
+	appUid = '7c9c85ce';
+	config = {
+		BUILD_CUSTOMER: 'ft',
+		BUILD_PROJECT: 'lbv2fr',
+		BUILD_HARDWARE: 'sagem_ftthv2',
+		SESSION_DURATION: '600'
+	};
+	if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+		config.BUILD_PROJECT = "lbv2.8fr";
+	}
+
+</script>
+<link href="/styles.css?7c9c85ce" rel="stylesheet" type="text/css"/>
+<script src="/scripts.js?7c9c85ce" type="text/javascript" charset="utf-8"></script>
+<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?7c9c85ce"/>
+<link rel="shortcut icon" href="/images/fr/common/favicon.ico?7c9c85ce" type="image/x-icon"/>
+</head>
+<body class="accessibility-small">
+<!-- Popup and backlayer from Cytadelle Technology Light framework -->
+<div id="ct-popup" class="fixed" style="height: 70px">
+	<div>
+		<img id="ct-popup-header" src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.general.popup.img.header" alt=""/>
+		<h4>
+		<div id="ct-popup-header-title" class="translation Translations.home.authentication.header"></div>
+		</h4>
+		<a id="popup-close-btn" class="nologin">
+		<img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.general.popup.img.close" alt=""/>
+		</a>
+	</div>
+	<div id="ct-popup-content">
+		<span class="translation Translations.home.authentication.label.subtitle"></span>
+	</div>
+	<img src="/images/fr/common/transparent.gif?7c9c85ce" class="png ct-popup-footer voice Voice.general.popup.img.footer" alt=""/>
+</div>
+<div id="ct-msgbox" class="fixed">
+	<img id="ct-popup-header-small" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/>
+	<div id="ct-msgbox-content">
+		<img src="/images/fr/common/transparent.gif?7c9c85ce" id="ct-msgbox-img" class="png"/>
+		<div id="ct-msgbox-msg">
+		</div>
+		<input type="button" id="ct-msgbox-button1" value="annuler" class="input-btn input-small-btn-gray translation Translations.general.btn.cancel"/><input type="button" id="ct-msgbox-button2" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/><input type="button" id="ct-msgbox-button3" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/>
+	</div>
+	<img id="ct-popup-footer" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/>
+</div>
+<div id="ct-tooltip" class="fixed">
+</div>
+<div id="ct-waiting" class="fixed">
+	<img src="/images/fr/common/transparent.gif?7c9c85ce" alt="" class="voice Voice.general.waiting.img.waiting"/>
+</div>
+<div id="ct-backlayer" class="fixed" style="display:none; top:120px">
+</div>
+<div class="devicemenu" id="deviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="devicemenuheader">
+			<span id="hostName"></span>
+			<br/>
+			<span id="ipaddress-device-menu" class="translation Translations.general.label.ipaddress" style="display: none"></span> : <span id="ip"></span>
+		</div>
+		</lh>
+		<li><a id="accessscheduling" href=""><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+		<li><a id="devicescustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="catIqMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="catIqdevicemenuheader">
+			<span id="catIqName"></span>
+		</div>
+		</lh>
+		<li><a id="catIqCustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="disconnectedDeviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="disconnectedDevicemenuheader">
+			<span id="dHostName"></span>
+		</div>
+		</lh>
+		<li><a id="dAccessscheduling" href=""><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+		<li><a id="dDevicescustomize" href=""><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+		<!-- 		<li><span id="deletedevicemenuitem" class="translation Translations.notconnecteddevices.label.deletedevice"></span></li> -->
+	</ul>
+</div>
+<div class="devicemenu" id="usbDeviceMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="UdbDevicemenuheader">
+		</div>
+		</lh>
+		<li><a id="usbBrowse" href="" onclick="return false;"><span id="usbBrowse" class="first active translation Translations.general.btn.files"></span></a></li>
+		<li><a id="usbEject" href="" onclick="return false;"><span class="first active translation Translations.general.btn.eject"></span></a></li>
+	</ul>
+</div>
+<div class="devicemenu" id="contextualMenu" style="display: block; position: absolute; display: none">
+	<ul>
+		<lh>
+		<div id="open">
+			 Open
+		</div>
+		</lh>
+		<li><a id="copy" href=""><span class="auth-required first translation Translations.filesbrowser.label.copy"></span></a></li>
+		<li><a id="paste" href=""><span class="auth-required translation Translations.filesbrowser.label.paste" style="display: none"></span></a></li>
+		<li><a id="rename" href=""><span class="auth-required translation Translations.filesbrowser.label.rename"></span></a></li>
+	</ul>
+</div>
+<!-- Scrollable document container -->
+<div id="document-container">
+	<div id="document-background-header">
+		<div id="document-background-footer">
+			<div id="document">
+				<div id="header">
+				<a href="/" ><div id="header-logo-livebox">
+					</div></a>
+					<div id="header-controls-login" style="overflow: visible">
+						<div id="authenticationerrors" style=" position: absolute; top:6px; right: 350px; width: 300px; color: red; text-align: right;">
+							<span id="emptyauthfields" style="display: none" class="translation Translations.home.authentication.error.empty"></span>
+							<span id="emptyauthinvalid" style="display: none" class="translation Translations.home.authentication.error.invalid"></span>
+						</div>
+						<form name="Home/Accessibility"></form>
+						<form name="Login" id="Login">
+							<div id="login-inputs-div">
+								<input name="username" type="hidden" id="Username"/>
+								<input name="password" type="hidden" id="Password"/>
+								<input type="text" style="width:100px;" id="PopupUsername" class="input-text input-text-gray" maxlength="32" value="" disabled="disabled"/>
+								<input type="password" style="width:100px;" id="PopupPassword" class="input-text input-text-gray " value="" maxlength="32"/>
+								<input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.authenticate" value="" id="bt_authenticate"/>
+							</div>
+							<div id="logout-link-div" style="display: none;">
+								<span id="logged_in_username"></span>: <a href="#" id="logout_link"><span class="translation Translations.general.label.logout"></span></a>
+							</div>
+						</form>
+					</div>
+					<div id="header-controls">
+						<form name="Admin/UserInterface/Language" action="">
+							<div id="header-controls-languages">
+								<select id="Language-select" name="Language-select">
+								</select>
+							</div>
+						</form>
+						<div id="header-controls-accessibility-minus" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.fontsize.img.decrease" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-plus" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.fontsize.img.increase" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast1" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level1" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast2" class="header-controls-accessibility">
+							<a href="" title="" class="nologin "><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level2" alt=""/></a>
+						</div>
+						<div id="header-controls-accessibility-contrast3" class="header-controls-accessibility">
+							<a href="" title="" class="nologin voice Voice.accessibility.contrast.link.level3"><img src="/images/fr/common/transparent.gif?7c9c85ce" class="png voice Voice.accessibility.contrast.img.level3" alt=""/></a>
+						</div>
+						<form name="Home/Information">
+						</form>
+						<form name="Home/RemoteBackup">
+						</form>
+					</div>
+					<div id="header-hmenu">
+						<ul class="hmenu">
+							<li onclick="return Sah.redirect('/');" id="hmenu-home" class="first active"><a href="/"><span class="first active translation Translations.general.label.vmenu.home.title"></span></a></li>
+							<li onclick="return Sah.redirect('/configWifi.html');" id="hmenu-wifi" class="normal auth-required"><a href="/configWifi.html" class="auth-required"><span class="translation Translations.general.label.vmenu.config.title"></span></a></li>
+							<li onclick="return Sah.redirect('/myFiles.html');" id="hmenu-myfiles" class="normal auth-required"><a href="/myFiles.html" class="auth-required"><span class="translation Translations.general.label.vmenu.files.title"></span></a></li>
+							<!--<li id="hmenu-myipphone" class="normal auth-required"><a href="/phonebook.html" onclick="return Sah.redirect('/phonebook.html');" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li> -->
+							<li onclick="return Sah.redirect('/phoneRingTest.html');" id="hmenu-myipphone" class="normal auth-required"><a href="/phoneRingTest.html" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li>
+							<li onclick="return Sah.redirect('/supportLedsStatus.html');" id="hmenu-support" class="normal auth-required"><a href="/supportLedsStatus.html" class="auth-required"><span class="translation Translations.general.label.vmenu.support.title"></span></a></li>
+							<li onclick="return Sah.redirect('/advConfigNetworkDhcp.html');" id="hmenu-advconfig" class="last gray auth-required"><a href="/advConfigNetworkDhcp.html" class="auth-required"><span class="translation Translations.general.label.vmenu.advconfig.title"></span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="content">
+					
+<div id="content-left">
+	<ul id="content-left-vmenu" class="lbx2vmenu">
+
+		<li id="left-wifi-link" class="auth-required">
+			<a href="/configWifi.html"><span class="translation Translations.general.label.vmenu.config.wifi"></span></a>
+		</li>
+
+		<li id="orange-wifi-link" style="display:none" class="auth-required">
+			<a href="/configOrangeWifi.html"><span class="translation Translations.general.label.vmenu.config.wificom"></span></a>
+		</li>
+
+		<li id="left-advwifi-link" class="auth-required">
+			<a href="/advConfigWifi.html"><span class="translation Translations.general.label.vmenu.config.advancedwifi"></span></a>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	$("left-wifi-link").observe("click",function(e){Sah.redirect('/configWifi.html')});
+	$("orange-wifi-link").observe("click",function(e){Sah.redirect('/configOrangeWifi.html')});
+	$("left-advwifi-link").observe("click",function(e){Sah.redirect('/advConfigWifi.html')});
+</script>
+
+<style type="text/css">
+	#mac-filtring-separation{		
+		height: 22px;
+	}
+	#mac-filtring-separation td{
+		background-color:  white;		
+	}
+	body.accessibility-contrast3 #mac-filtring-separation td{
+		background-color: black;
+		border-left: medium none;
+		border-right: medium none;
+	}
+	#MacAddresses{
+		border-bottom: medium none;
+	}
+</style>
+<div id="content-center">
+        <a href="/configWifi.html"><span class="translation Translations.general.label.vmenu.config.title"></span></a> > <span class="translation Translations.general.label.vmenu.config.advancedwifi"></span>
+
+	<div class="hr hr-orange"></div>
+	<br/>
+        <h1><span class="translation Translations.advconfig.wifi.label.title"></span></h1>
+        <div class="hr"></div>
+	<br/>
+        <h2><span class="translation Translations.advconfig.wifi.label.subtitle"></span></h2>
+	<div class="hr hr-orange"></div>
+
+
+        <form id="advWifiForm" name="Wifi/Advanced" style="position: relative; z-index: 2;">
+                <div id="wlan_mask" style="background:url('/images/fr/common/bg-wifi-warn.gif?7c9c85ce') repeat; position: absolute; display: block; width:550px; z-index:9"></div>
+                <div id="wps_mask" style="background:url('/images/fr/common/bg-wifi-warn.gif?7c9c85ce') repeat; position: absolute; display: block; width:550px; z-index:9">
+                </div>
+                <table id="arrayStatus" class="array-status" style="z-index: 0;">
+                        <tbody>
+                                <tr>
+                                        <td class="first" rowspan="2">
+                                                <span class="translation Translations.advconfig.wifi.label.state"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div id="wlan_enable" style="display: none;">
+                                                        <div style="float:left; width: 180px; padding-top:5px;">
+                                                                <img src="/images/fr/leds/icons-leds-green.png?7c9c85ce" style="float:left; padding-right:5px;" class="png voice Voice.general.icon.led.green" alt=""/>
+                                                                <div style="padding-top:4px; width:150px; color: #38A403; padding-left:5px;" class="translation Translations.general.label.wifienable">
+                                                                </div>
+                                                        </div>
+                                                        <div style="float: right;">
+                                                                <input type="button" id="bt_disable" value="" class="input-btn input-btn-orange-small translation Translations.general.btn.disable"/>
+                                                        </div>
+                                                </div>
+                                                <div id="wlan_disable" style="display: none;">
+                                                        <div style="float:left; width: 180px; padding-top:5px;">
+                                                                <img src="/images/fr/leds/icons-leds-red.png?7c9c85ce" style="float:left; padding-right:5px;" class="png voice Voice.general.icon.led.red" alt=""/>
+                                                                <div style="padding-top:4px; width:150px; color: red; padding-left:5px;" class="translation Translations.general.label.wifidisable">
+                                                                </div>
+                                                        </div>
+                                                        <div style="float: right;">
+                                                                <input type="button" id="bt_enable" value="" class="input-btn input-btn-orange-small translation Translations.general.btn.enable"/>
+                                                        </div>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr id="scheduling-tr">
+                                        <td class="last">
+                                                <div style="float:right; padding-right:5px;" class="basecolor">
+                                                        <a id="scheduling-a" href="/configWifiScheduling.html#advancedWifiConfig">
+                                                                <span class="translation Translations.advconfig.wifi.link.scheduling"></span>
+                                                        </a>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr id="top_left">
+                                        <td class="first" rowspan="2">
+                                                <span class="translation Translations.advconfig.wifi.label.ssid"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div  id="WLAN.SSID" style="float:left; width:250px; white-space: pre;" name="WLAN.SSID" class="display">
+                                                </div>
+                                                <div class="basecolor" style="float:right; width:100px; text-align:right; padding-right:5px;">
+                                                        <a href="/configWifiNetworkSsid.html#advancedWifiConfig">
+                                                                <span class="translation Translations.advconfig.wifi.link.ssid"></span>
+                                                        </a>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr>
+                                        <td class="last advanced">
+                                                <div id="marker-bg-wifi-warn-top" style="float:left; width: 120px;" class="translation Translations.advconfig.wifi.label.broadcast">
+                                                </div>
+                                                <div style="float:right; padding-right:5px; padding-left: 5px;">
+                                                        <label style="padding-right:30px;">
+                                                                <input type="radio" id="wlan_bssid_enable" class="bssid voice Voice.advconfig.wifi.label.broadcast.enable" name="_wlan_bssid"/>
+                                                                &nbsp;<span class="translation Translations.general.label.yes"></span></label>
+							<label>
+                                                                <input type="radio" id="wlan_bssid_disable" class="bssid voice Voice.advconfig.wifi.label.broadcast.disable" name="_wlan_bssid"/>
+                                                                &nbsp;<span class="translation Translations.general.label.no"></span></label>
+                                                </div>
+                                        </td>
+                                </tr>
+                                
+                                <tr class="advanced" id="security-key-tr">
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.securitykey"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div id="wlan_key_na" style="display:block; float:left; width:250px; white-space: pre; " class="wlan-key securityKey display">
+                                                </div>
+                                                <div id="wlan_key_wep" name="WLAN.Security.WEPKey" style="display:none; float:left; width:250px; white-space: pre; " class="wlan-key securityKey display">
+                                                </div>
+                                                <div id="wlan_key_wpa" name="WLAN.Security.KeyPassPhrase" style="display:none; float:left; width:250px; white-space: pre; " class="wlan-key securityKey display">
+                                                </div>
+                                                <div class="basecolor" style="float:right; width:100px; text-align:right;padding-right:5px;">
+                                                        <a href="/configWifiSecurityKey.html#advancedWifiConfig" class="securityKey">
+                                                                <span class="translation Translations.advconfig.wifi.link.securitykey"></span>
+                                                        </a>
+                                                </div>
+                                        </td>
+                                </tr>
+				<tr class="advanced advBeaconType">
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.securitymode"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div style="float:left; ">
+                                                        <div style="display: none;" id="modenerror">
+                                                                <img alt="" class="png voice Voice.general.icon.error" style="float:left; width:40px; height:30px; background-image:url('/images/fr/icons/icons-error.gif?7c9c85ce'); margin-right:10px;" src="/images/fr/common/transparent.gif?7c9c85ce">
+                                                                <div style="padding-top:8px;"><span style="" class="translation Translations.advconfig.wifi.error.moden"></span></div>
+                                                        </div>
+                                                </div>
+                                                <div class="basecolor" style="float:right;padding-right:5px;">
+                                                        <input id="wlan_security_mode" name="WLAN.Security.EnabledMode" type="hidden"/>
+
+                                                        <select class="voice Voice.advconfig.wifi.label.securitymode" style="width:150px; overflow:hidden;z-index:8;" id="wlan_security_type">
+
+                                                        </select>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr class="advanced">
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.channel"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div style="float:left; width: 80px; padding-top:4px;">
+                                                        <input id="wlan_channel_mode" name="WLAN.Radio.Channel" type="hidden"/>
+                                                        <select class="voice Voice.advconfig.wifi.label.channel" style="width:80px; overflow:hidden;z-index:8;" id="wlan_channel_select">
+                                                                <option value="Auto" class="Europe">Auto</option>
+                                                                <option value="1" class="Europe">1</option>
+                                                                <option value="2" class="Europe">2</option>
+                                                                <option value="3" class="Europe">3</option>
+                                                                <option value="4" class="Europe">4</option>
+                                                                <option value="5" class="Europe">5</option>
+                                                                <option value="6" class="Europe">6</option>
+                                                                <option value="7" class="Europe">7</option>
+                                                                <option value="8" class="Europe">8</option>
+                                                                <option value="9" class="Europe">9</option>
+                                                                <option value="10" class="Europe">10</option>
+                                                                <option value="11" class="Europe">11</option>
+                                                                <option value="12" class="Europe">12</option>
+                                                                <option value="13" class="Europe">13</option>                                
+                                                        </select>
+                                                </div>
+                                                <div style="padding-top:0px; height:auto;">
+                                                        <div style="float:left; padding: 8px 0px 0px 50px;  text-align:center;">
+                                                                <span style="display: inline;" class="translation Translations.advconfig.wifi.label.channelused"></span>
+                                                                <span style="display: inline;"> : </span>
+                                                                <div style="display: inline;" id="wlan_channel" name="WLAN.Radio.Channel" class="display">
+                                                                </div>
+                                                        </div>
+                                                        <div style="float:right; padding: 0px 0px 0px 0px; width:90px;">
+                                                                <input type="button" id="bt_scan" style="float:right;display:none;" value="" class="input-btn input-btn-orange-small translation Translations.general.btn.scan"/>
+                                                        </div>
+                                                </div>
+                                        </td>
+                                </tr>
+                        </tbody>
+                </table>
+
+                <br/>
+                <div style="float:right; z-index: 0;">
+                        <input type="button" id="bt_cancel" value="" class="input-btn input-btn-gray translation Translations.general.btn.cancel" onclick="ctl.popup.Close();"/>
+                        <input type="button" id="bt_save" value="" class="input-btn input-btn-orange translation Translations.general.btn.save" onclick="ctl.popup.Close();"/>
+                </div>
+                <div id="wps-settings-title">
+                        <br/>
+
+                        <br/>
+                        <h2 style='margin-top: 20px;' class="advanced"><span class="translation Translations.advconfig.wifi.label.pairingtitle"></span></h2>
+                        <div class="hr hr-orange advanced">
+                        </div>
+                        <div id="cnt_wlan_wps_error" style="display:none;">
+                                <img src="/images/fr/common/transparent.gif?7c9c85ce" style="float:left; width:40px; height:30px; background-image:url('/images/fr/icons/icons-error.gif?7c9c85ce'); margin-right:10px;" class="png voice Voice.general.icon.error" alt=""/>
+                                <div id="wlan_wps_error" style="padding-top:8px;">
+                                </div>
+                        </div>
+                </div>
+                <table class="array-status advanced">
+                        <tbody>
+                                <tr id="cnt_wlan_wps_activation" class="cnt-wlan-wps" style="display: none;">
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.easypairing"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div id="wlan_wps_state" style="float:left; width: 120px;" class="translation Translations.general.label.disabled">
+                                                </div>
+                                                <div style="float:right; padding-right:5px;">
+                                                        <span style="padding-right:30px;">
+                                                                <input type="button" id="wlan_wps_enable" style="float:right;" value="" class="input-btn input-btn-orange-small"/>
+                                                        </span>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr id="wps-activation-tr" class="cnt-wlan-wps cnt-wlan-wps-global bssid-activated" style="display: none;" >
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.wifipushbutton"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div id="wlan_wps_bt_state" style="float:left; width: 120px;" class="translation Translations.general.label.disabled">
+                                                </div>
+                                                <div style="float:right; padding-right:5px;">
+                                                        <span style="padding-right:30px;">
+                                                                <input type="button" id="wlan_wps_bt_enable" style="float:right;" value="" class="input-btn input-btn-orange-small"/>
+                                                        </span>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr class="cnt-wlan-wps cnt-wlan-wps-global bssid-activated" style="display: none;" id="top_wps">
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.wifipairing"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div>
+                                                        <div id="wlan_wps_pin_state" style="float:left; width: 120px;" class="translation Translations.general.label.disabled">
+                                                        </div>
+                                                        <div style="float:right; padding-right:5px;">
+                                                                <span style="padding-right:30px;">
+                                                                        <input type="button" id="wlan_wps_pin_enable" style="float:right;" value="" class="input-btn input-btn-orange-small"/>
+                                                                </span>
+                                                        </div>
+                                                </div>
+                                                <br/>
+                                                <div style="float:right; padding-right:5px; display: none;" class="cnt-wlan-wps cnt-wlan-wps-pin">
+                                                        <span style="padding-right:30px;">
+                                                                <input id="selfpin-input" class="input-text input-text-gray generate-pin-code voice Voice.advconfig.wifi.label.wifipairing.selfpin" name="WLAN.WPS.WPS_ClientPIN" disabled="disabled"/>
+                                                                &nbsp;</span>
+                                                        <div style="float:right; padding: 0px 0px 0px 0px; width:90px;">
+                                                                <input type="button" id="bt_generate" style="float:right;" value="" class="input-btn input-btn-orange-small translation Translations.general.btn.generate"/>
+                                                        </div>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr class="cnt-wlan-wps cnt-wlan-wps-global bssid-activated" style="display: none;">
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.addclientpush"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div style="float:right; padding-right:5px;">
+                                                        <div style="float:right; padding: 0px 0px 0px 0px; width:90px;">
+                                                                <input type="button" id="bt_push" style="float:right;" value="" class="input-btn input-btn-orange-small translation Translations.general.btn.push"/>
+                                                        </div>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr class="cnt-wlan-wps cnt-wlan-wps-global bssid-activated" style="display: none;" id="bottom-wps">
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.addclientpin"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div style="float:right; padding-right:5px;">
+                                                        <span style="padding-right:30px;">
+                                                                <input id="wlan_pin_code" class="input-text input-text-gray client-pin-code voice Voice.advconfig.wifi.label.addclientpin" name="WLAN.WPS.WPS_ClientPIN" />
+                                                                &nbsp;</span>
+                                                        <div style="float:right; padding: 0px 0px 0px 0px; width:90px;">
+                                                                <input type="button" id="bt_add" style="float:right;" value="" class="input-btn input-btn-orange-small translation Translations.general.btn.add"/>
+                                                        </div>
+                                                </div>
+                                        </td>
+                                </tr>
+                                <tr id="mac-filtring-tr">
+                                        <td class="first">
+                                                <span class="translation Translations.advconfig.wifi.label.macfiltering"></span>
+                                        </td>
+                                        <td class="last">
+                                                <div id="wlan_macfilter_state" style="float:left; width: 120px;" class="translation Translations.general.label.disabled">
+                                                </div>
+                                                <div style="float:right; padding-right:5px;">
+                                                        <span style="padding-right:30px;">
+                                                                <input type="button" id="wlan_macfilter_enable" style="float:right;" value="" class="input-btn input-btn-orange-small"/>
+                                                        </span>
+                                                </div>                       
+                                        </td>
+                                </tr>
+                        </tbody>
+                </table>
+        </form>
+        <form name="Wifi/MacFiltring" style="position: relative; z-index: 2;">
+                <div style="display:none;" id="cnt_macfilter">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <h2 class="advanced"><span class="translation Translations.advconfig.wifi.label.devicesauthorised"></span></h2>
+                        <div class="hr hr-orange advanced">
+                        </div>
+                        <div id="config.wifi.macerror" style="display:none;">
+                                <br/>
+                                <img src="/images/fr/common/transparent.gif?7c9c85ce" style="float:left; width:40px; height:30px; background-image:url('/images/fr/icons/icons-error.gif?7c9c85ce'); margin-right:10px;" class="png voice Voice.general.icon.error" alt=""/>
+                                <div id="mac_error" style="padding-top:8px;">
+                                </div>
+                        </div>
+
+                        <table style="width:100%; text-align:center;" id="MacAddresses" class="array">
+                                <thead>
+                                        <tr>
+                                                <th colspan="5" style="height:4px; border-right: medium none;border-left: medium none;">
+                                                </th>
+                                        </tr>
+                                        <tr class="subheader">
+                                                <th class="first">
+                                                        <span class="translation Translations.advconfig.wifi.label.name"></span>
+                                                </th>
+                                                <th>
+                                                        <span class="translation Translations.advconfig.wifi.label.ipadress"></span>
+                                                </th>
+                                                <th>
+                                                        <span class="translation Translations.advconfig.wifi.label.macaddress"></span>
+                                                </th>
+                                                <th class="last">
+                                                </th>
+                                        </tr>
+
+                                </thead>
+                                <tbody id="wlan_mac_table">
+					<tr id ="mac-filtring-add-tr" >
+                                                <td class="first">
+                                                        <select style="width:150px;" id="wlan_host_list" class="voice Voice.advconfig.wifi.label.name">
+                                                        </select>
+                                                </td>
+                                                <td>
+                                                        <span id="wlan_host_ip"></span>                            
+                                                </td>
+                                                <td>
+                                                        <span id="wlan_host_mac" style="width:90px;"></span>
+                                                        <input name="Mac.physAddress" style="display: none" id="mac-filtring-physAddress" class="voice Voice.advconfig.wifi.label.macaddress"/>
+                                                </td>
+                                                <td class="last">
+                                                        <input type="button" id="bt_host_add" value="" class="input-btn input-btn-orange-small translation Translations.general.btn.add LanMacAdd"/>
+                                                </td>
+                                        </tr>
+					<tr id="mac-filtring-separation">
+						<td class="first"> </td>
+						<td> </td>
+						<td></td>
+						<td class="last"> </td>								
+					</tr>
+                                        <tr id="wlan_mac_template" class="template" style="display:none;">
+                                                <td style="text-align:left; padding-left:10px;" class="first">
+                                                        <span name="hostName"></span>
+                                                </td>
+                                                <td>
+                                                        <span name="ipAddress"></span>
+
+                                                </td>
+                                                <td>
+                                                        <span name="physAddress"></span>
+
+                                                </td>
+                                                <td class="wlan-mac-delete last" style="font-weight: bold;">                                                        
+							<input type="button" class="btn-delete input-btn input-btn-orange-small translation Translations.general.label.destroy" value=""> 
+                                                </td>
+                                        </tr>
+                                </tbody>
+                        </table>
+                </div>
+
+        </form>
+        <div id="bottom_right"></div>
+</div>
+<div id="content-right">
+        <div class="input-info-help">
+                <div class="header">
+                        <h6><span class="translation Translations.general.label.help"></span></h6>
+                </div>
+                <div class="content translation Translations.advconfig.wifi.text.help">
+                </div>
+                <div class="footer">
+                </div>
+        </div>
+</div>
+
+				</div>
+				<div id="footer">
+					<div id="footer-logo-ft">
+					</div>
+					<div id="footer-menu">
+						<a href="/legal.html" onclick="return Sah.redirect('/legal.html');"><span class="translation Translations.legal.label.title"></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+		function bindReady(handler){
+			var called = false
+			function ready() {
+				if (called) return
+				called = true
+				handler()
+			}
+			if ( document.addEventListener ) { // native event
+				document.addEventListener( "DOMContentLoaded", ready, false )
+			} else if ( document.attachEvent ) {  // IE
+				try {
+					var isFrame = window.frameElement != null
+				} catch(e) {}
+				// IE, the document is not inside a frame
+				if ( document.documentElement.doScroll && !isFrame ) {
+					function tryScroll(){
+						if (called) return
+						try {
+							document.documentElement.doScroll("left")
+							ready()
+						} catch(e) {
+							setTimeout(tryScroll, 10)
+						}
+					}
+					tryScroll()
+				}
+				// IE, the document is inside a frame
+				document.attachEvent("onreadystatechange", function(){
+					if ( document.readyState === "complete" ) {
+						ready()
+					}
+				})
+			}
+			// Old browsers
+			if (window.addEventListener)
+				window.addEventListener('load', ready, false)
+			else if (window.attachEvent)
+				window.attachEvent('onload', ready)
+			else {
+				var fn = window.onload // very old browser, copy old onload
+				window.onload = function() { // replace by new onload and call the old one
+					fn && fn()
+					ready()
+				}
+			}
+		}
+		bindReady(function() {		
+			var login = Cookie.get('login');
+			  if (login != null && (!login.match(/^[A-Za-z0-9 ]+$/) || login.length > 24)){
+				Cookie.unset('sessid');
+				Cookie.unset('expirydate');
+				Cookie.unset('login');
+				Cookie.unset('context');
+
+				new Ajax.Request("/logout", {
+					onComplete: function(){Sah.redirect('/');},
+					method: "get"
+				});
+			}
+			
+			if (Cookie.get('expirydate') !== undefined && Cookie.get('expirydate') !== null){
+				
+				var expiryValue = Cookie.get('expirydate'),	
+					expiryDate = new Date(expiryValue);
+									
+				if ( Object.prototype.toString.call(expiryDate) !== '[object Date]' || !isFinite(expiryDate) )
+					expiryDate = new Date(parseInt(expiryValue));			
+					
+				var currentDate = new Date(),
+					remainingTime = expiryDate.getTime() - currentDate.getTime();
+				
+				if(remainingTime < 0 ){
+					Cookie.unset('expirydate');
+				} else {
+					setTimeout(function(){
+						Cookie.unset('sessid');
+						Cookie.unset('expirydate');
+						Cookie.unset('login');
+						Cookie.unset('context');
+						
+						new Ajax.Request("/logout", {
+							onComplete: function(){Sah.redirect('/');},
+							method: "get"
+						});
+					}, remainingTime);
+				}
+
+			}
+			
+			if ( appConfig === 'fr' ) {
+				$('hmenu-myfiles').remove();
+				if ( $('advConfigPorts') !== null ) {
+					$('advConfigPorts').remove();
+				}
+				if ( $('left-fxo-link') !== null ) {
+					$('left-fxo-link').remove();
+				}
+			}
+			if (config.BUILD_PROJECT.indexOf("2.8") < 0) {
+				if ( $('left-fxo-link') !== null ) {
+					$("left-fxo-link").show();
+				}
+			}
+			$('Login').observe("submit",function(e){
+				Event.stop(e);
+				$('Username').setValue($F('PopupUsername'));
+				$('Password').setValue($F('PopupPassword'));
+				return true;
+			}.bind(this));
+			
+			$("popup-close-btn").observe("click",function(e){
+				ctl.popup.Close();
+				return false;
+			});
+			
+			$$('.hmenu li a').each(function (el) {
+				Event.observe(el, 'mouseup', function(event) {
+					Sah.redirect(el.href);
+				});
+			});
+		});
+</script>
+</body>
+</html>

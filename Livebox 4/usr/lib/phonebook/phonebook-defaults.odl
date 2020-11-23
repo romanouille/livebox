@@ -1,0 +1,6 @@
+
+datamodel {
+   object Phonebook {
+      parameter MaxNumberOfEntries=255;
+   }
+}

@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+		<link rel="stylesheet" type="text/css" href="../../theme/webCorporate/css/theme.css"/>
+	<title>LiveBox</title>
+	</head>
+	<body bgcolor="#eeeeee" >
+		<div class="help_popup">
+			<img  class="float-left absmiddle" src="../../theme/webCorporate/image/icon_inter.png"/>
+			<h2 class="grey" > &nbsp;aide : configuration WiFi  </h2>
+			<br/><br/>		
+			<div class="content">
+				<span >
+					Cette page vous permet de configurer le WiFi de la Livebox. Vous pouvez changer la clé de sécurité WiFi ou le nom du réseau de la Livebox (SSID).
+				</span> 
+				<br/>   <br/> 	
+			    <span >
+					<strong> activation du WiFi </strong>
+					<br/>
+					Activez votre réseau WiFi avant de modifier les paramètres de configuration de votre réseau WiFi.
+					<br/>
+					Lorsque le mode d'extension WiFi est activé, vous pouvez activer ou désactiver le WiFi sur les Livebox secondaires.
+				</span>
+				 <br/><br/> 
+			    <div >
+					<strong> paramètres techniques </strong>
+					<br/>
+					<ul id="square" class="margin-left-10"> 
+						<li class="black "> nom de la Livebox (SSID) : correspond au nom de votre Livebox (indiqué aussi sur l’étiquette de la Livebox). Il correspond au nom de votre réseau WiFi.	</li>
+						<li class="black " >mode : si vous utilisez des périphériques 802.11g, 802.11b ainsi que des périphériques 802.11n, 
+											conservez le paramètre par défaut 802.11 b+g+n. 
+											Si vous disposez uniquement des périphériques 802.11g et 802.11b sur votre réseau, sélectionnez 802.11 b+g. 
+											Si votre réseau n'est muni d'aucun périphérique sans fil, il est conseillé de désactiver le WiFi.</li>
+						<li class="black " >canal : Le WiFi utilise une bande de fréquences spécifique qui est sous-divisée en canaux. Il y a 13 canaux disponibles. 
+											Le choix du canal peut-être effectué manuellement ou automatiquement. 
+											Avec le mode auto, la Livebox teste de manière régulière l’occupation des canaux et sélectionne le meilleur canal disponible.</li>
+					</ul>
+				</div>
+				<br/> 
+				<div>	
+					<strong> paramètres de sécurité (SSID)  </strong>
+					<br/>
+					<ul id="square" class="margin-left-10"> 
+						<li class="black ">mode de sécurité : afin d’empêcher toute personne de pénétrer dans votre réseau sans fil, les connexions WiFi sont cryptées via les protocoles WEP ou WPA. 
+									   	   Seuls les terminaux et ordinateurs ayant fourni la clé WEP ou WPA de votre Livebox peuvent accéder à votre réseau sans fil. 
+									   	   Cette clé WEP composée de 26 caractères hexadécimaux (chiffres de 0 à 9 et les lettres A, B, C, D, E et F) est totalement confidentielle.
+									   
+									   <dl>
+									   		<dd>-	Si vous choisissez « Aucun », votre réseau WiFi domestique est ouvert et accessible par tous.</dd>
+									   		<dd>-	Le protocole WEP, exige à chaque échange de données entre votre Livebox et un terminal sans fil la reconnaissance de la clé WEP. La saisie de 
+									   				cette clé est donc nécessaire à la configuration d'un nouvel équipement sans fil.</dd>
+									   		<dd>-	Le protocole WPA-Personnel, rajoute au protocole WEP une sécurité complémentaire en modifiant régulièrement les modes de cryptage. 
+									   				Dans la mesure du possible, il est nécessaire d'opter pour le WPA au lieu d'une sécurisation WEP. </dd>
+									   		<dd>-	Le protocole WPA2-Personnel, fourni une sécurisation beaucoup plus poussée de votre réseau WiFi domestique.	</dd>
+									   		<dd>-	Le protocole WPA/WPA2-Personnel permet de sélectionner automatiquement le mode de sécurité le plus élevé.</dd>
+									   		<dd>-	Les protocoles WPA-Entreprise, WPA2-Entreprise et WPA/WPA2-Entreprise nécessitent de déclarer un serveur Radius dans la configuration de la Livebox.</dd>
+									   </dl>									   
+						 </li>
+					</ul>
+					Veuillez noter que les modes de sécurité WEP, WPA-Personnel et WPA-Entreprise sont incompatibles avec le mode WiFi b+g+n.
+					<br/>
+					<br/>
+					<ul id="square" class="margin-left-10"> 
+						<li class="black ">clé d'accès WiFi : La clé d'accès WiFi permet de sécuriser votre réseau WiFi. Par défaut, elle prend la valeur de la clé WEP indiquée sur l’étiquette de la Livebox.</li>
+					</ul>					
+				</div>
+				<br/>
+				<div>	
+					<strong> association WPS   </strong>
+					<ul id="square" class="margin-left-10"> 
+						<li class="black ">état WPS : cette fonction vous permet de connecter un périphérique compatible WPS à la Livebox sans avoir à saisir les paramètres de votre réseau WiFi domestique.</li>
+						<li class="black ">association WPS par écran : cette fonction vous permet de connecter un périphérique compatible WPS à la Livebox à partir du bouton situé en face avant de la Livebox.</li>
+					</ul>
+					
+					<div>Note : la fonction WPS ne peut être activée que lorsque la fonction de filtrage d'adresse MAC est désactivée.</div>
+					<br/>
+					Pour connecter un périphérique compatible WPS à la Livebox à partir du web de configuration, 3 méthodes sont disponibles :
+					<ul id="square" class="margin-left-10"> 
+						<li class="black ">bouton WPS : veuillez activer la fonction puis appuyer directement sur l’icône WPS 
+						<img class="absmiddle" height="40px" src="../../theme/webCorporate/image/ico_softpush.png"/> ou directement sur le bouton WiFi de la Livebox ;  </li>
+						<li class="black ">code pin équipement : veuillez alors rentrer le code pin généré par votre périphérique compatible WPS puis appuyer sur le bouton « ajouter » ;</li>
+						<li class="black">code pin Livebox : veuillez alors  « régénérer » un code pin par la Livebox puis saisissez-le sur votre périphérique compatible WPS.</li>
+					</ul>
+				</div>
+				<br/> 
+				<div>	
+					<strong> équipements autorisés </strong>
+					<br/>
+					filtrage d’adresse MAC : chaque périphérique possède une adresse physique qui lui est propre (appelée adresse MAC). Cette adresse est représentée 
+					par 12 chiffres hexadécimaux groupés par paires et séparés par des tirets ou des double-points.
+					<br/>
+					Lorsque vous activez ce filtrage, et si vous voulez autoriser une nouvelle machine à s'appairer avec votre Livebox, vous devez :	
+					<ul id="square" class="margin-left-10"> 
+						<li class="black ">soit appuyer sur le bouton WiFi de votre Livebox ;</li>
+						<li class="black ">soit cliquer sur le bouton « ajouter un équipement » du tableau listant les machines appairées à votre Livebox et saisir l'adresse MAC de la machine que vous souhaitez appairer.</li>
+					</ul>
+					Si ce filtrage est désactivé, toute machine peut se connecter à votre Livebox sans que vous ayez à appuyer sur le bouton WiFi ou à saisir son adresse MAC dans le tableau.
+					Par défaut, cette option est désactivée.
+
+					<br/>
+					<span>Note : la fonction de filtrage d'adresse MAC ne peut être activée que lorsque la fonction WPS est désactivée.</span>
+									
+					<br/><br/>
+					Pour plus d'infos, cliquez sur le lien <a class="orange" href="http://assistance.orange.fr/">http://assistance.orange.fr/</a>.
+				</div>			
+			</div>
+		</div>
+	</body>
+</html>
+	

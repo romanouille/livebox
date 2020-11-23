@@ -1,0 +1,31 @@
+#!/bin/sh
+
+PCB_PLUGIN="/bin/pcb_plugin"
+DEVICEINFO_PLUGIN_ODL="/usr/lib/deviceinfo/deviceinfo.odl"
+PID="/var/run/deviceinfo_plugin.pid"
+
+case $1 in
+    start)
+        echo "Starting deviceinfo plugin"
+        $PCB_PLUGIN -n deviceinfo_plugin -c $DEVICEINFO_PLUGIN_ODL &
+        ;;
+    stop)
+        echo -n "Stopping deviceinfo plugin ..."
+        if [ -e $PID ] ; then
+        	kill $(cat $PID)
+        	echo "done."
+        else
+            echo "not running."
+        fi
+        ;;
+    status)
+    	if [ -e $PID ] ; then
+        	echo "deviceinfo plugin is running."
+        else
+            echo "deviceinfo plugin is not running."
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status]"
+        ;;
+esac

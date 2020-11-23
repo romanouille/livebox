@@ -1,0 +1,53 @@
+using "ConMon.so";
+persistent object ConMon {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+group technician read,write,execute;
+}
+persistent object Entry[] {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+read-only persistent string Interface {
+constraint maxvalue 256;
+default "data";
+}
+read-only persistent uint32 MainLoopTimerLength {
+default 60;
+}
+read-only persistent uint32 FailTimerLength {
+default 15;
+}
+read-only persistent uint32 DeadlineTimerLength {
+default 1;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+read-only persistent uint32 NumberOfRetries {
+default 3;
+}
+read-only bool Up {
+default 1;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+read-only uint16 State {
+default 0;
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+persistent string IPVersion {
+constraint enum ["ipv4","ipv6"];
+default "ipv4";
+}
+persistent bool Enable;
+}
+}

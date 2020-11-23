@@ -1,0 +1,32 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		pcb_cli -l "NeMo.loadModule(alias.so)" \
+		           "NeMo.loadModule(dhcpv6.so)" \
+		           "NeMo.loadModule(dhcp-api.so)" \
+		           "NeMo.loadModule(dsl.so)" \
+		           "NeMo.loadModule(eth.so)" \
+		           "NeMo.loadModule(nat.so)" \
+		           "NeMo.loadModule(penable.so)" \
+		           "NeMo.loadModule(vlan.so)" \
+		           "NeMo.loadModule(xtm.so)" \
+		           "NeMo.loadModule(wlan.so)"
+		;;
+	stop)
+		pcb_cli -l "NeMo.unloadModule(alias.so)" \
+		           "NeMo.unloadModule(dhcpv6.so)" \
+		           "NeMo.unloadModule(dhcp-api.so)" \
+		           "NeMo.unloadModule(dsl.so)" \
+		           "NeMo.unloadModule(eth.so)" \
+		           "NeMo.unloadModule(nat.so)" \
+		           "NeMo.unloadModule(penable.so)" \
+		           "NeMo.unloadModule(vlan.so)" \
+		           "NeMo.unloadModule(xtm.so)" \
+		           "NeMo.unloadModule(wlan.so)"
+
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac
+

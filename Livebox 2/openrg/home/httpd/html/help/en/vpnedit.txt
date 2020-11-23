@@ -1,0 +1,14 @@
+<b>VPN:</b><br>
+<br>
+This page is used to define the settings for your VPN connection.<br>
+<br>
+Easy configuration mode is preferred for interconnecting two Boxers if you wish to keep the default security settings.<br>
+<br>
+Expert mode is used to define the security settings for a connection between Boxers. This mode can also be used to configure a link between a Boxer and another type of VPN server.<br>
+<br>
+<span class="boldorange">Tunnel configuration in Easy&nbsp;mode:</span><br>
+To create a new connection you must enter the following information: a tunnel name, the IP address or DNS name of the remote host, a secret key which must be identical on the two Boxers, the range of addresses on the local network and remote network which will have access to the VPN. The address ranges are entered as an IP address and subnet mask.<br>
+<br>
+<span class="boldorange">Tunnel configuration in Expert mode:</span><br>
+To create a new connection you must enter the following information: a tunnel name, the IP address or DNS name of the remote host, a secret key which must be identical on the two Boxers participating in the connection, the range of addresses on the local network and remote network which will have access to the VPN. The address ranges are entered as an IP address and subnet mask.<br>
+The default values can be used for the other settings. Only expert users should modify security settings. 

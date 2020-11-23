@@ -1,0 +1,7 @@
+mib info {
+string Manufacturer;
+string ManufacturerUrl;
+string ManufacturerSupport;
+string OS;
+string OSVersion;
+}

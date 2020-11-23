@@ -1,0 +1,122 @@
+/* TR-098 compliant time datamodel */
+
+
+/**
+ * TR-098 time datamodel. Controls the operation of the NTP daemon. 
+ * 
+ * You can customize the path to the ntpd using
+ *   -P path-to-ntpd : override the ntpd path with your custom one
+*/
+
+object Time {
+
+    /**
+     * Enables/disables the NTP daemon.
+     */
+    bool Enable;
+
+    /**
+     * Describes the synchronziation status, one of : "Disabled", "Unsynchronized", "Synchronized", "Error_FailedToSynchronize","Error".
+     */
+    read-only string Status {               // "error" status is optional
+      constraint enum ["Disabled", "Unsynchronized", "Synchronized", "Error_FailedToSynchronize","Error"];
+      default "Disabled";
+    }
+
+    /**************************************************************************************
+      "Disabled" --(Enable=1)-|--> "Unsynchronized" --|--> "Synchronized"
+          ^                   |               |       |--> "Error_FailedToSynchronize"
+          |                   |--> "error"    |                |
+          |--------(Enable=0)---------|-------|----------------|
+    ***************************************************************************************/
+
+    /**
+     * First NTP server
+     */
+    string NTPServer1;
+ 
+    /**
+     * Second NTP server
+     */
+    string NTPServer2;           
+
+    /**
+     * Third NTP server
+     */
+    string NTPServer3;           
+    
+    /**
+     * Fourth NTP server
+     */
+    string NTPServer4;           
+    /**
+     * Fifth NTP server
+     */
+    string NTPServer5;           
+ 
+    /**
+     * Current date and time in CPE's local time zone.
+     */
+    read-only datetime CurrentLocalTime;
+
+    /**
+     * TR-098 Amendment 2: OBSELETE, added to be compliant with cdrouter profile tests
+     * Fetches the local time zone from the system.
+     * WRITING TO IT HAS NO EFFECT
+     */
+    string LocalTimeZone;
+
+    /**
+     * Local time zone name and daylight saving time, encoded as an IEEE 1003.1 encoded string. e.g. “EST+5EDT,M4.1.0/2,M10.5.0/2”. 
+     * See http://tools.ietf.org/html/draft-ietf-dhc-timezone-01 . 
+     */ 
+    string LocalTimeZoneName;
+
+    /**
+     * TR-098 Amendment 2: OBSELETE, added to be compliant with cdrouter profile tests
+     * Returns true if daylight saving time is used on the system. 
+     * WRITING TO IT HAS NO EFFECT
+     */
+    bool DaylightSavingsUsed;
+
+    /**
+     * TR-098 Amendment 2: OBSELETE, added to be compliant with cdrouter profile tests
+     * CURRENTLY NOT IMPLEMENTED
+     */
+    datetime  DaylightSavingsStart;
+
+    /**
+     * TR-098 Amendment 2: OBSELETE, added to be compliant with cdrouter profile tests
+     * CURRENTLY NOT IMPLEMENTED
+     */
+    datetime  DaylightSavingsEnd;
+
+}
+
+
+
+datamodel {
+    object Time {
+        destination "pcb://$(PCB_MAIN_BUS)/Time" {
+          parameter Enable;
+          parameter Status;
+          parameter NTPServer1;
+          parameter NTPServer2;
+          parameter NTPServer3;
+          parameter NTPServer4;
+          parameter NTPServer5;
+          parameter CurrentLocalTime;
+          parameter LocalTimeZone;
+          parameter LocalTimeZoneName;
+          parameter DaylightSavingsUsed;
+          parameter DaylightSavingsStart;
+          parameter DaylightSavingsEnd;
+       }
+    }
+}
+
+
+
+
+
+

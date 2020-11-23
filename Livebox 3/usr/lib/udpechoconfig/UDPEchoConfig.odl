@@ -1,0 +1,39 @@
+using "UDPEchoConfig.so";
+acl {
+group cwmpd read,write,execute;
+}
+persistent object UDPEchoConfig {
+persistent string Interface {
+constraint custom validateInterface;
+write with writeInterfaceHandler;
+default "";
+}
+persistent string SourceV4HostName {
+constraint maxvalue 256;
+write with writeHostnameHandler;
+}
+persistent string SourceV6HostName {
+constraint maxvalue 256;
+write with writeHostnameHandler;
+}
+read-only string SourceIPAddress;
+read-only string SourceIPv6Address;
+persistent uint32 UDPPort {
+default 54321;
+}
+persistent bool EchoPlusEnabled {
+write with start_udpechoconfig;
+default true;
+}
+read-only bool EchoPlusSupported;
+read-only uint32 PacketsReceived;
+read-only uint32 PacketsResponded;
+read-only uint32 BytesReceived;
+read-only uint32 BytesResponded;
+read-only string TimeFirstPacketReceived;
+read-only string TimeLastPacketReceived;
+persistent bool Enable {
+write with start_udpechoconfig;
+default true;
+}
+}

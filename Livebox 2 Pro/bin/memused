@@ -1,0 +1,20 @@
+#!/bin/sh
+
+get_meminfo_value ()
+{
+	sed -n "s/^$*[^0-9]*\([0-9]*\).*/\1/p" /proc/meminfo
+}
+
+get_meminfo_unit ()
+{
+	sed -n '1s/.* \([^ ]*\)$/\1/p' /proc/meminfo
+}
+
+TOTAL=`get_meminfo_value 'MemTotal:'`
+FREE=`get_meminfo_value 'MemFree:'`
+BUFFERS=`get_meminfo_value 'Buffers:'`
+CACHED=`get_meminfo_value 'Cached:'`
+USED=`expr $TOTAL - $FREE - $BUFFERS - $CACHED`
+PERCENT=`expr $USED \* 100 / $TOTAL`
+UNIT=`get_meminfo_unit`
+echo "Used/Total memory: $USED $UNIT / $TOTAL $UNIT ($PERCENT %)"

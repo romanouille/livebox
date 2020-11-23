@@ -1,0 +1,24 @@
+object NeMo {
+	object extends MIB(0,"ra") {
+		string Flag = "netdev && (ipv6 || ra)";
+		object DataModel {
+			int32 IPv6RouterDownTimeout;
+			object IPv6Router[] {
+				string Address;
+				uint32 LastAdvertisement;
+				uint8 CurHopLimit;
+				bool Managed;
+				bool Other;
+				bool HomeAgent;
+				int8 Preference;
+				uint16 RouterLifetime;
+				uint32 ReachableTime;
+				uint32 RetransTimer;
+				object Option[] {
+					uint8 Tag;
+					string Value;
+				}
+			}
+		}
+	}
+}

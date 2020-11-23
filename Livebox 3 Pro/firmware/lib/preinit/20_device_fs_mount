@@ -1,0 +1,10 @@
+#!/bin/sh
+# Copyright (C) 2006 OpenWrt.org
+# Copyright (C) 2010 Vertical Communications
+
+choose_device_fs() {
+    mount -n -t tmpfs -o size=512K devfs /dev
+}
+
+boot_hook_add preinit_essential choose_device_fs
+

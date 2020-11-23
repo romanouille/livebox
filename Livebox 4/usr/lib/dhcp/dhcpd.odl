@@ -1,0 +1,1037 @@
+using "dhcpd.so";
+
+define lease_t {
+	string IPAddress;
+	string MACAddress;
+	string LeasePath;
+}
+
+acl {
+	group cwmpd read,write,execute;
+	group admin read,execute;
+	group remoteadmin read,execute;
+}
+
+/** 
+ * @version V5.1
+ */
+persistent object DHCPv4 {
+	
+	persistent object Server {
+		
+/** 
+ * Enables or disables the IPv4 DHCP server. 
+ * @version V5.1
+ */
+		persistent bool Enable {
+			default true;
+			write with enableOnWrite;
+		}
+
+/** 
+ * Verify IP address first, use ping to verify if the IP address is already in use.
+ * @version V5.1
+ */
+		persistent bool VerifyFirst {
+			default true;
+			write with verifyOnWrite;
+		}
+
+/** 
+ * Trust a client even if we receive a DHCP REQUEST without a DHCP DISCOVERY.
+ * @version V5.1
+ */
+		persistent bool TrustClient {
+			default true;
+			write with trustClientOnWrite;
+		}
+
+/** 
+ * RtBehaviour: Defines how option 249 (TAG_MSFT_IP_CLASSLESS_STAT_RT) is interpreted.
+ * @version V5.1
+ */
+		persistent string RtBehaviour {
+			constraint enum ["traditional", "standard", "msft"];
+			default "traditional";
+		}
+
+/** 
+ * AckInform: If set to 'True' a DHCP INFORM message is ack'd, 
+ * if set to 'False', no response is sent to the client.
+ * @version V5.1
+ */
+		persistent bool AckInform {
+			default false;
+			write with ackInformOnWrite;
+		}
+
+/**
+ * Shows the number of pools in DHCP Server object, for TR-181 compatibility.
+ * @version V5.1
+ */
+		volatile read-only uint32 PoolNumberOfEntries {
+			read with poolNumberOfEntriesOnRead;
+		}
+/** 
+ * Defines a DHCP server pool. 
+ * @version V5.1
+ */
+		persistent object Pool[8] {
+			write with poolOnWrite;
+
+/** 
+ * Add a static lease with the given MACAddress, IPAddress pair.
+ * @param MACAddress - MAC Address must be unique, specified in xx:xx:xx:xx:xx:xx format.
+ * @param IPAddress - ip address in dotted notation, must be unique.
+ * @error - return pcb_error_invalid_value if mac or ip address is invalid, or malformed. Return pcb_error_invalid_value if the ip address is not in the pool range or ip address is already reserved.
+ * @return nothing is the lease is added successfully.
+ * @version V5.1
+ */
+			void addStaticLease(mandatory string MACAddress, mandatory string IPAddress) {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+
+/** 
+ * Delete the static lease with a given MACAddress from the pool
+ * @param MACAddress - MAC Address to be deleted.
+ * @error - return pcb_error_invalid_value if ip MACAddress is malformed, the lease is not static or no lease is found.
+ * @return nothing if the lease is deleted successfully.
+ * @version V5.1
+ */
+			void deleteStaticLease(mandatory string MACAddress) {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+
+/**
+ * Get all static leases from a specific pool, no parameters are required.
+ * @return - Return a list of lease_t objects. 
+ * @version V5.1
+ */
+			list getStaticLeases() {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+
+/**
+ * Add a lease with the given MACAddress, IPAddress pair.and optionally options
+ * @param MACAddress - MAC Address must be unique, specified in xx:xx:xx:xx:xx:xx format.
+ * @param IPAddress - ip address in dotted notation, must be unique.
+ * @param options - list of DHCP options (key, value pair) (default = empty list)
+ * @param internal - if set to true the lease is added as an internal lease
+ * @error - return pcb_error_invalid_value if mac or ip address is invalid, or malformed. Return pcb_error_invalid_value if the ip address is already reserved.
+ * @return nothing is the lease is added successfully.
+ * @version V5.1
+ */
+			void addLease(mandatory string MACAddress, mandatory string IPAddress, list options, bool internal) {
+				acl {
+					group admin none;
+					group remoteadmin none;
+				}
+			}
+
+/**
+ * Get all leases from a certain rule if rule is specified, if rule is NULL, return all leases from all rules in a DHCP pool.
+ * @param rule - name of the rule
+ * @error - return pcb_error_invalid_value if the rule name is invalid.
+ * @return a list of leases.
+ * @version V7.0
+ */
+			list getLeases(string rule) {
+				acl {
+					group admin read,write,execute;
+					group remoteadmin read,write,execute;
+				}
+			}
+
+/** 
+ * Enables or disable the server pool.
+ * @version V5.1
+ */
+			persistent bool Enable {
+				default false;
+				write with poolEnableOnWrite;
+			}
+
+/** 
+ * The human readable name of the pool. The maximum name length is defined as DHCPOOL_MAX_NAME(32).
+ * @version V5.1
+ */
+			persistent string Name {
+				constraint maxvalue 32;
+				write with nameOnWrite;
+			}
+
+/** 
+ * Status: Defines if the pool is inactive(Enable=false), active(Enable=true, all is ok) or misconfigured (i.e. Enable=true, but certain mandatory parameters are missing.)
+ * @version V5.1
+ */
+			read-only string Status {
+				constraint enum["Disabled", "Enabled", "Error_Misconfigured"];
+				default "Disabled";
+			}
+
+/** 
+ * Type of Allocation, if set to 'auto', the leases are considered reserved.
+ * @version V5.1
+ */
+			persistent string Allocation {
+				constraint enum ["dynamic", "auto"];
+				default "dynamic";
+				write with poolAllocationOnWrite;
+			}
+
+/** 
+ * Store the leases persistently are not. Static leases must always be saved. If set to true, all existing and newly created leases in this pool will be persistent.
+ * @version V5.1
+ */
+			persistent bool PersistentLeases {
+				default false;
+				write with persistentLeasesOnWrite;
+			}
+
+/** 
+ * Defines the default behaviour of the OnHold parameter for leases. By default it is set to false to allow leases to reply to a DHCP DISCOVER. If this parameter is set to true, all new leases for this pool will be created with the OnHold value set to true.
+ * @version V5.1
+ */
+			persistent bool LeasesOnHold {
+				default false;
+				write with leasesOnHoldOnWrite;
+			}
+
+/** 
+ * Enable static ARP entries whenever a lease is set to BOUND. 
+ * @version V5.1
+ */
+			persistent bool ARPProtect {
+				default true;
+				write with ARPProtectOnWrite;
+			}
+
+/** 
+ * Linux network interface. 
+ * @version V5.1
+ */
+			persistent string Interface {
+				constraint maxvalue 16;
+				write with poolInterfaceOnWrite;
+			}
+
+/** 
+ * Minimum address, start IP address of the DHCP server pool.
+ * @version V5.1
+ */
+			persistent string MinAddress {
+				write with poolMinAddressOnWrite;
+			}
+
+/** 
+ * Maximum address, end IP address of the DHCP server pool.
+ * @version V5.1
+ */
+			persistent string MaxAddress {
+				write with poolMaxAddressOnWrite;
+			}
+
+/** 
+ * Subnet mask, in dotted notation.
+ * @version V5.1
+ */
+			persistent string SubnetMask {
+				write with poolSubnetMaskOnWrite;
+			}
+
+/** 
+ * Note that TR-181 is incorrect in claiming support for multiple default gateways. Only a single default gateway can
+ * be provided in this parameter. Option 121 can provide classless static routes as per RFC 3442.
+ * @version V5.1
+ */
+			persistent string IPRouters {
+				write with poolGatewayOnWrite;
+			}
+
+/** 
+ * DHCP server IP address, this must be the LAN IP address for most configurations.
+ * @version V5.1
+ */ 
+			persistent string Server {
+				write with poolServerOnWrite;
+			}
+
+/** 
+ * Minimum lease time. If the lease time in the DHCP DISCOVER is smaller than this value, this value will be sent in the OFFER.
+ * @version V5.1
+ */
+			persistent uint32 MinLeaseTime {
+				write with poolMinLeaseTimeOnWrite;
+			}
+			
+/** 
+ * Default lease time. If the client does not request a lease time, this value is offered.
+ * TODO: document infinite lease times, impact on min/maxLeaseTime and setLeaseTime(), mapping to TR-181 -1 value.
+ * @version V5.1
+ */
+			persistent uint32 LeaseTime {
+				default 86400;
+				write with poolDefaultLeaseTimeOnWrite;
+			}
+
+/** 
+ * Maximum lease time. If the lease time in the DHCP DISCOVER is larger than this value, this value will be sent in the OFFER.
+ * @version V5.1
+ */
+			persistent uint32 MaxLeaseTime {
+				write with poolMaxLeaseTimeOnWrite;
+			}
+
+/** 
+ * Comma-separated list of dotted-decimal IPv4 addresses. List items represent DNS servers offered to DHCP clients via option 6.
+ * @version V5.1
+ */
+			persistent string DNSServers {
+				write with poolDNSOnWrite;
+			}
+
+/** 
+ * Domain Name
+ * @version V5.1
+ */
+			persistent string DomainName {
+				constraint maxvalue 72;
+				write with poolDomainOnWrite;
+			}
+
+/** 
+ * Set or unset the UNNUMBERED flag. i.e. The interface does not have the server IP address configured but uses proxy ARP to simulate this behaviour.
+ * Currently, this feature is not supported.
+ * @version V5.1
+ */
+			persistent bool Unnumbered {
+				default false;
+				write with poolUnnumberedOnWrite;
+			}
+
+/** 
+ * Include option 125 in options list 
+ * @version V5.1
+ */
+			persistent bool IncludeOption125 {
+				default false;
+				write with poolOption125OnWrite;
+			}
+
+/** 
+ * This parameter is read-only, currently only used for debugging.
+ * @version V5.1
+ */
+			volatile read-only uint32 Flags {
+				read with poolFlagOnRead;
+			}
+
+/**
+ * Configure server hostname (sname), the hostname is null terminated.
+ * @version V5.1
+ */
+			persistent string ServerHostName {
+				constraint maxvalue 63;
+				write with serverHostNameOnWrite;
+			}
+/**
+ * Configure file name, the file name is null terminated.
+ * @version V5.1
+ */
+			persistent string FileName {
+				constraint maxvalue 127;
+				write with fileNameOnWrite;
+			}
+/** 
+ * Authentication Information, see RFC 3118
+ * @version V5.2
+ */
+			persistent object Authentication {
+				write with authenticationOnWrite;
+						
+/** 
+ * Authentication Information Protocol, only 0 (configuration token) is supported now
+ * -1 means no authentication algorithm specified.
+ * @version V5.2
+ */
+				persistent int32 Protocol {
+					constraint minvalue -1;
+					constraint maxvalue 1;
+					default -1;
+				}
+
+/** 
+ * Authentication Information Algorithm, only 0 is supported
+ * @version V5.2
+ */
+				persistent uint8 Algorithm = 0;
+
+/** 
+ * ConfigurationToken Authentication Information string. Only applicable for Protocol 0;
+ * @version V5.2
+ */
+				persistent string ConfigurationToken {
+					constraint maxvalue 40;
+				}
+			}
+
+/** 
+ * Return the number of Leases in a pool.
+ * @version V5.1
+ */
+			volatile read-only uint32 LeaseNumberOfEntries {
+				read with poolLeaseNumberOfEntriesOnRead;
+			}
+
+/** 
+ * Return the number of Rules in a pool.
+ * @version V5.1
+ */
+			volatile read-only uint32 RuleNumberOfEntries {
+				read with poolRuleNumberOfEntriesOnRead;
+			}
+
+/** 
+ * Function to set the lease time of a pool. Both defaultLeasetime and MaxLeasetime are set to this value.
+ * @param leasetime - Lease time in seconds.
+ * @return - void
+ * @version V5.1
+ */
+			void setLeaseTime(mandatory uint32 leasetime);
+
+/** 
+ * Returns the number of options in a pool, for TR-181 compatibility.
+ * @version V5.1
+ */
+			volatile read-only uint32 OptionNumberOfEntries {
+				read with poolOptionNumberOfEntriesOnRead;
+			}
+
+/** 
+ * Add a specific option in the DHCP Server to provide to the client.
+ * @version V5.1
+ */			
+			persistent object Option[16] {
+				write with optionOnWrite;
+
+/** 
+ * Enable or disable the dynamic option for the pool.
+ * @version V5.1
+ */
+				persistent bool Enable = false;
+
+/**
+ * Specify a unique human readable name. ('Alias' in TR-181)
+ * @version V5.1
+ */
+				persistent string Name {
+					constraint maxvalue 64;
+				}
+
+/** 
+ * Specify an option id, 0 is valid (means undefined). the option should not be in the list of predefined options(53, 54, 51, 58, 59, 1, 15, 121, 3, 33, 6, 44, 82, 255). ('Tag' in TR-181)
+ * @version V5.1
+ */
+				persistent uint8 Tag {
+					constraint minvalue 0;
+					constraint maxvalue 255;
+					default 0;
+				}
+
+/**
+ * A hexbinary encoded option value, the initial size of the option is not included, it is calculated. 
+ * @version V5.1
+ */
+				persistent string Value;
+
+/** 
+ * Supply this option unconditionally, or only if the client requests it.
+ * @version V5.1
+ */
+				persistent string Policy {
+					constraint enum["requested", "always"];
+					default "always";
+				}
+			}
+
+/** 
+ * Rules can be added to identify which pool must be taken for a DHCP client. 
+ * @version V5.1
+ */
+			persistent object Rule[16] {
+				write with ruleOnWrite;
+	
+/** 
+ * Human readable name of the rule, the max name length is 32.
+ * @version V5.1
+ */
+				persistent string Name {
+					constraint maxvalue 32;
+				}
+
+/** 
+ * Pool association criterion, option 60 i.e. vendor class id.
+ * @version V5.1
+ */
+				persistent string VendorClassID {
+					constraint maxvalue 255;
+				}
+
+/**
+ * Negate the match of the vendor class ID. This value has only effect if the VendorClassID is specified.
+ * @version V5.1
+ */
+				persistent bool VendorClassIDExclude = false;
+
+/** 
+ * Do an exact match or do a partial match.
+ * @version V5.1
+ */
+				persistent string VendorClassIDMode {
+					constraint enum["Exact", "Prefix", "Suffix", "Substring"];
+					default "Exact";
+				}
+
+/** 
+ * Pool asssociation criterion, option 61, clientID. 
+ * A client id must be specified as a MAC address notation, i.e. hex values, separated by ":".
+ * The client id is specified as option 61. If this is not provided in the DHCP packet, 
+ * the MAC address is taken from the chaddr field.
+ * @version V5.1
+ */
+				persistent string ClientID {
+					constraint maxvalue 255;
+				}
+/** 
+ * Negate the match of the clientID. 
+ * @version V5.1
+ */
+				persistent bool ClientIDExclude {
+					default false;
+				}
+
+/** 
+ * Pool association criterion, option 77, user class id. Only exact matches are supported.
+ * @version V5.1
+ */
+				persistent string UserClassID {
+					constraint maxvalue 255;
+				}
+
+/**
+ * Negate the match of the user class ID.
+ * @version V5.1
+ */
+				persistent bool UserClassIDExclude {
+					default false;
+				}
+
+/** 
+ * Do an exact match or do a partial match.
+ * @version V5.1
+ */
+				persistent string UserClassIDMode {
+					constraint enum["Exact", "Prefix", "Suffix", "Substring"];
+					default "Substring";
+				}
+
+/**
+ * Pool association criterion MAC Address.
+ * @version V5.1
+ */
+				persistent string Chaddr;
+
+/** 
+ * MAC address mask. Bits set to one are matched. Default value is ff:ff:ff:ff:ff:ff.
+ * @version V5.1
+ */
+				persistent string ChaddrMask {
+					default "ff:ff:ff:ff:ff:ff";
+				}
+
+/**
+ * Negate the match of the MAC address. 
+ * @version V5.1
+ */
+				persistent string ChaddrExclude {
+					default false;
+				}
+
+/** 
+ * Debug parameter, indicates which criterion is currently active. For more information, check the "DHCP Rules" section.
+ * @version V5.1
+ */
+				volatile uint32 Criteria {
+					read with ruleCriteriaOnRead;
+				}
+
+/** 
+ * Leases are not persistent by default, however if the 'PersistentLeases' parameter in the Pool is set, all leases will be saved. 
+ * Static leases are always persistent.
+ * @version V5.1
+ */
+				object Lease[256] {
+					write with leaseOnWrite;
+
+/** 
+ * Unique client id, identifying the DHCP Client (option 61, or chaddr)
+ * @version V5.1
+ */
+					persistent string ClientID;
+
+/** 
+ * Assigned IP Address.
+ * @version V5.1
+ */
+					persistent string IPAddress;
+
+/** 
+ * MAC Address of the DHCP Client address, as found in the Ethernet source MAC address field.
+ * @version V5.1
+ */	
+					persistent string MACAddress;
+
+/**
+ * Lease time remaining, number of seconds the lease is active. -1 if this is a reserved lease
+ * @version V5.1
+ */
+					volatile read-only int32 LeaseTimeRemaining {
+						read with leaseLeaseTimeRemainingOnRead;
+					}
+
+/** 
+ * Lease time of the lease. This can be modified to 0xffffffff to indicate a static lease.
+ * @version V5.1
+ */
+					persistent uint32 LeaseTime;
+	
+
+					persistent string Gateway;
+
+/** 
+ * True if the client is still wating for ping response, false if not.
+ * @version V5.1
+ */
+					volatile read-only bool WaitingForPing {
+						read with leaseWaitingForPingOnRead;
+					}
+
+/** 
+ * Returns true if the stoppedWaitingForPing is set, false if not. 
+ * This flag is set to indicate a lease is found on reply of the ICMP packet.
+ * @version V5.1
+ */
+					volatile read-only bool StoppedWaitingForPing {
+						read with leaseStoppedWaitingForPingOnRead;
+					}
+
+/** 
+ * returns true if the lease is in use, false if not.
+ * @version V5.1
+ */
+					volatile read-only bool Active {
+						read with leaseInUseOnRead;
+					}
+
+/** 
+ * Stop Lease is set when the lease is no longer valid, 
+ * @version V5.1
+ */
+					volatile read-only bool StopLease {
+						read with leaseStopLeaseonRead;
+					}
+
+/** 
+ * Return if the received options are null terminated or not, 
+ * this seems to be important for some MS systems.
+ * @version V5.1
+ */
+					volatile read-only bool NullTermination {
+						read with leaseNullTerminationOnRead;
+					}
+
+					persistent bool MsftClasslessRt;
+
+/** 
+ * Set this bool to true if the lease becomes static.
+ * @version V5.1
+ */
+					persistent bool Reserved;
+
+/**
+ * Set this bool to true if the lease becomes internal.
+ * @version V5.2
+ */
+					persistent bool Internal;
+
+/**
+ * If true, a DHCP offer is not sent. When set to false, the DHCP offer is sent in response to a DHCP discover.
+ * The parameter is initialised with the value of the 'LeasesOnHold' parameter in the Pool.
+ * @version V5.1
+ */
+					persistent bool OnHold;
+
+/** 
+ * Shows the name as provided in the DHCP option 12 value as received from the client.
+ * @version V5.1
+ */
+					persistent string FriendlyName;
+
+/** 
+ * Show flags received from DHCP client, debug information.
+ * @version V5.1
+ */
+					volatile read-only uint32 Flags {
+						read with leaseFlagsOnRead;
+					}
+
+/** 
+ * Show transaction id of the last DHCP message.
+ * @version V5.1
+ */
+					volatile read-only uint32 TransactionID {
+						read with leaseTransactionIDOnRead;
+					}
+
+/** 
+ * Shows the ciaddr, debug information.
+ * @version V5.1
+ */
+					volatile read-only string CIAddr {
+						read with leaseCIAddrOnRead;
+					}
+
+/** 
+ * Shows the giaddr(gateway address), debug information.
+ * @version V5.1
+ */
+					volatile read-only string GIAddr {
+						read with leaseGIAddrOnRead;
+					}
+
+/** 
+ * Returns the number of options in the DHCP REQUEST message.
+ * @version V5.1
+ */
+					volatile read-only uint32 OptionNumberOfEntries {
+						read with leaseOptionNumberOfEntries;
+					}
+
+/** 
+ * Send a FORCE RENEW for this lease.
+ * @param none 
+ * @param error return 'pcb_error_not_found' if the lease data is not found.
+ * @return void 
+ * @version V5.2
+ */
+					void forceRenew();
+
+/**
+ * Received options from the DHCP client. 
+ * @version V5.1
+ */
+					object Option[32] {
+
+/**
+ * Option id, number in range [1 - 254].
+ * @version V5.1
+ */
+						uint8 Tag {
+							constraint minvalue 0;
+							constraint maxvalue 255;
+							default 0;
+						}
+
+/** 
+ * Hexbinary encoded value.
+ * @version V5.1
+ */ 
+						string Value;
+					}
+				}
+			}
+		}
+/** 
+ * Define Statistics, statistics are not global, not per interface!
+ * @version V5.1
+ */
+		object Stats {
+
+/** 
+ * Returns the status of the DHCP Server.
+ * @version V5.1
+ */
+			string State {
+				constraint enum ["Running"];
+				default "Running";
+			}
+
+/** 
+ * Returns the number of corrupted packets.
+ * @version V5.1
+ */	
+			volatile read-only uint32 CorruptPackets {
+				read with corruptPacketsOnRead;
+			}
+
+/** 
+ * Returns the number of DISCOVERY packets received.
+ * @version V5.1
+ */
+			volatile read-only uint32 Discover {
+				read with discoverOnRead;
+			}
+
+/** 
+ * Returns the number of REQUEST packets received.
+ * @version V5.1
+ */
+			volatile read-only uint32 Request {
+				read with requestOnRead;
+			}
+
+/** 
+ * Returns the number of DECLINE packets.
+ * @version V5.1
+ */
+			volatile read-only uint32 Decline {
+				read with declineOnRead;
+			}
+
+/** 
+ * Returns the number of RELEASE packets.
+ * @version V5.1
+ */
+			volatile read-only uint32 Release {
+				read with releaseOnRead;
+			}
+
+/** 
+ * Returns the number of INFORM packets.
+ * @version V5.1
+ */
+			volatile read-only uint32 Inform {
+				read with informOnRead;
+			}
+
+/** 
+ * Returns the number of BOOTP packets.
+ * @version V5.1
+ */
+			volatile read-only uint32 BOOTP {
+				read with bootpOnRead;
+			}
+
+/** 
+ * Returns the number of non-DHCP packets. 
+ * @version V5.1
+ */
+			volatile read-only uint32 OtherMessageTypes {
+				read with otherOnRead;
+			}
+
+/** 
+ * Returns the number of OFFER packets.
+ * @version V5.1
+ */ 
+			volatile read-only uint32 Offer {
+				read with offerOnRead;
+			}
+
+/** 
+ * Returns the number of ACK packets.
+ * @version V5.1
+ */
+			volatile read-only uint32 ACK {
+				read with ackOnRead;
+			}
+
+/** 
+ * Returns the number of NAK packets.
+ * @version V5.1
+ */
+			volatile read-only uint32 NAK {
+				read with nakOnRead;
+			}
+
+/** 
+ * Returns the number of forceRenew packets.
+ * @version V5.2
+ */
+			volatile read-only uint32 ForceRenew {
+				read with forceRenewOnRead;
+			}
+
+/** 
+ * Returns the number of transmit failures.
+ * @version V5.1
+ */
+			volatile read-only uint32 TxFailure {
+				read with txfailureOnRead;
+			}
+
+/** 
+ * Returns the number of RelayOption packets dropped.
+ * @version V5.1
+ */
+			volatile read-only uint32 RelayOptionDropped {
+				read with relayOptionDroppedOnRead;
+			}
+
+/** 
+ * Returns true if a second DHCP server is detected on your network, false if none is detected. 
+ * IMPORTANT: If you have more than one network configured, you can not find out on which network the second server is active. 
+ * @version V5.1
+ */
+			volatile read-only bool SecondServerDetected {
+				read with secondDHCPServerOnRead;
+			}
+		}
+
+/** 
+ * Reset the DHCP Server statistics for the received and transmitted packets.
+ * No parameters needed.
+ * @return - the function can not return errors.
+ * @version V5.1
+ */
+		void clearStatistics() {
+			acl {
+				group admin read,write,execute;
+				group remoteadmin read,write,execute;
+			}
+		}
+
+/** 
+ * Sets DHCP server pool parameters: create a new pool if the name does not yet exist, change an existing configuration if the the name already exists. When a new Pool is created a default Rule object is created as well with the name 'default'.
+
+@param id - unique string to identify pool (Name parameter). If the id exists, the existing pool will be reconfigured.
+@param interface - Linux network interface name
+@param dhcpserver - IP address of the DHCP server (your own IP)
+@param enable - enable or disable the DHCP server pool
+@param minaddress - start IP address of the DHCP server pool
+@param maxaddress - end IP address of the DHCP server pool
+@param netmask - subnetmask of the DHCP server pool
+@param leasetime - sets the default lease time and the max lease time to the specified value
+@param dnsservers - sets the list of DNS servers; by default the value of dhcpserver
+@param iprouters - sets the default gateway; by default the value of dhcpserver
+@param onHold - sets the LeasesOnHold parameter.
+@error - pcb_error_invalid_value, if the name or the interface are invalid or could not be created.
+@return nothing if the serverpool is successfully configured.
+ * @version V5.1
+ */
+		void setDHCPServerPool(mandatory string id, mandatory string interface, mandatory string dhcpserver, mandatory bool enable, mandatory string minaddress, mandatory string maxaddress, mandatory string netmask, uint32 leasetime, string dnsservers, string iprouters, bool onHold) {
+			acl {
+				group admin read,write,execute;
+				group remoteadmin read,write,execute;
+			}
+		}
+
+/** 
+ * Get DHCP server pool parameters from a pool with a given name.
+
+ * @param id unique string to identify pool (Name parameter). If the id does not exist, function returns an error.
+ * @error pcb_error_invalid_value, if the name of the pool is invalid. If the id is empty all pools will be returned.
+ * @return a list of Pool parameters.
+ * @version V6.1
+ **/
+		void getDHCPServerPool(string id) {
+			acl {
+				group admin read,write,execute;
+				group remoteadmin read,write,execute;
+			}
+		}
+
+/** 
+ * Deletes a DHCP Server pool. Return a error pcb_error_invalid_value if no id or a wrong id is provided.
+ * @param id - unique string to identify pool (Name parameter).
+ * @return nothing if the serverpool is successfully deleted.
+ * @error return a pcb_error_invalid_value if the server pool with this id does not exists.
+ * @version V5.1
+*/
+		void deleteDHCPServerPool(mandatory string id) {
+			acl {
+				group admin read,write,execute;
+				group remoteadmin read,write,execute;
+			}
+		}
+
+/** 
+ * Change the DHCP server pool range of the pool with the name 'id'.
+
+@param id - unique string to identify pool (Name parameter). The pool must exists, otherwise pcb_error_invalid_value is returned.
+@param ipaddress - IP address of the interface.
+@param minaddress - start IP address of the DHCP server pool
+@param maxaddress - end IP address of the DHCP server pool
+@param netmask - subnetmask of the DHCP server pool
+@param dnsservers - sets the list of DNS servers; by default the value of dhcpserver
+@param iprouters - sets the default gateway; by default the value of dhcpserver
+ * @error - pcb_error_invalid_value, if parameters are missing or wrongly configured.
+ * @return nothing if range of the server pool is correctly changed.
+ * @version V5.1
+ */
+
+		void setDHCPServerPoolRange(mandatory string id, mandatory string ipaddress, mandatory string minaddress, mandatory string maxaddress, mandatory string netmask, string dnsservers, string iprouters) {
+			acl {
+				group admin read,write,execute;
+				group remoteadmin read,write,execute;
+			}
+		}
+
+
+/** 
+ * Export user settings for the DHCP server. 
+ * @param fileName optional parameter to save the user settings to.
+ * @return true if export is successfull, false if not.
+ * @error no errors are defined.
+ * @version V5.1
+ */
+		bool export( string fileName ) {
+			acl {
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+/** 
+ * Import user settings for the DHCP server. 
+ * @param fileName optional parameter to import the user settings from.
+ * @return true if import is successfull, false if not.
+ * @error no errors are defined.
+ * @version V5.1
+ */
+		bool import( string fileName ) {
+			acl {
+				group admin none;
+				group remoteadmin none;
+			}
+		}
+
+/**
+ * Return lease information if the IP address is known by the server:
+ * - An active lease: a lease object exists in the data model.
+ * - A used lease: a mapping exists in the lease.hints file
+ * @param ipaddress check if a lease exists for the ip address.
+ * @param pool search leases in a specific pool or, if not specified, in all pools.
+ * @return return a variant map, or an error if the lease does not exists.
+ * @error pcb_error_invalid_value, if ipaddress parameter is empty, or if the pool parameter, if specified, is not found.
+ * @version V5.2
+ */ 
+		map getServerLease(mandatory string ipaddress, string pool) {
+			acl {
+				group admin none;
+				group remoteadmin none;
+			}
+                }
+	}
+}
+
+/** @location sah_services_dhcp /server/dhcpd.odl */

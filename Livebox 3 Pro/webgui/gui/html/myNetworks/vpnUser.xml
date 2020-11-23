@@ -1,0 +1,60 @@
+<div id="vpnUser" xmlns="http://www.orange.com/xhtml/engine/loose">
+   <div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param" i18n="page.myNetwork.vpn.vpnUser.maintitle"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myNetwork.vpn.vpnUser.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">
+		<form id="userForm">
+		<div class="boxType4 border-bottom-3">
+			<span  id="connectedNomade"  widgetType="EnumInput" enumerated="[true, false]" dataidref="XCONNECTED"  style="display:none"/>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnUser.userenable">
+				<!--  <input id="userenable" type="checkbox" />-->
+				<span  id="userenable"  widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"   i18nPrefix="page.myNetwork.vpn.vpnUser.userenable"/>
+			</div>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnUser.username">
+				<input id="username" class="w150px" type="text" required="true"/>
+			</div>
+ 
+			<!--<div widgetType="FormInput" style="display:none">
+				<input id="useremail" class="w150px" type="text"/>
+			</div>-->
+
+ 			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnUser.userpass">
+				<span id="userpass" class="w150px" widgetType="Password" widgetArg="{char: '•', period: 2000}" minlength="8" i18nError="page.myNetwork.vpn.vpnUser.userpass"/>
+				<div id="errorMsgLength" class="error" i18n="page.myNetwork.vpn.vpnUser.passlengtherror" style="display:none"/>
+			</div>
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnUser.userpassconfirm">
+				<span id="userpassconfirm" class="w150px" widgetType="Password" widgetArg="{char: '•', period: 2000}" i18nError="page.myNetwork.vpn.vpnUser"/>
+				<div id="errorMsgDiff" class="error" i18n="page.myNetwork.vpn.vpnUser.identpassserror" style="display:none"/>
+			</div>
+
+			<div widgetType="FormInput" i18n="page.myNetwork.vpn.vpnUser.userprofil">
+				<div id="userprofil" class="widthAuto" widgetType="EnumInput" widgetArg="'select'" i18n="page.myNetwork.vpn.vpnUser.userprofiltip" i18nPrefix="data.vpn.group.name"/>
+			</div>
+				
+			<input id="hiddengroup" widgetType="Input" style="display:none"/>
+			<div class="clear"/>
+		</div>
+			<div widgetType="ButtonContainer" class="right" style="width: 100%">
+				<div class="btnPageBack" > 
+					<span id="backTovpn" widgetType="ButtonImage" i18n="common.page.back" /><!-- widgetArg="{type: 'simple'}" i18n="page.myNetwork.vpn.vpnUser.return"/> -->
+				</div>
+				<div style="float: right">
+					<span widgetType="VisibleDependent" widgetArg="{id:'connectedNomade',value:false}">
+						<span style="float: left" id="deleteUserVpn" widgetType="ButtonImage"  i18n="page.myNetwork.vpn.vpnUser.delete"/>
+					</span>
+					<span id="cancelUserVpn" widgetType="Button" widgetArg="{type: 'reset'}" i18n="page.myNetwork.vpn.vpnUser.cancel"/>
+					<span id="createUserVpn" dataId="Device/Networks/WAN[@name='WAN']/VPN/VPNUsers/VPNUser" style="display:none" widgetType="Button" widgetArg="{type: 'submit', crud: 'create'}" i18n="page.myNetwork.vpn.vpnUser.create"/>
+					<span id="saveUserVpn" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myNetwork.vpn.vpnUser.save"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,11 @@
+using "endpointplugin_fxs.so";
+include "/usr/lib/voiceplugin/voiceplugin_api-definition.odl";
+include "dsp_plugin.odl";
+include "/usr/lib/endpointplugin/ikanos_config.odl";
+object "$(SAH_VOICE_PLUGIN_NAME)" {
+void EndPoint_register();
+void sendHookOff(uint16 endpointid);
+void sendHookOn(uint16 endpointid);
+void sendSflNumber(uint16 endpointid);
+void createEp(string name);
+}

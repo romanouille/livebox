@@ -1,0 +1,145 @@
+using "wificom.so";
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+group cwmpd read,write,execute;
+}
+persistent object Wificom[] {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+list getStatus();
+persistent bool Enable {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default false;
+write with EnableWfcOnWrite;
+}
+read-only string Status {
+acl {
+group admin none;
+group remoteadmin none;
+}
+constraint enum[Deactivated, "Wi-Fi Off", "Not eligible", Error, Activated];
+default Deactivated;
+}
+read-only string State {
+acl {
+group admin none;
+group remoteadmin none;
+}
+constraint enum[S0_DEACTIVATED, S1_WIFI_OFF, S2_NOT_ELIGIBLE, S3_ERROR, S4_ACTIVATED];
+default S0_DEACTIVATED;
+}
+persistent uint32 ActivationThreshold {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default 3000;
+write with ActivationThresholdOnWrite;
+}
+persistent string WiFigwName {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default "gw.wifi.tpnet.pl";
+write with WiFigwNameOnWrite;
+}
+persistent uint32 VLANID {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default 100;
+write with VLANIDOnWrite;
+}
+persistent string SSID {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default Orange_FunSpot;
+write with SSIDOnWrite;
+}
+persistent string BSSID {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default "";
+write with BSSIDOnWrite;
+}
+persistent string WfcInterface {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with WfcInterfaceOnWrite;
+}
+persistent string DataInterface {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with DataInterfaceOnWrite;
+}
+persistent uint32 DnsResMaxRetries {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default 10;
+write with DnsResMaxRetriesOnWrite;
+}
+persistent bool Secure {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default false;
+write with SecureOnWrite;
+}
+persistent string RadiusServerName {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with RadiusServerNameOnWrite;
+}
+persistent uint32 RadiusServerPort {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default 1812;
+write with RadiusServerPortOnWrite;
+}
+persistent string RadiusSecret {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with RadiusSecretOnWrite;
+}
+persistent uint32 RadiusReAuthWhen {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default 3600;
+write with RadiusReAuthWhenOnWrite;
+}
+persistent uint32 MaxAssociation {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default 5;
+write with MaxAssociationOnWrite;
+}
+}

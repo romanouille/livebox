@@ -1,0 +1,8 @@
+<b>Language:</b><br>
+<br>
+This option enables you to select the default language for the livebox configuration pages.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

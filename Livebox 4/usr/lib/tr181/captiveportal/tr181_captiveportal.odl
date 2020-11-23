@@ -1,0 +1,25 @@
+
+
+
+object CaptivePortal {
+    bool Enable;
+    string Status;
+    string AllowedList;
+    string URL;
+}
+
+
+datamodel {
+    object CaptivePortal {
+        destination "pcb://$(PCB_MAIN_BUS)/CaptivePortal" {
+            parameter Enable from Enabled;
+            parameter Status;
+        }
+        destination "pcb://$(PCB_MAIN_BUS)/CaptivePortal/RedirectTarget/captiveportal_default" {
+            parameter URL from BaseURL;
+        }
+    }
+}
+
+
+/** @location sah_services_tr181 /captiveportal/captiveportal.odl */

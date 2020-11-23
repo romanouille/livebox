@@ -1,0 +1,54 @@
+#!/bin/sh
+
+if test $1 = scsi_device ; then
+echo "################" >> /tmp/hotplug
+echo >> /tmp/hotplug
+echo $$:$0 $1 $2 >> /tmp/hotplug
+set
+  echo "It is a SCSI device!" >> /tmp/hotplug
+  case $ACTION in
+  add)
+    for block in /sys/$PHYSDEVPATH/block/sd* ; do
+      if [ -d $block ]
+      then 
+        name=$(basename $block)
+        echo "basename $block = $name"
+        echo "mount /dev/$name on /mnt/usb/$name" >> /tmp/hotplug
+        mkdir -p /mnt/usb/$name
+        mount /dev/$name /mnt/usb/$name
+					#TK bug:6962
+		if [ $? -eq 0 ]
+		then
+			echo "$PHYSDEVPATH $name " >> /tmp/usb.mounts
+    	else
+			rmdir /mnt/usb/$name	
+		fi
+      fi
+    done
+    ;;
+  remove)
+    path=INVALID
+    echo > /tmp/usb.mounts.new
+    for x in $(cat /tmp/usb.mounts) ; do
+      if test A$path = A"INVALID" ; then
+        path=$x;
+        continue;
+      fi
+      mp=$x
+      if test A$path = A$PHYSDEVPATH ; then
+        echo "test A$path = A$PHYSDEVPATH is true" >> /tmp/hotplug
+        echo "UMount /dev/$mp on /mnt/usb/$mp" >> /tmp/hotplug
+        umount /mnt/usb/$mp
+        rmdir /mnt/usb/$mp
+      else
+        echo "test A$path = A$PHYSDEVPATH is false" >> /tmp/hotplug
+        echo $path $mp >> /tmp/usb.mounts.new
+      fi
+      path=INVALID
+    done
+    mv /tmp/usb.mounts.new /tmp/usb.mounts
+    ;;
+  esac
+echo "****************" >> /tmp/hotplug
+fi
+

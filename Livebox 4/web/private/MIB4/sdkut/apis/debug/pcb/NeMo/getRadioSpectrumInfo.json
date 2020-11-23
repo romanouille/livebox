@@ -1,0 +1,90 @@
+{
+    "status": true,
+    "data": {
+        "radioIdList": [
+            {
+                "radioId": "wifi0_bcm",
+                "spectrumInfo": [
+                    {
+                        "channel": 1,
+                        "availability": 46,
+                        "noiselevel": -83,
+                        "accesspoints": 29
+                    },
+                    {
+                        "channel": 2,
+                        "availability": 34,
+                        "noiselevel": -63,
+                        "accesspoints": 18
+                    },
+                    {
+                        "channel": 3,
+                        "availability": 9,
+                        "noiselevel": -70,
+                        "accesspoints": 18
+                    },
+                    {
+                        "channel": 4,
+                        "availability": 23,
+                        "noiselevel": -66,
+                        "accesspoints": 23
+                    },
+                    {
+                        "channel": 5,
+                        "availability": 22,
+                        "noiselevel": -62,
+                        "accesspoints": 24
+                    },
+                    {
+                        "channel": 6,
+                        "availability": 1,
+                        "noiselevel": -58,
+                        "accesspoints": 35
+                    },
+                    {
+                        "channel": 7,
+                        "availability": 15,
+                        "noiselevel": -66,
+                        "accesspoints": 30
+                    },
+                    {
+                        "channel": 8,
+                        "availability": 6,
+                        "noiselevel": -64,
+                        "accesspoints": 21
+                    },
+                    {
+                        "channel": 9,
+                        "availability": 21,
+                        "noiselevel": -65,
+                        "accesspoints": 7
+                    },
+                    {
+                        "channel": 10,
+                        "availability": 16,
+                        "noiselevel": -62,
+                        "accesspoints": 27
+                    },
+                    {
+                        "channel": 11,
+                        "availability": 1,
+                        "noiselevel": -66,
+                        "accesspoints": 49
+                    },
+                    {
+                        "channel": 12,
+                        "availability": 18,
+                        "noiselevel": -65,
+                        "accesspoints": 32
+                    },
+                    {
+                        "channel": 13,
+                        "availability": 28,
+                        "noiselevel": -63,
+                        "accesspoints": 20
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,4 @@
+include "voicemessage-definition.odl";
+include "voicemessage-defaults.odl";
+
+/** @location sah_services_message /plugins/voicemessage/voicemessage_plugin.odl */

@@ -1,0 +1,109 @@
+using "dataservice.so";
+
+define status_t
+{
+    string operationalStatus;
+    string adminStatus;
+    string uniqueIdentifier;
+    string accessURL;
+    string softwareVersion;
+    string apiVersion;
+}
+
+define userInfo_t
+{
+    string username;
+    string accountStatus;
+    string remoteFSAccessState;
+    string friendlyName;
+    string accountType;
+    uint64 usedDiskSpace;
+}
+
+persistent object DataHub 
+{
+    acl
+    {
+        world execute;
+        group mediahub read,execute;
+        group cwmpd read,write,execute;
+    }
+
+    // Status APIs
+    int32 getStatus(out status_t status);
+
+    int32 setStatus(mandatory in string status)
+    {
+        acl
+        {
+            world none;
+            group admin read,execute;
+            group mediahub read,execute;
+            group cwmpd read,execute;
+        }
+    }
+
+    // User APIs
+    int32 getUserInfo(mandatory in string username , out userInfo_t userInfoList)
+    {
+        acl
+        {
+            world none;
+            group admin read,execute;
+            group mediahub read,execute;
+            group cwmpd read,execute;
+        }
+    }
+
+    int32 addUser(mandatory in string username , in string password)
+    {
+        acl
+        {
+            world none;
+            group admin read,execute;
+        }
+    }
+    int32 removeUser(mandatory in string username)
+    {
+        acl
+        {
+            world none;
+            group admin read,execute;
+        }
+    }
+    int32 setUserState(mandatory in string username, in string state, in string remoteFSAccessState)
+    {
+        acl
+        {
+            world none;
+            group admin read,execute;
+        }
+    }
+    int32 changeUserPassword(mandatory in string username, mandatory in string password)
+    {
+        acl
+        {
+            world none;
+            group admin read,execute;
+        }
+    }
+    int32 listUsers(out list listOfUsers)
+    {
+        acl
+        {
+            world none;
+            group admin read,execute;
+        }
+    }
+    // Reset API
+    int32 reset(in string mode)
+    {
+        acl
+        {
+            world none;
+            group admin read,execute;
+        }
+    }    
+}
+
+/** @location commod_datahub_dataservice add-on/frontend/pcb/dataservice-definitions.odl.m4 */

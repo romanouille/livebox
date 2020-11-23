@@ -1,0 +1,908 @@
+
+
+
+using "services/nmc_services.so";
+
+object Services {
+    object X_ORANGE-COM_Autodetect;
+    object X_ORANGE-COM_WOLProxy;
+    object X_ORANGE-COM_Audiphone;
+    object X_ORANGE-COM_VoiceProvisioning {
+        bool Enable;
+        bool ConnectionRequest;
+        string FCPEAddress;
+        string ProvisioningServer;
+        string Status;
+        string LastError;
+        datetime LastChange;
+    }
+    object X_ORANGE-COM_OrangeTV {
+        int32 Enable;
+        string Status {
+            constraint enum [ "Enabled", "Disabled", "Error" ];
+            default "Error";
+        }
+        string Mode {
+            constraint enum [ "Routed", "Bridged" ];
+            default "Routed";
+        }
+    }
+    object X_ORANGE-COM_SharedPrinter {
+        bool Enable;
+    }
+    object X_ORANGE-COM_WifiComm {
+        object OpenMode {
+            bool Enable;
+            string Status;
+            uint32 ActivationThreshold;
+            string WiFigwName;
+            int32 VLANID;
+            string SSID;
+            string BSSID;
+            int32 MaxAssociation;
+        }
+        object SecureMode {
+            bool Enable;
+            string Status;
+            uint32 ActivationThreshold;
+            string WiFigwName;
+            int32 VLANID;
+            string SSID;
+            string BSSID;
+            string RadiusServerName;
+            uint32 RadiusServerPort;
+            string RadiusSecret;
+            uint32 RadiusReAuthWhen;
+            int32 MaxAssociation;
+        }
+    }
+    object X_ORANGE-COM_VoicePortal;
+    object X_ORANGE-COM_TopologyDiagnostics;
+
+    object X_ORANGE-COM_VerboseLog {
+        bool Enable;
+        uint32 PeriodicInterval;
+        string CollectorURL;
+    }
+
+    object X_ORANGE-COM_PnP {
+        string ServerURL;
+        string WakeUpURL;
+        uint32 WakeUpPort;
+        string NCMTCI;
+        string CustomerFirstName;
+        string CustomerName;
+        string ConnectionMode;
+    }
+
+    object X_ORANGE-COM_SSH[] {
+        string Alias;
+        bool Enable;
+        string AuthorizedAddresses;
+    }
+
+    object X_ORANGE-COM_SmartHomeAgent {
+        string Status;
+        string PlatformURL;
+        string WTSmartHomeURL;
+        uint32 Port;
+    }
+
+    object X_ORANGE-COM_AutoBackupRestore {
+        bool Enable {
+            default true;
+        }
+    }
+
+    object X_ORANGE-COM_WifiGuest {
+        bool Enable;
+        string Status;
+    }
+
+    read-only uint32 StorageServiceNumberOfEntries = 1;
+    object StorageService[];
+
+    read-only uint32 VoiceServiceNumberOfEntries = 1;
+    object VoiceService[] {
+        read-only uint32 VoiceProfileNumberOfEntries;
+        object DECT {
+            uint32 BaseNumberOfEntries;
+            uint32 PortableNumberOfEntries;
+            object Base[] {
+                string Status;
+            }
+            object Portable[] {
+                string Status;
+                string InternationalPortableEquipementIdentity;
+                string HandsetType;
+                string SoftwareVersion;
+                bool X_ORANGE-COM_SoftwareAvailable;
+                bool X_ORANGE-COM_URL1_MS;
+            }
+        }
+        object CallControl {
+            object Extension[] {
+                string Alias;
+                object Stats {
+                    bool ResetStatistics;
+                    object IncomingCalls {
+                        uint32 CallsReceived;
+                        uint32 CallsConnected;
+                        uint32 TotalCallTime;
+                    }
+                    object OutgoingCalls {
+                        uint32 CallsAttempted;
+                        uint32 CallsConnected;
+                        uint32 TotalCallTime;
+                    }
+                }
+            }
+        }
+
+        object Capabilities {
+            uint32 MaxProfileCount;
+            uint32 MaxLineCount;
+            uint32 MaxSessionsPerLine;
+            /** Maximum total number of voice sessions supported across all lines and profiles. (This might differ from MaxLineCount if each line can support more
+              than one session for CPE provided conference calling. This value MAY be less than the product of MaxLineCount and MaxSessions PerLine) - Not handled */
+            uint32 MaxSessionCount;
+            /** The maximum number of terminals which can make/receive calls at any one point in time. [FT] */
+            string SignalingProtocols {
+                constraint enum ["SIP", "MGCP", "MGCP-NCS", "H.248", "H.323", ""];
+                default "";
+            }
+            string Regions = "ae,fi,no,be,fr,es,pl,dk,lv,lt,ee,se,uk";
+            bool RTCP = false;
+            bool SRTP = false;
+            string SRTPKeyingMethods;
+            string SRTPEncryptionKeySizes {
+                constraint maxvalue 256;
+            }
+            bool RTPRedundancy = false;
+            bool DSCPCoupled = false;
+            bool EthernetTaggingCoupled = false;
+            bool PSTNSoftSwitchOver = false;
+            bool FaxT38 = false;
+            bool FaxPassThrough = false;
+            bool ModemPassThrough = false;
+            bool ToneGeneration = false;
+            bool ToneDescriptionsEditable = false;
+
+            bool FileBasedToneGeneration = false;
+            string ToneFileFormats {
+                constraint enum ["G.711MuLaw", "G.711ALaw", "MP3", "WAV", "AMR", ""];
+                default "";
+            }
+            bool RingGeneration = false;
+            bool RingDescriptionsEditable = false;
+            bool PatternBasedRingGeneration = false;
+            bool RingPatternEditable = false;
+            bool FileBasedRingGeneration = false;
+            string RingFileFormats {
+                constraint enum ["MIDI", "SMAF", "RTTTL", "MP3", "WAV", "AMR", ""];
+                default "";
+            }
+            bool DigitMap = true;
+            bool NumberingPlan = true;
+            bool VoicePortTests = false;
+            bool ButtonMap = false;
+
+            object SIP;
+            object H323;
+            object Codecs;
+        }
+
+        object VoiceProfile[] {
+            string Enable {
+                constraint enum ["Disabled", "Quiescent", "Enabled"];
+                default "Disabled";
+            }
+            bool Reset = false;
+            read-only uint32 NumberOfLines;
+            string Name {
+                constraint maxvalue 64;
+            }
+            /* Start - SAH specific parameters/objects */
+            string X_ORANGE-COM_Interface;
+            string X_ORANGE-COM_LocalIPAddress {
+                constraint maxvalue 16;
+                default "0.0.0.0";
+            }
+            /* End - SAH specific parameters/objects */
+            string SignalingProtocol {
+                constraint enum ["", "FXO", "FXS", "DECT", "SIP", "H.323"];
+                default "";
+            }
+            uint32 MaxSessions = 0;
+            string DTMFMethod {
+                constraint enum ["InBand", "RFC2833", "SIPInfo"];
+                default "InBand";
+            }
+            string DTMFMethodG711 {
+                constraint enum ["", "InBand", "RFC2833", "SIPInfo"];
+                default "";
+            }
+            string Region {
+                constraint maxvalue 2;
+            }
+            string DigitMap {
+                constraint maxvalue 512;
+            }
+            bool DigitMapEnable = true;
+            bool STUNEnable = true;
+            string STUNServer {
+                constraint maxvalue 256;
+            }
+            uint32 NonVoiceBandwidthReservedUpstream = 0;
+            uint32 NonVoiceBandwidthReservedDownstream = 0;
+            bool PSTNFailOver = false;
+            string FaxPassThrough {
+                constraint enum ["Disable", "Auto"];
+                default "Auto";
+            }
+            string ModemPassThrough {
+                constraint enum ["Disable", "Auto", "Force"];
+                default "Auto";
+            }
+
+            object ServiceProviderInfo;
+            object SIP {
+                string ProxyServer {
+                    constraint maxvalue 256;
+                }
+                uint32 ProxyServerPort {
+                    constraint maxvalue 65535;
+                    default 5060;
+                }
+                string ProxyServerTransport {
+                    constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                    default "UDP";
+                }
+                string RegistrarServer {
+                    constraint maxvalue 256;
+                }
+                uint32 RegistrarServerPort {
+                    constraint maxvalue 65535;
+                    default 5060;
+                }
+                string RegistrarServerTransport {
+                    constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                    default "UDP";
+                }
+                string UserAgentDomain {
+                    constraint maxvalue 256;
+                }
+                uint32 UserAgentPort {
+                    constraint maxvalue 65535;
+                    default 0;
+                }
+                string UserAgentTransport {
+                    constraint enum ["UDP", "TCP", "TLS", "SCTP"];
+                    default "UDP";
+                }
+                string OutboundProxy {
+                    constraint maxvalue 256;
+                }
+                uint32 OutboundProxyPort {
+                    constraint maxvalue 65535;
+                    default 5060;
+                }
+                string Organization {
+                    constraint maxvalue 256;
+                }
+                /** Period over which the user agent must periodically register, in seconds. */
+                uint32 RegistrationPeriod {
+                    /** Deviation from standard: 0 means forever */
+                    constraint minvalue 0;
+                    default 3600;
+                }
+                uint32 TimerT1 {
+                    constraint minvalue 1;
+                    default 500;
+                }
+                uint32 TimerT2 {
+                    constraint minvalue 1;
+                    default 4000;
+                }
+                uint32 TimerT4 {
+                    constraint minvalue 1;
+                    default 5000;
+                }
+                uint32 TimerA {
+                    constraint minvalue 1;
+                    default 500;
+                }
+                uint32 TimerB {
+                    constraint minvalue 1;
+                    default 32000;
+                }
+                uint32 TimerC {
+                    constraint minvalue 1;
+                    default 180000;
+                }
+                uint32 TimerD {
+                    constraint minvalue 1;
+                    default 32000;
+                }
+                uint32 TimerE {
+                    constraint minvalue 1;
+                    default 500;
+                }
+                uint32 TimerF {
+                    constraint minvalue 1;
+                    default 32000;
+                }
+                uint32 TimerG {
+                    constraint minvalue 1;
+                    default 500;
+                }
+                uint32 TimerH {
+                    constraint minvalue 1;
+                    default 32000;
+                }
+                uint32 TimerI {
+                    constraint minvalue 1;
+                    default 5000;
+                }
+                uint32 TimerJ {
+                    constraint minvalue 1;
+                    default 32000;
+                }
+                uint32 TimerK {
+                    constraint minvalue 1;
+                    default 5000;
+                }
+                uint32 InviteExpires {
+                    constraint minvalue 1;
+                    default 120;
+                }
+                uint32 ReinviteExpires {
+                    constraint minvalue 1;
+                    default 120;
+                }
+                uint32 RegisterExpires {
+                    constraint minvalue 1;
+                    default 60;
+                }
+                uint32 RegistersMinExpires {
+                    constraint minvalue 1;
+                    default 15;
+                }
+                uint32 RegisterRetryInterval {
+                    constraint minvalue 1;
+                    default 60;
+                }
+                string InboundAuth {
+                    constraint enum ["None", "Digest"];
+                    default "Digest";
+                }
+                string InboundAuthUsername {
+                    constraint maxvalue 256;
+                }
+                string InboundAuthPassword {
+                    constraint maxvalue 256;
+                }
+                bool UseCodecPriorityInSDPResponse = false;
+                bool X_ORANGE-COM_UseReplyWithMultipleCodec = true;
+                bool X_ORANGE-COM_Use100rel = true;
+                uint32 DSCPMark {
+                    constraint maxvalue 63;
+                    default 0;
+                }
+                int32 VLANIDMark {
+                    constraint minvalue -1;
+                    default -1;
+                }
+                int32 EthernetPriorityMark {
+                    constraint minvalue -1;
+                    default -1;
+                }
+                read-only uint32 SIPEventSubscribeNumberOfElements;
+                read-only uint32 SIPResponseMapNumberOfElements;
+
+                object EventSubscribe;
+                object ResponseMap;
+
+                /** [FT] When receiving a 403 response, wait for this timer, and depending on "FCPE Activation"
+                 *      yes -> Go to Start CPE_ALIVE Cycle
+                 *      no  -> Start sip registration cycle
+                 */
+                uint32 X_ORANGE-COM_TimerLoginRejected
+                {
+                    constraint minvalue 0;
+                    default 0;
+                }
+                /** [FT] When receiving a -second- 401 response (unauthorized), and Stale=TRUE wait for this timer,
+                 *      and restart the registration cycle.
+                 */
+                uint32 X_ORANGE-COM_TimerPasswordRejected
+                {
+                    constraint minvalue 0;
+                    default 0;
+                }
+                /** [FT] When receiving 4xx,5xx,6xx, wait for this timer, and restart the registration cycle. */
+                uint32 X_ORANGE-COM_TimerRegistrationFailed
+                {
+                    constraint minvalue 0;
+                    default 0;
+                }
+                /** [FT] When receiving 4xx,5xx,6xx, use this timeout value,
+                 *      if exponentialtimer has reached maximum failure count and restart the registration cycle. */
+                uint32 X_ORANGE-COM_MaxTimerRegistrationFailed
+                {
+                    constraint minvalue 0;
+                    default 0;
+                }
+                /** [FT] When subscribe fails (no response / response other than 423, 200) wait for this timer,
+                 *      and restart the subscribe process */
+                uint32 X_ORANGE-COM_TimerSubscriptionFailed
+                {
+                    constraint minvalue 0;
+                    default 0;
+                }
+                /** [FT] When subscribe fails (no response / response other than 423, 200) use this timeout value,
+                 *      if exponentialtimer has reached maximum failure count and restart the subscribe process */
+                uint32 X_ORANGE-COM_MaxTimerSubscriptionFailed
+                {
+                    constraint minvalue 0;
+                    default 0;
+                }
+                /** [FT] If this parameter is provisioned during activation process and non empty,
+                 *       the 3-way conference shall be activated.
+                 *       By default, the Livebox shall not implement 3-way conference and must ignore "R3". */
+                uint32 X_ORANGE-COM_ConferenceCallDomain
+                {
+                    constraint minvalue 0;
+                    default 0;
+                }
+            }
+            object H323;
+            object RTP;
+            object NumberingPlan;
+            object Tone;
+            object ButtonMap;
+            object FaxT38;
+            object Line[] {
+                string Enable;
+                string DirectoryNumber;
+                string Status;
+                string X_ORANGE-COM_FailureCause;
+                datetime X_ORANGE-COM_FailureCauseLastChange;
+                string CallState;
+                string PhyReferenceList;
+                bool RingMinuteState;
+                uint32 RingValumeStatus;
+                string X_ORANGE-COM_OutgoingLineReference;
+                string X_ORANGE-COM_Name;
+
+                object SIP;
+                object H323;
+                object X_ORANGE-COM_CATIQ;
+                object Ringer;
+                object CallingFeatures;
+                object VoiceProcessing;
+                object Codec;
+                object Session;
+                object Stats;
+            }
+        }
+        object PhyInterface;
+    }
+}
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_Autodetect from "pcb://$(PCB_MAIN_BUS)/NMC/Autodetect";
+        object X_ORANGE-COM_WOLProxy from "pcb://$(PCB_MAIN_BUS)/WOLProxy";
+        object X_ORANGE-COM_Audiphone from "pcb://$(PCB_MAIN_BUS)/Audiphone" recursive;
+        object X_ORANGE-COM_VoiceProvisioning {
+            destination "pcb://$(PCB_MAIN_BUS)/VoiceActivation" {
+                parameter Enable;
+                parameter ConnectionRequest;
+                parameter FCPEAddress from FCPE_ADDRESS;
+                parameter ProvisioningServer from FTP;
+                parameter Status;
+            }
+        }
+        object X_ORANGE-COM_OrangeTV {
+            destination "pcb://$(PCB_MAIN_BUS)/NMC/OrangeTV" {
+                parameter Enable;
+                parameter Status;
+                parameter Mode;
+            }
+        }
+        object X_ORANGE-COM_SharedPrinter {
+            destination "pcb://$(PCB_MAIN_BUS)/CupsService" {
+                parameter Enable;
+            }
+        }
+        object X_ORANGE-COM_WifiComm {
+            object OpenMode {
+                destination "pcb://$(PCB_MAIN_BUS)/Wificom/OpenMode" {
+                    parameter Enable;
+                    parameter Status;
+                    parameter ActivationThreshold;
+                    parameter WiFigwName;
+                    parameter VLANID;
+                    parameter SSID;
+                    parameter BSSID;
+                    parameter MaxAssociation;
+                }
+            }
+
+            object SecureMode {
+                destination "pcb://$(PCB_MAIN_BUS)/Wificom/SecureMode" {
+                    parameter Enable;
+                    parameter Status;
+                    parameter ActivationThreshold;
+                    parameter WiFigwName;
+                    parameter VLANID;
+                    parameter SSID;
+                    parameter BSSID;
+                    parameter RadiusServerName;
+                    parameter RadiusServerPort;
+                    parameter RadiusSecret;
+                    parameter RadiusReAuthWhen;
+                    parameter MaxAssociation;
+                }
+            }
+        }
+        object X_ORANGE-COM_VoicePortal from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/X_ORANGE-COM_VoicePortal";
+        object X_ORANGE-COM_TopologyDiagnostics from "pcb://$(PCB_MAIN_BUS)/TopologyDiagnostics" recursive;
+
+
+        instance of X_ORANGE-COM_SSH(0, "WAN") {
+            parameter Alias = "WAN";
+            destination "pcb://$(PCB_MAIN_BUS)/DeviceManagement/SSH/remote" {
+                parameter Enable from Enable;
+                parameter AuthorizedAddresses from SourcePrefix;
+            }
+        }
+
+
+        object X_ORANGE-COM_SmartHomeAgent {
+            destination "pcb://$(PCB_MAIN_BUS)/M2MAgent" {
+                parameter Status;
+                parameter PlatformURL from URL;
+                parameter WTSmartHomeURL from TranslatorURL;
+                parameter Port;
+            }
+        }
+
+
+        object X_ORANGE-COM_VerboseLog {
+            destination "pcb://$(PCB_MAIN_BUS)/DeviceManagement/BulkData/Profile/Default" {
+                parameter Enable from Enable;
+                parameter PeriodicInterval from ReportingInterval;
+                parameter CollectorURL from FileTransferURL;
+            }
+        }
+
+
+        object X_ORANGE-COM_PnP {
+            destination "pcb://$(PCB_MAIN_BUS)/PnP" {
+                parameter ServerURL;
+                parameter WakeUpURL;
+                parameter WakeUpPort;
+                parameter CustomerFirstName from FirstName;
+                parameter CustomerName from LastName;
+                parameter NCMTCI from MobilePhoneNumber;
+                parameter ConnectionMode;
+            }
+        }
+
+
+        object X_ORANGE-COM_AutoBackupRestore {
+            destination "pcb://$(PCB_MAIN_BUS)/NMC/NetworkConfig" {
+                parameter Enable;
+            }
+        }
+
+        object X_ORANGE-COM_WifiGuest {
+            destination "pcb://$(PCB_MAIN_BUS)/NMC/Guest" {
+                parameter Enable;
+                parameter Status;
+            }
+        }
+
+        parameter StorageServiceNumberOfEntries = 1;
+        instance of StorageService(1,"StorageService") from "pcb://$(PCB_MAIN_BUS)/StorageService" recursive;
+
+        parameter VoiceServiceNumberOfEntries = 1;
+        instance of VoiceService(1,"VoiceApplication") {
+            object DECT {
+                instance of Base(1, "Base1");
+                instance of Portable(1, "Portable1");
+                instance of Portable(2, "Portable2");
+                instance of Portable(3, "Portable3");
+                instance of Portable(4, "Portable4");
+            }
+            object CallControl {
+                instance of Extension(0, "Extension0") {
+                    parameter Alias = "CC_FXS";
+                    object Stats {
+                        destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/FXS1/Stats" {
+                                parameter ResetStatistics;
+                            }
+                        object IncomingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/FXS1/Stats" {
+                                parameter CallsReceived from IncomingCallsReceived;
+                                parameter CallsConnected from IncomingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_IncomingTotalCallTime;
+                            }
+                        }
+                        object OutgoingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/FXS1/Stats" {
+                                parameter CallsAttempted from OutgoingCallsAttempted;
+                                parameter CallsConnected from OutgoingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_OutgoingTotalCallTime;
+                            }
+                        }
+                    }
+                }
+                instance of Extension(0, "Extension1") {
+                    parameter Alias = "CC_DECT1";
+                    object Stats {
+                        destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                            parameter ResetStatistics;
+                        }
+                        object IncomingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                                parameter CallsReceived from IncomingCallsReceived;
+                                parameter CallsConnected from IncomingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_IncomingTotalCallTime;
+                            }
+                        }
+                        object OutgoingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                                parameter CallsAttempted from OutgoingCallsAttempted;
+                                parameter CallsConnected from OutgoingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_OutgoingTotalCallTime;
+                            }
+                        }
+                    }
+                }
+                instance of Extension(0, "Extension2") {
+                    parameter Alias = "CC_DECT2";
+                    object Stats {
+                        destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                            parameter ResetStatistics;
+                        }
+                        object IncomingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                                parameter CallsReceived from IncomingCallsReceived;
+                                parameter CallsConnected from IncomingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_IncomingTotalCallTime;
+                            }
+                        }
+                        object OutgoingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                                parameter CallsAttempted from OutgoingCallsAttempted;
+                                parameter CallsConnected from OutgoingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_OutgoingTotalCallTime;
+                            }
+                        }
+                    }
+                }
+                instance of Extension(0, "Extension3") {
+                    parameter Alias = "CC_DECT3";
+                    object Stats {
+                        destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                            parameter ResetStatistics;
+                        }
+                        object IncomingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                                parameter CallsReceived from IncomingCallsReceived;
+                                parameter CallsConnected from IncomingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_IncomingTotalCallTime;
+                            }
+                        }
+                        object OutgoingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                                parameter CallsAttempted from OutgoingCallsAttempted;
+                                parameter CallsConnected from OutgoingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_OutgoingTotalCallTime;
+                            }
+                        }
+                    }
+                }
+                instance of Extension(0, "Extension4") {
+                    parameter Alias = "CC_DECT4";
+                    object Stats {
+                        destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                            parameter ResetStatistics;
+                        }
+                        object IncomingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                                parameter CallsReceived from IncomingCallsReceived;
+                                parameter CallsConnected from IncomingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_IncomingTotalCallTime;
+                            }
+                        }
+                        object OutgoingCalls {
+                            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/ATA/Line/DUMMY1/Stats" {
+                                parameter CallsAttempted from OutgoingCallsAttempted;
+                                parameter CallsConnected from OutgoingCallsConnected;
+                                parameter TotalCallTime from X_ORANGE-COM_OutgoingTotalCallTime;
+                            }
+                        }
+                    }
+                }
+            }
+
+            destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication" {
+                parameter VoiceProfileNumberOfEntries;
+            }
+            object Capabilities {
+                destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/Capabilities" {
+                    parameter MaxProfileCount;
+                    parameter MaxLineCount;
+                    parameter MaxSessionsPerLine;
+                    parameter MaxSessionCount;
+                    parameter SignalingProtocols;
+                    parameter Regions;
+                    parameter RTCP;
+                    parameter SRTP;
+                    parameter SRTPKeyingMethods;
+                    parameter SRTPEncryptionKeySizes;
+                    parameter RTPRedundancy;
+                    parameter DSCPCoupled;
+                    parameter EthernetTaggingCoupled;
+                    parameter PSTNSoftSwitchOver;
+                    parameter FaxT38;
+                    parameter FaxPassThrough;
+                    parameter ModemPassThrough;
+                    parameter ToneGeneration;
+                    parameter ToneDescriptionsEditable;
+                    parameter FileBasedToneGeneration;
+                    parameter ToneFileFormats;
+                    parameter RingGeneration;
+                    parameter RingDescriptionsEditable;
+                    parameter PatternBasedRingGeneration;
+                    parameter RingPatternEditable;
+                    parameter FileBasedRingGeneration;
+                    parameter RingFileFormats;
+                    parameter DigitMap;
+                    parameter NumberingPlan;
+                    parameter VoicePortTests;
+                    parameter ButtonMap;
+                }
+            }
+
+            instance of VoiceProfile(1,"SIP-Trunk") {
+                destination "pcb://$(PCB_MAIN_BUS)/VoiceActivation/VoiceProfile" {
+                    parameter Enable from Enable;
+                }
+                destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk" {
+                    parameter Reset;
+                    parameter NumberOfLines;
+                    parameter Name;
+                    parameter X_ORANGE-COM_Interface;
+                    parameter X_ORANGE-COM_LocalIPAddress;
+                    parameter SignalingProtocol;
+                    parameter DTMFMethod;
+                    parameter DTMFMethodG711;
+                    parameter Region;
+                    parameter DigitMap;
+                    parameter DigitMapEnable;
+                    parameter STUNEnable;
+                    parameter STUNServer;
+                    parameter NonVoiceBandwidthReservedUpstream;
+                    parameter NonVoiceBandwidthReservedDownstream;
+                    parameter PSTNFailOver;
+                    parameter FaxPassThrough;
+                    parameter ModemPassThrough;
+                }
+                destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/Capabilities" {
+                    parameter MaxSessions from X_ORANGE-COM_MaxActiveTerminals;
+                }
+
+                object ServiceProviderInfo from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/ServiceProviderInfo" recursive;
+                object SIP {
+                    destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/SIP" {
+                        parameter ProxyServer;
+                        parameter ProxyServerPort;
+                        parameter ProxyServerTransport;
+                        parameter RegistrarServer;
+                        parameter RegistrarServerPort;
+                        parameter RegistrarServerTransport;
+                        parameter UserAgentDomain;
+                        parameter UserAgentPort;
+                        parameter UserAgentTransport;
+                        parameter OutboundProxyPort;
+                        parameter Organization;
+                        parameter RegistrationPeriod;
+                        parameter TimerT1;
+                        parameter TimerT2;
+                        parameter TimerT4;
+                        parameter TimerA;
+                        parameter TimerB;
+                        parameter TimerC;
+                        parameter TimerD;
+                        parameter TimerE;
+                        parameter TimerF;
+                        parameter TimerG;
+                        parameter TimerH;
+                        parameter TimerI;
+                        parameter TimerJ;
+                        parameter TimerK;
+                        parameter InviteExpires;
+                        parameter ReinviteExpires;
+                        parameter RegisterExpires;
+                        parameter RegistersMinExpires;
+                        parameter RegisterRetryInterval;
+                        parameter InboundAuth;
+                        parameter InboundAuthUsername;
+                        parameter InboundAuthPassword;
+                        parameter UseCodecPriorityInSDPResponse;
+                        parameter X_ORANGE-COM_UseReplyWithMultipleCodec;
+                        parameter X_ORANGE-COM_Use100rel;
+                        parameter DSCPMark;
+                        parameter VLANIDMark;
+                        parameter EthernetPriorityMark;
+                        parameter SIPEventSubscribeNumberOfElements;
+                        parameter SIPResponseMapNumberOfElements;
+                        parameter X_ORANGE-COM_TimerLoginRejected;
+                        parameter X_ORANGE-COM_TimerPasswordRejected;
+                        parameter X_ORANGE-COM_TimerRegistrationFailed;
+                        parameter X_ORANGE-COM_MaxTimerRegistrationFailed;
+                        parameter X_ORANGE-COM_TimerSubscriptionFailed;
+                        parameter X_ORANGE-COM_MaxTimerSubscriptionFailed;
+                        parameter X_ORANGE-COM_ConferenceCallDomain;
+                    }
+                    destination "pcb://$(PCB_MAIN_BUS)/VoiceActivation" {
+                        parameter OutboundProxy from SIPOutboundProxy;
+                    }
+                    object EventSubscribe from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/SIP/EventSubscribe" recursive;
+                    object ResponseMap from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/SIP/ResponseMap" recursive;
+                }
+                object H323 from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/H323" recursive;
+                object RTP from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/RTP" recursive;
+                object NumberingPlan from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/NumberingPlan" recursive;
+                object Tone from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Tone" recursive;
+                object ButtonMap from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/ButtonMap" recursive;
+                object FaxT38 from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/FaxT38" recursive;
+
+                instance of Line(1,"LINE1") {
+                    destination "pcb://$(PCB_MAIN_BUS)/VoiceActivation/VoiceProfile/LINE1" {
+                        parameter Enable from Enable;
+                    }
+                    destination "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1" {
+                        parameter DirectoryNumber;
+                        parameter Status;
+                        parameter CallState;
+                        parameter PhyReferenceList;
+                        parameter X_ORANGE-COM_OutgoingLineReference;
+                        parameter X_ORANGE-COM_Name;
+                    }
+
+                    object SIP from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/SIP" recursive;
+                    object H323 from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/H323" recursive;
+                    object X_ORANGE-COM_CATIQ from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/X_ORANGE-COM_CATIQ" recursive;
+                    object Ringer from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/Ringer" recursive;
+                    object CallingFeatures from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/CallingFeatures" recursive {
+                        accept request parameter "^CallerIDEnable$" {
+                            rename with rename_IncomingCallerIDEnable;
+                        }
+                        accept request parameter "^CallerIDNameEnable$" {
+                            rename with rename_IncomingCallerIDNameEnable;
+                        }
+                        accept object parameter "^X_ORANGE-COM_IncomingCallerIDEnable$" {
+                            rename with rename_IncomingCallerIDEnable;
+                        }
+                        accept object parameter "^X_ORANGE-COM_IncomingCallerIDNameEnable$" {
+                            rename with rename_IncomingCallerIDNameEnable;
+                        }
+                        drop object parameter "^CallerIDEnable$";
+                        drop object parameter "^CallerIDNameEnable$";
+                    }
+                    object VoiceProcessing from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/VoiceProcessing" recursive;
+                    object Codec from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/Codec" recursive;
+                    object Session from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/Session" recursive;
+                    object Stats from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/VoiceProfile/SIP-Trunk/Line/LINE1/Stats" recursive;
+                }
+            }
+            object PhyInterface from "pcb://$(PCB_MAIN_BUS)/VoiceService/VoiceApplication/PhyInterface" recursive;
+        }
+    }
+}

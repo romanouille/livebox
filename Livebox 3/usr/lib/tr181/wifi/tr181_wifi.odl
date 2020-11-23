@@ -1,0 +1,4 @@
+object WiFi;
+datamodel {
+object WiFi from "pcb://$(PCB_MAIN_BUS)/WiFiATH" recursive;
+}

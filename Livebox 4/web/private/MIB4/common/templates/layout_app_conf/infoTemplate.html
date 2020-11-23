@@ -1,0 +1,25 @@
+﻿{{#with page}}
+  {{#each info}}
+  <div {{#if id}}id="{{id}}" {{/if}} class="help-container">
+    {{#ifEqual type 'important'}}
+    <div class="help-img"><img class="help-img-size" src="../../common/img/app_conf/info_important.png" alt=""></div><h1 class="titletxthelp">{{{../title}}}</h1>
+    <p class="bodytxthelp">{{{../content}}}</p>
+    <div class="help-pop-over"><span class="titletxthelp popover-content">{{{../title}}}</span>
+    <p class="bodytxthelp popover-content">{{{../content}}}</p></div>
+    {{/ifEqual}}
+    {{#ifEqual type 'help'}}
+    <div class="help-img"><img class="help-img-size" src="../../common/img/app_conf/info_help.png" alt=""></div><h2 class="titletxthelp">{{{../title}}}</h2>
+    <p class="bodytxthelp">{{{../content}}}</p>
+    <div class="help-pop-over"><span class="titletxthelp popover-content">{{{../title}}}</span>
+    <p class="bodytxthelp popover-content">{{{../content}}}</p></div>
+    {{/ifEqual}}
+    {{#ifEqual type 'info'}}
+    <div class="help-img"><img class="help-img-size" src="../../common/img/app_conf/info_info.png" alt=""></div><h2 class="bodytxtorange titletxthelp">{{{../title}}}</h2>
+    <p class="bodytxtorange bodytxthelp">{{{../content}}}</p>
+    <div class="help-pop-over"><span class="bodytxtorange titletxthelp popover-content">{{{../title}}}</span>
+    <p class="bodytxtorange bodytxthelp popover-content">{{{../content}}}</p></div>
+    {{/ifEqual}}
+  </div>
+  {{/each}}
+{{/with}}
+

@@ -1,0 +1,12 @@
+
+
+datamodel {
+    object DataHub {
+        object RemoteAccess {
+            parameter MinTcpPort = 49152;
+            parameter MaxTcpPort = 65535;
+        }
+    }
+}
+
+/** @location  commod_datahub_dataservice  add-on/plugin/remoteaccess/mib/datahub_remoteaccess.odl-default.m4 */

@@ -1,0 +1,10 @@
+object DHCPv4 {
+object Client[];
+object Server;
+}
+datamodel {
+object DHCPv4 {
+object Client from "pcb://$(PCB_MAIN_BUS)/DHCPv4/Client/Intf" recursive;
+object Server from "pcb://$(PCB_MAIN_BUS)/DHCPv4/Server" recursive;
+}
+}

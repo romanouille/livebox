@@ -1,0 +1,10 @@
+<b>Remote administration:</b><br>
+<br>
+To access your livebox remotely, from outside your network, check that the <b>Enable remote access</b> option is checked.<br>
+You can then choose either permanent or temporary remote access.<br>
+This configuration enables you to access your livebox remotely, from outside your network. Enter the port number to open for external access. You must also enter a username and password for accessing the router. You must remember the username and password as you will need to enter them to access your livebox remotely.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,7 @@
+using "faultmonitorplugin.so";
+object FaultMonitor {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}

@@ -1,0 +1,30 @@
+using "../nmccore_wlantimer.so";
+
+persistent object NMC {
+    /**
+     * Wireless timer functionallity
+     * @version V5.1
+     */
+    persistent object WlanTimer {
+        acl {
+            world none;
+        }
+
+        /**
+         * RPC function call for settting the activation timer that allows the user to activate a guest or a hotspot for a certain amount of time.
+         * The selected interface will be activated immediately and will be deactivated when the stoptime is reached, indepedent of the current state.
+         * @param InterfaceName Nemo wireless interface-name ["guest", "hotspot"]
+         * @param Timeout Time that the guest/hotspot should be active, expressed in hours. 0 means unlimited.
+         * @version V5.1
+         */
+        void setActivationTimer(in string InterfaceName, in uint32 Timeout);
+
+        /**
+         * RPC function call for gettting the activation timer value in seconds.
+         * @param InterfaceName Nemo wireless interface-name ["guest", "hotspot"]
+         * @return The time in seconds the Activation Timer has still left.
+         * @version V5.1
+         */
+        uint32 getActivationTimer(in string InterfaceName);
+    }
+}

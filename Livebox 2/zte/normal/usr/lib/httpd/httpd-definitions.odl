@@ -1,0 +1,128 @@
+
+acl {
+  group admin read, execute;
+}
+
+/**
+ * Manage the HTTP server
+ */
+object HTTPService {
+
+  /**
+  * The SSL certificate
+  */
+  read-only string SSLCertificate {
+    default "/etc/srv.pem";
+    acl {
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+  * The SSL CA certificate
+  * to authenticate Client Certificates
+  */
+  read-only string SSLCACertificate {
+    default "/etc/cacert.pem";
+    acl {
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+  
+  /**
+   * Listen on a new socket
+   *
+   * This function will create a new socket bind it to the given host, interface and port
+   * and then calling accept on it. The server will then accept requests on the given host,
+   * interface and port. 
+   *
+   * The corresponding firewall services will also be added.
+   *
+   * @param host the host that will be used in the bind() call
+   * @param interface the nemo interface name on which to bind the socket
+   * @param port the port on which to listen, if not given, an empty string or the string "random",
+   *        a random port will be opened
+   * @param public if true, the server will consider incoming request on that port as public ones
+   * @param useSSL if true, the server will accept HTTPS request
+   * @param persistent if true, the server will be restarted after a reboot
+   * @return an identifier for the server
+   */
+  string addServer(mandatory string host, mandatory string interface, out string port, 
+                   bool public, bool useSSL, bool persistent, string plugin);
+    
+  /**
+   * Stop listening on a socket
+   *
+   * This will close the listen socket.
+   *
+   * @param id the id of the server to remove
+   */
+  bool deleteServer(mandatory string id) {
+    acl {
+      group remoteadmin read, execute;
+    }
+  }
+
+  
+  /**
+   * List of interface and ports on which to listen 
+   */
+  persistent read-only object Server[] {
+
+    acl {
+      group admin none;
+      group remoteadmin none;
+    }
+
+    /**
+     * Is this server enabled
+     */
+    persistent bool Enable = true;
+
+    /**
+     * The status of this server
+     */
+    read-only string Status {
+      constraint enum [ "Offline", "Starting", "Online", "Stopping", "Error" ];
+      default "Offline";
+    }
+
+    /**
+     * The host on which to listen
+     */
+    persistent read-only string Host = "::";
+
+    /**
+     * The interface on which to listen to
+     */
+    persistent read-only string Interface;
+
+    /**
+     * The port on which to listen
+     */
+    persistent read-only string Port;
+
+    /**
+     * Is this server public
+     */
+    persistent read-only bool Public = false;
+
+    /**
+     * Does this server uses SSL
+     */
+    persistent read-only bool UseSSL = false;
+
+    /**
+     * Request on this server should be handled by this plugin
+     */
+    persistent read-only string Plugin = "";
+
+    /**
+     * The last error
+     */
+    read-only string LastError;
+  }
+}
+

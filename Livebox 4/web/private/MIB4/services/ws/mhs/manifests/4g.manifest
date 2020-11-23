@@ -1,0 +1,39 @@
+{
+    "Id": "fourg",
+    "Category": "Connectivity",
+    "Version": "0.1",
+    "Title": "fourg.title",
+    "Application": { "main": "fourg",
+                     "settings": {}
+                   },
+    "Applet": [ { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider_4g",
+                  "settings": { "slides": [ "<span class=\"img fourg\" style=\"left: 10%; top:10%; width:80%; height:80%\"></span>"],
+                                "apicalls":{}
+                              }
+                }
+              ],
+    "en":{
+        "title": "4G",
+        "stats": "Statistics",
+        "log": "Log",
+        "state1":"4G interface",
+        "state2":"External VOD server",
+        "state3":"4G routing rules",
+        "rx": "received",
+        "tx": "transmitted"
+    },
+    "fr":{
+        "title": "4G",
+        "stats": "Statistics",
+        "log": "Log",
+        "state1":"4G interface",
+        "state2":"External VOD server",
+        "state3":"4G routing rules",
+        "rx": "received",
+        "tx": "transmitted"
+    }
+}

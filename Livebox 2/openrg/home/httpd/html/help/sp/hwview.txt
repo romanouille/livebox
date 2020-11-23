@@ -1,0 +1,9 @@
+﻿<b>Mostrar:</b><br>
+<br>
+Muestra la lista de dispositivos que están conectados o que han estado conectados a tu Livebox. Podrás seleccionar uno de los dispositivos para acceder a la página de personalización del dispositivo o introducir una política de restricción de acceso a Internet.<br> 
+Puedes ver la lista de dispositivos filtrando por un tipo determinado (WiFi, Ethernet, USB, etc.).<br>
+<!--
+<br>
+<b>
+-->
+

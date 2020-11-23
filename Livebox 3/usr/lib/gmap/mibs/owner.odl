@@ -1,0 +1,49 @@
+/*expr:physical*/
+
+/**
+ * MIB can be loaded on all physical devices
+ *
+ * @version 7.0
+ */
+mib owner {
+    /**
+     * Username, must be matching a user from user management
+     */
+    persistent string Owner {
+        acl {
+            world none;
+            group admin read, execute;
+            group technician read, execute;
+            group gmap read, execute;
+        }
+        default "";
+    }
+
+    object Groups[] {
+        acl {
+            world none;
+            group admin read, execute;
+            group technician read, execute;
+            group gmap read, execute;
+        }
+        string Group;
+    }
+
+    bool setOwner(mandatory string username) {
+        acl {
+            world none;
+            group admin read, execute;
+            group technician read, execute;
+            group gmap read, execute;
+        }
+    }
+    void clearGroups() {
+        acl {
+            world none;
+            group admin none;
+            group technician read, execute;
+            group gmap none;
+        }
+    }
+}
+/** @location sah_services_gmap /mibs/owner.odl */

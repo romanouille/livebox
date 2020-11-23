@@ -1,0 +1,227 @@
+#!/bin/sh
+# Fichier de configuration du router
+
+. /etc_ro_fs/init.d/common
+. /etc_ro_fs/autoconf.conf
+readconf /etc/bluedsl.conf FIREWALL_LEVEL VOIP_ENABLE STATIC_ROUTE STATIC_MASK UPDATE_AUTOUPDATE_DELAY
+
+# Debug ce script
+# set -x
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export LD_LIBRARY_PATH=/lib:/usr/lib
+
+IPT=iptables
+
+# find ppp interface
+ppp_if=$1
+
+# find device.
+ppp_dev=$2
+
+my_ip=${4:-0.0.0.0}
+peer_ip=${5:-0.0.0.0}
+
+# parametre ajoute lors du lancement de pppd
+ipparam=$6 
+
+if [ "$ipparam" = "tunnel" ] ; then
+case $0 in 
+    *ip-up)
+    /etc/hotspot/l2tp/ip-up $* > /dev/console
+	;;
+    *ip-down)
+    /etc/hotspot/l2tp/ip-down $*
+	;;
+esac
+exit 0
+fi
+
+L2TP_PATH=/etc/wifi-community/l2tp
+
+if [ "$ipparam" = "wifi-community" ] ; then
+case $0 in 
+    *ip-up)
+    $L2TP_PATH/ip-up $* > /dev/console
+	;;
+    *ip-down)
+    $L2TP_PATH/ip-down $*
+	;;
+esac
+exit 0
+fi
+
+if [ "$ipparam" = "huawei" ] ; then
+case $0 in 
+    *ip-up)
+    /etc/huawei_nw_init.sh $* > /dev/console
+	;;
+    *ip-down)
+    /etc/huawei_nw_cleanup.sh $* > /dev/console
+	;;
+esac
+exit 0
+fi
+
+blue_dev=$( echo $ppp_dev | cut -c0-11 )
+if [ "$blue_dev" = "/dev/rfcomm" ] ; then
+  echo "This is a bluetooth device"
+  channel=$( echo $ppp_dev | cut -c 12 )
+  echo channel : $channel
+  kill -USR2 $(cat /var/run/dnsmasq.pid)
+fi
+
+if [ "$( echo $ipparam | cut -c 0-4)" != "adsl" ] ; then 
+	echo "WE ARE NOT ON DSL DEVICE : $ipparam EXIT " > /dev/console
+	exit 0
+fi
+
+
+case $0 in
+    *ip-up)
+	echo $$ > /var/run/ip-pppup.pid
+
+	# Add /etc/ppp/resolv.conf to /etc/resolv.conf
+	# TODO : pour le multi-vc, g�rer les diff�rents services dns intelligement.
+	if [ "$ipparam" = "adsld.conf" ] ; then
+	    cat /etc/ppp/resolv.conf > /etc/resolv.dnsmasq
+	    ( echo "nameserver 127.0.0.1"; cat /etc/resolv.dnsmasq ) > /etc/resolv.conf
+	    echo $ppp_if > /var/run/ppp_adsl
+	    if [ "$CONFIG_PPP_MTU_ALTERNATE" = "y" ] ; then
+	      ifconfig $ppp_if mtu $CONFIG_PPP_MTU_SIZE
+	    fi
+
+	    echo IP=$my_ip > /var/run/ppp_ip
+	    echo GW=$peer_ip > /var/run/ppp_gw
+
+      # Update ppp count
+      PPP_COUNT_FILE=/var/run/ppp_count
+      PPP_COUNT=0
+      [ -f $PPP_COUNT_FILE ] && PPP_COUNT=$( conf_get_str $PPP_COUNT_FILE PPP_COUNT )
+      PPP_COUNT=$(( $PPP_COUNT + 1 ))
+      conf_set_str $PPP_COUNT_FILE PPP_COUNT $PPP_COUNT
+
+	    /etc/ppp/start_nat $ppp_if
+	    [ ! -z "$FIREWALL_LEVEL" ] && "firewall_l"$FIREWALL_LEVEL".start" $ppp_if
+	    
+	    #initialize ssl tunnel
+	    [ ! -z "$CONFIG_SUPPORT_OPENSSL" ] && /etc/ssl/ssl_tunnel init
+	    #Run supervision 
+            [ ! -z "$CONFIG_AUTO_SUPERVISION" ] && /etc/init.d/supervision init
+
+	    # Start Bluetooth firmware update if needed
+	    # supprime temporairement, puique pour l'instant le firmware du module
+	    # est dans le firmware de la borne.
+	    # [ -f /var/bt_need_update ] && /usr/blue/update_bt >> /root/adsld.log
+
+	    # Start NTP services
+	    [ -f /etc/init.d/ntp ] && /etc/init.d/ntp start &
+
+	    /usr/etc/init.d/qos start
+
+	    # Start UMA gateway resolving
+	    dyndns $my_ip & 
+            [ ! -z "$CONFIG_SUPPORT_HOMELIVE" ] && gnudip $my_ip &
+
+	    # Fonctionnement hotspot
+	    [ -f /etc/init.d/wacd ] && /etc/init.d/wacd awaken
+
+		# Start wifi community (it might have been stopped when the user pressed the disconnect button)
+		[ -f /usr/etc/init.d/wacd-wifi-community ] && /usr/etc/init.d/wacd-wifi-community start
+
+		# Notify wifi community
+		echo IP=$my_ip > /var/run/ppp_ip_ready
+	    
+		# mail notifier
+		[ ! -z "$CONFIG_WEB_WANADOO_LIVEPHONE" ] && /etc/init.d/mail start
+
+	    # Start autoupdate 
+	    /etc/init.d/autoupdate awaken &
+
+	    # Start firmware push
+	    if [ ! -z "$CONFIG_SUPPORT_FIRMWARE_PUSH" ]; then
+		/usr/etc/init.d/firmpush start 2>&1 > /dev/console &
+		fi
+	    
+		# Get available livephone_version
+		if [ ! -z "$CONFIG_LIVEPHONE_WIRELESS_AUTOUPDATE" ]; then
+			[ $PPP_COUNT -eq 1 -o $(( $PPP_COUNT % $UPDATE_AUTOUPDATE_DELAY )) -eq 0 ] && /usr/blue/update_livephone &
+		fi
+
+	else
+	    # multi-vc
+	    # TODO : add start nat ?
+	    echo $ipparam > /dev/console
+	    . $ipparam
+	    [ ! -z "$STATIC_ROUTE" ] && route add -net $STATIC_ROUTE netmask $STATIC_MASK gw $peer_ip
+	fi
+	if [ -f /etc/init.d/ntp ]; then
+	    if [ -f /var/run/ntp_delta ]; then     
+		current_date=$(date -n +"%Y/%m/%d %X")
+	    else
+		current_date=$(date +"%j ------ %X")
+	    fi
+	else
+	    current_date=$(date +"%j %X")
+	fi
+        echo "$current_date  IP Up $my_ip $ppp_if $peer_ip" >> /root/adsld.log
+
+	# Priority  
+	$IPT -F OUTPUT -t mangle 
+	$IPT -A OUTPUT -t mangle -o $ppp_if -p udp -j MARK --set-mark 1
+
+	rm -f /var/run/ip-pppup.pid
+
+	;;
+    *ip-down)
+	if [ "$ipparam" = "adsld.conf" ] ; then
+		# Stop firmware push
+		if [ ! -z "$CONFIG_SUPPORT_FIRMWARE_PUSH" ]; then
+			/usr/etc/init.d/firmpush stop 2>&1 > /dev/console &
+		fi
+
+		# Stop autoupdate 
+		/etc/init.d/autoupdate stop
+
+	    # Stop nat
+	    rm -f /var/run/ppp_adsl
+	    /etc/ppp/stop_nat $ppp_if
+	    firewall.stop $ppp_if
+            #initialize ssl tunnel
+            [ ! -z "$CONFIG_SUPPORT_OPENSSL" ] && /etc/ssl/ssl_tunnel down
+            
+	    # Fonctionnement hotspot
+	    [ -f /etc/init.d/wacd ] && /etc/init.d/wacd awaken
+
+	    # mail notifier
+            [ ! -z "$CONFIG_WEB_WANADOO_LIVEPHONE" ] && /etc/init.d/mail stop
+	else
+	    # multi-vc
+	    # TODO : add stop nat ?
+	    echo $ipparam > /dev/console
+	    . $ipparam
+	    route del -net $STATIC_ROUTE netmask $STATIC_MASK
+	fi
+	if [ -f /etc/init.d/ntp ]; then
+	    if [ -f /var/run/ntp_delta ]; then     
+		current_date=$(date -n +"%Y/%m/%d %X")
+	    else
+		current_date=$(date +"%j ------ %X")
+	    fi
+	else
+	    current_date=$(date +"%j %X")
+	fi
+	echo "$current_date  IP Down" >> /root/adsld.log
+
+	$IPT -F PREROUTING -t mangle 
+	if [ "$CONFIG_IGMP_SNOOPING" = "y" ] ; then
+	    $IPT -A PREROUTING -t mangle -p igmp -j igmp_snoop
+	fi
+
+	;;
+    *)	    
+	;;
+esac
+
+
+

@@ -1,0 +1,48 @@
+{
+    "status": true,
+    "data": {
+        "wlanvap": {
+            "wl0": {
+                "VAPStatus": "Up",
+                "LastChangeTime": 75,
+                "LastChange": 613654,
+                "BSSID": "AA: AA: AA: AA: AA: AA",
+                "SSID": "MyBox",
+                "SSIDAdvertisementEnabled": true,
+                "RetryLimit": 0,
+                "WMMCapability": true,
+                "UAPSDCapability": true,
+                "WMMEnable": true,
+                "UAPSDEnable": false,
+                "MaxStations": -1,
+                "APBridgeDisable": false,
+                "BridgeInterface": "",
+                "AssociatedDeviceNumberOfEntries": 0,
+                "Security": {
+                    "ModesSupported": "None,WEP-64,WEP-128,WEP-128iv,WPA-Personal,WPA2-Personal,WPA-WPA2-Personal,E-None,WPA-Enterprise,WPA2-Enterprise,WPA-WPA2-Enterprise",
+                    "ModeEnabled": "WPA2-Personal",
+                    "WEPKey": "mypassword",
+                    "PreSharedKey": "",
+                    "KeyPassPhrase": "wxcvbnqsdfgh",
+                    "RekeyingInterval": 3600,
+                    "RadiusServerIPAddr": "",
+                    "RadiusServerPort": 1812,
+                    "RadiusSecret": ""
+                },
+                "WPS": {
+                    "Enable": true,
+                    "ConfigMethodsSupported": "Ethernet,Label,Display,PushButton,Keypad,PIN",
+                    "ConfigMethodsEnabled": "PushButton,Label,Ethernet",
+                    "SelfPIN": "76921735",
+                    "Configured": true,
+                    "PairingInProgress": false
+                },
+                "MACFiltering": {
+                    "Mode": "Off",
+                    "Entry": {}
+                },
+                "AssociatedDevice": {}
+            }
+        }
+    }
+}

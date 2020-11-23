@@ -1,0 +1,13 @@
+using "../nmccore_upgrade.so";
+persistent object NMC {
+void updateVersionInfo() {
+acl {
+world none;
+}
+}
+bool checkForUpgrades() {
+acl {
+world none;
+}
+}
+}

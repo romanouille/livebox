@@ -1,0 +1,18 @@
+#!/bin/sh
+CMVFILE=/tmp/CMV
+
+case $1 in
+    start)
+		conf_set_str /etc/adsld.conf LINE_STATE 1
+		if [ ! -e $CMVFILE ]
+		then
+			sysutil adsl parsecmv
+		fi
+		#sysutil adsl start
+	;;
+    stop)
+		echo "ADSL stop not supported on Ikanos!"
+	;;
+    *)
+	;;
+esac

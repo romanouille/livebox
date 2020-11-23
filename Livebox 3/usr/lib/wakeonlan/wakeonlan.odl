@@ -1,0 +1,4 @@
+using "wakeonlan.so";
+persistent object WOL {
+bool sendWakeOnLan(string hostID, string intf, string password, bool broadcast);
+}

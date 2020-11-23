@@ -1,0 +1,61 @@
+<div id="firewallCustom" xmlns="http://www.orange.com/xhtml/engine/loose">
+ 	<div class="boxType3">
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param" i18n="page.myNetwork.firewallCustom.title"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myNetwork.firewallCustom.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 large margin-top-10 border-bottom-1">
+			<span class="h3Text" i18n="page.myNetwork.firewallCustom.defaultrules"/>
+			<br/><br/>
+			<div ><!-- class="forminput" -->
+				<span class="forminput-label" i18n="page.myNetwork.firewallCustom.defaultrules.restore"/>
+				<div widgetType="ButtonContainer" class="inline right">
+					<span id="restorebtn" widgetType="ButtonImage" i18n="page.myNetwork.firewallCustom.defaultrules.restorebtn"/>
+				</div>
+			</div>
+     </div>
+     <div class="boxType5 large border-bottom-3"> 
+			<span class="h3Text" i18n="page.myNetwork.firewallCustom.customrules"/>
+			<br/>
+			<div id="firewallTable" dataId="Device/Firewall/Rules/Rule" widgetType="Table" widgetArg="{extendable: true, deletable: true, uniqueGroups: [[0,1,2,3,4,5,6,7]]}" i18n="page.myNetwork.firewallCustom.customrules" i18nError="page.myNetwork.firewallCustom.customrules.error" errnodeparent="firewallTableErr">
+				<span i18n="page.myNetwork.firewallCustom.customrules.ipsrc.appliservice" widgetType="TableColumn" widgetArg="{attr: 'Description', sortable: false, editable: true, editNodeAttrs: {errnodeparent: 'firewallTableErr'}}" required="true"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.ipsrc.protocol" widgetType="TableColumn" widgetArg="{attr: 'Protocol', sortable: false, editable: true, editNodeName: 'select'}" enumerated="['ALL','TCP','UDP','ICMP','GRE','ESP','AH']" i18nPrefix="page.myNetwork.firewallCustom.customrules.ipsrc.protocol"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.ipsrc" widgetType="TableColumn" widgetArg="{attr: 'SourceIP', sortable: false, editable: true, editWidgetType: 'IPAddress', editWidgetArg: {namedregex: 'ipaddress', allowAny: true}, editNodeAttrs: {errnodeparent: 'firewallTableErr'}}" i18nError="page.myNetwork.firewallCustom.customrules.ipsrc.error" required="true"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.maskipsrc" widgetType="TableColumn" widgetArg="{attr: 'SourceMask', sortable: false, editable: true, editWidgetType: 'IPAddress', editWidgetArg: {namedregex: 'firewallmaskaddress2', allowAny: true}, editNodeAttrs: {errnodeparent: 'firewallTableErr'}}" i18nError="page.myNetwork.firewallCustom.customrules.maskipsrc.error" required="true"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.portsrc" widgetType="TableColumn" widgetArg="{attr: 'SourcePortRange', sortable: false, editable: true, editWidgetType: 'PortRange', editNodeAttrs: {errnodeparent: 'firewallTableErr'}}" i18nError="page.myNetwork.firewallCustom.customrules.portsrc.error" required="true"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.ipdest" widgetType="TableColumn" widgetArg="{attr: 'DestinationIP', sortable: false, editable: true, editWidgetType: 'IPAddress', editWidgetArg: {namedregex: 'ipaddress', allowAny: true}, editNodeAttrs: {errnodeparent: 'firewallTableErr'}}" i18nError="page.myNetwork.firewallCustom.customrules.ipdest.error" required="true"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.maskipdest" widgetType="TableColumn" widgetArg="{attr: 'DestinationMask', sortable: false, editable: true, editWidgetType: 'IPAddress', editWidgetArg: {namedregex: 'firewallmaskaddress2', allowAny: true}, editNodeAttrs: {errnodeparent: 'firewallTableErr'}}" i18nError="page.myNetwork.firewallCustom.customrules.maskipdest.error" required="true"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.portdest" widgetType="TableColumn" widgetArg="{attr: 'DestinationPortRange', sortable: false, editable: true, editWidgetType: 'PortRange', editNodeAttrs: {errnodeparent: 'firewallTableErr'}}" i18nError="page.myNetwork.firewallCustom.customrules.portdest.error"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.target" widgetType="TableColumn" widgetArg="{attr: 'Target', sortable: false, editable: true, editNodeName: 'Select'}" i18nPrefix="page.myNetwork.firewallCustom.customrules.target" enumerated="['DROP','ACCEPT']"/>
+				<span i18n="page.myNetwork.firewallCustom.customrules.order" widgetType="TableColumn" widgetArg="{attr: 'Order', sortable: false, editable: true, editWidgetType: 'FirewallOrder'}" style="width: 30px;"/>
+				<span i18n="common.activate" widgetType="TableColumn" widgetArg="{attr: 'Enable', sortable: false, editable: true, booleanSetAll: true, editNodeAttrs: {type: 'checkbox'}}" i18nPrefix="page.myNetwork.firewallCustom.customrules.activate"/>
+			</div>
+			<div id="firewallTableErr" class="error table"/>
+			<div id="firewallStepLabel" class="left">
+				<br/>
+				<span i18n="page.myNetwork.firewallCustom.addrulelabel"/>
+				<br/><br/>
+			</div>
+		</div>
+			<span id="firewallStep" widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'm2.m2111'}" i18n="page.myNetwork.firewallCustom.stepbtn"/>
+ 
+			<div widgetType="ButtonContainer" class="large" >
+				<div class="btnPageBack" > 
+					<span  widgetType="MenuItem,ButtonImage" widgetArg="{MenuItem: 'm2.m21'}" i18n="common.page.back"/><!-- page.myNetwork.firewallCustom.back -->
+				</div>
+				<div style="float: right">
+					<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+					<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

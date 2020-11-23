@@ -1,0 +1,67 @@
+using "dyndns.so";
+define host_t {
+string service;
+string hostname;
+string username;
+string password;
+string last_update;
+string status;
+bool enable;
+}
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+persistent object DynDNS {
+persistent bool Enable {
+default true;
+}
+read-only string Status {
+default "";
+}
+read-only persistent object Service[] {
+acl {
+group admin none;
+group remoteadmin none;
+}
+read-only string Name;
+read-only string Server;
+read-only uint16 ServerPort;
+read-only string Request;
+read-only uint32 UpdateInterval;
+read-only uint32 RetryInterval;
+read-only uint32 MaxRetries;
+read-only persistent object Client[] {
+persistent string Username;
+persistent string Password;
+read-only string Status;
+read-only string LastError;
+read-only bool Offline;
+persistent bool Wildcard;
+persistent string Mx;
+persistent bool MxBackup;
+read-only persistent object Host[] {
+persistent bool Enable;
+persistent string Name;
+read-only string Status {
+constraint enum ["UPDATE_PENDING", "UPDATED", "BLOCKED", "UPDATING", "UNKNOWN", "", "NO_DEDICATED_WAN_ADDRESS"];
+default "UPDATE_PENDING";
+}
+read-only datetime LastUpdate;
+}
+}
+}
+list getServices();
+list getHosts();
+bool addHost(string service, string hostname, string username, string password, bool enable);
+bool delHost(string hostname);
+bool export(string filename) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void setGlobalEnable(bool value);
+bool getGlobalEnable();
+}

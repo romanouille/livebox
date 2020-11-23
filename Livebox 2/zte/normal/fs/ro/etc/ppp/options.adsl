@@ -1,0 +1,8 @@
+#debug
+defaultroute
+usepeerdns
+noipdefault
+show-password
+logfile /dev/console
+lcp-echo-interval 20
+lcp-echo-failure  10

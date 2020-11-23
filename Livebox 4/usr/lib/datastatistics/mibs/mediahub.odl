@@ -1,0 +1,41 @@
+using "/usr/lib/datastatistics/addons/libmediahub.so";
+
+object DataStatistics {
+    object mediahub {
+        int32 getStats(out string report)
+        {
+            acl
+            {
+                world none;
+                group admin read,execute;
+                group technician read,execute;
+            }
+        }
+    }
+}
+
+datamodel {
+    object DataStatistics {
+        instance of Addon(0, "mediahub") {
+            parameter enable = "true";
+            parameter sync = "true";
+            parameter url ="http://ktrack2.pfqdm.orange.com/FR/hubmm";
+            parameter backend = "http";
+            parameter interval = "43200";
+            parameter format = "xml";
+            parameter lastSent = "1900-01-01T00:00:00Z";
+            instance of Category(0, "remote_actions") {
+                parameter persist = "true";
+                parameter size = "50";
+                parameter cache = "5";
+                parameter path = "/cfg/system/datastatistics/remote_actions.txt";
+            }
+            instance of Category(0, "alarm_list") {
+                parameter persist = "true";
+                parameter size = "50";
+                parameter cache = "5";
+                parameter path = "/cfg/system/datastatistics/alarm_list.txt";
+            }
+        }
+    }
+}

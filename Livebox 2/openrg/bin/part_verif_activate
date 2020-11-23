@@ -1,0 +1,38 @@
+#!/bin/sh
+
+
+
+report=/tmp/part_verif_activate.txt
+if [ $# -ne 1 ]
+then exit 8
+fi
+cd /dev
+if [ `grep -c $1 /etc/mtab` -gt 0 ] ####partition deja monté
+then exit 32
+fi
+(
+report=/tmp/part_check_activate.txt
+echo "part_verif progress" > $report
+
+part_verif $1 
+res=$?
+	
+
+if [ $res -ne 0 ]
+then 
+	echo "part_verif $res" > $report	
+	exit $res
+fi
+
+echo "part_activate progress" > $report
+part_activate $1
+res=$?
+
+if [ $res -ne 0 ]
+then 
+	echo "part_activate $res" > $report
+	exit $res
+fi
+
+
+  ) > /dev/ttyS0 2>&1 &

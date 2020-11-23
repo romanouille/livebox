@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		pcb_client -vv -n bcmeth -s /usr/lib/bcmeth/bcmeth.so
+		;;
+	stop)
+		[ -e /var/run/bcmeth.pid ] && kill `cat /var/run/bcmeth.pid`
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 [start|stop|restart]"
+esac
+

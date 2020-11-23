@@ -1,0 +1,11 @@
+datamodel {
+object DECT {
+object HAN {
+object Device {
+parameter KeepaliveInterval=3600000;
+parameter LinkTimeout=1000;
+parameter SuotaStatus="Normal";
+}
+}
+}
+}

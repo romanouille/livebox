@@ -1,0 +1,5 @@
+# list of pin codes
+# each line must be "pincode xx:xx:xx:xx:xx:xx 0000"
+
+
+[ -f /tmp/pincode ] && . /tmp/pincode

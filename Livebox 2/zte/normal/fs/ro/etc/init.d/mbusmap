@@ -1,0 +1,42 @@
+#!/bin/sh
+PIDGROM="/var/run/grom_mbus_map.pid"
+GROM="grom -vv -n grom_mbus_map -c /usr/lib/grom/mbus.map"
+
+start() {
+    echo "Starting mbus mapper"
+    ${GROM}
+    pcb_cli -w -1 PPP?
+    pcb_cli "LED.Internet Led.{State=FlashFast, Color=Red}"
+}
+
+stop() {
+    if [ -e ${PIDGROM} ]; then
+        echo "Stopping mbus mapper"
+        kill $(cat ${PIDGROM});
+    else
+        echo "mbus mapper already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDGROM}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac
+

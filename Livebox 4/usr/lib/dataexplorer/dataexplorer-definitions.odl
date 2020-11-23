@@ -1,0 +1,45 @@
+using "dataexplorer.so";
+
+define status_t
+{
+   string name;
+   string status;
+   uint32 progress;
+   uint32 remaining_time;
+}
+
+/* tracker-control    tracker-extract    tracker-import     tracker-info       tracker-miner-fs   tracker-search     tracker-sparql     tracker-stats      tracker-store      tracker-tag        tracker-writeback  transfer_client */
+
+object DataExplorer {
+    acl {
+        world none;
+        group mediahub read, execute;
+    }
+    object Sparql {
+        bool query(mandatory string sparql, out list result);
+
+        /* to remove when migration done. only the lowerCamelCased version should stay */
+        bool Query(mandatory string sparql, out list result);
+    }
+
+    int32 query(mandatory string type, string subtype, string filter, string value, string sort, uint32 offset, uint32 limit, out list result);
+    /**
+     *  type in ['root', 'directory', 'audio', 'video', 'image', 'document']
+     *  subtype in ['music', 'picture', 'other']
+     *  filter in ['all', 'genre', 'artist', 'album', 'date']
+     *  value is the path when type is 'directory', or the value to filter on
+     *  sort should be like "field1,+field2,-field3", +/- is for ascending/descending, default is ascending
+     *  offset is the offset of the returned rows
+     *  limit is the max rows returned
+     */
+     
+    int32 getStatus( out status_t status )
+    {
+        acl {
+            world none;
+            group mediahub none;
+        }
+    }     
+}
+
+/** @location commod_mediahub_dataexplorer plugin/dataexplorer-definitions.odl.m4 */

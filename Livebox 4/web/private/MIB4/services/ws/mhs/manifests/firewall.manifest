@@ -1,0 +1,42 @@
+{
+    "Id": "sah_firewall",
+    "Category": "Self Care",
+    "Version": "0.1",
+    "Title": "sah_firewall.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Application": { "main": "iframeapp",
+                     "settings": { "target": "/configurator/advConfigFirewall.html",
+                                   "filter": "#header"
+                                 }
+                   },
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img security\"></span><div class=status><span class=caption><span class=\"black\"><span translate=common.level></span>:</span> <span class=\"sah_green_dark fwlvl\">?</span></span></div>",
+                                            "<div class=title><span translate=sah_firewall.level></span><br><div class=fwlvl></div></div>"
+                                          ],
+                                "apicalls":{"class":"fwlvl", "ws":"Firewall:getFirewallLevel",
+                                            "event":["changed"], "translate_prefix":"firewall"}
+                              }
+                }
+              ],
+    "en": {
+        "title": "My Firewall",
+        "level":"Firewall level",
+        "low":"Low",
+        "medium":"Medium",
+        "high":"High",
+        "custom":"Custom"
+    },
+    "fr": {
+        "title": "EqLGTRFd",
+        "level":"FdTdnDgQ",
+        "low":"WcTuNPrm",
+        "medium":"OdbPnyiy",
+        "high":"YGMbqgXV",
+        "custom":"XTHwQCmo"
+    }
+}

@@ -1,0 +1,17 @@
+
+
+.png
+{
+	behavior:expression(
+			(this.szOldClassName == this.className ?
+				1:(
+					this.runtimeStyle.backgroundImage = '',
+					this.szImage = this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
+					this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.szImage + "', sizingMethod='" + (this.currentStyle.backgroundRepeat == 'no-repeat' || this.currentStyle.backgroundRepeat == '' ? 'crop':'scale') + "')",
+					this.runtimeStyle.backgroundImage = "none",
+					this.szOldClassName = this.className
+				)
+			)
+	);
+}
+

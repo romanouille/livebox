@@ -1,0 +1,64 @@
+/****************************************************************/
+/* Empty file required by requireJS Optimizer                   */
+/****************************************************************/
+
+/****************************************************************/
+/* List of files involved in optimization
+ ****************************************************************
+ "sdkut/utils/console.js"
+ "sdkut/utils/compatibility.js"
+ "sdkut/utils/basics.js"
+ "sdkut/engine/sopws.js"
+ "sdkut/engine/eventHandler.js"
+ "sdkut/engine/cache.js"
+ "sdkut/engine/callPool.js"
+ "sdkut/engine/callStack.js"
+ "sdkut/engine/environment.js"
+ "sdkut/engine/config/sdkutConfig.json"
+ "sdkut/engine/eventsMapper.json"
+ "sdkut/engine/errorCodes.json"
+ "sdkut/engine/config/projConfig.json"
+ "sdkut/engine/config/capabilities.json"
+ "sdkut/engine/config/emulated.json"
+ "sdkut/engine/config/excluded_apis/FT-MIB4.exclude"
+ "sdkut/semantic/sah/sah.js"
+ "sdkut/ext/jquery_2.1.1/jquery-2.1.1.min.js"
+ "sdkut/ext/handlebars_2.0.0/handlebars.js"
+ "sdkut/ext/bootstrap_3.2.0/css/bootstrap.css",
+ "common/lib/stateManager.js"
+ "common/lib/stateCtrlInterface.js"
+ "common/lib/stateViewInterface.js"
+ "common/lib/config.js"
+ "common/lib/translate.js"
+ "common/lib/eventHandler.js"
+ "common/templates/layout_app_conf/layoutTemplate.html"
+ "common/templates/layout_app_conf/headerTemplate.html"
+ "common/templates/layout_app_conf/tabTemplate.html"
+ "common/templates/layout_app_conf/infoTemplate.html"
+ "common/templates/layout_app_conf/contentTemplate.html"
+ "common/templates/layout_app_conf/submenuTemplate.html"
+ "common/templates/layout_app_conf/titleTemplate.html"
+ "common/templates/layout_app_conf/subtitleTemplate.html"
+ "common/templates/layout_app_conf/textTemplate.html"
+ "common/templates/layout_app_conf/textfieldTemplate.html"
+ "common/templates/layout_app_conf/inlinetextfieldTemplate"
+ "common/templates/layout_app_conf/searchfieldTemplate.html"
+ "common/templates/layout_app_conf/tableTemplate.html"
+ "common/templates/layout_app_conf/dynamicTableTemplate.html"
+ "common/templates/layout_app_conf/radioTemplate.html",
+ "common/templates/layout_app_conf/checkboxTemplate.html"
+ "common/templates/layout_app_conf/buttonTemplate.html"
+ "common/templates/layout_app_conf/selectTemplate.html",
+ "common/templates/layout_app_conf/formTemplate.html"
+ "common/templates/layout_app_conf/tickTemplate.html"
+ "common/templates/layout_app_conf/separatorTemplate.html"
+ "common/templates/layout_app_conf/bulletTemplate.html"
+ "common/templates/layout_app_conf/scheduleTemplate.html"
+ "common/templates/layout_app_conf/popupTemplate.html",
+ "common/templates/layout_app_conf/spinnerTemplate.html"
+ "common/templates/layout_app_conf/notificationTemplate.html"
+ "common/templates/layout_app_conf/template.css"
+ "common/templates/layout_app_conf/template.js"
+ "common/lang/en.json"
+ "common/lang/fr.json"
+ ****************************************************************/

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+PCB_PLUGIN="/bin/pcb_plugin"
+UPNPDISCD_PLUGIN_ODL="/usr/lib/upnpdiscovery/upnpdiscovery.odl"
+PID="/var/run/upnpdiscd_plugin.pid"
+
+case $1 in
+    start)
+        echo "Starting upnp discovery plugin"
+        $PCB_PLUGIN -f -o syslog -n upnpdiscd_plugin -c $UPNPDISCD_PLUGIN_ODL -a -L &
+        ;;
+    stop)
+        echo -n "Stopping upnp discovery plugin ..."
+        if [ -e $PID ] ; then 
+        	kill $(cat $PID)
+        	echo "done."
+        else 
+            echo "not running."
+        fi
+        ;;
+    status)
+    	if [ -e $PID ] ; then 
+        	echo "upnp discovery plugin is running."
+        else 
+            echo "upnp discovery plugin is not running."
+        fi 
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status]"
+        ;;
+esac

@@ -1,0 +1,34 @@
+<b>Ustawienia DHCP</b><br>
+<br>
+Możesz używać routera jako serwera DHCP dla Twojej sieci. Serwer DHCP służy do tego, aby automatycznie przypisać adres IP do każdego komputera w sieci.
+
+<b><br><br>
+<span class="boldorange">Adres IP serwera DHCP:</span></b><br>
+Określa adres IP modemu Livebox i adres Twojej sieci domowej. Domyślny adres to 192.168.1.1.
+
+
+<br><br>
+<span class="boldorange">Maska podsieci:</span><br>
+
+Maska podsieci służy do identyfikowania zakresu adresów IP w Twojej sieci.
+
+<b><br><br>
+<span class="boldorange">Początkowy adres IP:</span></b><br>
+
+Wpisz początkowy adres z zakresu adresów przydzielnych przez serwer DHCP kolejnym użytkownikom sieci.
+
+<b><br><br>
+<span class="boldorange">Końcowy adres IP:</span></b><br>
+
+Wpisz końcowy adres z zakresu adresów przydzielanych przez serwer DHCP kolejnym użytkownikom sieci. Różnica pomiędzy adresem końcowym, a początkowym określa maksymalną ilość użytkowników, którzy mogą korzystać z serwera DHCP. Ostatnia liczba w adresie IP nie może być większa niż 254.
+
+
+<b><br><br>
+<span class="boldorange">Statyczny adres IP:</span></b><br>
+Możesz przypisać adres IP z Twojej sieci domowej do konkretnego urządzenia. Wtedy dane urządzenie zawsze będzie miało ten sam adres IP. Ta opcja jest szczególnie przydatna wtedy, gdy chcesz zdefiniować zasady NAT/PAT dla tego urządzenia.
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

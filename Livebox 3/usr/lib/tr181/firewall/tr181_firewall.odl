@@ -1,0 +1,61 @@
+object Firewall {
+bool Enable = true;
+string Config {
+constraint enum ["High", "Medium", "Low", "Drop", "Off", "Custom"];
+default "Medium";
+}
+read-only int32 ChainNumberOfEntries;
+read-only int32 LevelNumberOfEntries;
+read-only object Level[] {
+read-only string Name;
+read-only string Description;
+read-only int32 Order;
+read-only bool ReadOnly = "true";
+read-only string Chain;
+read-only string DefaultPolicy;
+read-only bool RespondToPing = "true";
+}
+read-only object Chain[];
+}
+datamodel {
+object Firewall {
+destination "pcb://$(PCB_MAIN_BUS)/Firewall" {
+parameter Enable from Enable;
+parameter Config from AdvancedLevel;
+}
+parameter ChainNumberOfEntries = 4;
+parameter LevelNumberOfEntries = 4;
+instance of Level(1, "High") {
+parameter Name = "High";
+parameter Description = "Firewall Level High";
+parameter Order = 1;
+parameter Chain = "Firewall.Chain.High";
+parameter DefaultPolicy = "Drop";
+}
+instance of Level(2, "Medium") {
+parameter Name = "Medium";
+parameter Description = "Firewall Level Medium";
+parameter Order = 2;
+parameter Chain = "Firewall.Chain.Medium";
+parameter DefaultPolicy = "Accept";
+}
+instance of Level(3, "Low") {
+parameter Name = "Low";
+parameter Description = "Firewall Level Low";
+parameter Order = 3;
+parameter Chain = "Firewall.Chain.Low";
+parameter DefaultPolicy = "Accept";
+}
+instance of Level(4, "Custom") {
+parameter Name = "Custom";
+parameter Description = "Firewall Level Custom";
+parameter Order = 4;
+parameter Chain = "Firewall.Chain.Custom";
+parameter DefaultPolicy = "Drop";
+}
+instance of Chain(0,"High") from "pcb://$(PCB_MAIN_BUS)/Firewall/Chain/High" recursive;
+instance of Chain(0,"Medium") from "pcb://$(PCB_MAIN_BUS)/Firewall/Chain/Medium" recursive;
+instance of Chain(0,"Low") from "pcb://$(PCB_MAIN_BUS)/Firewall/Chain/Low" recursive;
+instance of Chain(0,"Custom") from "pcb://$(PCB_MAIN_BUS)/Firewall/Chain/Custom" recursive;
+}
+}

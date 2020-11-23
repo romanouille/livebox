@@ -1,0 +1,10 @@
+object KMCD {
+	object Intf[] {
+		bool MRTIIFEnable;
+		bool MRTOIFEnable;
+		uint32 MRTIIFDeleteDelay;
+	}
+	void mrtfeed(uint32 iif, string src, string dst);
+}
+
+/** @location sah_services_kmcd_mrt /user/mrt.odl */

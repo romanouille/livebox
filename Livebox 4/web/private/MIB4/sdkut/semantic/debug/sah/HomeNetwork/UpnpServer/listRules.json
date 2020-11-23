@@ -1,0 +1,15 @@
+{  
+   "status":0,
+   "data":{  
+      "upnpRules":[  
+         {  
+            "name":"itsRule",
+            "isEnabled":true,
+            "protocol":"tcp",
+            "externalPortRange":"3456",
+            "internalPortRange":"3456",
+            "ipAddress":"192.168.1.12"
+         }
+      ]
+   }
+}

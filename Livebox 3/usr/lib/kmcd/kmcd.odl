@@ -1,0 +1,54 @@
+using "libkmcd.so";
+acl {
+world none;
+group admin none;
+group cwmpd none;
+group remoteadmin none;
+group technician read,write,execute;
+}
+object KMCD {
+bool OptionalNotificationsEnable;
+bool NetlinkTraceEnable;
+void reconfigure();
+void snoop(int32 ifindex, string group, string type,
+string host, string source, bool compat);
+object Intf[] {
+string NeMoIntf;
+string Family {
+constraint enum [ "ipv4", "ipv6" ];
+default "ipv4";
+}
+string NetDevName;
+int32 NetDevIndex;
+string Address;
+int32 MTU;
+bool SnoopingEnable;
+bool QuerierEnable;
+bool FastLeaveEnable;
+bool ForceCompat;
+bool ClientEnable;
+bool WANEnable;
+uint32 QuerierVersion;
+void getIface();
+void getGroups(string group);
+}
+void getMGroups();
+object Tuner {
+uint32 RV;
+uint32 QI;
+uint32 QRI;
+uint32 GMI;
+uint32 SQI;
+uint32 SQC;
+uint32 LMQI;
+uint32 LMQC;
+uint32 LMQT;
+uint32 OHPI;
+}
+object Debug {
+bool Enable = false;
+object Zone[] {
+bool Enable = true;
+}
+}
+}

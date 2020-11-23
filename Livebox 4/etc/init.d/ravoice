@@ -1,0 +1,70 @@
+#!/bin/sh
+# vim:set ts=4 sw=4 noexpandtab  
+
+
+
+
+. /etc/voice_common
+
+
+name="Broadcom FXS plugin"
+pid_file=/var/run/fxs.pid
+export SAH_VOICE_PLUGIN_NAME="BCMPlugin"
+export PCB_SYS_BUS=pcb://ipc:[/var/run/pcb_sys]
+export SAH_TRACE_ZONES=MEDIA:200,EVENT:200,SIGNL:200,SET:200,bcm_fxs:200:bcm_intf:200,DSP:200,LIBV:200
+case $1 in
+    start)
+        if [ -e $pid_file ]; then
+            echo "$name already started"
+            exit 1
+        fi
+
+        for i in $VOICE_MODULES; do
+            modprobe $i
+        done
+        if grep ep_rtp /proc/devices 2>/dev/null; then
+            if ! [ -e /dev/bcm_ep_rtp ]; then
+                mknod /dev/bcm_ep_rtp c `sed -n 's/\(.*\) ep_rtp$/\1/p' /proc/devices` 0
+            fi
+        fi
+
+        pcb_plugin -f -d -n bcm_fxs -o syslog --priority=-20 -c /usr/lib/endpointplugin/endpoint_interface_fxs.odl -I /var/run/dspplugin -vv &
+        echo $! > $pid_file
+        ;;
+
+    gdb)
+        if [ -e $pid_file ]; then
+            echo "$name already started"
+            exit 1
+        fi
+        
+        echo "Start $name..."
+        echo "Loading voice kernel modules"
+        for i in $VOICE_MODULES; do
+                echo "$i"
+                modprobe $i
+        done
+
+        if grep ep_rtp /proc/devices 2>/dev/null; then
+            if ! [ -e /dev/bcm_ep_rtp ]; then
+                mknod /dev/bcm_ep_rtp c `sed -n 's/\(.*\) ep_rtp$/\1/p' /proc/devices` 0
+            fi
+        fi
+        ./gdb --args /bin/pcb_plugin -d -vvvvvvvvf -n bcm_fxs --priority=-20 -c  /usr/lib/endpointplugin/endpoint_interface_fxs.odl -I /var/run/dspplugin 
+        echo $! > $pid_file
+        ;;
+
+    stop)
+        if [ -e $pid_file ]; then
+            kill $(cat $pid_file) 2>/dev/null
+            [ $? == 0 ] || echo "$name crashed"
+            rm -f $pid_file
+        else
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac

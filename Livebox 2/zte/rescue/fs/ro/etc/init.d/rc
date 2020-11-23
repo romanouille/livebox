@@ -1,0 +1,58 @@
+#!/bin/sh
+
+#set -x
+
+runlevel_manage()
+{
+    local previous
+    runlevel=$1
+    if [ -f /var/run/runlevel ] ; then
+	previous=$(cat /var/run/runlevel)
+    else 
+	previous=N
+    fi
+    if [ "$runlevel" = "$previous" ] ; then 
+	return
+    fi
+    
+# Kill services for this runlevel
+    for script in /etc/rc"$runlevel".d/K* ; do 
+	[ ! -f $script ] && continue
+	sh $script stop
+    done
+
+# We publish new runlevel here, because daemons may consult this.
+    echo $runlevel > /var/run/runlevel_in_progress
+
+# We also publish the state
+    echo $$ > /var/run/rc.pid
+
+# Start services for this runlevel
+    for script in /etc/rc"$runlevel".d/S* ; do
+	[ ! -f $script ] && continue
+	if [ "$runlevel" != "N" ] ; then
+	    number=${script#/etc/rc$runlevel.d/S}
+	    number=$( echo $number | cut -c 1-2   )
+	    echo $number > /var/run/init_in_progress_stage
+	    suffix=${script#/etc/rc$runlevel.d/S[0-9][0-9]}
+	    stop=/etc/rc$runlevel.d/K[0-9][0-9]$suffix
+	    previous_start=/etc/rc$previous.d/S[0-9][0-9]$suffix
+	    # Si on n'a pas de script de kill dans ce 
+	    # runlevel, et qu'il y a un script de start dans le précédent 
+	    # runlevel, il n'est pas nécéssaire de relancer le service.
+	    [ -f $previous_start ] && [ ! -f $stop ] && continue
+	fi
+	echo "*********************** Starting script $script at: `cat /proc/uptime`"
+	sh $script start
+    done ;
+
+    rm -f /var/run/rc.pid
+
+# We publish new runlevel here, because daemons may consult this.
+    rm -f /var/run/runlevel_in_progress
+    rm -f /var/run/init_in_progress_stage
+    echo $runlevel > /var/run/runlevel
+}
+
+echo "Switching to RUNLEVEL $1 ..."
+runlevel_manage $1

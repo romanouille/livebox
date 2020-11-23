@@ -1,0 +1,15 @@
+#!/bin/sh
+#script to load atmdriver_lkm or vdsldriver_lkm based on the recent xDSL link 
+#connection type that was established. by default /etc/config/VDSL will be 
+#present. When vdsld is started, based on the link established it creates 
+#/etc/config/ADSL or /etc/config/VDSL and removes the other if exists.
+#this script loads atmdriver_lkm when /etc/config/ADSL exists and
+#loads vdsldriver_lkm when /etc/config/VDSL exists.
+if [ -f /etc/config/ADSL ]
+then
+   echo "Default Link Type is ADSL; loading ATM driver"
+   modprobe atmdriver_lkm
+else
+   echo "Default Link Type is VDSL; loading VDSL driver"
+   modprobe vdsldriver_lkm
+fi

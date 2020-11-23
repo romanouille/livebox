@@ -1,0 +1,75 @@
+persistent object VoiceService[] {
+
+    acl {
+        group admin execute;
+        group remoteadmin execute;
+        world execute;
+    }
+
+    /**  
+      Register a plugin and adds a Plugin object to the list.
+
+      @param plugin_name     Name of the plugin.
+
+      @returns True on success.
+     */   
+    bool register_plugin(string plugin_name) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**  
+      Deregister a plugin. Removes the object from the Plugin array.
+      @param plugin_name     Name of the plugin
+     */   
+    void deregister_plugin(string plugin_name)  {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**  
+      An endpoint registers itself.
+
+      @param endpoint_path Path in the datamodel for this endpoint.
+     */   
+    int register_endpoint(string name, string path, uint16 type, bytearray /* codec_t */ codeclist) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**  
+      Deregister an endpoint
+      @parap endpoint_id  endpoint id
+     */   
+    void deregister_endpoint(int endpoint_id) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**  
+      Receive an event from the endpoint.
+
+      @param event Bytearray containing the event structure as defined in the libvoice plugin.
+     */   
+    message void event(bytearray event) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+}
+
+/** @location sah_lib_voiceplugin /voiceplugin_app-definition.odl */

@@ -1,0 +1,71 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="wlanscheduler-plugin"
+start_options="-c /usr/lib/wlanscheduler/wlanscheduler_plugin.odl"
+datamodel="WLanScheduler"
+trace_zones=""
+component="sah_services_wlansched"
+
+start() {
+
+    if [ -e ${PIDWLANSCHEDULER_PLUGIN} ]; then
+        echo "WLanScheduler plug-in already started"
+    else
+        ${WLANSCHEDULER_PLUGIN};
+    fi
+}
+
+stop() {
+    if [ -e ${PIDWLANSCHEDULER_PLUGIN} ]; then
+        kill $(cat ${PIDWLANSCHEDULER_PLUGIN});
+    else
+        echo "WLanScheduler plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDWLANSCHEDULER_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        pcb_start $name $start_options
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    restart)
+        pcb_restart $name $start_options
+        ;;
+    backup)
+        if pcb_is_running $name; then
+            pcb_cli "WLanScheduler.export($2)"
+        else
+            echo "Wireless LAN scheduler plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/wlanscheduler
+        touch /var/lib/wlanscheduler/restore
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|backup|restore|debuginfo|log]"
+        ;;
+esac

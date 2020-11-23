@@ -1,0 +1,49 @@
+
+#!/bin/sh
+
+PID="/var/run/cloudtransfer.pid"
+
+
+
+
+start() {
+    if [ -e "${PID}" ]; then
+        echo "Cloud Transfer plugin already started"
+    else
+        glib-app -n cloudtransfer -c /usr/lib/cloudtransfer/cloudtransfer.odl
+    fi
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID) || killall cloudtransfer || rm $PID
+    else
+        echo "Cloud Transfer plugin not running"
+    fi
+}
+
+
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+
+    restart)
+        stop
+        start
+        ;;
+    debuginfo)
+        if [ -f "${PID}" ]; then
+            echo "cloudtransfer is running, pid=$(cat ${PID})"
+        else
+            echo "cloudtransfer is not running"
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo]"
+        ;;
+esac

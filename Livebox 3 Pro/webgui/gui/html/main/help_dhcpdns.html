@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+		<link rel="stylesheet" type="text/css" href="../../theme/webCorporate/css/theme.css"/>
+	<title>LiveBox</title>
+	</head>
+	<body bgcolor="#eeeeee" >
+		<div class="help_popup">
+			<img  class="float-left" align="absmiddle" src="../../theme/webCorporate/image/icon_inter.png"/>
+			<h2 class="grey" > &nbsp;aide : DHCP et DNS </h2>
+			<br/><br/>		
+			<div class="content">
+				<span >
+					<strong> Configuration DHCP LAN  </strong>
+					<ul id="square" class="margin-left-10"> 
+						<li class="black ">serveur DHCP : vous pouvez utiliser votre Livebox en tant que serveur DHCP de votre réseau. Un serveur DHCP 
+										   permet d'attribuer automatiquement une adresse IP à chaque ordinateur de votre réseau. Si votre ordinateur, au niveau des paramètres 
+										   de connexion, est configuré de façon à obtenir automatiquement une adresse IP, celui-ci se verra attribué par la Livebox d'une 
+										   adresse IP appartenant à la liste des adresses IP définies dans le DHCP.</li>
+						<li class="black " >adresse IP du LAN : l’adresse IP LAN de la Livebox est l’adresse qui sera utilisée pour votre réseau d’entreprise (LAN). 
+											Par défaut, cette adresse est : 192.168.1.1.</li>
+						<li class="black " >masque de sous-réseau du LAN : le masque de sous-réseau permet d’identifier un sous réseau, ici celui de votre réseau 
+											d’entreprise. Par défaut le masque réseau est 255.255.255.0.</li>
+						<li class="black " >début de la plage DHCP : saisissez une valeur de début pour la publication d'adresses IP sur le serveur DHCP.</li>
+						<li class="black " >fin de la plage DHCP : déterminez le nombre maximal d'utilisateurs DHCP. Saisissez le nombre maximal d'ordinateurs auxquels 
+											le serveur DHCP doit attribuer des adresses IP. Ce nombre ne peut être supérieur à 253.</li>
+						<li class="black " >DNS : le serveur DNS sert à convertir les noms de domaine en adresses IP et inversement. Vous pouvez configurer manuellement 
+											un serveur DNS primaire et un secondaire en saisissant leurs adresses IP dans le format X.X.X.X. Si vous choisissez le mode 
+											automatique, les serveurs DNS d'Orange seront utilisés par défaut.</li>
+					</ul>										
+				</span> 
+				<br/>			    	
+			    <span >
+					<strong> configuration DHCP pour utilisateur VPN nomades  </strong>
+					<br/>
+					Cela permet d'attribuer automatiquement une adresse IP à un ordinateur d'un utilisateur nomade parmi un groupe d'adresses IP prédéfinies.
+				</span>
+				 <br/><br/>
+			    <span >
+					<strong> adresses IP statiques  </strong>
+					<br/>
+					Vous pouvez réserver une adresse IP de votre réseau d’entreprise pour un de vos périphériques. Ainsi, ce périphérique aura systématiquement la même 
+					adresse IP sur votre réseau (si vous souhaitez que ce changement soit immédiatement effectif, veuillez redémarrer votre périphérique).<br/>
+					Cette fonctionnalité vous permet de définir des règles NAT/PAT facilement pour cette machine.
+				</span>
+				<br/><br/>
+				<span>	
+					Veuillez noter qu’il est conseillé de redémarrer la Livebox pour toute modification de l’adresse IP LAN et de la plage DHCP.
+					<br/>
+					Pour plus d'infos, cliquez sur le lien <a class="orange" href="http://assistance.orange.fr/">http://assistance.orange.fr/</a>.
+				</span>			
+			</div>
+		</div>
+	</body>
+</html>
+	

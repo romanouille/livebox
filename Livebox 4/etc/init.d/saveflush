@@ -1,0 +1,22 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        # Only save on operational image (bootmode=system) and only when
+        # /etc/config/db_ready doesn't exists (so NOT after a normal reboot)
+        BOOTMODE=$(/usr/bin/bootmode get)
+        if [ "system" == "$BOOTMODE" ]
+        then
+            if [ ! -f /etc/config/db_ready ]
+            then
+                # saveflush() performs a backup() and creates db_ready "atomically"
+                pcb_cli -q "NMC.saveflush()"
+            fi
+        fi
+        ;;
+    stop)
+        ;;
+    *)
+        echo "Usage : $0 [start|stop]"
+        ;;
+esac

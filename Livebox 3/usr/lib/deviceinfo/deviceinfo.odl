@@ -1,0 +1,2 @@
+include "deviceinfo-definitions.odl";
+include "deviceinfo-defaults.odl";

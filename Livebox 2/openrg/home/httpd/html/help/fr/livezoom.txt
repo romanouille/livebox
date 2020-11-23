@@ -1,0 +1,8 @@
+<b>Livezoom :</b><br>
+<br>
+Pour utiliser votre livezoom, vous devez activer le service en cochant la case.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

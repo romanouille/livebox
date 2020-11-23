@@ -1,0 +1,490 @@
+datamodel {
+object BulkData {
+instance of Profile(0, "probe_periodic1") {
+parameter Enable = 0;
+parameter Alias = "SYSTEM_PROBE_PERIODIC1";
+parameter PriorityServerSide = "P1";
+parameter Protocol = "HTTP";
+parameter EncodingType = "Other";
+parameter ProbeName = "figaro";
+parameter ReportingIntervalDuration = 0;
+parameter ExportType = "periodic";
+parameter ReportingInterval = 3600;
+parameter TimeReference = "0001-01-01T00:00:00Z";
+object HTTP {
+parameter URL = "https://system-lb3-fr.odmtrack.orange.com/KTUploader/system";
+parameter Compression = "GZIP";
+parameter Method = "PUT";
+instance of HeaderField(0, "Header-Version") {
+parameter DataType="Path";
+parameter Name="Header-Version";
+parameter Data="Device.BulkData.Profile.probe_periodic1.X_ORANGE-COM_OTHV";
+}
+instance of HeaderField(0, "Manufacturer-OUI") {
+parameter DataType="Path";
+parameter Name="Manufacturer-OUI";
+parameter Data="Device.DeviceInfo.ManufacturerOUI";
+}
+instance of HeaderField(0, "Product-Class") {
+parameter DataType="Path";
+parameter Name="Product-Class";
+parameter Data="Device.DeviceInfo.ProductClass";
+}
+instance of HeaderField(0, "Serial-Number") {
+parameter DataType="Path";
+parameter Name="Serial-Number";
+parameter Data="Device.DeviceInfo.SerialNumber";
+}
+instance of HeaderField(0, "MAC") {
+parameter DataType="Path";
+parameter Name="MAC";
+parameter Data="Device.DeviceInfo.X_ORANGE-COM_MACAddress";
+}
+instance of HeaderField(0, "Hardware-Version") {
+parameter DataType="Path";
+parameter Name="Hardware-Version";
+parameter Data="Device.DeviceInfo.HardwareVersion";
+}
+instance of HeaderField(0, "Software-Version") {
+parameter DataType="Path";
+parameter Name="Software-Version";
+parameter Data="Device.DeviceInfo.SoftwareVersion";
+}
+instance of HeaderField(0, "Priority") {
+parameter DataType="Path";
+parameter Name="Priority";
+parameter Data="Device.BulkData.Profile.probe_periodic1.X_ORANGE-COM_Priority";
+}
+instance of HeaderField(0, "Probe-Name") {
+parameter DataType="Value";
+parameter Name="Probe-Name";
+parameter Data="Figaro";
+}
+instance of HeaderField(0, "Probe-Version") {
+parameter DataType="Value";
+parameter Name="Probe-Version";
+parameter Data="1.0";
+}
+instance of HeaderField(0, "Export-Type") {
+parameter DataType="Path";
+parameter Name="Export-Type";
+parameter Data="Device.BulkData.Profile.probe_periodic1.X_ORANGE-COM_ExportType";
+}
+instance of HeaderField(0, "Export-Attempt-Number") {
+parameter DataType="Path";
+parameter Name="Export-Attempt-Number";
+parameter Data="BulkData.Profile.probe_periodic1.HTTP.RetryAttemptNumber";
+}
+}
+}
+instance of Profile(0, "probe_ondemand1") {
+parameter Enable = 1;
+parameter Alias = "SYSTEM_PROBE_ONDEMAND1";
+parameter PriorityServerSide = "P0";
+parameter Protocol = "HTTP";
+parameter EncodingType = "Other";
+parameter ProbeName = "figaro";
+parameter ReportingIntervalDuration = 0;
+parameter ExportType = "ondemand";
+object HTTP {
+parameter URL = "https://system-lb3-fr.odmtrack.orange.com/KTUploader/system";
+parameter Compression = "GZIP";
+parameter Method = "PUT";
+instance of HeaderField(0, "Header-Version") {
+parameter DataType="Path";
+parameter Name="Header-Version";
+parameter Data="Device.BulkData.Profile.probe_ondemand1.X_ORANGE-COM_OTHV";
+}
+instance of HeaderField(0, "Manufacturer-OUI") {
+parameter DataType="Path";
+parameter Name="Manufacturer-OUI";
+parameter Data="Device.DeviceInfo.ManufacturerOUI";
+}
+instance of HeaderField(0, "Product-Class") {
+parameter DataType="Path";
+parameter Name="Product-Class";
+parameter Data="Device.DeviceInfo.ProductClass";
+}
+instance of HeaderField(0, "Serial-Number") {
+parameter DataType="Path";
+parameter Name="Serial-Number";
+parameter Data="Device.DeviceInfo.SerialNumber";
+}
+instance of HeaderField(0, "MAC") {
+parameter DataType="Path";
+parameter Name="MAC";
+parameter Data="Device.DeviceInfo.X_ORANGE-COM_MACAddress";
+}
+instance of HeaderField(0, "Hardware-Version") {
+parameter DataType="Path";
+parameter Name="Hardware-Version";
+parameter Data="Device.DeviceInfo.HardwareVersion";
+}
+instance of HeaderField(0, "Software-Version") {
+parameter DataType="Path";
+parameter Name="Software-Version";
+parameter Data="Device.DeviceInfo.SoftwareVersion";
+}
+instance of HeaderField(0, "Priority") {
+parameter DataType="Path";
+parameter Name="Priority";
+parameter Data="Device.BulkData.Profile.probe_ondemand1.X_ORANGE-COM_Priority";
+}
+instance of HeaderField(0, "Probe-Name") {
+parameter DataType="Value";
+parameter Name="Probe-Name";
+parameter Data="Figaro";
+}
+instance of HeaderField(0, "Probe-Version") {
+parameter DataType="Value";
+parameter Name="Probe-Version";
+parameter Data="1.0";
+}
+instance of HeaderField(0, "Export-Type") {
+parameter DataType="Path";
+parameter Name="Export-Type";
+parameter Data="Device.BulkData.Profile.probe_ondemand1.X_ORANGE-COM_ExportType";
+}
+instance of HeaderField(0, "Export-Attempt-Number") {
+parameter DataType="Path";
+parameter Name="Export-Attempt-Number";
+parameter Data="BulkData.Profile.probe_ondemand1.HTTP.RetryAttemptNumber";
+}
+}
+}
+instance of Profile(0, "datamodel_probe_periodic1") {
+parameter Enable = 0;
+parameter Alias = "DATA_MODEL_PROBE_PERIODIC1";
+parameter PriorityServerSide = "P1";
+parameter Protocol = "HTTP";
+parameter EncodingType = "CSV";
+parameter ProbeName = "datamodel_probe";
+parameter ReportingIntervalDuration = 0;
+parameter ExportType = "periodic";
+parameter ReportingInterval = 86400;
+parameter TimeReference = "0001-01-01T00:00:00Z";
+instance of Parameter(0, "Device") {
+parameter Name = "Device";
+parameter Reference = "Device.";
+}
+object HTTP {
+parameter URL = "https://datamodel-lb3-fr.odmtrack.orange.com/KTUploader/datamodel";
+parameter Compression = "GZIP";
+parameter Method = "PUT";
+instance of HeaderField(0, "Header-Version") {
+parameter DataType="Path";
+parameter Name="Header-Version";
+parameter Data="Device.BulkData.Profile.datamodel_probe_periodic1.X_ORANGE-COM_OTHV";
+}
+instance of HeaderField(0, "Manufacturer-OUI") {
+parameter DataType="Path";
+parameter Name="Manufacturer-OUI";
+parameter Data="Device.DeviceInfo.ManufacturerOUI";
+}
+instance of HeaderField(0, "Product-Class") {
+parameter DataType="Path";
+parameter Name="Product-Class";
+parameter Data="Device.DeviceInfo.ProductClass";
+}
+instance of HeaderField(0, "Serial-Number") {
+parameter DataType="Path";
+parameter Name="Serial-Number";
+parameter Data="Device.DeviceInfo.SerialNumber";
+}
+instance of HeaderField(0, "MAC") {
+parameter DataType="Path";
+parameter Name="MAC";
+parameter Data="Device.DeviceInfo.X_ORANGE-COM_MACAddress";
+}
+instance of HeaderField(0, "Hardware-Version") {
+parameter DataType="Path";
+parameter Name="Hardware-Version";
+parameter Data="Device.DeviceInfo.HardwareVersion";
+}
+instance of HeaderField(0, "Software-Version") {
+parameter DataType="Path";
+parameter Name="Software-Version";
+parameter Data="Device.DeviceInfo.SoftwareVersion";
+}
+instance of HeaderField(0, "Priority") {
+parameter DataType="Path";
+parameter Name="Priority";
+parameter Data="Device.BulkData.Profile.datamodel_probe_periodic1.X_ORANGE-COM_Priority";
+}
+instance of HeaderField(0, "Probe-Name") {
+parameter DataType="Value";
+parameter Name="Probe-Name";
+parameter Data="DataModel_Probe";
+}
+instance of HeaderField(0, "Probe-Version") {
+parameter DataType="Value";
+parameter Name="Probe-Version";
+parameter Data="1.0";
+}
+instance of HeaderField(0, "Export-Type") {
+parameter DataType="Path";
+parameter Name="Export-Type";
+parameter Data="Device.BulkData.Profile.datamodel_probe_periodic1.X_ORANGE-COM_ExportType";
+}
+instance of HeaderField(0, "Export-Attempt-Number") {
+parameter DataType="Path";
+parameter Name="Export-Attempt-Number";
+parameter Data="BulkData.Profile.datamodel_probe_periodic1.HTTP.RetryAttemptNumber";
+}
+}
+}
+instance of Profile(0, "datamodel_probe_ondemand1") {
+parameter Enable = 1;
+parameter Alias = "DATA_MODEL_PROBE_ONDEMAND1";
+parameter PriorityServerSide = "P0";
+parameter Protocol = "HTTP";
+parameter EncodingType = "CSV";
+parameter ProbeName = "datamodel_probe";
+parameter ReportingIntervalDuration = 0;
+parameter ExportType = "ondemand";
+instance of Parameter(0, "Device") {
+parameter Name = "Device";
+parameter Reference = "Device.";
+}
+object HTTP {
+parameter URL = "https://datamodel-lb3-fr.odmtrack.orange.com/KTUploader/datamodel";
+parameter Compression = "GZIP";
+parameter Method = "PUT";
+instance of HeaderField(0, "Header-Version") {
+parameter DataType="Path";
+parameter Name="Header-Version";
+parameter Data="Device.BulkData.Profile.datamodel_probe_ondemand1.X_ORANGE-COM_OTHV";
+}
+instance of HeaderField(0, "Manufacturer-OUI") {
+parameter DataType="Path";
+parameter Name="Manufacturer-OUI";
+parameter Data="Device.DeviceInfo.ManufacturerOUI";
+}
+instance of HeaderField(0, "Product-Class") {
+parameter DataType="Path";
+parameter Name="Product-Class";
+parameter Data="Device.DeviceInfo.ProductClass";
+}
+instance of HeaderField(0, "Serial-Number") {
+parameter DataType="Path";
+parameter Name="Serial-Number";
+parameter Data="Device.DeviceInfo.SerialNumber";
+}
+instance of HeaderField(0, "MAC") {
+parameter DataType="Path";
+parameter Name="MAC";
+parameter Data="Device.DeviceInfo.X_ORANGE-COM_MACAddress";
+}
+instance of HeaderField(0, "Hardware-Version") {
+parameter DataType="Path";
+parameter Name="Hardware-Version";
+parameter Data="Device.DeviceInfo.HardwareVersion";
+}
+instance of HeaderField(0, "Software-Version") {
+parameter DataType="Path";
+parameter Name="Software-Version";
+parameter Data="Device.DeviceInfo.SoftwareVersion";
+}
+instance of HeaderField(0, "Priority") {
+parameter DataType="Path";
+parameter Name="Priority";
+parameter Data="Device.BulkData.Profile.datamodel_probe_ondemand1.X_ORANGE-COM_Priority";
+}
+instance of HeaderField(0, "Probe-Name") {
+parameter DataType="Value";
+parameter Name="Probe-Name";
+parameter Data="DataModel_Probe";
+}
+instance of HeaderField(0, "Probe-Version") {
+parameter DataType="Value";
+parameter Name="Probe-Version";
+parameter Data="1.0";
+}
+instance of HeaderField(0, "Export-Type") {
+parameter DataType="Path";
+parameter Name="Export-Type";
+parameter Data="Device.BulkData.Profile.datamodel_probe_ondemand1.X_ORANGE-COM_ExportType";
+}
+instance of HeaderField(0, "Export-Attempt-Number") {
+parameter DataType="Path";
+parameter Name="Export-Attempt-Number";
+parameter Data="BulkData.Profile.datamodel_probe_ondemand1.HTTP.RetryAttemptNumber";
+}
+}
+}
+instance of Profile(0, "datamodel_probe_onevent1") {
+parameter Enable = 1;
+parameter Alias = "DATA_MODEL_PROBE_ONEVENT1";
+parameter PriorityServerSide = "P1";
+parameter Protocol = "HTTP";
+parameter EncodingType = "CSV";
+parameter ProbeName = "datamodel_probe";
+parameter ReportingIntervalDuration = 0;
+parameter ExportType = "onevent";
+instance of Event(0, "DeliveredEvents") {
+parameter PathParameter="ManagementServer.DeliveredEvents";
+parameter TriggeringValue = "0 BOOTSTRAP";
+}
+instance of Event(0, "SessionStatus") {
+parameter PathParameter="ManagementServer.SessionStatus";
+parameter TriggeringValue = "Idle";
+}
+instance of Parameter(0, "Device") {
+parameter Name = "Device";
+parameter Reference = "Device.";
+}
+object HTTP {
+parameter URL = "https://datamodel-lb3-fr.odmtrack.orange.com/KTUploader/datamodel";
+parameter Compression = "GZIP";
+parameter Method = "PUT";
+instance of HeaderField(0, "Header-Version") {
+parameter DataType="Path";
+parameter Name="Header-Version";
+parameter Data="Device.BulkData.Profile.datamodel_probe_onevent1.X_ORANGE-COM_OTHV";
+}
+instance of HeaderField(0, "Manufacturer-OUI") {
+parameter DataType="Path";
+parameter Name="Manufacturer-OUI";
+parameter Data="Device.DeviceInfo.ManufacturerOUI";
+}
+instance of HeaderField(0, "Product-Class") {
+parameter DataType="Path";
+parameter Name="Product-Class";
+parameter Data="Device.DeviceInfo.ProductClass";
+}
+instance of HeaderField(0, "Serial-Number") {
+parameter DataType="Path";
+parameter Name="Serial-Number";
+parameter Data="Device.DeviceInfo.SerialNumber";
+}
+instance of HeaderField(0, "MAC") {
+parameter DataType="Path";
+parameter Name="MAC";
+parameter Data="Device.DeviceInfo.X_ORANGE-COM_MACAddress";
+}
+instance of HeaderField(0, "Hardware-Version") {
+parameter DataType="Path";
+parameter Name="Hardware-Version";
+parameter Data="Device.DeviceInfo.HardwareVersion";
+}
+instance of HeaderField(0, "Software-Version") {
+parameter DataType="Path";
+parameter Name="Software-Version";
+parameter Data="Device.DeviceInfo.SoftwareVersion";
+}
+instance of HeaderField(0, "Priority") {
+parameter DataType="Path";
+parameter Name="Priority";
+parameter Data="Device.BulkData.Profile.datamodel_probe_onevent1.X_ORANGE-COM_Priority";
+}
+instance of HeaderField(0, "Probe-Name") {
+parameter DataType="Value";
+parameter Name="Probe-Name";
+parameter Data="DataModel_Probe";
+}
+instance of HeaderField(0, "Probe-Version") {
+parameter DataType="Value";
+parameter Name="Probe-Version";
+parameter Data="1.0";
+}
+instance of HeaderField(0, "Export-Type") {
+parameter DataType="Path";
+parameter Name="Export-Type";
+parameter Data="Device.BulkData.Profile.datamodel_probe_onevent1.X_ORANGE-COM_ExportType";
+}
+instance of HeaderField(0, "Export-Attempt-Number") {
+parameter DataType="Path";
+parameter Name="Export-Attempt-Number";
+parameter Data="BulkData.Profile.datamodel_probe_onevent1.HTTP.RetryAttemptNumber";
+}
+}
+}
+instance of Profile(0, "datamodel_probe_onevent2") {
+parameter Enable = 0;
+parameter Alias = "DATA_MODEL_PROBE_ONEVENT2";
+parameter PriorityServerSide = "P1";
+parameter Protocol = "HTTP";
+parameter EncodingType = "CSV";
+parameter ProbeName = "datamodel_probe";
+parameter ReportingIntervalDuration = 0;
+parameter ExportType = "onevent";
+instance of Event(0, "DeliveredEvents") {
+parameter PathParameter = "ManagementServer.DeliveredEvents";
+parameter TriggeringValue = "";
+}
+instance of Event(0, "SessionStatus") {
+parameter PathParameter = "ManagementServer.SessionStatus";
+parameter TriggeringValue = "Idle";
+}
+instance of Parameter(0, "Device") {
+parameter Name = "Device";
+parameter Reference = "Device.";
+}
+object HTTP {
+parameter URL = "https://datamodel-lb3-fr.odmtrack.orange.com/KTUploader/datamodel";
+parameter Compression = "GZIP";
+parameter Method = "PUT";
+instance of HeaderField(0, "Header-Version") {
+parameter DataType="Path";
+parameter Name="Header-Version";
+parameter Data="Device.BulkData.Profile.datamodel_probe_onevent2.X_ORANGE-COM_OTHV";
+}
+instance of HeaderField(0, "Manufacturer-OUI") {
+parameter DataType="Path";
+parameter Name="Manufacturer-OUI";
+parameter Data="Device.DeviceInfo.ManufacturerOUI";
+}
+instance of HeaderField(0, "Product-Class") {
+parameter DataType="Path";
+parameter Name="Product-Class";
+parameter Data="Device.DeviceInfo.ProductClass";
+}
+instance of HeaderField(0, "Serial-Number") {
+parameter DataType="Path";
+parameter Name="Serial-Number";
+parameter Data="Device.DeviceInfo.SerialNumber";
+}
+instance of HeaderField(0, "MAC") {
+parameter DataType="Path";
+parameter Name="MAC";
+parameter Data="Device.DeviceInfo.X_ORANGE-COM_MACAddress";
+}
+instance of HeaderField(0, "Hardware-Version") {
+parameter DataType="Path";
+parameter Name="Hardware-Version";
+parameter Data="Device.DeviceInfo.HardwareVersion";
+}
+instance of HeaderField(0, "Software-Version") {
+parameter DataType="Path";
+parameter Name="Software-Version";
+parameter Data="Device.DeviceInfo.SoftwareVersion";
+}
+instance of HeaderField(0, "Priority") {
+parameter DataType="Path";
+parameter Name="Priority";
+parameter Data="Device.BulkData.Profile.datamodel_probe_onevent2.X_ORANGE-COM_Priority";
+}
+instance of HeaderField(0, "Probe-Name") {
+parameter DataType="Value";
+parameter Name="Probe-Name";
+parameter Data="DataModel_Probe";
+}
+instance of HeaderField(0, "Probe-Version") {
+parameter DataType="Value";
+parameter Name="Probe-Version";
+parameter Data="1.0";
+}
+instance of HeaderField(0, "Export-Type") {
+parameter DataType="Path";
+parameter Name="Export-Type";
+parameter Data="Device.BulkData.Profile.datamodel_probe_onevent2.X_ORANGE-COM_ExportType";
+}
+instance of HeaderField(0, "Export-Attempt-Number") {
+parameter DataType="Path";
+parameter Name="Export-Attempt-Number";
+parameter Data="BulkData.Profile.datamodel_probe_onevent2.HTTP.RetryAttemptNumber";
+}
+}
+}
+}
+}

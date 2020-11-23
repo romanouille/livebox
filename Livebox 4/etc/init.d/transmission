@@ -1,0 +1,160 @@
+#!/bin/sh
+PID="/var/run/transmission-daemon.pid"
+BTPORTS="20020-20040"
+TRANSMISSION_WWW="/web/transmission"
+ETC_DIR="/var/etc/transmission/"
+TR_DONE_SCRIPT="/etc/init.d/torrent-done-script"
+PORT=20020
+#DEBUG="-e /tmp/transmission.log --log-debug"
+
+# configurable parameters
+RANGE="127.0.0.1,192.168.1.*"
+IP="192.168.1.1"
+BTDIR="/tmp/bt"
+SRCDIR="/var/usbmount/hubmmdisk/bt"
+
+_link()
+{
+    if [ -n "$SRCDIR" ] ; then 
+        mkdir -p "$SRCDIR"
+        rm -f "${BTDIR}"
+        ln -sf "${SRCDIR}" "${BTDIR}"
+    else
+        mkdir -p "${BTDIR}"
+    fi
+    mkdir -p "${BTDIR}/public"
+
+    # change bt directory rights for httpd torrent plugin
+    chmod -R o+w "${BTDIR}/"
+
+    # expose content via http
+    DOCROOT=$(pcb_cli -l 'HTTPService.DocumentRoot?')
+    if [ ! -d "$DOCROOT" ] ; then
+        DOCROOT="/web/private"
+    fi
+    # temporary to expose content via http staticfile plugin
+    mount -o bind -t ext3 "${SRCDIR}/public" "${DOCROOT}/public"
+}
+
+_ulink()
+{
+    DOCROOT=$(pcb_cli -l 'HTTPService.DocumentRoot?')
+    if [ ! -d "$DOCROOT" ] ; then
+        DOCROOT="/web/private"
+    fi
+    umount -l "${DOCROOT}/public"
+}
+
+case $1 in
+	start)
+        _link
+		pcb_cli -q "Firewall.setService(transmission_www, lan, 9091, 6, 4, true)"
+		logger -t transmission "Start transmission daemon"
+		transmission-daemon -w ${BTDIR} -x ${PID} -P ${PORT} -a ${RANGE}  -g ${ETC_DIR} -GSR --lpd --dht --no-utp
+		pcb_cli -q "Firewall.setService(transmission, lan, ${BTPORTS}, 6, 4, true)"
+	;;
+	stop)
+        _ulink
+		killall transmission-daemon
+		logger -t transmission "Stop transmission"
+		pcb_cli -q "Firewall.deleteService(transmission)"
+		pcb_cli -q "Firewall.deleteService(transmission_www)"
+	;;
+	restart)
+		$0 stop
+		$0 start
+	;;
+	addtorrent)
+		if [ -z "$2" ]; then
+			echo "Please specify a file or directory to make a torrent of"
+			exit;
+		fi
+		if [ -z "$3" ]; then
+			OUTPUT_FILE=$2.torrent
+		else
+			OUTPUT_FILE=$3
+			echo "Generate [${OUTPUT_FILE}] from [$2]"
+		fi
+
+		transmission-create -t "http://${IP}:6969/announce/" -o ${OUTPUT_FILE} $2
+		HASH=$(transmission-show ${OUTPUT_FILE} | grep "Hash:" | cut -d ":" -f2)
+		echo "File[${OUTPUT_FILE}] hash[$HASH]"
+		/etc/init.d/opentracker addtorrent $HASH
+		transmission-remote -a ${OUTPUT_FILE}
+		transmission-remote --torrent-done-script ${TR_DONE_SCRIPT}
+	;;
+	starttorrent)
+		if [ -n "$3" ]; then
+			echo "download torrent to alternative directory[$3]"
+            name=$(basename $3)
+			mkdir -p ${BTDIR}/${name}
+			DL_DIR=" -w ${BTDIR}/${name}"
+		else 
+			DL_DIR=" -w ${BTDIR}/public"
+		fi
+		if [ -d "$2" ]; then 
+			echo "add all torrents from directory $2"
+			for file in $2/*torrent ; 
+			do
+				HASH=$(transmission-show $file  | grep "Hash:" | cut -d ":" -f2)
+				echo "File[$file] hash[$HASH]"
+				/etc/init.d/opentracker addtorrent $HASH
+				transmission-remote -a $file ${DL_DIR}
+			done
+			transmission-remote -l 
+			exit
+		fi
+
+		if [ -f "$2" ]; then
+			echo "add torrent $2"
+			HASH=$(transmission-show $2  | grep "Hash:" | cut -d ":" -f2)
+			echo "File[$2] hash[$HASH]"
+			/etc/init.d/opentracker addtorrent $HASH
+			transmission-remote -a $2 ${DL_DIR}
+			transmission-remote -l 
+	        fi	
+	;;
+	downloadtorrent)
+		if [ -n "$3" ]; then
+			echo "download torrent to alternative directory[$3]"
+            name=$(basename $3)
+			mkdir -p ${BTDIR}/${name}
+			DL_DIR=" -w ${BTDIR}/${name}"
+		else 
+			DL_DIR=" -w ${BTDIR}/public"
+		fi
+		if [ -f "$2" ]; then
+			echo "add torrent $2"
+			transmission-remote -a $2 ${DL_DIR}
+			transmission-remote -l 
+		else
+			echo "no torrent [$2] found"
+		fi	
+	;;
+	deletetorrent) 
+		if [ -n "$2" ]; then
+			echo "Delete torrent with hash[$2]"
+			pcb_cli "Torrent.Tracker.deleteTorrent(\"$2\")"
+			pcb_cli "Torrent.Client.deleteTorrentFromClient(\"$2\")"
+		else
+			echo "error: no hash"
+		fi
+		;;
+
+	backup)
+		logger -t rtorrent "backup for transmission not supported"
+	;;
+	restore)
+		logger -t rtorrent "export for transmission not supported"
+	;;
+	debuginfo)
+		if [ -f "${PID}" ]; then 
+			echo "transmission is running, pid=$(cat ${PID})"
+		else
+			echo "transmission is not running"
+		fi
+	;;
+	*)
+		echo "[$1] not supported" 
+	;;
+esac

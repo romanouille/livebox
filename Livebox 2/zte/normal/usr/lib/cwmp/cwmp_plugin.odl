@@ -1,0 +1,4 @@
+include "cwmp_plugin-definition.odl";
+include "cwmp_plugin-defaults.odl";
+
+/** @location sah_services_tr069 /source/dmdeviceadapter/pcb/cwmp_plugin/cwmp_plugin.odl */

@@ -1,0 +1,24 @@
+object NeMo { 
+	object extends MIB(0,"wwan") {
+		string Flag = "wwan";
+		object DataModel {
+			persistent string APNName;
+			persistent string APNDomain;
+			persistent string PINCode;
+			string PUKCode;
+			persistent string Username;
+			persistent string Password;
+			string DNSServers;
+			string LocalIPAddress;
+			string ConnectionStatus {
+				constraint enum [ "Unconfigured", "Connecting", "Connected", "PendingDisconnect", "Disconnecting", "Disconnected" ]; 
+				default "Unconfigured";
+			}
+			string KeyStatus {
+				constraint enum [ "None", "Running", "Error" ];
+				default "None";
+			}
+		}
+	}
+}
+

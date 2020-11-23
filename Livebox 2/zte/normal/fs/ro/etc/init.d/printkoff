@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# printk off
+case $1 in
+    start)
+	echo "Setting printk off"
+	echo 4 > /proc/sys/kernel/printk
+	sync
+	;;
+    stop)
+	echo "Setting printk on"
+	echo 10 > /proc/sys/kernel/printk
+	;;
+    *)
+	echo "Usage : $0 [start|stop]"
+	;;
+esac

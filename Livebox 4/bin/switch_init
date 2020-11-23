@@ -1,0 +1,82 @@
+#!/bin/sh
+
+
+
+
+# Documentation reference:
+# 63138-PR101-RDS.pdf
+# http://sharepoint.softathome.com/sites/sahwrd/chipset/Broadcom/BCM63138/63138-PR101-RDS.pdf
+#
+#
+ARLA_VTBL_RWCTRL=0x80081600
+ARLA_VTBL_ADDR=0x80081604
+ARLA_VTBL_ENTRY=0x8008160c
+
+DEFAULT_1Q_TAG_PORT_0=0x8008d040
+DEFAULT_1Q_TAG_PORT_1=0x8008d048
+DEFAULT_1Q_TAG_PORT_2=0x8008d050
+DEFAULT_1Q_TAG_PORT_3=0x8008d058
+DEFAULT_1Q_TAG_PORT_4=0x8008d060
+DEFAULT_1Q_TAG_PORT_5=0x8008d068
+DEFAULT_1Q_TAG_PORT_7=0x8008d078
+DEFAULT_1Q_TAG_PORT_IMP=0x8008d080
+
+getreg()
+{
+    dw $1
+}
+
+setreg()
+{
+    sw $1 $2
+}
+
+setvlancfg()
+{
+    VLANID=$1
+    CFG=$2
+
+    setreg $ARLA_VTBL_ADDR `printf "0x%08x" $VLANID`
+    setreg $ARLA_VTBL_ENTRY $CFG
+    setreg $ARLA_VTBL_RWCTRL 0x00000080
+}
+
+getvlancfg()
+{
+    VLANID=$1
+
+    setreg $ARLA_VTBL_ADDR `printf "0x%08x" $VLANID`
+    setreg $ARLA_VTBL_RWCTRL 0x00000081
+    getreg $ARLA_VTBL_ENTRY
+}
+
+# Default LAN ports to VLAN CONFIG_SAH_DRIVERS_WIFI_QUANTENNA_DATA_VLANID
+WIFI_DATA_VLAN=`printf 0x%08x 100`
+
+setreg $DEFAULT_1Q_TAG_PORT_0 $WIFI_DATA_VLAN
+setreg $DEFAULT_1Q_TAG_PORT_1 $WIFI_DATA_VLAN
+setreg $DEFAULT_1Q_TAG_PORT_2 $WIFI_DATA_VLAN
+setreg $DEFAULT_1Q_TAG_PORT_3 $WIFI_DATA_VLAN
+setreg $DEFAULT_1Q_TAG_PORT_4 $WIFI_DATA_VLAN
+setreg $DEFAULT_1Q_TAG_PORT_IMP $WIFI_DATA_VLAN
+
+# Default the Quantenna port to VLAN 2
+WIFI_COMMAND_VLAN=`printf 0x%08x 2`
+
+setreg $DEFAULT_1Q_TAG_PORT_5 $WIFI_COMMAND_VLAN
+setreg $DEFAULT_1Q_TAG_PORT_7 $WIFI_COMMAND_VLAN
+
+# Quantenna control VLAN: forward on port 5/7/IMP, Untagged on port 5/7, tagged on IMP
+setvlancfg 2 0x002141a0
+
+# Data VLAN: forward everywhere tagged on port 5/7, untag on 0/1/2/3/4/IMP
+setvlancfg 100 0x00223fbf
+
+# Enable VLAN support
+setreg 0x8008d000 0x000000e0
+
+# Update RGMII settings according to SagemCom recommendations
+setreg 0x800c0078 0x00000088
+setreg 0x800c007c 0x0000000f
+setreg 0x800c0084 0x00000088
+

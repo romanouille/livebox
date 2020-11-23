@@ -1,0 +1,92 @@
+using "usbhost-plugin.so";
+define usbdev_t {
+string USBVersion;
+uint16 DeviceClass;
+uint16 DeviceSubClass;
+uint16 ProductID;
+uint16 VendorID;
+string Manufacturer;
+string ProductClass;
+string SerialNumber;
+string Rate;
+list   Classes;
+}
+acl {
+world none;
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+object USBHosts {
+read-only uint32 HostNumberOfEntries;
+list getDevices(list deviceClass);
+usbdev_t getDevice(string id);
+list getTopology();
+read-only object PortName[] {
+read-only string DevicePath;
+read-only uint8 Port;
+read-only string Name;
+}
+read-only string RootDevices = "";
+object Host[] {
+read-only string Name {
+constraint maxvalue 64;
+}
+read-only object Device[] {
+counted with DeviceNumberOfEntries;
+read-only string DeviceUID;
+read-only uint32 DeviceNumber;
+read-only string USBVersion {
+constraint maxvalue 4;
+}
+read-only string DeviceClass {
+constraint maxvalue 4;
+}
+read-only string DeviceSubClass {
+constraint maxvalue 4;
+}
+read-only uint16 DeviceVersion;
+read-only string DeviceProtocol {
+constraint maxvalue 4;
+}
+read-only uint16 ProductID;
+read-only uint16 VendorID;
+read-only string Manufacturer {
+constraint maxvalue 64;
+}
+read-only string ProductClass {
+constraint maxvalue 64;
+}
+read-only string SerialNumber {
+constraint maxvalue 64;
+}
+read-only uint8 Port;
+read-only string PhysicalPort;
+read-only string Rate {
+constraint enum ["Low","Full","High","Super"];
+default "Low";
+}
+read-only string Parent;
+read-only string ParentUID;
+read-only uint32 MaxChildren;
+bool Eject=0;
+read-only uint32 ConfigurationNumberOfEntries;
+read-only object Configuration[] {
+read-only uint32 ConfigurationNumber;
+read-only uint32 InterfaceNumberOfEntries;
+read-only object Interface[] {
+read-only uint8 InterfaceNumber;
+read-only string InterfaceClass {
+constraint maxvalue 4;
+}
+read-only string InterfaceSubClass {
+constraint maxvalue 4;
+}
+read-only string InterfaceProtocol {
+constraint maxvalue 4;
+}
+}
+}
+}
+}
+}

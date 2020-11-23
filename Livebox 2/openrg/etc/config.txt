@@ -1,0 +1,16 @@
+tr69_port         64000
+tr69_ip_addr      127.0.0.1
+app_port          65000              
+tr69_key          2049
+TR98_key          2050
+TR104_key	        2441
+TR111_key         2055
+TRAUDIPH_key      2057
+ReqDw_key	  2448
+schedInform_key   2449 
+com_mode          2
+
+
+
+
+

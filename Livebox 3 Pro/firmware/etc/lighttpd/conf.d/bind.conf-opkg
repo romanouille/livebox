@@ -1,0 +1,10 @@
+# Default dynamic configuration
+
+server.port = 80
+server.bind = "gatewaydevice.v6mapped"
+
+#$SERVER["socket"] == ":443" {
+#  ssl.engine = "enable"
+#  ssl.pemfile = "/etc/lighttpd/ssl/remote/self-signed.pem"
+#}
+

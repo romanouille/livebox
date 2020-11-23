@@ -1,0 +1,6 @@
+
+
+include "filetransfer-definitions.odl";
+include "filetransfer-defaults.odl";
+
+/** @location sah_services_filetransfer /filetransfer.odl.m4 */

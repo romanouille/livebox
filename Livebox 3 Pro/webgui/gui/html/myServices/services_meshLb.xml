@@ -1,0 +1,24 @@
+<div id="servicesMeshLb" xmlns="http://www.orange.com/xhtml/engine/loose">
+ <div class="boxType3">
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_NWLiveBox grey" i18n="menuServices.meshLb"/>
+		<div class="margin-left-40 margin-top-m8">
+		<strong i18n="page.myServices.services_meshLb.subtitle"/>
+		</div>
+  </div>
+  
+	<div class="maindiv">		
+		<form action="#">
+		   <div class="boxType4 margin-top-10 border-bottom-3">
+				<span  class="h3Text" i18n="common.status"/>
+				<div class="margin-left-30" widgetType="FormInput" i18n="page.myServices.services_meshLb.state">
+					<span dataId="Device/MESH/Enable" i18nPrefix="data.boolean"/>
+				</div>
+			</div>	
+		</form>
+	</div>
+</div>

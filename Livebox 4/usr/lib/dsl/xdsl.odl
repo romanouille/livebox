@@ -1,0 +1,1869 @@
+
+/** 
+  This object models DSL lines, DSL channels, DSL bonding, and DSL diagnostics. The specific interface objects defined here are Line, Channel, and BondingGroup. Each Line models a layer 1 DSL Line interface, and each Channel models a layer 1 DSL Channel interface where multiple channels can run over a DSL line. In the case where bonding is configured, it is expected that BondingGroup is stacked above the Channel instances within its group.
+  @version V6.0
+ */
+object "$(XDSL_ROOT)" {
+
+    /**
+      DSL Line table, this table models physical DSL lines.
+      @Version V6.0
+     */
+    object Line[] {
+        counted with LineNumberOfEntries;
+
+        /** 
+         * A non-volatile handle used to reference this instance. Alias provides a mechanism for an ACS to label this instance for future reference.
+         * @version V6.0
+         */
+        string Alias;
+
+        /** 
+         * The current operational state of the DSL line
+         * @version V6.0
+         */
+        string Status {
+            constraint enum["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+            default "Down";
+            write with line_statusOnWrite;
+        }
+
+        /** 
+         * The textual name of the DSL line as assigned by the CPE.
+         * @version V6.0
+         */
+        string Name;
+
+        /** 
+         * The accumulated time in seconds since the DSL line entered its current operational state.
+         * @version V6.0
+         */
+        string LastChange;
+
+        /** 
+         * Indicates whether the interface points towards the Internet (true) or towards End Devices (false).
+         * @version V6.0
+         */
+        bool Upstream = true;
+
+        /** 
+         * A string identifying the version of the modem firmware currently installed for this interface. This is applicable only when the modem firmware is separable from the overall CPE software.
+         * @version V6.0
+         */
+        string FirmwareVersion;
+
+        /** 
+         * Status of the DSL physical link.
+         * @version V6.0
+         */
+        string LinkStatus {
+            constraint enum["Up", "Initializing", "EstablishingLink", "NoSignal", "Disabled", "Error"];
+            default "Disabled";
+        }
+
+        /** 
+         * Comma-separated list of strings. List items indicate which DSL standards and recommendations are supported by the Line instance. 
+         * @version V6.0
+         */
+        string StandardsSupported = "G.992.1_Annex_A, G.992.1_Annex_B, G.992.1_Annex_C,T1.413, T1.413i2,ETSI_101_388, G.992.2,G.992.3_Annex_A, G.992.3_Annex_B, G.992.3_Annex_C, G.992.3_Annex_I, G.992.3_Annex_J,G.992.3_Annex_M, G.992.4,G.992.5_Annex_A, G.992.5_Annex_B, G.992.5_Annex_C, G.992.5_Annex_I, G.992.5_Annex_J, G.992.5_Annex_M, G.993.1,G.993.1_Annex_A, G.993.2_Annex_A, G.993.2_Annex_B";
+
+        /** 
+         * The value MUST be a member of the list reported by the StandardsSupported parameter. Indicates the standard that the Line instance is using for the connection.
+         * @version V6.0
+         */
+        string StandardUsed {
+            constraint enum["", "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_M", "G.993.1", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B"];
+            default "";
+        }
+
+        /**
+         *You can "hint" the line to sync in ADSL or VDSL mode. 
+         * @version V6.0
+         */
+        string ModulationHint {
+            constraint enum["", "ADSL", "VDSL", "Auto"];
+            default "";
+            write with line_modulationOnWrite;
+        }
+
+        /**
+         * As soon as the modem detects VDSL, ADSL this parameter is updated. This is typically useful to detect the modem type before showtime.
+         * @version V6.0
+         */
+        string ModulationType {
+            constraint enum["","ADSL","ADSL_G.dmt","ADSL_G.lite","ADSL_ANSI_T1.413","ADSL_2plus","VDSL"];
+            default "";
+        }
+
+        /** 
+         * The line encoding method used in establishing the Layer 1 DSL connection between the CPE and the DSLAM.
+	 * Currently not implemented.
+         * @version V6.0
+         */
+        string LineEncoding {
+		constraint enum["", "DMT", "CAP", "2B1Q", "43BT", "PAM", "QAM"];
+		default "";
+	}
+
+        /** 
+         * Comma-separated list of strings. List items indicate which VDSL2 profiles are allowed on the line. 
+         * @version V6.0
+         */
+        string AllowedProfiles = "8a, 8b, 8c, 8d, 12a, 12b, 17a, 17b, 30a";
+
+        /** 
+         * The value MUST be a member of the list reported by the AllowedProfiles parameter, or else be an empty string. Indicates which VDSL2 profile is currently in use on the line.
+         * @version V6.0
+         */
+        string CurrentProfile {
+            constraint enum["", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a"];
+            default "";
+        }
+
+        /** 
+         * This parameter contains the estimated electrical loop length expressed in 0.1dB at 1MHz .
+         * @version V6.0
+         */
+        uint32 UPBOKLE = 0;
+
+        /** 
+         * The current maximum attainable data rate upstream (expressed in Kbps).
+         * @version V6.0
+         */
+        uint32 UpstreamMaxBitRate = 0;
+
+        /** 
+         * The current signal-to-noise ratio margin (expressed in 0.1dB) in the upstream direction.
+         * @version V6.0
+         */
+        uint32 DownstreamMaxBitRate = 0;
+
+        /** 
+         * The current signal-to-noise ratio margin (expressed in 0.1dB) in the upstream direction.
+         * @version V6.0
+         */
+        uint32 UpstreamNoiseMargin = 0;
+
+        /** 
+         * The current signal-to-noise ratio margin (expressed in 0.1dB) in the downstream direction.
+         * @version V6.0
+         */
+        uint32 DownstreamNoiseMargin = 0;
+
+        /** 
+         * The training upstream signal loss (expressed in 0.1dB).
+         * @version V6.0
+         */
+        uint32 UpstreamLineAttenuation = 0;
+
+        /** 
+         * The training downstream signal loss (expressed in 0.1dB).
+         * @version V6.0
+         */
+
+        uint32 DownstreamLineAttenuation = 0;
+
+        /** 
+         * The current upstream signal loss (expressed in 0.1dB).
+         * @version V6.0
+         */
+        uint32 UpstreamSignalAttenuation = 0;
+
+        /** 
+         * The current downstream signal loss (expressed in 0.1dB).
+         * @version V6.0
+         */
+        uint32 DownstreamSignalAttenuation = 0;
+
+        /** 
+         * The current output power at the CPE's DSL line (expressed in 0.1dBmV).
+         * @version V6.0
+         */
+        int32 UpstreamPower = 0;
+
+        /** 
+         * The current received power at the CPE's DSL line (expressed in 0.1dBmV).
+         * @version V6.0
+         */
+        int32 DownstreamPower = 0;
+
+        /** 
+         * Reports whether trellis coding is enabled in the downstream direction. A value of 1 indicates that trellis coding is in use, and a value of 0 indicates that the trellis is disabled.
+         * @version V6.0
+         */
+        bool TRELLISds = false;
+
+        /** 
+         * Reports whether trellis coding is enabled in the upstream direction. A value of 1 indicates that trellis coding is in use, and a value of 0 indicates that the trellis is disabled.
+         * @version V6.0
+         */
+        bool TRELLISus = false;
+
+                /** 
+         * Specific Request from Orange , this parameter has not considered in the original TR 181.  
+         * @version V6.0
+         */
+        uint32 LostSynchro = 0;
+
+        /** 
+         * Reports whether the OPTIONAL virtual noise mechanism is in use in the downstream direction. A value of 1 indicates the virtual noise mechanism is not in use, and a value of 2 indicates the virtual noise mechanism is in use.
+         * @version V6.0
+         */
+        uint32 ACTSNRMODEds = 0;
+
+        /** 
+         * Reports whether the OPTIONAL virtual noise mechanism is in use in the upstream direction. A value of 1 indicates the virtual noise mechanism is not in use, and a value of 2 indicates the virtual noise mechanism is in use.
+         * @version V6.0
+         */
+        uint32 ACTSNRMODEus = 0;
+
+        /** 
+         * Reports the actual cyclic extension, as the value of m, in use for the connection.
+         * @version V6.0
+         */
+        uint32 ACTUELCE = 0;
+
+        /** 
+         * Comma-separated list (maximum length 24) of strings. Indicates the downstream line attenuation per usable band, as computed during initialization. 
+         * Number of elements is dependent on the number of downstream bands but will exceed one only for G.993.2. Interpretation of LATNds is as defined in ITU-T Rec. G.997.1.
+         * @version V6.0
+         */
+        string LATNpbds;
+
+        /** 
+         * Comma-separated list (maximum length 24) of strings. Indicates the upstream line attenuation per usable band, as computed during initialization. 
+         * Number of elements is dependent on the number of downstream bands but will exceed one only for G.993.2. Interpretation of LATNds is as defined in ITU-T Rec. G.997.1.
+         * @version V6.0
+         */
+        string LATNpbus;
+
+        /** 
+	 * Comma-separated list (maximum length 24) of strings. Indicates the downstream signal attenuation per usable band, 
+         * as computed during the L0 (i.e., Showtime)state.    Number of elements is dependent on the number of downstream bands but will exceed one only for G.993.2.
+         * Interpretation of SATNds is as defined in ITU-T Rec. G.997.1. 
+         * @version V6.0
+         */
+        string SATNpbds;
+
+        /** 
+	 * Comma-separated list (maximum length 24) of strings. Indicates the upstream signal attenuation per usable band, 
+         * as computed during the L0 (i.e., Showtime)state.    Number of elements is dependent on the number of downstream bands but will exceed one only for G.993.2.
+         * Interpretation of SATNds is as defined in ITU-T Rec. G.997.1. 
+         * @version V6.0
+         */
+        string SATNpbus;
+
+        /** 
+	 * Comma-separated list (maximum length 24) of strings. Indicates the current signal-to-noise ratio margin of each downstream band. 
+         * Interpretation of the values is as defined in ITU-T Rec. G.997.1.
+         * @version V6.0
+         */
+        string SNRMpbds;
+
+        /** 
+	 * Comma-separated list (maximum length 24) of strings. Indicates the current signal-to-noise ratio margin of each upstream band. 
+         * Interpretation of the values is as defined in ITU-T Rec. G.997.1.
+         * @version V6.0
+         */
+        string SNRMpbus;
+
+        /** 
+         * Enables or disables the DSL line.
+         * @version V6.0
+         */
+        bool Enable {
+            write with line_enableOnWrite;
+            default false;
+        }
+
+        /** 
+         * XTU-R vendor identifier as defined in G.994.1 and T1.413. In the case of G.994.1 this corresponds to the four-octet provider code, 
+         * which MUST be represented as eight hexadecimal digits.
+         * Note: This parameter is OPTIONAL at the G and S/T interfaces in G.997.1 Amendment 1. 
+         * If the parameter is implemented but no value is available, it MUST have the value "00000000".
+         * 
+         * Note: In G.997.1, this parameter is called "xTU-R G.994.1 Vendor ID". See ITU-T Recommendation [G.997.1].
+         * @version V6.0
+         */
+        string XTURVendor = "00000000";
+
+        /** 
+         * @version V6.0
+         */
+        string XTURSerialNumber;
+
+        /** 
+         * @version V6.0
+         */
+
+        string XTURVersionNumber;
+        /** 
+         * T.35 country code of the xTU-R vendor as defined in G.994.1, where the two-octet value defined in G.994.1 
+         * MUST be represented as four hexadecimal digits.
+         * Note: This parameter is OPTIONAL at the G and S/T interfaces in G.997.1 Amendment 1. 
+         * If the parameter is implemented but no value is available, it MUST have the value "0000".
+         * Note: In G.997.1, this parameter is called "xTU-R G.994.1 Vendor ID". See ITU-T Recommendation [G.997.1].
+         * @version V6.0
+         */
+
+        string XTURCountry = "0000";
+
+        /** 
+         * xTU-R T1.413 Revision Number as defined in T1.413 Issue 2.
+         * When T1.413 modulation is not in use, the parameter value SHOULD be 0.
+         * @version V6.0
+         */
+        uint32 XTURANSIStd = 0;
+
+        /** 
+         * xTU-R Vendor Revision Number as defined in T1.413 Issue 2.
+         * When T1.413 modulation is not in use, the parameter value SHOULD be 0.
+         * @version V6.0
+         */
+        uint32 XTURANSIRev = 0;
+
+        /**
+         * xTU-C vendor identifier as defined in G.994.1 and T1.413. In the case of G.994.1 this corresponds to the four-octet provider code, 
+         * which MUST be represented as eight hexadecimal digits.
+         * Note: This parameter is OPTIONAL at the G and S/T interfaces in G.997.1 Amendment 1. 
+         * If the parameter is implemented but no value is available, it MUST have the value "00000000".
+         * @version V6.0
+         */
+        string XTUCVendor = "00000000";
+
+        /** 
+         * @version V6.0
+         */
+        string XTUCSerialNumber;
+
+        /** 
+         * @version V6.0
+         */
+        string XTUCVersionNumber;
+
+        /** 
+         * T.35 country code of the xTU-C vendor as defined in G.994.1, where the two-octet value defined in G.994.1
+         * MUST be represented as four hexadecimal digits.
+         * Note: This parameter is OPTIONAL at the G and S/T interfaces in G.997.1 Amendment 1. 
+         * If the parameter is implemented but no value is available, it MUST have the value "0000".
+         * @version V6.0
+         */
+        string XTUCCountry = "0000";
+
+        /** 
+         * xTU-C T1.413 Revision Number as defined in T1.413 Issue 2.
+         * When T1.413 modulation is not in use, the parameter value SHOULD be 0.
+         * @version V6.0
+         */
+        uint32 XTUCANSIStd = 0;
+
+        /** 
+         * xTU-C Vendor Revision Number as defined in T1.413 Issue 2.
+         * When T1.413 modulation is not in use, the parameter value SHOULD be 0.
+         * @version V6.0
+         */
+        uint32 XTUCANSIRev = 0;
+
+        /**
+         * Indicates whether the data path is fast (lower latency) or interleaved
+         * (lower error rate).
+	 * TODO: implement functionality (was in NeMo.)
+         */
+        string DataPath {
+	    constraint enum [ "Interleaved", "Fast", "None" ];
+	    default "Interleaved";
+        }
+
+        /**
+         * ADSL1 Interleaved depth. This variable is only applicable to ADSL1 and
+         * only if DataPath = Interleaved. Otherwise, the value of this parameter
+         * is zero.
+	 * TODO: implement functionality (was in NeMo.)
+         */
+        uint32 InterleaveDepth = 0;
+
+        /** 
+         * This object contains the DSL line test parameters that are available during the L0 (i.e., Showtime) state.
+         * @version V6.0
+         */
+        object TestParams {
+
+            /** 
+             * Number of sub-carriers per sub-carrier group in the downstream direction for HLOGpsds. Valid values are 1, 2, 4, and 8.
+             * @version V6.0
+             */	    
+            read-only uint32 HLOGGds {
+                read with HLOGGdsOnRead;
+	    }
+
+            /** 
+             * Number of sub-carriers per sub-carrier group in the upstream direction for HLOGpsus. Valid values are 1, 2, 4, and 8.
+             * @version V6.0
+             */	    
+            read-only uint32 HLOGGus {
+                read with HLOGGusOnRead;
+            }
+
+            /** 
+             * Comma-separated list (maximum length 2559) of strings. Indicates the downstream logarithmic line characteristics per 
+	     * sub-carrier group. The maximum number of elements is 256 for G.992.3, and 512 for G.992.5. For G.993.2, 
+	     * the number of elements will depend on the value of HLOGGds but will not exceed 512. Interpretation of the values is 
+	     * as defined in ITU-T Rec. G.997.1.
+             * @version V6.0
+             */	    
+	    read-only string HLOGpsds {
+		read with HLOGpsdsOnRead;
+	    }
+
+            /** 
+             * Comma-separated list (maximum length 2559) of strings. Indicates the upstream logarithmic line characteristics per 
+	     * sub-carrier group. The maximum number of elements is 256 for G.992.3, and 512 for G.992.5. For G.993.2, 
+             * the number of elements will depend on the value of HLOGGus but will not exceed 512. Interpretation of the values is 
+             * as defined in ITU-T Rec. G.997.1.
+             * @version V6.0
+             */	    
+	    read-only string HLOGpsus {
+                read with HLOGpsusOnRead;
+            }
+
+            /** 
+             * Number of sub-carriers per sub-carrier group in the downstream direction for QLNpsds. Valid values are 1, 2, 4, and 8.
+             * @version V6.0
+             */	    
+	    read-only uint32 QLNGds {
+                read with QLNGdsOnRead;
+            }
+
+            /** 
+             * Number of sub-carriers per sub-carrier group in the downstream direction for QLNpsds. Valid values are 1, 2, 4, and 8.
+             * @version V6.0
+             */	    
+	    read-only uint32 QLNGus {
+                read with QLNGusOnRead;
+            }
+
+            /** 
+             * Comma-separated list (maximum length 61430) of integers. List items represent downstream quiet line noise per subcarrier group. 
+	     * Maximum number of elements is 256 for G.992.3, 512 for G.992.5. For G.993.2, the number of elements will depend on the value of 
+	     * QLNGds but will not exceed 512. Interpretation of the value is as defined in ITU-T Rec. G.997.1.
+             * @version V6.0
+             */	    
+            read-only string QLNpsds {
+                read with QLNpsdsOnRead;
+            }
+
+            /** 
+             * Comma-separated list (maximum length 61430) of integers. List items represent downstream quiet line noise per subcarrier group. 
+	     * Maximum number of elements is 256 for G.992.3, 512 for G.992.5. For G.993.2, the number of elements will depend on the value of 
+	     * QLNGds but will not exceed 512. Interpretation of the value is as defined in ITU-T Rec. G.997.1.
+             * @version V6.0
+             */
+	    read-only string QLNpsus {
+                read with QLNpsusOnRead;
+	    }
+
+            /** 
+             * Number of sub-carriers per sub-carrier group in the downstream direction for SNRpsds. Valid values are 1, 2, 4, and 8.
+             * @version V6.0
+             */	    
+	    read-only uint32 SNRGds {
+                 read with SNRGdsOnRead;
+	    }
+
+            /** 
+             * Number of sub-carriers per sub-carrier group in the upstream direction for SNRpsus. Valid values are 1, 2, 4, and 8.
+             * @version V6.0
+             */	    
+	    read-only uint32 SNRGus {
+                read with SNRGusOnRead;
+            }
+
+            /** 
+             * Comma-separated list (maximum length 61430) of integers. List items represent downstream SNR per subcarrier group. 
+	     * Maximum number of elements is 256 for G.992.3, 512 for G.992.5. For G.993.2, the number of elements will depend 
+	     * on the value of SNRGds but will not exceed 512. Interpretation of the value is as defined in ITU-T Rec. G.997.1. 
+	     * Interpretation of the value is as defined in ITU-T Rec. G.997.1.
+             * @version V6.0
+             */	    
+	    read-only string SNRpsds {
+                read with SNRpsdsOnRead;
+	    }
+
+            /** 
+             * Comma-separated list (maximum length 61430) of strings. List items represent upstream SNR per subcarrier group. 
+	     * The maximum number of elements is 64 for G.992.3, and G.992.5. For G.993.2, the number of elements will depend 
+	     * on the value of SNRGus but will not exceed 512. Interpretation of the values is as defined in ITU-T Rec. G.997.1.
+             * @version V6.0
+             */
+	    read-only string SNRpsus {
+                read with SNRpsusOnRead;
+	    }
+
+            /** 
+             * Comma-separated list (maximum length 61430) of integers. List items represent downstream bit allocation per subcarrier group. 
+	     * Maximum number of elements is 256 for G.992.3, 512 for G.992.5. Interpretation of the value is as defined in ITU-T Rec. [G.997.1].
+             * @version V6.0
+             */	    
+	    read-only string BITSpsds {
+                read with BITSpsdsOnRead;
+	    }
+
+            /** 
+             * Comma-separated list (maximum length 61430) of strings. List items represent upstream bit allocation per subcarrier group. 
+	     * Maximum number of elements is 256 for G.992.3, 512 for G.992.5. Interpretation of the value is as defined in ITU-T Rec. [G.997.1].
+             * @version V6.0
+             */
+	    read-only string BITSpsus {
+                read with BITSpsusOnRead;
+	    }
+	}
+
+        /** 
+         * Throughput statistics for this interface.
+         * @version V6.0
+         */
+        object Stats {
+
+            /** 
+             * The total number of bytes transmitted out of the interface, including framing characters.
+             * @version V6.0
+             */
+            read-only uint32 BytesSent {
+                read with common_bytesSentOnRead;
+            }
+
+            /** 
+             * The total number of bytes received on the interface, including framing characters.
+             * @version V6.0
+             */
+            read-only uint32 BytesReceived {
+                read with common_bytesReceivedOnRead;
+            }
+
+            /** 
+             * The total number of packets transmitted out of the interface.
+             * @version V6.0
+             */
+            read-only uint32 PacketsSent {
+                read with common_packetsSentOnRead;
+            }
+
+            /** 
+             * The total number of packets received on the interface.
+             * @version V6.0
+             */
+            read-only uint32 PacketsReceived {
+                read with common_packetsReceivedOnRead;
+            }
+
+            /** 
+             * The total number of outbound packets that could not be transmitted because of errors.
+             * @version V6.0
+             */
+            read-only uint32 ErrorsSent {
+                read with common_errorsSentOnRead;
+            }
+
+            /** 
+             * The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol.
+             * @version V6.0
+             */
+            read-only uint32 ErrorsReceived {
+                read with common_errorsReceivedOnRead;
+            }
+	
+            object Total {
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 ErroredSecs {
+                    read with line_erroredSecsOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 SeverelyErroredSecs {
+                    read with line_severelyErroredSecsOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOS {
+                    read with line_LOSOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOF {
+                    read with line_LOFOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 UAS {
+                    read with line_UASOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOM {
+                    read with line_LOMOnRead;
+		}
+            }
+
+            object Showtime {
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 ErroredSecs {
+                    read with line_erroredSecsOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 SeverelyErroredSecs {
+                    read with line_severelyErroredSecsOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOS {
+                    read with line_LOSOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOF {
+                    read with line_LOFOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 UAS {
+                    read with line_UASOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOM {
+                    read with line_LOMOnRead;
+		}
+            }
+
+	    object LastShowtime {
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 ErroredSecs {
+                    read with line_erroredSecsOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 SeverelyErroredSecs {
+                    read with line_severelyErroredSecsOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOS {
+                    read with line_LOSOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOF {
+                    read with line_LOFOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 UAS {
+                    read with line_UASOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOM {
+                    read with line_LOMOnRead;
+		}
+            }
+
+	    object CurrentDay {
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 ErroredSecs {
+                    read with line_erroredSecsOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 SeverelyErroredSecs {
+                    read with line_severelyErroredSecsOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOS {
+                    read with line_LOSOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOF {
+                    read with line_LOFOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 UAS {
+                    read with line_UASOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOM {
+                    read with line_LOMOnRead;
+		}
+            }
+
+	    object QuarterHour {
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 ErroredSecs {
+                    read with line_erroredSecsOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 SeverelyErroredSecs {
+                    read with line_severelyErroredSecsOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOS {
+                    read with line_LOSOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOF {
+                    read with line_LOFOnRead;
+		}
+            /*
+             * @version V6.0
+             */
+                read-only uint32 UAS {
+                    read with line_UASOnRead;
+		}
+
+            /*
+             * @version V6.0
+             */
+                read-only uint32 LOM {
+                    read with line_LOMOnRead;
+		}
+            }
+        }
+
+	/**
+	 * @return a map of line statistics (mapping of a Line.Stats object)
+	 * @version V6.0
+	 */
+	void getDSLLineStats();
+
+	/**
+	 * @return a map of line Tables tones (mapping of a Line.TestParams object)
+	 * @version V6.0
+	 */
+	void getDSLLineTestParams();
+
+	/**
+	 * @return a map of line statistics in order to provide backwards compatibility with the old NeMo code.
+	 * @version V6.0
+	 */
+	void getDSLStats();
+    }
+
+    /** 
+     * DSL Channel table 
+     * @version V6.0
+     */
+    object Channel[] {
+        counted with ChannelNumberOfEntries;
+
+        /** 
+         * Enables or disables the channel.
+         * @version V6.0
+         */
+        bool Enable {
+            write with channel_enableOnWrite;
+            default false;
+        }
+
+        /** 
+         * The current operational state of the channel
+         * @version V6.0
+         */
+        string Status {
+            constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+            write with channel_statusOnWrite;
+            default "Down";
+        }
+
+        /** 
+         * A non-volatile handle used to reference this instance. Alias provides a mechanism for an ACS to label this instance for future reference.
+         * @version V6.0
+         */
+        string Alias;
+
+        /** 
+         * The textual name of the channel as assigned by the CPE.
+         * @version V6.0
+         */
+        string Name;
+
+        /** 
+         * The accumulated time in seconds since the channel entered its current operational state.
+         * @version V6.0
+         */
+        string LastChange;
+
+        /** 
+         * The absolute time in seconds since the channel entered its current operational state.
+         * @version V6.0
+         */
+        string LastChangeTime;
+
+
+        /** 
+         * Comma-separated list of strings. List items indicate which link encapsulation standards and recommendations are supported by the Channel instance.
+         * @version V6.0
+         */
+        string LinkEncapsulationSupported {
+            default ",G.992.3_Annex_K_ATM, G.992.3_Annex_K_PTM, G.993.2_Annex_K_ATM, G.993.2_Annex_K_PTM";
+        }
+
+        /**
+	  * Indicates the link encapsulation standard that the Channel instance is using for the connection.
+          * @version V6.0
+          */
+        string LinkEncapsulationUsed {
+            constraint enum["", "G.992.3_Annex_K_ATM", "G.992.3_Annex_K_PTM", "G.993.2_Annex_K_ATM", "G.993.2_Annex_K_PTM", "G.994.1"];
+            default "";
+        }
+
+        /** 
+         * Reports the index of the latency path supporting the bearer channel
+         * @version V6.0
+         */
+        uint32 LPATH;
+
+	/** 
+	 * Reports the interleaver depth D for the latency path indicated in LPATH.
+	 * @version V6.0
+	 */
+	uint32 INTLVDEPTH;
+
+	/** 
+	 * Reports the actual delay, in milliseconds, of the latency path due to interleaving. 
+	 * @version V6.0
+	 */
+	uint32 ActualInterleavingDelay;
+
+	/** 
+	 * Reports the actual impulse noise protection (INP) provided by the latency path indicated in LPATH. The value is the actual INP in the L0 (i.e., Showtime) state. 
+	 * @version V6.0
+	 */
+	int32 ACTINP = -1;
+
+	/** 
+	 * Reports whether the value reported in ACTINP was computed assuming the receiver does not use erasure decoding. Valid values are 0 (computed per the formula 
+	 * assuming no erasure decoding) and 1 (computed by taking into account erasure decoding capabilities of receiver).
+	 * @version V6.0
+	 */
+	bool INPREPORT = 0;
+
+        /** 
+         *
+         * @version V6.0
+         */
+        string LowerLayers;
+
+        /** 
+         * The current physical layer aggregate data rate (expressed in Kbps) of the upstream DSL connection.
+         * @version V6.0
+         */
+        uint32 UpstreamBitRate;
+
+        /** 
+         * The current physical layer aggregate data rate (expressed in Kbps) of the downstream DSL connection.
+         * @version V6.0
+         */
+        uint32 DownstreamBitRate;
+
+        /** 
+         * Throughput statistics for this interface.
+         * @version V6.0
+         */
+        object Stats {
+
+            /** 
+             * The total number of bytes transmitted out of the interface, including framing characters.
+             * @version V6.0
+             */
+            read-only uint32 BytesSent {
+                read with common_bytesSentOnRead;
+            }
+
+            /** 
+             * The total number of bytes received on the interface, including framing characters.
+             * @version V6.0
+             */
+            read-only uint32 BytesReceived {
+                read with common_bytesReceivedOnRead;
+            }
+
+            /** 
+             * The total number of packets transmitted out of the interface.
+             * @version V6.0
+             */
+            read-only uint32 PacketsSent {
+                read with common_packetsSentOnRead;
+            }
+
+            /** 
+             * The total number of packets received on the interface.
+             * @version V6.0
+             */
+            read-only uint32 PacketsReceived {
+                read with common_packetsReceivedOnRead;
+            }
+
+            /** 
+             * The total number of outbound packets that could not be transmitted because of errors.
+             * @version V6.0
+             */
+            read-only uint32 ErrorsSent {
+                read with common_errorsSentOnRead;
+            }
+
+            /** 
+             * The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol.
+             * @version V6.0
+             */
+            read-only uint32 ErrorsReceived {
+                read with common_errorsReceivedOnRead;
+            }
+
+            /** 
+             *
+             * @version V6.0
+             */
+            uint32 TotalStart = 0;
+
+            /** 
+             *
+             * @version V6.0
+             */
+            uint32 ShowtimeStart = 0;
+
+            /** 
+             *
+             * @version V6.0
+             */
+            object Total {
+
+                /** 
+                 * Total number of FEC errors detected (FEC-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURFECErrors {
+                    read with channel_XTURFECErrorsOnRead;
+                }
+
+                /** 
+                 * Total number of FEC errors detected by the ATU-C (FEC-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCFECErrors {
+                    read with channel_XTUCFECErrorsOnRead;
+                }
+
+                /** 
+                 * Total number of HEC errors detected (HEC-P as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURHECErrors {
+                    read with channel_XTURHECErrorsOnRead;
+                }
+
+                /** 
+                 * Total number of HEC errors detected by the ATU-C (HEC-PFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCHECErrors {
+                    read with channel_XTUCHECErrorsOnRead;
+                }
+
+                /** 
+                 * Total number of CRC errors detected (CV-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURCRCErrors {
+                    read with channel_XTURCRCErrorsOnRead;
+                }
+
+                /** 
+                 * Total number of CRC errors detected by the ATU-C (CV-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCCRCErrors {
+                    read with channel_XTUCCRCErrorsOnRead;
+                }
+            }
+            
+            /** 
+             *
+             * @version V6.0
+             */
+            object Showtime {
+
+                /** 
+                 * Showtime number of FEC errors detected (FEC-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURFECErrors {
+                    read with channel_XTURFECErrorsOnRead;
+                }
+
+                /** 
+                 * Showtime number of FEC errors detected by the ATU-C (FEC-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCFECErrors {
+                    read with channel_XTUCFECErrorsOnRead;
+                }
+
+                /** 
+                 * Showtime number of HEC errors detected (HEC-P as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURHECErrors {
+                    read with channel_XTURHECErrorsOnRead;
+                }
+
+                /** 
+                 * Showtime number of HEC errors detected by the ATU-C (HEC-PFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCHECErrors {
+                    read with channel_XTUCHECErrorsOnRead;
+                }
+
+                /** 
+                 * Showtime number of CRC errors detected (CV-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURCRCErrors {
+                    read with channel_XTURCRCErrorsOnRead;
+                }
+
+                /** 
+                 * Showtime number of CRC errors detected by the ATU-C (CV-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCCRCErrors {
+                    read with channel_XTUCCRCErrorsOnRead;
+                }
+            }
+            
+            /** 
+             *
+             * @version V6.0
+             */
+            object LastShowtime {
+
+                /** 
+                 * LastShowtime number of FEC errors detected (FEC-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURFECErrors {
+                    read with channel_XTURFECErrorsOnRead;
+                }
+
+                /** 
+                 * LastShowtime number of FEC errors detected by the ATU-C (FEC-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCFECErrors {
+                    read with channel_XTUCFECErrorsOnRead;
+                }
+
+                /** 
+                 * LastShowtime number of HEC errors detected (HEC-P as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURHECErrors {
+                    read with channel_XTURHECErrorsOnRead;
+                }
+
+                /** 
+                 * LastShowtime number of HEC errors detected by the ATU-C (HEC-PFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCHECErrors {
+                    read with channel_XTUCHECErrorsOnRead;
+                }
+
+                /** 
+                 * LastShowtime number of CRC errors detected (CV-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURCRCErrors {
+                    read with channel_XTURCRCErrorsOnRead;
+                }
+
+                /** 
+                 * LastShowtime number of CRC errors detected by the ATU-C (CV-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCCRCErrors {
+                    read with channel_XTUCCRCErrorsOnRead;
+                }
+            }
+            
+            /** 
+             *
+             * @version V6.0
+             */
+            object CurrentDay {
+
+                /** 
+                 * CurrentDay number of FEC errors detected (FEC-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURFECErrors {
+                    read with channel_XTURFECErrorsOnRead;
+                }
+
+                /** 
+                 * CurrentDay number of FEC errors detected by the ATU-C (FEC-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCFECErrors {
+                    read with channel_XTUCFECErrorsOnRead;
+                }
+
+                /** 
+                 * CurrentDay number of HEC errors detected (HEC-P as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURHECErrors {
+                    read with channel_XTURHECErrorsOnRead;
+                }
+
+                /** 
+                 * CurrentDay number of HEC errors detected by the ATU-C (HEC-PFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCHECErrors {
+                    read with channel_XTUCHECErrorsOnRead;
+                }
+
+                /** 
+                 * CurrentDay number of CRC errors detected (CV-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURCRCErrors {
+                    read with channel_XTURCRCErrorsOnRead;
+                }
+
+                /** 
+                 * CurrentDay number of CRC errors detected by the ATU-C (CV-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCCRCErrors {
+                    read with channel_XTUCCRCErrorsOnRead;
+                }
+            }
+
+            /** 
+             *
+             * @version V6.0
+             */
+            object QuarterHour {
+
+                /** 
+                 * QuarterHour number of FEC errors detected (FEC-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURFECErrors {
+                    read with channel_XTURFECErrorsOnRead;
+                }
+
+                /** 
+                 * QuarterHour number of FEC errors detected by the ATU-C (FEC-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCFECErrors {
+                    read with channel_XTUCFECErrorsOnRead;
+                }
+
+                /** 
+                 * QuarterHour number of HEC errors detected (HEC-P as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURHECErrors {
+                    read with channel_XTURHECErrorsOnRead;
+                }
+
+                /** 
+                 * QuarterHour number of HEC errors detected by the ATU-C (HEC-PFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCHECErrors {
+                    read with channel_XTUCHECErrorsOnRead;
+                }
+
+                /** 
+                 * QuarterHour number of CRC errors detected (CV-C as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTURCRCErrors {
+                    read with channel_XTURCRCErrorsOnRead;
+                }
+
+                /** 
+                 * QuarterHour number of CRC errors detected by the ATU-C (CV-CFE as defined in ITU-T Rec. [G.997.1]).
+                 * @version V6.0
+                 */
+                read-only uint32 XTUCCRCErrors {
+                    read with channel_XTUCCRCErrorsOnRead;
+                }
+            }    
+        }
+
+	/**
+	 * @return a map of channel statistics 
+	 * @version V6.0
+	 */
+	void getDSLChannelStats();
+    }
+
+    /** 
+     * DSL bonding group table.
+     * DSL bonding group table (a stackable interface object as described in [Section 4.2/TR-181i2]). 
+     * Each instance is a bonding group, and is expected to be stacked above a Channel instance for each bonded channel in the group.
+     * @version V6.0
+     */
+    object BondingGroup[] {
+        counted with BondingGroupNumberOfEntries;
+
+        /** 
+         * Enables or disables the bonding group.
+         * @version V6.0
+         */
+        bool Enable {
+            write with bonding_linkEnableOnWrite;
+            default false;
+        }
+
+        /** 
+         * The current operational state of the bonding group 
+         * @version V6.0
+         */
+        string Status {
+            constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+            default "Down";
+            write with bonding_statusOnWrite;
+        }
+
+        /** 
+         * A non-volatile handle used to reference this instance. Alias provides a mechanism for an ACS to label this instance for future reference.
+         * @version V6.0
+         */
+        string Alias;
+
+        /** 
+         * The textual name of the bonding group as assigned by the CPE.
+         * @version V6.0
+         */
+        string Name;
+
+        /** 
+         * The accumulated time in seconds since the bonding group entered its current operational state.
+         * @version V6.0
+         */
+        uint32 LastChange;
+
+        /** 
+         * Currently not used, must be a comma separated list of path names.
+         * @version V6.0
+         */
+        string LowerLayers;
+
+        /** 
+         * Contains the list of Lines to be bonded.
+         * @version V6.0
+         */
+        object Line[] {
+            counted with BondedLineNumberOfEntries;
+
+            /** 
+             * Descriptive name for the bonded Line.
+             * @version V6.0
+             */
+            string Alias;
+
+            /** 
+             * Full path to the DSL Line to be bonded.
+             * @version V6.0
+             */
+            string Line {
+                write with bonding_lineOnWrite;
+            }
+        }
+
+        /** 
+         * Comma-separated list of strings. Indicates the current fault status of the DSL bonding group.
+         * @version V6.0
+         */
+        string GroupStatus {
+            constraint enum["", "NoPeer", "PeerPowerloss", "PeerBondSchemeMismatch", "LowRate"];
+            default "";
+        }
+
+        /** 
+         * The total downstream rate, should be more or less the sum of the downstream rates per line.
+         * @version V6.0
+         */
+        uint32 AggregatedDownstreamRate;
+
+        /** 
+         * The total upstream rate, should be more or less the sum of the upstream rates per line.
+         * @version V6.0
+         */
+        uint32 AggregatedUpstreamRate;
+
+        /** 
+         * 
+         * @version V6.0
+         */
+        uint32 UpstreamDelay;
+
+        /** 
+         * Comma-separated list of strings. Supported DSL bonding schemes. 
+         * @version V6.0
+         */
+        string BondSchemesSupported = "ATM, Ethernet, TDIM";
+
+        /** 
+         * The value MUST be a member of the list reported by the BondSchemesSupported parameter.
+         * @version V6.0
+         */
+        string BondScheme {
+            constraint enum["","ATM","Ethernet","TDIM"];
+            default "";
+        }
+
+        /** 
+         * DSL bonding group capacity, i.e. the maximum number of channels that can be bonded in this group.
+         * @version V6.0
+         */
+        uint32 GroupCapacity;
+
+        /** 
+         * The accumulated time in seconds for which this bonding group has been operationally up.
+         * @version V6.0
+         */
+        uint32 RunningTime;
+
+        /** 
+         * DSL bonded channel table. Each table entry represents a bonded channel within the bonding group, and is associated with exactly one Channel instance. There MUST be an instance of BondedChannel for each DSL channel that is bonded.
+         * @version V6.0
+         */
+        object BondedChannel[] {
+            counted with BondedChannelNumberOfEntries;
+
+            /** 
+             * A non-volatile handle used to reference this instance. Alias provides a mechanism for an ACS to label this instance for future reference.
+             * @version V6.0
+             */
+            string Alias;
+
+            /** 
+             * The value MUST be the path name of a row in the DSL.Channel table. This is the channel that is being bonded.
+             * @version V6.0
+             */
+            string Channel;
+
+            /** 
+             *
+             * @version V6.0
+             */
+            bool isBondedChannelEthernet = false;
+
+            /** 
+             * Per-channel [G.998.2] Ethernet-based bonding parameters.
+             * @version V6.0
+             */
+            object Ethernet[] {
+
+
+                /** 
+                 * Per-channel [G.998.2] Ethernet-based bonding statistics.
+                 * These relate to the [G.998.2] PME (Physical Medium Entity) Aggregation Function (PAF) lower layer (per-channel) interfaces.
+                 * @version V6.0
+                 */
+                object Stats {
+
+                    /** 
+                     * Number of underflow errors sent, i.e. on the transmit side of the interface.
+                     * @version V6.0
+                     */
+                    uint32 UnderflowErrorsSent = 0;
+
+                    /** 
+                     * Number of CRC errors received, i.e. on the receive side of the interface.
+                     * @version V6.0
+                     */
+                    uint32 CRCErrorsReceived = 0;
+
+                    /** 
+                     * Number of alignment errors received, i.e. on the receive side of the interface.
+                     * @version V6.0
+                     */
+                    uint32 AlignmentErrorsReceived = 0;
+
+                    /** 
+                     * Number of short packets received, i.e. on the receive side of the interface.
+                     * @version V6.0
+                     */
+                    uint32 ShortPacketsReceived = 0;
+
+                    /** 
+                     * Number of long packets received, i.e. on the receive side of the interface.
+                     * @version V6.0
+                     */
+                    uint32 LongPacketsReceived = 0;
+
+                    /** 
+                     * Number of overflow errors received, i.e. on the receive side of the interface.
+                     * @version V6.0
+                     */
+                    uint32 OverflowErrorsReceived = 0;
+
+                    /** 
+                     * Number of pause frames received, i.e. on the receive side of the interface.
+                     * @version V6.0
+                     */
+                    uint32 PauseFramesReceived = 0;
+                    /** 
+                     * Number of frames dropped, e.g. because the receive queue is full.
+                     * @version V6.0
+                     */
+
+                    uint32 FramesDropped = 0;
+                }
+            }
+        }
+
+	/** 
+	 * This object is introduced to provide backwards compatibility with DSL one line setups
+	 * It will only be used in NeMo to map existing DSL parameters(webui, apps) when we are in a bonding setup.
+	 * The meaning of most of the parameters is questionable in a bonding setup though.
+	 * @version V6.0
+	 */
+         object Compat {
+
+             /** 
+              * Status of the DSL bonding connection.
+              * @version V6.0
+              */
+             string LinkStatus {
+                 constraint enum["Up", "Initializing", "EstablishingLink", "NoSignal", "Disabled", "Error"];
+                 default "Disabled";
+             }
+
+             /**
+              * When bonding is enabled, we take the sum of the UpstreamMaxRate for both lines. 
+              * @version V6.0
+              */ 
+             uint32 UpstreamMaxRate;
+
+	     /**
+              * When bonding is enabled, we take the sum of the DownstreamMaxRate for both lines. 
+              * @version V6.0
+              */ 
+             uint32 DownstreamMaxRate;
+
+	     /**
+              * When bonding is enabled, we take the average upstream attenuation for the (active) lines. 
+	      * 
+              * @version V6.0
+              */ 
+	     int32 UpstreamAttenuation;
+
+	     /**
+              * When bonding is enabled, we take the average downstream attenuation for the (active) lines. 
+              * @version V6.0
+              */ 
+             int32 DownstreamAttenuation;
+
+             /** 
+              * When bonding is enabled, we take the average upstream power for the (active) lines. 
+	      * The average upstream power has no (physical) meaning.
+              * @version V6.0
+              */
+             int32 UpstreamPower;
+
+             /** 
+              * When bonding is enabled, we take the average downstream power for the (active) lines. 
+	      * The average downstream power has no (physical) meaning.
+              * @version V6.0
+              */
+             int32 DownstreamPower;
+            
+	     /**
+              * Indicates which DSL standards and recommendations are supported by the B-NT.
+              * @version V6.0
+              */
+             string StandardsSupported;
+
+             /**
+              * Indicates the standard that the B-NT is using for the connection.
+	      * In a bonded setup, we assume standardUsed is identical for both lines.
+              * @version V6.0
+              */
+     	     string StandardUsed {
+                 constraint enum [ "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_L", "G.992.3_Annex_M", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B", "G.993.2_Annex_C", "" ];
+                 default "";
+             }
+
+	     /** 
+              * We assume that the dataPath parameter is identical for both (bonded)lines.
+	      * @version V6.0
+	      */
+             string DataPath {
+                 constraint enum [ "Interleaved", "Fast", "None" ];
+                 default "Interleaved";
+             }
+
+             /**
+              * ADSL1 Interleaved depth. This variable is only applicable to ADSL1 and
+              * only if DataPath = Interleaved. Otherwise, the value of this parameter is zero.
+              * We assume that the InterleaveDepth parameter is identical for both (bonded)lines.
+	      * @version V6.0
+              */
+             uint32 InterleaveDepth = 0;
+
+             string ModulationType {
+                 constraint enum [ "ADSL_G.dmt", "ADSL_G.lite", "ADSL_G.dmt.bis", "ADSL_re-adsl", "ADSL_2plus", "ADLS_four", "ADSL_ANSI_T1.413", "G.shdsl", "IDSL", "HDSL", "SDSL", "VDSL", "" ];
+                 default "";
+             }
+
+             /**
+              * DSL modulation configuration hint. It's recommended to leave this to
+              * "Auto", however, if some hardware requires the modulation type to be
+              * set explicitly (only options are ADSL / VDSL), it's possible via this parameter.
+              * We assume that the ModulationHint parameter is identical for both (bonded)lines.
+	      * @version V6.0
+              */
+             persistent string ModulationHint {
+                 constraint enum [ "Auto", "ADSL", "VDSL" ];
+                 default "Auto";
+             }
+
+             /**
+              * Indicates which VDSL2 profile is currently in use on the line.
+              * We assume that the CurrentProfile parameter is identical for both (bonded)lines.
+	      * @version V6.0
+              */
+             string CurrentProfile {
+                 constraint enum [ "", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a" ] ;
+                 default "";
+             }
+
+             /**
+              * This parameter contains the estimated electrical loop length expressed
+              * in dB at 1MHz, kle (see O-UPDATE in section 12.2.4.2.1.2/G.993.2). The
+              * value is coded as an unsigned 16 bit number in the range 0 (coded as
+              * 0) to 128 dB (coded as 1280) in steps of 0.1 dB.
+              * We assume that the CurrentProfile parameter is identical for both (bonded)lines.
+	      * @version V6.0
+              */
+             uint32 UPBOKLE {
+                 constraint range [ 0, 1280 ];
+             }
+	}
+
+        /** 
+         * Throughput statistics for this interface.
+         * @version V6.0
+         */
+        object Stats {
+
+            /** 
+             * The total number of bytes transmitted out of the interface, including framing characters.
+             * @version V6.0
+             */
+            uint32 BytesSent = 0;
+
+            /** 
+             * The total number of bytes received on the interface, including framing characters.
+             * @version V6.0
+             */
+            uint32 BytesReceived = 0;
+
+            /** 
+             * The total number of packets transmitted out of the interface.
+             * @version V6.0
+             */
+            uint32 PacketsSent = 0;
+
+            /** 
+             * The total number of packets received on the interface.
+             * @version V6.0
+             */
+            uint32 PacketsReceived = 0;
+
+            /** 
+             * DSL-specific statistic. The Number of seconds since the beginning of the period used for collection of Total statistics.
+             * @version V6.0
+             */
+            uint32 TotalStart = 0;
+
+            /** 
+             * DSL-specific statistic. The Number of seconds since the beginning of the period used for collection of CurrentDay statistics.
+             * @version V6.0
+             */
+            uint32 CurrentDayStart = 0;
+
+            /** 
+             * DSL-specific statistic. The Number of seconds since the beginning of the period used for collection of QuarterHour statistics.
+             * @version V6.0
+             */
+            uint32 QuarterHourStart = 0;
+
+            /** 
+             * Total statistics for this bonding group.
+             * @version V6.0
+             */
+            object Total {
+
+                /** 
+                 * Comma-separated list of strings. Indicates the failure conditions that have occurred during the accumulation period. 
+                 * @version V6.0
+                 */
+                string FailureReasons {
+                    constraint enum["", "LowRate", "ExcessiveDelay", "InsufficientBuffers", "Other"];
+                    default "";
+                }
+
+                /** 
+                 * The achieved upstream data rate in bits per second (which might change subject to dynamic link usage conditions). 
+                 * @version V6.0
+                 */
+                uint32 UpstreamRate = 0;
+
+                /** 
+                 * The achieved downstream data rate in bits per second (which might change subject to dynamic link usage conditions). 
+                 * @version V6.0
+                 */
+                uint32 DownstreamRate = 0;
+
+                /** 
+                 * The total number of upstream packets that were lost at aggregation output from a bonding group during the accumulation period. 
+                 * @version V6.0
+                 */
+                uint32 UpstreamPacketLoss = 0;
+
+                /** 
+                 * The total number of downstream packets that were lost at aggregation output from a bonding group during the accumulation period. 
+                 * @version V6.0
+                 */
+                uint32 DownstreamPacketLoss = 0;
+
+                /** 
+                 * The achieved upstream differential delay in milliseconds (which might change subject to dynamic link usage conditions).
+                 * @version V6.0
+                 */
+                uint32 UpstreamDifferentialDelay = 0;
+
+                /** 
+                 * The achieved downstream differential delay in milliseconds (which might change subject to dynamic link usage conditions).
+                 * @version V6.0
+                 */
+                uint32 DownstreamDifferentialDelay = 0;
+
+                /** 
+                 * The number of times that the group was declared Unavailable during the accumulation period. 
+                 * @version V6.0
+                 */
+                uint32 FailureCount = 0;
+
+                /** 
+                 * The time in seconds during which the group was declared Errored during the accumulation period.
+                 * @version V6.0
+                 */
+                uint32 ErroredSeconds = 0;
+
+                /** 
+                 * The time in seconds during which the group was declared SeverelyErrored during the accumulation period. 
+                 * @version V6.0
+                 */
+                uint32 SeverelyErroredSeconds = 0;
+
+                /** 
+                 * The time in seconds during which the group was declared Unavailable during the accumulation period. C
+                 * @version V6.0
+                 */
+                uint32 UnavailableSeconds = 0;
+            }
+
+        }
+
+        /** 
+         * Ethernet-based bonding parameters [G.998.2].
+         * This object MUST be present if, and only if, BondScheme is Ethernet.
+         * @version V6.0
+         */
+        object Ethernet {
+
+            /** 
+             * [G.998.2] Ethernet-based bonding statistics.
+             * These relate to the [G.998.2] PME (Physical Medium Entity) Aggregation Function (PAF) and to its upper layer interface. 
+             * PAF lower layer interface statistics are in the BondedChannel.{i}.Ethernet.Stats objects.
+             * @version V6.0
+             */
+            object Stats {
+
+                /** 
+                 * Number of PAF errors.
+                 * @version V6.0
+                 */
+                uint32 PAFErrors = 0;
+
+                /** 
+                 * Number of PAF Small Fragment events.
+                 * @version V6.0
+                 */
+                uint32 PAFSmallFragements = 0;
+
+                /** 
+                 * Number of PAF Large Fragment events. 
+                 * @version V6.0
+                 */
+                uint32 PAFLargeFragments = 0;
+
+                /** 
+                 * Number of PAF Bad Fragment events.
+                 * @version V6.0
+                 */
+                uint32 PAFBadFragments = 0;
+
+                /** 
+                 * Number of PAF Lost Fragment events. 
+                 * @version V6.0
+                 */
+                uint32 PAFLostFragments = 0;
+
+                /** 
+                 * Number of PAF Late Fragment events.
+                 * @version V6.0
+                 */
+                uint32 PAFLateFragments = 0;
+
+                /** 
+                 * Number of PAF Lost Start events.
+                 * @version V6.0
+                 */
+                uint32 PAFLostStarts = 0;
+
+                /** 
+                 * Number of PAF Lost End events. 
+                 * @version V6.0
+                 */
+                uint32 PAFLostEnds = 0;
+
+                /** 
+                 * Number of PAF Overflow events. 
+                 * @version V6.0
+                 */
+                uint32 PAFOverflows = 0;
+
+                /** 
+                 * Number of pause frames sent, i.e. on the transmit side of the interface.
+                 * @version V6.0
+                 */
+                uint32 PauseFramesSent = 0;
+
+                /** 
+                 * Number of CRC errors received, i.e. on the receive side of the interface.
+                 * @version V6.0
+                 */
+                uint32 CRCErrorsReceived = 0;
+
+                /** 
+                 * Number of alignment errors received, i.e. on the receive side of the interface.
+                 * @version V6.0
+                 */
+                uint32 AlignmentErrorsReceived = 0;
+
+                /** 
+                 * Number of short packets received, i.e. on the receive side of the interface.
+                 * @version V6.0
+                 */
+                uint32 ShortPacketsReceived = 0;
+
+                /** 
+                 * Number of long packets received, i.e. on the receive side of the interface.
+                 * @version V6.0
+                 */
+                uint32 LongPacketsReceived = 0;
+
+                /** 
+                 * Number of overflow errors received, i.e. on the receive side of the interface.
+                 * @version V6.0
+                 */
+                uint32 OverflowErrorsReceived = 0;
+
+                /** 
+                 * Number of frames dropped, e.g. because the receive queue is full.
+                 * @version V6.0
+                 */
+                uint32 FramesDropped = 0;
+            }
+        }
+
+	/**
+	 * @return a map of bondingGroup statistics 
+	 * @version V6.0
+	 */
+	void getDSLBondingGroupStats();
+    }
+}
+

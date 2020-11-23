@@ -1,0 +1,107 @@
+/**
+ *The ATM MIB is available on all NeMo Intfs that have the "atm"-flag set. An actual ATM link will be
+ * created in the system for each Intf that satisfies all of the following conditions:
+ * * "atm"-flag is set.
+ * * Intf is enabled.
+ * * ATM MIB contains valid ATM configuration.
+ * It is stacked on top of an Intf that has the "dsl-started"-flag set, i.e. it's stacked on top of a
+ * currently running DSL interface.
+ *If the ATM link is created successfully, the Intf will go up and additionally, if the system exposes
+ * a valid file descriptor for this ATM interface, the "xtm-fd-up"-flag will be set. If this flag is
+ * set, the file desciptor can be accessed through the Unix domain socket at /var/run/xtm_fd_server.
+ */
+
+object NeMo { 
+	object extends MIB(0,"atm") {
+		string Flag = "atm";
+		object DataModel {
+			/**
+			 * LastChangeTime is the timestamp of the last operational state change,
+			 * measured in seconds since power on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * LastChange is the accumulated time in seconds since the Intf entered its
+			 * current operational state.
+			 */
+			volatile read-only uint32 LastChange;
+
+			/**
+			 * LinkType indicates the type of connection and refers to the complete stack
+			 * of protocols used for this connection.
+			 */
+			persistent string LinkType {
+				constraint enum [ "EoA", "IPoA", "PPPoA" ];
+				default "EoA";
+			}
+
+			string LinkStatus {
+				constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+				default "Down";
+			}
+
+			/**
+			 * Destination address of this link, in the form "VPI/VCI" (e.g. "8/23" or
+			 * "0/35").
+			 */
+			persistent string DestinationAddress;
+
+			/**
+			 * Encapsulation identifies the connection encapsulation that will be used.
+			 */
+			persistent string Encapsulation {
+				constraint enum [ "LLC", "VCMUX" ];
+				default "VCMUX";
+			}
+
+			/**
+			 * The FCSPreserved flag tells if a checksum SHOULD be added in the ATM
+			 * payload. It does not refer to the checksum of one of the ATM cells or AALX
+			 * packets. In case of LLC or VCMUX encapsulation, this ATM checksum is the
+			 * FCS field described in [RFC2684]. It is only applicable in the upstream
+			 * direction.
+			 */
+			persistent bool FCSPreserved;
+
+			/**
+			 * Describes the ATM Quality Of Service (QoS) being used on the VC.
+			 */
+			persistent string QoSClass {
+				constraint enum [ "UBR", "CBR", "GFR", "VBR-nrt", "VBR-rt", "UBR+", "ABR" ];
+				default "UBR";
+			}
+
+			/**
+			 * Specifies the upstream peak cell rate in cells per second.
+			 */
+			persistent uint32 PeakCellRate;
+
+			/**
+			 * Specifies the upstream maximum burst size in cells.
+			 */
+			persistent uint32 MaximumBurstSize;
+
+			/**
+			 * Specifies the upstream sustainable cell rate, in cells per second.
+			 */
+			persistent uint32 SustainableCellRate;
+			
+
+			/**
+			 * Send ATM OAM ping and wait until it is replied or until an
+			 * implementation-specific timeout is reached.
+			 *
+			 * @return true is ping was replied, false if timeout was reached.
+			 */
+			bool oamPing() {
+		           acl {
+			       world none;
+			   }
+			}
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/atm.odl */

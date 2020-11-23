@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case $1 in
+    start)
+	/sbin/syslogd -S -s 80
+	;;
+    stop)
+    	killall syslogd
+	;;
+    *)
+esac

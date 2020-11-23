@@ -1,0 +1,32 @@
+{
+  "status": 0,
+  "data": {
+    "transponder_list": [
+      {
+        "transponder_id": "toto",
+        "pos": "11.1E",
+        "freq": "11111",
+        "ms": "DVB-S",
+        "mt": "QPSK",
+        "sr": "111",
+        "fec": "1_4",
+        "pol": "VERTICAL",
+        "roll": "35",
+        "network_id": "1",
+        "transport_id": "11"
+      }, {
+        "transponder_id": "titi",
+        "pos": "22.2W",
+        "freq": "22222",
+        "ms": "DVB-S2",
+        "mt": "16APSK",
+        "sr": "222",
+        "fec": "5_6",
+        "pol": "HORIZONTAL",
+        "roll": "AUTO",
+        "network_id": "2",
+        "transport_id": "22"
+      }
+    ]
+  }
+}

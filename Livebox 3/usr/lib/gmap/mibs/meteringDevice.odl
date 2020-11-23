@@ -1,0 +1,13 @@
+/*expr:metering*/
+
+/**
+ * MIB is loaded on all usb devices .
+ *
+ * All devices matching expression: "metering" are extended with this MIB
+ *
+ * @version 1.0
+ */
+mib meteringDevice {
+   string getMeterValues();
+}
+/** @location sah_services_gmap /mibs/meteringDevice.odl */

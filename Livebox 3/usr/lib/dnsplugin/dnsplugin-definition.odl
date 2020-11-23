@@ -1,0 +1,186 @@
+using "dns.so";
+persistent object DNS {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+persistent string Mode {
+constraint enum ["All", "Static", "Dynamic", "Custom"];
+default "All";
+write with modeOnWrite;
+}
+bool setMode(mandatory string mode);
+string getMode();
+list getDNSServers(mandatory string flag);
+list getDNSServersByType(mandatory string type);
+persistent object ResolvConf {
+write with resolvConfOnWrite;
+persistent string NameServer = "127.0.0.1";
+persistent string Search = "";
+persistent string Domain = "";
+}
+bool export(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool import(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+persistent object Client {
+acl {
+group admin none;
+group remoteadmin none;
+}
+persistent object Server[] {
+persistent string DNSServer;
+persistent string Interface;
+persistent string Type {
+constraint enum ["DHCP", "DHCPv4", "DHCPv6", "RouterAdvertisement", "IPCP", "Static"];
+default "Static";
+}
+persistent bool Enable;
+}
+}
+persistent object Relay {
+acl {
+group admin none;
+group remoteadmin none;
+}
+persistent object Forwarding[] {
+persistent string DNSServer;
+persistent string Interface;
+persistent string Type {
+constraint enum ["DHCP", "DHCPv4", "DHCPv6", "RouterAdvertisement", "IPCP", "Static"];
+default "Static";
+}
+persistent bool Enable;
+}
+}
+persistent object Server {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+bool setHost(string name, list ip_address_v4, list ip_address_v6, string type, bool commit) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+list listHosts(string type) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+bool deleteHost(string name, bool commit) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+bool setHostIPAddress(string name, string ip_address, string type, bool commit) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool deleteHostIPAddress(string name, string ip_address, bool commit) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool setRoute(string id, string dns, string src, uint8 srcmask, string domain, uint8 metric, string intf, bool commit) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool deleteRoute(string id, string dns, bool commit) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void setDomain(mandatory string domain) {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+string getDomain() {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+bool commit() {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool save() {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool reset() {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+persistent string Domain {
+acl {
+group admin read,write;
+group remoteadmin read,write;
+}
+}
+persistent uint32 Timeout;
+persistent bool Suppress;
+persistent bool Syslog;
+persistent bool WDSpoofing {
+write with serverWDSpoofingOnWrite;
+}
+persistent string WDSpoofedIPAddress;
+persistent string WDSpoofedIPAddressV6;
+persistent bool EnableCaching;
+persistent uint16 MaxCachedEntries;
+persistent uint16 MaxUnresolvedEntries;
+persistent uint16 FallbackTimeout;  // Expressed in milliseconds
+persistent uint16 FallbackResetMin;
+persistent uint16 FallbackResetMax;
+persistent uint32 TTL;
+persistent bool Enable;
+read-only bool Status;
+persistent object Host[] {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+write with hostOnWrite;
+delete with hostOnDelete;
+persistent string Name;
+persistent  string IPv4;
+persistent string IPv6;
+persistent string Type;
+}
+persistent object Route[] {
+persistent string DNS;
+persistent string SRC;
+persistent uint8 Srcmask;
+persistent string Domain;
+persistent uint8 Metric;
+persistent string Intf;
+persistent uint32 Flags;
+}
+}
+}

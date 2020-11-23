@@ -1,0 +1,16 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        echo "Voice part 2 start ..."
+        # start voice plug-in here
+        ;;
+    stop)
+        echo "Voice part 2 stop ..."
+        # kill voice plug-in here
+        ;;
+    *)
+        echo "Usage: /etc/init.d/voice2 {start|stop}"
+        exit 1
+        ;;
+esac

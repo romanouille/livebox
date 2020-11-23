@@ -1,0 +1,31 @@
+using "conntrack_plugin.so";
+acl {
+world none;
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+group cwmpd read,write,execute;
+}
+persistent object Conntrack {
+read-only string Status {
+default "Conntrack is not running";
+}
+read-only object Query[] {
+read-only string Subscriber;
+read-only string Expression;
+}
+string openQuery(mandatory string subscriber, string expression) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+void closeQuery(mandatory string id) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+uint32 count(string expression);
+list get(string expression);
+uint32 remove(string expression);
+}

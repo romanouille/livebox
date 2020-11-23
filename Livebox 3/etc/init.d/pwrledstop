@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pcb_cli "LED.Power Led.State=Solid"

@@ -1,0 +1,34 @@
+{
+    "Id": "sah_notification",
+    "Category": "Smart Home",
+    "Version": "0.1",
+    "Title": "sah_notification.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Application": { "main": "iframeapp",
+                     "settings": { "target": "/configurator/advConfigAlertCenterMessages.html",
+                                   "filter": "#header"
+                                 }
+                   },
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider_notification",
+                  "settings": { "slides": [ "<span class=\"img notification\"></span><div class=status><span class=\"caption black lastnotif\"></span></div>",
+                                            "<div class=title><span translate=sah_notification.last_notif></span>:<br><div class=lastnotif></div></div>"
+                                          ],
+                                "apicalls":{"class":"lastnotif", 
+                                            "ws":"Message.Queue", "event":["add"]}
+                              }
+                }
+              ],
+    "en": {
+        "title": "My Notification Center",
+        "last_notif": "Last notification"
+    },
+    "fr": {
+        "title": "vtdnGtEJ",
+        "last_notif": "JMkWWYmo"
+    }
+}

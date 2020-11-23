@@ -1,0 +1,8 @@
+﻿{{#with page}}
+{{#each notification}}
+  <div class="notification-content" {{#if id}}id="{{id}}"{{/if}}>
+  {{{value}}}
+  </div>
+{{/each}}
+{{/with}}
+

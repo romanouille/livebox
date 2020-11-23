@@ -1,0 +1,35 @@
+#!/bin/sh
+
+echo $1 $2 $3 $4
+path=$1
+param=$2
+oldval=$3
+newval=$4
+
+if [ "$path" = "Firewall" ] && [ "$param" = "SelectedLevel" ]; then
+    NewValName=`echo "@$newval.Name?" | cli`
+    RespondToPing=`echo "@:InternetGatewayDevice.$NewValName.RespondToPing?" | cli -m igd`
+    if [ "$RespondToPing" = "1" ] ; then
+      echo "@:SystemServices.PING_RESPONDER.OperationalStateUp=1" | cli
+      echo "@:SystemServices.PING_RESPONDER.AdministrativeStateUp=1" | cli
+      echo "Ping responder started!"
+    else
+      echo "@:SystemServices.PING_RESPONDER.OperationalStateUp=0" | cli
+      echo "@:SystemServices.PING_RESPONDER.AdministrativeStateUp=0" | cli
+      echo "Ping responder stopped!"
+    fi
+else
+  selectedLevel=`echo "@InternetGatewayDevice.Firewall.SelectedLevel?" | cli -m igd`
+  if [ "$path" = "$selectedLevel" ] && [ "$param" = "RespondToPing" ]; then
+    if [ "$newval" = "1" ]; then
+      echo "@:SystemServices.PING_RESPONDER.OperationalStateUp=1" | cli
+      echo "@:SystemServices.PING_RESPONDER.AdministrativeStateUp=1" | cli
+      echo "Ping responder started!"
+    else
+      echo "@:SystemServices.PING_RESPONDER.OperationalStateUp=0" | cli
+      echo "@:SystemServices.PING_RESPONDER.AdministrativeStateUp=0" | cli
+      echo "Ping responder stopped!"
+    fi
+  fi
+fi
+

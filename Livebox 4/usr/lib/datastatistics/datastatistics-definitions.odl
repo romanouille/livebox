@@ -1,0 +1,158 @@
+using "datastatistics.so";
+
+
+persistent object DataStatistics {
+    acl
+    {
+        world execute;
+        group mediahub read,execute;
+        group cwmpd read,write,execute;
+    }
+    persistent object Addon[]{
+        /**
+        * Enable the logging mechanism for the addon
+        *
+        * @updated The data-statistics must be notified to update reporting and logging actions
+        */
+        bool enable
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+        }
+        
+        /**
+        * Enable the communication with the URL, see {AddonX.url}
+        *
+        * @updated The data-statistics must be notified to update reporting actions
+        */
+        persistent bool sync
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+        }
+
+        
+        /**
+        * Url to send the report
+        */
+        persistent string url
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+        }
+        
+        /**
+        * Protocol to use for sending the report. (HTTP, RETRY ... using CURL or other)
+        */
+        read-only string backend;
+
+        /**
+        * Time interval for a periodic sent
+        */
+        persistent int32 interval
+        {
+            acl
+            {
+                world none;
+                group mediahub read,write,execute;
+                group cwmpd read,write,execute;
+            }
+        }
+        /**
+        * output file format (xml, json or any other format supported by data-statistics core)
+        */
+        read-only string format;
+
+        /**
+        * Last periodic sent time
+        */
+        read-only persistent datetime lastSent;
+        
+        /**
+        * List of category to be used
+        */
+        object Category[] {
+            /**
+            * Logs is configured to be reboot persistent
+            */
+            read-only bool persist;
+            
+            /**
+            * Number of entries managed
+            * Logs are stored into a circular buffer of 'size' elements
+            */
+            read-only int32 size;
+             
+            /**
+            * Time to set for the window used to save to log file
+            * If 0, write to log file instantly
+            * If a valid value, wait for 'cache' time before saving to file.
+            * This is useful to limit file access of many logs 
+            */
+            read-only int32 cache;
+            
+            /**
+            * The file path to save the category
+            */
+            read-only string path;
+        }
+    }
+   /**
+   * Add a log
+   *
+   * @param addon   The name of the addon to use
+   * @param type    The category defined by the addon
+   * @param subtype A subtype for the addon and the category
+   * @param param   A string containing the log in any format known by the addon
+   *
+   * @return return value
+   *
+   * @version 1.0
+   */ 
+    int32 addLog(mandatory in string addon,
+                 mandatory in string type,
+                 in string subtype,
+                 mandatory in string param)
+    {
+        acl
+        {
+            world none;
+            group mediahub read,execute;
+            group cwmpd read,execute;
+        }
+    }
+                 
+    /**
+    * Send a report for the addon on demand
+    *
+    * @param addons	A list of addons
+    * 
+    * @return return value
+    
+    * @version 1.0
+    */
+    int32 sendReport(list addons)
+    {
+        acl
+        {
+            world none;
+            group mediahub read,execute;
+            group cwmpd read,execute;
+        }
+    }
+  
+}
+
+/** @location commod_datahub_datastatistics /usr/lib/datastatistics/datastatistics-definitions.odl.m4 */

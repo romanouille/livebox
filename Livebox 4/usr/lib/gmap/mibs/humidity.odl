@@ -1,0 +1,18 @@
+/*expr:humidity*/
+
+/**
+ * MIB is loaded on all units that are able to give humidity.
+ *
+ * All devices matching expression: "humidity" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib humidity {
+    
+    /**
+      * @brief: humidity attribute gives humidity measured by temperature detector device.
+      * The stored value has the basic unit of pourcent
+      */
+    string Humidity;
+}
+/** @location sah_services_gmap /mibs/humidity.odl */

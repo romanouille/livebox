@@ -1,0 +1,19 @@
+datamodel {
+    object Time {
+        parameter Enable="false";
+        parameter Retry1="FIXED:8000";
+        parameter Retry2="FIXED:8000";
+        parameter Retry3="FIXED:8000";
+        parameter Retry4="FIXED:8000";
+        parameter Retry5="FIXED:8000";
+        parameter PreferredServer=1;
+        parameter NTPReqInterval=86400;
+        parameter LocalTimeZoneName="Paris";
+        function setNTPServers {
+            acl {
+                group admin none;
+	        group remoteadmin none;
+            }         
+        }
+    }
+}

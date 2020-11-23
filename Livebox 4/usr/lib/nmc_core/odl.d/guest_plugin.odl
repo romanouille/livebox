@@ -1,0 +1,49 @@
+using "../nmccore_guest.so";
+
+persistent object NMC {
+    persistent object Guest {
+        acl {
+            world none;
+        }
+
+        /** The Enable flag for setting the guest segment to ON (1) or OFF (0).
+         * When enabling/disabling the guest segment, all the related VAPs will be enabled/disabled.
+         * Moreover the guest activation timer will be disabled.
+         * @version V5.1
+         */
+        persistent bool Enable {
+            write with enable_interface using "../nmccore_wlantimer.so";
+            default false;
+        }
+
+        /** The Status parameter for displaying the current status of the guest segment.
+         * When enabling/disabling the guest segment or when the activation timer is started/stopped,
+         * the status will be set to Enabled/Disabled respectively.
+         * @version V5.1
+         */
+        read-only string Status {
+            constraint enum ["Disabled", "Enabled"];
+            default "Disabled";
+        }
+
+        /** The realtime value the user has scheduled the guest segment to be active
+         * Time when the activation timer needs to stop, 0 means unlimited.
+         * @version V5.1
+         */
+        persistent read-only uint64 ActivationTimeout {
+            default 0;
+        }
+
+        /**
+         * RPC flavour for setting the parameters of this object with extensive input validation.
+         * Omitted parameters are not touched.
+         * @param Enable The Enable flag for setting the guest segment.
+         */
+        void set(in bool Enable);
+
+        /** RPC flavour for getting the parameters of this object.
+         */
+        void get();
+
+    }
+}

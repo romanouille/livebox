@@ -1,0 +1,21 @@
+{
+	"status":0,
+	"data":{
+		"linkMode":"DSL",
+		"linkType":"DSL_PPP",
+		"FTTH": {
+             "vlan": 832,
+             "encapsulation": "802.1q",
+             "dataPath": "Fast",
+             "mtuSize": 1492
+         },
+		"protocol":"ppp",
+		"PPP":{
+			"protocolType":"PPPoE",
+			"login":"pnp/orange",
+			"authenticationMode":"Auto",
+			"isAuthenticated":false,
+			"state":"Error"
+		}
+	}
+}

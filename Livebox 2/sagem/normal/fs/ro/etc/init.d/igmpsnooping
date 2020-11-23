@@ -1,0 +1,31 @@
+#!/bin/sh
+
+case $1 in
+    start)
+		iptables -t mangle -N PREROUTING_igmpsnoop
+		iptables -t mangle -I PREROUTING -j PREROUTING_igmpsnoop -p igmp
+
+		iptables -t mangle -N OUTPUT_igmpsnoop
+		iptables -t mangle -I OUTPUT -j OUTPUT_igmpsnoop -p igmp
+		
+		pcb_plugin -c /usr/lib/igmpsnoop/igmp_snooping.odl -n igmpsnoop_plugin
+		pcb_cli -w -1 IGMPSnooping
+		igmpsnoopd -d
+
+		pcb_cli -q "Firewall.setService(id=igmp,sourceInterface=,destinationPort=,protocol=2,ipversion=4,enable=true)"
+		;;
+    stop)
+		pcb_cli -q "Firewall.deleteService(id=igmp)"
+		killall igmpsnoopd
+		kill `cat /var/run/igmpsnoop_plugin.pid`
+
+		iptables -t mangle -F PREROUTING_igmpsnoop
+		iptables -t mangle -D PREROUTING -j PREROUTING_igmpsnoop -p igmp
+		iptables -t mangle -X PREROUTING_igmpsnoop
+
+		iptables -t mangle -F OUTPUT_igmpsnoop
+		iptables -t mangle -D OUTPUT -j OUTPUT_igmpsnoop -p igmp
+		iptables -t mangle -X OUTPUT_igmpsnoop
+		;;
+    *)
+esac

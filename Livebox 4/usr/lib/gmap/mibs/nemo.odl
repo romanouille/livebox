@@ -1,0 +1,25 @@
+/* No expression needed */
+
+/**
+ * MIB is loaded on all devices representing a network interface of the HGW.
+ *
+ * All devices matching expression: "nemo" are extended with this MIB
+ *
+ * @version 6.0
+ */
+mib nemo {
+    /**
+     * Name of the network device as found in the NetDev part in the datamodel
+     *
+     * @version 6.0
+     */
+    read-only string NetDevName;
+    /**
+     * Network device index from the NetDev part of the data model.
+     *
+     * @version 6.0
+     */
+     read-only uint32 NetDevIndex;
+}
+
+/** @location sah_services_gmap /mibs/nemo.odl */

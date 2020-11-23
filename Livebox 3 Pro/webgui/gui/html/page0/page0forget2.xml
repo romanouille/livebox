@@ -1,0 +1,27 @@
+<div id="page0forget2" class="forgetPassword status-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<p class="blockTitle bold_font" i18n="page.page0.common.label"/>
+	<form class="page0_container">
+		<div class="rightBlockTitle">
+			<div i18n="page.page0.common.step1" class="currentStep_1"/>
+		</div>
+		<span i18n="page.forgetPassword.label2"/>
+		<div widgetType="FormInput" i18n="page.forgetPassword.user">
+			<input type="text" id="login" value="LOGIN" readonly="readonly"/>
+		</div>
+		
+		<div widgetType="FormInput" i18n="page.forgetPassword.newpassword">
+			<input id="newPassword" type="password" i18n="page.forgetPassword.newpassword"/>
+		</div>
+		
+		<div widgetType="FormInput" i18n="page.forgetPassword.confirmnewpassword">
+			<input id="confirmNewPassword" type="password" i18n="page.forgetPassword.confirmnewpassword"/>
+		</div>
+		
+		<div widgetType="ButtonContainer" class="center">
+			<span id="backBtn" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.forgetPassword.back"/>
+			<span id="cancelBtn" widgetType="Button" widgetArg="{type: 'simple'}" i18n="data.cancel"/>
+			<span id="validateBtn" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.forgetPassword2.valid"/>
+		</div>
+	</form>
+	<br/>
+</div>

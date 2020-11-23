@@ -1,0 +1,12 @@
+datamodel {
+	object WiFiBCM {
+		instance of Radio(0, "wifi0") {
+			object Vendor {
+				parameter SupportedFrequencyBands = "2.4GHz";
+				parameter RegulatoryDomain = "EU/13";
+				parameter Interference = 7;
+			}
+		}
+	}
+}
+

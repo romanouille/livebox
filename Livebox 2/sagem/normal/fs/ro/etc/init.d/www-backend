@@ -1,0 +1,51 @@
+#!/bin/sh
+
+PID_PLUGIN="/var/run/www-backend.pid"
+
+start() {
+    if [ -e ${PID_PLUGIN} ]; then
+        echo "www-backend plug-in already started"
+    else
+        pcb_plugin -n www-backend -c /usr/lib/www-backend/www-backend.odl -vv
+    fi
+}
+
+stop() {
+    if [ -e $PID_PLUGIN ] ; then 
+        kill $(cat $PID_PLUGIN)
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    backup)
+        if [ -e $PID_PLUGIN ] ; then 
+            pcb_cli "UserInterface.export($2)"
+        else 
+            echo "UserInterface plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/www-backend
+        touch /var/lib/www-backend/restore
+        if [ ! -e "/etc/config/hgwcfg.usr" ]; then
+            touch /var/lib/www-backend/reset-hard
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart]"
+        ;;
+esac

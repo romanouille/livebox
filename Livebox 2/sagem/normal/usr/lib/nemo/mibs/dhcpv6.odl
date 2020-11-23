@@ -1,0 +1,33 @@
+object NeMo { 
+	object extends MIB(0,"dhcpv6") {
+		string Flag = "dhcpv6";
+		object DataModel {
+			persistent string DUID;
+			persistent bool RequestAddresses = true;
+			persistent bool RequestPrefixes = false;
+			persistent bool RapidCommit = false;
+			persistent int32 SuggestedT1 = -1;
+			persistent int32 SuggestedT2 = -1;
+			persistent string SupportedOptions;
+			persistent string RequestedOptions;
+			bool Renew;
+			persistent int32 ResetOnPhysDownTimeout;
+			persistent string AuthenticationInfo;
+
+			void renew();
+
+			persistent object SentOption[] {
+				persistent bool Enable = true;
+				persistent string Alias;
+				persistent uint16 Tag; 
+				persistent string Value; 
+			}
+
+			object ReceivedOption[] {
+				uint16 Tag;
+				string Value;
+			}
+		}
+	}
+}
+

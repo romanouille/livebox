@@ -1,0 +1,359 @@
+using "fw.so";
+define service_enable_t {
+bool enableIPv4;
+bool enableIPv6;
+}
+define service_result_t {
+string name;
+string port;
+}
+acl {
+group cwmpd read,write,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+}
+persistent object Firewall {
+persistent bool Enable {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with firewallEnableOnWrite;
+default true;
+}
+read-only string Status = "";
+persistent string Config {
+acl {
+group admin none;
+group remoteadmin none;
+}
+default "Advanced";
+}
+persistent string AdvancedLevel {
+acl {
+group admin read,execute;
+group remoteadmin none;
+}
+constraint enum ["High", "Medium", "Low", "Drop", "Off", "Custom"];
+default "Medium";
+write with advancedLevelOnWrite;
+}
+persistent string AdvancedIPv6Level {
+acl {
+group admin read,execute;
+group remoteadmin none;
+}
+constraint enum ["High", "Medium", "Low", "Drop", "Off", "Custom"];
+default "Medium";
+write with advancedIPv6LevelOnWrite;
+}
+persistent string Type {
+acl {
+group admin none;
+group remoteadmin none;
+}
+constraint enum ["Stateful"];
+default "Stateful";
+}
+persistent uint32 MinPort {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with minPortOnWrite;
+default 0;
+}
+persistent uint32 MaxPort {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with maxPortOnWrite;
+default 65535;
+}
+persistent string ProhibitedOriginsCGNAT {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with prohibitedOriginsCGNATOnWrite;
+default "webui upnp";
+}
+persistent object Chain[] {
+write with chainOnWrite;
+persistent string Name {
+constraint minvalue 0;
+constraint maxvalue 28;
+}
+read-only int32 RuleNumberOfEntries {
+read with nrOfRuleOnRead;
+}
+persistent string DefaultPolicy {
+constraint enum ["Drop", "Reject", "Accept", "None"];
+default "None";
+}
+// persistent string Description;
+persistent object Rule[] {
+write with ruleOnWrite;
+persistent string Id;
+persistent string Target {
+constraint enum ["Drop", "Reject", "Accept", "TargetChain"];
+default "Drop";
+}
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with ruleStatusOnRead;
+}
+persistent string Class {
+constraint enum ["Local", "Forward", "PortFW", ""];
+default "Forward";
+}
+persistent int32 IPVersion = 4;
+persistent string Protocol;
+persistent string DestinationPort;
+persistent string SourcePort;
+persistent string DestinationMACAddress;
+persistent string SourceMACAddress;
+persistent string DestinationPrefix;
+persistent string SourcePrefix;
+persistent string TargetChain;
+persistent string Description;
+read-only string Time {
+read with timeRuleOnRead;
+}
+persistent bool Enable = false;
+}
+}
+persistent object Policy[] {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with policyOnWrite;
+persistent string Name {
+constraint minvalue 0;
+constraint maxvalue 28;
+}
+persistent string SourceInterface;
+persistent string DestinationInterface;
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with policyStatusOnRead;
+}
+persistent int32 IPVersion = 0;
+persistent string Chain {
+constraint minvalue 0;
+constraint maxvalue 64;
+}
+persistent string ReverseChain {
+constraint minvalue 0;
+constraint maxvalue 64;
+}
+persistent bool Enable = false;
+}
+object Service[] {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with serviceOnWrite;
+persistent string Id;
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with serviceStatusOnRead;
+}
+persistent string SourceInterface;
+persistent string DestinationPort;
+persistent string Protocol;
+persistent string Chain;
+persistent uint32 IPVersion = 4;
+persistent int32 ICMPType = 0;
+read-only string Time {
+read with timeServiceOnRead;
+}
+persistent string SourcePrefix;
+persistent string Action {
+constraint enum ["Accept", "Drop"];
+default "Accept";
+}
+persistent bool Enable;
+}
+read-only uint32 PortForwardingNumberOfEntries {
+acl {
+group admin none;
+group remoteadmin none;
+}
+read with portForwardingNumberOfEntriesOnRead;
+}
+persistent object PortForwarding[] {
+write with portForwardingOnWrite;
+persistent string Id {
+constraint minvalue 0;
+constraint maxvalue 64;
+}
+persistent string Origin {
+constraint enum ["webui", "upnp", "internal","cwmp"];
+default "cwmp";
+}
+persistent string Description;
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error", "Pending"];
+default "Disabled";
+read with ruleStatusOnRead;
+}
+persistent string SourceInterface;
+persistent string Protocol {
+constraint custom portforwarding_validate_protocol;
+}
+persistent string ExternalPort;
+persistent uint32 ExternalPortEndRange = 0;
+persistent string InternalPort;
+persistent string SourcePrefix;
+persistent string DestinationIPAddress {
+write with destinationIPAddressOnWrite;
+}
+persistent string DestinationMACAddress;
+uint32 LeaseDuration = 0;
+read-only string Time {
+read with timeRuleOnRead;
+}
+persistent bool HairpinNAT = true;
+persistent bool SymmetricSNAT = false;
+persistent bool Enable {
+constraint custom portForwardingEnableVerify;
+default false;
+}
+}
+persistent object Pinhole[] {
+write with pinholeOnWrite;
+persistent string Id {
+constraint minvalue 0;
+constraint maxvalue 64;
+}
+persistent string Origin {
+constraint enum ["webui", "upnp"];
+default "webui";
+}
+persistent string Description;
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error", "Pending"];
+default "Disabled";
+read with ruleStatusOnRead;
+}
+persistent string SourceInterface;
+persistent string Protocol;
+persistent int32 IPVersion = 6;
+persistent string SourcePort;
+persistent string DestinationPort;
+persistent string SourcePrefix;
+persistent string DestinationIPAddress;
+persistent string DestinationMACAddress;
+persistent bool Enable = false;
+}
+persistent object DMZ[] {
+write with dmzOnWrite;
+persistent string SourceInterface;
+persistent string DestinationIPAddress;
+persistent string SourcePrefix;
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with dmzStatusOnRead;
+}
+persistent bool Enable {
+constraint custom dmzEnableVerify;
+}
+}
+persistent object Interface[] {
+acl {
+group admin none;
+group remoteadmin none;
+}
+write with interfaceOnWrite;
+delete with interfaceOnDelete;
+read-only string LinuxInterface {
+default "";
+read with linuxInterfaceOnRead;
+}
+persistent bool NATEnable = false;
+read-only string NATStatus {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with natStatusOnRead;
+}
+persistent bool StrictNATInterface = true;
+read-only string IPV4Address {
+default "";
+read with ipv4AddressOnRead;
+}
+persistent bool SourceAddress6Spoofing = true;
+persistent bool SourceAddress4Spoofing = false;
+read-only string IPV6Address {
+default "";
+read with ipv6AddressOnRead;
+}
+}
+// functions
+bool save();
+bool reset();
+bool commit();
+service_return_t setService(mandatory string id, string sourceInterface, string destinationPort, mandatory string protocol, int32 ipversion, bool enable, int32 icmpType, string sourcePrefix, string action) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool deleteService(mandatory string id) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+list getService(mandatory string id);
+bool setRespondToPing(mandatory string sourceInterface, mandatory service_enable_t service_enable);
+service_enable_t getRespondToPing(mandatory string sourceInterface);
+string setPortForwarding(string id, mandatory string origin, mandatory string sourceInterface, string externalPort, mandatory string internalPort, mandatory string destinationIPAddress, string sourcePrefix, mandatory string protocol, bool enable, bool persistent, string description, string destinationMACAddress);
+void suspendPortForwarding(string id, mandatory string origin, mandatory bool suspend);
+bool deletePortForwarding(string id, mandatory string origin, string destinationIPAddress);
+list getPortForwarding(string id, string origin);
+string getSpecificPortForwarding(int32 index, string destinationIPAddress, string sourcePort, string protocol, string sourceInterface);
+string setPinhole(string id, mandatory string origin, mandatory string sourceInterface, string sourcePort, mandatory string destinationPort, mandatory string destinationIPAddress, string sourcePrefix, mandatory string protocol, int32 ipversion, bool enable, bool persistent, string description, string destinationMACAddress);
+void suspendPinhole(string id, mandatory string origin, mandatory bool suspend);
+bool deletePinhole(string id, mandatory string origin);
+list getPinhole(string id, string origin);
+string getSpecificPinhole(int32 index, string destinationIPAddress, string sourcePort, string protocol);
+string setDMZ(string id, mandatory string sourceInterface, mandatory string destinationIPAddress, string sourcePrefix, mandatory bool enable);
+bool deleteDMZ(mandatory string id);
+list getDMZ(string id);
+string setCustomRule(string id, string chain, mandatory string action, string destinationPort, string sourcePort, string destinationPrefix, string sourcePrefix, string protocol, int32 ipversion, bool enable, string description, string destinationMAC, string sourceMAC);
+bool deleteCustomRule(mandatory string id, string chain);
+list getCustomRule(string id, string chain);
+void setChainPolicy(mandatory string chain, mandatory string policy);
+string getChainPolicy(mandatory string chain);
+void deleteChainPolicy(mandatory string chain);
+bool setFirewallLevel(mandatory string level);
+bool setFirewallIPv6Level(mandatory string level);
+string getFirewallIPv6Level();
+void setForwardingService(mandatory string id, mandatory string action, mandatory string sourceInterface, string destinationInterface, string externalPort, string internalPort, string destinationIPAddress, string sourcePrefix, mandatory string protocol, bool enable, bool persistent, string description);
+void setForwardingServiceAction(mandatory string id, mandatory string action, string internalPort, string destinationIPAddress, string sourcePrefix);
+void deleteForwardingService(mandatory string id);
+string getFirewallLevel();
+void setPolicyLevel(mandatory string id, mandatory string sourceInterface, mandatory string destinationInterface, mandatory string level, int32 ipversion, bool enable);
+string getPolicyLevel(mandatory string id);
+void deletePolicy(mandatory string id);
+bool export( string fileName ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+bool import( string fileName ) {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+}

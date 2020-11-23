@@ -1,0 +1,3 @@
+mib battery {
+read-only uint8 BatteryLevel = 0xff;
+}

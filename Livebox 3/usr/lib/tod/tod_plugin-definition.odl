@@ -1,0 +1,143 @@
+using "tod_plugin.so";
+acl {
+world none;
+group http read,execute;
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+object ToD {
+message bool setState(string ID, string state) {
+acl {
+group http read;
+}
+}
+bool export(string fileName) {
+acl {
+group http read;
+}
+}
+bool import(string fileName) {
+acl {
+group http read;
+}
+}
+persistent object MaxSurfTime {
+persistent bool Enable {
+default true;
+write with maxsurftime_writeEnable;
+}
+persistent uint32 Granularity {
+default 5;
+constraint range [1, 1440];
+write with maxsurftime_writeGranularity;
+}
+persistent object Subject[] {
+add with maxsurftime_add;
+write with maxsurftime_write;
+delete with maxsurftime_del;
+counted with SubjectNumberOfEntries;
+acl {
+group http read;
+}
+persistent string Subject {
+default "";
+acl {
+group http read,execute;
+}
+constraint custom maxsurftime_subjectConstraint;
+}
+persistent bool Enable {
+default false;
+acl {
+group http read,execute;
+}
+}
+read-only string Status {
+read with maxsurftime_readStatus;
+acl {
+group http read,execute;
+}
+}
+persistent uint32 AllowedMon {
+default 1440;
+constraint range [0, 1440];
+}
+persistent uint32 AllowedTue {
+default 1440;
+constraint range [0, 1440];
+}
+persistent uint32 AllowedWed {
+default 1440;
+constraint range [0, 1440];
+}
+persistent uint32 AllowedThu {
+default 1440;
+constraint range [0, 1440];
+}
+persistent uint32 AllowedFri {
+default 1440;
+constraint range [0, 1440];
+}
+persistent uint32 AllowedSat {
+default 1440;
+constraint range [0, 1440];
+}
+persistent uint32 AllowedSun {
+default 1440;
+constraint range [0, 1440];
+}
+read-only uint32 TimeConsumed {
+read with maxsurftime_readConsumed;
+acl {
+group http read,execute;
+}
+}
+read-only uint32 TimeLeft {
+read with maxsurftime_readLeft;
+acl {
+group http read,execute;
+}
+}
+}
+}
+void configureMST(in out bool enable, in out uint32 granularity) {
+acl {
+group http read;
+}
+}
+void setMST(mandatory string id, string subject, bool enable, map allowedTime) {
+acl {
+group http read;
+}
+}
+void findMST(mandatory string subject, out list ids);
+void deleteMST(mandatory string id) {
+acl {
+group http read;
+}
+}
+void getMST(mandatory string id, out string subject, out bool enable, out string status, out map allowedTime) {
+acl {
+group http read;
+}
+}
+void statsMST(mandatory string id, out bool enable, out string status, out uint32 consumed, out uint32 left);
+void resetMST(mandatory string id) {
+acl {
+group http read;
+}
+}
+void listMST(out list ids) {
+acl {
+group http read;
+}
+}
+variant printMST() {
+acl {
+world none;
+group http none;
+group admin none;
+group remoteadmin none;
+}
+}
+}

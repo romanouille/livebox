@@ -1,0 +1,24 @@
+datamodel {
+object UserInterface {
+parameter BackupFileName {
+acl {
+world none;
+}
+}
+function getDebugInformation {
+acl {
+world none;
+group admin read, execute;
+group remoteadmin read, execute;
+}
+}
+}
+object DeviceManager {
+acl {
+world none;
+group admin read, execute;
+group remoteadmin read, execute;
+group cwmpd read, execute;
+}
+}
+}

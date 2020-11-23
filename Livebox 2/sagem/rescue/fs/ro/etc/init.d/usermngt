@@ -1,0 +1,57 @@
+#!/bin/sh
+
+ODL="/usr/lib/usermngt/usermngt.odl"
+PID="/var/run/usermngt.pid"
+RESTORE="/var/lib/usermngt/restore"
+
+start() {
+    if [ -e /etc/environment ]; then
+        . /etc/environment
+    fi
+
+    if [ -e "${PID}" ]; then
+        echo "usermngt service already started"
+        exit 1;
+    fi
+    export SERIAL_NUMBER WAN_ADDR
+    pcb_plugin -n usermngt -c "${ODL}" -vv
+}
+
+stop() {
+    if [ -e "${PID}" ]; then
+        kill $(cat $PID)
+    else
+        echo "usermngt not running"
+        exit 1
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+    	status
+        ;;
+    backup)
+        if [ -e $PID ] ; then 
+            pcb_cli "UserManagement.export($2)"
+        else 
+            echo "UserManagement plugin is not running, impossible to make a backup"
+        fi                 
+        ;;
+    restore)
+        mkdir -p $(dirname "${RESTORE}") && touch "${RESTORE}"
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status]"
+        ;;
+esac

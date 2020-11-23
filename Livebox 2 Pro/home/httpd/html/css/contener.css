@@ -1,0 +1,471 @@
+#contener {
+	font-size: 12px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+
+#contener table.contener {
+	width: 760px;
+	border-collapse: collapse;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/* Title of page */
+#contener td.titlepage {
+	font-size: 16px;
+	font-weight: bold;
+	font-family: sans-serif;
+	color: #ff6600;
+	padding-left: 10px;
+	padding-bottom: 5px;
+}
+
+/* Title of page */
+#contener td.blink {
+	font-weight: bold;
+	font-family: 	verdana,arial,sans-serif;
+	padding-left: 14px;
+}
+
+/* Top contener */
+#contener td.topleft {
+	background: url(../images/menu/topleft.gif) no-repeat left top;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 8px;
+}
+
+#contener td.top {
+	background: url(../images/menu/top.gif) repeat-x top;
+	margin: 0px;
+	padding: 0px;
+	height: 8px;
+}
+
+#contener td.topright {
+	background: url(../images/menu/topright.gif) no-repeat right top;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 8px;
+}
+
+#contener th.left {
+	background: url(../images/menu/left.gif) repeat-y left;
+	margin: 20px;
+	padding: 20px;
+	width: 9px;
+    background-color: #D3E2ED;
+    text-align: center;
+    overflow: auto; 
+}
+
+
+/* Cell content : The page */
+#contener td.left {
+	background: url(../images/menu/left.gif) repeat-y left;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+}
+
+#contener td.title {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	vertical-align: middle;
+}
+
+#contener td.link {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	padding-left: 15px;
+	vertical-align: middle;
+}
+
+#contener td.linktools {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+#contener td.right {
+	background: url(../images/menu/right.gif) repeat-y right;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 9px;
+}
+
+
+/* Title separator */
+#contener td.titlesepleft {
+	background: url(../images/contener/nosubnav_left.gif) no-repeat left top;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 22px;
+}
+
+#contener td.titlesep {
+	background: url(../images/contener/nosubnav_gradient.gif) repeat-x top;
+	margin: 0px;
+	padding: 0px;
+	height: 22px;
+}
+
+#contener td.titlesepright {
+	background: url(../images/contener/nosubnav_right.gif) no-repeat right top;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 22px;
+}
+
+
+/* Tabs panel */
+#contener td.panelleft {
+	background: url(../images/contener/subnav_left.gif) no-repeat left top;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 22px;
+}
+
+#contener td.panelcenter{
+	background: url(../images/contener/subnav_bargrey.gif) repeat-x top;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 12px;	
+}
+#contener td.panelcenter table{
+	border-collapse: collapse;	
+	height: 21px;
+}
+#contener td.panelcenter a:hover{
+	text-decoration: none;
+}
+
+#contener table.paneltable {
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+}
+
+#contener td.panelnormal {
+	font-weight: bold;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 2px;
+	padding-right: 2px;
+	vertical-align: middle;
+}
+
+#contener  td.panelselected 	 {
+	background-color:#FF6600;
+	font-weight: bold;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 2px;
+	padding-right: 8px;
+	vertical-align: middle;
+}
+
+#contener td.panelselected a {
+	font-weight: bold;
+	font-size: 12px;
+	color: #FFFFFF;
+}
+
+#contener td.panelselected a:hover {
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 12px;
+	color: #FFFFFF;
+}
+
+#contener td.panelright {
+	background: url(../images/contener/subnav_right.gif) no-repeat right top;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 22px;
+}
+
+#contener img.bullet {
+	margin-left: 3px;
+	margin-right: 3px;
+	width: 8px;
+	height: 8px;
+}
+
+
+/* White Line */
+#contener td.whiteleft {
+	background: url(../images/menu/left.gif) repeat-y left;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 22px;
+}
+
+#contener td.whiteright {
+	background: url(../images/menu/right.gif) repeat-y right;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 9px;
+	height: 22px;
+}
+
+
+/* Line separator */
+#contener td.sepleft {
+	background: url(../images/menu/leftsep.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 1px;
+}
+
+#contener td.sep {
+	background: url(../images/menu/sep.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 1px;
+}
+
+#contener td.sepright {
+	background: url(../images/menu/rightsep.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 1px;
+}
+
+
+/* Bottom page */
+#contener td.bottomleft {
+	background: url(../images/menu/bottomleft.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 12px;
+}
+
+#contener td.bottom {
+	background: url(../images/menu/bottom.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 12px;
+}
+
+#contener td.bottomright {
+	background: url(../images/menu/bottomright.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 12px;
+}
+
+#contener td.tabulation{
+	width: 71%;
+	height: 2px;
+}
+
+
+#contener td.largetabulation{
+	width: 79%;
+	height: 2px;
+}
+
+
+#contener td.smalltabulation {
+	width: 235px;
+	height: 2px;
+}
+#contener td.tabulation1 {
+	width: 200px;
+	height: 2px;
+}
+
+#contener td.tabulation2 {
+	width: 360px;
+	height: 2px;
+}
+
+#contener td.tabulation3 {
+	width: 660px;
+	height: 2px;
+}
+
+#contener td.tabulation4 {
+	width: 250px;
+	height: 2px;
+}
+
+#contener td.tabulation5 {
+	width: 610px;
+	height: 2px;
+}
+
+#contener table.title_accueil {
+	border-collapse: collapse;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#contener table.title_accueil img {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	vertical-align: bottom;
+}
+
+#contener td.title_icon_accueil {
+	margin: 0px;
+	padding: 0px;
+	padding-left: 100px;
+	vertical-align: bottom;
+}
+
+#contener td.title_text_accueil {
+	margin: 0px;
+	padding: 3px;
+	vertical-align: middle;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FF6600;
+	font-family: sans-serif;
+	height: 19px;
+}
+
+
+#contener div.liste_accueil {
+	height: 200px;
+	width: 700px;
+	margin: 20px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	overflow: auto;
+}
+
+#contener div.liste_accueil img {
+	vertical-align: middle;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+#contener table.liste_accueil {
+	width: 650px;
+	margin: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-collapse: collapse;
+	border: 0px;
+}
+
+#contener table.liste_accueil td.liste_left {
+	width: 300px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	vertical-align: middle;
+	text-align: left;
+}
+
+#contener table.liste_accueil td.liste_right {
+	width: 300px;
+	padding: 1px;
+	padding-right: 1px;
+	vertical-align: middle;
+	text-align: right;
+	color: #B9B9B9;
+}
+#contener table.liste_accueil td {
+	border-bottom: 1px solid #B9B9B9;
+	border-color: #B9B9B9;
+}
+
+#menu div.info_accueil {
+	width: 190px;
+	margin: 0px;
+}
+
+#menu div.info_accueil img {
+	vertical-align: middle;
+	margin: 0px;
+	margin-right: 10px;
+}
+
+#menu div.info_accueil img.led {
+	vertical-align: middle;
+	margin: 0px;
+}
+
+#menu table.info_accueil {
+	width: 190px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#menu table.info_accueil td.info_pref {
+	padding: 0px;
+	padding-left: 10px;
+	font-weight: bold;
+	color: #000000;
+}
+
+#menu table.info_accueil td.info_label {
+	padding: 0px;
+	padding-left: 10px;
+	color: #000000;
+}
+
+#menu table.info_accueil td.info_statut_ok {
+	vertical-align: middle;
+	padding: 0px;
+	padding-left: 10px;
+	padding-bottom: 15px;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FF4500;
+}
+
+#menu table.info_accueil td.info_statut_nok {
+	vertical-align: middle;
+	padding: 0px;
+	padding-left: 10px;
+	padding-bottom: 15px;
+	font-size: 11px;
+	color: #000000;
+}
+
+
+#contener #vignette {
+	padding: 0px;
+	margin: 7px;
+}
+
+#contener table.many_buttons {
+	margin-right: 12px;
+}
+
+#contener td.content p {
+	padding-left: 12px;
+}
+
+#contener .alert-password  td.admin_edit {
+padding-left:15px;
+}

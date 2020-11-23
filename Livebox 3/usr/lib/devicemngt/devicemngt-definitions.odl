@@ -1,0 +1,118 @@
+using "devicemngt.so";
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read,write,execute;
+group technician read,write,execute;
+}
+persistent object DeviceManagement {
+persistent object SSH[] {
+read-only string AccessType {
+constraint enum [ "lan", "wan", "invalid" ];
+default "invalid";
+}
+persistent bool Enable {
+default 0;
+}
+persistent uint32 IPVersion {
+constraint enum [ 0, 4, 6 ];
+default 0;
+}
+persistent bool PersistentEnable {
+default 1;
+}
+persistent bool AllowRootLogin {
+default 1;
+}
+persistent bool AllowPasswordLogin {
+default 1;
+}
+persistent bool AllowRootPasswordLogin {
+default 0;
+}
+persistent string AuthorizedKey;
+persistent string Ports {
+constraint custom devmngt_validatePorts;
+default "22";
+}
+persistent string SourcePrefix;
+persistent bool SourcePrefixNonEmpty {
+default 0;
+}
+persistent uint32 ActivationDuration {
+default 0;
+}
+persistent read-only datetime ActivationDate;
+}
+list listSSH();
+persistent volatile bool SSHUserEnable {
+default true;
+write with devicemngt_writeSSHUserEnable;
+}
+persistent volatile string SSHUsername {
+default "root";
+}
+persistent volatile string SSHPassword {
+write with devicemngt_writeSSHPassword;
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+group cwmpd read,write;
+}
+}
+persistent object Telnet {
+persistent string LANPorts {
+constraint custom devmngt_validatePorts;
+}
+persistent string WANPorts {
+constraint custom devmngt_validatePorts;
+}
+}
+persistent object Syslog {
+persistent bool PersistentFiles;
+persistent uint32 MaxFileSize {
+constraint maxvalue 500;
+}
+persistent uint32 NumberOfFiles {
+constraint maxvalue 99;
+}
+}
+persistent object Email {
+persistent bool Daily;
+persistent uint32 DailyTime {
+constraint maxvalue 23;
+default 4;
+}
+bool Trigger {
+default false;
+}
+persistent bool IPAddressChange;
+persistent bool WritableContent;
+void send(mandatory string subject, mandatory string body);
+}
+bool export(string fileName);
+persistent object BulkData {
+persistent uint32 MinReportingInterval {
+default 0;
+}
+persistent object Profile[] {
+counted with ProfileNumberOfEntries;
+persistent string Alias;
+persistent uint32 ReportingInterval {
+default 0;
+}
+persistent string FileTransferURL;
+persistent string FileTransferUsername;
+persistent string FileTransferPassword;
+persistent string ProfileType;
+persistent string LocalFile;
+persistent bool IsDownload;
+persistent bool Enable {
+default false;
+}
+void triggerTransfer();
+}
+}
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "expression"    : "lan and not self and .UserClassID matches \".*(IAD5116|IAD80|ITAD81|IP2031F|MLTV|ITF).*\"",
+    "start_actions" : {
+                        "set_tags"        : "stb",
+                        "add_device_type" : {
+                                              "Type"       : "Set-top Box",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  },
+  {
+    "expression"    : ".VendorClassID matches \".*LivePlugWiFi.*\" or .Names.dhcp.Name matches \".*liveplug.Wi-Fi.*\"",
+    "start_actions" : {
+                        "clear_tags"      : "edev",
+                        "set_tags"        : "orange hnid wifi_bridge",
+                        "add_device_type" : {
+                                              "Type"       : "LivePlugWifi",
+                                              "TypeSource" : "dhcp"
+                                            }
+                      }
+  }
+]

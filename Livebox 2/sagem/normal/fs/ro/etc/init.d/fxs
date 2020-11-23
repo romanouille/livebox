@@ -1,0 +1,45 @@
+#!/bin/sh
+
+name="Ikanos fxs/fxo/dsp plugin"
+pid_file=/var/run/fxs.pid
+
+MKCNOD() {
+	[ -c $1 ] || mknod $1 c $2 $3
+}
+
+create_nodes() {
+        MKCNOD /dev/dsp       115 15
+        MKCNOD /dev/voice     115 16 
+        MKCNOD /dev/fxo       115 17 
+        MKCNOD /dev/t38dev    115 18 
+}
+
+case $1 in
+    start)
+        if [ -e $pid_file ]; then
+            echo "$name already started"
+            exit 1
+        fi
+        echo "Start $name..."
+        create_nodes
+        export PCB_SYS_BUS=pcb://ipc:[/var/run/pcb_sys_voice]
+        pcb_plugin -o syslog --priority=-20 -n fxs -c /usr/lib/endpointplugin/endpoint_interface_fxs.odl -I /var/run/dspplugin &
+        echo $! > $pid_file
+        ;;
+    stop)
+        if [ -e $pid_file ]; then
+            echo "Stop $name..."
+            kill $(cat $pid_file) 2>/dev/null
+            [ $? == 0 ] || echo "$name crashed"
+            rm -f $pid_file
+        else
+            echo "$name not running"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
+

@@ -1,0 +1,72 @@
+#!/bin/sh
+#
+# Copyright (C) 2015 Sagemcom Broadband SAS – All rights reserved
+#
+# This Copyright notice should not be removed
+#
+
+
+# Get Configuration
+if [ -f /etc/fancontrold.config ]
+then
+  . /etc/fancontrold.config
+else
+  echo "ERROR CONFIGURATION FILE NEEDED !!!!"
+  exit 1
+fi
+
+# Select command
+SEL_CMD=$1
+
+start() {
+
+  $SERVICE_COMMAND -t $TEMP1_SENSOR_CHIP -r $TEMP1_READ_FIELD -T $TEMP2_SENSOR_CHIP -R $TEMP2_READ_FIELD \
+    -m $MIN_TEMP1 -M $MAX_TEMP1 -s $MIN_TEMP2 -S $MAX_TEMP2 \
+    -h $MIN_HDD_TEMP -H $MAX_HDD_TEMP -w $WARN_HDD_TEMP -W $WARN_HDD_TEMP_FILE -x $STOP_HDD_TEMP \
+    -f $FAN_SENSOR_CHIP -c $FAN_CONTROL_FIELD -p $PWM_FAN_MIN -P $PWM_FAN_MAX \
+    -z $SERVICE_PID_FILE -l $LOG_ENABLE -L $LOG_FILE -d $POLL_DELAY -D $DELTA_SFP -u $DELTA_STOP
+}
+
+stop() {
+	killall $SERVICE_NAME
+	rm -f $SERVICE_PID_FILE
+}
+
+restart() {
+  stop
+  start
+}
+
+# This shell need argument
+if [ -z "$SEL_CMD" ]
+then
+    echo "ERROR COMMAND NEED ARG !!!!"
+    echo " "
+    echo " cmd_fancontrold.sh arg"
+    echo " "
+    echo " arg  :"
+    echo "  start    : Start MiB4 Fan Control Daemon"
+    echo "  stop     : Stop MiB4 Fan Control Daemon"
+    echo "  restart  : Restart MiB4 Fan Control Daemon"
+    echo " "
+    exit 1
+fi
+
+# Select command
+case "$SEL_CMD" in
+
+    "start")
+        echo "Start MiB4 Fan Control"
+        start
+        ;;
+
+    "stop")
+        echo "Stop MiB4 Fan Control"
+        stop
+        ;;
+
+    "restart")
+        echo "Restart MiB4 Fan Control"
+        restart
+        ;;
+esac

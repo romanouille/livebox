@@ -1,0 +1,1 @@
+<p {{#if id}}id="{{id}}" {{/if}} class="bodyinfotxt">{{{value}}}</p>

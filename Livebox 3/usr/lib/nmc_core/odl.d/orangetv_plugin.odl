@@ -1,0 +1,138 @@
+using "../nmccore_orangetv.so";
+persistent object NMC {
+persistent object OrangeTV {
+persistent bool Enable {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+write with writeEnable;
+default true;
+}
+string Status {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+constraint enum [ "Enabled", "Disabled", "Error" ];
+default "Disabled";
+}
+persistent string Mode {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+constraint enum [ "Routed", "Bridged", "Simplified", "SimplifiedV2" ];
+default "Routed";
+}
+persistent bool MultiScreens {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+persistent bool MonoClient {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+default false;
+}
+persistent string WWWServer {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+persistent string NTPServer {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+}
+persistent object DHCPConfig {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+persistent uint32 LeaseTime {
+default 1800;
+}
+}
+persistent object ClasslessStaticRoute[] {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+persistent string Destination;
+persistent string PrefixLength;
+persistent string Router;
+}
+object IGDMap {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+bool Enable {
+default false;
+}
+string ConnectionStatus {
+constraint enum [ "Bound", "Idle" ];
+default "Idle";
+}
+string ExternalIPAddress;
+}
+persistent object ClientLease[] {
+acl {
+world none;
+group admin none;
+group remoteadmin none;
+}
+persistent string Name;
+persistent int32 ClientIDOffset;
+string DHCPCStatus {
+constraint enum ["Unconnected", "Connected", "Internal", "Unleased"];
+default "Unconnected";
+}
+persistent string IPAddress;
+persistent string SubnetMask;
+persistent object ServerLease[] {
+persistent string Id;
+persistent string DeviceType {
+constraint enum ["STB", "ITF", "UNKNOWN"];
+default "UNKNOWN";
+}
+persistent string IPAddress;
+persistent string MACAddress;
+bool Active;
+}
+}
+void getIPTVStatus(out string IPTVStatus);
+void setIPTVMultiScreens(in bool Enable) {
+acl {
+world none;
+}
+}
+void getIPTVMultiScreens(out bool Enable) {
+acl {
+world none;
+}
+}
+list getIPTVConfig() {
+acl {
+world none;
+}
+}
+}
+}

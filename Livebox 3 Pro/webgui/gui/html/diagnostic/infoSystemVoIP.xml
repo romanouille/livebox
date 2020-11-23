@@ -1,0 +1,75 @@
+<div id="infoSystemVoIP" class="infoSystemPage" xmlns="http://www.orange.com/xhtml/engine/loose">  
+  <div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_diagnostic">
+			<span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;<span i18n="menuDiagnostic.infoSystemVoIP"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.diagnostic.infosystem.subtitle"/>
+			<br/>
+			<div class="center" widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.lb">
+				<span id="routerlist" widgetType="EnumInput" widgetArg="'select'"/>
+			</div>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">			
+			<div id="MASTERBOX">
+				<div class="headBoxType1 margin-top-10" >
+					<span class="moins">
+						<span class="h3Text margin-left-30" dataId="Device/DeviceInfo/RouterName"/>
+					</span>
+				</div>			
+				<div class="sysinfo">
+					<div class="boxType4 border-bottom-3">
+					<!-- 	<div class="h3Text" i18n="menuDiagnostic.infoSystemVoIP"/> -->
+						<div class="clear"/>
+						
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.voip.3.1">
+							<span class="bold_font" dataId="Device/VOIPService/Enable" i18nPrefix="data.diagnostic.infosystem.voip.enable"/>
+							<a id="print" href="javascript:window.print()" i18n="common.print"/>
+						</div>
+						
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.voip.3.2">
+							<span class="bold_font" dataId="Device/VOIPService/Lines/Line/@number"/>
+						</div>
+						
+						<div widgetType="VisibleDependent" widgetArg="{value: 'ENABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.voip.3.3">
+								<span class="bold_font" dataId="Device/VOIPService/DSL/VP"/>/<span dataId="Device/VOIPService/DSL/VC"/>
+							</div>
+						</div>
+						<div widgetType="VisibleDependent" widgetArg="{value: 'DISABLE'}" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable">
+							<div  class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.voip.3.3_ftth">
+								<span class="bold_font" dataId="Device/VOIPService/FTTH/VLANID"/>/<span dataId="Device/VOIPService/FTTH/PRI"/>
+							</div>
+						</div>
+						
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.voip.3.4">
+							<span class="bold_font" dataId="Device/VOIPService/Status"  i18nPrefix="data.diagnostic.infosystem.voip.linkstatus"/>
+						</div>
+						
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.voip.3.5">
+							<span class="bold_font" dataId="Device/VOIPService/SignalingProtocol"/>
+						</div>
+						
+						<div class="margin-leftInfSys-30"  widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.voip.3.6">
+							<span class="bold_font" dataId="Device/VOIPService/Lines/Line/ProbeID"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

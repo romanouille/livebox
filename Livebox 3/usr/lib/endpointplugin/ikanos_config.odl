@@ -1,0 +1,17 @@
+object "$(SAH_VOICE_PLUGIN_NAME)" {
+read-only uint8 nbFxSPort = 1;
+read-only uint8 nbFxOPort = 0;
+read-only uint8 nbDectPort = 2;
+}
+datamodel {
+object DSPPlugin {
+instance of DSP(1, "DSPDECT") {
+instance of DSP_CHANNEL(1, "channel2") {
+parameter Type="TDM";
+}
+instance of DSP_CHANNEL(2, "channel3") {
+parameter Type="TDM";
+}
+}
+}
+}

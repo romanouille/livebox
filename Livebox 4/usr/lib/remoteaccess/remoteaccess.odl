@@ -1,0 +1,4 @@
+include "remoteaccess-definition.odl";
+include "remoteaccess-defaults.odl";
+
+/** @location sah_services_remoteaccess /remoteaccess.odl */

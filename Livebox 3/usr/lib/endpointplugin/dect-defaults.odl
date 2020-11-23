@@ -1,0 +1,129 @@
+datamodel {
+object "$(SAH_VOICE_PLUGIN_NAME)" {
+parameter Vendor = "DSPG";
+parameter Standard = "2.0 & 3.0";
+parameter Enable = true;
+parameter Name = "$(SSID)";
+parameter PinCode = "0000";
+instance of Channels(0, "Channel1") {
+parameter NarrowbandSlots = 0x0030;
+parameter WidebandSlots = 0x00F0;
+}
+instance of Channels(0, "Channel2") {
+parameter NarrowbandSlots = 0x0003;
+parameter WidebandSlots = 0x000F;
+}
+object LAS {
+parameter ReceivedCallListMaxNumberOfEntries = 20;
+parameter MissedCallListMaxNumberOfEntries = 20;
+parameter DialedCallListMaxNumberOfEntries = 20;
+}
+}
+object DECT {
+object HAN {
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+}
+}
+parameter PairingStatus {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setName {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function getBaseState {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setBaseState {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function getRadioState {
+acl {
+group remoteadmin none;
+}
+}
+function setRadioState {
+acl {
+group remoteadmin none;
+}
+}
+function getNEMoState {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setNEMoState {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function getClockMode {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setClockMode {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setClockMode {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function removeAllHandsets {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setTestMode {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+function setAntennaSwitch {
+acl {
+group admin none;
+group remoteadmin none;
+}
+}
+persistent instance of LineSettings(0, "LINE1") {
+parameter Enable = 0;
+parameter LineID = 0;
+parameter LineName = "";
+parameter LineNumber = "";
+parameter MultipleCalls = false;
+parameter Intrusion = true;
+parameter CLIRActivationCode = "*31#";
+parameter CLIRDeactivationCode = "#31#";
+parameter CFUActivationCode = "*21*nb#";
+parameter CFUDeactivationCode = "#21#";
+parameter CFNAActivationCode = "*61*nb#";
+parameter CFNADeactivationCode = "#61#";
+parameter CFNATimeout = 25;
+parameter CFBActivationCode = "*67*nb#";
+parameter CFBDeactivationCode = "#67#";
+}
+}
+}

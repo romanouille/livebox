@@ -1,0 +1,6 @@
+datamodel {
+    object TopologyDiagnostics {
+        parameter UploadURL="http://karmatrack.orange.com/FR/topo/";
+    }
+}
+

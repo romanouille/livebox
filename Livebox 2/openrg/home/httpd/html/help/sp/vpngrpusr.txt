@@ -1,0 +1,16 @@
+<b>Cliente VPN:</b><br>
+<br>
+Esta página permite ver y definir usuarios y perfiles autorizados a acceder a tu Livebox en modo cliente/servidor.<br>
+<br>
+Haz clic en el botón "Añadir" de la tabla "Perfiles" para definir nuevos perfiles.<br>
+<br>
+Haz clic en el botón "Añadir" de la tabla "Usuarios" para definir nuevos usuarios.<br>
+<br>
+Para definir una nueva conexión VPN deberás rear un usuario y perfil.<br>
+<br>
+Parámetros, tales como la clave de seguridad y el protocolo de encriptación, son definidos en el perfil.<br>
+<br>
+La contraseña de conexión es un parámetro específico de cada usuario.<br>
+<br>
+
+

@@ -1,0 +1,35 @@
+/**
+ * The PTM MIB is available on all NeMo Intfs that have the "ptm"-flag set. An actual PTM link will be
+ * created in the system for each enabled Intf that has the "ptm"-flag set AND it's stacked on top of an
+ * Intf that has the "dsl-started"-flag set, i.e. it's stacked on top of a currently running DSL interface.
+ */
+
+object NeMo { 
+	object extends MIB(0,"ptm") {
+		string Flag = "ptm";
+		object DataModel {
+			/**
+			 * Timestamp of the last operational state change, measured in seconds since power
+			 * on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current operational
+			 * state.
+			 */
+			volatile read-only uint32 LastChange;
+
+			/** 
+			  * Status parameter of the PTM interface 
+			  */
+			string LinkStatus {
+				constraint enum["Up","Down","Unknown","Dormant","NotPresent","LowerLayerDown","Error"];
+				default "Down";
+			}
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/ptm.odl */

@@ -1,0 +1,10 @@
+object NeMo {
+    object extends MIB(0,"dop-slave") {
+        string Flag = "dop-slave";
+        object DataModel {
+            persistent uint32 DialOnPlugIdleTimeout = 30;
+        }
+    }
+}
+
+/** @location sah_services_netmaster /netmaster/modules_src/dialonplug/dop-slave.odl */

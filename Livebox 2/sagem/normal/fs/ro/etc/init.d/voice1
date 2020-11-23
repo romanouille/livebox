@@ -1,0 +1,19 @@
+#!/bin/sh
+
+
+
+case $1 in
+    start)
+        echo "Voice part 1 start ..."
+        # load voice drivers here with modprobe
+
+        ;;
+    stop)
+        echo "Voice part 1 stop ..."
+        # unload voice drivers here with modprobe -r
+        ;;
+    *)
+        echo "Usage: /etc/init.d/voice1 {start|stop}"
+        exit 1
+        ;;
+esac

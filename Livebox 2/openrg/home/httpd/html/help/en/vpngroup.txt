@@ -1,0 +1,10 @@
+<b>Group VPN:</b><br>
+<br>
+This page is used to create new user profiles and define basic and advanced settings.<br>
+<br>
+<span class="boldorange">Basic&nbsp;settings:</span><br>
+You can define how remote users access the Internet: via their connection, via the Boxer or no Internet access.<br>
+<br>
+<span class="boldorange">Security settings:</span><br>
+These are the same settings as on the VPN tunnel expert mode configuration page.<br>
+

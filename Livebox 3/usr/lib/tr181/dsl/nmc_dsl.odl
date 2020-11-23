@@ -1,0 +1,12 @@
+object DSL {
+object X_ORANGE-COM_NoiseReduction {
+bool Enable;
+read-only string Method {
+default "RNC";
+}
+}
+}
+datamodel {
+object DSL {
+}
+}

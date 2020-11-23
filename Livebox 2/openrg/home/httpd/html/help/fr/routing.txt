@@ -1,0 +1,9 @@
+<b>Routage :</b><br>
+<br>
+Pour communiquer, chaque équipement doit connaître le routeur par lequel il faut sortir pour pouvoir atteindre un réseau extérieur, c'est-à-dire avoir en mémoire une table des réseaux et des routeurs. Pour cela il contient une table de routage locale.<br>
+La table de routage d'un routeur comporte les adresses des réseaux de destination, le masque, les adresses des passerelles (routeurs intermédiaires) permettant de les atteindre, l'interface par laquelle le paquet doit sortir de la livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,13 @@
+datamodel {
+	instance of ConMon(1,"data") {
+		parameter Interface="data";
+		parameter MainLoopTimerLength=60;
+		parameter FailTimerLength=15;
+		/* the number of retries includes the initial try.. (NumberOfArpSend would be a better name) */
+		parameter NumberOfRetries=3;
+		parameter Enable=1;
+		parameter Up=0;	
+	}
+}
+
+/** @location sah_services_ipdiagnostics /conmon/ConMon-defaults.odl */

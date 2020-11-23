@@ -1,0 +1,26 @@
+﻿<b>Configuración WiFi:</b><br>
+<br>
+<span class="boldorange">Red WiFi (SSID):</span> Este es el nombre de tu Livebox, mostrado en la etiqueta, y se corresponde con el nombre de tu red WiFi.<br>
+<br>
+<span class="boldorange">Modo:</span> Si sólo dispones de dispositivos 802.11g y 802.11b en tu red, mantén los parámetros 802.11 b+g definidos por defecto. Si empleas dispositivos 802.11g, 802.11b y 802.11n, selecciona 802.11b+g+n. Si no dispones de dispositivos inalámbricos en tu red, te recomendamos deshabilitar el WiFi.<br>
+<br>
+<span class="boldorange">Canal:</span> El WiFi emplea una banda de frecuencias específica, formada por 13 canales.<br>
+<br>
+<span class="boldorange">Clave WiFi:</span> La clave WiFi de seguridad se utiliza para proporcionar seguridad a tu red WiFi. Por defecto se emplea la clave mostrada en la etiqueta del Livebox.<br>
+<br>
+<span class="boldorange">Modo de seguridad:</span>Para prevenir el uso no autorizado de tu red inalámbrica, las conexiones WiFi se encriptan utilizando protocolos WEP o WPA. Solo los terminales y ordenadores en los que la clave WEP o WPA se corresponde con la de tu Livebox pueden acceder a tu red inalámbrica. Esta clave WEP, formada por 26 caracteres hexadecimales (dígitos del 0 al 9 y letras A, B, C, D, E y F) es completamente confidencial.<br>
+Si eliges "Sin seguridad", tu red inalámbrica estará abierta y accesible a todo el mundo.<br>
+El protocolo WEP, seleccionado por la opción  WEP-64 o WEP-128, requiere la clave WEP para realizar todos los intercambios de información entre tu Livebox y tu dispositivo inalámbrico. Por tanto la clave debe ser introducida cuando configures un nuevo dispositivo inalámbrico.<br>
+El protocolo WPA, seleccionado por la opción <b>WPA-PSK (TKIP)</b>, añade seguridad adicional al protocolo WEP cambiando regularmente el modo de encriptación. Cuando sea posible, se debe seleccionar preferentemente el modo WPA sobre el WEP.<br>
+El protocolo WPA, seleccionado por la opción WPA-PSK (TKIP), añade seguridad adicional al protocolo WEP cambiando regularmente el modo de encriptación. Cuando sea posible, se debe seleccionar preferentemente el modo WPA sobre el WEP.<br>
+El protocolo WPA2-PSK (AES) suministra aún mayor seguridad a tu red inalámbrica.<br> 
+<br>
+<span class="boldorange">Habilitar Easy Pairing:</span> Esta opción permite conectar un dispositivo inalámbrico a tu Livebox sin tener que introducir los parámetros de tu red WiFi.<br>
+<br>
+<span class="boldorange">Habilitar Filtrado MAC:</span> Cada dispositivo tiene su propia dirección física, conocida como dirección MAC. Esta dirección está formada por 12 caracteres hexadecimales, agrupados por pares y separados por guiones o dos puntos.<br> 
+Si habilitas este filtrado y posteriormente deseas autorizar a un ordenador el acceso a la red haz clic en el botón "Añadir" de la lista de dispositivos conectados a tu Livebox e introduce la dirección MAC del dispositivo que quieres añadir.
+Si se deshabilita este filtrado, cualquier dispositivo puede conectarse a tu Livebox sin que tengas que introducir la dirección MAC en la tabla.
+Esta opción está deshabilitada por defecto. 
+<br>
+<br>
+<b>

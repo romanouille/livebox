@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# ramdisk
+case $1 in
+    start)
+        umount /mnt/ramdisk/rd1 > /dev/null 2>&1
+        /bin/echo "Ramdisk initialisation ..."
+        if [ -n "$2" ] && count=$2
+        then          
+          /bin/mount -t tmpfs -o size=$(count)k tmpfs /mnt/ramdisk/rd1/
+        else
+          /bin/mount -t tmpfs tmpfs /mnt/ramdisk/rd1/
+        fi
+        mkdir /mnt/ramdisk/rd1/lost+found
+        ;;
+    stop)
+        
+        umount /mnt/ramdisk/rd1
+        ;;
+    *)
+        echo "Usage : $0 [start|stop] [size limit in KB]"
+        ;;
+esac

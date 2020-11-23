@@ -1,0 +1,95 @@
+
+
+
+object DeviceInfo {
+    read-only string Manufacturer {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string ManufacturerOUI {
+        constraint maxvalue 6;
+        default "";
+    }
+    read-only string ModelName {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string Description {
+        constraint maxvalue 256;
+        default "";
+    }
+    read-only string ProductClass {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string SerialNumber {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string HardwareVersion {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string SoftwareVersion {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string ModemFirmwareVersion {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string EnabledOptions {
+        constraint maxvalue 1024;
+        default "";
+    }
+    read-only string AdditionalHardwareVersion {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string AdditionalSoftwareVersion {
+        constraint maxvalue 64;
+        default "";
+    }
+    read-only string SpecVersion {
+        constraint maxvalue 16;
+        default "";
+    }
+    string ProvisioningCode {
+        constraint maxvalue 64;
+        default "";
+    }
+
+    read-only string X_ORANGE-COM_RescueVersion;
+    read-only string X_ORANGE-COM_ExternalIPAddress;
+
+    read-only uint32 UpTime = 0;
+    read-only datetime FirstUseDate;
+    read-only string DeviceLog;
+    read-only uint32 VendorConfigFileNumberOfEntries = 0;
+}
+
+
+datamodel {
+    object DeviceInfo {
+        destination "pcb://$(MBUS_ATOMIC)/DeviceInfo" {
+            parameter Manufacturer;
+            parameter ManufacturerOUI;
+            parameter ModelName;
+            parameter Description;
+            parameter ProductClass;
+            parameter SerialNumber;
+            parameter HardwareVersion;
+            parameter SoftwareVersion;
+            parameter AdditionalHardwareVersion;
+            parameter SpecVersion;
+            parameter ProvisioningCode;
+            parameter UpTime;
+            parameter X_ORANGE-COM_RescueVersion from RescueVersion;
+            parameter X_ORANGE-COM_ExternalIPAddress from ExternalIPAddress;
+        }
+        destination "pcb://$(MBUS_ATOMIC)/NeMo/Intf/dsl0" {
+            parameter ModemFirmwareVersion from FirmwareVersion;
+        }
+    }
+}
+

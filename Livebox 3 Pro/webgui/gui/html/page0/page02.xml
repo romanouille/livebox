@@ -1,0 +1,65 @@
+<div id="page02" class="status-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<p class="blockTitle bold_font" i18n="page.page0.common.label"/>
+	<form class="page0_container">
+		<div class="rightBlockTitle">
+			<div i18n="page.page0.common.step2" class="currentStep_2"/>
+		</div>
+		<h2 i18n="page.page0.step2.subtitle" class="nobold"/>
+		<div>
+			<div id="formAlign">
+				<div widgetType="FormInput" i18n="page.page0.step2.internet.ident.login">
+					<span class="orange">fti/</span><input id="username" type="text" i18n="page.myServices.internet.ident.login" required="true" maxlength="64"/>
+				</div>
+	
+				<div widgetType="FormInput" i18n="page.page0.step2.internet.ident.password">
+					<span style="visibility:hidden;">fti/</span><span id="password" widgetType="Password" widgetArg="{char: '•', period: 2000}" i18n="page.myServices.internet.ident.password" required="true" maxlength="29"/>
+				</div>
+			</div>
+			<a href="javascript:;" id="letter_thumbnail" i18n="page.page0.step2.letter.dialog"/>
+			<div class="clear"></div>
+		</div>
+		
+		<div widgetType="ButtonContainer" class="center">
+			<span id="toStep1" widgetType="Button" widgetArg="{type: 'simple'}" i18n="common.previous.step"/>
+			<span class="spacer"/>
+			<span id="page02cancel" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"></span>
+			<span class="spacer"/>
+			<span id="page02valid" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.page0.step2.valid"/>
+		</div>
+		
+		<input type="text" id="bdConnectionStatus" dataId="Device/Networks/WAN[@name='WAN']/ConnectionStatus" style="display: none; color: red; disabled:true"/>
+		
+		<div id="connectionWait" class="centered">
+			<span class="waitLabel oneline" i18n="page.page0.step2.processing"/>
+			<div widgetType="RunnerBar" widgetArg="{duration:3000, width:500, height:17}"/>
+		</div>
+		<div id="connectionErrorDisplay">
+			<div id="errorPrincipal" class="errorConn" i18n="page.page0.step2.error.principal"></div>
+			<div id="authError" class="errorConn" i18n="page.page0.step2.error.auth"></div>
+			<div id="synchroError" class="errorConn" i18n="page.page0.step2.error.synchro"></div>
+			<div id="otherError" class="errorConn" i18n="page.page0.step2.error.other"></div>
+			<div id="contactError" class="errorConn" i18n="page.page0.step2.error.contact"></div>
+		</div>
+	</form>
+	<div class="clear"></div>
+	<div class="centered">
+		<span i18n="page.page0.jump2home"></span>&#160;
+		<a href="javascript:;" class="jump2home orange menuItemLink" i18n="page.page0.step0.thislink" onclick="page0_clickOnThisLink();"/>.
+	</div>
+	
+	<div id="letter_std">
+		<a href="javascript:;" class="close" i18n="common.close"/>
+		<div id="letter_std_img"></div>
+	</div>
+	
+	<input id="smartCardStatus" type="hidden" dataId="Device/DeviceInfo/SmartCard/Status"/>
+	<div id="succes_display" class="container">
+		<div class="successTitle" i18n="page.page0.step2.succes"></div>
+		<div class="successSubtitle" i18n="page.page0.step2.succes.subtitle"></div>
+		<div widgetType="ButtonContainer" class="center">
+			<span id="home" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.page0.step2.no"/>
+			<span class="spacer"/>
+			<span id="secure" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.page0.step2.yes"></span>
+		</div>
+	</div>
+</div>

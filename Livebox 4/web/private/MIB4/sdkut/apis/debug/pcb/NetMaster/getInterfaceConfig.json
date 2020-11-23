@@ -1,0 +1,55 @@
+{
+  "status": true,
+  "data": {
+    "Name": "DSL_PPP",
+    "PhysicalInterface": "ADSL",
+    "data": {
+      "DestinationAddress": "8/35",
+      "Encapsulation": "LLC",
+      "QosClass": "UBR",
+      "PeakCellRate": 3000,
+      "MaximumBurstSize": 0,
+      "SustainableCellRate": 0,
+      "IPVersion": 0,
+      "DialOnPlug": false,
+      "DialOnPlugIdleTimeout": 30,
+      "Mode": "PPP"
+    },
+    "voip": {
+      "DestinationAddress": "8/55",
+      "Encapsulation": "LLC",
+      "QosClass": "CBR",
+      "PeakCellRate": 1000,
+      "MaximumBurstSize": 0,
+      "SustainableCellRate": 0,
+      "IPVersion": 4,
+      "DialOnPlug": false,
+      "DialOnPlugIdleTimeout": 30,
+      "Mode": "DHCP"
+    },
+    "iptv": {
+      "DestinationAddress": "8/45",
+      "Encapsulation": "LLC",
+      "QosClass": "VBR-nrt",
+      "PeakCellRate": 302,
+      "MaximumBurstSize": 75,
+      "SustainableCellRate": 302,
+      "IPVersion": 4,
+      "DialOnPlug": false,
+      "DialOnPlugIdleTimeout": 30,
+      "Mode": "DHCP"
+    },
+    "mgmt": {
+      "DestinationAddress": "8/65",
+      "Encapsulation": "LLC",
+      "QosClass": "CBR",
+      "PeakCellRate": 75,
+      "MaximumBurstSize": 0,
+      "SustainableCellRate": 0,
+      "IPVersion": 4,
+      "DialOnPlug": false,
+      "DialOnPlugIdleTimeout": 30,
+      "Mode": "DHCP"
+    }
+  }
+}

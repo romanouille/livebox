@@ -1,0 +1,169 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+
+START=05
+ 
+. /etc/sysdirs.conf
+. /etc/flash-map.conf
+
+UBIDEV=/dev/ubi0
+
+find_ubi () {
+  if [ x"$CONFIG_MTD_SECURE_UPDATE_UBI" != x"" ]; then
+    for vol in /sys/class/ubi/ubi0/ubi0_*
+    do
+      if [ `cat $vol/name` = "$1" ]; then
+        echo "ubi!$1"
+        return 0
+      fi
+    done
+    # Try to create the volume
+    if [ "$1" = "filesystem1" ]; then
+      VOL_SIZE=`expr $CONFIG_MTD_SECURE_UPDATE_FILESYSTEM1_SIZE "*" $CONFIG_MTD_SECURE_UPDATE_LEB_SIZE`
+    else
+      VOL_SIZE=`expr $CONFIG_MTD_SECURE_UPDATE_FILESYSTEM2_SIZE "*" $CONFIG_MTD_SECURE_UPDATE_LEB_SIZE`
+    fi
+    if (ubimkvol "$UBIDEV" -N "$1" -s "$VOL_SIZE" -t dynamic > /dev/null); then
+      echo "ubi!$1"
+      return 0
+    fi
+    echo "Cannot create UBI volume for $1 !" >&2
+  fi
+  echo ""
+}
+
+find_mtd () {
+  (cat /proc/mtd | \
+    grep "\"$1\"" | \
+    cut -d ":" -f 1 | \
+    sed -e 's/^mtd\([0-9]*\)$/\/dev\/mtdblock\1/' ) 2> /dev/null \
+    || echo "" ;
+}
+
+mount_ubifs () {
+  mount -t ubifs $1 $2 -o sync 2> /dev/null
+}
+
+mount_jffs2 () {
+  mount -t jffs2 $1 $2 -o sync 2> /dev/null
+}
+  
+mount_ramfs () {
+  if [ x"$2" = x"yes" ]; then 
+  	mount -t ramfs ramfs $1 2> /dev/null
+  else
+	return 0
+  fi
+}
+
+mount_fs () {
+  FS_DEVICE=`find_ubi $1`
+  if [ x"$FS_DEVICE" != x ]; then
+      if !(mount_ubifs $FS_DEVICE $2); then
+        echo "Cannot mount UBIFS ($FS_DEVICE) on $2 !" >&2
+        return 0
+      fi
+  else
+    FS_DEVICE=`find_mtd $1`
+    if [ x"$FS_DEVICE" != x ]; then
+      if !(mount_jffs2 $FS_DEVICE $2); then
+        echo "Cannot mount JFFS2 ($FS_DEVICE) on $2 !" >&2
+        return 0
+      fi
+    else
+      echo "No $1 MTD device or UBI volume !" >&2
+      return 1
+    fi
+  fi
+}
+
+debug_fs () {
+  if [ x"$DEBUG_FILESYSTEM" != x"" ]; then
+    # Move root filesystem (squashfs) to an unionfs with filesystem2/rootfs
+    echo "Switch root file system to unionfs"
+    mkdir -p /opt/filesystem2/rootfs
+    mount -t unionfs -o "rw,dirs=/opt/filesystem2/rootfs=rw:/=ro" none /opt/rootufs
+    mkdir -p /tmp/_proc_mnt
+    mount --move /proc /tmp/_proc_mnt
+    mount --move /tmp/_proc_mnt /opt/rootufs/proc
+    rm -r /tmp/_proc_mnt
+    mkdir -p /tmp/_sys_mnt
+    mount --move /sys /tmp/_sys_mnt
+    mount --move /tmp/_sys_mnt /opt/rootufs/sys
+    rm -r /tmp/_sys_mnt
+    mount --move /tmp /opt/rootufs/tmp
+    mount --move /dev /opt/rootufs/dev
+    mount --move /opt/filesystem1 /opt/rootufs/opt/filesystem1
+    if [ x"$CONFIG_MTD_SECURE_UPDATE_TWO_FILESYSTEM" != x"" ]; then
+      mount --move /opt/filesystem2 /opt/rootufs/opt/filesystem2
+    fi
+    pivot_root /opt/rootufs /opt/rootufs/opt/squashfs
+  fi
+}
+
+start() {
+  # Create tmpfs for services configurations
+  mkdir -p "$SYSTMP_DIR"
+  # Create the persistant configuration directory
+  if (mkdir -p "$SYSCONF_DIR"); then
+    # It is not a read only root file system
+    mkdir -p "$SYSDATA_DIR"
+  else
+    # It is a read only root file system (squashfs)
+    if [ x"$CONFIG_MTD_SECURE_UPDATE" != x"" ]; then
+      if [ x"$MTD_SECURE_UPDATE_NO_FILESYSTEM" = x"" ]; then
+        # If we have user file systems
+        # Try to mount the jounalized filesystems
+        echo "Mount filesystem1"
+        if (mount_fs "filesystem1" "/opt/filesystem1"); then
+          mkdir -p "/opt/filesystem1/conf"
+          # Old filesystem compatibility
+          if [ -f "/opt/filesystem1/backup-cfg.xml" ]; then
+            mv "/opt/filesystem1/backup-cfg.xml" "/opt/filesystem1/conf/backup-cfg.xml"
+          fi
+          if [ x"$CONFIG_MTD_SECURE_UPDATE_TWO_FILESYSTEM" != x"" ]; then
+            echo "Mount filesystem2"
+            if !(mount_fs "filesystem2" "/opt/filesystem2"); then
+              echo "Cannot mount filesystem2 !" >&2
+              return 1
+            fi
+          else
+            # If no filesystem2, then mount data on filesystem1
+            echo "filesystem2 linked on filesystem1"
+          fi
+          mkdir -p "/opt/filesystem2/data"
+			 if !(mount_ramfs "/opt/filesystem2/rootfs" no); then
+				echo "Cannot mount /opt/filesystem2/rootfs !" >&2
+				return 1
+			 fi
+			 # If there is a group for configuration editor, 
+			 # allow it to create files in /opt/filesystem1/conf
+			 CONFEDITGROUP=`cat /etc/group | grep confedit  | awk -F ":" '{print $1}'`
+			 if [ "$CONFEDITGROUP" != "" ]; then
+			 	chown root:$CONFEDITGROUP /opt/filesystem1/conf
+			 	chmod 775 /opt/filesystem1/conf
+			 	chown root:$CONFEDITGROUP /opt/filesystem2/data
+			 	chmod 775 /opt/filesystem2/data
+			 fi
+        else
+          echo "Cannot mount filesystem1 !" >&2
+          return 1
+        fi
+        debug_fs
+      fi
+    fi
+  fi
+}
+
+stop() {
+  if [ x"$CONFIG_MTD_SECURE_UPDATE" != x"" ]; then
+    if [ x"$MTD_SECURE_UPDATE_NO_FILESYSTEM" = x"" ]; then
+      echo "Umount user file systems"
+      umount "/opt/filesystem1" 2> /dev/null || echo "Cannot umount filesystem1 !" >&2
+      if [ x"$CONFIG_MTD_SECURE_UPDATE_TWO_FILESYSTEM" != x"" ]; then
+        umount "/opt/filesystem2" 2> /dev/null || echo "Cannot umount filesystem2 !" >&2
+      fi
+    fi
+  fi
+}
+

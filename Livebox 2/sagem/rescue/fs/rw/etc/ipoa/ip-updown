@@ -1,0 +1,76 @@
+#!/bin/sh
+# Fichier de configuration du routeur
+. /etc_ro_fs/init.d/common
+. /etc_ro_fs/autoconf.conf
+readconf /etc/bluedsl.conf FIREWALL_LEVEL
+
+# find ppp interface
+ppp_if=$1
+[ -f /var/run/${ppp_if}.pid ] && PPP_PID=$(cat /var/run/${ppp_if}.pid)
+[ -f /var/run/ppp_adsl.pid ] && PPP_ADSL_PID=$(cat /var/run/ppp_adsl.pid)
+
+IS_ADSL=0
+if [ "$PPP_PID" = "$PPP_ADSL_PID" ] ; then 
+    IS_ADSL=1
+fi
+if [ -f /var/run/ppp_adsl -a "$ppp_if" = "$(cat /var/run/ppp_adsl)" ] ; then 
+    IS_ADSL=1
+fi
+
+my_ip=${4:-0.0.0.0}
+peer_ip=${5:-0.0.0.0}
+current_date=$(date +"%j %X")
+
+
+if [ "$IS_ADSL" = "1" ] ; then    
+# THIS INTERFACE IS ADSL
+    case $0 in
+	*ip-up)
+	    # dns1, dns2
+	    echo nameserver $2 > /etc/resolv.conf 
+	    echo nameserver $3 >> /etc/resolv.conf
+	    /sbin/route add default gw $5
+	    echo $ppp_if > /var/run/ppp_adsl
+	    echo IP=$4 > /var/run/ppp_ip
+            echo GW=$5 > /var/run/ppp_gw
+	    /etc/ppp/start_nat $ppp_if
+	    [ ! -z "$FIREWALL_LEVEL" ] && "/usr/sbin/firewall_l"$FIREWALL_LEVEL".start" $ppp_if
+	    # Reload ProxyDNS 
+	    /etc/init.d/proxydns reload
+	    echo 4 > /var/run/pppmsg
+	    # Launch reaim 
+	    #[ -f /bin/reaim ] && /bin/reaim &
+#	    date "+%s" > /var/run/adsl_connect_time
+	    echo $current_date IP Up $my_ip $ppp_if $peer_ip >> /root/adsld.log
+	    ;;
+	*ip-down)
+            # Reload ProxyDNS 
+	    # Problème : quand on est en cconnect on demand, il ne faut pas effacer les valeurs ...
+	    > /etc/resolv.conf
+	    /sbin/route del default
+	    /etc/init.d/proxydns reload
+	    # Stop nat
+	    rm -f /var/run/ppp_adsl
+	    /etc/ppp/stop_nat $ppp_if
+	    /usr/sbin/firewall.stop $ppp_if
+	    # Kill reaim if appropriate
+	    #[ ! -z "$CONFIG_REAIM" ] && killall reaim 
+	    # PROBLEME : si ppp dial on demand ...
+	    rm -f  /var/run/ppp_ip
+	    rm -f  /var/run/pppmsg
+#	    rm -f  /var/run/ppp_adsl.pid
+#	    rm -f  /var/run/ppp_adsl
+#	    rm /var/run/adsl_connect_time
+	    echo $current_date IP Down >> /root/adsld.log
+	    ;;
+	*)	    
+	    ;;
+    esac
+else 
+    echo "Not doing anything" > /dev/null
+# THIS INTERFACE IS NOT ADSL 
+# Don't do anything
+fi
+
+
+

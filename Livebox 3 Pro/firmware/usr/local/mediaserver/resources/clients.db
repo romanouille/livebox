@@ -1,0 +1,971 @@
+ID:000
+NA:-/-
+DB:AUTO
+
+ID:001
+NA:Generic Media Receiver
+XM:DLNA15
+DB:AUTO
+
+ID:002
+NA:Generic Music Only Receiver
+AV:M
+DB:AUTO
+
+ID:004
+NA:Acer Media Player
+DD:Acer
+XM:ADDTITLETOURL
+DB:FIX
+XM:DLNANO
+
+ID:084
+NA:Archos
+DD:A605F
+DB:FIX
+
+ID:003
+NA:ACTIVY Media Player
+DD:ACTIVY
+HP:chunked
+XM:DLNA10
+TX:120
+TY:90
+PX:1920
+PY:1080
+DB:FIX
+
+ID:005
+NA:BridgeCo Firmware based
+AV:M
+HH:bridgeCo
+DD:BridgeCo
+DB:AUTO
+XM:NOUTF8SORT
+
+ID:075
+NA:Buffalo LT-H90LAN
+DD:LT-H90
+HP:chunked
+MT:mpeg,mpeg2,MPEG2 video/mpeg
+MT:wav,WAV audio/wav
+MT:m4a audio/m4a-latm
+XM:IGNORESORT
+XM:DLNA15
+DB:FIX
+
+ID:076
+NA:Buffalo PC-P1LAN
+DD:PC-P1LAN
+HP:chunked
+MT:mpeg,mpeg2,MPEG2 video/mpeg
+XM:IGNORESORT
+XM:DLNA15
+DB:FIX
+
+ID:077
+NA:Buffalo PC-P4LAN
+DD:PC-P4LAN
+HP:chunked
+MT:mpeg,mpeg2,MPEG2 video/mpeg
+MT:wav,WAV audio/wav
+XM:IGNORESORT
+XM:DLNA15
+DB:FIX
+
+ID:054
+NA:Buffalo Link Theater (PC-P4LWAG)
+DD:PC-P4LWAG
+HP:chunked
+XM:IGNORESORT
+XM:DLNA15
+MT:mpeg,mpeg2,MPEG2 video/mpeg
+MT:wav,WAV audio/wav
+DB:FIX
+
+ID:066
+NA:DirectTV HD DVR
+HH:DIRECTTV
+XM:DLNA10
+DB:FIX
+
+ID:055
+NA:D-Link DSM120
+AV:M
+DD:DSM-120
+DB:FIX
+XM:DLNANO
+
+ID:006
+NA:D-Link DSM320
+HP:close
+HP:1.0RESPONSE
+PX:800
+PY:600
+TX:120
+TY:90
+XM:DLINKTHUMB
+DX:REDSONIC
+AV:no-m3u
+DD:DSM-320
+HH:dma/1.0 redsonic
+XM:FORCERES
+XM:DLNANO
+DB:FIX
+MT:aif,aiff audio/aiff
+MT:avi video/avi
+MT:divx video/x-msvideo
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:mp4 video/MP4V-ES
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:mpg,m1v,mpe video/MP1S
+MT:ogg audio/x-ogg 
+MT:ts video/mpeg
+MT:wav audio/wav
+XM:gif NORES
+
+ID:007
+NA:D-Link DSM520
+XM:DLINKTHUMB
+HP:close
+HP:1.0RESPONSE
+TX:120
+TY:90
+DX:REDSONIC
+AV:no-m3u
+HH:REDSONIC
+DD:DSM-520
+XM:FORCERES
+XM:DLNANO
+DB:FIX
+
+ID:053
+NA:D-Link DSM510
+DD:DSM-510
+DB:FIX
+MT:aif,aiff audio/aiff
+MT:avi,divx video/avi
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:m1v,mpe video/MP1S
+MT:mpg video/mpeg
+MT:ogg application/ogg 
+MT:ts video/mpeg
+MT:wav audio/wav
+HP:close
+
+ID:079
+NA:DENON ASD-3 W
+DD:ASD-3
+DB:FIX
+
+ID:080
+NA:DENON AVR-3808
+AV:M
+DD:AVR-3808
+DB:FIX
+
+ID:081
+NA:DENON AVR-4306
+AV:M
+DD:AVR-4306
+DB:FIX
+
+ID:008
+NA:DENON AVR-4308
+DD:AVR-3808
+DB:FIX
+
+ID:083
+NA:DiXiM Media Client
+DD:DiXiM
+MT:wav audio/wav
+DB:FIX
+
+ID:072
+NA:DSPG XpndR DPF Demo/1.01
+DD:DSPG XpndR DPF Demo/1.01
+HH:DSPG XpndR DPF Demo/1.01
+PX:800
+PY:600
+DB:FIX
+
+ID:073
+NA:DSPG XpndR Phone Demo/1.01
+DD:DSPG XpndR Phone Demo/1.01
+HH:DSPG XpndR Phone Demo/1.01
+PX:176
+PY:220
+DB:FIX
+
+ID:010
+NA:Go.Video D2730
+HH:D2730
+PX:690
+PY:460
+XM:DLNANO
+DB:FIX
+
+ID:011
+NA:Homepod
+AV:M
+XM:noutf8
+DB:FIX
+XM:DLNANO
+
+ID:068
+NA:HP MediaSmart TV
+HP:chunked
+DD:MediaSmart
+XM:DLNA15
+MT:wav audio/wav
+DB:FIX
+
+ID:012
+NA:Intervideo WinDVD
+HH:Intervideo
+DB:FIX
+XM:DLNANO
+
+ID:013
+NA:Kenwood Media Player
+AV:no-m3u
+DD:Kenwood
+DB:FIX
+XM:DLNANO
+
+ID:014
+NA:KiSS Player
+HH:KiSS_UPnP_STACK
+XM:ADDTITLETOURL
+DB:FIX
+XM:DLNANO
+
+ID:015
+NA:LinkSys Media Link for Music
+AV:M
+DD:Linksys WML11B
+XM:FORCERES
+DB:FIX
+XM:DLNANO
+
+ID:063
+NA:Loewe Connect
+DD:Loewe
+PX:1920
+PY:1080
+XM:DLNA10
+HP:LIVEWITHLENGTH
+DB:FIX
+
+ID:093 
+NA:Marantz DMP 
+DD:marantz DMP 
+MT:wav audio/wav 
+DB:FIX 
+
+ID:057
+NA:Medion WLAN Internet Radio
+AV:M
+DD:Medion WLAN Internet Radio
+DB:FIX
+XM:DLNANO
+MT:aif,aiff audio/aiff
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:ogg audio/x-ogg 
+MT:wav audio/wav
+
+ID:088
+NA:Medion IPTV Box
+DD:M-Port Connect XS
+XM:WMCIDS
+XM:MINIMALMP3URL
+XM:DLNA15
+AV:no-m3u
+DB:FIX
+
+ID:061
+NA:Momento
+DD:Momento
+HP:chunked
+PX:800
+PY:600
+TX:160
+TY:100
+DX:WMC
+XM:WMCIDS
+DB:FIX
+XM:DLNANO
+
+ID:016
+NA:Nero Home
+HH:Nero Home
+DB:FIX
+
+ID:017
+NA:Netgear Digital Entertainer
+DD:Digital Entertainer
+MT:aif,aiff audio/aiff
+MT:avi,divx video/avi
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:mp4 video/mp4
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:mpg,m1v,mpe video/MP1S
+MT:ogg audio/x-ogg 
+MT:ts video/mpeg
+MT:wav audio/wav
+XM:ADDTITLETOURL
+DB:FIX
+XM:IGNORESORT
+XM:DLNANO
+
+ID:018
+NA:Netgear MP101
+AV:M
+HH:Netgear MP101
+XM:FORCERES
+DB:FIX
+XM:DLNANO
+
+ID:019
+NA:Netgear MP101 RTP
+AV:M
+HH:Netgear MP101
+HP:NETGEARRTP
+XM:FORCERES
+DB:FIX
+XM:DLNANO
+
+ID:020
+NA:Netgear MP115
+PX:800
+PY:600
+TX:120
+TY:90
+MT:aif,aiff audio/aiff
+MT:avi,divx video/avi
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:mpg,m1v,mpe video/MP1S
+MT:ogg audio/x-ogg 
+MT:ts video/mpeg
+MT:wav audio/wav
+XM:FORCERES
+DB:FIX
+XM:DLNANO
+
+ID:051
+NA:Nokia Phone
+PX:640
+PY:480
+TX:120
+TY:90
+HH:Nokia
+HP:chunked
+XM:DLNA15
+DB:AUTO
+MT:wav audio/wav
+
+ID:094
+NA:Nokia DLNA 1.5 Compatible Phone
+HH:Nokia,DLNADOC/1.50
+HP:chunked
+XM:DLNA15
+DB:AUTO
+MT:wav audio/wav
+
+ID:056
+NA:NOXON 2 iRadio
+AV:M
+DD:NOXON 2 iRadio
+XM:GIVECHILDCOUNT
+XM:FORCERES
+DB:FIX
+XM:NOUTF8SORT
+XM:DLNANO
+
+ID:021
+NA:Noxon Audio 2
+AV:M
+DD:NOXON2
+XM:GIVECHILDCOUNT
+XM:FORCERES
+DB:FIX
+XM:NOUTF8SORT
+XM:DLNANO
+XM:IGNORESORT
+
+ID:096
+NA:Noxon Audio 2 fw>6300
+AV:M
+DD:NOXON 2
+XM:GIVECHILDCOUNT
+XM:FORCERES
+DB:FIX
+XM:NOUTF8SORT
+XM:DLNANO
+XM:IGNORESORT
+
+ID:022
+NA:Noxon Audio (v1)
+AV:M
+DD:TerraTec
+XM:noutf8
+XM:GIVECHILDCOUNT
+XM:FORCERES
+DB:FIX
+XM:NOUTF8SORT
+XM:DLNANO
+XM:IGNORESORT
+
+ID:044
+NA:omnifi DMS1
+AV:M
+HH:Linux/2.4.18-rmk7
+DB:FIX
+XM:DLNANO
+
+ID:023
+NA:Oregan Media Browser
+DD:Oregan
+DB:FIX
+
+ID:067
+NA:OXX Alto
+HH:Linux/2.4.26-vrs1-bast2
+DB:FIX
+
+ID:060
+NA:PS3
+HH:PLAYSTATION
+DB:FIX
+XM:DLNA10
+XM:DATETIME
+DL:MP4DLNA
+HP:chunked
+MT:mpeg,mpeg2,vdr,spts,tp,ts video/mpeg
+MT:m4a audio/mp4
+MT:avi,divx video/avi
+AV:no-m3u
+
+ID:024
+NA:PSP
+HH:PSPRssChannel-agent
+AV:M
+HP:LIVEPSPLENGTH
+DB:FIX
+
+ID:039
+NA:PacketVideo Player
+HH:pvConnect
+DD:pvConnect
+DB:AUTO
+
+ID:025
+NA:Philips MCW770
+AV:no-m3u
+AV:M
+DD:MCW770
+HP:LIVEWITHLENGTH
+XM:SMALLIDS
+XM:PHILIPS
+DB:FIX
+XM:DLNANO
+ET:NO
+
+ID:091
+NA:Philips NP1100
+DD:NP1100
+AV:M
+DB:FIX
+
+ID:092
+NA:Philips NP2x00
+DD:Philips NP2x00
+AV:M
+DB:FIX
+
+ID:047
+NA:Philips SL50i
+AV:no-m3u
+AV:M
+DD:SL50i
+HP:LIVEWITHLENGTH
+XM:SMALLIDS
+XM:PHILIPS
+DB:FIX
+XM:DLNANO
+
+ID:046
+NA:Philips SL300i
+AV:no-m3u
+XM:PHILIPSSRT
+XM:SMALLIDS
+MT:avi,divx video/x-ms-avi
+DD:SL300i
+HP:LIVEWITHLENGTH
+PX:720
+PY:576
+TX:138
+TY:103
+XM:PHILIPS
+XM:DLNANO
+DB:FIX
+
+ID:045
+NA:Philips SL400i
+AV:no-m3u
+DD:SL400i
+HP:LIVEWITHLENGTH
+PX:720
+PY:576
+TX:138
+TY:103
+MT:avi,divx video/x-ms-avi
+XM:PHILIPSSRT
+XM:SMALLIDS
+XM:PHILIPS
+XM:DLNANO
+DB:FIX
+
+ID:026
+NA:Philips SLA5500
+AV:no-m3u
+AV:M
+DD:SLA5500
+HP:LIVEWITHLENGTH
+XM:PHILIPS
+DB:FIX
+XM:NOUTF8SORT
+XM:DLNANO
+
+ID:027
+NA:Philips SLA5520
+AV:no-m3u
+AV:M
+DD:SLA5520
+HP:LIVEWITHLENGTH
+XM:PHILIPS
+DB:FIX
+XM:NOUTF8SORT
+XM:DLNANO
+
+ID:028
+NA:Philips Streamium AV
+AV:no-m3u
+HH:Philips-Software-WebClient
+XM:PHILIPSSRT
+XM:SMALLIDS
+MT:avi,divx video/x-ms-avi
+HP:LIVEWITHLENGTH
+PX:1920
+PY:1080
+TX:138
+TY:103
+XM:PHILIPS
+XM:DLNANO
+DB:FIX
+
+ID:029
+NA:Philips Streamium Audio
+AV:no-m3u
+AV:M
+HP:LIVEWITHLENGTH
+XM:SMALLIDS
+XM:PHILIPS
+DB:FIX
+XM:DLNANO
+
+ID:087
+NA:PVConnect Media Manager
+HH:PVConnect Media Manager
+XM:DLNA15
+DB:FIX
+
+ID:086
+NA:PURE Avanti Flow
+HH:PURE Avanti Flow D1R
+AV:M
+DB:FIX
+
+ID:085
+NA:PURE EVOKE Flow
+HH:PURE EVOKE Flow D1R
+AV:M
+DB:FIX
+
+ID:030
+NA:Roku Soundbridge
+AV:M
+HP:chunked
+MT:avi,divx video/avi
+MT:lpcm,pcm audio/lpcm
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:ogg audio/x-ogg 
+MT:wav audio/wav
+DD:SoundBridge
+SC:roku
+SC:nodups
+DB:FIX
+XM:DLNANO
+
+ID:031
+NA:Rudeo Play & Control
+HH:Rudeo
+SC:nodups
+DB:FIX
+
+ID:078
+NA:Samsung Photo Player
+DD:SPF-72V
+DX:WMC
+XM:WMCIDS
+XM:MINIMALMP3URL
+XM:DLNANO
+DB:FIX
+MT:avi,divx video/avi
+MT:mp1,mp2 audio/mpeg
+MT:ts video/mpeg
+MT:wav audio/wav
+
+ID:032
+NA:SMC EZ-Stream
+DB:FIX
+XM:DLNANO
+
+ID:033
+NA:Siemens M740 AV
+PX:704
+PY:528
+DB:FIX
+XM:DLNANO
+
+ID:034
+NA:Sony MR100
+PX:720
+PY:576
+TX:240
+TY:192
+HH:VGP-MR100
+XM:GIVEMP3NOLPCM
+DB:FIX
+
+ID:050
+NA:Sony CPF-IX001
+AV:M
+DX:ABSOLUTEURI
+XM:DLNA10
+DB:FIX
+
+ID:035
+NA:Sony NAS-CZ1
+AV:M
+HH:NAS-CZ1
+DX:ABSOLUTEURI
+XM:DLNA10
+DB:FIX
+
+ID:082
+NA:Sony NetJuke
+AV:M
+HH:SONY_NetJuke
+XM:DLNA10
+DB:FIX
+
+ID:036
+NA:Sony Network Media Receiver
+SC:sony
+DB:FIX
+
+ID:059
+NA:Sony VGF-WA1
+AV:M
+HH:VGF-WA1
+DB:FIX
+
+ID:037
+NA:Syabas Firmware based
+HH:Syabas
+MT:aif,aiff audio/aiff
+MT:avi,divx video/avi
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:mp4 video/MP4V-ES
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:ogg audio/x-ogg 
+MT:ts video/mpeg
+MT:wav audio/wav
+PX:1920
+PY:1080
+XM:ADDTITLETOURL
+XM:DLNANO
+XM:IGNORESORT
+DB:AUTO
+
+ID:070
+NA:TA music player
+AV:M
+DD:elektroakustik
+DB:FIX
+
+ID:089
+NA:TEAC WAP-4500
+AV:M
+DD:WAP-4500
+HP:chunked
+XM:DLNA15
+DB:FIX
+
+ID:090
+NA:TEAC WAP-8500
+AV:M
+DD:WAP-8500
+HP:chunked
+XM:DLNA15
+DB:FIX
+
+ID:058
+NA:TechniSat InternetRadio
+AV:M
+DD:TechniSat InternetRadio
+DB:FIX
+XM:NOUTF8SORT
+
+ID:038
+NA:TG100
+AV:no-m3u
+DD:TG100
+HP:1.0RESPONSE
+XM:ADDTITLETOURL
+DB:FIX
+XM:DLNANO
+XM:SHORTTITLE
+
+ID:074
+NA:TwonkyPlayer
+HH:Twonky
+DD:Twonky
+DB:AUTO
+
+ID:048
+NA:TwonkyMedia-Browser
+HH:uMediaBrowser
+TX:160
+TY:120
+XM:DLNANO
+DB:FIX
+
+ID:071
+NA:WAP-5000
+DD:WAP-5000
+XM:WMCIDS
+XM:DLNA15
+AV:M
+DB:FIX
+
+ID:062
+NA:WAS7000
+DD:WAS7000
+AV:M
+DB:FIX
+
+ID:040
+NA:Windows Media Player
+DX:ABSOLUTEURI
+HH:FDSSDP
+DD:Windows Media Player
+DX:WMC
+DB:FIX
+
+ID:069
+NA:WinCE based Client
+HH:Windows CE
+PX:800
+PY:600
+DX:WMC
+XM:WMCIDS
+XM:DLNANO
+DB:FIX
+
+ID:041
+NA:XBOX 360
+HH:Xbox
+DD:Xbox
+HP:chunked
+DX:WMC
+XM:WMCIDS
+XM:MINIMALMP3URL
+XM:DLNANO
+DB:FIX
+MT:aif,aiff audio/aiff
+MT:avi,divx video/avi
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:ts video/mpeg
+MT:wav audio/wav
+
+ID:042
+NA:Xstream Player
+DD:Xstream Player
+MT:aif,aiff audio/aiff
+MT:avi,divx video/avi
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:mpg,m1v,mpe video/MP1S
+MT:ogg audio/x-ogg 
+MT:ts video/mpeg
+MT:wav audio/wav
+PX:1920
+PY:1080
+XM:ADDTITLETOURL
+DB:FIX
+XM:DLNANO
+
+ID:043
+NA:YAMAHA Network Receiver
+HH:YAMAHA
+AV:M
+MT:aif,aiff audio/aiff
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:ogg audio/x-ogg 
+MT:wav audio/wav
+DX:ABSOLUTEURI
+DX:WMC
+XM:MINIMALMP3URL
+SC:nodups
+SC:yamaha
+DB:FIX
+XM:DLNANO
+
+ID:064
+NA:Ziova CS505/510
+HH:Ziova
+DD:Ziova
+HP:Close
+MT:aif,aiff audio/aiff
+MT:avi,divx video/avi
+MT:flac audio/flac
+MT:lpcm,pcm audio/lpcm
+MT:m4a,mp4.a,3gp.a,m4b audio/mp4
+MT:mp1,mp2 audio/mpeg
+MT:ogg audio/x-ogg 
+MT:ts video/mpeg
+MT:wav audio/wav
+PX:1920
+PY:1080
+XM:noutf8
+XM:ADDTITLETOURL
+XM:DLNANO
+DB:FIX
+
+ID:065
+NA:Zyxel DMA-1000
+DD:dixim
+HP:chunked
+XM:DLNA15
+AV:no-m3u
+MT:divx,avi video/avi
+DB:FIX
+
+ID:009
+NA:Generic DLNA 1.0
+HH:DLNADOC/1.00
+HP:chunked
+XM:DLNA10
+DB:AUTO
+
+ID:049
+NA:Generic DLNA 1.5
+HH:DLNADOC/1.50
+HP:chunked
+XM:DLNA15
+DB:AUTO
+
+ID:052
+NA:CTT DLNA 1.5
+HH:CTT:
+HP:chunked
+XM:DLNA15
+DB:FIX
+
+
+
+ID:999
+// Field descriptions
+LAST USED ID 095
+ID client ID - needs to be uniqe
+NA client name
+HH HTTP Header field (user agent) of client
+DD Device Description field of client
+AV Audio/Video options - M for Music only
+HP HTTP protocol option, chunked for chunked support, close for always close connection
+HP LIVEWITHLENGTH HTTP protocol needs content length
+HP LIVEPSPLENGTH - special PSP header for live content
+HP 1.0RESPONSE - client requires 1.0 response on 1.0 request
+HP NETGEARRTP - support special Netgear RTP style
+DX ABSOLUTEURI for clients which can not cope with relative URI path
+DX WMC for clients which need a WMC compliant device description
+DX REDSONIC for clients like DSM 520 which need the resonic string to enable nice UI
+PX picture prefered x scale
+PY picture prefered y scale
+TX thumbnail prefered x scale
+TY thumbnail prefered y scale
+ET NO - no eventing for this client
+XM PHILIPSSRT for philips subtitle support
+XM DLINKTHUMB for d-link thumbnail support
+XM SMALLIDS e.g. for philips generated object IDs like vTuner can not be larger than 200 byte
+XM WMCIDS - clients needs WMC sytle container IDS
+XM MINIMALMP3URL e.g. XBOX and YAMAHA can not cope with to much info here
+XM ADDTITLETOURL - some clients display part of the URL as a title - so add it at the end
+XM GIVEMP3NOLPCM - some clients try to get the LPCM preferred to MP3 if transcoding is possible and therefore waist bandwith
+SC roku - give special Roku search capabilities
+SC nodups - do not give duplicates on search
+SC yamaha - yamaha search style
+SC sony - sony search style
+DL MP4DLNA force specific MPEG4 settings for PS3
+XM noutf8 - do enhanced ASCII instead of utf8
+XM GIVECHILDCOUNT
+XM FORCERES
+XM ext NORES suppres res for a specific extension
+XM PHILIPS
+XM DLNA10 - force DLNA 1.0 bahaviour
+XM DLNA15 - force DLNA 1.5 behaviour
+XM DLNANO - do not give DLNA extensions for this client!
+XM IGNORESORT - client gives funny sort orders, ignore these
+DB FIX, AUTO set to FIX if the entry can only be overruled by manual user interaction, set to auto if a different client identify string can overrule this entry
+XM NOUTF8SORT - suppress UTF8 sort for clients which need ASCII sort to jump in long lists (e.g .Philips SLA5500)
+XM SHORTTITLE - cut the title down to 40 chars to prevent client buffer overruns
+XM DATETIME - add time to date for clients which can use the time info as well
+// complete list of used mime type conversions
+MT MIMETYPE conversion - client needs alternative mime type for given file extension
+MT aif,aiff audio/aiff
+MT avi,divx video/avi
+MT flac audio/flac
+MT lpcm,pcm audio/lpcm
+MT m4a,mp4.a,3gp.a,m4b audio/mp4
+MT mp1,mp2 audio/mpeg
+MT mp4 video/MP4V-ES
+MT mpg,m1v,mpe video/MP1S
+MT ogg audio/x-ogg 
+MT ts video/mpeg
+MT wav audio/wav

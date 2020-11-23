@@ -1,0 +1,20 @@
+datamodel {
+    object DeviceManagement {
+        /*
+         * SSH on the LAN is explictly activated. Its other settings rely on the default values.
+         */
+        instance of SSH(0, "local") {
+            parameter AccessType="lan";
+            parameter Enable=1;
+        }
+
+        /*
+         * SSH settings on the WAN rely on the default values.
+         */
+        instance of SSH(0, "remote") {
+            parameter AccessType="wan";
+        }
+    }
+}
+
+/** @location sah_services_system /devicemngt/devicemngt-defaults.odl */

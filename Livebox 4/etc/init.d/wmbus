@@ -1,0 +1,31 @@
+#!/bin/sh
+
+name="Wmbus plugin"
+export SAH_WMBUS_PLUGIN_NAME="WMBUS"
+export PCB_SYS_BUS=pcb://ipc:[/var/run/pcb_sys]
+pid_file=/var/run/wmbus.pid
+
+case $1 in
+    start)
+        if [ ! -e $pid_file ]; then
+            /sbin/udevadm trigger --action=add --property-match=ID_VENDOR_ID="21e7" --property-match=ID_MODEL_ID="0022"
+            pcb_app -n wmbus -c /usr/lib/wmbusplugin/wmbusplugin.odl -vv
+        fi
+        ;;
+
+    gdb)
+        if [ ! -e $pid_file ]; then
+            ./gdb --args ./pcb_plugin -f -n wmbus -c ./wmbusplugin.odl
+        fi
+        ;;
+
+    stop)
+        if [ -e $pid_file ]; then
+            kill $(cat $pid_file)
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        ;;
+esac
+

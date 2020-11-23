@@ -1,0 +1,9 @@
+datamodel {
+object eventmanager{
+parameter longpolling_timeout = 30000;
+parameter channelinactivity_timeout = 10000;
+parameter dosprotection_timeout = 5000;
+parameter dosprotection_maxchannels = 15;
+parameter max_subscriptions = 1000;
+}
+}

@@ -1,0 +1,48 @@
+#!/bin/sh
+
+case $1 in
+	start)
+
+		[ ! -f /etc/defaults/hgwcfg.def ] && exit 0
+
+		. /fs/ro/etc/autoconf.conf
+
+		if [ -n "$CONFIG_GENERATION_RESC" ]; then
+			bootmode=rescue
+		else
+			bootmode=system
+		fi
+
+		if [ -f /etc/config/db_ready -a -n "$CONFIG_GENERATION_RESC" ]; then
+			bootmode set $bootmode
+			hgwcfg.sh restore
+			reboot
+		fi
+
+		if [ ! -f /etc/config/db_ready ]
+		then
+			if [ -f /etc/config/hgwcfg.usr ]
+			then
+				hgwcfg_scrub /etc/config/hgwcfg.usr /etc/config/hgwcfg.tmp
+				hgwcfg_strip /etc/config/hgwcfg.tmp /etc/defaults/hgwcfg.template /etc/config/hgwcfg.usr > /dev/null
+				if [ -e /etc/defaults/hgwcfg-isp.template ]; then
+					hgwcfg_strip /etc/config/hgwcfg.isp /etc/defaults/hgwcfg-isp.template /etc/config/hgwcfg.isp > /dev/null 
+				fi
+				rm -f /etc/config/hgwcfg.tmp
+				sync
+			fi
+			hgwcfg.sh exec_restore_scripts
+
+			# delete potentially uncomplete database
+			rm -f /etc/config/mbus_sah.dat*
+
+		fi
+		;;
+	stop)
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+		;;
+esac
+
+

@@ -1,0 +1,14 @@
+using "storage_usedspace.so";
+
+persistent object StorageService
+{
+    object Folders[] {
+        string path;
+        object Users[] {
+            string name;
+            uint64 usedSpace;
+        }
+    }
+
+    int32 getUsedSpace(in string path, in string user, in bool recursive, out list users);
+}

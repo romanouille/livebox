@@ -1,0 +1,57 @@
+<div id="installation_step_1" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" alt="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+
+	<div id="barnav" class="margin-bottom-30 steps1">
+		<div class="floatLeft steps firstACtive">
+			<strong>1</strong> - <span i18n="page.page0.barnav.step1"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">2</strong> - <span i18n="page.page0.barnav.step2"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">3</strong> - <span i18n="page.page0.barnav.step3"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">4</strong> - <span i18n="page.page0.barnav.step4"/>
+		</div>
+	</div>
+
+	<div id="container2">
+		<div class="h2_install" i18n="page.page0.step1.label"/>
+		<div id="connOptions">
+			<div>
+				<div class="adslLogo"/>
+				<input class="conntype" type="radio" name="conntypegroup" value="ADSL" i18n="data.connectiontype.1"/>
+				<div class="adslLabel" i18n="data.connectiontype.1"/>
+			</div>
+			<div>
+				<div class="ftthLogo"/>
+				<input class="conntype" type="radio" name="conntypegroup" value="FTTH" i18n="data.connectiontype.0"/>
+				<div class="ftthLabel" i18n="data.connectiontype.0"/>
+			</div>
+			<input id="dslenable" style="display:none" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable"/>
+			<input id="ftthenable" style="display:none" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable"/>
+			
+			<input id="dslenable2" style="display:none" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/DSL/Enable"  />
+			<input id="ftthenable2" style="display:none" dataId="Device/Networks/WAN[@name='WAN']/WANPorts/FTTH/Enable"/> 
+		</div>
+		<div class="clear"></div>
+		<div id="selectChangeWarning" style="display:none" class="warning margin-top-23" i18n="page.page0.step1.infomsg"/>
+		<div class="clear"></div>
+		<div class="installButtonBar">
+			<a id="jump2installation" href="javascript:;" i18n="page.page0.previous">
+				<img class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_precedente.gif" widgetType="Image" />
+			</a>
+			<span class="spacer"/>
+			<a id="jump2installation_step_2" href="javascript:;" i18n="page.page0.next">
+				<img class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_suivante.gif" widgetType="Image" />
+			</a>
+		</div>
+	</div>
+</div>
+

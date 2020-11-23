@@ -1,0 +1,14 @@
+{
+    "status": true,
+    "data": [
+        {
+            "webui": {
+                "SourceInterface": "data",
+                "DestinationIPAddress": "192.168.1.18",
+                "SourcePrefix": "",
+                "Status": "Disabled",
+                "Enable": true
+            }
+        }
+    ]
+}

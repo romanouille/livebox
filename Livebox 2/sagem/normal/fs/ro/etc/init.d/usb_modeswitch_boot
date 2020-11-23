@@ -1,0 +1,14 @@
+#!/bin/sh
+
+MDEV=Dummy_1
+DEVPATH=Dummy_2
+SUBSYSTEM=Dummy_3
+FIRMWARE=Dummy_4
+
+ACTION=add
+MODALIASES=`cat /proc/bus/usb/devices | sed -n 's/.*Vendor=\([0-9a-f]\{4\}\).*ProdID=\([0-9a-f]\{4\}\).*/USB:v\1p\2/p' | sed 'y/abcdef/ABCDEF/'`
+
+for MODALIAS in $MODALIASES
+do
+	/usr/sbin/usb_modeswitch.sh $MDEV $ACTION $DEVPATH $SUBSYSTEM $MODALIAS $FIRMWARE
+done

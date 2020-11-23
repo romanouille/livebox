@@ -1,0 +1,19 @@
+include "nmc_ipv6-defaults.odl";
+
+datamodel {
+    object NMC {
+        parameter DefaultsLoaded = true;
+
+        object OrangeTV {
+            object DHCPConfig {
+                parameter LeaseTime = 86400;
+            }
+        }
+
+        object Error {
+            parameter NoRedirectDomain = "g2.spnp.orange.com, se-connecter-au-reseau.orange.com";
+        }
+    }
+}
+
+/** @location config /ft/lbv3fr/sagem_lbv3/ft_multi_siph323_normal/nmc_core-defaults.odl */

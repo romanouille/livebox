@@ -1,0 +1,8 @@
+mib mdns {
+object mDNSService[] {
+persistent string Name;
+persistent string ServiceName;
+persistent string Domain;
+persistent string Port;
+}
+}

@@ -1,0 +1,103 @@
+
+
+#!/bin/sh
+
+
+case $1 in
+    start)
+        # generic part - put rip in environment
+        SERIAL_NUMBER="`readrip -s SERIAL_NUMBER 2>/dev/null`"
+        WAN_ADDR="`readrip -m: WAN_ADDR 2>/dev/null`"
+        MANUFACTURER="`readrip -s MANUFACTURER 2>/dev/null`"
+        MANUFACTURER_OUI="`readrip -m- MANUFACTURER_OUI 2>/dev/null`"
+        MANUFACTURER_URL="`readrip -s MANUFACTURER_URL 2>/dev/null`"
+        MODELNAME="`readrip -s MODELNAME 2>/dev/null`"
+        PRODUCT_CLASS="`readrip -s PRODUCT_CLASS 2>/dev/null`"
+        HARDWARE_VERSION="`readrip -s HARDWARE_VERSION 2>/dev/null`"
+        BOOTLOADER_VERSION="`readrip -m- BOOTLOADER_VERSION 2>/dev/null`"
+        WLAN_KEY="`readrip -s WLAN_KEY 2>/dev/null`"
+        GPON_SERIAL_NUMBER="`readrip -s GPON_SERIAL_NUMBER 2> /dev/null`"
+        GPON_VENDOR_ID="${GPON_SERIAL_NUMBER:0:4}"
+
+        #CPE inventory information
+        if [ "${MANUFACTURER}" == "Sagemcom" ] ; then
+            ITU_VENDOR_ID="3D005341474D0000"
+            #ITU_VENDOR_ID="\x3D\x00SAGM\x00\x00"
+        elif [ "${MANUFACTURER}" == "Sercomm" ] ; then
+            ITU_VENDOR_ID="FE005352434D0000"
+            #ITU_VENDOR_ID="\xFE\x00SRCM\x00\x00"
+        else
+            ITU_VENDOR_ID="B5004244434D0000"
+            #ITU_VENDOR_ID="\xB5\x00BDCM\x00\x00"
+        fi
+        (
+            echo "SERIAL_NUMBER=\"$SERIAL_NUMBER\""
+            echo "WAN_ADDR=\"$WAN_ADDR\""
+            echo "MANUFACTURER=\"$MANUFACTURER\""
+            echo "MANUFACTURER_OUI=\"$MANUFACTURER_OUI\""
+            echo "MANUFACTURER_URL=\"$MANUFACTURER_URL\""
+            echo "MODELNAME=\"$MODELNAME\""
+            echo "PRODUCT_CLASS=\"$PRODUCT_CLASS\""
+            echo "HARDWARE_VERSION=\"$HARDWARE_VERSION\""
+            echo "BOOTLOADER_VERSION=\"$BOOTLOADER_VERSION\""
+            echo "WLAN_KEY=\"$WLAN_KEY\""
+            echo "ITU_VENDOR_ID=\"$ITU_VENDOR_ID\""
+            echo "GPON_SERIAL_NUMBER=\"$GPON_SERIAL_NUMBER\""
+            echo "GPON_VENDOR_ID=\"$GPON_VENDOR_ID\""
+        ) >> /var/etc/environment
+
+        # project specific part - generate project specific default values
+        RANDOM_KEY=`dd if=/dev/urandom count=1024 bs=1 |tr -dc "AC-HJ-NP-Za-km-z2-79" | sed -e 's/\(.\{18\}\).*/\1/'`
+        SSID=Livebox-`echo -n $WAN_ADDR | tr -d ':' | tail -c 4`
+        echo "SSID=\"$SSID\"" >> /var/etc/environment
+        echo "GUEST_SSID=\"Livebox-`echo -n $WAN_ADDR | tr -d ':' | tail -c 4`_wifi_invite\"" >> /var/etc/environment
+        echo "ACS_USER=\"`echo -n $MANUFACTURER_OUI | tr -d '-'`-`echo -n $PRODUCT_CLASS`-`echo -n $SERIAL_NUMBER`\"" >> /var/etc/environment
+        echo "WAN_ADDR_PLUS_1=`macoffset $WAN_ADDR 1`" >> /var/etc/environment
+        echo "WAN_ADDR_PLUS_2=`macoffset $WAN_ADDR 2`" >> /var/etc/environment
+        echo "WLAN_ADDR=$WAN_ADDR" >> /var/etc/environment
+        echo "GUEST_WLAN_KEY=\"${RANDOM_KEY:0:18}\"" >> /var/etc/environment
+        echo "DHCP_OPTION61=\"01`echo -n $WAN_ADDR | tr -d ':'`\"" >> /var/etc/environment
+
+        # get default PPP credentials
+        HGWCFGDEF="/etc/defaults/hgwcfg.def"
+        if [ -e $HGWCFGDEF ] ; then
+            USERNAME=$(sed -n 's/.*BroadbandUsername>\(.*\)<\/tns:BroadbandUsername.*/\1/p' $HGWCFGDEF)
+            PASSWORD=$(sed -n 's/.*BroadbandPassword>\(.*\)<\/tns:BroadbandPassword.*/\1/p' $HGWCFGDEF)
+        fi
+        echo "DEFAULT_PPP_USERNAME=$USERNAME" >> /var/etc/environment
+        echo "DEFAULT_PPP_PASSWORD=$PASSWORD" >> /var/etc/environment
+
+        # Wifi Country code for Sagemcom board (E0/982) and Sercomm board (EU/13)
+        # (MIB4 specific - others FT projects don't use this variable)
+        if [ "${MANUFACTURER}" == "Sagemcom" ] ; then
+            echo "CC24G=\"E0/982\"" >> /var/etc/environment
+        else
+            echo "CC24G=\"EU/13\"" >> /var/etc/environment
+        fi
+
+        # generate build file and BME serial number
+        sahenv -f /etc/environment gen_build
+        sahenv -f /etc/environment bme_sn.sh LB3_FR
+
+        
+
+        # password for SSH user
+        SSH_HASH="`/usr/bin/ssh_hash 2>/dev/null`"
+        echo "SSH_HASH=$SSH_HASH" >> /var/etc/environment
+
+        # default admin password
+        ADMIN_DEFAULT_PASSWORD=`readrip -s WLAN_KEY | sed -r "s/^([[:alnum:]]{8})(.*)/\1/g"`
+        ADMIN_DEFAULT_PASSWORD=`/bin/libusermngt_app passwd --hash-password --password $ADMIN_DEFAULT_PASSWORD --canonical-output`
+        echo "ADMIN_DEFAULT_PASSWORD=\"$ADMIN_DEFAULT_PASSWORD\"" >> /var/etc/environment
+
+
+
+
+
+
+        ;;
+    *)
+        echo "Usage: $0 [start]"
+    ;;
+esac
+

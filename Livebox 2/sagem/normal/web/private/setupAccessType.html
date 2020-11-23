@@ -1,0 +1,462 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=1085" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Livebox</title>
+        <script type="text/javascript">
+		appUrl = '';
+		appConfig ='fr';
+		appUid = '7c9c85ce';
+
+		config = {
+			BUILD_CUSTOMER: 'ft',
+			BUILD_PROJECT: 'lbv2fr',
+			BUILD_HARDWARE: 'sagem_ftthv2',
+			SESSION_DURATION: '600'
+		};
+	
+		if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+				config.BUILD_PROJECT = "lbv2.8fr";
+		}
+        </script>
+        <link href="/styles.css?7c9c85ce" rel="stylesheet" type="text/css"/>
+		<script src="/scripts.js?7c9c85ce" type="text/javascript" charset="utf-8"></script>
+		<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?7c9c85ce"/>
+		<link rel="shortcut icon" href="/images/fr/common/favicon.ico?7c9c85ce" type="image/x-icon"/>
+    </head>
+
+    <body class="accessibility-normal">		
+
+        <img src="/images/fr/common/transparent.gif?7c9c85ce" style="display: none;"/>
+        <img src="/images/fr/common/header-accessibility-minus.png?7c9c85ce" style="display: none;"/>
+        <img src="/images/fr/common/header-accessibility-plus.png?7c9c85ce" style="display: none;"/>
+
+        <!-- Popup and backlayer from Cytadelle Technology Light framework -->
+        <div id="ct-popup" class="fixed"><img id="ct-popup-header" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/><div id="ct-popup-header-title"><h4>My PopUp</h4></div><a href="#" onclick="ctl.popup.Close(); return false;"><img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/></a><div id="ct-popup-content"><br/></div><img id="ct-popup-footer" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/></div>
+        <div id="ct-msgbox" class="fixed"><img id="ct-popup-header-small" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/><div id="ct-msgbox-content"><img src="/images/fr/common/transparent.gif?7c9c85ce" id="ct-msgbox-img" class="png"/><div id="ct-msgbox-msg"></div><input type="button"  id="ct-msgbox-button1" value="annuler" 	class="input-btn input-small-btn-gray translation Translations.general.btn.cancel"/><input type="button" id="ct-msgbox-button2" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/><input type="button" id="ct-msgbox-button3" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/></div><img id="ct-popup-footer" src="/images/fr/common/transparent.gif?7c9c85ce" class="png" alt=""/></div>
+        <div id="ct-tooltip" class="fixed"></div>
+        <div id="ct-waiting" class="fixed"><img src="/images/fr/common/transparent.gif?7c9c85ce"/></div>
+        <div id="ct-backlayer" class="fixed"></div>
+
+
+        <!-- Scrollable document container -->
+        <div id="document-container">
+            <div id="document-background-header">
+                <div id="document-background-footer">
+                    <div id="document">
+                        <div id="header">
+
+                            <div id="header-logo-livebox"><a href="/"><img src="/images/fr/common/transparent.gif?7c9c85ce" alt="" class="config-fr png"/></a></div>
+
+                            <div id="header-controls">
+                                <form name="Admin/UserInterface/Language">
+                                    <div id="header-controls-languages">                                       
+                                        <select id="Language-select" name="Language-select"></select>
+                                    </div>
+                                </form>
+                                <form name="Home/Accessibility">
+                                    <div id="header-controls-accessibility-minus" class="header-controls-accessibility">
+                                        <a href="" onclick="return false;"><img src="/images/fr/common/transparent.gif?7c9c85ce" alt=""/></a>
+                                    </div>
+                                    <div id="header-controls-accessibility-plus" class="header-controls-accessibility">
+                                        <a href="" onclick="return false;"><img src="/images/fr/common/transparent.gif?7c9c85ce" alt=""/></a>
+                                    </div>
+                                    <div id="header-controls-accessibility-contrast1" class="header-controls-accessibility">
+                                        <a href="" onclick="return false;"><img src="/images/fr/common/transparent.gif?7c9c85ce" alt=""/></a>
+                                    </div>
+                                    <div id="header-controls-accessibility-contrast2" class="header-controls-accessibility">
+                                        <a href="" onclick="return false;"><img src="/images/fr/common/transparent.gif?7c9c85ce" alt=""/></a>
+                                    </div>
+                                    <div id="header-controls-accessibility-contrast3" class="header-controls-accessibility">
+                                        <a href="" onclick="return false;"><img src="/images/fr/common/transparent.gif?7c9c85ce" alt=""/></a>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        <div id="content">
+                            
+
+<style type="text/css">
+	.action_section {
+		border: 2px solid #FF6600;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+		padding-bottom: 15px;
+		padding-top: 15px;
+		width: 50%;
+		border-radius: 20px ;
+		behavior: url(/images/fr/common/PIE.htc?7c9c85ce);
+	}
+</style>
+
+<div id="content-left">
+</div>
+<div id="content-center">
+	<form name="Home/AccessType">
+		<div id="cnt_first_install">
+
+		   <div id="content-welcome-pagePnP2" style="display: none;">
+			<br><br>
+			<h3>
+				<span class="translation Translations.setup.accessconfirmation.label.welcome" style="color:#444444"></span>
+			        <span style"=color:#444444" id="userFirstName"> </span>
+			        <span style"=color:#444444" id="userLastName"> </span>
+			</h3>
+			<br><br>
+			<h2> <p><span class="translation Translations.setup.accesstype.label.subtitleprefix" style="font-size:1.1em;"></span> </h2>
+			<span class="translation Translations.setup.accesstype.label.choice1msg1" style="color:black; font-size:1.1em;"></span>  <b style="color:black;" id="userMobilePhoneNumber"></b> <br>
+			<span class="translation Translations.setup.accesstype.label.choice1msg2" style="color:black; font-size:1.1em;"></span>
+			<span class="translation Translations.setup.accesstype.label.choice2"  style="color:black; font-size:1.1em;"></span></p>
+			<br> <br>
+		   </div>
+
+		   <div id="content-welcome-pagePnP3" style="display: none; ">	
+			<h3>
+				<span class="translation Translations.setup.accessconfirmation.label.welcome" style="color:#444444"></span>
+			        <span style"=color:#444444" id="userFirstName2"> </span>
+			        <span style"=color:#444444" id="userLastName2"> </span>
+			</h3>
+			<br>
+			<h2> <span class="translation Translations.setup.accesstype.label.subtitle_withoutpnp" style="font-size:1.1em;"></span> </h2>
+			<br> <br>
+
+		   </div>
+		   <div id="content-welcome-page-without-PnP2" style="display: none; ">
+			<h1><span class="translation Translations.setup.accesstype.label.title"></span></h1>
+			<div class="hr">  </div>
+			<h2><span class="translation Translations.setup.accesstype.label.subtitle"></span> </h2>
+			<br/><br/>
+			<div id="wan_profile_tab" style="display:none;">
+				<div class="hr hr-orange"> </div>
+				<ul>	<li id="cnt_protocol" style="padding: 10px 0px 10px 40px; display: none;"></li> </ul>
+				<div id="cnt_profile_other" style="display:none;">
+					<div class="hr hr-orange"> </div>
+					<br/>	<br/>
+					<div class="hr hr-orange"> </div>
+				</div>
+			</div>
+			<br/>
+		   </div>
+			<div id="cnt_credentials" class="cnt-protocol" style="display:none;" >
+				
+				<div class="hr hr-orange protocol"> </div>
+				<br/>
+				<div id="cnt_msgbox" style="display:none;">
+					<br/>
+					<img src="/images/fr/common/transparent.gif?7c9c85ce" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?7c9c85ce'); margin-right:10px;" class="png voice Voice.general.icon.error" alt=""/>
+					<h3 id="msgbox_title" class="translation Translations.setup.accesstype.error.empty.label"><span></span></h3>
+					<div style="color:black; font-weight: bold; padding-top:5px;">
+						<span id="msgbox_text" class="translation Translations.setup.accesstype.error.empty.description"></span>
+						<span id="msgbox_waiter"></span>
+					</div>
+					<br/>
+				</div>
+				<div style="width:100%;">
+					<ul>
+						<li style="padding:30px 0px 30px 40px;">
+							<div class="translation Translations.setup.accesstype.label.login" style="float:left;width:90px; ">
+							</div>
+							<div style="float:left; width:30px; height:20px; padding-top:8px; text-align:right;" id="setup_login_prefix">
+								<b>fti /&nbsp;&nbsp;</b>
+							</div>
+							<div style="width: 210px;">
+								<input id="wan_username" type="text" value="" class="input-text voice Voice.setup.accesstype.label.login" style="margin-top:3px;" maxlength="85"/>
+							</div>
+						</li>
+						<li style="padding:10px 0px 30px 40px;">
+							<div class="translation Translations.setup.accesstype.label.password" style="float:left;width:120px; ">
+							</div>
+							<div style="width: 210px;">
+								<input id="wan_password" type="text" value="" class="input-text orange voice Voice.setup.accesstype.label.password" style="margin-top:3px;" maxlength="29"/>
+							</div>
+						</li>
+					</ul>
+					<div id="cnt_input_info_warning" class="input-info-warning" style="position:absolute; top:0px;right:0px;">
+						<div class="header"> 	</div>
+						<div class="content">
+							<span id="cnt_input_info_warning-content"></span>
+						</div>
+						<div class="footer"> </div>
+					</div>
+				</div>
+				<div class="hr hr-orange"> </div>
+				<div style="text-align:right; height:35px;">
+					<input type="button" id="bt_cancel" value="annuler" class="input-btn input-btn-gray translation Translations.general.btn.cancel bt_cancel"/>
+					<input type="button" id="bt_save" value="enregistrer" class="input-btn input-btn-orange translation Translations.general.btn.save bt_save"/>
+				</div>
+				<br/>
+				<br/>
+			</div>
+
+			<h2>	<div class="hr hr-orange protocol"> </div>
+				<span id="setup-label-restore" class="translation Translations.setup.accesstype.label.restore.linklabel"></span>
+				<a id="link_restore" class="translation Translations.setup.accesstype.label.restore.link"></a>
+				<br><br><br>
+			</h2>
+
+
+			<div id="browser-warning">
+				<span class="translation Translations.setup.accesstype.label.broswerswarning" style="font-size:0.9em;"></span>
+			</div>
+		</div>
+		<div style="display: none;" id="loading">
+			<br><br><br>
+
+			<p id="animation" style="text-align: center;">
+				<img alt="" src="/images/fr/common/waiting.gif?7c9c85ce" class="voice Voice.general.icon.waiting"><br>
+				<span>Loading..</span>
+			</p>
+
+			<br><br>
+		</div>
+	</form>
+	<form name="Home/Restore" target="upload_target" action="/restore?7c9c85ce" method="POST" enctype="multipart/form-data" encoding="multipart/form-data">
+		<div id="cnt_restore" style="display: none;">
+			<h1><span class="translation Translations.restoration.label.title"></span></h1>
+			<div class="hr">
+			</div>
+			<div id="support-saverestore-tab-main">
+				<div id="restore-step2" style="display: none">
+					<div class="translation Translations.restoration.label.stependmsg">
+					</div>
+					<br/>
+					<br/>
+					<p style="text-align: center;">
+						<span class="translation Translations.restoration.info.inprogress"></span>
+					</p>
+					<br/>
+					<div id="test-progress" style="left:100px;">
+					</div>
+					<br/>
+					<br/>
+				</div>
+				<div id="support.saverestore.nofile.error" style="display:none;">
+					<br/>
+					<img src="/images/fr/common/transparent.gif?7c9c85ce" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?7c9c85ce'); margin-right:10px;" class="png voice Voice.general.icon.error" alt=""/>
+					<h3><span class="translation Translations.restoration.nofile.error.label"></span></h3>
+					<div id="support.saverestore.nofile.error.description" class="translation Translations.restoration.nofile.error.description" style="color:black; font-weight: bold; padding-top:5px;">
+					</div>
+					<br/>
+				</div>
+				<div id="support.saverestore.upload.error" style="display:none;">
+					<br/>
+					<img src="/images/fr/common/transparent.gif?7c9c85ce" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?7c9c85ce'); margin-right:10px;" class="png voice Voice.general.icon.error" alt=""/>
+					<h3><span class="translation Translations.restoration.upload.error.label"></span></h3>
+					<div id="support.saverestore.upload.error.description" class="translation Translations.restoration.upload.error.description" style="color:black; font-weight: bold; padding-top:5px;">
+					</div>
+					<br/>
+				</div>
+				<div id="restore-tryagain-label" style="display: none" class="translation Translations.restoration.label.tryagain">
+				</div>
+			<div id="restoration.specificpassword" class="IMPORTANT-WARNING" style="display:none">
+				<img src="/images/fr/common/transparent.gif?7c9c85ce" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?7c9c85ce'); margin-right:10px;" class="png voice Voice.general.icon.error" alt=""/>
+			      <div id="restoration.specificpassword.label" class="translation Translations.home.passwordhelp.label2" style="font-weight: bold; padding-top:5px;"></div>
+			  </div>
+				
+				<div id="restore-upload-form">
+					
+					<span class="translation Translations.restoration.info.comment"></span>
+					<br>
+					<br>
+					<div>
+
+						<span class="translation Translations.restoration.info.filetype"></span>
+						<br>
+						<span class="translation Translations.restoration.info.credentials"></span>
+						<br>
+						<br>
+						<br>
+						<div style="float:left; margin-top:7px; width:100px;" class="translation Translations.restoration.label.browsfieldlabel">
+						</div>
+						<div style="padding-right:50px; height: 55px;">
+							<input type="file" class="input-text input-text-gray voice Voice.support.saverestore.upload" name="restore" id="file_name" style="display : inline ; border: 1px solid #A0A0A0; font-size : 15px ; color: #666666; height: 23px; margin: 6px 0;  padding: 1px 3px; width: 400px" size= "30">
+						</div>
+						<br/>
+					</div>
+					
+					<div style="float: right">
+						<input type="hidden" id="context" name="context" value=""/>
+						<input type="button" class="input-btn input-btn-gray translation Translations.general.btn.cancel" value="" id="bt_backtosetup">
+						<input type="button" id="bt_restore" value="" class="input-btn input-btn-orange translation Translations.general.btn.restore"/>
+					</div>
+				</div>
+			</div>
+			<iframe id="upload_target" name="upload_target" src="" scrolling="no" style="width: 0px;height:0px;border:0px solid #ffffff;">
+			</iframe>
+	</form>
+	<div id="cnt_restore_step_end" style="display: none;">
+		<p style="text-align: center;">
+			<img src="/images/fr/common/waiting.gif?7c9c85ce" alt="" class="voice Voice.general.icon.waiting"/>
+		</p>
+		<br/><br/>
+		<div class="translation Translations.restoration.label.stependmsg">
+		</div>
+	</div>
+</div>
+<div id="legal_Info" style="display:none">
+	<h1 style="text-align: left !important;" class="translation Translations.legal.label.title"></h1>
+	<div class="hr">
+	</div>
+	<br/>
+	<div class="translation Translations.legal.label.comment" style="text-align: justify;">
+	</div>
+	<br/>
+	<div class="hr hr-orange">
+	</div>
+	<div style="text-align:right; height:35px;">
+		<input type="button" class="input-btn input-btn-gray translation Translations.general.btn.back" value="" id="bt_back_legal">
+	</div>
+</div>
+<div id="setupAccessTypeError" style="display:none">
+	<br>
+	<br>
+	<h3 style="font-size: 3em;
+    font-weight: normal; text-align:center">
+		<span class="translation Translations.setup.configerror.label.title"></span>
+	</h3>
+	<br>
+	
+	<br id="image-br">
+	<div style="text-align:left;">
+            <span class="translation Translations.setup.configerror.label.subtitle"></span>
+        </div>
+	<br>
+	<br>
+	<br>
+	
+	<div style="text-align:right; height:35px;">
+		<input type="button" class="input-btn input-btn-orange translation Translations.general.btn.initagain" value="" id="bt_reboot_access">
+	</div>
+	<br>
+	<br>
+	<br>
+</div>
+<div id="reboot-progress" style="display: none">
+	<br/>
+	<br/>
+	<p style="text-align: center;">
+		<span class="translation Translations.support.restart.label.inprogress"></span>
+	</p>
+	<br/>
+	<div id="reboot-progress-bar" style="left:100px;"></div>
+</div>
+<div id="connected-popup" style="display: none;">
+</div>
+
+<div  id="connexion-inprogress" style="text-align:center; display: none ;" >	
+	<br><br><br><br><br>
+	<h1>
+	     <span class="translation Translations.setup.accessconfirmation.label.inprogress"></span>
+	</h1>
+	<br><br><br>
+	<h1>
+	    <img width="64px" height="64px" alt="" class="png" style="float:none; margin-bottom:-20px; margin-right:5px;" src="/images/fr/common/throbber.gif?7c9c85ce">
+	    <br><br>
+	</h1>
+</div>
+
+</div>
+
+<iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0;border:0px solid #ffffff;">
+</iframe>
+
+<script type="text/javascript">
+	if(appConfig == "pl" && $("setup_login_prefix")){
+		$("setup_login_prefix").innerHTML="";
+	}
+</script>	
+<script type="text/javascript">	 
+	function pwdpopup() {
+            ctl.popup.Open('<span class="translation Translations.home.passwordpopup.label"></span>', '', 400, 270);
+             Sah.translator.refresh();
+
+	}
+</script>
+
+                        </div>
+                        <div id="footer">
+                            <div id="footer-menu"><a  href="#"><span class="translation Translations.legal.label.title"></span></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+		<script type="text/javascript">
+		// Remove empty info Panel
+/*
+		if ($$(".input-info-help .content").length > 0 && $$(".input-info-help .content")[0].innerHTML === "") {
+			$$(".input-info-help")[0].setStyle("display:none");
+		}
+*/
+		
+		function bindReady(handler){
+			var called = false
+			function ready() {
+				if (called) return
+				called = true
+				handler()
+			}
+			if ( document.addEventListener ) { // native event
+				document.addEventListener( "DOMContentLoaded", ready, false )
+			} else if ( document.attachEvent ) {  // IE
+				try {
+					var isFrame = window.frameElement != null
+				} catch(e) {}
+				// IE, the document is not inside a frame
+				if ( document.documentElement.doScroll && !isFrame ) {
+					function tryScroll(){
+						if (called) return
+						try {
+							document.documentElement.doScroll("left")
+							ready()
+						} catch(e) {
+							setTimeout(tryScroll, 10)
+						}
+					}
+					tryScroll()
+				}
+				// IE, the document is inside a frame
+				document.attachEvent("onreadystatechange", function(){
+					if ( document.readyState === "complete" ) {
+						ready()
+					}
+				})
+			}
+			// Old browsers
+			if (window.addEventListener)
+				window.addEventListener('load', ready, false)
+			else if (window.attachEvent)
+				window.attachEvent('onload', ready)
+			else {
+				var fn = window.onload // very old browser, copy old onload
+				window.onload = function() { // replace by new onload and call the old one
+					fn && fn()
+					ready()
+				}
+			}
+		}
+		bindReady(function() {
+			var login = Cookie.get('login');
+			if (login != null && (!login.match(/^[A-Za-z ]+$/) || login.length > 24)){
+				Cookie.unset('sessid');
+				Cookie.unset('expirydate');
+				Cookie.unset('login');
+				Cookie.unset('context');
+
+				new Ajax.Request("/logout", {
+					onComplete: function(){Sah.redirect('/');},
+					method: "get"
+				});
+			}
+		});
+		</script>
+    </body>
+</html>

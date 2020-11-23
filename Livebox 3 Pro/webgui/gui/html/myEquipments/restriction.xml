@@ -1,0 +1,370 @@
+<div id="restriction" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<span style="display:none">XrestrictedDevice</span>
+	<div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_EnvLiveBox " i18n="page.myEquipments.restriction.title"/>
+		<div class="margin-left-40 margin-top-m8">
+		 <strong i18n="page.myEquipments.restriction.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		  <div class="boxType4 margin-top-10 border-bottom-3">
+		   <span class="h3Text" i18n="page.myEquipments.restriction.config"/>
+		   <br/> <br/>
+		   <div i18n="page.myEquipments.restriction.config.desc"/>
+		   <br/>
+			<span class="forminput" i18n="page.myEquipments.restriction.config.desc.allon"/><br/>		
+			<span class="forminput" i18n="page.myEquipments.restriction.config.desc.alloff"/>
+			<br/><br/>
+			<div id="restrictionTable" class="table">
+				<table>
+					<thead>
+						<tr>
+							<th><span i18n="page.myEquipments.restriction.day"/></th>
+							<th style="width: 55px;"><span i18n="page.myEquipments.restriction.allon"/></th>
+							<th style="width: 55px;"><span i18n="page.myEquipments.restriction.alloff"/></th>
+							<th><span i18n="page.myEquipments.restriction.hours.0"/></th>
+							<th><span i18n="page.myEquipments.restriction.hours.1"/></th>
+							<th><span i18n="page.myEquipments.restriction.hours.2"/></th>
+							<th><span i18n="page.myEquipments.restriction.hours.3"/></th>
+							<th><span i18n="page.myEquipments.restriction.hours.4"/></th>
+							<th><span i18n="page.myEquipments.restriction.hours.5"/></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr id="MONDAY" class="table-row">
+							<td class="bold"><span i18n="page.myEquipments.restriction.d1"></span></td>
+							<td class="hours">
+								<input type="button" class="allon"/>
+							</td>
+							<td class="hours">
+								<input type="button" class="alloff"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="0"/>&#160;
+								<input class="onetoggle" type="button" value="1"/>&#160;
+								<input class="onetoggle" type="button" value="2"/>&#160;
+								<input class="onetoggle" type="button" value="3"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="4"/>&#160;
+								<input class="onetoggle" type="button" value="5"/>&#160;
+								<input class="onetoggle" type="button" value="6"/>&#160;
+								<input class="onetoggle" type="button" value="7"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="8"/>&#160;
+								<input class="onetoggle" type="button" value="9"/>&#160;
+								<input class="onetoggle" type="button" value="10"/>&#160;
+								<input class="onetoggle" type="button" value="11"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="12"/>&#160;
+								<input class="onetoggle" type="button" value="13"/>&#160;
+								<input class="onetoggle" type="button" value="14"/>&#160;
+								<input class="onetoggle" type="button" value="15"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="16"/>&#160;
+								<input class="onetoggle" type="button" value="17"/>&#160;
+								<input class="onetoggle" type="button" value="18"/>&#160;
+								<input class="onetoggle" type="button" value="19"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="20"/>&#160;
+								<input class="onetoggle" type="button" value="21"/>&#160;
+								<input class="onetoggle" type="button" value="22"/>&#160;
+								<input class="onetoggle" type="button" value="23"/>
+							</td>
+						</tr>
+						<tr id="TUESDAY" class="table-row">
+							<td class="bold"><span i18n="page.myEquipments.restriction.d2"></span></td>
+							<td class="hours">
+								<input type="button" class="allon"/>
+							</td>
+							<td class="hours">
+								<input type="button" class="alloff"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="0"/>&#160;
+								<input class="onetoggle" type="button" value="1"/>&#160;
+								<input class="onetoggle" type="button" value="2"/>&#160;
+								<input class="onetoggle" type="button" value="3"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="4"/>&#160;
+								<input class="onetoggle" type="button" value="5"/>&#160;
+								<input class="onetoggle" type="button" value="6"/>&#160;
+								<input class="onetoggle" type="button" value="7"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="8"/>&#160;
+								<input class="onetoggle" type="button" value="9"/>&#160;
+								<input class="onetoggle" type="button" value="10"/>&#160;
+								<input class="onetoggle" type="button" value="11"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="12"/>&#160;
+								<input class="onetoggle" type="button" value="13"/>&#160;
+								<input class="onetoggle" type="button" value="14"/>&#160;
+								<input class="onetoggle" type="button" value="15"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="16"/>&#160;
+								<input class="onetoggle" type="button" value="17"/>&#160;
+								<input class="onetoggle" type="button" value="18"/>&#160;
+								<input class="onetoggle" type="button" value="19"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="20"/>&#160;
+								<input class="onetoggle" type="button" value="21"/>&#160;
+								<input class="onetoggle" type="button" value="22"/>&#160;
+								<input class="onetoggle" type="button" value="23"/>
+							</td>
+						</tr>
+						<tr id="WEDNESDAY" class="table-row">
+							<td class="bold"><span i18n="page.myEquipments.restriction.d3"></span></td>
+							<td class="hours">
+								<input type="button" class="allon"/>
+							</td>
+							<td class="hours">
+								<input type="button" class="alloff"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="0"/>&#160;
+								<input class="onetoggle" type="button" value="1"/>&#160;
+								<input class="onetoggle" type="button" value="2"/>&#160;
+								<input class="onetoggle" type="button" value="3"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="4"/>&#160;
+								<input class="onetoggle" type="button" value="5"/>&#160;
+								<input class="onetoggle" type="button" value="6"/>&#160;
+								<input class="onetoggle" type="button" value="7"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="8"/>&#160;
+								<input class="onetoggle" type="button" value="9"/>&#160;
+								<input class="onetoggle" type="button" value="10"/>&#160;
+								<input class="onetoggle" type="button" value="11"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="12"/>&#160;
+								<input class="onetoggle" type="button" value="13"/>&#160;
+								<input class="onetoggle" type="button" value="14"/>&#160;
+								<input class="onetoggle" type="button" value="15"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="16"/>&#160;
+								<input class="onetoggle" type="button" value="17"/>&#160;
+								<input class="onetoggle" type="button" value="18"/>&#160;
+								<input class="onetoggle" type="button" value="19"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="20"/>&#160;
+								<input class="onetoggle" type="button" value="21"/>&#160;
+								<input class="onetoggle" type="button" value="22"/>&#160;
+								<input class="onetoggle" type="button" value="23"/>
+							</td>
+						</tr>
+						<tr id="THURSDAY" class="table-row">
+							<td class="bold"><span i18n="page.myEquipments.restriction.d4"></span></td>
+							<td class="hours">
+								<input type="button" class="allon"/>
+							</td>
+							<td class="hours">
+								<input type="button" class="alloff"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="0"/>&#160;
+								<input class="onetoggle" type="button" value="1"/>&#160;
+								<input class="onetoggle" type="button" value="2"/>&#160;
+								<input class="onetoggle" type="button" value="3"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="4"/>&#160;
+								<input class="onetoggle" type="button" value="5"/>&#160;
+								<input class="onetoggle" type="button" value="6"/>&#160;
+								<input class="onetoggle" type="button" value="7"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="8"/>&#160;
+								<input class="onetoggle" type="button" value="9"/>&#160;
+								<input class="onetoggle" type="button" value="10"/>&#160;
+								<input class="onetoggle" type="button" value="11"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="12"/>&#160;
+								<input class="onetoggle" type="button" value="13"/>&#160;
+								<input class="onetoggle" type="button" value="14"/>&#160;
+								<input class="onetoggle" type="button" value="15"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="16"/>&#160;
+								<input class="onetoggle" type="button" value="17"/>&#160;
+								<input class="onetoggle" type="button" value="18"/>&#160;
+								<input class="onetoggle" type="button" value="19"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="20"/>&#160;
+								<input class="onetoggle" type="button" value="21"/>&#160;
+								<input class="onetoggle" type="button" value="22"/>&#160;
+								<input class="onetoggle" type="button" value="23"/>
+							</td>
+						</tr>
+						<tr id="FRIDAY" class="table-row">
+							<td class="bold"><span i18n="page.myEquipments.restriction.d5"></span></td>
+							<td class="hours">
+								<input type="button" class="allon"/>
+							</td>
+							<td class="hours">
+								<input type="button" class="alloff"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="0"/>&#160;
+								<input class="onetoggle" type="button" value="1"/>&#160;
+								<input class="onetoggle" type="button" value="2"/>&#160;
+								<input class="onetoggle" type="button" value="3"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="4"/>&#160;
+								<input class="onetoggle" type="button" value="5"/>&#160;
+								<input class="onetoggle" type="button" value="6"/>&#160;
+								<input class="onetoggle" type="button" value="7"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="8"/>&#160;
+								<input class="onetoggle" type="button" value="9"/>&#160;
+								<input class="onetoggle" type="button" value="10"/>&#160;
+								<input class="onetoggle" type="button" value="11"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="12"/>&#160;
+								<input class="onetoggle" type="button" value="13"/>&#160;
+								<input class="onetoggle" type="button" value="14"/>&#160;
+								<input class="onetoggle" type="button" value="15"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="16"/>&#160;
+								<input class="onetoggle" type="button" value="17"/>&#160;
+								<input class="onetoggle" type="button" value="18"/>&#160;
+								<input class="onetoggle" type="button" value="19"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="20"/>&#160;
+								<input class="onetoggle" type="button" value="21"/>&#160;
+								<input class="onetoggle" type="button" value="22"/>&#160;
+								<input class="onetoggle" type="button" value="23"/>
+							</td>
+						</tr>
+						<tr id="SATURDAY" class="table-row">
+							<td class="bold"><span i18n="page.myEquipments.restriction.d6"></span></td>
+							<td class="hours">
+								<input type="button" class="allon"/>
+							</td>
+							<td class="hours">
+								<input type="button" class="alloff"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="0"/>&#160;
+								<input class="onetoggle" type="button" value="1"/>&#160;
+								<input class="onetoggle" type="button" value="2"/>&#160;
+								<input class="onetoggle" type="button" value="3"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="4"/>&#160;
+								<input class="onetoggle" type="button" value="5"/>&#160;
+								<input class="onetoggle" type="button" value="6"/>&#160;
+								<input class="onetoggle" type="button" value="7"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="8"/>&#160;
+								<input class="onetoggle" type="button" value="9"/>&#160;
+								<input class="onetoggle" type="button" value="10"/>&#160;
+								<input class="onetoggle" type="button" value="11"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="12"/>&#160;
+								<input class="onetoggle" type="button" value="13"/>&#160;
+								<input class="onetoggle" type="button" value="14"/>&#160;
+								<input class="onetoggle" type="button" value="15"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="16"/>&#160;
+								<input class="onetoggle" type="button" value="17"/>&#160;
+								<input class="onetoggle" type="button" value="18"/>&#160;
+								<input class="onetoggle" type="button" value="19"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="20"/>&#160;
+								<input class="onetoggle" type="button" value="21"/>&#160;
+								<input class="onetoggle" type="button" value="22"/>&#160;
+								<input class="onetoggle" type="button" value="23"/>
+							</td>
+						</tr>
+						<tr id="SUNDAY" class="table-row">
+							<td class="bold"><span i18n="page.myEquipments.restriction.d7"></span></td>
+							<td class="hours">
+								<input type="button" class="allon"/>
+							</td>
+							<td class="hours">
+								<input type="button" class="alloff"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="0"/>&#160;
+								<input class="onetoggle" type="button" value="1"/>&#160;
+								<input class="onetoggle" type="button" value="2"/>&#160;
+								<input class="onetoggle" type="button" value="3"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="4"/>&#160;
+								<input class="onetoggle" type="button" value="5"/>&#160;
+								<input class="onetoggle" type="button" value="6"/>&#160;
+								<input class="onetoggle" type="button" value="7"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="8"/>&#160;
+								<input class="onetoggle" type="button" value="9"/>&#160;
+								<input class="onetoggle" type="button" value="10"/>&#160;
+								<input class="onetoggle" type="button" value="11"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="12"/>&#160;
+								<input class="onetoggle" type="button" value="13"/>&#160;
+								<input class="onetoggle" type="button" value="14"/>&#160;
+								<input class="onetoggle" type="button" value="15"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="16"/>&#160;
+								<input class="onetoggle" type="button" value="17"/>&#160;
+								<input class="onetoggle" type="button" value="18"/>&#160;
+								<input class="onetoggle" type="button" value="19"/>
+							</td>
+							<td class="hours">
+								<input class="onetoggle" type="button" value="20"/>&#160;
+								<input class="onetoggle" type="button" value="21"/>&#160;
+								<input class="onetoggle" type="button" value="22"/>&#160;
+								<input class="onetoggle" type="button" value="23"/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+			<div widgetType="ButtonContainer" class="right" style="width: 100%">
+				<div style="float: left">
+					<span id="btnBackEquip" widgetType="MenuItem,ButtonImage" i18n="common.page.back"/> <!-- i18n="page.myEquipments.single.customEquipment.back" -->
+				</div>
+				<div style="float: right">
+					<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+					<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

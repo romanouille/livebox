@@ -1,0 +1,50 @@
+<div id="upnp" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+	   <div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param grey" i18n="menuNetwork.upnp"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myNetwork.upnp.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">		
+		<div class="boxType4 margin-top-10 border-bottom-1">	
+			<span class="h3Text" i18n="page.myNetwork.upnp.automanagement"/>
+			<div class="margin-left-60" widgetType="FormInput" i18n="page.myNetwork.upnp.activate">
+			<!-- <input id="ckUPnP" type="checkbox" dataId="Device/NAT/UPNpEnable" i18nPrefix="page.myNetwork.upnp.activate"/> -->
+			    <span  id="ckUPnP" widgetType="EnumInput" widgetArg="'radio'" enumerated="[true, false]"   dataId="Device/NAT/UPNpEnable"  i18nPrefix="page.myNetwork.upnp.activate"/>
+			</div>
+		</div>	
+		<div class="boxType5 border-bottom-3">
+			<span class="h3Text" i18n="page.myNetwork.upnp.applist"/>
+			<!-- <div class="forminput">
+				<span class="forminput-label" i18n="common.refresh"/>
+				<div widgetType="ButtonContainer" class="inline">
+					<span id="refreshBtn" class="refresh" widgetType="Button" widgetArg="{type: 'submit', crud: 'read'}" i18n="common.refreshtip"/>
+				</div>
+			</div> -->
+			<br/><br/>
+		
+			<div id="upnpTable" dataId="Device/NAT/PortMappings/PortMapping[Creator='UPNP']" widgetType="Table"
+				widgetArg="{deletable: true}" i18n="page.myNetwork.upnp.applist">
+				<span i18n="common.appliservice" widgetType="TableColumn" widgetArg="{attr: 'Description'}" />
+				<span i18n="common.extport" widgetType="TableColumn" widgetArg="{attr: 'ExternalPort'}" />
+				<span i18n="common.intport" widgetType="TableColumn" widgetArg="{attr: 'InternalPort'}" />
+				<span i18n="common.protocol" widgetType="TableColumn" widgetArg="{attr: 'Protocol'}" />
+				<span i18n="common.equipmentip" widgetType="TableColumn" widgetArg="{attr: 'InternalClient'}" />
+			</div>
+				<div widgetType="ButtonContainer" class="right">
+					<span id="refreshBtn"  widgetType="ButtonImage" i18n="common.refresh"/> <!--  widgetArg="{type: 'simple'}" -->
+				</div>
+		</div>
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myNetwork.upnp.save"/>
+			</div>
+		</form>
+	</div>
+</div>

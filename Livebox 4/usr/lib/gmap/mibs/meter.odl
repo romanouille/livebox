@@ -1,0 +1,19 @@
+/**
+ * MIB is loaded on all units that are able to command a dimmable device.
+ *
+ * All devices matching expression: "dimmer" are extended with this MIB
+ *
+ * @version 6.1
+ */
+mib meter {
+    object Meter[] {
+        string Name;
+        uint32 Value;
+        uint32 Factor;
+        string Unit;
+        string Rate;
+    }
+
+    void getMeterValues();
+}
+/** @location sah_services_gmap /mibs/meter.odl */

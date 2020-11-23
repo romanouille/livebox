@@ -1,0 +1,6 @@
+
+
+include "dataservice-definitions.odl";
+include "dataservice-defaults.odl";
+
+/** @location  commod_datahub_dataservice  add-on/frontend/pcb/dataservice.odl.m4 */

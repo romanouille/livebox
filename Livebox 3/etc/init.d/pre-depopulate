@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Only execute on upgrade 
+if [ -e /tmp/upgrade_occurred ] ; then
+
+    #AdminPassword migration between hgwcfg.isp and hgwcfg.usr
+    MIGRATION=$(cat /etc/config/hgwcfg.isp | grep AdminPassword)
+    if [ $? -eq 0 ] ; then
+        echo "AdminPassword migration from hgwcfg.isp to hgwcfg.usr"
+        sed -i '/AdminPassword/d' /etc/config/hgwcfg.isp 
+        sed -i "s|<tns:AdminSettings>|<tns:AdminSettings>\n$MIGRATION|" /etc/config/hgwcfg.usr
+    fi
+
+fi 

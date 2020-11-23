@@ -1,0 +1,17 @@
+{
+  "status": 0,
+  "data": {
+    "portList": [
+      {
+        "portId": "Port1",
+        "isEnabled": false,
+        "usageMode": "undefined"
+      },
+      {
+        "portId": "Port2",
+        "isEnabled": true,
+        "usageMode": "massstorage"
+      }
+    ]
+  }
+}

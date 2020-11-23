@@ -1,0 +1,13 @@
+{
+  "status": 0,
+  "data": {
+    "APN": "qsdfg",
+    "login": "qsdf",
+    "password": "qsdfqdfqsd",
+    "pinType": "",
+    "pinCode": "",
+    "state": "NotPresent",
+    "signalStrength": 0,
+    "protocol": ""
+  }
+}

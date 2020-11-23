@@ -1,0 +1,122 @@
+object "$(SAH_VOICE_PLUGIN_NAME)" {
+
+    /** 
+      Called by voice service once this plugin connected to the voiceservice. 
+
+      @param country ISO 3166 country code
+      @return true on success, false otherwise.
+     */
+    bool init(string country);
+
+    /** 
+      Called by voice service once this plugin stops. 
+
+      @param reason
+     */
+    void exit(unint reason);
+
+    /**
+      Called when the voice service wants to create a conference.
+
+      @param ctx_id  Context conference ID.
+      @return        Success or failure.
+     */
+    bool create_ctx(uint32 ctx_id);
+
+    /**
+      Called when the voice service wants to add a stream to a conference.
+
+      @param ctx_id  Context conference ID.
+      @return        Success or failure.
+     */
+    bool add_stream(int ep_id, uint32 ctx_id, byte_array stream_info, list filedesc, uint32 line_id);
+
+    /**
+      Called when the voice service wants to modify a stream in a conference.
+
+      @param ctx_id  Context conference ID.
+      @return        Success or failure.
+     */
+    bool modify_stream(uint32 ctx_id, byte_array stream_info);
+
+    /**
+      Called when the voice service wants to remove a stream from a conference.
+
+      @param ctx_id  Context conference ID.
+      @return        Success or failure.
+     */
+    bool remove_stream(uint32 ctx_id, uint32 line_id);
+
+
+    /**
+      Called when the voice service wants to destroy a conference.
+
+      @param ctx_id  Context conference ID.
+      @return        Success or failure.
+     */
+    bool destroy_ctx(uint32 ctx_id);
+    object EndPoint[] {
+        /**
+        Send an asynchronous signal.
+
+        @param signal Opaque byte_array containing a libvoice_signal, which gets 
+        passed to the underlying voice plugin.
+        */
+        message void signal(byte_array signal);
+
+        /**
+        Receive an event from a plugin.
+
+        @param event Opaque bytearray containing a libvoice_event.
+        @param channel_id Id of the channel.
+        */
+        message void event(byte_array event, uint32 channel_id);
+
+        /**
+        Called when a media stream to an endpoint needs to start.
+
+        @param cnx_info     Opaque byte_array containing a libvoice_cnx_info struct.
+        @param filedesc     Array of filedescriptors. fd[0] = RTP socket, fd[1] = RTCP socket, fd[2] = UDPTL socket.
+        @param line_id      Identifier of line
+
+         */
+        void create(byte_array cnx_info, list filedesc, int line_id);
+
+        /**
+        Called when a media stream to an endpoint is changed.
+
+        @param cnx_info     Opaque byte_array containing a libvoice_cnx_info struct.
+        @param filedesc     Array of filedescriptors. fd[0] = RTP socket, fd[1] = RTCP socket, fd[2] = UDPTL socket.
+        @param line_id      Identifier of line
+         */
+        void modify(byte_array cnx_info, list filedesc, int line_id);
+
+        /**
+        Called when a media stream to an endpoint needs to stop.
+        
+        @param line_id      Identifier of line
+        */
+        void destroy(int line_id);
+
+
+         /**
+        Called when the voice service requests properties or statistics.
+        
+        @param request     Opaque byte_array containing a parameter set with request properties.
+        @param reply       Opaque byte_array to contain the parameter set with reply values.
+        @return            Success or failure.
+        */
+        bool get(byte_array param_set_request, out byte_array param_set_reply);
+
+        /**
+        Called when the voice service wants to set properties.
+        
+        @param params  Opaque byte_array containing a parameter set with properties.
+        @return        Success or failure.
+        */
+        bool set(byte_array param_set_params);
+    }
+}
+
+
+/** @location sah_lib_voiceplugin /voiceplugin_api-definition.odl */

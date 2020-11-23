@@ -1,0 +1,323 @@
+#vignette {
+	margin: 5px;
+	margin-left: 9px;
+	padding: 0px;
+	width: 166px;
+	height: 108px;
+}
+
+#vignette div.enable {
+	background: url('../images/hardware/vignette_enable.gif') no-repeat;
+	margin: 0px;
+	padding: 0px;
+	width: 166px;
+	height: 108px;
+}
+
+#vignette div.disable {
+	background: url('../images/hardware/vignette_disable.gif') no-repeat;
+	margin: 0px;
+	padding: 0px;
+	width: 166px;
+	height: 108px;
+}
+
+#vignette table {
+	margin: 0px;
+	padding: 0px;
+	border-collapse: collapse;
+	border: 0px;
+}
+
+#vignette table.header {
+	margin-right: 2px;
+	height: 18px;
+	width: 164px;
+}
+
+#vignette table.body {
+	margin-right: 2px;
+	margin-top: 8px;
+	height: 75px;
+	width: 164px;
+}
+
+#vignette td {
+	padding: 0px;
+	margin: 0px;
+}
+
+#vignette td.name {
+	color: #FFFFFF;
+	width: 123px;
+	padding-left: 5px;
+	vertical-align: middle;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+#vignette td.memory {
+	width: 43px;
+	padding-top: 3px;
+	padding-right: 10px;
+	vertical-align: top;
+	text-align: right;
+}
+
+#vignette td.room {
+	width: 44px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#vignette td.equipement {
+	background: url('../images/hardware/round_bg.gif') no-repeat;
+	width: 75px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#vignette td.connection {
+	width: 44px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+
+
+
+#equipement_enable {
+	margin: 0px;
+	padding: 5px;
+	background: url(../images/hardware/equ_bg_enable.gif) no-repeat;
+	width: 200px;
+	height: 100px;
+}
+
+#equipement_disable {
+	margin: 0px;
+	padding: 5px;
+	background: url(../images/hardware/equ_bg_disable.gif) no-repeat;
+	width: 200px;
+	height: 100px;
+}
+
+#equipement_newenable {
+	margin: 0px;
+	padding: 5px;
+	background: url(../images/hardware/equ_bg_newenable.gif) no-repeat;
+	width: 200px;
+	height: 100px;
+}
+#equipement_newdisable {
+	margin: 0px;
+	padding: 5px;
+	background: url(../images/hardware/equ_bg_newdisable.gif) no-repeat;
+	width: 200px;
+	height: 100px;
+}
+
+#equipement_newenable table.ligne1 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newenable td.type {
+	width: 80px;
+	padding: 8px;
+}
+
+#equipement_newenable td.name {
+}
+
+#equipement_newenable table.ligne2 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newenable td.media {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_newenable td.room {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_newenable td.connection {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_enable table.ligne1 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_enable td.type {
+	width: 80px;
+	padding: 8px;
+}
+
+#equipement_enable td.name {
+}
+
+#equipement_enable table.ligne2 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newenable table.ligne1 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newenable td.type {
+	width: 80px;
+	padding: 8px;
+}
+
+#equipement_newenable td.name {
+}
+
+#equipement_newenable table.ligne2 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newenable td.media {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_newenable td.room {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_newenable td.connection {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_enable td.room {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+
+#equipement_newenable table.ligne1 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newenable td.type {
+	width: 80px;
+	padding: 8px;
+}
+
+#equipement_newenable td.name {
+}
+
+#equipement_newenable table.ligne2 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newenable td.media {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_newenable td.room {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_newenable td.connection {
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_disable table.ligne1 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_disable td.type {
+	width: 80px;
+	padding: 8px;
+}
+
+#equipement_disable td.name {
+}
+
+#equipement_disable table.ligne2 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_disable td.media {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_disable td.room {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+#equipement_disable td.connection {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+#equipement_newdisable table.ligne1 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newdisable td.type {
+	width: 80px;
+	padding: 8px;
+}
+
+#equipement_newdisable td.name {
+}
+
+#equipement_newdisable table.ligne2 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_newdisable td.media {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_newdisable td.room {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+#equipement_newdisable td.connection {
+	width: 50px;
+	height: 5px;
+	padding: 7px;
+}
+
+
+

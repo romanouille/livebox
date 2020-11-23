@@ -1,0 +1,28 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+START=50
+
+DEFAULTS=/etc/default/xmo-server
+
+# Include xmo-server defaults if available
+[ -r "$DEFAULTS" ] && . "$DEFAULTS"
+
+
+start() {
+	if [ "$BOOT_XMO_SERVER_ENABLE" != "no" ]
+	then
+		echo Run xmo-server
+		/usr/bin/xmo-server&
+	else
+		echo No start xmo-server
+	fi
+}
+
+stop() {
+	echo Stop xmo-server
+
+	while killall -q xmo-server; do
+		sleep 1
+	done
+}
+

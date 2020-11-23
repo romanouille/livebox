@@ -1,0 +1,71 @@
+[
+    {
+        "Report": {
+           "ReportId": 3,
+           "TypeId": 5
+        },
+        "Map" : {
+            "SubObject": "Alarm",
+            "Name": "Flood",
+            "Type": 12,
+            "Value": {
+                "Method": "zwave_report_field2bool",
+                "Arguments": {
+                    "Field": "Value"
+                }
+            }
+        }
+    },
+    {
+        "Report": {
+           "ReportId": 3
+        },
+        "Map" : {
+            "SubObject": "Alarm",
+            "Name": "Generic Alarm",
+            "Type": 0
+        }
+    },
+
+    {
+        "Report": {
+           "ReportId": 4
+        },
+        "Map" : {
+            "SubObject": "Alarm",
+            "Name": "Generic Trigger",
+            "Type": 11,
+            "Value": {
+                "Method": "zwave_report_field2bool",
+                "Arguments": {
+                    "Field": "Value"
+                }
+            }
+        }
+    },
+
+    {
+        "Report": {
+           "ReportId": 1,
+           "TypeId": 3
+        },
+        "Map" : {
+            "SubObject": "Sensor",
+            "Name": "Luminance",
+            "Type": 2
+        }
+    },
+
+    {
+        "Report": {
+           "ReportId": 1,
+           "TypeId": 1
+        },
+        "Map" : {
+            "SubObject": "Sensor",
+            "Name": "Air Temperature",
+            "Type": 1
+        }
+    }
+
+]

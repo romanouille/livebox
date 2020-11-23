@@ -1,0 +1,199 @@
+/**
+ * The DSL MIB is available on all NeMo Intfs that have the "dsl"-flag set. If there is an
+ * enabled Intf with the "dsl"-flag set, an adsl connection will be set up and several status
+ * parameters of that connection will be exposed in the data model. Currently only 1 active DSL
+ * connection is supported.
+ */
+object NeMo { 
+	object extends MIB(0,"dsl") {
+		string Flag = "dsl";
+		object DataModel {
+			/**
+			 * Timestamp of the last operational state change, measured in seconds
+			 * since power on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current
+			 * operational state.
+			 */
+			volatile read-only uint32 LastChange;
+
+			/**
+			 * The current physical layer data rate (expressed in Kbps) of
+			 * the upstream DSL connection. 
+			 * If bonding is enabled, we take the aggregate (bonding)upstream rate.
+			 * In case we have a single line, the channel current upstream rate is taken into account.
+			 */
+			uint32 UpstreamCurrRate;
+
+			/**
+			 * The current physical layer data rate (expressed in Kbps) of
+			 * the downstream DSL connection.
+			 * If bonding is enabled, we take the aggregate (bonding)downstream rate.
+			 * In case we have a single line, the channel current downstream rate is taken into account.
+			 */
+			uint32 DownstreamCurrRate;
+
+			/**
+			 * Status of the DSL interface.
+			 * We show the status of the channel. So for bonding and for a single line
+			 * setup, this should work.
+			 * TODO
+			 */
+			string LinkStatus {
+				constraint enum [ "Up", "Down", "Unknown", "NotPresent", "LowerLayerDown", "Error" ];
+				default "Down";
+			}
+
+			/**
+			 * The current maximum attainable data rate upstream (expressed in Kbps).
+			 * If bonding is enabled, we take the sum of the two line parameters.
+			 * TODO
+			 */
+			uint32 UpstreamMaxRate;
+
+			/**
+			 * The current maximum attainable data rate downstream (expressed in Kbps).
+			 * If bonding is enabled, we take the sum of the two line parameters.
+			 * TODO
+			 */
+			uint32 DownstreamMaxRate;
+
+			/**
+			 * The current upstream signal loss (expressed in 0.1dB).
+			 * If bonding is enabled, upstreamAttenuation is an average value of the line attenuations.
+			 * Else the UpstreamAttenuation is the Line_UpstreamAttenuation.
+			 */
+			int32 UpstreamAttenuation;
+
+			/**
+			 * The current downstream signal loss (expressed in 0.1dB).
+			 * If bonding is enabled, downstreamAttenuation is an average value of the line attenuations.
+			 * Else the UpstreamAttenuation is the Line_DownstreamAttenuation.
+			 */
+			int32 DownstreamAttenuation;
+
+			/**
+			 * The current upstream SNR (expressed in 0.1dB).
+			 * If bonding is enabled, upstreamAttenuation is an average value of the line attenuations.
+			 * Else the UpstreamAttenuation is the Line_UpstreamAttenuation.
+			 */
+			int32 UpstreamNoiseMargin;
+
+			/**
+			 * The current downstream SNR (expressed in 0.1dB).
+			 * If bonding is enabled, downstreamAttenuation is an average value of the line attenuations.
+			 * Else the UpstreamAttenuation is the Line_DownstreamAttenuation.
+			 */
+			int32 DownstreamNoiseMargin;
+
+			/**
+			 * The current output power at the HGW's DSL line (expressed in 0.1dBmV).
+			 * If bonding is enabled, upstreamPower is an average value of the line upstream powers.
+			 * Else the UpstreamPower is the Line_UpstreamPower.
+			 */
+			int32 UpstreamPower;
+
+			/**
+			 */
+			int32 DownstreamPower;
+
+			/**
+			 * A string identifying the version of the modem firmware currently
+			 * installed on the HGW.
+			 */
+			string FirmwareVersion {
+				constraint maxvalue 64;
+			}
+
+			/**
+			 * Indicates which DSL standards and recommendations are supported by the
+			 * B-NT.
+			 */
+			string StandardsSupported;
+
+			/**
+			 * Indicates the standard that the B-NT is using for the connection.
+			 */
+			string StandardUsed {
+				constraint enum [ "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_L", "G.992.3_Annex_M", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B", "G.993.2_Annex_C", "" ];
+				default "";
+			}
+
+			/**
+			 * Indicates whether the data path is fast (lower latency) or interleaved
+			 * (lower error rate).
+			 * In case of bonding, this parameter is to be defined.
+			 */
+			string DataPath {
+				constraint enum [ "Interleaved", "Fast", "None" ];
+				default "Interleaved";
+			}
+
+			/**
+			 * ADSL1 Interleaved depth. This variable is only applicable to ADSL1 and
+			 * only if DataPath = Interleaved. Otherwise, the value of this parameter
+			 * is zero.
+			 * In case, bonding is enabled, this parameter is to be defined.
+			 */
+			uint32 InterleaveDepth = 0;
+
+			/*
+			 * Indicates the type of DSL modulation used on the interface associated
+			 * with this connection.
+			 * If bonding is enabled, a value from one line is taken, 
+			 * as we assume that the value is the same for the two bonded lines.
+			 */
+			string ModulationType {
+				constraint enum ["ADSL" , "ADSL_G.dmt", "ADSL_G.lite", "ADSL_G.dmt.bis", "ADSL_re-adsl", "ADSL_2plus", "ADLS_four", "ADSL_ANSI_T1.413", "G.shdsl", "IDSL", "HDSL", "SDSL", "VDSL", "" ];
+				default "";
+			}
+
+			/*
+			 * Indicates the type of encapsulation used on the DSL channel associated
+			 * with this connection.
+			 * Any auto-detect mechanism should use this value for his choices, 
+			 * to select the correct network device over the TPS-TC layer of the modem.
+			 */
+			string ChannelEncapsulationType {
+				constraint enum["", "G.992.3_Annex_K_ATM", "G.992.3_Annex_K_PTM", "G.993.2_Annex_K_ATM", "G.993.2_Annex_K_PTM", "G.994.1"];
+				default "";
+			}
+
+			/**
+			 * DSL modulation configuration hint. It's recommended to leave this to
+			 * "Auto", however, if some hardware requires the modulation type to be
+			 * set explicitly (only options are ADSL / VDSL), it's possible via this
+			 * parameter.
+			 */
+			persistent string ModulationHint {
+				constraint enum [ "Auto", "ADSL", "VDSL" ];
+				default "Auto";
+			}
+
+			/**
+			 * Indicates which VDSL2 profile is currently in use on the line.
+			 */
+			string CurrentProfile {
+				constraint enum [ "", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a" ] ;
+				default "";
+			}
+
+			/**
+			 * This parameter contains the estimated electrical loop length expressed
+			 * in dB at 1MHz, kle (see O-UPDATE in section 12.2.4.2.1.2/G.993.2). The
+			 * value is coded as an unsigned 16 bit number in the range 0 (coded as
+			 * 0) to 128 dB (coded as 1280) in steps of 0.1 dB.
+			 */
+			uint32 UPBOKLE {
+				constraint range [ 0, 1280 ];
+			}
+		}
+	}
+}/**
+
+
+
+/** @location sah_services_nemo /mibs/dsl.odl */

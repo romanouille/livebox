@@ -1,0 +1,6 @@
+
+
+include "m2magent-definitions.odl";
+include "m2magent-defaults.odl";
+
+/** @location sah_services_m2magent /m2magent.odl.m4 */

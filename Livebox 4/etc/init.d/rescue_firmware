@@ -1,0 +1,17 @@
+#!/bin/sh
+
+CMD_LINE='BOOT_ACTION=RESCUE_MODE'
+
+RESCUE=$(cat /proc/cmdline | grep $CMD_LINE)
+
+if [ $? -eq 0 ]
+then
+  list=$(pcb_cli -l "NeMo.Intf.bridge.getIntfs(\"\",\"one level down\")" | sed 's/,$//' | grep -v "\[" | grep -v "]")
+  for intf in $list
+  do
+    pcb_cli "NeMo.unlinkIntfs(\"bridge\",\"$intf\")"
+  done
+fi
+
+       
+exit 0

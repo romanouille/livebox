@@ -1,0 +1,4 @@
+include "usermngt-definitions.odl";
+include "usermngt-defaults.odl";
+
+/** @location sah_services_usermngt /usermngt.odl */

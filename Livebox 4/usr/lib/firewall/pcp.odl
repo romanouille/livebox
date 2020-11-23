@@ -1,0 +1,165 @@
+using "fw.so";
+
+/** 
+Data structure to return an answer to the client who requested a portforwarding entry.
+@param error - SUCCESS, if the a valid response is received, FAILED if an error occured and TIMEOUT if retransmissions are finished without answer.
+@param protocol - Protocol specified as a numeric value.
+@param internalipaddress - IPv4 address of the LAN host.
+@param internalport - Listening port of the LAN host.
+@param externalipaddress - External IPv4 address of the CGN gateway.
+@param externalport - Assigned port on the CGN to be used to access the LAN host.
+@param assignedlifetime - Assigned lifetime received from the CGN.
+@version V5.0
+*/ 
+
+define pcp_result {
+uint32 protocol;
+string internalipaddress;
+uint32 internalport;
+string externalipaddress;
+uint32 externalport;
+uint32 assignedlifetime;
+}
+
+/**
+ * PCP is modelled as part of the firewall configuration.
+ * @version V5.0
+*/
+persistent object Firewall {
+	persistent object PCP {
+		write with pcpOnWrite;
+
+/** 
+ * PCPServer, this can be an IPv4 address or a DNS name. Currently we only support one server.	
+ * @version V5.0
+ */
+		persistent string PCPServer {
+			default "";
+		}
+
+/**
+ * NeMo interface name to bind the client to. 
+ * @version V5.0
+ */
+		persistent string Interface {
+			default "";
+		}
+
+/** 
+ * Parameter to enable or disable the PCP functionality in the server. 
+ * If PCP is enabled, the firewall will enable support to configure ports on the CGN using the PCP protocol. 
+ * This requires NAT to be disabled on  the interface.
+ * If PCP is disabled, we assume NAT is enabled on the WAN interface and free ports will be chosen by the gateway.
+ * The default value is false, for DSLite this feature needs to be enabled.
+ * @version V5.0
+ */
+		persistent bool Enable = false;
+
+/**
+ * This is the external CGN IP address, as communicated with the CGN server. 
+ * If PCP is disabled or the communication with the server failed, the parameter should be set to an empty string. 
+ * @version V5.0
+ */
+		read-only string WANIPAddress {
+			default "";
+		}
+
+/** 
+ * Client Status, this parameter shows the status of the connection with the PCP server.
+ * The value can be PCP_SUCCESS, if the latest connection try with the server was successfull,
+ * PCP_DISABLED, if the PCP service is disabled, PCP_INIT, if initial communication with the server is finished, PCP_TIMEOUT, if the retransmission with the server is unsuccessfully finished and PCP_ERROR, if the communication with the server generated errors. (icmp port_unreachable, ...)
+ * @version V5.0
+ */
+		read-only string Status {
+			constraint enum[PCP_DISABLED, PCP_INIT, PCP_SUCCESS, PCP_TIMEOUT, PCP_ERROR];
+			default PCP_DISABLED;
+			read with statusOnRead;
+		}
+
+/**
+ * @return 'true' - If the pcpServer and the enable value is correctly set. Return false if an error occured.
+ * @param pcpServer - IPv4, IPv6 address of the PCPServer. The use of DNS names should also be supported. 
+ * @param enable - Enable or disable PCP functionality.
+ * @version V5.0
+ */ 
+		bool setPCPServer(mandatory string pcpServer, mandatory bool enable);
+
+/**
+ * @return - External IPv4/IPV6 address of the CGN server, return an empty string if the service is disabled or the communication with the CGN server failed.
+ * @version V5.0
+ */
+		string getExternalIpAddress();
+
+/**
+ * @brief
+ * This function will be called to create a portforwarding entry on the CGN gateway using PCP. 
+ * The function must be asynchroneous, because it can take some time before the portforwarding entry is created on the server.
+ * If the specified lifetime is 0, the corresponding entry will be deleted on the server.
+ * If the lifetime is 0 and the internal port is 0, all entries with a matching ipaddress and protocol will be deleted.
+ * If the lifetime is 0 and the protocol is 0, all entries with a matching ipaddress and port will be deleted. Protocol and internalport can only be 0 in a delete (lifetime == 0) scenario. 
+ * @return Return a pcp_result variant, which contains the actual assigned values in case of successful response or an error after a failure or a timeout.
+ * @param protocol Numeric protocol value; One protocol is supported at a time.
+ * @param internalIpAddress IP address of the LAN host.
+ * @param internalPort listening port of the LAN host.
+ * @param suggestedExternalIpAddress Suggested IP address of the CGN gateway, if needed, it will be replaced with the real IP address.
+ * @param suggestedExternalPort User can ask a prefered external port on the CGN gateway. If the port can not be configured, a alternative will be proposed.
+ * @param remoteIpAddress address of the remote peer, if this parameter is available and remote port is specified, a PEER request will generated instead of a MAP request.
+ * @param remotePort port of the remote peer, if this parameter is available and remoteIpAddress is specified, a PEER request will generated instead of a MAP request.
+ * @param remotePrefixlength Prefix length for remote network, in use for filter option.
+ * @param upnp_v1_compat This option generates a PREFER_FAILURE option, i.e. If the (suggested)external cannot be used, generate an error rather than a alternative. (This is only useful in a upnp v1 scenario.) The suggested port must be specified, otherwise an INVALID_PARAMETER error is returned.
+ * @version V5.0
+ */
+		pcp_result setPortForwarding(mandatory uint32 protocol, 
+                                             mandatory  string internalIpAddress, mandatory uint32 internalPort,
+                                             mandatory uint32 requestedLifetime, 
+                                             string externalIpAddress, uint32 externalPort, 
+                                             string remoteIpAddress, uint32 remotePrefixLength, uint32 remotePort, 
+                                             bool upnp_v1_compat);
+
+/**
+ * @brief
+ * Function to delete a portforwarding entry. Protocol and port can be 0, to indicate a wildcard.
+ * This is an asynchroneous function. If both remoteIpAddress and remotePort are available, 
+ * a PEER request will be generated instead of a MAP request.
+ * @param internalIpAddress matching ip address
+ * @param protocol matching protocol, 0 can be used a wildcard
+ * @param internalport matching port, 0 can be used a wildcard
+ * @return true if delete succeeded, false if not.
+ * @version V5.0
+ */
+		bool deletePortForwarding(mandatory uint32 protocol,
+                                          mandatory string internalIpAddress, mandatory uint32 internalPort);
+		
+/** 
+ *@brief Set, get or query PEER.
+ * @param protocol Protocol
+ * @param internalIpAddress Internal IP Address 
+ * @param internalPort Internal Port 
+ * @param requestedLifetime Requested Lifetime
+ * @param remoteIpAddress Remote IP Address
+ * @param remotePort Remote Port
+ * @param externalIpAddress External IP Address
+ * @param externalPort External Port
+ * @version V5.0
+*/
+		pcp_result setPeer(mandatory uint32 protocol, mandatory string internalIpAddress, 
+                                   mandatory uint32 internalPort, mandatory uint32 requestedLifetime,
+                                   mandatory string remoteIpAddress, mandatory uint32 remotePort,
+                                   string externalIpAddress, uint32 externalPort);
+
+/**
+ * @brief Delete Peer - Send a PEER request with lifetime 0 to delete the PEER in the PCP server.
+ * @param internalIpAddress Internal IP Address 
+ * @param protocol Protocol
+ * @param internalPort Internal Port 
+ * @param remoteIpAddress Remote IP Address
+ * @param remotePort Remote Port
+ * @version V5.0
+*/
+		bool deletePeer(mandatory uint32 protocol,
+                                mandatory string internalIpAddress, mandatory uint32 internalPort,
+                                mandatory string remoteIpAddress, mandatory uint32 remotePort);
+	}
+}
+
+/** @location sah_services_fw /pcp/pcp.odl */

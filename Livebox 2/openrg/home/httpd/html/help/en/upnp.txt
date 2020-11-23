@@ -1,0 +1,10 @@
+<b>UPnP :</b><br>
+<br>
+The UPnP service is enabled by default. You can disable it if you do not want applications to create port redirections automatically.<br>
+<br>
+If you want to disable or enable this service, remember to click the Save button to take the changes into account.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

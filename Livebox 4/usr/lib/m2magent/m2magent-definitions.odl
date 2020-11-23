@@ -1,0 +1,89 @@
+
+
+using "plugin.so";
+
+acl {
+    world none;
+    group admin none;
+    group remoteadmin none;
+    group cwmpd read,write,execute;
+}
+
+/**
+ * M2M Agent root object
+ */
+persistent object M2MAgent {
+
+    /**
+     * Smart Home Status
+     */
+    persistent string Status {
+        constraint enum ["On", "Off"];
+        default "Off";
+        write with m2magent_writeStatus;
+    }
+
+    /**
+     * Smart Home URL (ie OSP URL)
+     */
+    persistent string URL {
+        default "https://osha.orange.fr:443/iae-osha-sbi-m2magent/api";
+    }
+
+    /**
+     * Wassup Translator URL
+     */
+    persistent string TranslatorURL {
+        default "https://sso-l2w.orange.fr/osha/iae-osha-sbi-m2magent/api";
+    }
+
+    /**
+     * Listening port
+     */
+    persistent uint32 Port {
+        constraint minvalue 1024;
+        constraint maxvalue 65535;
+        default 51338;
+    }
+
+    /**
+     * NeMo interface
+     */
+    persistent string NeMoIntf {
+        constraint enum ["data", "lan"];
+        default "data";
+    }
+
+    /**
+     * Flag to indicate that a dongle was detected
+     * It acts as a trigger to start the agent
+     * in case the Status is set to "Off"
+     */
+    bool DongleDetected {
+        default false;
+    }
+
+    /**
+     * Enable SSL on the server side
+     * (on the client side, it's done
+     * dynamically, based on the URL scheme)
+     * The agent must be restarted to take
+     * into account the new value
+     */
+    persistent bool SSLEnable {
+        default true;
+    }
+
+    /**
+     * Verify the SSL peer
+     * It can be useful to disable it
+     * for testing purpose
+     * The agent must be restarted to take
+     * into account the new value
+     */
+    persistent bool SSLVerifyPeer {
+        default true;
+    }
+}
+
+/** @location sah_services_m2magent /m2magent-definitions.odl.m4 */

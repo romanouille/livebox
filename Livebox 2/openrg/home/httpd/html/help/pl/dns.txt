@@ -1,0 +1,15 @@
+<b>DNS</b><br>
+<br>
+Serwer DNS służy do zamiany nazw domen na adresy IP i odwrotnie. Możesz skonfigurować główny (domyślny) i alternatywny serwer DNS, wpisując ich adresy w formacie X.X.X.X.
+
+
+<br>
+Jeśli wybierzesz tryb automatyczny, domyślnie zostanie ustawiony serwer DNS Orange.
+
+
+<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

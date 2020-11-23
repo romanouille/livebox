@@ -1,0 +1,4 @@
+include "dect-definition.odl";
+include "dect-defaults.odl";
+
+/** @location sah_drivers_voice_dspgplugin /dect.odl */

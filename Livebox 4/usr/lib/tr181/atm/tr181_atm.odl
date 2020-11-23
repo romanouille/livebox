@@ -1,0 +1,22 @@
+
+
+
+object ATM {
+    object Diagnostics {
+        object F5Loopback {
+            string DiagnosticsState;
+            string Interface;
+            uint32 NumberOfRepetitions;
+            uint32 Timeout;
+            uint32 SuccessCount;
+            uint32 FailureCount;
+            uint32 AverageResponseTime;
+            uint32 MinimumResponseTime;
+            uint32 MaximumResponseTime;
+        }
+    }
+}
+
+
+
+/** @location sah_services_tr181 /atm/atm.odl */

@@ -1,0 +1,102 @@
+object sah {
+  object Device {
+    object Information {
+      acl {
+        group cwmpd read,execute;
+        group admin read,execute;
+        group remoteadmin read,execute;
+        group technician read,execute;
+        world none;
+      }
+    }
+    object PowerManagement {
+      acl {
+        group cwmpd read,execute;
+        group admin read,execute;
+        group remoteadmin read,execute;
+        group technician read,execute;
+        world none;
+      }
+    }
+
+    object AttachedDevices {
+    }
+
+    object LocalStorage {
+    }
+  }
+
+  object AccessManagement {
+    object Service {
+      acl {
+        group cwmpd read,execute;
+        group admin read,execute;
+        group remoteadmin read,execute;
+        group technician read,execute;
+        world none;
+      }
+    }
+  }
+
+  object HomeNetworkManagement {
+    object NetworkMap {
+      acl {
+        group cwmpd read,execute;
+        group admin read,execute;
+        group remoteadmin read,execute;
+        group technician read,execute;
+      }
+    }
+
+    object InternetAccessScheduling {
+      acl {
+        group cwmpd read,execute;
+        group admin read,execute;
+        group remoteadmin read,execute;
+        group technician read,execute;
+        world none;
+      }
+    }
+  }
+
+  object WiFiManagement {
+
+    acl {
+      group cwmpd read,execute;
+      group admin read,execute;
+      group remoteadmin read,execute;
+      group technician read,execute;
+      world none;
+    }
+
+    object VirtualAccessPoint {
+    }
+
+    object WiFiScheduling {
+    }
+  }
+
+  object Voice {
+    object Trunks {
+    }
+    object Handsets {
+    }
+    object Common  {
+      acl {
+        group cwmpd read,execute;
+        group admin read,execute;
+        group remoteadmin read,execute;
+        group technician read,execute;
+        world none;
+      }
+    }
+  }
+  object hgw {
+    object models {
+        object DeviceManager {
+        }
+    }
+  }
+}
+
+/** @location sah_services_www_backend /api.odl */

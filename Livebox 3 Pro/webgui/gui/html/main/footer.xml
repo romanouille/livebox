@@ -1,0 +1,93 @@
+<div id="footer" xmlns="http://www.orange.com/xhtml/engine/loose">
+  <div id="container">
+	<div id="sitemap">
+		<h1 i18n="footer.0" id="footer0"/>
+		<a href="javascript:;" class="close" i18n="common.close"/>
+		<div class="content">
+			<ul class="left">
+				<li class="parent"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m0'" i18n="tab.home"></a></li>
+				
+				<li class="parent"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1'" i18n="tab.myServices"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'menuserviceinternet', value : 'true'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1.m10'" i18n="menuServices.internet"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1.m11'" i18n="menuServices.phone"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1.m13'" i18n="menuServices.wifiaccess"></a></li>
+				<li id="meshNework"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m1.m14'" i18n="menuServices.meshLb"></a></li>
+				
+				<li class="parent"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2'" i18n="tab.myNetwork"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m31'" i18n="menuNetwork.caiq"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m20'" i18n="menuNetwork.wifi"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m21'" i18n="menuNetwork.firewall"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m22'" i18n="menuNetwork.dhcpdns"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m23'" i18n="menuNetwork.natpat"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m24'" i18n="menuNetwork.ntp"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m25'" i18n="menuNetwork.upnp"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m26'" i18n="menuNetwork.dmz"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m27'" i18n="menuNetwork.vpn"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m28'" i18n="menuNetwork.dyndns"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m29'" i18n="menuNetwork.routing"></a></li>
+				<li  class="expert"  widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}">
+					<span widgetType="VisibleDependent" widgetArg="{value: true}" dataId="Device/MESH/Enable">
+						<a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m30'" i18n="menuNetwork.meshLb"></a>
+					</span>
+				</li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m22'" i18n="menuNetwork.dhcpdns"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m23'" i18n="menuNetwork.natpat"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m24'" i18n="menuNetwork.ntp"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m25'" i18n="menuNetwork.upnp"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m26'" i18n="menuNetwork.dmz"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m27'" i18n="menuNetwork.vpn"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m28'" i18n="menuNetwork.dyndns"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m29'" i18n="menuNetwork.routing"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}">
+					<span widgetType="VisibleDependent" widgetArg="{value: true}" dataId="Device/MESH/Enable">
+						<a href="javascript:;" widgetType="MenuItem" widgetArg="'m2.m30'" i18n="menuNetwork.meshLb"></a>
+					</span>
+				</li>
+			</ul>
+			
+			<ul class="right text-align-left">
+				<li class="parent"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m3'" i18n="tab.myEquipments"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m3.m30'" i18n="menuEquipments.environment"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m3.m31'" i18n="menuEquipments.userEquipment"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m3.m32'" i18n="menuEquipments.officeCustomization"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m3.m32'" i18n="menuEquipments.officeCustomization"></a></li>
+				
+				<li class="parent"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m4'" i18n="tab.diagnostic"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m4.m40'" i18n="menuDiagnostic.infoSystem"></a></li>
+				<!-- <li><a href="#" class="greylink menuitem" i18n="menuDiagnostic.distantaccessservice"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m4.m42'" class="menuitem" i18n="menuDiagnostic.logs"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="#" class="greylink menuitem" i18n="menuDiagnostic.ping"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="#" class="greylink menuitem" i18n="menuDiagnostic.logs"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="#" class="greylink menuitem" i18n="menuDiagnostic.ping"></a></li> -->
+				
+				<li class="parent"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m5'" i18n="tab.myAccount"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m5.m50'" i18n="menuAccount.password"></a></li>
+				<li><a href="javascript:;" widgetType="MenuItem" widgetArg="'m5.m51'" i18n="menuAccount.preferences"></a></li>
+				<li class="expert" widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m5.m52'" i18n="menuAccount.distantaccess"></a></li>
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}"><a href="javascript:;" widgetType="MenuItem" widgetArg="'m5.m52'" i18n="menuAccount.distantaccess"></a></li>
+				
+				<li widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'standard'}" class="expertlabel" i18n="page.footer.sitemap.expert"/>
+			</ul>
+			<div class="clear"/>
+		</div>
+	</div>
+	
+	<div id="contact">
+		<h1 i18n="footer.2"/>
+		<a href="javascript:;" class="close" i18n="common.close"/>
+		<div class="content" i18n="page.footer.contact"/>
+	</div>	
+	
+	<div id="recommandations" style="display:none">
+		<h1 i18n="footer.3"/>
+		<a href="javascript:;" class="close" i18n="common.close"/>
+		<div class="content" i18n="page.footer.recommandations"/> 
+	</div>
+	
+	<div id="legalinfo">
+		<h1 i18n="footer.1"/>
+		<a href="javascript:;" class="close" i18n="common.close"/>
+		<div class="content" i18n="page.footer.legalinfo"/>
+	</div>
+  </div>
+</div>

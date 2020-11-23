@@ -1,0 +1,25 @@
+using "../nmccore_remoteaccess.so";
+define remoteaccess_t {
+string username;
+uint32 timeout;
+uint32 timeleft;
+uint32 port;
+string sourcePrefix;
+}
+persistent object NMC {
+uint32 enableRemoteAccess(string username, string password, uint32 port, uint32 timeout, string sourcePrefix, string accessType, bool secure) {
+acl {
+world none;
+}
+}
+remoteaccess_t getRemoteAccess(string username, string usertype) {
+acl {
+world none;
+}
+}
+uint32 disableRemoteAccess(string accessType) {
+acl {
+world none;
+}
+}
+}

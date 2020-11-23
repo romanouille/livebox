@@ -1,0 +1,69 @@
+using "ra.so";
+acl {
+group cwmpd read,write,execute;
+}
+persistent object RouterAdvertisement {
+persistent object InterfaceSetting[16] {
+write with interfaceOnWrite;
+delete with interfaceOnDelete;
+read-only string Status {
+constraint enum ["Disabled", "Enabled", "Error"];
+default "Disabled";
+read with radvdInterfaceStatusOnRead;
+}
+persistent string Interface;
+persistent uint32 MaxRtrAdvInterval = 600;
+persistent uint32 MinRtrAdvInterval = 200;
+persistent uint32 AdvDefaultLifetime = 1800;
+persistent uint32 AdvRDNSSLifetime = 1200;
+persistent uint32 AdvDNSSLLifetime = 1200;
+persistent bool AdvManagedFlag = false;
+persistent bool AdvOtherConfigFlag = false;
+persistent bool AdvMobileAgentFlag = false;
+persistent string AdvPreferredRouterFlag {
+constraint enum ["high", "medium", "low"];
+default "high";
+}
+persistent bool AdvNDProxyFlag = false;
+persistent uint32 AdvLinkMTU = 0;
+persistent uint32 AdvReachableTime = 0;
+persistent uint32 AdvRetransTimer = 0;
+persistent uint32 AdvCurHopLimit = 64;
+persistent bool Enable = false;
+persistent string DNS {
+write with interfaceDNSOnWrite;
+}
+persistent string Domain = home;
+object Prefix[16] {
+write with prefixOnWrite;
+delete with prefixOnDelete;
+string Prefix;
+read-only string Status {
+constraint enum ["Disabled", "Enabled", "Error"];
+default "Disabled";
+read with radvdPrefixStatusOnRead;
+}
+bool UseDNS = true;
+string DNS;
+uint32 AdvValidLifetime = 86400;
+uint32 AdvPreferredLifetime = 14400;
+bool Enable;
+}
+}
+read-only string Status {
+constraint enum ["Enabled", "Disabled", "Error"];
+default "Disabled";
+read with radvdStatusOnRead;
+}
+persistent bool Enable {
+write with enableOnWrite;
+default false;
+}
+string setPrefixToInterface(mandatory string interface, mandatory string key, mandatory string prefix, string dns, uint32 validLifetime, uint32 preferredLifetime, mandatory bool enable);
+void deletePrefixFromInterface(mandatory string interface, mandatory string key);
+list getPrefixFromInterface(mandatory string interface);
+void setDNSServer(mandatory string interface, mandatory string dns, bool restart);
+void deleteDNSServer(mandatory string interface, string dns, bool restart);
+string getDNSServer(string interface);
+void setInterfaceSetting(mandatory string interface, bool enable, uint32 maxRtrAdvInterval, uint32 minRtrAdvInterval, uint32 defaultLifetime, uint32 AdvRDNSSLifetime, uint32 AdvDNSSLLifetime, uint32 MTU, uint32 reachableTime, uint32 retransmitTimer, string dns, dsn domain);
+}

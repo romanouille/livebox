@@ -1,0 +1,87 @@
+<div id="infoSystemWiFi" class="infoSystemPage" xmlns="http://www.orange.com/xhtml/engine/loose">  
+	 <div class="boxType3">
+	    <!-- 
+			<div id="helpPage">
+				<a  onclick="ouvrir_popup()" href="#">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+				</a>
+			</div>
+			 -->
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		 <h1 class="logo_diagnostic">
+			<span i18n="menuDiagnostic.infoSystem"/>&#160;-&#160;<span i18n="menuDiagnostic.infoSystemWiFi"/>
+		</h1>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.diagnostic.infosystem.subtitle"/>
+			<br/>
+			<div class="center" widgetType="FormInput" i18n="page.myEquipments.userEquipment.filtre.lb">
+				<span id="routerlist" widgetType="EnumInput" widgetArg="'select'"/>
+			</div>		
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">			
+			<div id="MASTERBOX">
+				<div class="headBoxType1 margin-top-10" >
+					<span class="moins" >
+						<span class="h3Text margin-left-30" dataId="Device/DeviceInfo/RouterName"/>
+					</span>
+				</div>			
+				<div class="sysinfo">
+					<div class="boxType4 border-bottom-3">
+					<!-- 	<div class="h3Text orange" i18n="menuDiagnostic.infoSystemWiFi"/> -->
+						<div class="clear"/>
+						
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.1">
+							<span class="bold_font"  dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/Enable" i18nPrefix="data.diagnostic.infosystem.wifi.status"/>
+								<a id="print" style ="margin-left : 300px;" href="javascript:window.print()" i18n="common.print"/>	
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.2">
+							<span  class="bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/Status" i18nPrefix="data.diagnostic.infosystem.wifi.linkstatus"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.3">
+							<span class="bold_font"  dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/MACAddress"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.4">
+							<span  class="bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/SSID"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.5">
+							<span  class="bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/SSIDAdvertisementEnabled" i18nPrefix="data.diagnostic.infosystem.wifi.ssidadvertisementenabled"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.6">
+							<span  class="bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/AutoChannelEnable" i18nPrefix="data.diagnostic.infosystem.wifi.autochannelenable"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.7">
+							<span  class="bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/Channel"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.8">
+							<span id="OperatingStandards" class="bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/OperatingStandards" i18nPrefix="data.wifi.standard"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.9">
+							<span class="bold_font"  dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/MaxBitRate"/><span class="bold_font"> Mb/s</span>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.10">
+							<span class="bold_font"  dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/ModeEnabled" i18nPrefix="data.wifi.securitymode"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.11">
+							<span  class="bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/ModeEnabled" i18nPrefix="data.wifi.securitymodeEnabled"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.12">
+							<span  class="bold_font" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/MACAddressControlEnabled" i18nPrefix="data.diagnostic.infosystem.wifi.macaddresscontrolenabled"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.13">
+							<span class="bold_font"  dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/BytesSent"/>
+						</div>
+						<div class="margin-leftInfSys-30" widgetType="FormInput" widgetArg="{'align':'left'}" i18n="page.diagnostic.infosystem.wifi.6.14">
+							<span class="bold_font"  dataId="Device/Networks/LAN[@name='LAN']/LANPorts/LANWiFiPort/BytesReceived"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

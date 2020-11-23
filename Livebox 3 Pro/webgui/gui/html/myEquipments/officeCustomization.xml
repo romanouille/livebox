@@ -1,0 +1,30 @@
+<div id="officeCustomization" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_EnvLiveBox grey" i18n="menuEquipments.officeCustomization"/>
+		<div class="margin-left-40 margin-top-m8">
+		 	<strong i18n="page.myEquipments.officeCustomization.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 margin-top-10 border-bottom-3">
+		<span class="h3Text" i18n="menuEquipments.officeCustomization.titleTable"/>
+			<div id="officeCustomizationTable" dataId="Device/UserInterface/Rooms/Room" widgetType="Table" widgetArg="{extendable: true, deletable: true}" i18n="page.myEquipments.officeCustomization.table">
+				<span i18n="page.myEquipments.officeCustomization.room" widgetType="TableColumn" widgetArg="{attr: 'Name', editable: true, sortable: false, editNodeAttrs: {errnodeparent: 'officeCustomizationTableErr'}}" required="true"/>
+				<span i18n="common.icon" widgetType="TableColumn" widgetArg="{attr: 'Icon', editable: true, sortable: false, editWidgetType: 'EnumInput', editWidgetArg: 'icons'}" i18nPrefix="data.room" enumerated="['ico_room_office1.png','ico_room_office2.png','ico_room_openspace.png','ico_room_meetingroom.png','ico_room_reception.png','ico_room_waitingroom.png','ico_room_warehouse.png','ico_room_server.png']"/>
+			
+			</div>
+			<div id="officeCustomizationTableErr" class="error table"/>
+		</div>	
+			<div widgetType="ButtonContainer" class="right">
+				<span widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="data.save"/>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,134 @@
+
+
+
+/*
+ *  Datamodel definition written using TR98 spec Issue 1 Amendment 2 (September 2008)
+ */
+
+object ManagementServer {
+    bool EnableCWMP=1;                          // CPE has to be enabled by default, after reboot, should definitely be set to 1
+
+    string URL="";                              // A valid http/https url, the 'host' portion of this url is used by cpe
+                                                //  to validate the ACS certificate when using SSL or TLS
+
+    string Username {                           // Username to authenticate the CPE when connecting to the ACS, factory reset may overwrite this parameter
+      constraint maxvalue 256;
+      default "admin";
+    }
+
+    string Password {                           // Password to authenticate the CPE when connecting to the ACS, factory reset may overwrite this parameter
+      constraint maxvalue 256;                   //  when read, this parameter returns an empty string, this should be managed by ACCESS control
+      default "cpetest";                        //  when read, this parameter returns an empty string, this should be managed by ACCESS control
+      acl {
+        group cwmpd read,write;
+      }
+    }
+
+    bool PeriodicInformEnable=1;                // Whether the CPE MUST periodically send information to the ACS using the inform method call
+
+    uint32 PeriodicInformInterval {             // The duration in seconds of the ACS inform interval
+      constraint minvalue 1;
+      default 432000;
+    }
+
+    datetime PeriodicInformTime;                // An absolute time reference in UTC to detemine when the CPE will initiate the periodic infor method calls
+                                                // Each inform call must occur at this reference time plus or minus an integer multiple of periodicinforminterval
+                                                // If set to default, the CPE may choose the time reference
+
+    read-only string ParameterKey;              // Used by ACS to track changes (setparametervavlues, addobject, deleteobject  RPC's), this parameter is set after
+                                                // each method that is executed succesfully or on factory reset
+                                                //  This parameter should be read-only for TR69, this should be managed by ACCESS control
+
+    read-only string ConnectionRequestURL;      // Http url for an ACS to make a connection request notification to the cpe
+
+    string ConnectionRequestUsername {          // Username used to authenticate the ACS
+        constraint maxvalue 256;
+        default softathome;
+    }
+
+    string ConnectionRequestPassword {          // Password used to authenticate the ACS
+      constraint maxvalue 256;
+      default "softathome";                     //  When read, the parameter returns an empty string, this should be managed by ACCESS control
+      acl {
+        group cwmpd read,write;
+      }
+    }
+
+    uint32 MaxConnectionRequest {               // Maximum number of connection requests per FreqConnectionRequest
+      constraint minvalue 1;
+      default 50;
+    }
+
+    uint32 FreqConnectionRequest {              // Time window in which MaxConnectionRequest may occur
+      constraint minvalue 60;
+      default 3600;
+    }
+
+    bool UpgradesManaged=true;                  // Indicates if ACS will manage upgrades for the CPE:
+                                                //  If true: The CPE should NOT use other means than the ACS to update.
+                                                //           Autonomous upgrades are regarded as an ACS update.
+                                                //  If false: The CPE can use other methods to upgrade
+
+    uint32 DefaultActiveNotificationThrottle;   // This parameter is used to control throttling of active notifications sent by the CPE
+                                                // It defines the minimum number of secods that the CPE must wait since the end of the last
+                                                // session with the ACS before establishing a new session for the purpose of active notification
+                                                // The last session may be an inform, or another active notification
+                                                // all other messages to the CPE (e.g. regular inform), should NOT take into account this value
+    
+    read-only bool AliasBasedAddressing;
+
+    
+
+
+
+    read-only uint32 ManageableDeviceNumberOfEntries;
+    uint32 ManageableDeviceNotificationLimit;
+    object ManageableDevice[] {
+      read-only string ManufacturerOUI {
+        constraint maxvalue 6;
+      }
+      read-only string SerialNumber {
+        constraint maxvalue 64;
+      }
+      read-only string ProductClass {
+        constraint maxvalue 64;
+      }
+      read-only string Host {
+        constraint maxvalue 1024;
+      }
+    }
+
+}
+
+datamodel {
+    object ManagementServer {
+        destination "pcb://$(PCB_MAIN_BUS)/ManagementServer" {
+            parameter EnableCWMP;
+            parameter URL;
+            parameter Username;
+            parameter Password;
+            parameter PeriodicInformEnable;
+            parameter PeriodicInformInterval;
+            parameter PeriodicInformTime;
+            parameter ParameterKey;
+            parameter ConnectionRequestURL;
+            parameter ConnectionRequestUsername;
+            parameter ConnectionRequestPassword;
+            parameter UpgradesManaged;
+            parameter DefaultActiveNotificationThrottle;
+            parameter AliasBasedAddressing;
+
+
+            parameter ManageableDeviceNotificationLimit;
+
+
+        }
+
+        destination "pcb://$(PCB_MAIN_BUS)/Hosts" {
+            parameter ManageableDeviceNumberOfEntries;
+        }
+        object ManageableDevice from "pcb://$(PCB_MAIN_BUS)/Hosts/ManageableDevice" recursive;
+
+    }
+}
+

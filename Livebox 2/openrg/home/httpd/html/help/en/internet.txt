@@ -1,0 +1,51 @@
+<b>Type of connection:</b><br>
+<br>
+Your livebox is designed to operate on an ADSL or fibre-optic (FTTH) connection. Only one of these modes can operate at a time. If you have an ADSL subscription, the &ldquo;ADSL internet connection&rdquo; box must be checked; if you have a fibre-optic subscription the &ldquo;FTTH internet connection&rdquo; box must be checked.<br>
+<br>
+<b>Network Access parameters:</b><br>
+When you took out your Orange subscription, you were sent your account number and four personal identifiers. These include your connection username and connection password which are essential to connect to the Internet with Orange.<br>
+<br>
+<span class="boldorange">Your connection username:</span> This identifier allows Orange servers to identify you as a customer and access the Internet.<br>
+It is required to configure your access to the Internet. It starts with fti/ (for example fti/wwpfiz7). Keep it safe because it will be useful if you need to reconfigure your connection (change computer, etc.). The difference between upper case and lower case is important. Take care not to mix the letter O and the digit 0.<br>
+<br>
+<span class="boldorange">Your connection password:</span> Associated with your connection username, this is the &ldquo;key&rdquo; that ensures the confidentiality of your Internet connection.<br>
+<br>
+<b>Troubleshooting ADSL connection problems:</b><br>
+Various messages may be displayed depending on the status of the Internet connection:<br>
+<br>
+<span class="boldorange">ADSL line not synchronised:</span> The <b>@</b> light on the livebox flashes quickly red.<br>
+ADSL&nbsp;synchronisation is when your livebox &ldquo;recognises&rdquo; the ADSL signal supplied by your telephone line. The signal supplied to the livebox is used to establish an Internet connection. Synchronisation is essential to use the ADSL signal on the line.<br>
+Synchronisation problems can occur either due to problems on Orange&rsquo;s ADSL network or the phone installation in your home.<br>
+It is therefore important to determine the origin of the problem. Creating your ADSL line can take up to two weeks. During this time your livebox will always remain in the synchronisation phase.<br>
+Once the line has been created, your livebox will synchronise very quickly, usually in no more than a few tens of seconds or at worst a few minutes.<br>
+During this phase the ADSL light on your livebox flashes quickly.<br>
+If synchronisation takes more than a few minutes, check the following points on your installation:<br>
+If you have several telephone lines, check that the livebox is connected to the telephone line corresponding to the telephone number on which ADSL service has been set up.<br>
+Check that the telephone cable is properly connected (you should hear a click when you plug it in) in the correct socket (socket with a white sticker).<br>
+Check that there is one (and only one) filter connected to the telephone socket used for the livebox.<br>
+<span class="boldorange">ATM configuration:</span> The <b>@</b> light on the livebox flashes slowly orange.<br>
+The ADSL line is synchronised, but not correctly configured.<br>
+<br>
+<span class="boldorange">Livebox not configured:</span> The <b>@</b> light on the livebox flashes slowly orange.<br>
+This means that the livebox is not correctly configured for Internet connection. In other words, you must enter your connection username and password.<br>
+<br>
+<span class="boldorange">PPP authentication&nbsp;failure:</span> The <b>@</b> light on the livebox flashes slowly orange.<br>
+The ADSL line is working and synchronised, but a PPP authentication error has occurred. If this happens, enter your connection username and password again, checking them against your welcome letter.<br>
+<br>
+<span class="boldorange">No response from authentication server (BAS):</span> The <b>@</b> light on the livebox flashes slowly orange.<br>
+The ADSL line is working and synchronised, but France Telecom&rsquo;s authentication server is not responding. In this case, wait or call the hotline.<br>
+<br>
+<span class="boldorange">Livebox connected + PPP session uptime:</span> The <b>@</b> light on the livebox is green.<br>
+Your livebox is correctly connected to the Internet.<br>
+<br>
+<b>Troubleshooting fibre connection problems:</b><br>
+<br>
+<span class="boldorange">No connection to ONT:</span> The <b>@</b> light on the livebox flashes quickly red.<br>
+To access the Internet on a fibre-optic connection, the ONT must be connected to the white port on your livebox. The ONT is the box that links the fibre-optic network to the livebox.<br>
+<br>
+Note that if you connect the white port on your livebox to a device other than the ONT, the <b>@</b> light will flash orange, not red. This is because the livebox will detect a device on the white port but will not be able to establish a PPP session.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

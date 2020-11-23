@@ -1,0 +1,22 @@
+
+
+
+object X_ORANGE-COM_DeviceConfig {
+	string VoIPRunningInterface {
+		constraint enum [ "Dedicated", "Internet" ];
+		default "Dedicated";
+	}
+	string IPTVRunningInterface {
+		constraint enum [ "Dedicated", "Internet" ];
+		default "Dedicated";
+	}
+}
+
+datamodel {
+    object X_ORANGE-COM_DeviceConfig {
+        destination "pcb://$(PCB_MAIN_BUS)/NMC" {
+            parameter VoIPRunningInterface from VoIPMode;
+            parameter IPTVRunningInterface from IPTVMode;
+        }
+    }
+}

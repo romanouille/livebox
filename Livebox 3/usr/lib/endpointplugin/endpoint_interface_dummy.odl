@@ -1,0 +1,31 @@
+using "endpointplugin_dummy.so";
+include "/usr/lib/voiceplugin/voiceplugin_api-definition.odl";
+object "$(SAH_VOICE_PLUGIN_NAME)"  {
+void sendHookOff(uint16 endpointid);
+void sendHookOn(uint16 endpointid);
+void sendSflNumber(uint16 endpointid, string number);
+bool AutoHookOff {
+default 1;
+}
+bool AutoHookOn {
+default 1;
+}
+uint32 CallDuration {
+default 20000;
+}
+bool AudioPlayBack_enable {
+default false;
+}
+string AudioPlayBack_file {
+default "";
+}
+string AudioPlayBack_status {
+default "IDLE";
+constraint enum ["IDLE","CREATE_MEDIA","INIT_AUDIOFILE","PLAY_RTP_FILE","ERROR"];
+}
+string EndPoint_type {
+default "DUMMY";
+}
+object EndPoint[] {
+}
+}

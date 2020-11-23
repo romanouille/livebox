@@ -1,0 +1,279 @@
+* { 
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+
+}
+.italic {
+	font-style: italic;
+}
+
+#contener .txtboldgreen{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: green;
+}
+
+#contener .txtboldorange{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	padding-left: 12px;
+	padding-right: 5px;
+	text-align: left;
+	color: #FF6600;
+}
+
+ #contener .txtboldblack{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	padding-left: 12px;
+	padding-right: 12px;
+	text-align: left;
+	color: #000000;
+}
+
+ #contener .txtboldblackup{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #000000;
+}
+
+
+#contener .txtwhite{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	padding-left: 12px;
+	padding-right: 12px;
+	text-align: left;
+	color: #FFFFFF;
+}
+
+#contener .txtnormal,#contener .txtnormal table td.DATA, .paragraphe_standard{
+	font-family: verdana, arial, sans-serif;
+	font-size: 12px;
+	color: #000000;
+    font-weight: normal;
+	padding-left: 12px;
+	padding-right: 12px;
+	
+}
+
+#contener .textnormal{
+	font-family: verdana, arial, sans-serif;
+	font-size: 12px;
+	color: #000000;
+    font-weight: normal;
+	padding-left: 12px;
+	padding-right: 12px;
+	
+}
+#contener .DATA{
+    font-weight: bolder ;
+}
+
+
+#subcontener .txtnormal{
+	font-family: verdana, arial, sans-serif;
+	font-size: 12px;
+	color: #000000;
+    font-weight: normal;
+	padding-left: 14px;
+	padding-right: 12px;
+}
+
+#subcontener .txtboldgreen{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: green;
+}
+#subcontener .txtboldred{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #FF0000;
+}
+#subcontener .txtred{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #FF0000;
+}
+
+#subcontener .txtboldorange{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #FF6600;
+}
+#subcontener .txtblue{
+	font-family: Verdana, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: blue;
+}
+td.txtorange{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #FF6600;
+}
+
+
+#subcontener .alert-password {
+	font-family: Verdana, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FF0000;
+
+}
+#connexion .txtorange {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FF6600;
+	font-weight: normal;
+	text-align: right;
+	height: 15px;
+        
+}
+#connexion   a  b{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	text-decoration: underline;
+
+}
+
+a.linkbold:link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+a.external {
+	padding-right: 5px;
+}
+
+#perso_cp_err, #perso_company_err, #perso_firstname_err, #perso_lastname_err, #perso_email_err, #perso_tel_err, #perso_fax_err, #perso_address_err, #perso_pageweb_err, #perso_city_err, #percent, #dhcp_ip_exist_err {
+color: #FF0000;
+font-weight: bold;
+font-size: 10px;
+}
+
+/*-> Obrou GNAZE - SAGEM - 20070823 - begin*/
+#contener .txtboldred2{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #FF0000;
+}
+#contener .txtboldblack2{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #000000;
+}
+#contener .txtnormal2{
+	font-family: verdana, arial, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+}
+/*-> Obrou GNAZE - SAGEM - 20070823 - end*/
+
+/* infobulle: added by wissem 18-10-2007 BEGIN*/
+
+.helpBox {
+	position: absolute;
+	z-index: 1000;
+	top: 0px;
+	left: 0px;
+	white-space: nowrap;
+}
+
+DIV.helpBoxDIV {
+	padding: 2px;
+	background: #ffffff;
+	border: 1px solid #FF6600 ;
+	color: black;
+	font-family: Arial,Helvetica;
+	font-style: Normal;
+	font-weight: Normal;
+	font-size: 12px;
+	line-height: 14px;
+}
+/* infobulle: added by wissem 10-18-2007 END */
+/*Added lamis*/
+#contener .emphasized{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+}
+/*end*/
+td.linkblue a{
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      font-weight: normal;
+      font-style: normal;
+      text-decoration: underline;
+      text-align: left;
+      color: #000000;
+  }
+td.linkblue a:visited {
+      text-decoration: underline;
+      color: #636;
+  }
+#contener .ftitxt{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	color: #000000;
+}
+
+

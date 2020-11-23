@@ -1,0 +1,8 @@
+object KMCD {
+	object Intf[] {
+		bool EBTPortLearnEnable;
+		bool NoForwardEnable;
+	}
+}
+
+/** @location sah_services_kmcd_ebtpl /user/ebtpl.odl */

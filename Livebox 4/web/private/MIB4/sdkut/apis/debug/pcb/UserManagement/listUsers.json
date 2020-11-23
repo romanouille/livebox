@@ -1,0 +1,33 @@
+{
+  "status": [
+    {
+      "name": "admin",
+      "enable": true,
+      "type": "system",
+      "linux_user": false,
+      "friendlyname": "",
+      "groups": ["http", "admin"]
+    }, {
+      "name": "cwmpd",
+      "enable": true,
+      "type": "system",
+      "linux_user": false,
+      "friendlyname": "",
+      "groups": []
+    }, {
+      "name": "guest",
+      "enable": true,
+      "type": "system",
+      "linux_user": false,
+      "friendlyname": "",
+      "groups": ["ftp"]
+    }, {
+      "name": "install",
+      "enable": true,
+      "type": "system",
+      "linux_user": false,
+      "friendlyname": "",
+      "groups": ["http", "admin"]
+    }
+  ]
+}

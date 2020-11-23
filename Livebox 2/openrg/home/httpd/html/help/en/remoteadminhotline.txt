@@ -1,0 +1,11 @@
+<b>Remote administration:</b><br>
+<br>
+For troubleshooting, you can give a hotline operator temporary access to your livebox for 15 minutes.<br>
+To enable hotline access for 15 minutes, click the <b>Start</b> button. The hotline access settings are displayed on the screen. Do not give them to anyone other than the hotline operator.<br>
+You can extend this temporary access by clicking the <b>Extend</b> button.<br>
+For disable temporary hotline access, click the <b>Stop</b> button.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

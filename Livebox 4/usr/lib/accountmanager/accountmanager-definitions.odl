@@ -1,0 +1,17 @@
+using "accountmanager.so";
+
+/*  */
+object AccountManager {
+    acl {
+        world none;
+    }
+
+    list    getRealmList();
+    list    getRealmOptions(mandatory string realm);
+
+    uint32  addUser(mandatory string realm, mandatory string login, mandatory string password, variant options, out string username, out uint32 code, out string description);
+    bool    removeUser(mandatory string realm, mandatory string login, variant options, out uint32 code, out string description);
+    bool    changePassword(mandatory string realm, mandatory string login, mandatory string password, variant options, out uint32 code, out string description);
+}
+
+/** @location commod_datahub_accountmanager add-on/frontend/pcb/accountmanager-definitions.odl.m4 */

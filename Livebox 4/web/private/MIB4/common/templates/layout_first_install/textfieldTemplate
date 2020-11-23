@@ -1,0 +1,20 @@
+﻿<div class="txtandfield">
+  <div class="txtandfield-field">
+    {{#if id}}
+       <label class="txtandfield-label" for="{{id}}">{{{label}}} :</label><br>
+    {{else}}
+      {{#if label}}
+        {{{label}}} :<br>
+      {{/if}}
+    {{/if}}    
+  <input {{#if id}}id="{{id}}" {{/if}} type="text" value="{{value}}"
+  {{#if data-translation}}
+    class="Translation field" data-translation="{{data-translation}}">        
+  {{else}}
+    class="field">
+  {{/if}}
+  </div>
+  {{#if warning}}
+    <div class="txtandfield-warning" {{#if id}}id="{{id}}_warning"{{/if}}><span class="redtxt">{{{warning}}}</span></div>    
+  {{/if}}
+</div>

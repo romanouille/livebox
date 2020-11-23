@@ -1,0 +1,14 @@
+{
+  "status": true,
+  "data": {
+    "Enable": true,
+    "Address": "192.168.2.1",
+    "Netmask": "255.255.255.0",
+    "DHCPEnable": true,
+    "DHCPMinAddress": "192.168.2.10",
+    "DHCPMaxAddress": "192.168.2.150",
+    "BandwidthLimitation": 0,
+    "Status": "Enabled", 
+    "ActivationTimeout": 0
+  }
+}

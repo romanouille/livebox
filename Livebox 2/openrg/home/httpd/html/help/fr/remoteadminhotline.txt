@@ -1,0 +1,11 @@
+<b>Administration à distance :</b><br>
+<br>
+Pour tout dépannage, l'accès Temporaire  permet à un conseillé de la Hotline (téléphone au 3900) d'accéder temporairement (15 minutes) à votre livebox depuis Internet.<br>
+Pour lancer un accès Hotline pendant 15 minutes, cliquez sur le bouton <b>Démarrer</b>. Les paramètres d'accès à distance Hotline vont apparaître à l'écran. Communiquez les uniquement au téléconseiller.<br>
+Vous pouvez ensuite prolonger cet accès temporaire en cliquant sur le bouton <b>Prolonger</b>.<br>
+Pour désactiver l'accès temporaire Hotline, cliquez sur le bouton <b>Stop</b>.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

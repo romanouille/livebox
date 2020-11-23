@@ -1,0 +1,1410 @@
+{
+    "status": true,
+    "data": [
+        {
+            "Key": "HGW",
+            "DiscoverySource": "selfhgw",
+            "Name": "LIVEBOX",
+            "DeviceType": "",
+            "Active": true,
+            "Tags": "self hgw physical wan",
+            "FirstSeen": "2015-04-01T10:06:25Z",
+            "LastConnection": "0001-01-01T00:00:00Z",
+            "LastChanged": "2015-04-01T10:06:28Z",
+            "Master": "",
+            "Location": "",
+            "Owner": "",
+            "Manufacturer": "Sagemcom",
+            "ModelName": "SagemcomFast5360_MIB4",
+            "Description": "SagemcomFast5360_MIB4 Sagemcom fr",
+            "SerialNumber": "LK15015DP990057",
+            "ProductClass": "Livebox 4",
+            "HardwareVersion": "SG_LB4_1.0.0",
+            "SoftwareVersion": "SG40_sip-fr-1.6.0.1",
+            "BootLoaderVersion": "",
+            "FirewallLevel": "Medium",
+            "LinkType": "dsl",
+            "LinkState": "up",
+            "ConnectionProtocol": "ppp",
+            "ConnectionState": "Connected",
+            "LastConnectionError": "ERROR_NONE",
+            "ConnectionIPv4Address": "172.16.30.65",
+            "ConnectionIPv6Address": "",
+            "RemoteGateway": "172.16.30.10",
+            "DNSServers": "172.16.30.10,172.16.33.10",
+            "Internet": true,
+            "IPTV": false,
+            "Telephony": true,
+            "Index": "1",
+            "Alternative": [],
+            "Names": [
+                {
+                    "Name": "LIVEBOX",
+                    "Source": "default"
+                }
+            ],
+            "DeviceTypes": [],
+            "Locations": [],
+            "Groups": [],
+            "Children": [
+                {
+                    "Key": "lan",
+                    "DiscoverySource": "selflan",
+                    "Name": "lan",
+                    "DeviceType": "",
+                    "Active": true,
+                    "Tags": "self lan bridge mac nemo interface ipv4 ipv6 dhcpserver upnp",
+                    "FirstSeen": "2015-04-01T10:06:25Z",
+                    "LastConnection": "2015-04-01T14:29:44Z",
+                    "LastChanged": "0001-01-01T00:00:00Z",
+                    "Master": "",
+                    "PhysAddress": "40:F2:01:8C:7C:D0",
+                    "Ageing": false,
+                    "Layer2Interface": "",
+                    "InterfaceName": "",
+                    "MACVendor": "",
+                    "NetDevName": "bridge",
+                    "NetDevIndex": 16,
+                    "IPAddress": "192.168.1.1",
+                    "IPAddressSource": "self",
+                    "DHCPv4ServerPool": "default",
+                    "DHCPv4ServerEnable": true,
+                    "DHCPv4ServerMinAddress": "192.168.1.10",
+                    "DHCPv4ServerMaxAddress": "192.168.1.150",
+                    "DHCPv4ServerNetmask": "255.255.255.0",
+                    "DHCPv4DomainName": "home",
+                    "Index": "2",
+                    "Alternative": [],
+                    "Names": [
+                        {
+                            "Name": "lan",
+                            "Source": "default"
+                        }
+                    ],
+                    "DeviceTypes": [],
+                    "IPv4Address": [
+                        {
+                            "Address": "192.168.1.1",
+                            "Status": "reachable",
+                            "Scope": "global",
+                            "AddressSource": "self",
+                            "Reserved": true
+                        }
+                    ],
+                    "IPv6Address": [
+                        {
+                            "Address": "fe80::42f2:1ff:fe8c:7cd0",
+                            "Status": "reachable",
+                            "Scope": "link",
+                            "AddressSource": "self"
+                        }
+                    ],
+                    "Children": [
+                        {
+                            "Key": "wl0",
+                            "DiscoverySource": "selflan",
+                            "Name": "wl0",
+                            "DeviceType": "",
+                            "Active": true,
+                            "Tags": "self lan vap wifi nemo interface",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "2015-04-01T14:24:09Z",
+                            "Master": "",
+                            "NetDevName": "wl0",
+                            "NetDevIndex": 13,
+                            "SSID": "Livebox-7CD0",
+                            "BSSID": "40:F2:01:8C:7C:D0",
+                            "OperatingFrequencyBand": "2.4GHz",
+                            "OperatingStandards": "bgn",
+                            "Channel": 6,
+                            "Index": "3",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "wl0",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": [],
+                            "Children": [
+                                {
+                                    "Key": "E4:CE:8F:4B:33:AA",
+                                    "DiscoverySource": "bridge",
+                                    "Name": "PC-24",
+                                    "DeviceType": "Computer",
+                                    "Active": false,
+                                    "Tags": "lan edev mac physical wifi",
+                                    "FirstSeen": "2015-04-01T10:06:25Z",
+                                    "LastConnection": "0001-01-01T00:00:00Z",
+                                    "LastChanged": "0001-01-01T00:00:00Z",
+                                    "Master": "",
+                                    "Location": "",
+                                    "PhysAddress": "E4:CE:8F:4B:33:AA",
+                                    "Ageing": true,
+                                    "Layer2Interface": "wl0",
+                                    "InterfaceName": "wl0",
+                                    "MACVendor": "",
+                                    "Owner": "",
+                                    "Index": "24",
+                                    "Actions": [
+                                        {
+                                            "Function": "setName",
+                                            "Name": "Edit Name",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "name",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Function": "setType",
+                                            "Name": "Edit Type",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "type",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "Alternative": [],
+                                    "Names": [
+                                        {
+                                            "Name": "PC-24",
+                                            "Source": "default"
+                                        }
+                                    ],
+                                    "DeviceTypes": [
+                                        {
+                                            "Type": "Computer",
+                                            "Source": "default"
+                                        }
+                                    ],
+                                    "Locations": [],
+                                    "Groups": []
+                                },
+                                {
+                                    "Key": "50:A4:C8:BE:EE:97",
+                                    "DiscoverySource": "bridge",
+                                    "Name": "PC-27",
+                                    "DeviceType": "Computer",
+                                    "Active": false,
+                                    "Tags": "lan edev mac physical wifi",
+                                    "FirstSeen": "2015-04-01T10:06:25Z",
+                                    "LastConnection": "0001-01-01T00:00:00Z",
+                                    "LastChanged": "0001-01-01T00:00:00Z",
+                                    "Master": "",
+                                    "Location": "",
+                                    "PhysAddress": "50:A4:C8:BE:EE:97",
+                                    "Ageing": true,
+                                    "Layer2Interface": "wl0",
+                                    "InterfaceName": "wl0",
+                                    "MACVendor": "",
+                                    "Owner": "",
+                                    "Index": "27",
+                                    "Actions": [
+                                        {
+                                            "Function": "setName",
+                                            "Name": "Edit Name",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "name",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Function": "setType",
+                                            "Name": "Edit Type",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "type",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "Alternative": [],
+                                    "Names": [
+                                        {
+                                            "Name": "PC-27",
+                                            "Source": "default"
+                                        }
+                                    ],
+                                    "DeviceTypes": [
+                                        {
+                                            "Type": "Computer",
+                                            "Source": "default"
+                                        }
+                                    ],
+                                    "Locations": [],
+                                    "Groups": []
+                                }
+                            ]
+                        },
+                        {
+                            "Key": "eth1",
+                            "DiscoverySource": "selflan",
+                            "Name": "eth1",
+                            "DeviceType": "",
+                            "Active": false,
+                            "Tags": "self lan eth nemo interface",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "0001-01-01T00:00:00Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "MaxBitRateSupported": 1000,
+                            "CurrentBitRate": 1,
+                            "NetDevName": "eth1",
+                            "NetDevIndex": 7,
+                            "Index": "4",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "eth1",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": []
+                        },
+                        {
+                            "Key": "eth2",
+                            "DiscoverySource": "selflan",
+                            "Name": "eth2",
+                            "DeviceType": "",
+                            "Active": false,
+                            "Tags": "self lan eth nemo interface",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "0001-01-01T00:00:00Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "MaxBitRateSupported": 1000,
+                            "CurrentBitRate": 1,
+                            "NetDevName": "eth2",
+                            "NetDevIndex": 8,
+                            "Index": "5",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "eth2",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": []
+                        },
+                        {
+                            "Key": "eth3",
+                            "DiscoverySource": "selflan",
+                            "Name": "eth3",
+                            "DeviceType": "",
+                            "Active": true,
+                            "Tags": "self lan eth nemo interface",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "MaxBitRateSupported": 1000,
+                            "CurrentBitRate": 100,
+                            "NetDevName": "eth3",
+                            "NetDevIndex": 9,
+                            "Index": "6",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "eth3",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": [],
+                            "Children": [
+                                {
+                                    "Key": "BC:F2:AF:31:38:66",
+                                    "DiscoverySource": "bridge",
+                                    "Name": "France Telecom Liveplug HD+ [MT2330]",
+                                    "DeviceType": "HomePlug",
+                                    "Active": true,
+                                    "Tags": "lan mac physical eth hnid homeplug_av atheros orange",
+                                    "FirstSeen": "2015-04-01T10:06:25Z",
+                                    "LastConnection": "2015-04-01T14:29:44Z",
+                                    "LastChanged": "0001-01-01T00:00:00Z",
+                                    "Master": "",
+                                    "Location": "",
+                                    "PhysAddress": "BC:F2:AF:31:38:66",
+                                    "Ageing": false,
+                                    "Layer2Interface": "eth3",
+                                    "InterfaceName": "eth3",
+                                    "MACVendor": "",
+                                    "Owner": "",
+                                    "AveragePhyTx": 0,
+                                    "AveragePhyRx": 0,
+                                    "Manufacturer": "France Telecom Liveplug HD+ [MT2330]",
+                                    "User": "Intellon Enabled Product",
+                                    "Version": "INT6000-MAC-4-4-4405-00-4497-20101201-FINAL-B",
+                                    "DeviceId": 3,
+                                    "Index": "23",
+                                    "Actions": [
+                                        {
+                                            "Function": "setName",
+                                            "Name": "Edit Name",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "name",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Function": "setType",
+                                            "Name": "Edit Type",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "type",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "Alternative": [],
+                                    "Names": [
+                                        {
+                                            "Name": "PC-23",
+                                            "Source": "default"
+                                        },
+                                        {
+                                            "Name": "France Telecom Liveplug HD+ [MT2330]",
+                                            "Source": "homeplug"
+                                        }
+                                    ],
+                                    "DeviceTypes": [
+                                        {
+                                            "Type": "Computer",
+                                            "Source": "default"
+                                        },
+                                        {
+                                            "Type": "HomePlug",
+                                            "Source": "plc"
+                                        }
+                                    ],
+                                    "Locations": [],
+                                    "Groups": [],
+                                    "Children": [
+                                        {
+                                            "Key": "BC:F2:AF:48:87:BE",
+                                            "DiscoverySource": "bridge",
+                                            "Name": "France Telecom Liveplug HD+ [MT2330;P:2330]",
+                                            "DeviceType": "HomePlug",
+                                            "Active": true,
+                                            "Tags": "lan mac physical eth hnid homeplug_av atheros orange",
+                                            "FirstSeen": "2015-04-01T10:06:25Z",
+                                            "LastConnection": "2015-04-01T14:29:44Z",
+                                            "LastChanged": "0001-01-01T00:00:00Z",
+                                            "Master": "",
+                                            "Location": "",
+                                            "PhysAddress": "BC:F2:AF:48:87:BE",
+                                            "Ageing": false,
+                                            "Layer2Interface": "eth3",
+                                            "InterfaceName": "eth3",
+                                            "MACVendor": "",
+                                            "Owner": "",
+                                            "AveragePhyTx": 148,
+                                            "AveragePhyRx": 148,
+                                            "Manufacturer": "France Telecom Liveplug HD+ [MT2330;P:2330]",
+                                            "User": "Intellon Enabled Product",
+                                            "Version": "INT6000-MAC-4-4-4405-00-4497-20101201-FINAL-B",
+                                            "DeviceId": 3,
+                                            "Index": "25",
+                                            "Actions": [
+                                                {
+                                                    "Function": "setName",
+                                                    "Name": "Edit Name",
+                                                    "Arguments": [
+                                                        {
+                                                            "Name": "name",
+                                                            "Type": "string",
+                                                            "Mandatory": true
+                                                        },
+                                                        {
+                                                            "Name": "source",
+                                                            "Type": "string",
+                                                            "Mandatory": false
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Function": "setType",
+                                                    "Name": "Edit Type",
+                                                    "Arguments": [
+                                                        {
+                                                            "Name": "type",
+                                                            "Type": "string",
+                                                            "Mandatory": true
+                                                        },
+                                                        {
+                                                            "Name": "source",
+                                                            "Type": "string",
+                                                            "Mandatory": false
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "Alternative": [],
+                                            "Names": [
+                                                {
+                                                    "Name": "PC-25",
+                                                    "Source": "default"
+                                                },
+                                                {
+                                                    "Name": "France Telecom Liveplug HD+ [MT2330;P:2330]",
+                                                    "Source": "homeplug"
+                                                }
+                                            ],
+                                            "DeviceTypes": [
+                                                {
+                                                    "Type": "HomePlug",
+                                                    "Source": "plc"
+                                                },
+                                                {
+                                                    "Type": "Computer",
+                                                    "Source": "default"
+                                                }
+                                            ],
+                                            "Locations": [],
+                                            "Groups": [],
+                                            "Children": [
+                                                {
+                                                    "Key": "3C:07:54:03:F6:94",
+                                                    "DiscoverySource": "bridge",
+                                                    "Name": "MacBook-Pro-de-SoftAtHome",
+                                                    "DeviceType": "Computer",
+                                                    "Active": true,
+                                                    "Tags": "lan edev mac physical eth ipv4 ipv6 dhcp",
+                                                    "FirstSeen": "2015-04-01T10:06:25Z",
+                                                    "LastConnection": "2015-04-01T14:29:44Z",
+                                                    "LastChanged": "2015-04-01T14:28:31Z",
+                                                    "Master": "",
+                                                    "Location": "",
+                                                    "PhysAddress": "3C:07:54:03:F6:94",
+                                                    "Ageing": false,
+                                                    "Layer2Interface": "eth3",
+                                                    "InterfaceName": "eth3",
+                                                    "MACVendor": "",
+                                                    "Owner": "",
+                                                    "IPAddress": "192.168.1.14",
+                                                    "IPAddressSource": "Static",
+                                                    "VendorClassID": "",
+                                                    "UserClassID": "",
+                                                    "ClientID": "01:3C:07:54:03:F6:94",
+                                                    "SerialNumber": "",
+                                                    "ProductClass": "",
+                                                    "OUI": "",
+                                                    "Index": "15",
+                                                    "Actions": [
+                                                        {
+                                                            "Function": "setName",
+                                                            "Name": "Edit Name",
+                                                            "Arguments": [
+                                                                {
+                                                                    "Name": "name",
+                                                                    "Type": "string",
+                                                                    "Mandatory": true
+                                                                },
+                                                                {
+                                                                    "Name": "source",
+                                                                    "Type": "string",
+                                                                    "Mandatory": false
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Function": "setType",
+                                                            "Name": "Edit Type",
+                                                            "Arguments": [
+                                                                {
+                                                                    "Name": "type",
+                                                                    "Type": "string",
+                                                                    "Mandatory": true
+                                                                },
+                                                                {
+                                                                    "Name": "source",
+                                                                    "Type": "string",
+                                                                    "Mandatory": false
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "Alternative": [],
+                                                    "Names": [
+                                                        {
+                                                            "Name": "PC-15",
+                                                            "Source": "default"
+                                                        },
+                                                        {
+                                                            "Name": "MacBook-Pro-de-SoftAtHome",
+                                                            "Source": "mdns"
+                                                        },
+                                                        {
+                                                            "Name": "MBPdeSoftAtHome",
+                                                            "Source": "dhcp"
+                                                        }
+                                                    ],
+                                                    "DeviceTypes": [
+                                                        {
+                                                            "Type": "Computer",
+                                                            "Source": "default"
+                                                        }
+                                                    ],
+                                                    "Locations": [],
+                                                    "Groups": [],
+                                                    "IPv4Address": [
+                                                        {
+                                                            "Address": "192.168.1.14",
+                                                            "Status": "reachable",
+                                                            "Scope": "global",
+                                                            "AddressSource": "Static",
+                                                            "Reserved": false
+                                                        }
+                                                    ],
+                                                    "IPv6Address": [
+                                                        {
+                                                            "Address": "fe80::3e07:54ff:fe03:f694",
+                                                            "Status": "reachable",
+                                                            "Scope": "link",
+                                                            "AddressSource": "Static"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Key": "eth4",
+                            "DiscoverySource": "selflan",
+                            "Name": "eth4",
+                            "DeviceType": "",
+                            "Active": true,
+                            "Tags": "self lan eth nemo interface",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "MaxBitRateSupported": 1000,
+                            "CurrentBitRate": 100,
+                            "NetDevName": "eth4",
+                            "NetDevIndex": 10,
+                            "Index": "7",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "eth4",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": [],
+                            "Children": [
+                                {
+                                    "Key": "08:00:27:2A:E5:1F",
+                                    "DiscoverySource": "neighborhood",
+                                    "Name": "sahnlpt0222-vir",
+                                    "DeviceType": "Computer",
+                                    "Active": true,
+                                    "Tags": "lan mac physical ipv4 ipv6 edev eth mdns",
+                                    "FirstSeen": "2015-04-01T10:06:25Z",
+                                    "LastConnection": "2015-04-01T14:29:44Z",
+                                    "LastChanged": "0001-01-01T00:00:00Z",
+                                    "Master": "",
+                                    "IPAddress": "192.168.1.46",
+                                    "IPAddressSource": "Static",
+                                    "Location": "",
+                                    "PhysAddress": "08:00:27:2A:E5:1F",
+                                    "Ageing": false,
+                                    "Layer2Interface": "eth4",
+                                    "InterfaceName": "eth4",
+                                    "MACVendor": "",
+                                    "Owner": "",
+                                    "Index": "14",
+                                    "Actions": [
+                                        {
+                                            "Function": "setName",
+                                            "Name": "Edit Name",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "name",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Function": "setType",
+                                            "Name": "Edit Type",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "type",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "Alternative": [],
+                                    "Names": [
+                                        {
+                                            "Name": "PC-14",
+                                            "Source": "default"
+                                        },
+                                        {
+                                            "Name": "sahnlpt0222-vir",
+                                            "Source": "mdns"
+                                        }
+                                    ],
+                                    "DeviceTypes": [
+                                        {
+                                            "Type": "Computer",
+                                            "Source": "default"
+                                        },
+                                        {
+                                            "Type": "Computer",
+                                            "Source": "mdns"
+                                        }
+                                    ],
+                                    "IPv4Address": [
+                                        {
+                                            "Address": "192.168.1.46",
+                                            "Status": "reachable",
+                                            "Scope": "global",
+                                            "AddressSource": "Static",
+                                            "Reserved": false
+                                        }
+                                    ],
+                                    "IPv6Address": [
+                                        {
+                                            "Address": "fe80::a00:27ff:fe2a:e51f",
+                                            "Status": "reachable",
+                                            "Scope": "link",
+                                            "AddressSource": "Static"
+                                        }
+                                    ],
+                                    "Locations": [],
+                                    "Groups": [],
+                                    "mDNSService": [
+                                        {
+                                            "Name": "sahnlpt0222-vir [08:00:27:2a:e5:1f]",
+                                            "ServiceName": "_workstation._tcp",
+                                            "Domain": "local",
+                                            "Port": "9",
+                                            "Text": ""
+                                        },
+                                        {
+                                            "Name": "sahnlpt0222-vir",
+                                            "ServiceName": "_udisks-ssh._tcp",
+                                            "Domain": "local",
+                                            "Port": "22",
+                                            "Text": ""
+                                        },
+                                        {
+                                            "Name": "Virtualization Host sahnlpt0222-vir",
+                                            "ServiceName": "_libvirt._tcp",
+                                            "Domain": "local",
+                                            "Port": "65535",
+                                            "Text": ""
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Key": "BC:F6:85:D7:23:E5",
+                                    "DiscoverySource": "bridge",
+                                    "Name": "PC-16",
+                                    "DeviceType": "Computer",
+                                    "Active": true,
+                                    "Tags": "lan edev mac physical eth ipv4 ipv6",
+                                    "FirstSeen": "2015-04-01T10:06:25Z",
+                                    "LastConnection": "2015-04-01T14:29:44Z",
+                                    "LastChanged": "0001-01-01T00:00:00Z",
+                                    "Master": "",
+                                    "Location": "",
+                                    "PhysAddress": "BC:F6:85:D7:23:E5",
+                                    "Ageing": false,
+                                    "Layer2Interface": "eth4",
+                                    "InterfaceName": "eth4",
+                                    "MACVendor": "",
+                                    "Owner": "",
+                                    "IPAddress": "192.168.1.45",
+                                    "IPAddressSource": "Static",
+                                    "Index": "16",
+                                    "Actions": [
+                                        {
+                                            "Function": "setName",
+                                            "Name": "Edit Name",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "name",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Function": "setType",
+                                            "Name": "Edit Type",
+                                            "Arguments": [
+                                                {
+                                                    "Name": "type",
+                                                    "Type": "string",
+                                                    "Mandatory": true
+                                                },
+                                                {
+                                                    "Name": "source",
+                                                    "Type": "string",
+                                                    "Mandatory": false
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "Alternative": [],
+                                    "Names": [
+                                        {
+                                            "Name": "PC-16",
+                                            "Source": "default"
+                                        }
+                                    ],
+                                    "DeviceTypes": [
+                                        {
+                                            "Type": "Computer",
+                                            "Source": "default"
+                                        }
+                                    ],
+                                    "Locations": [],
+                                    "Groups": [],
+                                    "IPv4Address": [
+                                        {
+                                            "Address": "192.168.1.45",
+                                            "Status": "reachable",
+                                            "Scope": "global",
+                                            "AddressSource": "Static",
+                                            "Reserved": false
+                                        },
+                                        {
+                                            "Address": "192.168.1.10",
+                                            "Status": "reachable",
+                                            "Scope": "global",
+                                            "AddressSource": "Static",
+                                            "Reserved": false
+                                        }
+                                    ],
+                                    "IPv6Address": []
+                                }
+                            ]
+                        },
+                        {
+                            "Key": "eth6",
+                            "DiscoverySource": "selflan",
+                            "Name": "eth6",
+                            "DeviceType": "",
+                            "Active": true,
+                            "Tags": "self lan eth nemo interface",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "MaxBitRateSupported": 1000,
+                            "CurrentBitRate": 1000,
+                            "NetDevName": "eth6",
+                            "NetDevIndex": 12,
+                            "Index": "8",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "eth6",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": []
+                        },
+                        {
+                            "Key": "uuid:413d533f-3d3e-f550-f450-513ddf3d533f",
+                            "DiscoverySource": "upnpDev",
+                            "Name": "WFADevice",
+                            "DeviceType": "",
+                            "Active": true,
+                            "Tags": "upnp root logical",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "Type": "urn:schemas-wifialliance-org:device:WFADevice:1",
+                            "Manufacturer": "Sagemcom",
+                            "ManufacturerURL": "http://www.broadcom.com",
+                            "ModelDescription": "",
+                            "ModelName": "SagemcomFast5360_MIB4",
+                            "ModelNumber": "SG_LB4_1.0.0",
+                            "ModelURL": "",
+                            "SerialNumber": "0000001",
+                            "UDN": "uuid:413d533f-3d3e-f550-f450-513ddf3d533f",
+                            "UPC": "",
+                            "PresentationURL": "",
+                            "Server": "POSIX, UPnP/1.0 UPnP Stack/7.14.43.21",
+                            "Index": "28",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "device_28",
+                                    "Source": "default"
+                                },
+                                {
+                                    "Name": "WFADevice",
+                                    "Source": "upnp"
+                                }
+                            ],
+                            "DeviceTypes": [],
+                            "Service": [
+                                {
+                                    "ServiceType": "urn:schemas-wifialliance-org:service:WFAWLANConfig:1",
+                                    "ServiceId": "urn:wifialliance-org:serviceId:WFAWLANConfig1",
+                                    "SCPDURL": "/x_wfawlanconfig.xml",
+                                    "ControlURL": "/control?WFAWLANConfig",
+                                    "EventSubURL": "/event?WFAWLANConfig"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Key": "guest",
+                    "DiscoverySource": "selflan",
+                    "Name": "guest",
+                    "DeviceType": "",
+                    "Active": true,
+                    "Tags": "self lan bridge mac nemo interface ipv4 ipv6 dhcpserver",
+                    "FirstSeen": "2015-04-01T10:06:25Z",
+                    "LastConnection": "2015-04-01T14:29:44Z",
+                    "LastChanged": "0001-01-01T00:00:00Z",
+                    "Master": "",
+                    "PhysAddress": "CA:86:93:75:FF:FE",
+                    "Ageing": false,
+                    "Layer2Interface": "",
+                    "InterfaceName": "",
+                    "MACVendor": "",
+                    "NetDevName": "brguest",
+                    "NetDevIndex": 19,
+                    "IPAddress": "192.168.144.1",
+                    "IPAddressSource": "self",
+                    "DHCPv4ServerPool": "guest",
+                    "DHCPv4ServerEnable": true,
+                    "DHCPv4ServerMinAddress": "192.168.144.2",
+                    "DHCPv4ServerMaxAddress": "192.168.144.254",
+                    "DHCPv4ServerNetmask": "255.255.255.0",
+                    "DHCPv4DomainName": "guest",
+                    "Index": "9",
+                    "Alternative": [],
+                    "Names": [
+                        {
+                            "Name": "guest",
+                            "Source": "default"
+                        }
+                    ],
+                    "DeviceTypes": [],
+                    "IPv4Address": [
+                        {
+                            "Address": "192.168.144.1",
+                            "Status": "reachable",
+                            "Scope": "global",
+                            "AddressSource": "self",
+                            "Reserved": true
+                        }
+                    ],
+                    "IPv6Address": [
+                        {
+                            "Address": "fe80::c886:93ff:fe75:fffe",
+                            "Status": "reachable",
+                            "Scope": "link",
+                            "AddressSource": "self"
+                        },
+                        {
+                            "Address": "fe80::42f2:1ff:fe8c:7cd3",
+                            "Status": "reachable",
+                            "Scope": "link",
+                            "AddressSource": "self"
+                        }
+                    ],
+                    "Children": [
+                        {
+                            "Key": "wlguest2",
+                            "DiscoverySource": "selflan",
+                            "Name": "wlguest2",
+                            "DeviceType": "",
+                            "Active": false,
+                            "Tags": "self lan vap wifi nemo interface",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "0001-01-01T00:00:00Z",
+                            "LastChanged": "2015-04-01T14:24:09Z",
+                            "Master": "",
+                            "NetDevName": "wl0.3",
+                            "NetDevIndex": 22,
+                            "SSID": "Livebox-7CD0_wifi_invite",
+                            "BSSID": "40:F2:01:8C:7C:D0",
+                            "OperatingFrequencyBand": "2.4GHz",
+                            "OperatingStandards": "bgn",
+                            "Channel": 6,
+                            "Index": "10",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "wlguest2",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": []
+                        }
+                    ]
+                },
+                {
+                    "Key": "sysbus_USBHost",
+                    "DiscoverySource": "selfusb",
+                    "Name": "USBHost",
+                    "DeviceType": "",
+                    "Active": true,
+                    "Tags": "self usb interface sysbus",
+                    "FirstSeen": "2015-04-01T10:06:25Z",
+                    "LastConnection": "2015-04-01T14:29:44Z",
+                    "LastChanged": "0001-01-01T00:00:00Z",
+                    "Master": "",
+                    "BusName": "sysbus",
+                    "Index": "11",
+                    "Alternative": [],
+                    "Names": [
+                        {
+                            "Name": "USBHost",
+                            "Source": "default"
+                        }
+                    ],
+                    "DeviceTypes": [],
+                    "Children": [
+                        {
+                            "Key": "Port1",
+                            "DiscoverySource": "selfusb",
+                            "Name": "Port1",
+                            "DeviceType": "",
+                            "Active": true,
+                            "Tags": "self usb port interface sysbus",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "BusName": "sysbus",
+                            "Port": 0,
+                            "USBHost": "sysbus.USBHosts.Host.1",
+                            "Index": "17",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "Port1",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": [],
+                            "Children": [
+                                {
+                                    "Key": "USB_1_2",
+                                    "DiscoverySource": "usb_dev",
+                                    "Name": "USB DISK Pro",
+                                    "DeviceType": "Disk",
+                                    "Active": true,
+                                    "Tags": "bus usb physical storage edev",
+                                    "FirstSeen": "2015-04-01T10:06:25Z",
+                                    "LastConnection": "2015-04-01T14:29:44Z",
+                                    "LastChanged": "0001-01-01T00:00:00Z",
+                                    "Master": "",
+                                    "BusName": "sysbus",
+                                    "Location": "",
+                                    "Owner": "",
+                                    "USBVersion": "2.00",
+                                    "DeviceVersion": 1,
+                                    "DeviceProtocol": "0x00",
+                                    "ProductID": 12576,
+                                    "VendorID": 5118,
+                                    "Manufacturer": "",
+                                    "SerialNumber": "07950402BBA7002C",
+                                    "Port": 0,
+                                    "Rate": "High",
+                                    "Index": "19",
+                                    "Alternative": [],
+                                    "Names": [
+                                        {
+                                            "Name": "usb_disk_1",
+                                            "Source": "default"
+                                        },
+                                        {
+                                            "Name": "USB DISK Pro",
+                                            "Source": "usb-prod"
+                                        }
+                                    ],
+                                    "DeviceTypes": [
+                                        {
+                                            "Type": "Disk",
+                                            "Source": "usb"
+                                        }
+                                    ],
+                                    "Locations": [],
+                                    "Groups": [],
+                                    "Children": [
+                                        {
+                                            "Key": "9AA0-998B",
+                                            "DiscoverySource": "usb_storage",
+                                            "Name": "USB1",
+                                            "DeviceType": "Partition",
+                                            "Active": true,
+                                            "Tags": "bus usb storage logical volume",
+                                            "FirstSeen": "2015-04-01T10:06:25Z",
+                                            "LastConnection": "2015-04-01T14:29:44Z",
+                                            "LastChanged": "0001-01-01T00:00:00Z",
+                                            "Master": "",
+                                            "BusName": "sysbus",
+                                            "FileSystem": "FAT32",
+                                            "Capacity": 1903,
+                                            "UsedSpace": 100,
+                                            "LogicalVolumeIndex": 1,
+                                            "Index": "20",
+                                            "Actions": [
+                                                {
+                                                    "Function": "setName",
+                                                    "Name": "Edit Name",
+                                                    "Arguments": [
+                                                        {
+                                                            "Name": "name",
+                                                            "Type": "string",
+                                                            "Mandatory": true
+                                                        },
+                                                        {
+                                                            "Name": "source",
+                                                            "Type": "string",
+                                                            "Mandatory": false
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "Alternative": [],
+                                            "Names": [
+                                                {
+                                                    "Name": "usb-20",
+                                                    "Source": "default"
+                                                },
+                                                {
+                                                    "Name": "USB1",
+                                                    "Source": "storage"
+                                                }
+                                            ],
+                                            "DeviceTypes": [
+                                                {
+                                                    "Type": "Partition",
+                                                    "Source": "storage"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Key": "Port2",
+                            "DiscoverySource": "selfusb",
+                            "Name": "Port2",
+                            "DeviceType": "",
+                            "Active": true,
+                            "Tags": "self usb port interface sysbus",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "BusName": "sysbus",
+                            "Port": 1,
+                            "USBHost": "sysbus.USBHosts.Host.1",
+                            "Index": "18",
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "Port2",
+                                    "Source": "default"
+                                }
+                            ],
+                            "DeviceTypes": []
+                        }
+                    ]
+                },
+                {
+                    "Key": "DECT",
+                    "DiscoverySource": "voice_handsets",
+                    "Name": "DECT",
+                    "DeviceType": "Phone",
+                    "Active": true,
+                    "Tags": "voice interface dect physical",
+                    "FirstSeen": "2015-04-01T10:06:25Z",
+                    "LastConnection": "2015-04-01T14:29:44Z",
+                    "LastChanged": "0001-01-01T00:00:00Z",
+                    "Master": "",
+                    "Location": "",
+                    "Owner": "",
+                    "Index": "12",
+                    "Actions": [
+                        {
+                            "Function": "ring",
+                            "Name": "Ring all"
+                        },
+                        {
+                            "Function": "startPairing",
+                            "Name": "Pair handset"
+                        }
+                    ],
+                    "Alternative": [],
+                    "Names": [
+                        {
+                            "Name": "DECT",
+                            "Source": "default"
+                        }
+                    ],
+                    "DeviceTypes": [
+                        {
+                            "Type": "Phone",
+                            "Source": "tags"
+                        }
+                    ],
+                    "Locations": [],
+                    "Groups": [],
+                    "Children": [
+                        {
+                            "Key": "HS0119B27E2D",
+                            "DiscoverySource": "voice_handsets",
+                            "Name": "DECT1",
+                            "DeviceType": "Phone",
+                            "Active": true,
+                            "Tags": "voice handset dect physical",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "Location": "",
+                            "Owner": "",
+                            "DirectoryNumber": "202",
+                            "EndpointType": "DECT CAT-iq 2.0",
+                            "OutgoingTrunkLine": "LINE1",
+                            "Index": "21",
+                            "Actions": [
+                                {
+                                    "Function": "setName",
+                                    "Name": "Edit Name",
+                                    "Arguments": [
+                                        {
+                                            "Name": "name",
+                                            "Type": "string",
+                                            "Mandatory": true
+                                        },
+                                        {
+                                            "Name": "source",
+                                            "Type": "string",
+                                            "Mandatory": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Function": "unPair",
+                                    "Name": "Unpair handset"
+                                },
+                                {
+                                    "Function": "ring",
+                                    "Name": "Ring handset"
+                                }
+                            ],
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "HS0119B27E2D",
+                                    "Source": "default"
+                                },
+                                {
+                                    "Name": "DECT1",
+                                    "Source": "handset"
+                                },
+                                {
+                                    "Name": "DECT1",
+                                    "Source": "webui"
+                                }
+                            ],
+                            "DeviceTypes": [
+                                {
+                                    "Type": "Phone",
+                                    "Source": "tags"
+                                },
+                                {
+                                    "Type": "Computer",
+                                    "Source": "default"
+                                }
+                            ],
+                            "Locations": [],
+                            "Groups": []
+                        }
+                    ]
+                },
+                {
+                    "Key": "FXS",
+                    "DiscoverySource": "voice_handsets",
+                    "Name": "FXS",
+                    "DeviceType": "Phone",
+                    "Active": true,
+                    "Tags": "voice interface physical",
+                    "FirstSeen": "2015-04-01T10:06:25Z",
+                    "LastConnection": "2015-04-01T14:29:44Z",
+                    "LastChanged": "0001-01-01T00:00:00Z",
+                    "Master": "",
+                    "Location": "",
+                    "Owner": "",
+                    "Index": "13",
+                    "Actions": [
+                        {
+                            "Function": "ring",
+                            "Name": "Ring all"
+                        }
+                    ],
+                    "Alternative": [],
+                    "Names": [
+                        {
+                            "Name": "FXS",
+                            "Source": "default"
+                        }
+                    ],
+                    "DeviceTypes": [
+                        {
+                            "Type": "Phone",
+                            "Source": "tags"
+                        }
+                    ],
+                    "Locations": [],
+                    "Groups": [],
+                    "Children": [
+                        {
+                            "Key": "FXS1",
+                            "DiscoverySource": "voice_handsets",
+                            "Name": "FXS1",
+                            "DeviceType": "Phone",
+                            "Active": true,
+                            "Tags": "voice handset physical",
+                            "FirstSeen": "2015-04-01T10:06:25Z",
+                            "LastConnection": "2015-04-01T14:29:44Z",
+                            "LastChanged": "0001-01-01T00:00:00Z",
+                            "Master": "",
+                            "Location": "",
+                            "Owner": "",
+                            "DirectoryNumber": "201",
+                            "EndpointType": "FXS",
+                            "OutgoingTrunkLine": "LINE1",
+                            "Index": "22",
+                            "Actions": [
+                                {
+                                    "Function": "setName",
+                                    "Name": "Edit Name",
+                                    "Arguments": [
+                                        {
+                                            "Name": "name",
+                                            "Type": "string",
+                                            "Mandatory": true
+                                        },
+                                        {
+                                            "Name": "source",
+                                            "Type": "string",
+                                            "Mandatory": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Function": "ring",
+                                    "Name": "Ring handset"
+                                }
+                            ],
+                            "Alternative": [],
+                            "Names": [
+                                {
+                                    "Name": "FXS1",
+                                    "Source": "default"
+                                },
+                                {
+                                    "Name": "FXS1",
+                                    "Source": "handset"
+                                },
+                                {
+                                    "Name": "FXS1",
+                                    "Source": "webui"
+                                }
+                            ],
+                            "DeviceTypes": [
+                                {
+                                    "Type": "Phone",
+                                    "Source": "tags"
+                                },
+                                {
+                                    "Type": "Computer",
+                                    "Source": "default"
+                                }
+                            ],
+                            "Locations": [],
+                            "Groups": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

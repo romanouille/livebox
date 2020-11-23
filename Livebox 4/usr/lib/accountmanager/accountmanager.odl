@@ -1,0 +1,6 @@
+
+
+include "accountmanager-definitions.odl";
+include "accountmanager-defaults.odl";
+
+/** @location  commod_mediahub_accountmanager  add-on/frontend/pcb/accountmanager.odl.m4 */

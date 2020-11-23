@@ -1,0 +1,14 @@
+
+
+
+object Services {
+	object X_ORANGE-COM_WOLProxy;
+}
+
+datamodel {
+	object Services {
+		object X_ORANGE-COM_WOLProxy from "pcb://$(PCB_MAIN_BUS)/WOLProxy";
+	}
+}
+
+/** @location sah_services_wolproxy /plugin/wolproxy-igd.odl.m4 */

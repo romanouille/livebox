@@ -1,0 +1,12 @@
+<b>Routing</b>
+
+<br>
+<br>
+
+
+W celu komunikowania się, każde urządzenie sieciowe musi wiedzieć, którego routera należy użyć do dotarcia do sieci zewnętrznej. W związku z tym musi ono przechowywać lokalną tabelę routingu. Tabela ta zawiera adresy docelowe sieci, maski sieciowe, adresy bram oraz interfejs, przez który pakiet powinien opuścić modem Livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

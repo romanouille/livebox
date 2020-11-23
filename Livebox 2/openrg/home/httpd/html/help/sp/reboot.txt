@@ -1,0 +1,10 @@
+﻿<b>Reiniciar:</b><br>
+<br>
+<span class="boldorange">Reiniciar:</span> Puedes reiniciar tu Livebox haciendo clic en el botón "Reiniciar".<br>
+<br>
+<span class="boldorange">Reiniciar WiFi:</span> Puedes reiniciar el servicio WiFi de tu Livebox haciendo clic en el botón "Reiniciar WiFi".<br>
+<!--
+<br>
+
+-->
+

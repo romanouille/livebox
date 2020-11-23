@@ -1,0 +1,34 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="pppd_plugin"
+start_options="-c /usr/lib/pppd/pppd.odl -I /var/run/pppd"
+datamodel="PPP"
+trace_zones=""
+component="sah_services_pppd"
+
+case $1 in
+    start)
+        pcb_start $name $start_options
+        mtk_load nemo-core /usr/lib/nemo/modules/ppp.so dst=\"pcb://ipc:[/var/run/pppd]\"
+        ;;
+    stop)
+        mtk_unload nemo-core ppp
+        pcb_stop $name
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo|log]"
+        ;;
+esac

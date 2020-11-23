@@ -1,0 +1,8 @@
+<b>Infos systèmes :</b><br>
+<br>
+Cette page vous donne des informations techniques sur l'état général de votre livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+XDSL_ROOT="DSL_BROADCOM"
+XTM_ROOT="XTM_BROADCOM"
+PID="/var/run/dsl_broadcom.pid"
+
+case $1 in
+	start)
+		export dsl_bcm=200
+		export libdsl=200
+		export XDSL_ROOT=${XDSL_ROOT}
+		export XTM_ROOT=${XTM_ROOT}
+		sahenv -f /etc/environment pcb_plugin -vv -n dsl_broadcom -I /var/run/dsl -c /usr/lib/dsl/dsl.odl
+		pcb_cli -q -w -1 'NeMo' "Process.sysbus_nemo-core.loadSharedObject(\"/usr/lib/nemo/modules/xdsl.so\", dslroot=\"${XDSL_ROOT}\", xtmroot=\"${XTM_ROOT}\")"
+		;;
+	stop)
+		pcb_cli -q "Process.sysbus_nemo-core.unloadSharedObject(\"xdsl\")"
+		[ -e ${PID} ] && kill `cat ${PID}`
+		rm -f ${PID}
+		;;
+	debuginfo)
+		if [ -e ${PID} ] ; then 
+			echo "Status [dsl plugin]: running."
+			show_cmd cat /proc/$(cat ${PID})/status
+		else 
+			echo "Status [dsl plugin]: not running."
+		fi 
+		;;
+	*)
+		echo "Usage: $0 [start|stop|debuginfo]"
+		;;
+esac
+

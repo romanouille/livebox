@@ -1,0 +1,151 @@
+
+
+
+using "hosts.so";
+
+acl {
+    world read,execute;
+    group technician read,execute;
+    group admin read,execute;
+    group remoteadmin read,execute;
+    group cwmpd read,write,execute;
+}
+
+/**
+Hosts object
+*/
+object Hosts {
+    uint32 X_ORANGE-COM_MaximumHosts {
+        read with maxhostsOnRead;
+        write with maxhostsOnWrite;
+    }
+
+    /** The number of instances currently in Host. */
+    read-only uint32 HostNumberOfEntries {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+            group technician none;
+        }
+    }
+
+    /** Number of manageable devices available. */
+    read-only uint32 ManageableDeviceNumberOfEntries {
+        acl {
+            group admin none;
+            group remoteadmin none;
+            world none;
+            group technician none;
+        }
+    }
+
+    /** Host object table
+
+    This object will contain all discovered devices
+    */
+    read-only object Host[] {
+        /** Current IP Address of the host.
+        */
+        read-only string IPAddress;
+        /** Indicates whether the IP address of the host was allocated by the CPE using DHCP, was assigned to the host
+            statically, or was assigned using automatic IP address allocation.
+        */
+        read-only string AddressSource {
+            constraint enum ["DHCP","Static","AutoIP", "None"];
+            default "None";
+        }
+        /** DHCP leaste time remaining
+
+          This field is declared deprecated in TR-181.
+          This field has a dummy implentation to satisfy the need for TR-098.
+          If the ip address source is DHCP it will contain the lease time remaining.
+          Currently set to -1 in case of a DHCP assigned address, set to 0 otherwise.
+          This will be changed when the DHCP server is rewritten
+        */
+        read-only int32 LeaseTimeRemaining {
+            constraint minvalue -1;
+            default 0;
+        }
+        /** Physical address of the host */
+        read-only persistent string MACAddress {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** Name of the interface on which the device is connected.
+
+          On some platforms (using a switch) this field will always be empty.
+        */
+        read-only string Layer2Interface {
+            constraint maxvalue 256;
+            default "";
+        }
+        /** */
+        persistent string VendorClassID;
+        /** */
+        persistent string ClientID;
+        /** */
+        persistent string UserClassID;
+        /** */
+        read-only string HostName {
+            constraint maxvalue 64;
+            default "";
+        }
+        read-only string X_ORANGE-COM_InterfaceType {
+            constraint enum ["Ethernet","USB","802.11-2.4GHz","802.11-5GHz", "HomePNA","HomePlug","MoCa","Other"];
+            default "Other";
+        }
+        /** Is the host active? */
+        read-only bool Active;
+        /** The manufacturer OUI.*/
+        read-only persistent string ManufacturerOUI {
+            constraint range [6,6];
+            default "000000";
+        }
+        /** Host serial number */
+        read-only persistent string SerialNumber {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** Host product class */
+        read-only persistent string ProductClass {
+            constraint maxvalue 64;
+            default "";
+        }
+    }
+
+    /** This object is used to do mapping from TR-111 or TR-098 */
+    read-only object ManageableDevice[] {
+        acl {
+            world none;
+            group technician none;
+            group admin none;
+            group remoteadmin none;
+        }
+        /** An unique Alias */
+        string Alias {
+            constraint maxvalue 64;
+        }
+        /** TR-111 - Organizationally unique identifier of the Device manufacturer as provided to the Gateway by the Device. */
+        read-only string ManufacturerOUI {
+            constraint range [6,6];
+            default "000000";
+        }
+        /** TR-111 - Serial number of the Device as provided to the Gateway by the Device. */
+        read-only string SerialNumber {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** TR-111 - Identifier of the class of product for which the Device’s serial number applies as provided to the Gateway by the Device. */
+        read-only string ProductClass {
+            constraint maxvalue 64;
+            default "";
+        }
+        /** TR-098 - Reference to the Host table */
+        read-only string Host {
+            constraint maxvalue 1024;
+        }
+    }
+}
+
+/** @location sah_services_devdiscd /host-definition.odl.m4 */

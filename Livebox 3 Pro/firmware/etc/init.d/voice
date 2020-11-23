@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2008  Alina Friedrichsen <x-alina@gmx.net>
+START=50
+
+start() {
+	echo Create devices /dev/dsp, voice and fxo for Ikanos voice driver
+	mknod /dev/dsp       c   115 15
+	mknod /dev/voice     c   115 16
+	mknod /dev/fxo       c   115 17
+	mknod /dev/faxT38    c   115 18
+	mknod /dev/dect      c   115 19
+}
+
+stop() {
+	echo stop devices
+}

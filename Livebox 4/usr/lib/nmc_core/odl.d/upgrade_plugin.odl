@@ -1,0 +1,22 @@
+using "../nmccore_upgrade.so";
+
+persistent object NMC {
+    /**
+     * Populate the file that contains the version numbers
+     */
+    void updateVersionInfo() {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * Check if an upgrade is available
+     * @return true if an upgrade is available
+     */
+    bool checkForUpgrades() {
+        acl {
+            world none;
+        }
+    }
+}

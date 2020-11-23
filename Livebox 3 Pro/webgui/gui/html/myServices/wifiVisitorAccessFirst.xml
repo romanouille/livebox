@@ -1,0 +1,28 @@
+<div id="wifiVisitorAccessFirst" xmlns="http://www.orange.com/xhtml/engine/loose">
+    <div class="boxType3">
+		<h1 class="logo_generic grey" i18n="menuServices.wifiaccess"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myServices.wifiaccess.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 border-bottom-3">
+			<div class="info_content">
+				<span i18n="page.myServices.wifiaccess.content1"/>&#160;<span dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='Hotspot']/Enable" i18nPrefix="data.booleanLower"/>.
+			</div>
+			<div class="info_content" i18n="page.myServices.wifiaccess.content2"/>
+			<div class="info_content" i18n="page.myServices.wifiaccess.content3"/>
+			<div class="info_content" i18n="page.myServices.wifiaccess.content4"/>
+			<div class="info_content">
+				<input id="ckWiFiVA" type="checkbox" i18nPrefix="page.myServices.wifiaccess.checkbox"/><span i18n="page.myServices.wifiaccess.checkbox"/>
+			</div>
+			
+			<div widgetType="ButtonContainer" class="right">
+				<span id="btnCancel" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+				<span id="btnReg" widgetType="Button" widgetArg="{type: 'submit', crud: 'update'}" i18n="page.myServices.wifiaccess.register"/>
+			</div>
+		 </div>
+		</form>
+	</div>
+</div>

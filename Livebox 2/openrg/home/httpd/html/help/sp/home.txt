@@ -1,0 +1,18 @@
+﻿<b>Página de Inicio:</b><br>
+Esta página muestra el estado general de tu Livebox.<br>
+<br>
+<span class="boldorange">General:</span> Esta sección te muestra el estado de tu Livebox: nombre, versión de firmware actual, dirección IP WAN. Si has contratado la telefonía de Orange, se muestra tu número de teléfono. Por último se muestra la configuración de los puertos Ethernet de tu Livebox (Internet, TV y FTTH).<br>
+<br>
+<span class="boldorange">Inalámbrico:</span> Esta sección muestra la configuración de tu red inalámbrica: Red WiFi (SSID), modo, canal empleado y el tipo de seguridad. Para conectarte a la red inalámbrica tienes que utilizar la Clave WiFi de seguridad. Esta clave aparece en la etiqueta situada en la parte posterior del Livebox y también en el apartado Clave WiFi dentro del apartado configuración WiFi.<br>
+<br>
+<span class="boldorange">Servicios:</span> Esta sección muestra el estado de los servicios de Orange así como los de tu Livebox (servicios habilitados o deshabilitados).<br>
+<br>
+<span class="boldorange">Dispositivos conectados:</span> Esta sección muestra una lista de los dispositivos conectados a tu Livebox. Muestra la dirección IP y el tipo de conexión (Ethernet, USB o WiFi) para cada dispositivo.<br>
+<br>
+<b>Configuración:</b><br>
+<br>
+Debes acceder a tu Livebox para poder configurarlo. Para hacer esto necesitas el nombre y contraseña de administrador (por defecto el nombre de usuario de administración es admin y la contraseña admin). A continuación haz clic sobre el botón Acceso (botón con una flecha en su interior). Una vez te hayas conectado al Livebox podrás configurarlo a través de las páginas de configuración.<br>
+<!--
+<br>
+-->
+

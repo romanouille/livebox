@@ -1,0 +1,65 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="time-plugin"
+component="sah_services_time-plugin"
+datamodel="Time"
+trace_zones="time_plugin"
+
+RESTORE="/var/lib/${name}/restore"
+TIME_PLUGIN_ODL="/usr/lib/${name}/${name}.odl"
+
+ETC_DIR="/var/etc/ntp"
+ETC_SYNCHRONIZED_DIR="/var/tmp"
+CHROOT_DIR="/var/ntp/"
+
+case $1 in
+    start)
+        # create empty tmpfs folder to store some files
+        if [ ! -d "${ETC_DIR}" ]; then 
+            mkdir -p "${ETC_DIR}"
+            chown ntpd:ntpd "${ETC_DIR}"
+        else
+            rm -rf "${ETC_DIR}"/*
+        fi
+
+        if [ ! -d "${ETC_SYNCHRONIZED_DIR}" ]; then 
+            mkdir -p "${ETC_SYNCHRONIZED_DIR}"
+        fi
+
+        # empty chroot directory needed to start ntpd
+        mkdir -p ${CHROOT_DIR}
+
+        pcb_start ${name} -c $TIME_PLUGIN_ODL
+        pcb_cli -q 'Firewall.setService("ntp","lan","123","17",0,true)'
+        ;;
+    stop)    
+        pcb_cli -q 'Firewall.deleteService("ntp")'
+        pcb_stop $name
+        ;;
+    backup)
+        if [ -e $PID ] ; then 
+            pcb_cli "Time.export($2)"
+        else 
+            echo "Time plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p $(dirname "${RESTORE}") && touch "${RESTORE}"
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore|debuginfo|log]"
+        ;;
+esac

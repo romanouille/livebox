@@ -1,0 +1,19 @@
+<b>Page d’accueil :</b><br>
+Cette page vous donne l’état général de votre livebox.<br>
+<br>
+<span class="boldorange">Général :</span> Cette partie vous donne des informations sur l’état de votre livebox : son nom, la version de firmware, l’adresse IP WAN en cours. Si vous avez souscrit à l’offre de Téléphonie par Internet, le numéro de téléphone par Internet est affiché. Enfin, vous pouvez connaitre la configuration des ports Ethernet de votre livebox (Internet, TV ou Internet + TV).<br>
+<br>
+<span class="boldorange">WiFi :</span> Ici, vous trouverez la configuration de votre réseau sans fil. Son nom, le canal Wifi utilisé et surtout le type de sécurité. Pour vous connecter au réseau sans fil, vous devez aussi connaitre la clé de sécurité. Pour savoir quelle est cette clé, vous devez vous authentifier et aller sur la page de configuration WiFi.<br>
+<br>
+<span class="boldorange">Services :</span> Cette partie vous indique l’état des services Orange et de votre livebox (Activé ou Désactivé).<br>
+<br>
+<span class="boldorange">Equipements connectés :</span> Ici, vous avez la liste des équipements connectés à votre livebox. Vous pouvez savoir leur adresse IP ainsi que le type de connexion : Ethernet, USB ou WiFi.<br>
+<br>
+<b>Configurer :</b><br>
+<br>
+Pour configurer votre livebox, vous devez vous authentifier. Pour cela, saisissez l’identifiant et le mot de passe d’administration de votre livebox (Par défaut l’identifiant est admin et le mot de passe admin). Ensuite, cliquez sur le bouton <b>Accéder</b>. Une fois l’authentification réussie, vous pouvez configurer votre livebox en accédant aux pages de configuration via l’onglet Préférences.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

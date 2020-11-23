@@ -1,0 +1,48 @@
+object Layer3Forwarding {
+  object X_ORANGE-COM_Router[] {
+    object IPv6Forwarding[] {
+      read-only uint32 Status = 0;
+    }
+  }
+}
+
+datamodel {
+  instance of WANDevice(1,"WAN") {
+    instance of WANConnectionDevice(6, "multi") {
+      instance of WANIPConnection(1, "dhcp_multi") {
+        instance of X_ORANGE-COM_IPv6Address(1,"lla") {
+          destination "pcb://$(PCB_MAIN_BUS)/NMC/IPv6" {
+            parameter IPAddress from WANLocalLinkAddress;
+          }
+        }
+      }
+    }
+  }
+  
+  instance of LANDevice(1,"bridge") {
+    object LANHostConfigManagement {
+      instance of IPInterface(1,"default") {
+        instance of X_ORANGE-COM_IPv6Address(1,"lla") {
+          destination "pcb://$(PCB_MAIN_BUS)/NMC/IPv6" {
+            parameter IPAddress from LANLocalLinkAddress;
+          }
+        }
+        instance of X_ORANGE-COM_IPv6Address(2,"gua") {
+          destination "pcb://$(PCB_MAIN_BUS)/NMC/IPv6" {
+            parameter IPAddress from LANGlobalUniqueAddress;
+          }
+        }
+      }
+    }
+  }
+
+  object Layer3Forwarding {
+    instance of X_ORANGE-COM_Router(1,"router") {
+      instance of IPv6Forwarding(1,"forwarding") {
+        destination "pcb://$(PCB_MAIN_BUS)/NMC/IPv6" {
+          parameter Status from ForwardingStatus;
+        }
+      }
+    }
+  }
+}

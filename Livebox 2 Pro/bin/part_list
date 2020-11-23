@@ -1,0 +1,47 @@
+proc_list () {
+	line=`grep "$1 " /etc/mtab`
+	if [ ${#line} -eq 0 ]
+	then 
+		fstype="other"
+	else
+		fstype=`echo ${line} | cut -d' ' -f3`
+	fi
+	line=`df | grep "$1 "`
+	if [ ${#line} -eq 0 ]
+	then 
+		fssize=-1
+		fsfree=-1
+	else
+		fssize=`echo ${line} | cut -d' ' -f2`
+		fsfree=`echo ${line} | cut -d' ' -f4`
+	fi
+	echo $1:$1:${fstype}:OK:${fssize}:${fsfree}	>> /tmp/disk_listpart.txt
+}
+
+rm -f /tmp/disk_listpart.txt
+if [ $# -ne 1 ]
+then exit 1
+fi
+if [ ! -e /sys/block/$1 ]
+then exit 2
+fi
+
+found=0			
+	cd /sys/block/$1
+	for dev in `ls -d $1* 2>&-`; do
+		proc_list $dev
+		found=1
+	done
+
+# begin bug 6155 - Daniel - 20070817
+if [ $found -eq 0 ]
+then
+	line=`grep "$1 " /etc/mtab`
+	if [ ${#line} -ne 0 ]
+	then 
+		proc_list $1
+	fi
+fi
+# end bug 6155 - Daniel - 20070817
+
+exit 0

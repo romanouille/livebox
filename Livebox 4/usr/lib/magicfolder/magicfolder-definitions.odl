@@ -1,0 +1,29 @@
+using "magicfolder.so";
+
+persistent object MagicFolder {
+    acl {
+      world execute;
+      group mediahub read,execute;
+    }
+    
+    persistent read-only object Transfers[] {
+    
+    persistent read-only uint32 UserId;
+        
+    persistent uint32 TransferId;
+    
+    persistent read-only datetime CreationDate;
+
+    persistent string Status {
+    	constraint enum ["idle", "starting", "ongoing", "done" , "paused", "destroyed", "error", "error_full"];
+        default "idle";
+    }
+
+         persistent read-only object Contents[]{
+            persistent read-only string Path;
+         }
+        
+    }
+}
+
+/** @location commod_datahub_magicfolder add-on/frontend/pcb/magicfolder-definitions.odl.m4 */

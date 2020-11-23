@@ -1,0 +1,117 @@
+object NeMo {
+object extends MIB(0,"wlanendpoint") {
+string Flag = "wlanendpoint";
+object DataModel {
+read-only string EndPointStatus {
+constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+default "NotPresent";
+}
+read-only string ConnectionStatus {
+constraint enum ["Disabled", "Idle", "Discovering", "Connecting", "WPS_Pairing", "WPS_PairingDone", "WPS_Timeout", "Connected", "Disconnected", "Error", "Error_Misconfigured"];
+default "Disabled";
+}
+read-only string LastError {
+constraint enum ["None", "SSID_Not_Found", "Invalid_PassPhrase", "SecurityMethod_Unsupported", "WPS_Timeout", "WPS_Canceled", "Error_Misconfigured"];
+default "None";
+}
+int32 ThresholdMin {
+default -200;
+constraint range[-200,0];
+}
+int32 ThresholdMax {
+default 0;
+constraint range[-200,0];
+}
+int32 ThresholdRate {
+default 2000;
+constraint range[500,10000];
+}
+read-only string ThresholdStatus {
+constraint enum ["Low","High","Normal"];
+default "Normal";
+}
+int32 ThresholdHys;
+read-only string MACAddress;
+read-only string SSID;
+read-only string BSSID;
+read-only uint32 Index;
+string ProfileReference {
+default "";
+}
+read-only int32 ProfileNumberOfEntries;
+object Stats{
+//				read with getEndPointStats;
+read-only uint32 LastDataDownlinkRate{
+constraint range[0,600000];
+}
+read-only uint32 LastDataUplinkRate{
+constraint range[0,600000];
+}
+read-only int32 SignalStrength{
+constraint range[-200,0];
+}
+read-only uint32 Retransmissions{
+constraint range[0,100];
+}
+}
+void getStats(out variant stats);
+object Security{
+string ModesSupported{
+constraint enum ["None", "Auto",
+"WEP-64","WEP-128","WEP-128iv",
+"WPA-Personal","WPA2-Personal","WPA-WPA2-Personal",
+"E-None",
+"WPA-Enterprise","WPA2-Enterprise","WPA-WPA2-Enterprise"];
+default "WPA-WPA2-Personal";
+}
+}
+persistent object Profile[]{
+persistent bool Enable;
+read-only string Status{
+constraint enum ["Active","Available","Error","Disabled"];
+default "Disabled";
+}
+persistent string Alias;
+persistent string SSID;
+string ForceBSSID;
+persistent string Location;
+persistent uint32 Priority{
+constraint range[0,255];
+default 0;
+}
+string ConnectionType {
+constraint enum ["Normal", "WPS"];
+default "Normal";
+}
+persistent object Security{
+persistent string ModeEnabled {
+constraint enum  [ "None","WEP-64","WEP-128","WEP-128iv",
+"WPA-Personal","WPA2-Personal","WPA-WPA2-Personal",
+"E-None",
+"WPA-Enterprise","WPA2-Enterprise","WPA-WPA2-Enterprise",
+"Auto" ];
+default "None";
+}
+persistent string WEPKey;
+persistent string PreSharedKey;
+persistent string KeyPassPhrase;
+}
+}
+object WPS{
+persistent bool Enable{
+default 0;
+}
+string configMethodsSupported{
+constraint enum ["USB","Ethernet","Label","Display",
+"ExternalNFCToken","InternalNFCToken","NFCInterface","PushButton",
+"PIN"];
+default "PushButton";
+}
+persistent string ConfigMethodsEnabled;
+void pushButton(string ssid, string bssid, string clientPIN);
+void cancelPairing();
+read-only bool PairingInProgress;
+}
+}
+}
+}

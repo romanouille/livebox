@@ -1,0 +1,36 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="scheduler-plugin"
+start_options="-c /usr/lib/scheduler_plugin/scheduler_plugin.odl"
+datamodel="Scheduler"
+trace_zones=""
+component="sah_services_scheduler"
+
+case $1 in
+    start)
+        pcb_start $name $start_options
+    ;;
+    stop)
+        pcb_stop $name
+    ;;
+    restart)
+        $0 start
+        $0 stop
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|debuginfo|log]"
+        ;;
+esac

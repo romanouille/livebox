@@ -1,0 +1,4 @@
+mib nemo {
+read-only string NetDevName;
+read-only uint32 NetDevIndex;
+}

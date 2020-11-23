@@ -1,0 +1,179 @@
+
+using "remoteaccess_plugin.so";
+
+/**
+ * TR-181 Object definition:
+ * This object contains parameters relating to remotely accessing the CPE's user interface.
+ * Remote access is defined as any entity not of a local subnet attempting to connect to the CPE.
+ * Remote access requires user authentication. To provide remote access authentication the CPE MUST support a "User" table with at least one instance that has "RemoteAccessCapable" set to true.
+ */
+
+acl {
+	group admin read,execute;
+	group remoteadmin read,execute;
+	group cwmpd read,write,execute;
+}
+
+object RemoteAccess {
+    write with writeRemoteAccess;
+    /**
+     * Default getter function to retrieve all values from {RemoteAccess}
+     */
+    variant get();
+    /**
+     * Default setter function to change all or some values from {RemoteAccess}
+     */
+    bool set(variant parameters);
+
+    /**
+     * Define the portmode: 
+     * "RANDOM"
+     *  - if Port==0 a random port will be chosen
+     *  - if Port!=0 the given port will be used
+     *   
+     * "DEFAULT"
+     *  - if Port==0 || Port==80 || Port==443 the default port will be used depending on HTTP/HTTPS when enabling the service
+     *  - if Port!=0 the given port will be used
+     *
+     * @version 5.2
+     */
+    persistent string PortMode {
+      constraint enum ["RANDOM","DEFAULT"];
+      default "RANDOM";
+    }
+
+    /**
+     * Destination TCP port required for remote access connection.
+     */
+    persistent uint32 Port;
+
+    /**
+     * Comma-separated list of strings. Indicates the protocols that are supported by the CPE for the purpose of remotely accessing the user interface. Each list item is an enumeration of:
+     * HTTP (As defined in [RFC2616])
+     * HTTPS (As defined in [RFC2818]) 
+     */
+    read-only string SupportedProtocols {
+      default "HTTP,HTTPS";
+    }
+
+    /**
+     * The value MUST be a member of the list reported by the SupportedProtocols  parameter. This is the protocol currently being used for remote access.
+     */
+    persistent string Protocol {
+      constraint enum ["HTTP","HTTPS"];
+      default "HTTPS";
+    }
+
+    /**
+     * If 0 when enabling the service, the service will be enabled for an unlimited amount of time.
+     * If != 0 when enabling the service, the service will be enabled for the specified amount of seconds.
+     * This is a custom SoftAtHome parameter.
+     */
+    persistent uint32 Timeout=0;
+
+    /**
+     * The number of seconds left before the service is disabled.
+     * 0 if the service is disabled or when no timeout was specified.
+     * This is a custom SoftAtHome parameter.
+     */
+    read-only uint32 TimeLeft {
+      read with readTimeLeft;
+      default 0;
+    }
+
+    /**
+     * The interface name on which to listen.
+     */
+    persistent string Interface="data";
+
+
+    /**
+     * The time in GMT when the service was last enabled. This is used for possibly re-enabling the
+     * service after reboot.
+     */
+    persistent read-only datetime EnableTime;
+
+    /**
+     * Flag to indicate this service was disabled at startup because the time was not ntp synchronized. 
+     */
+    persistent read-only bool DisabledAtStartup = false;
+    
+    /**
+     * Parameter only used for debugging/automated tests:
+     * If a port number is set here, trying to open this port will always fail.
+     */
+    uint32 ForcePortFailure = 0;
+
+    /**
+     * Parameter only used for debugging/automated tests:
+     * If true, no real calls will be done to the HTTPService object.
+     */
+    persistent bool EmulateHTTPService = false;
+
+    /**
+     * Enables/Disables remotely accessing the CPE’s user interface.
+     */
+    persistent bool Enable {
+      write with writeEnable;
+      default 0;
+    }
+
+    /**
+     * Enable the remote access daemon
+     * @param port if 0, random port is chosen, the port parameter is returned to the calling routine.
+     * @param secure false=http true=https
+     * @param timeout if 0, permanent, otherwise timeout in seconds
+     *
+     * @result: 0 in case of error, in all other cases the port that was opened
+     */
+    uint32 enable(uint32 port,bool secure, uint32 timeout);
+
+    /**
+     * Disable the remote access daemon.
+     *
+     * @result: true if succesfull, false if an error occurred
+     */
+    bool disable();
+
+    /**
+     * returns the current value of timeout.
+     *
+     * @result: the time left.
+     */
+    uint32 getTimeLeft();
+
+    /**
+     * restarts the timer.
+     *
+     * @result: true if succesfull, false if an error occurred
+     */
+    bool restartTimer();
+
+
+    /**
+     * Export the remote access settings to hgwcfg.
+     * @param fileName The filename to which to
+     * @return Success or failure.
+     */
+    bool export(string fileName) {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+    /**
+     * Import the remote access settings from hgwcfg.
+     * @param fileName The filename from which to load.
+     * @return Success or failure.
+     */
+    bool import(string fileName) {
+      acl {
+        group admin none;
+	group remoteadmin none;
+      }         
+    }
+
+}
+
+/** @location sah_services_remoteaccess /remoteaccess-definition.odl */

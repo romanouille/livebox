@@ -1,0 +1,21 @@
+
+
+
+object USBHosts;
+
+datamodel {
+    object USBHosts from "pcb://$(PCB_MAIN_BUS)/USBHosts" recursive {
+        drop object "PortName";
+        drop function ".";
+        accept object "Host"  {
+            accept object ".*" {
+                accept object "Device" {
+                    drop parameter "PhysicalPort";
+                    accept object ".*" {
+                        drop parameter "PhysicalPort";
+                    }
+                }
+            }
+        }
+    }
+}

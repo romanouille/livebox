@@ -1,0 +1,9 @@
+<b>Hotspot:</b><br>
+<br>
+To become a Hotspot, enable the visitor WiFi access function and create a WiFi coverage area on your premises.<br>
+Complete the fields on this page, then click the <i> Save</i> button to register in the Orange WiFi access hotspots list.  Note that you must accept the general terms and conditions before registering.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

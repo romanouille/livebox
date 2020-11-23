@@ -1,0 +1,51 @@
+/**
+ * MIB is loaded on all devices on which the info tag is set
+ *
+ * This MIB is mainly used for demo purposes, to demonstrate that device objects can be extended with extra information.
+ * Using the gMap rules (examples.grules) the tag "info" is set and some of the parameters will be filled.
+ *
+ * @version 7.0
+ */
+ mib info {
+    /**
+     * The manufacturer name
+     *
+     * This parameter can contain the name of the manufacturer of the device hardware.
+     *
+     * @version 7.0
+     */
+    string Manufacturer;
+    /**
+     * The manufacturer url
+     *
+     * This parameter can contain an url to a web-page containing information about the manufacturer.
+     *
+     * @version 7.0
+     */
+    string ManufacturerUrl;
+    /**
+     * The manufacturer product support url
+     *
+     * This parameter can contain an url to a web-page containing support information of the manufacturer or to sepcific support page for the device.
+     *
+     * @version 7.0
+     */
+    string ManufacturerSupport;
+    /**
+     * The operating system running on the device
+     *
+     * If detectable and known contains the name of the operating system running on the device
+     *
+     * @version 7.0
+     */
+    string OS;
+    /**
+     * The operating system version of the device
+     *
+     * If detectable and known contains the version of the operating system running on the device
+     *
+     * @version 7.0
+     */
+    string OSVersion;
+}
+/** @location sah_services_gmap /mibs/info.odl */

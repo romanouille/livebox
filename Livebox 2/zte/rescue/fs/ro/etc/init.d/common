@@ -1,0 +1,9 @@
+readconf () 
+{
+	RCONFFILE=$1
+	[ ! -f "$RCONFFILE" ] && echo "Fichier $RCONFFILE inexistant !" && exit 1
+	shift
+	for VAR in $* ; do 
+	    export "$VAR=$( conf_get_str $RCONFFILE $VAR )"
+	done
+}

@@ -1,0 +1,8 @@
+﻿<b>Hotspot:</b><br>
+<br>
+Para convertirse en un Hotspot, habilita el acceso WiFi para usuario invitado y crea un área de cobertura WiFi en tu casa u oficina.<br>
+Cumplimenta los campos de esta página, y selecciona el botón "Guardar" para inscribirte en la lista de hotspots de Orange. Ten en cuenta que debes aceptar los términos y condiciones generales antes de registrarte.<br>
+<!--
+<br>
+-->
+

@@ -1,0 +1,47 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="remoteaccess"
+start_options="-c /usr/lib/remoteaccess/remoteaccess.odl"
+datamodel="RemoteAccess"
+trace_zones=""
+component="sah_services_remoteaccess"
+
+case $1 in
+    start)
+        pcb_start $name $start_options
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    backup)
+        if pcb_is_running $name ; then
+            pcb_cli "RemoteAccess.export($2)"
+        else 
+            echo "RemoteAccess plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/remoteaccess
+        touch /var/lib/remoteaccess/restore
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+       action=$2
+       if [ -n "$action" ]; then
+           pcb_log $name $action $trace_zones
+       else
+           pcb_log $name enable $trace_zones
+       fi
+       ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|backup|restore|debuginfo|log]"
+        ;;
+esac

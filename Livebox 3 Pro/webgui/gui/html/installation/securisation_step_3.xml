@@ -1,0 +1,48 @@
+<div id="securisation_step_3" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" alt="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+
+	<div id="barnav2" class="margin-bottom-30 steps3">
+		<div class="floatLeft steps first">
+			<strong class="black">1</strong> - <span i18n="page.page0.barnav2.step1"/>
+		</div>
+		<div class="floatLeft steps">
+			<strong class="black">2</strong> - <span i18n="page.page0.barnav2.step2"/>
+		</div>
+		<div class="floatLeft steps active">
+			<strong>3</strong> - <span i18n="page.page0.barnav2.step3"/>
+		</div>
+	</div>
+	
+	<div id="container2">
+		<div class="h2_install" i18n="page.page0.secure.step3.label"/>
+		<div class="alignCenter">
+			<img widgetType="Image" class="margin-bottom-10" src="theme/webCorporate/image/installation/ico_sim.gif"/>
+		</div>
+		<div class="padding-left-40" i18n="page.page0.secure.step3.label0"/>
+		
+		<div class="liner margin-left-40 margin-right-40 margin-top-10">
+			<a href="javascript:;" class="gohome installbutton margin-right-20"><img widgetType="Image" class="puce_arrow" align="absmiddle" src="theme/webCorporate/image/installation/puce_arrow.gif"/></a>
+			<a href="javascript:;" class="gohome installlink" i18n="page.page0.secure.step3.gohome"/>
+			<a class="myInfo" href="#infosBullegohome"><img widgetType="Image" class="iconinfo" align="absmiddle" src="theme/webCorporate/image/installation/ico_info.gif"/></a>
+			<div id="infosBullegohome" class="tooltip">
+				<div class="bubbleTop">
+    				<img widgetType="Image" src="theme/webCorporate/image/installation/infoBubble.gif" class="floatLeft margin-right-10 margin-top-20" />
+    				<p>
+    					<span class="bold_font" i18n="page.page0.secure.step3.gohome.bubblettexttitle"></span><br/>
+    					<span i18n="page.page0.secure.step3.gohome.bubbletext"></span>
+    				</p>
+				</div>
+    			<div class="bubbleBottom"></div>
+			</div>
+		</div>	
+		<div class="liner margin-left-40 margin-right-40 margin-top-30">
+			<a href="javascript:;" class="gonet installbutton margin-right-20"><img widgetType="Image" class="puce_arrow" align="absmiddle" src="theme/webCorporate/image/installation/puce_arrow.gif"/></a>
+			<a href="javascript:;" class="gonet installlink" i18n="page.page0.secure.step3.gonet"/>
+		</div>
+	</div>
+</div>

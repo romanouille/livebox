@@ -1,0 +1,26 @@
+{
+  "status": 0,
+  "data": {
+    "nbRanges": 2,
+    "VHF": [
+      {
+        "minimumFrequency": 35,
+        "maximumFrequency": 65,
+        "bandwidth": 12750,
+        "tuningOffset": 10,
+        "multipleTuningOffsetLow": 5,
+        "multipleTuningOffsetHigh": 5
+      }
+    ],
+    "UHF": [
+      {
+        "minimumFrequency": 480,
+        "maximumFrequency": 680,
+        "bandwidth": 24080,
+        "tuningOffset": 10,
+        "multipleTuningOffsetLow": 5,
+        "multipleTuningOffsetHigh": 5
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+datamodel {
+
+    object "$(SAH_VOICE_PLUGIN_NAME)" {
+        parameter Enable = true;
+        parameter Name = "$(SSID)";
+        parameter PinCode = "0000";
+
+        instance of Channels(0, "Channel1") {
+            parameter NarrowbandSlots = 0x00F0;
+            parameter WidebandSlots = 0x00F0;
+        }
+
+        instance of Channels(0, "Channel2") {
+            parameter NarrowbandSlots = 0x0F00;
+            parameter WidebandSlots = 0x0F00;
+	}
+
+        object LAS {
+            parameter ReceivedCallListMaxNumberOfEntries = 20;
+            parameter MissedCallListMaxNumberOfEntries = 20;
+            parameter DialedCallListMaxNumberOfEntries = 20;
+        }
+    }
+
+    object DECT {
+        parameter SuotaKarmaLightEnable = true;
+        persistent instance of LineSettings(0, "sip") {
+            parameter Enable = 1;
+            parameter LineID = 0;
+            parameter LineName = "Téléphone Internet";
+            parameter MultipleCalls = false;
+            parameter Intrusion = true;
+            parameter CLIRActivationCode = "*31#";
+            parameter CLIRDeactivationCode = "#31#";
+            parameter CFUActivationCode = "*21*nb#";
+            parameter CFUDeactivationCode = "#21#";
+            parameter CFNAActivationCode = "*61*nb#";
+            parameter CFNADeactivationCode = "#61#";
+            parameter CFNATimeout = 25;
+            parameter CFBActivationCode = "*67*nb#";
+            parameter CFBDeactivationCode = "#67#";
+        }
+    }
+}
+

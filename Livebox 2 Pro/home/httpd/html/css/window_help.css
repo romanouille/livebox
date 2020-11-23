@@ -1,0 +1,174 @@
+#window_help {
+	font-size: 12px;
+	letter-spacing: -1px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	top: 70px;
+	left: 1060px;
+	position: absolute;
+}
+
+
+#window_help table.contener {
+	width: 350px;
+	border-collapse: collapse;
+	margin: 0px;
+	margin-right: 10px;
+	padding: 0px;
+}
+
+
+/* Title of page */
+#window_help td.titlepage {
+	font-size: 16px;
+	font-weight: bold;
+	font-family: sans-serif;
+	color: #ff6600;
+}
+
+
+/* Top contener */
+#window_help td.topleft {
+	background: url(../images/menu/topleft.gif) no-repeat left top;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 8px;
+}
+
+#window_help td.top {
+	background: url(../images/menu/top.gif) repeat-x top;
+	margin: 0px;
+	padding: 0px;
+	height: 8px;
+}
+
+#window_help td.topright {
+	background: url(../images/menu/topright.gif) no-repeat right top;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 8px;
+}
+
+
+/* Cell content : The page */
+#window_help td.left {
+	background: url(../images/menu/left.gif) repeat-y left;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+}
+
+#window_help td.title {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	vertical-align: middle;
+}
+
+#window_help td.right {
+	background: url(../images/menu/right.gif) repeat-y right;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 9px;
+}
+
+
+/* Title separator */
+#window_help td.titlesepleft {
+	background: url(../images/contener/nosubnav_left.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 22px;
+}
+
+#window_help td.titlesep {
+	background: url(../images/contener/nosubnav_gradient.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 22px;
+}
+
+#window_help td.titlesepright {
+	background: url(../images/contener/nosubnav_right.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 22px;
+}
+
+
+/* White Line */
+#window_help td.whiteleft {
+	background: url(../images/menu/left.gif) repeat-y left;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 22px;
+}
+
+#window_help td.whiteright {
+	background: url(../images/menu/right.gif) repeat-y right;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 9px;
+	height: 22px;
+}
+
+
+/* Bottom page */
+#window_help{
+	position: absolute; 
+	width: 200px; 
+	left: 1000px;
+}
+
+#window_help .close_help {
+	background:transparent url(../images/button/aidebg1.gif) no-repeat scroll right center;
+	color:#FF6600;
+	font-weight:bold;
+	padding-right:11px;
+	text-align:right;
+	width:20px;
+	cursor: pointer;
+}
+
+
+#window_help td.bottomleft {
+	background: url(../images/menu/bottomleft.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 12px;
+}
+
+#window_help td.bottom {
+	background: url(../images/menu/bottom.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 12px;
+}
+
+#window_help td.bottomright {
+	background: url(../images/menu/bottomright.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 12px;
+}
+
+
+#window_help object {
+	margin: 0px;
+        background-color: #FFFFFF;
+	border: 0px;
+	width: 330px;
+	height: 400px;
+}
+

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case $1 in 
+	start)
+		pcb_cli -q \
+			'Process.sysbus_raplugin.loadSharedObject("/usr/lib/raclient/raplugin/raclient.so")' \
+			'Process.sysbus_nemo-core.loadSharedObject("/usr/lib/raclient/nemo/ra.so", dst="pcb://ipc:[/var/run/raplugin]")'
+	;;
+	stop)
+		pcb_cli -q \
+			'Process.sysbus_nemo-core.unloadSharedObject("ra")' \
+			'Process.sysbus_raplugin.unloadSharedObject("raclient")'
+	;;
+	*)
+        	echo "Usage : $0 [start|stop]"
+	;;
+esac
+

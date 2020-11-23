@@ -1,0 +1,1058 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=1085"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Livebox</title>
+<script type="text/javascript">
+    appUrl = '';
+    appConfig = 'fr';
+    appUid = getEtag();
+    config = {
+        BUILD_CUSTOMER: 'ft',
+        BUILD_PROJECT: 'lbv3fr',
+        BUILD_HARDWARE: 'sagem_lbv3',
+        SESSION_DURATION: '600'
+    };
+    if(config.BUILD_PROJECT.indexOf("lbv3")>=0){
+        config.BUILD_PROJECT = "lbv2.8fr";
+    }
+    function getEtag(){
+        var req = new XMLHttpRequest();
+        req.open('GET', document.location, false);
+        req.send(null);
+        return req.getResponseHeader("etag");
+    }
+</script>
+<link href="/styles.css?v=bdbae052" rel="stylesheet" type="text/css"/>
+<script src="/scripts.js?v=bdbae052" type="text/javascript" charset="utf-8"></script>
+<link rel="icon" type="image/x-icon" href="/images/fr/common/favicon.ico?v=bdbae052"/>
+<link rel="shortcut icon" href="/images/fr/common/favicon.ico?v=bdbae052" type="image/x-icon"/>
+</head>
+<body class="accessibility-small">
+<!-- Popup and backlayer from Cytadelle Technology Light framework -->
+<div id="ct-popup" class="fixed" style="height: 70px">
+    <div>
+        <img id="ct-popup-header" src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.general.popup.img.header" alt=""/>
+        <div id="ct-popup-header-title"></div>
+        <a id="popup-close-btn" class="nologin">
+        <img id="ct-popup-header-close" src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.general.popup.img.close" alt=""/>
+        </a>
+    </div>
+    <div id="ct-popup-content">
+        <span class="translation Translations.home.authentication.label.subtitle"></span>
+    </div>
+    <img src="/images/fr/common/transparent.gif?v=bdbae052" class="png ct-popup-footer voice Voice.general.popup.img.footer" alt=""/>
+</div>
+<div id="ct-msgbox" class="fixed">
+    <img id="ct-popup-header-small" src="/images/fr/common/transparent.gif?v=bdbae052" class="png" alt=""/>
+    <div id="ct-msgbox-content">
+        <img src="/images/fr/common/transparent.gif?v=bdbae052" id="ct-msgbox-img" class="png"/>
+        <div id="ct-msgbox-msg">
+        </div>
+        <input type="button" id="ct-msgbox-button1" value="annuler" class="input-btn input-small-btn-gray translation Translations.general.btn.cancel"/><input type="button" id="ct-msgbox-button2" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/><input type="button" id="ct-msgbox-button3" value="enregistrer" class="input-btn input-small-btn-orange translation Translations.general.btn.save"/>
+    </div>
+    <img id="ct-popup-footer" src="/images/fr/common/transparent.gif?v=bdbae052" class="png" alt=""/>
+</div>
+<div id="ct-tooltip" class="fixed">
+</div>
+<div id="ct-waiting" class="fixed">
+    <img src="/images/fr/common/transparent.gif?v=bdbae052" alt="" class="voice Voice.general.waiting.img.waiting"/>
+</div>
+<div id="ct-backlayer" class="fixed" style="display:none; top:120px">
+</div>
+<div class="devicemenu" id="deviceMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="devicemenuheader">
+            <span id="hostName"></span>
+            <br/>
+            <span id="ipaddress-device-menu" class="translation Translations.general.label.ipaddress" ></span> : <span id="ip"></span>
+        </div>
+        </lh>
+        <li><a id="accessscheduling" href="#"><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+        <li><a id="devicescustomize" href="#"><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+    </ul>
+</div>
+<div class="devicemenu" id="catIqMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="catIqdevicemenuheader">
+            <span id="catIqName"></span>
+            <br/>
+            <span id="model" style="font-weight: normal"></span>
+            <br/>
+            <span id="lastupdate" style="font-weight: normal"></span>
+
+        </div>
+        </lh>
+        <li><a id="catIqCustomize" href="#"><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+    </ul>
+</div>
+<div class="devicemenu" id="disconnectedDeviceMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="disconnectedDevicemenuheader">
+            <span id="dHostName"></span>
+        </div>
+        </lh>
+        <li><a id="dAccessscheduling" href="#"><span class="auth-required first active translation Translations.config.access.scheduling.label.menu"></span></a></li>
+        <li><a id="dDevicescustomize" href="#"><span class="auth-required first active translation Translations.home.devicescustomize.label.title"></span></a></li>
+        <!--        <li><span id="deletedevicemenuitem" class="translation Translations.notconnecteddevices.label.deletedevice"></span></li> -->
+    </ul>
+</div>
+<div class="devicemenu" id="usbDeviceMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="UdbDevicemenuheader">
+        </div>
+        </lh>
+        <li><a id="usbBrowse" href="#" onclick="return false;"><span id="usbBrowse" class="first active translation Translations.general.btn.files"></span></a></li>
+        <li><a id="usbEject" href="#" onclick="return false;"><span class="first active translation Translations.general.btn.eject"></span></a></li>
+    </ul>
+</div>
+<div class="devicemenu" id="contextualMenu" style="display: block; position: absolute; display: none">
+    <ul>
+        <lh>
+        <div id="open">
+             Open
+        </div>
+        </lh>
+        <li><a id="copy" href="#"><span class="auth-required first translation Translations.filesbrowser.label.copy"></span></a></li>
+        <li><a id="paste" href="#"><span class="auth-required translation Translations.filesbrowser.label.paste" style="display: none"></span></a></li>
+        <li><a id="rename" href="#"><span class="auth-required translation Translations.filesbrowser.label.rename"></span></a></li>
+    </ul>
+</div>
+<!-- Scrollable document container -->
+<div id="document-container">
+    <div id="document-background-header">
+        <div id="document-background-footer">
+            <div id="document">
+                <div id="header">
+                    <a href="/" ><div id="header-logo-livebox">
+                    </div></a>
+                    <div id="header-controls-login">
+                        <div id="authenticationerrors">
+                            <span id="emptyauthfields" style="display: none" class="translation Translations.home.authentication.error.empty"></span>
+                            <span id="emptyauthinvalid" style="display: none" class="translation Translations.home.authentication.error.invalid"></span>
+                        </div>
+                        <div id="header-controls-login-interactions" style=" vertical-align: top;">
+                            <form name="Home/Accessibility"></form>
+                            <form name="Login" id="Login">
+                                <div id="login-inputs-div">
+                                    <input name="username" type="hidden" id="Username"/>
+                                    <input name="password" type="hidden" id="Password"/>
+                                    <input type="text" style="width:100px;" id="PopupUsername" class="input-text input-text-gray" maxlength="32" value="" disabled="disabled"/>
+                                    <input type="password" style="width:100px;" id="PopupPassword" class="input-text input-text-gray " value="" maxlength="32"/>
+                                    <input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.authenticate" value="" id="bt_authenticate"/>
+                                </div>
+                                <div id="logout-link-div" style="display: none;">
+                                    <span id="logged_in_username"></span>: <a href="#" id="logout_link"><span class="translation Translations.general.label.logout"></span></a>
+                                </div>
+                            </form>
+                            <form name="ForgottenPassword" id="ForgottenPassword">
+                                <div id="forgotten-password-link-div"style="white-space:nowrap">
+                                    <a href="#" id="header-controls-forgotten-password-link"><span  class="translation Translations.general.label.forgottenpassword"></span></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="header-controls">
+                        <form name="Admin/UserInterface/Language" action="">
+                            <div id="header-controls-languages">
+                                <select id="Language-select" name="Language-select">
+                                </select>
+                            </div>
+                        </form>
+                        <div id="header-controls-accessibility-minus" class="header-controls-accessibility">
+                            <a href="#" class="nologin "><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.fontsize.img.decrease" alt=""/></a>
+                        </div>
+                        <div id="header-controls-accessibility-plus" class="header-controls-accessibility">
+                            <a href="#" class="nologin "><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.fontsize.img.increase" alt=""/></a>
+                        </div>
+                        <div id="header-controls-accessibility-contrast1" class="header-controls-accessibility">
+                            <a href="#" class="nologin "><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.contrast.img.level1" alt=""/></a>
+                        </div>
+                        <div id="header-controls-accessibility-contrast2" class="header-controls-accessibility">
+                            <a href="#" class="nologin "><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.contrast.img.level2" alt=""/></a>
+                        </div>
+                        <div id="header-controls-accessibility-contrast3" class="header-controls-accessibility">
+                            <a href="#" class="nologin voice Voice.accessibility.contrast.link.level3"><img src="/images/fr/common/transparent.gif?v=bdbae052" class="png voice Voice.accessibility.contrast.img.level3" alt=""/></a>
+                        </div>
+                        <form name="Home/Information">
+                        </form>
+                        <form name="Home/RemoteBackup">
+                        </form>
+                    </div>
+                    <div id="header-hmenu">
+                        <ul class="hmenu">
+                            <li onclick="return Sah.redirect('/');" id="hmenu-home" class="first active"><a href="/"><span class="first active translation Translations.general.label.vmenu.home.title"></span></a></li>
+                            <li onclick="return Sah.redirect('/configWifi.html');" id="hmenu-wifi" class="normal auth-required"><a href="/configWifi.html" class="auth-required"><span class="translation Translations.general.label.vmenu.config.title"></span></a></li>
+                            <li onclick="return Sah.redirect('/myFiles.html');" id="hmenu-myfiles" class="normal auth-required"><a href="/myFiles.html" class="auth-required"><span class="translation Translations.general.label.vmenu.files.title"></span></a></li>
+                            <!--<li id="hmenu-myipphone" class="normal auth-required"><a href="/phonebook.html" onclick="return Sah.redirect('/phonebook.html');" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li> -->
+                            <li onclick="return Sah.redirect('/phoneRingTest.html');" id="hmenu-myipphone" class="normal auth-required"><a href="/phoneRingTest.html" class="auth-required"><span class="translation Translations.general.label.vmenu.ipphone.title"></span></a></li>
+                            <li onclick="return Sah.redirect('/supportLedsStatus.html');" id="hmenu-support" class="normal auth-required"><a href="/supportLedsStatus.html" class="auth-required"><span class="translation Translations.general.label.vmenu.support.title"></span></a></li>
+                            <li onclick="return Sah.redirect('/advConfigNetworkDhcp.html');" id="hmenu-advconfig" class="last gray auth-required"><a href="/advConfigNetworkDhcp.html" class="auth-required"><span class="translation Translations.general.label.vmenu.advconfig.title"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="content">
+                    
+<div id="content-left">
+	<ul id="content-left-vmenu" class="lbx2vmenu supportTabs">
+
+		<li id="left-led-link" class="auth-required">
+			<a href="/supportLedsStatus.html"><span class="translation Translations.support.ledsstatus.label.title"></span></a>
+		</li>
+
+		<li id="left-information-link" class="auth-required">
+			<a href="/supportSystemInformationGeneral.html"><span class="translation Translations.general.label.vmenu.support.systeminformation"></span></a>
+		</li>
+
+		<li id="left-backup-link" class="auth-required">
+			<a href="/supportBackup.html"><span class="translation Translations.general.label.vmenu.support.backup"></span></a>
+		</li>
+
+		<li id="left-restore-link" class="auth-required">
+			<a href="/supportRestore.html"><span class="translation Translations.general.label.vmenu.support.restore"></span></a>
+		</li>
+
+		<li id="left-restart-link" class="auth-required">
+			<a href="/supportRestart.html"><span class="translation Translations.general.label.vmenu.support.restart"></span></a>
+		</li>
+
+		<li id="left-reset-link" class="auth-required">
+			<a href="/supportReset.html"><span class="translation Translations.general.label.vmenu.support.reset"></span></a>
+		</li>
+
+		<li id="left-upgrade-link" class="auth-required">
+			<a href="/supportFirmwareUpgrade.html"><span class="translation Translations.support.firmwareupgrade.label.title"></span></a>
+		</li>
+
+		<li class="lbx2menuseparator"></li>
+
+		<li id="left-assistance-link"> 
+			<a href="/supportAssistanceLivebox.html"><span class="translation Translations.general.label.vmenu.support.assistancelivebox"></span></a>
+		</li>
+		<li id="left-hotline-link"  class="auth-required">
+			<a href="/supportHotline.html"> <span class="translation Translations.support.hotline.label.title"></span></a>
+		</li>
+
+		<li id="left-account-link" class="auth-required">
+			<a href="/servicesAccountManagement.html"><span class="translation Translations.general.label.vmenu.support.servicesaccounts"></span></a>
+		</li>
+
+
+	</ul>
+</div>
+<script type="text/javascript">
+	$("left-led-link").observe("click",function(e){Sah.redirect('/supportLedsStatus.html')});
+	$("left-information-link").observe("click",function(e){Sah.redirect('/supportSystemInformationGeneral.html')});
+	$("left-backup-link").observe("click",function(e){Sah.redirect('/supportBackup.html')});
+	$("left-restore-link").observe("click",function(e){Sah.redirect('/supportRestore.html')});
+	$("left-restart-link").observe("click",function(e){Sah.redirect('/supportRestart.html')});
+	$("left-reset-link").observe("click",function(e){Sah.redirect('/supportReset.html')});
+	$("left-upgrade-link").observe("click",function(e){Sah.redirect('/supportFirmwareUpgrade.html')});
+	$("left-assistance-link").observe("click",function(e){Sah.redirect('/supportAssistanceLivebox.html')});
+	$("left-hotline-link").observe("click",function(e){Sah.redirect('/supportHotline.html')});
+	$("left-account-link").observe("click",function(e){Sah.redirect('/servicesAccountManagement.html')});
+	//$("left-topology-link").observe("click",function(e){Sah.redirect('/supportMapper.html')});
+	if ( appConfig === 'pl' ) {
+	      $("left-assistance-link").hide();
+	      $("left-account-link").hide();
+	}
+
+</script>
+
+
+<script type="text/javascript">
+	// Vertical menu
+	var oVMenuItem = $CYT('#content-left-vmenu span.Translations.general.label.vmenu.support.topology')[0];
+	ctl.style.klass.Add(oVMenuItem.parentNode.parentNode,"current");
+	// Horizontal menu
+	ctl.style.klass.Remove($CYT('#header-hmenu li.active'),"active");
+	ctl.style.klass.Add($CYT('#hmenu-support'),"active");
+</script>
+<style type="text/css">
+    ul.tree, ul.tree ul
+    {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    ul.tree ul
+    {
+        margin-left: 60px;
+    }
+    ul.tree ul li
+    {
+        margin: 0;
+        padding-left: 30px;
+        padding-right: 10px;
+        line-height: 20px;
+    }
+    #types
+    {
+        margin-left: 100px;
+    }
+    div.connectiontype
+    {
+        width: 80px;
+    }
+    
+   
+
+    body.accessibility-contrast3 div.connectiontype div.header
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+        background-image: url('/images/fr/mapper/type-header-inverted.png?v=bdbae052');
+    }
+    body.accessibility-contrast2 div.connectiontype div.header
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+        background-image: url('/images/fr/mapper/type-header.png?v=bdbae052');
+    }
+    body.accessibility-contrast1 div.connectiontype div.header
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+        background-image: url('/images/fr/mapper/type-header.png?v=bdbae052');
+    }
+    body.accessibility-contrast3 div.connectiontype div.content
+    {
+        padding: 10px;
+        line-height: 13px;
+        text-align: center;
+        background-repeat: repeat;
+        background-image: url('/images/fr/mapper/type-middle-inverted.png?v=bdbae052');
+    }
+    body.accessibility-contrast2 div.connectiontype div.content
+    {
+        padding: 10px;
+        line-height: 13px;
+        text-align: center;
+        background-repeat: repeat;
+        background-image: url('/images/fr/mapper/type-middle.png?v=bdbae052');
+    }
+    body.accessibility-contrast1 div.connectiontype div.content
+    {
+        padding: 10px;
+        line-height: 13px;
+        text-align: center;
+        background-repeat: repeat;
+        background-image: url('/images/fr/mapper/type-middle.png?v=bdbae052');
+    }
+    body.accessibility-contrast3 div.connectiontype div.footer
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+        background-image: url('/images/fr/mapper/type-footer-inverted.png?v=bdbae052');
+        
+    }
+    body.accessibility-contrast2 div.connectiontype div.footer
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+        background-image: url('/images/fr/mapper/type-footer.png?v=bdbae052');
+        
+    }
+    body.accessibility-contrast1 div.connectiontype div.footer
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+        background-image: url('/images/fr/mapper/type-footer.png?v=bdbae052');
+        
+    }
+    div.item
+    {
+        width: 120px;
+        cursor: pointer;
+    }
+    div.item div.header
+    {
+        height: 12px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+        background-image: url('/images/fr/mapper/item-header.png?v=bdbae052');
+    }
+    div.item div.content
+    {
+        padding-left: 2px;
+        padding-right: 2px;
+        text-align: center;
+        background-repeat: repeat;
+        background-image: url('/images/fr/mapper/item-middle.png?v=bdbae052');
+    }
+    div.item div.footer
+    {
+        height: 12px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+        background-image: url('/images/fr/mapper/item-footer.png?v=bdbae052');
+    }
+    div.device-panel
+    {
+        display: none;
+        position: absolute;
+        top: 0px;
+        width: 240px;
+        z-index: 120;
+        margin-left: -30px;
+    }
+    div.device-panel div.header
+    {
+        height: 25px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+    }
+    div.device-panel div.content
+    {
+        padding-top: 10px;
+        padding-left: 16px;
+        padding-right: 10px;
+        background-repeat: repeat;
+    }
+    div.device-panel div.footer
+    {
+        height: 12px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+    }
+    
+   
+
+    #device-panel-header-title
+    {
+        position: absolute;
+        top: 10px;
+        left: 12px;
+        width: 240px;
+        padding: 5px;
+    }
+    #device-panel-header-close
+    {
+        display: block;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 19px;
+        height: 19px;
+        background-image: url('/images/fr/mapper/device-panel-close-button.png?v=bdbae052');
+    }
+    div.device-addresses
+    {
+        display: block;
+        width: 262px;
+        margin-top: 20px;
+        z-index: 120;
+    }
+    div.device-addresses div.header
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+    }
+    div.device-addresses div.content
+    {
+        padding-top: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-repeat: repeat;
+    }
+    div.device-addresses div.footer
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+    }
+    div.details
+    {
+        display: block;
+        width: 262px;
+        margin-top: 20px;
+        z-index: 120;
+    }
+    div.details div.header
+    {
+        height: 25px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+    }
+    div.details div.content
+    {
+        padding-top: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-repeat: repeat;
+    }
+    div.details div.footer
+    {
+        height: 8px;
+        line-height: 1px;
+        background-repeat: no-repeat;
+    }
+    #device-panel-details-header-title
+    {
+        position: absolute;
+        top: 7px;
+        left: 5px;
+        width: 240px;
+        padding: 5px;
+        font-weight: bold;
+    }
+    ul.devices-chain
+    {
+        list-style-type: none;
+        margin: 0;
+        padding-left: 10px;
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 5px;
+    }
+    ul.devices-chain li.node
+    {
+        margin: 0;
+        padding: 0 30px;
+        line-height: 25px;
+        background: url('/images/fr/mapper/details-node.png?v=bdbae052') no-repeat;
+    }
+    ul.devices-chain li.node.error
+    {
+        margin: 0;
+        padding: 0 30px;
+        line-height: 25px;
+        background: url('/images/fr/mapper/details-node-error.png?v=bdbae052') no-repeat;
+    }
+    ul.devices-chain li.first
+    {
+        margin: 0;
+        padding: 0 30px;
+        line-height: 25px;
+        background: url('/images/fr/mapper/details-firstnode.png?v=bdbae052') no-repeat;
+    }
+    ul.devices-chain li.first.error
+    {
+        margin: 0;
+        padding: 0 30px;
+        line-height: 25px;
+        background: url('/images/fr/mapper/details-firstnode-error.png?v=bdbae052') no-repeat;
+    }
+    ul.devices-chain li.last
+    {
+        margin: 0;
+        padding: 0 30px;
+        line-height: 25px;
+        background: url('/images/fr/mapper/details-lastnode.png?v=bdbae052') no-repeat;
+    }
+    ul.devices-chain li.last.error
+    {
+        margin: 0;
+        padding: 0 30px;
+        line-height: 25px;
+        background: url('/images/fr/mapper/details-lastnode-error.png?v=bdbae052') no-repeat;
+    }
+    div.input-info-help-popup div.header {
+        background-image: url("/images/fr/common/input-info-help-popup-header.png?v=bdbae052");
+    }
+    div.input-info-help-popup div.footer {
+        background-image: url("/images/fr/common/input-info-help-popup-footer.png?v=bdbae052");
+    }
+    div.input-info-help div.header {
+        background-image: url("/images/fr/common/input-info-help-header.png?v=bdbae052");
+    }
+    div.input-info-help div.footer {
+        background-image: url("/images/fr/common/input-info-help-footer.png?v=bdbae052");
+    }
+    div.input-info-help-large div.header {
+        background-image: url("/images/fr/common/input-info-help-large-header.png?v=bdbae052");
+    }
+    div.input-info-help-large div.footer {
+        background-image: url("/images/fr/common/input-info-help-large-footer.png?v=bdbae052");
+    }
+    div.hr-orange {
+        background-image: url("/images/fr/common/input-hr-orange.png?v=bdbae052");
+    }
+    ul.tree ul {
+        background: url("/images/fr/mapper/vline.png?v=bdbae052") repeat-y scroll 0 0 transparent;
+    }
+    ul.tree ul li {
+        background: url("/images/fr/mapper/node.png?v=bdbae052") no-repeat scroll 0 0 transparent;
+    }
+    ul.tree ul li.error {
+        background: url("/images/fr/mapper/node-error.png?v=bdbae052") no-repeat scroll 0 0 transparent;
+    }
+    body.accessibility-contrast3 ul.tree li.last {
+        background: url("/images/fr/mapper/lastnode.png?v=bdbae052") no-repeat scroll 0 0  black;
+    }
+    body.accessibility-contrast3 ul.tree li.lasterror {
+        background: url("/images/fr/mapper/lastnode-error.png?v=bdbae052") no-repeat scroll 0 0  black ;
+    }
+    
+    body.accessibility-contrast2 ul.tree li.last {
+        background: url("/images/fr/mapper/lastnode.png?v=bdbae052") no-repeat scroll 0 0  #FFFFFF ;
+    }
+    body.accessibility-contrast2 ul.tree li.lasterror {
+        background: url("/images/fr/mapper/lastnode-error.png?v=bdbae052") no-repeat scroll 0 0  #FFFFFF ;
+    }
+    body.accessibility-contrast1 ul.tree li.last {
+        background: url("/images/fr/mapper/lastnode.png?v=bdbae052") no-repeat scroll 0 0  #FFFFFF ;
+    }
+    body.accessibility-contrast1 ul.tree li.lasterror {
+        background: url("/images/fr/mapper/lastnode-error.png?v=bdbae052") no-repeat scroll 0 0  #FFFFFF ;
+    }
+    
+     body.accessibility-contrast1 div.device-panel div.header {
+        background-image: url("/images/fr/mapper/device-panel-header.png?v=bdbae052");
+    }
+       body.accessibility-contrast2 div.device-panel div.header {
+        background-image: url("/images/fr/mapper/device-panel-header.png?v=bdbae052");
+    }
+       body.accessibility-contrast3 div.device-panel div.header {
+        background-image: url("/images/fr/mapper/device-panel-header-inverted.png?v=bdbae052");
+    }
+    
+    
+    
+   body.accessibility-contrast1 div.device-panel div.content {
+        background-image: url("/images/fr/mapper/device-panel-middle.png?v=bdbae052");
+    }
+      body.accessibility-contrast2 div.device-panel div.content {
+        background-image: url("/images/fr/mapper/device-panel-middle.png?v=bdbae052");
+    }
+      body.accessibility-contrast3 div.device-panel div.content {
+        background-image: url("/images/fr/mapper/device-panel-middle-inverted.png?v=bdbae052");
+    }
+    
+    
+    
+    
+    body.accessibility-contrast1 div.device-panel div.footer {
+        background-image: url("/images/fr/mapper/device-panel-footer.png?v=bdbae052");
+    }
+    
+      body.accessibility-contrast2 div.device-panel div.footer {
+        background-image: url("/images/fr/mapper/device-panel-footer.png?v=bdbae052");
+    }
+      body.accessibility-contrast3 div.device-panel div.footer {
+        background-image: url("/images/fr/mapper/device-panel-footer-inverted.png?v=bdbae052");
+    }
+    
+    
+    
+     body.accessibility-contrast1 div.device-addresses div.header {
+        background-image: url("/images/fr/mapper/device-panel-addresses-header.png?v=bdbae052");
+    }
+      body.accessibility-contrast2 div.device-addresses div.header {
+        background-image: url("/images/fr/mapper/device-panel-addresses-header.png?v=bdbae052");
+    }
+      body.accessibility-contrast3 div.device-addresses div.header {
+        background-image: url("/images/fr/mapper/device-panel-addresses-header-inverted.png?v=bdbae052");
+    }
+    
+    
+    
+    
+    body.accessibility-contrast1 div.device-addresses div.content {
+        background-image: url("/images/fr/mapper/device-panel-addresses-middle.png?v=bdbae052");
+    }
+     body.accessibility-contrast2  div.device-addresses div.content {
+        background-image: url("/images/fr/mapper/device-panel-addresses-middle.png?v=bdbae052");
+    }
+      body.accessibility-contrast3 div.device-addresses div.content {
+        background-image: url("/images/fr/mapper/device-panel-addresses-middle-inverted.png?v=bdbae052");
+    }
+    
+    
+    
+    body.accessibility-contrast1 div.device-addresses div.footer {
+        background-image: url("/images/fr/mapper/device-panel-addresses-footer.png?v=bdbae052");
+    }
+       body.accessibility-contrast2 div.device-addresses div.footer {
+        background-image: url("/images/fr/mapper/device-panel-addresses-footer.png?v=bdbae052");
+    }
+      body.accessibility-contrast3 div.device-addresses div.footer {
+        background-image: url("/images/fr/mapper/device-panel-addresses-footer-inverted.png?v=bdbae052");
+    }
+    
+    
+   body.accessibility-contrast1 div.details div.header {
+        background-image: url("/images/fr/mapper/device-panel-details-header.png?v=bdbae052");
+
+    }
+      body.accessibility-contrast2 div.details div.header {
+        background-image: url("/images/fr/mapper/device-panel-details-header.png?v=bdbae052");
+
+    }
+     body.accessibility-contrast3 div.details div.header {
+        background-image: url("/images/fr/mapper/device-panel-details-header-inverted.png?v=bdbae052");
+
+    }
+    
+    
+    
+   body.accessibility-contrast1 div.details div.content {
+        background-image: url("/images/fr/mapper/device-panel-addresses-middle.png?v=bdbae052");
+    }
+    body.accessibility-contrast2  div.details div.content {
+        background-image: url("/images/fr/mapper/device-panel-addresses-middle.png?v=bdbae052");
+    }
+    body.accessibility-contrast3  div.details div.content {
+        background-image: url("/images/fr/mapper/device-panel-addresses-middle-inverted.png?v=bdbae052");
+    }
+    
+    
+    
+    
+    
+    body.accessibility-contrast1 div.details div.footer {
+        background-image: url("/images/fr/mapper/device-panel-addresses-footer.png?v=bdbae052");
+    }
+     body.accessibility-contrast2 div.details div.footer {
+        background-image: url("/images/fr/mapper/device-panel-addresses-footer.png?v=bdbae052");
+    }
+     body.accessibility-contrast3 div.details div.footer {
+        background-image: url("/images/fr/mapper/device-panel-addresses-footer-inverted.png?v=bdbae052");
+    }
+    
+
+
+    #ct-backlayer {
+        top: 0;
+    }
+</style>
+<div id="content-center">
+	<a href="./advConfigNetworkDhcp.html"><span class="translation Translations.general.label.vmenu.advconfig.title"></span></a> > <span class="translation Translations.general.label.vmenu.support.topology"></span>
+	<div class="hr hr-orange"></div>
+	<br>
+	<h1 id="mapper_title"><span class="translation Translations.mapper.label.title"></span></h1>
+	<h1 id="topologie_title" style="display:none;"><span class="translation Translations.mapperresult.label.title"></span></h1>
+	<div class="hr">
+	</div>
+	<form name="OrangeMapper/OrangeMapper">
+		<br>
+		<div id="mapper_step0">
+			<span class="translation Translations.mapper.label.subtitle"></span>
+			<br><br>
+			<div style="float:right">
+				<input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.launch" id="bt_launch"><br>
+			</div>
+		</div>
+		<div id="mapper_step1" style="display:none">
+			<p id="searchingMessage" style="text-align: center;">
+				<span class="translation Translations.mapper.label.inprogress"></span>
+			</p>
+			<div style="left:100px;padding-top:20px;" id="scran_progress">
+			</div>
+			<div id="mapper.search.error" style="display:none">
+				<br>
+				<img src="/images/fr/common/transparent.gif?v=bdbae052" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?v=bdbae052'); margin-right:10px;" class="png" alt="">
+				<h3><span class="translation Translations.mapper.search.failure.label"></span></h3>
+				<div id="mapper.label.error.searchfailure" class="translation Translations.mapper.search.failure.description" style="font-weight: bold; padding-top:5px;">
+				</div>
+				<br/>
+			</div>
+			<div style="float:right; display:none;" id="relaunch_ctr">
+				<input id="bt_relaunch" value="&lt;bt2&gt;relancer" class="input-btn input-btn-orange translation Translations.general.btn.relaunch" type="submit"><br/>
+			</div>
+		</div>
+		<div id="mapper_step1" style="display:none">
+			<p style="text-align: center;">
+				<span class="translation Translations.mapper.label.inprogress"></span>
+			</p>
+			<div style="left:100px;padding-top:20px;" id="scran_progress">
+			</div>
+			<div id="mapper.search.error" style="display:none">
+				<br>
+				<img src="/images/fr/common/transparent.gif?v=bdbae052" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?v=bdbae052'); margin-right:10px;" class="png" alt="">
+				<h3><span class="translation Translations.mapper.search.failure.label"></span></h3>
+				<div id="mapper.label.error.searchfailure" class="translation Translations.mapper.search.failure.description" style="font-weight: bold; padding-top:5px;">
+				</div>
+				<br/>
+			</div>
+			<div style="float:right; display:none;" id="relaunch_ctr">
+				<input id="bt_relaunch" value="&lt;bt2&gt;relancer" class="input-btn input-btn-orange translation Translations.general.btn.relaunch" type="submit"><br/>
+			</div>
+		</div>
+		<div id="homestep" style="display: none;">
+                        <div style="float:right; font-weight:bold;">
+                            <span class="translation Translations.mapperresult.label.refreshtime"></span>&nbsp<span id="refreshtime"></span>
+                            <input type="submit" class="input-btn input-btn-orange-refresh translation Translations.general.btn.refresh" id="bt_refresh"><br>
+                        </div>
+                        <br/>
+			<div id="mapper_result" style="clear:both;">
+				<table>
+				<tbody>
+				<tr>
+					<td>
+						<div id="mapper_result_map"></div>
+					</td>
+					<td style="width:100%;" id="panel-ctr"></td>
+				</tr>
+				<tr>
+					<td id="send_inputs" colspan="2">
+						<br/>
+						<br/>
+	<br/>
+						<span class="translation Translations.mapperresult.label.subtitle"></span>
+						<br>
+						<input type="checkbox" id="check_agree"><label class="translation Translations.mapperresult.label.checkbox" style="padding-left:5px;" for="check_agree"></label><br>
+						<br>
+						<div style="float:right;">
+							<input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.send" id="bt_send"><br>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+			</div>
+		</div>
+            
+                           
+                <div id="mapperresult" style="display:none;">
+                    <div id="mapperresult.search.error.connectivity" style="display:none;">
+			  <br>
+			  <img alt="" class="png" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?v=bdbae052'); margin-right:10px;" src="/images/fr/common/transparent.gif?v=bdbae052">
+			  <h3><span class="translation Translations.mapperresult.send.failure.label"></span></h3>
+			  <div style="font-weight: bold; padding-top:5px;" class="translation Translations.mapperresult.send.failure.connectivity.description" id="mapperresult.label.error.searchfailure"></div>
+			<br>
+                    </div>
+		    <div id="mapperresult.search.error.host" style="display:none;">
+			  <br>
+			  <img alt="" class="png" style="float:left; width:43px; height:43px; background-image:url('/images/fr/icons/icons-error.png?v=bdbae052'); margin-right:10px;" src="/images/fr/common/transparent.gif?v=bdbae052">
+			  <h3><span class="translation Translations.mapperresult.send.failure.label"></span></h3>
+			  <div style="font-weight: bold; padding-top:5px;" class="translation Translations.mapperresult.send.failure.host.description" id="mapperresult.label.error.searchfailure"></div>
+			  <br>
+                    </div>
+
+                    <div style="float:right; display: none;" id="resend-ctr">
+                        <input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.retry" id="bt_resend"><br>
+                    </div>
+	</div>
+
+                <div id="seeagain" style="display:none;">
+                    <span class="translation Translations.mapperresult.label.seeagain"></span><br>
+                    <div style="float:right">
+                        <input type="submit" class="input-btn input-btn-orange translation Translations.general.btn.seeagain" id="bt_seeagain"><br>
+</div>
+	</div>
+	</form>
+</div>
+
+<div id="content-right">
+<div class="input-info-help">
+            <!-- Help -->
+            <div class="header"><h6><span class="translation Translations.general.label.help"></span></h6></div>
+            <div class="content translation Translations.mapper.label.help"></div>
+            <div class="footer"></div>
+        </div>
+</div>
+
+                </div>
+                <div id="footer">
+                    <div id="footer-logo-ft">
+                    </div>
+                    <div id="footer-menu">
+                        <a href="/legal.html" onclick="return Sah.redirect('/legal.html');"><span class="translation Translations.legal.label.title"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        EXPIRY_DATE_ID=-1;
+        function bindReady(handler){
+            var called = false
+            function ready() {
+                if (called) return
+                called = true
+                handler()
+            }
+            if ( document.addEventListener ) { // native event
+                document.addEventListener( "DOMContentLoaded", ready, false )
+            } else if ( document.attachEvent ) {  // IE
+                try {
+                    var isFrame = window.frameElement != null
+                } catch(e) {}
+                // IE, the document is not inside a frame
+                if ( document.documentElement.doScroll && !isFrame ) {
+                    function tryScroll(){
+                        if (called) return
+                        try {
+                            document.documentElement.doScroll("left")
+                            ready()
+                        } catch(e) {
+                            setTimeout(tryScroll, 10)
+                        }
+                    }
+                    tryScroll()
+                }
+                // IE, the document is inside a frame
+                document.attachEvent("onreadystatechange", function(){
+                    if ( document.readyState === "complete" ) {
+                        ready()
+                    }
+                })
+            }
+            // Old browsers
+            if (window.addEventListener)
+                window.addEventListener('load', ready, false)
+            else if (window.attachEvent)
+                window.attachEvent('onload', ready)
+            else {
+                var fn = window.onload // very old browser, copy old onload
+                window.onload = function() { // replace by new onload and call the old one
+                    fn && fn()
+                    ready()
+                }
+            }
+        }
+        bindReady(function() {
+            var login = Cookie.get('login');
+            if (login != null && login.length > 24){
+                Cookie.unset('sessid');
+                Cookie.unset('expirydate');
+                Cookie.unset('login');
+                Cookie.unset('context');
+
+                new Ajax.Request("/logout", {
+                    onComplete: function(){Sah.redirect('/');},
+                    method: "get"
+                });
+            }
+
+            if (Cookie.get('expirydate') !== undefined && Cookie.get('expirydate') !== null){
+
+                var expiryValue = Cookie.get('expirydate'),
+                    expiryDate = new Date(expiryValue);
+
+                if ( Object.prototype.toString.call(expiryDate) !== '[object Date]' || !isFinite(expiryDate) )
+                    expiryDate = new Date(parseInt(expiryValue));
+
+                var currentDate = new Date(),
+                    remainingTime = expiryDate.getTime() - currentDate.getTime();
+
+                if(remainingTime < 0 ){
+                    Cookie.unset('expirydate');
+                } else {
+                    clearTimeout(EXPIRY_DATE_ID);
+                    EXPIRY_DATE_ID=setTimeout(function(){
+                        Cookie.unset('sessid');
+                        Cookie.unset('expirydate');
+                        Cookie.unset('login');
+                        Cookie.unset('context');
+
+                        new Ajax.Request("/logout", {
+                            onComplete: function(){Sah.redirect('/');},
+                            method: "get"
+                        });
+                    }, remainingTime);
+                }
+
+            }
+
+            if ( appConfig === 'fr' ) {
+                $('hmenu-myfiles').remove();
+                if ( $('advConfigPorts') !== null ) {
+                    $('advConfigPorts').remove();
+                }
+                if ( $('left-fxo-link') !== null ) {
+                    $('left-fxo-link').remove();
+                }
+            }
+            if (config.BUILD_PROJECT.indexOf("2.8") < 0) {
+                if ( $('left-fxo-link') !== null ) {
+                    $("left-fxo-link").show();
+                }
+            }
+            $('Login').observe("submit",function(e){
+                Event.stop(e);
+                $('Username').setValue($F('PopupUsername'));
+                $('Password').setValue($F('PopupPassword'));
+                return true;
+            }.bind(this));
+
+            $("popup-close-btn").observe("click",function(e){
+                ctl.popup.Close();
+                return false;
+            });
+
+            $$('.hmenu li a').each(function (el) {
+                Event.observe(el, 'mouseup', function(event) {
+                    Sah.redirect(el.href);
+                });
+            });
+        });
+            
+            
+        Event.observe(document, "click", function (event) {
+             var sessionDuration = (config.SESSION_DURATION ? parseInt(config.SESSION_DURATION) : 600000);
+                
+             if (sessionDuration !== 0){                
+             var d = new Date();
+             d.setTime(d.getTime() + (sessionDuration * 1000));
+             Cookie.set('expirydate', d);
+                    
+            }
+
+            var login = Cookie.get('login');
+                if (login != null && login.length > 24){
+                    Cookie.unset('sessid');
+                    Cookie.unset('expirydate');
+                    Cookie.unset('login');
+                    Cookie.unset('context');
+
+                    new Ajax.Request("/logout", {
+                        onComplete: function(){Sah.redirect('/');},
+                        method: "get"
+                    });
+                }
+            
+                if (Cookie.get('expirydate') !== undefined && Cookie.get('expirydate') !== null){
+                
+                    var expiryValue = Cookie.get('expirydate'), 
+                        expiryDate = new Date(expiryValue);
+                                    
+                    if ( Object.prototype.toString.call(expiryDate) !== '[object Date]' || !isFinite(expiryDate) )
+                        expiryDate = new Date(parseInt(expiryValue));           
+                    
+                    var currentDate = new Date(),
+                        remainingTime = expiryDate.getTime() - currentDate.getTime();
+
+                    if(remainingTime < 0 ){
+                        Cookie.unset('expirydate');
+                    } else {
+                        clearTimeout(EXPIRY_DATE_ID);
+                        EXPIRY_DATE_ID=setTimeout(function(){
+                            Cookie.unset('sessid');
+                            Cookie.unset('expirydate');
+                            Cookie.unset('login');
+                            Cookie.unset('context');
+
+                            new Ajax.Request("/logout", {
+                                onComplete: function(){Sah.redirect('/');},
+                                method: "get"
+                            });
+                        }, remainingTime);
+                    }
+
+                }
+        });
+        
+</script>
+</body>
+</html>

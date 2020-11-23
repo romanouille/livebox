@@ -1,0 +1,65 @@
+#!/bin/sh
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+
+echo ""
+echo "SYSINIT"
+echo ""
+cat /etc/issue.local
+echo ""
+
+# mount all other filesystems
+echo "Mounting proc filesystem ..."
+mount -t proc proc /proc
+echo "Mounting sys filesystem ..."
+mount -t sysfs none /sys
+echo "Mounting tmpfs filesystem (/dev) ..."
+mount -t tmpfs tmpfs /dev
+echo "Mounting tmpfs filesystem (/var) ..."
+mount -t tmpfs -o size=11024k tmpfs /var
+echo "Mounting tmpfs filesystem (/var/log) ..."
+mkdir -p /var/log
+mount -t tmpfs -o size=1024k tmpfs /var/log
+echo "Mounting tmpfs filesystem (/tmp) ..."
+ 
+mount -t tmpfs -o size=8192k,noexec,nosuid,nodev tmpfs /tmp
+chmod 777 /tmp
+echo "Mounting usbfs filesystem (/proc/bus/usb) ..."
+mount -t usbfs none /proc/bus/usb
+
+if [ -n "$(grep pstore /proc/filesystems)" ] ; then
+	echo "Mounting pstore filesystem (/mnt/pstore) ..."
+	mount -t pstore none /mnt/pstore
+fi
+
+
+if [ -e /proc/cgroups ]; then
+  echo "Mounting cgroup filesystem (/sys/fs/cgroup/)"
+  mount -t cgroup -o $(sed -n "s/^\([^#][^\t]*\).*/\1/p" /proc/cgroups | tr -s "\n" "," | sed "s/,$//") none /sys/fs/cgroup/
+fi
+
+mkdir -p /var/run /var/ppp /var/udhcpd /var/lib /var/tmp /var/etc /tmp/udev
+
+/sbin/udevd --daemon
+for i in /sys/block/*/uevent; do echo "add" > $i; done
+
+/sbin/udevadm trigger --subsystem-nomatch=usb
+/sbin/udevadm settle
+
+if [ "$1" = "nomtd" ]
+then
+  echo "> NORMAL BOOT - NOMTD <"
+  echo ""
+  /etc/init.d/normal_boot_nomtd
+else
+  echo "> NORMAL BOOT <"
+  echo ""
+  /etc/init.d/normal_boot
+fi
+
+#usb_modeswitch needs a mounted fs
+/sbin/udevadm trigger --action=add --subsystem-match=usb
+echo " start rc.sysinit"
+/etc/init.d/rc.sysinit
+exit 0

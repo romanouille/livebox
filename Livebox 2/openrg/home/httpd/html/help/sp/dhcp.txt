@@ -1,0 +1,18 @@
+﻿<b>Servidor DHCP:</b><br>
+<br>
+Puedes emplear tu router como un servidor DHCP para tu propia red. Un servidor DHCP se emplea para asignar automáticamente direcciones IP a cada uno de los ordenadores que forman parte de tu red.<br>
+<span class="boldorange"> Dirección IP LAN:</span><br>
+Determina la dirección IP de tu Livebox y la dirección empleada para la red de tu hogar. Por defecto, esta dirección es 192.168.1.1.<br>
+<span class="boldorange"> Máscara de subred:</span><br>
+La máscara de subred se emplea para identificar una subred, principalmente la red de tu hogar.<br>
+<span class="boldorange">Dirección IP inicial:</span><br>
+Introduce un valor inicial para las direcciones IP necesarias para el servidor DHCP.<br>
+<span class="boldorange">Dirección IP final:</span><br>
+Determina el número máximo de usuarios DHCP. Introduce el número máximo de ordenadores a los cuales el servidor DHCP puede asignar direcciones IP. Este número no puede ser mayor de 253.<br>
+<br>
+<span class="boldorange">Dirección IP estática:</span><br>
+Puedes reservar una dirección IP para un determinado ordenador perteneciente a la red de tu hogar. Este ordenador tendrá siempre la misma dirección IP en tu red. Esta característica es especialmente útil si necesitan definir reglas NAT/PAT para un ordenador en particular.<br>
+<!--
+<br>
+-->
+

@@ -1,0 +1,26 @@
+{
+    "status": true,
+    "data": {
+        "RxPackets": 751895,
+        "TxPackets": 1150916,
+        "RxBytes": 63873714,
+        "TxBytes": 1124499269,
+        "RxErrors": 0,
+        "TxErrors": 439,
+        "RxDropped": 0,
+        "TxDropped": 0,
+        "Multicast": 16603,
+        "Collisions": 1160597103,
+        "RxLengthErrors": 1852124247,
+        "RxOverErrors": 1346448709,
+        "RxCrcErrors": 1853121906,
+        "RxFrameErrors": 1886546291,
+        "RxFifoErrors": 1697404752,
+        "RxMissedErrors": 0,
+        "TxAbortedErrors": 0,
+        "TxCarrierErrors": 0,
+        "TxFifoErrors": 13348307,
+        "TxHeartbeatErrors": 0,
+        "TxWindowErrors": 0
+    }
+}

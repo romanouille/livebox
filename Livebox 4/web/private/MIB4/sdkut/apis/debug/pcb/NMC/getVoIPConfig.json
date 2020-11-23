@@ -1,0 +1,23 @@
+{
+  "status": true,
+  "data": [
+    {
+      "Name": "SIP-Trunk",
+      "Enable": "Enabled",
+      "Protocol": "DHCP",
+      "Encapsulation": "",
+      "InterfaceId": "8/55",
+      "Interface": "voip",
+      "PhysInterface": "DSL"
+    },
+    {
+      "Name": "H323-Trunk",
+      "Enable": "Disabled",
+      "Protocol": "DHCP",
+      "Encapsulation": "",
+      "InterfaceId": "8/55",
+      "Interface": "voip",
+      "PhysInterface": "DSL"
+    }
+  ]
+}

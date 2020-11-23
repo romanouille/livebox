@@ -1,0 +1,6 @@
+datamodel {
+object UDPEchoConfig {
+parameter SourceV4HostName="nts.fr.orange.com";
+parameter SourceV6HostName="nts.fr.orange.com";
+}
+}

@@ -1,0 +1,19 @@
+<b>VPN:</b><br>
+<br>
+The VPN feature enables you to create an extension of your local area network. This service enables two sites to be connected securely over a public network such as the Internet.<br>
+When a VPN is active, a secure channel known as a tunnel is created between the two sites. The data transmitted is encrypted as it enters the tunnel and decoded at the other end by the recipient.<br>
+The Boxer can create VPN links between two Boxers (easy mode), between a Boxer and another type of VPN server (expert mode) or between a Boxer and a roving user (server mode).<br>
+In total, the Boxer can establish four simultaneous VPN connections.<br>
+<br>
+<span class="boldorange">VPN settings:</span>
+The "VPN name" field shows your Boxer's DNS name (provided you use a Dynamic DNS service).<br>
+The "Site name" field shows the DNS name of the domain in which your Boxer is registered (provided you use a Dynamic DNS service).<br>
+<br>
+<span class="boldorange">Enable IPsec:</span>
+Checking this box enables the VPN service.<br>
+The table lists configured connections and active connections.<br>
+Click the "Add" button to configure a new connection.<br>
+<br>
+<span class="boldorange">Enable IPsec server:</span>
+Check this box to enable the VPN Server service, which enables roving users to log on to your Boxer. Click the "User and group management" button to access the user configuration page.<br>
+

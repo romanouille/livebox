@@ -1,0 +1,55 @@
+/* No expression needed */
+
+/**
+ * MIB is loaded on all network devices that have a DHCP ipv4 address assigned
+ *
+ * All devices matching expression: "dhcp" are extended with this MIB
+ *
+ * @version 6.0
+ */
+ mib dhcp {
+    /**
+     * Vendor class ID (dhcp option 77)
+     *
+     * @version 6.0
+     */
+    read-only persistent string VendorClassID;
+    /**
+     * User class ID (dhcp option 60)
+     *
+     * @version 6.0
+     */
+    read-only persistent string UserClassID;
+    /**
+     * DHCP client id
+     *
+     * @version 6.0
+     */
+    volatile read-only persistent string ClientID;
+    /**
+     * Serial number (dhcp option 125)
+     *
+     * When option 125 is available for the device, it is a managed device (see TR-111)
+     *
+     * @version 6.0
+     */
+    read-only persistent string SerialNumber;
+    /**
+     * Product class (dhcp option 125)
+     *
+     * When option 125 is available for the device, it is a managed device (see TR-111)
+     *
+     * @version 6.0
+     */
+    read-only persistent string ProductClass;
+    /**
+     * Vendor OUI (dhcp option 125)
+     *
+     * When option 125 is available for the device, it is a managed device (see TR-111)
+     *
+     * @version 6.0
+     */
+    read-only persistent string OUI;
+}
+
+/** @location sah_services_gmap /mibs/dhcp.odl */

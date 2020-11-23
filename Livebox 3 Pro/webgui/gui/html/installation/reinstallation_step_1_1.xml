@@ -1,0 +1,34 @@
+<div id="reinstallation_step_1_1" class="install-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="modal"></div>
+	<div id="installBanner" class="margin-bottom-10">
+		<img title="installation Livebox" alt="installation Livebox" src="theme/webCorporate/image/installation/logo_Orange.gif"/>
+		<h1 class="h1_install">Livebox</h1>
+		<div class="clear"></div>
+	</div>
+	<div class="alignCenter">
+		<img class="margin-bottom-10" alt="installation de la Livebox" src="theme/webCorporate/image/installation/ill_livebox.png"/>
+	</div>
+	<div id="container2">		
+		<div class="h2_install" i18n="page.page0.reinstallation.step1_1.label"/>
+		<span class="padding-left-40" i18n="page.page0.reinstallation.step1_1.label0"/>
+		<form class="installform">
+			<div widgetType="FormInput" i18n="page.page0.reinstallation.step1_1.questionsecrete">
+				<span style="font-weight:bold" dataId="Device/UserAccounts/ManagedUsers/ManagedUser[Login='admin']/SecretQuery"></span>
+			</div>
+			<div widgetType="FormInput" i18n="page.page0.reinstallation.step1_1.reponsesecrete">
+				<span id="sAnswer" widgetType="Password" widgetArg="{char: '•', period: 2000}"></span>
+				<div id="failedSecretAnswer" class="forminput error installationerror" i18n="page.page0.reinstallation.step1_1.failedSecretAnswer" style="display:none"/>
+			</div>
+		</form>	
+		
+		<div class="installButtonBar">
+			<a id="jump2reinstallation_step_1" href="javascript:;" i18n="page.page0.previous">
+				<img class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_precedente.gif" widgetType="Image"/>
+			</a>
+			<span class="spacer"/>
+			<a id="jump2reinstallation_step_2" href="javascript:;" class="disableable disabled" i18n="page.page0.next">
+				<img class="inbarbutton margin-right-20" src="theme/webCorporate/image/installation/btn_etape_suivante_off.gif" widgetType="Image"/>
+			</a>
+		</div>
+	</div>
+</div>

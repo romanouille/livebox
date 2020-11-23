@@ -1,0 +1,13 @@
+<b>Zdalny administrator</b>
+
+<br>
+<br>
+
+Ta opcja umożliwia <b>stały</b> zdalny dostęp z Internetu do Twojego modemu Livebox.<br><br>
+
+ W pierwszej kolejności upewnij się, czy opcja <b>Włącz zdalnego administratora</b> została zaznaczona. Następnie wprowadź numer portu, aby otworzyć zewnętrzny dostęp. Musisz również podać nazwę użytkownika i hasło dostępu do routera.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

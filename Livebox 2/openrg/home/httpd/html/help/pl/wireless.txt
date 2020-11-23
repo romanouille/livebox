@@ -1,0 +1,27 @@
+<b>Ustawienia Wi-Fi</b><br>
+<br>
+
+<b><span class="boldorange">Nazwa sieci (SSID):</span></b><br> 
+Nazwa sieci odpowiada nazwie Twojego modemu Livebox, która znajduje się na jego etykiecie. Jest to również nazwa sieci bezprzewodowej.<br><br>
+
+<b><span class="boldorange">Tryb pracy 802.11:</span></b><br> 
+Jeśli w Twojej sieci znajdują się urządzenia 802.11n, pozostaw domyślny parametr 802.11 b/g/n. Jeśli nie korzystasz z urządzeń 802.11n wybierz opcję 802.11b/g. Jeśli nie masz żadnych bezprzewodowych urządzeń w sieci, zaleca się wyłączenie sieci Wi-Fi poprzez odznaczenie opcji "Włącz Wi-Fi".<br>
+<br>
+<b><span class="boldorange">Kanał:</span></b><br> 
+Jest to pasmo częstotliwości podzielone na 13 kanałów. Zaleca się korzystanie z kanałów 1, 6, 11.<br><br>
+
+<b><span class="boldorange">Klucz bezpieczeństwa:</span></b><br> 
+Klucza bezpieczeństwa używa się do zabezpieczania sieci bezprzewodowej. Domyślnie wykorzystywany jest klucz WPA, który znajduje się na etykiecie Twojego modemu Livebox. Wielkość liter ma znaczenie.<br>
+<br>
+
+<b><span class="boldorange"> Tryb bezpieczeństwa:</span></b><br> 
+Aby zabezpieczyć sieć bezprzewodową przed nieautoryzowanym dostępem, połączenia są szyfrowane za pomocą protokołów WEP lub WPA. Tylko komputery i terminale, które podały odpowiednie klucze, bedą miały dostęp do sieci bezprzewodowej. Protokół WPA, wybrany domyślnie przez opcję <b>WPA/WPA2 Auto (TKIP/AES)</b>, dodatkowo zwiększa bezpieczeństwo, dlatego zaleca się jego używanie. Protokół <b>WPA2-PSK (AES)</b> zapewnia jeszcze wyższy poziom bezpieczeństwa sieci Wi-Fi. Klucz WEP składa się z 26 znaków (cyfry od 0 do 9 oraz litery A, B, C, D, E, F) i jest całkowicie poufny. Jeśli wybierzesz tryb <b>Niezabezpieczony</b>, Twoja sieć bezprzewodowa będzie otwarta i dostępna dla wszystkich.
+
+
+<br><br>
+<b><span class="boldorange">Włącz tryb Easy Pairing:</span></b><br> 
+Ta opcja pozwala na połączenie się za pomocą sieci bezprzewodowej bez podawania hasła. Jest aktywowana przyciskiem WiFi na modemie.<br>
+<br>
+<b><span class="boldorange">Włącz filtrowanie po MAC:</span></b><br> 
+Każde urządzenie posiada swój unikalny adres fizyczny zwany adresem MAC. Adres ten składa się z 12 znaków (cyfry od 0 do 9 oraz litery A, B, C, D, E, F) pogrupowanych w pary oddzielone od siebie myślnikami lub dwukropkami. Jeśli filtrowanie jest włączone i chcesz dołączyć nowe urządzenie do swojej sieci, naciśnij przycisk WiFi na modemie lub kliknij przycisk <b>"Dodaj"</b> znajdujący się pod listą urządzeń połączonych z modemem. Następnie wpisz adres MAC urządzenia, które chcesz dodać. Jeśli filtrowanie jest wyłączone, każde urządzenie może się połączyć z modemem Livebox bez potrzeby naciskania przycisku WiFi na modemie lub dodawania adresu MAC do tabeli. Ta opcja jest domyślnie wyłączona.<br>
+<br>

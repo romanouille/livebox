@@ -1,0 +1,154 @@
+#!/bin/sh
+
+LOG_FILE="/tmp/"$1".log"
+
+
+#date >> $LOG_FILE
+#echo "{reason = $reason} {arg1 = $1}" >> $LOG_FILE
+#env  >> $LOG_FILE
+
+
+# Must be used on exit.   Invokes the local dhcp client exit hooks, if any.
+exit_with_hooks() {
+    exit_status=$1
+
+    exit $exit_status
+}
+
+###
+### DHCPv4 Handlers
+###
+
+if [ x$new_broadcast_address != x ]; then
+  new_broadcast_arg="broadcast $new_broadcast_address"
+fi
+if [ x$new_subnet_mask != x ]; then
+  new_subnet_arg="netmask $new_subnet_mask"
+fi
+if [ x$alias_subnet_mask != x ]; then
+  alias_subnet_arg="netmask $alias_subnet_mask"
+fi
+
+
+
+case "$reason" in
+    PREINIT|MEDIUM|ARPCHECK|ARPSEND)
+      # Do nothing
+		exit_with_hooks 0
+		;;
+    BOUND|RENEW|REBIND|REBOOT)
+		# Ajout SAGEMCOM
+		if [ -n $1 ]; then
+			CMD_ARGS="-c $reason -d $1"
+			if [ -n $new_ip_address ]; then
+				CMD_ARGS="$CMD_ARGS -a $new_ip_address"
+			fi
+			if [ -n $new_subnet_mask ]; then
+				CMD_ARGS="$CMD_ARGS -m $new_subnet_mask"
+			fi
+			if [ -n "$new_ntp_servers" ]; then
+				TMP=`echo $new_ntp_servers|sed "s/ /,/g"`
+				CMD_ARGS="$CMD_ARGS -n $TMP"
+			fi
+			if [ -n "$new_www_server" ]; then
+				CMD_ARGS="$CMD_ARGS -w $new_www_server"
+			fi
+			if [ -n "$new_unknown_121" ]; then
+				CMD_ARGS="$CMD_ARGS -r $new_unknown_121"
+			fi
+			if [ -n "$new_unknown_120" ]; then
+				CMD_ARGS="$CMD_ARGS -s $new_unknown_120"
+			fi
+			if [ -n "$new_routers" ]; then
+				CMD_ARGS="$CMD_ARGS -g $new_routers"
+			fi
+			if [ -n "$new_unknown_254" ]; then
+				CMD_ARGS="$CMD_ARGS -f $new_unknown_254"
+			fi
+			if [ -n "$new_domain_name_servers" ]; then
+				TMP=`echo $new_domain_name_servers|sed "s/ /,/g"`
+				CMD_ARGS="$CMD_ARGS -z $TMP"
+			fi
+			if [ -n "$new_domain_name" ]; then
+				CMD_ARGS="$CMD_ARGS -o 15@@$new_domain_name"
+			fi
+			if [ -n "$new_domain" ]; then
+				CMD_ARGS="$CMD_ARGS -o 15@@$new_domain"
+			fi
+			if [ -n "$new_vendor_encapsulated_options" ]; then
+				CMD_ARGS="$CMD_ARGS -e $new_vendor_encapsulated_options"
+			fi
+			if [ -n "$new_root_path" ]; then
+				CMD_ARGS="$CMD_ARGS -o 17@@$new_root_path"
+			fi
+			if [ -n "$new_dhcp_lease_time" ]; then
+				CMD_ARGS="$CMD_ARGS -o 51@@$new_dhcp_lease_time"
+			fi
+			if [ -n "$new_tftp_server_name" ]; then
+				CMD_ARGS="$CMD_ARGS -o 66@@$new_tftp_server_name"
+			fi
+			if [ -n "$new_filename" ]; then
+				CMD_ARGS="$CMD_ARGS -b $new_filename"
+			fi
+			if [ -n "$next_server" ]; then
+				CMD_ARGS="$CMD_ARGS -x $next_server"
+			fi
+			if [ -n "$new_dhcp_opt_125" ]; then
+				CMD_ARGS="$CMD_ARGS -v $new_dhcp_opt_125"
+			fi
+                        if [ -n "$new_unknown_129" ]; then
+                                TMP=`echo $new_unknown_129|sed "s/ /~/g"`
+                                CMD_ARGS="$CMD_ARGS -o 129@@$TMP"
+                        fi
+			if [ -n "$new_time_servers" ]; then
+				TMP=`echo $new_time_servers|sed "s/ /,/g"`
+				CMD_ARGS="$CMD_ARGS -p $TMP"
+			fi
+			if [ -n "$new_bootfile_name" ]; then
+				CMD_ARGS="$CMD_ARGS -o 67@@$new_bootfile_name"
+			fi
+			bf2dhcpcSmu $CMD_ARGS &
+		fi			
+
+		exit_with_hooks 0
+  
+		;;
+
+	FAIL|FAIL_INTERNAL|EXPIRE_INTERNAL)
+      	# 
+
+		if [ -n $1 ]; then
+			CMD_ARGS="-c $reason -d $1"
+			#echo "EXECUTE <bf2dhcpcSmu $CMD_ARGS>" >> $LOG_FILE
+			bf2dhcpcSmu $CMD_ARGS &
+		fi
+
+		exit_with_hooks 0
+        ;;
+
+	STOP|RELEASE)
+      	# 
+		exit_with_hooks 0
+        ;;
+
+    EXPIRE|TIMEOUT)
+      	# 
+
+		if [ -n $1 ]; then
+			CMD_ARGS="-c $reason -d $1"
+			if [ -n $old_ip_address ]; then
+				CMD_ARGS="$CMD_ARGS -a $old_ip_address"
+			fi
+			if [ -n $old_subnet_mask ]; then
+				CMD_ARGS="$CMD_ARGS -m $old_subnet_mask"
+			fi
+			bf2dhcpcSmu $CMD_ARGS &
+		fi			
+
+
+			exit_with_hooks 0
+        ;;
+
+esac
+
+exit_with_hooks 0

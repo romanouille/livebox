@@ -1,0 +1,21 @@
+<b>Zdalny administrator</b>
+
+<br>
+<br>
+
+W przypadku problemów związanych z modemem Livebox, możesz skorzystać z pomocy operatora infolinii przyznając mu tymczasowy (15-sto minutowy) dostęp do urządzenia.<br>
+ 
+W tym celu kliknij przycisk <b>"Rozpocznij"</b>. Udostępnione przez infolinię ustawienia są wyświetlone na ekranie. Nie podawaj ich nikomu poza operatorem infolinii.
+
+<br><br>
+
+ Po uruchomieniu usługi możesz zwiększyć czas dostępu klikając przycisk <b>"Przedłuż"</b>.
+
+<br><br>
+
+Aby zakończyć tymczasowy dostęp, kliknij przycisk <b>"Zatrzymaj"</b>.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

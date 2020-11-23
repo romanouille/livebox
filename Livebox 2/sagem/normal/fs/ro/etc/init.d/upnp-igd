@@ -1,0 +1,42 @@
+#!/bin/sh
+
+PCB_PLUGIN="/bin/pcb_plugin"
+PLUGIN_ODL="/usr/lib/upnp-igd/upnp-igd.odl"
+PID_FILE="/var/run/upnp-igd_plugin.pid"
+TARGET_DIR="/var/lib/linuxigd"
+
+case $1 in
+    start)
+        while ! mkdir -m 700 "$TARGET_DIR"
+        do
+            rm -rf $TARGET_DIR
+        done
+        upnpigd=200 LD_LIBRARY_PATH=/usr/lib/upnp-igd $PCB_PLUGIN -n upnp-igd_plugin -c $PLUGIN_ODL
+    ;;
+
+    stop)
+        echo "Stop upnp-igd plugin"
+        [ -f $PID_FILE ] && kill `cat $PID_FILE`
+    ;;
+    status)
+    if [ -e $PID_FILE ] ; then
+            echo "upnp-igd plugin is running."
+        else
+            echo "upnp-igd plugin is not running."
+        fi
+    ;;
+    backup)
+        if [ -e $PID_FILE ] ; then
+            pcb_cli "UPnP-IGD.export($2)"   
+        else
+            echo "UPnP-IGD plugin is not running, impossible to make a backup"
+        fi
+        ;;
+    restore)
+        mkdir -p /var/lib/upnp-igd
+        touch /var/lib/upnp-igd/restore
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status]"
+    ;;
+esac

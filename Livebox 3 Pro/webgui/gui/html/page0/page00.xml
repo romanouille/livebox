@@ -1,0 +1,20 @@
+<div id="page00" class="status-block" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<p class="blockTitle bold_font" i18n="page.page0.common.label"/>
+	<form class="page0_container">
+		<div i18n="page.page0.step0.label0"/>
+		<div>
+			<span id="installoption" class="radioBR" widgetType="EnumInput" widgetArg="'radio'" enumerated="['FIRSTINSTALL', 'REINSTALL']" i18nPrefix="page.page0.step0.installoption"/>
+			<div class="clear"/>
+		</div>
+		<br/>
+		<div widgetType="ButtonContainer" class="center">
+			<span id="b1" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+			<span class="spacer"/>
+			<span id="b2" widgetType="Button" widgetArg="{type: 'simple'}" i18n="page.page0.step0.valid"/>
+		</div>
+	</form>
+	<div class="centered">
+		<span i18n="page.page0.jump2home"/>&#160;<a href="javascript:;" class="jump2home orange menuItemLink" i18n="page.page0.step0.thislink" onclick="page0_clickOnThisLink();"/>.
+	</div>
+	<input style="display:none" type="text" id="memoryCardStatus" class="ieChangeable" dataId="Device/DeviceInfo/SmartCard/Status"/>
+</div>

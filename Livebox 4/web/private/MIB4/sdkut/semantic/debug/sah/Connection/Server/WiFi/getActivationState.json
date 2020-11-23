@@ -1,0 +1,8 @@
+{
+  "status": 0,
+  "data": {
+    "isActivated": true,
+    "isScheduleOverridden": false,
+    "useSchedule": true
+  }
+}

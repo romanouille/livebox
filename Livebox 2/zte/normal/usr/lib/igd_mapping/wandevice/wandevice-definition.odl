@@ -1,0 +1,368 @@
+
+
+using "wandevice/wandevice.so";
+
+read-only object WANDevice[] {
+    read-only uint32 WANConnectionNumberOfEntries = 0;
+    object WANCommonInterfaceConfig {
+        read-only bool EnabledForInternet;
+        read-only string WANAccessType {
+            constraint enum [ "DSL", "Ethernet", "POTS"];
+            default "DSL";
+        }
+        read-only uint32 Layer1UpstreamMaxBitRate;
+        read-only uint32 Layer1DownstreamMaxBitRate;
+        read-only string PhysicalLinkStatus {
+            constraint enum ["Up", "Down", "Initializing", "Unavailable" ];
+            default "Unavailable";
+        }
+        read-only uint32 TotalBytesSent;
+        read-only uint32 TotalBytesReceived;
+        read-only uint32 TotalPacketsSent;
+        read-only uint32 TotalPacketsReceived;
+    }
+    object WANDSLInterfaceConfig {
+        bool Enable = false;
+        read-only string Status {
+            constraint enum [ "Up", "Initializing", "EstablishingLink", "NoSignal", "Error", "Disabled" ];
+            default "Disabled";
+        }
+        read-only uint32 UpstreamCurrRate = 4294967295;
+        read-only uint32 DownstreamCurrRate = 4294967295;
+        read-only uint32 UpstreamMaxRate;
+        read-only uint32 DownstreamMaxRate;
+        read-only int32 UpstreamNoiseMargin;
+        read-only int32 DownstreamNoiseMargin;
+        read-only int32 UpstreamAttenuation;
+        read-only int32 DownstreamAttenuation;
+        read-only int32 UpstreamPower;
+        read-only int32 DownstreamPower;
+        read-only string ATURVendor {
+            constraint maxvalue 8;
+            default "00000000";
+        }
+        read-only string ATURCountry {
+            constraint maxvalue 4;
+            default "0000";
+        }
+        read-only string ATUCVendor {
+            constraint maxvalue 8;
+            default "00000000";
+        }
+        read-only string ATUCCountry {
+            constraint maxvalue 4;
+            default "0000";
+        }
+        read-only uint32 TotalStart;
+        read-only uint32 ShowtimeStart;
+        read-only string ModulationType {
+            constraint enum [ "ADSL_G.dmt","ADSL_G.lite","ADSL_G.dmt.bis","ADSL_re-adsl","ADSL_2plus","ADLS_four","ADSL_ANSI_T1.413","G.shdsl","IDSL","HDSL","SDSL","VDSL" ];
+            default "ADSL_2plus";
+        }
+        read-only string LineEncoding {
+            constraint enum ["DMT","CAP","2B1Q","43BT","PAM","QAM"];
+            default "QAM";
+        }
+        read-only string DataPath {
+            constraint enum [ "Interleaved", "Fast", "None" ];
+            default "Interleaved";
+        }
+        read-only uint32 InterleaveDepth = 0;
+        read-only uint32 LineNumber {
+            constraint minvalue 1;
+            default 1;
+        }
+        read-only string UPBOKLE {
+            default 0;
+        }
+        read-only string StandardUsed {
+            constraint enum [ "G.992.1_Annex_A", "G.992.1_Annex_B", "G.992.1_Annex_C", "T1.413", "T1.413i2", "ETSI_101_388", "G.992.2", "G.992.3_Annex_A", "G.992.3_Annex_B", "G.992.3_Annex_C", "G.992.3_Annex_I", "G.992.3_Annex_J", "G.992.3_Annex_L", "G.992.3_Annex_M", "G.992.4", "G.992.5_Annex_A", "G.992.5_Annex_B", "G.992.5_Annex_C", "G.992.5_Annex_I", "G.992.5_Annex_J", "G.992.5_Annex_M", "G.993.1", "G.993.1_Annex_A", "G.993.2_Annex_A", "G.993.2_Annex_B", "G.993.2_Annex_C"  ];
+            default "G.992.1_Annex_A";
+        }
+        read-only string CurrentProfile {
+            constraint enum [ "", "8a", "8b", "8c", "8d", "12a", "12b", "17a", "17b", "30a" ];
+            default "";
+        }
+        object Stats {
+            object Total {
+                read-only uint32 ReceiveBlocks;
+                read-only uint32 TransmitBlocks;
+                read-only uint32 CellDelin;
+                read-only uint32 LinkRetrain;
+                read-only uint32 InitErrors;
+                read-only uint32 InitTimeouts;
+                read-only uint32 LossOfFraming;
+                read-only uint32 ErroredSecs;
+                read-only uint32 SeverelyErroredSecs;
+                read-only uint32 FECErrors;
+                read-only uint32 ATUCFECErrors;
+                read-only uint32 HECErrors;
+                read-only uint32 ATUCHECErrors;
+                read-only uint32 CRCErrors;
+                read-only uint32 ATUCCRCErrors;
+            }
+            object Showtime {
+                read with readShowtimeParameters;
+                read-only uint32 ReceiveBlocks;
+                read-only uint32 TransmitBlocks;
+                read-only uint32 CellDelin;
+                read-only uint32 LinkRetrain;
+                read-only uint32 InitErrors;
+                read-only uint32 InitTimeouts;
+                read-only uint32 LossOfFraming;
+                read-only uint32 ErroredSecs;
+                read-only uint32 SeverelyErroredSecs;
+                read-only uint32 FECErrors;
+                read-only uint32 ATUCFECErrors;
+                read-only uint32 HECErrors;
+                read-only uint32 ATUCHECErrors;
+                read-only uint32 CRCErrors;
+                read-only uint32 ATUCCRCErrors;
+            }
+        }
+    }
+    object WANDSLConnectionManagement {
+        read-only uint32 ConnectionServiceNumberOfEntries = 0;
+        read-only object ConnectionService[] {
+            read-only string WANConnectionDevice = "";
+            read-only string WANConnectionService = "";
+            read-only string DestinationAddress = "";
+            read-only string LinkType = "";
+            read-only string ConnectionType = "";
+            read-only string Name = "";
+        }
+    }
+    object WANEthernetInterfaceConfig {
+        bool Enable = false;
+        read-only string Status {
+            constraint enum [ "Up", "NoLink", "Error", "Disabled" ];
+            default "Disabled";
+        }
+        read-only string MACAddress;
+        string MaxBitRate = "Auto";
+        string DuplexMode = "Auto";
+        object Stats {
+            read-only uint32 BytesSent = 0;
+            read-only uint32 BytesReceived = 0;
+            read-only uint32 PacketsSent = 0;
+            read-only uint32 PacketsReceived = 0;
+        }
+    }
+
+    read-only object WANConnectionDevice[] {
+        read-only uint32 WANIPConnectionNumberOfEntries = 0;
+        read-only uint32 WANPPPConnectionNumberOfEntries = 0;
+        object WANDSLLinkConfig  {
+            bool Enable;
+            read-only string LinkStatus {
+                constraint enum [ "Up", "Down", "Initializing", "Unavailable" ];
+                default "Unavailable";
+            }
+            string LinkType {
+                constraint enum [ "EoA", "IPoA", "PPPoA" ];
+                default "EoA";
+            }
+            read-only bool AutoConfig = false;
+            string DestinationAddress = "PVC: 0/0";
+            string ATMEncapsulation = "VCMUX";
+            bool FCSPreserved;
+            read-only uint32 ATMTransmittedBlocks = 0;
+            read-only uint32 ATMReceivedBlocks = 0;
+            string ATMQoS {
+                constraint enum [ "UBR", "CBR", "GFR", "VBR-rt", "VBR-nrt" ];
+                default "UBR";
+            }
+            uint32 ATMPeakCellRate;
+            uint32 ATMMaxiumumBurstSize;
+            uint32 ATMSustainableCellRate;
+            read-only string ModulationType {
+                constraint enum [ "ADSL_G.dmt", "ADSL_G.lite", "ADSL_G.dmt.bis", "ADSL_re-adsl", "ADSL_2plus", "ADSL_four", "ADSL_ANSI_T1.413", "G.shdsl", "IDSL", "HDSL", "SDSL", "VDSL" ];
+                default "ADSL_G.dmt";
+            }
+            read-only uint32 AAL5CRCErrors = 0;
+            read-only uint32 ATMCRCErrors = 0;
+        }
+        object WANEthernetLinkConfig {
+            read-only string EthernetLinkStatus {
+                constraint enum [ "Up", "Down", "Unavailable" ];
+                default "Unavailable";
+            }
+            bool X_ORANGE-COM_Enable = false;
+            int16 X_ORANGE-COM_VLANID = -1;
+            int8 X_ORANGE-COM_VLANPriority = 0;
+        }
+
+        object WANIPConnection[] {
+            bool Enable = false;
+            bool Reset = false;
+            read-only string ConnectionStatus {
+                constraint enum [ "Unconfigured", "Connecting", "Connected", "PendingDisconnect", "Disconnecting", "Disconnected" ];
+                default "Unconfigured";
+            }
+            read-only string PossibleConnectionTypes = "IP_Routed";
+            string ConnectionType {
+                constraint enum [ "Unconfigured", "IP_Routed", "IP_Bridged" ];
+                default "IP_Routed";
+            }
+            string Name {
+                constraint maxvalue 256;
+                default "";
+            }
+            read-only uint32 Uptime;
+            read-only string LastConnectionError {
+                constraint enum [ "ERROR_NONE", "ERROR_COMMAND_ABORTED", "ERROR_NOT_ENABLED_FOR_INTERNET", "ERROR_USER_DISCONNECT", "ERROR_ISP_DISCONNECT", "ERROR_IDLE_DISCONNECT", "ERROR_FORCEED_DISCONNECT", "ERROR_NO_CARRIER", "ERROR_IP_CONFIGURATION", "ERROR_UNKNOWN" ];
+                default "ERROR_NONE";
+            }
+            read-only bool RSIPAvailable = false;
+            bool NATEnabled;
+            read-only string AddressingType {
+                constraint enum [ "Static", "DHCP" ];
+                default "DHCP";
+            }
+            read-only string ExternalIPAddress;
+            read-only string SubnetMask;
+            read-only string DefaultGateway;
+            read-only bool DNSEnabled = true;
+            read-only bool DNSOverrideAllowed = true;
+            read-only string DNSServers;
+            read-only string MACAddress;
+            string ConnectionTrigger {
+                constraint enum [ "OnDemand", "AlwaysOn", "Manual" ];
+                default "AlwaysOn";
+            }
+            string RouteProtocolRx {
+                constraint enum [ "Off" ];
+                default "Off";
+            }
+            read-only uint32 PortMappingNumberOfEntries = 0;
+
+            object PortMapping[] {
+                bool PortMappingEnabled = false;
+                read-only uint32 PortMappingLeaseDuration = 0;
+                string RemoteHost = "";
+                uint32 ExternalPort = 0;
+                uint32 InternalPort = 80;
+                string PortMappingProtocol {
+                    constraint enum [ "TCP", "UDP" ];
+                    default "TCP";
+                }
+                string InternalClient {
+                    constraint maxvalue 256;
+                    default "";
+                }
+                string PortMappingDescription {
+                    constraint maxvalue 256;
+                    default "";
+                }
+            }
+
+            object Stats {
+                read-only uint32 EthernetBytesSent = 0;
+                read-only uint32 EthernetBytesReceived = 0;
+                read-only uint32 EthernetPacketsSent = 0;
+                read-only uint32 EthernetPacketsReceived = 0;
+                read-only uint32 EthernetErrorsSent = 0;
+                read-only uint32 EthernetErrorsReceived = 0;
+                read-only uint32 EthernetUnicastPacketsSent = 0;
+                read-only uint32 EthernetUnicastPacketsReceived = 0;
+                read-only uint32 EthernetDiscardPacketsSent = 0;
+                read-only uint32 EthernetDiscardPacketsReceived = 0;
+                read-only uint32 EthernetMulticastPacketsSent = 0;
+                read-only uint32 EthernetMulticastPacketsReceived = 0;
+                read-only uint32 EthernetBroadcastPacketsSent = 0;
+                read-only uint32 EthernetBroadcastPacketsReceived = 0;
+                read-only uint32 EthernetUnknownProtoPacketsReceived = 0;
+            }
+        }
+
+        object WANPPPConnection[] {
+            bool Enable = false;
+            bool Reset = false;
+            read-only string ConnectionStatus {
+                constraint enum [ "Unconfigured", "Connecting", "Authenticating", "Connected", "PendingDisconnect", "Disconnecting", "Disconnected" ];
+                default "Unconfigured";
+            }
+            read-only string PossibleConnectionTypes = "IP_Routed";
+            string ConnectionType {
+                constraint enum [ "Unconfigured", "IP_Routed", "DHCP_Spoofed", "PPPoE_Bridged", "PPPoE_Relay", "PPTP_Relay", "L2TP_Relay" ];
+                default "IP_Routed";
+            }
+            read-only uint32 PPPoESessionID {
+                constraint minvalue 1;
+                default 1;
+            }
+            read-only string DefaultGateway;
+            string Name;
+            read-only uint32 Uptime;
+            read-only string LastConnectionError {
+                constraint enum [ "ERROR_NONE", "ERROR_ISP_TIME_OUT", "ERROR_COMMAND_ABORTED", "ERROR_NOT_ENABLED_FOR_INTERNET", "ERROR_BAD_PHONE_NUMBER", "ERROR_USER_DISCONNECT", "ERROR_ISP_DISCONNECT", "ERROR_IDLE_DISCONNECT", "ERROR_FORCED_DISCONNECT", "ERROR_SERVER_OUT_OF_RESOURCES", "ERROR_RESTRICTED_LOGON_HOURS", "ERROR_ACCOUNT_DISABLED", "ERROR_ACCOUNT_EXPIRED", "ERROR_PASSWORD_EXPIRED", "ERROR_AUTHENTICATION_FAILURE", "ERROR_NO_DIALTONE", "ERROR_NO_CARRIER", "ERROR_NO_ANSWER", "ERROR_LINE_BUSY", "ERROR_UNSUPPORTED_BITSPERSECOND", "ERROR_TOO_MANY_LINE_ERRORS", "ERROR_IP_CONFIGURATION", "ERROR_UNKNOWN" ];
+                default "ERROR_NONE";
+            }
+            read-only bool RSIPAvailable = false;
+            bool NATEnabled;
+            string Username;
+            string Password;
+            read-only string ExternalIPAddress;
+            read-only bool DNSEnabled = true;
+            read-only bool DNSOverrideAllowed = true;
+            read-only string DNSServers;
+            read-only string MACAddress;
+            read-only string TransportType {
+                constraint enum [ "PPPoA", "PPPoE" ];
+                default "PPPoE";
+            }
+            string PPPoEACName;
+            string PPPoEServiceName;
+            string ConnectionTrigger {
+                constraint enum [ "OnDemand", "AlwaysOn", "Manual" ];
+                default "AlwaysOn";
+            }
+            string RouteProtocolRx {
+                constraint enum [ "Off" ];
+                default "Off";
+            }
+            uint32 MaxMRUSize;
+            read-only uint32 CurrentMRUSize;
+            read-only uint32 PortMappingNumberOfEntries = 0;
+
+            object PortMapping[] {
+                bool PortMappingEnabled = false;
+                read-only uint32 PortMappingLeaseDuration = 0;
+                string RemoteHost = "";
+                uint32 ExternalPort = 0;
+                uint32 InternalPort = 80;
+                string PortMappingProtocol {
+                    constraint enum [ "TCP", "UDP" ];
+                    default "TCP";
+                }
+                string InternalClient {
+                    constraint maxvalue 256;
+                    default "";
+                }
+                string PortMappingDescription {
+                    constraint maxvalue 256;
+                    default "";
+                }
+            }
+
+            object Stats {
+                read-only uint32 EthernetBytesSent = 0;
+                read-only uint32 EthernetBytesReceived = 0;
+                read-only uint32 EthernetPacketsSent = 0;
+                read-only uint32 EthernetPacketsReceived = 0;
+                read-only uint32 EthernetErrorsSent = 0;
+                read-only uint32 EthernetErrorsReceived = 0;
+                read-only uint32 EthernetUnicastPacketsSent = 0;
+                read-only uint32 EthernetUnicastPacketsReceived = 0;
+                read-only uint32 EthernetDiscardPacketsSent = 0;
+                read-only uint32 EthernetDiscardPacketsReceived = 0;
+                read-only uint32 EthernetMulticastPacketsSent = 0;
+                read-only uint32 EthernetMulticastPacketsReceived = 0;
+                read-only uint32 EthernetBroadcastPacketsSent = 0;
+                read-only uint32 EthernetBroadcastPacketsReceived = 0;
+                read-only uint32 EthernetUnknownProtoPacketsReceived = 0;
+            }
+        }
+    }
+}
+

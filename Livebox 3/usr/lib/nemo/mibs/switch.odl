@@ -1,0 +1,21 @@
+object NeMo {
+object extends MIB(0,"switch") {
+string Flag = "switch";
+object DataModel {
+persistent int8 SwitchIndex=-1;
+persistent int8 SwitchGroup=0;
+persistent string SwitchVLANIngressMode {
+constraint enum [ "disable", "fallback", "check", "secure" ];
+default "disable";
+}
+persistent object SwitchVLAN[] {
+persistent bool Enable;
+persistent uint16 VLANID;
+persistent string Mode {
+constraint enum [ "untagged", "tagged", "unmodified" ];
+default "tagged";
+}
+}
+}
+}
+}

@@ -1,0 +1,40 @@
+using "../nmccore_lanip.so";
+
+persistent object NMC {
+    /**
+      This function allows to configure both the LAN IPv4 Address and the DHCP server pool using a single data model function call. Before it effectively commits the provided configuration, input parameters are validated extensively:
+      All arguments are mandatory.
+      All arguments except DHCPEnable have to be valid IPv4 addresses in standard notation and additionally The netmask has to be a valid subnet mask.
+      DHCPMinAddress and DHCPMaxAddress have to be in the subnet given by Address and Netmask.
+      The subnet given by Address and Netmask has to be a valid private IP-address range.
+
+     * @param Address LAN ipv4-address to be set.
+     * @param Netmask Subnet mask to be used.
+     * @param DHCPEnable Value to set DHCPv4.Server.Pool.*.Enable.
+     * @param DHCPMinAddress Value to set DHCPv4.Server.Pool.*.MinAddress.
+     * @param DHCPMaxAddress Value to set DHCPv4.Server.Pool.*.MaxAddress.
+     * @version V4.5
+     * @error
+     */
+    void setLANIP(mandatory in string Address, mandatory in string Netmask, mandatory in bool DHCPEnable, mandatory in string DHCPMinAddress, mandatory in string DHCPMaxAddress) {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * This function allows to retrieve the LAN IPv4 Address and the DHCP server pool configuration using a single data model function call.
+     * @param Address Current LAN IPv4 address.
+     * @param Netmask Current subnet mask.
+     * @param DHCPEnable Value of DHCPv4.Server.Pool.default.Enable
+     * @param DHCPMinAddress Value of DHCPv4.Server.Pool.default.MinAddress.
+     * @param DHCPMaxAddress Value of DHCPv4.Server.Pool.default.MaxAddress.
+     * @version V4.5
+     * @error
+     */
+    void getLANIP(out string Address, out string Netmask, out bool DHCPEnable, out string DHCPMinAddress, out string DHCPMaxAddress) {
+        acl {
+            world none;
+        }
+    }
+}

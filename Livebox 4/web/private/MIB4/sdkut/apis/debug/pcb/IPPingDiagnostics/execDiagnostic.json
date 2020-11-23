@@ -1,0 +1,13 @@
+{
+    "status": true,
+    "data": {
+        "DiagnosticsState"    : "Success",
+        "ipHost"             : "192.168.1.10",
+        "packetsSuccess"      : 10,
+        "packetsFailed"       : 0,
+        "packetSize"          : 300,
+        "averageResponseTime" : 0,
+        "minimumResponseTime" : 0,
+        "maximumResponseTime" : 0
+    }
+}

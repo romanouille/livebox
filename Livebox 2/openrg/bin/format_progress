@@ -1,0 +1,20 @@
+#!/bin/sh
+
+list_format=$(ls /tmp/format_#_#_*) 2> /dev/null 
+
+if [ -z "$list_format" ]
+then
+	echo > /tmp/format_progress 	
+	exit 0
+else
+  let index=0 
+  echo > /tmp/format_progress
+  for part in $list_format
+  do
+    cat $part >> /tmp/format_progress
+    let index=$index+1
+  done
+  cat /tmp/format_progress
+fi
+
+exit 0

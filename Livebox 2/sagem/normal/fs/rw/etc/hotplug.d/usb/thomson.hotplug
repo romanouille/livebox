@@ -1,0 +1,46 @@
+#!/bin/sh
+
+known_dongle()
+{
+if [ $ACTION  = "add" ];then
+                echo "Starting USB Dect" > /dev/console
+                rmmod hci_uart ; modprobe hci_uart hciextn=0
+                modprobe usbserial
+                modprobe cp2101
+                sleep 3
+                hciattach -t 2 -p /dev/usb/tts/0 bcsp_usb 115200 flow
+                hciconfig hci0 up
+                insmod /lib/modules/2.6.12.6/extra/thomson_lower_dect_driver.ko hcidevid=0
+                fi
+if [ $ACTION =  "remove" ];then
+                echo "USB Dect dongle removed"
+                killall hciattach
+                rmmod thomson_lower_dect_driver
+                sleep 2
+                rmmod cp2101
+                rmmod usbserial
+                rmmod hci_uart
+               fi
+}
+
+
+idVendor=$((0x$(echo $PRODUCT | cut -d"/" -f 1)))
+idProduct=$((0x$(echo $PRODUCT | cut -d"/" -f 2)))
+
+echo "vendor = $idVendor produit = $idProduct" > /dev/console
+
+# thomson dongles
+[ $idVendor = $((0x06b9)) -a $idProduct = $((0x6000)) ] && known_dongle;
+
+# third party dongles (CPE_P00036436)
+[ $idVendor = $((0x0bdd)) -a $idProduct = $((0x0100)) ] && known_dongle;
+[ $idVendor = $((0x0bdd)) -a $idProduct = $((0x0101)) ] && known_dongle;
+[ $idVendor = $((0x0bdd)) -a $idProduct = $((0x0110)) ] && known_dongle;
+[ $idVendor = $((0x0bdd)) -a $idProduct = $((0x0111)) ] && known_dongle;
+[ $idVendor = $((0x0bdd)) -a $idProduct = $((0x0120)) ] && known_dongle;
+[ $idVendor = $((0x0bdd)) -a $idProduct = $((0x0121)) ] && known_dongle;
+[ $idVendor = $((0x0bdd)) -a $idProduct = $((0x0130)) ] && known_dongle;
+[ $idVendor = $((0x0bdd)) -a $idProduct = $((0x0131)) ] && known_dongle;
+
+exit 1
+

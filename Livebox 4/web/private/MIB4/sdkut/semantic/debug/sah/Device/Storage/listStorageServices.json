@@ -1,0 +1,42 @@
+{
+  "status": 0,
+  "data": {
+    "serviceList": [
+      {
+        "serviceId": "pvr",
+        "volumeList": [
+          {
+            "deviceId": "1",
+            "volumeId": "10",
+            "name": "HDD1",
+            "priority": 1,
+            "quota": 1024,
+            "fileSystem": "ext3",
+            "totalSpace": 1024,
+            "usedSpace": 512,
+            "freeSpace": 512,
+            "isMounted": true,
+            "mountPoint": "/mnt/sahdisk/sda1"
+          }
+        ]
+      }, {
+        "serviceId": "ts",
+        "volumeList": [
+          {
+            "deviceId": "1",
+            "volumeId": "10",
+            "name": "HDD1",
+            "priority": 1,
+            "quota": 1024,
+            "fileSystem": "ext3",
+            "totalSpace": 1024,
+            "usedSpace": 512,
+            "freeSpace": 512,
+            "isMounted": true,
+            "mountPoint": "/mnt/sahdisk/sda1"
+          }
+        ]
+      }
+    ]
+  }
+}

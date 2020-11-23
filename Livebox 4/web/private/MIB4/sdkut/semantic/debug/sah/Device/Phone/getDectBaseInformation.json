@@ -1,0 +1,12 @@
+{ 
+"status": 0, 
+"data": 
+	{ 
+		"name": "Livebox-DA80", 
+		"catIqVersion": "2.0 & 3.0", 
+		"firmwareVersion": "0001", 
+		"rfpi": "0165892CC0", 
+		"pairingPinCode": "0000" 
+	} 
+
+}

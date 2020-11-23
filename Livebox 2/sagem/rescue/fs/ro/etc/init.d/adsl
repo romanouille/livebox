@@ -1,0 +1,32 @@
+#!/bin/sh
+# In this script, start and stop are use in a special way : 
+# start launch the daemon OR send SIGHUP to the daemon if already running
+# (for the sleeping mode)
+# stop send SIGHUP to the daemon
+
+CMVFILE=/tmp/CMV
+BMEFILE=/etc/config/VDSL
+ABMEFILE=/etc/config/ADSL
+
+case $1 in
+    start)
+	if [ ! -e $BMEFILE ]
+	then
+		if [ ! -e $ABMEFILE ]
+		then
+			if [ ! -e $CMVFILE ]
+			then
+				sysutil adsl parsecmv
+			fi
+		else
+			/bin/vdsld & 
+		fi	
+	else
+		/bin/vdsld & 
+	fi
+	;;
+    stop)
+		echo "ADSL stop not supported on Ikanos!"
+	;;
+    *)
+esac

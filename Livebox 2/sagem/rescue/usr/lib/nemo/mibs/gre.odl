@@ -1,0 +1,17 @@
+object NeMo {
+	object extends MIB(0,"gre") {
+		string Flag = "gre || gretap || ip6gre || ip6gretap";
+		object DataModel {
+			string Local;
+			string Remote;
+			string IFlags; // seq csum
+			string OFlags; // seq csum
+			uint32 IKey;
+			uint32 OKey;
+			string TTL="inherit"; // inherit or number
+			string TOS="inherit"; // inherit or number
+			bool PMTUDisc;
+		}
+	}
+}
+

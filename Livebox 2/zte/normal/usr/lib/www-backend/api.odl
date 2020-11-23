@@ -1,0 +1,231 @@
+object sah {
+  object Device {
+
+    /**
+     * Device information provides a collection of parameters describing the requested device.
+     * This way, request must be sent to HGW in order to retrieve information about HGW.
+     * Parameters returned respect the list of parameters specified in UPnP Basic Device
+     * standard. However, some additional parameters specific to SOP based devices can be
+     * retrieved too.
+     */
+    object Information {
+      /**
+       * Retrieve Basic Device Information
+       */
+      int32 getSummary(out string deviceID, out string deviceType, out string friendlyName,
+                       out string manufacturer, out string manufacturerURL, out string modelDescription,
+                       out string modelName, out string modelNumber, out string modelURL,
+                       out string serialNumber, out string UDN, out string UPC);
+
+      /**
+       * Retrieve Device Version
+       */
+      int32 getVersion(out string deviceID, out string softwareDate,
+                       out string softwareVersion, out string hardwareVersion);
+
+
+    }
+
+    /**
+     * Device power management applies to requested device. This way, request must be sent
+     * to HGW in order to manage On/Off state of the HGW.
+     */
+    object PowerManagement {
+
+      /**
+       * Restart Device
+       */
+      int32 restart();
+    }
+
+    /**
+     * The list of attached devices contains devices related to the requested device. This way,
+     * request must be sent to HGW in order to retrieve devices attached to the HGW.
+     * List of attached devices contains devices that are really attached to the HGW. Once such
+     * a device is physically removed from the HGW, it does not appear anymore in the list.
+     * The description of attached devices depends on their type:
+     * 'printer', USB printer;
+     * 'massStorage', USB Mass Storage;
+     * 'voice', phone.
+     */
+    object AttachedDevices {
+
+      /**
+       * List of USB Printer
+       */
+      int32 listAll(mandatory string deviceType, out list deviceList);
+
+    }
+
+    object LocalStorage {
+
+      /**
+       * Eject a USB Mass Storage
+       */
+      int32 eject(mandatory string USBMassStorageID);
+
+    }
+  }
+
+  object AccessManagement {
+
+    /**
+     * WAN services are related to interfaces:
+     * 'data', the Internet access;
+     * 'iptv', the TV
+     * 'voip', the Voice over IP.
+     * As a consequence, the state of WAN services is retrieved by retrieving the state of each
+     * interface. The state of each service is either 'true' (Up) or 'false' (Down).
+     */
+    object Service {
+
+      /**
+       * Retrieve Global State of WAN Services
+       */
+      int32 getStateSummary(out object data, out object iptv, out object voip);
+
+      /**
+       * Retrieve Description of the data WAN Service
+       */
+      int32 getDataState(out string linkType, out string linkState, out string MACAddress,
+                         out string protocol, out string connectionState, out string lastConnectionError,
+                         out string IPAddress, out string remoteGateway, out string DNSServers);
+    }
+  }
+
+  object HomeNetworkManagement {
+
+    /**
+     * The list of home network devices contains devices that are connected through Ethernet or
+     * Wi-Fi. The list contains connected and disconnected devices. Disconnected devices are
+     * kept recorded in SOP middleware for a given period of time after last disconnection (3
+     * months).
+     */
+    object NetworkMap {
+    
+      /**
+       * List Network Devices
+       */
+      int32 listDevices(out list deviceList);
+
+      /**
+       * Rename a Device
+       */
+      int32 setDisplayName(mandatory string deviceID, mandatory string name);
+      
+    }
+
+    object InternetAccessScheduling {
+      
+      /**
+       * Set Internet Access Scheduling
+       */
+      int32 setActivationState(mandatory string deviceID, 
+                               mandatory string activationState, mandatory string base,
+                               mandatory string defaultState, mandatory list schedulingList);
+      
+      /**
+       * Retrieve Current State
+       */
+      int32 getActivationState(mandatory string deviceID,
+                               out string activationState, out string base,
+                               out string defaultState, out list schedulingList);
+
+    }
+
+  }
+
+  object WiFiManagement {
+    /**
+     * Wi-Fi is mainly managed through virtual access points. And each virtual access point
+     * includes configuration parameters such as SSID, security mode and so on.
+     */
+    object VirtualAccessPoint {
+      
+      /**
+       * Retrieve Virtual Access Point Configuration
+       */
+      int32 listAll();
+
+      /**
+       * Activate/Deactivate Wi-Fi
+       */
+      int32 toggleState(mandatory string virtualAccessPointID, mandatory bool state);
+      
+    }
+
+    /**
+     * Wi-Fi Scheduling is defined for all radio. Therefore, modification of the Wi-Fi Scheduling
+    * applies to all virtual access points.
+    * Wi-Fi Scheduling has 3 different states:
+    * activated anytime
+    * deactivated anytime
+    * deactivated on schedule
+    * The state is set in parameter "activationState" with 3 possible values: "Enabled",
+    * "Disabled", and "Scheduled".
+    * Schedule is defined as a collection of periods where all Wi-Fi radio is deactivated. Each
+    * period is defined by a start time and a end time on a time base (daily, weekly, ...).
+    * Modification is applied immediately.
+    */
+    object WiFiScheduling {
+      
+      /**
+       * Set Wi-Fi Scheduling
+       */
+      int32 setActivationState(mandatory string activationState, mandatory string base,
+                               mandatory string defaultState, mandatory list schedulingList);
+      
+      /**
+       * Retrieve Current State
+       */
+      int32 getActivationState(out string activationState, out string base,
+                               out string defaultState, out list schedulingList);
+
+    }
+  }
+
+  object Voice {
+
+    /**
+     * HGW supports several type of Voice trunks and each voice trunk can support several
+     * trunk lines.
+     */
+    object Trunks {
+
+      /**
+       * Retrieve Voice Trunks
+       */
+      int32 listAll(out list phoneTrunkList);
+
+    }
+
+    /**
+     * Various phone handsets can be associated to the HGW. But, in this case, they
+     * are part of the Attached Devices.
+     */
+    object Handsets {
+   
+      /**
+       * Retrieve Voice Handset
+       */
+      int32 listAll(out list phoneList);
+
+    }
+
+    /**
+     * it is possible to make any phone device ring by referring the line identifier they are
+     * associated to. If no particular line identifier is specified, then all phone devices (trunk and
+     * handset) ring.
+     */
+    object Common  {
+      
+      /**
+       * Invoke Phone Ringing Test
+       */
+      int32 ringAll(string lineID, int32 duration, string melody);
+
+    }
+  }
+}
+
+/** @location sah_services_www_backend /api.odl */

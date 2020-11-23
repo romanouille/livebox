@@ -1,0 +1,22 @@
+<div id="home" xmlns="http://www.orange.com/xhtml/engine/loose">
+
+	<div id="gwtLinkToEngine" widgetType="MenuItem" widgetArg="{}"></div>
+
+	<div class="homeLeft">
+		<div id="myServicesGadget"></div>
+		<div id="myNetworkWidget"></div>
+	</div>
+	
+	<div class="homeRight">
+		<div id="AuthenticationWidget" />
+		<div id="InternetWidget"></div>
+		<div id="telephonieToneWidget"></div>
+
+		<div widgetType="VisibleDependent" widgetArg="{id : 'levelSelector', value : 'expert'}">
+			<div class="homespacer"/>
+			<div id="wifiWidget"/>				
+		    <div id="AdvancedSettingsWidget"/>				
+		</div>
+	</div>
+	<div class="clear"/>
+</div>

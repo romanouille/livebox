@@ -1,0 +1,129 @@
+object BulkData {
+object Profile[] {
+bool Enable;
+string Alias;
+string X_ORANGE-COM_OTHV;
+string X_ORANGE-COM_Priority;
+uint32 ReportingInterval;
+uint32 X_ORANGE-COM_ReportingIntervalDuration;
+datetime TimeReference;
+read-only bool X_ORANGE-COM_CustomerAgreement;
+bool X_ORANGE-COM_Trigger;
+string X_ORANGE-COM_Events;
+read-only string X_ORANGE-COM_ExportType;
+object HTTP {
+string URL;
+string Compression;
+}
+}
+}
+datamodel {
+object BulkData {
+instance of Profile(0, "probe_periodic1") {
+parameter Alias="SYSTEM_PROBE_PERIODIC1";
+parameter X_ORANGE-COM_OTHV="1.1";
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/probe_periodic1" {
+parameter Enable;
+parameter X_ORANGE-COM_Priority from PriorityServerSide;
+parameter ReportingInterval;
+parameter X_ORANGE-COM_ReportingIntervalDuration from ReportingIntervalDuration;
+parameter TimeReference;
+parameter X_ORANGE-COM_ExportType from ExportType;
+}
+object HTTP {
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/probe_periodic1/HTTP" {
+parameter URL;
+parameter Compression;
+}
+}
+}
+instance of Profile(0, "probe_ondemand1") {
+parameter Alias="SYSTEM_PROBE_ONDEMAND1";
+parameter X_ORANGE-COM_OTHV="1.1";
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/probe_ondemand1" {
+parameter X_ORANGE-COM_Priority from PriorityServerSide;
+parameter X_ORANGE-COM_Trigger from Trigger;
+parameter X_ORANGE-COM_ExportType from ExportType;
+}
+object HTTP {
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/probe_ondemand1/HTTP" {
+parameter URL;
+parameter Compression;
+}
+}
+}
+instance of Profile(0, "datamodel_probe_periodic1") {
+parameter Alias="DATA_MODEL_PROBE_PERIODIC1";
+parameter X_ORANGE-COM_OTHV="1.1";
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_periodic1" {
+parameter Enable;
+parameter X_ORANGE-COM_Priority from PriorityServerSide;
+parameter ReportingInterval;
+parameter X_ORANGE-COM_ReportingIntervalDuration from ReportingIntervalDuration;
+parameter TimeReference;
+parameter X_ORANGE-COM_ExportType from ExportType;
+}
+object HTTP {
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_periodic1/HTTP" {
+parameter URL;
+parameter Compression;
+}
+}
+}
+instance of Profile(0, "datamodel_probe_ondemand1") {
+parameter Alias="DATA_MODEL_PROBE_ONDEMAND1";
+parameter X_ORANGE-COM_OTHV="1.1";
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_ondemand1" {
+parameter X_ORANGE-COM_Priority from PriorityServerSide;
+parameter X_ORANGE-COM_Trigger from Trigger;
+parameter X_ORANGE-COM_ExportType from ExportType;
+}
+object HTTP {
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_ondemand1/HTTP" {
+parameter URL;
+parameter Compression;
+}
+}
+}
+instance of Profile(0, "datamodel_probe_onevent1") {
+parameter Alias="DATA_MODEL_PROBE_ONEVENT1";
+parameter X_ORANGE-COM_OTHV="1.1";
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_onevent1" {
+parameter Enable;
+parameter X_ORANGE-COM_Priority from PriorityServerSide;
+}
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_onevent1/Event/DeliveredEvents" {
+parameter X_ORANGE-COM_Events from TriggeringValue;
+}
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_onevent1" {
+parameter X_ORANGE-COM_ExportType from ExportType;
+}
+object HTTP {
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_onevent1/HTTP" {
+parameter URL;
+parameter Compression;
+}
+}
+}
+instance of Profile(0, "datamodel_probe_onevent2") {
+parameter Alias="DATA_MODEL_PROBE_ONEVENT2";
+parameter X_ORANGE-COM_OTHV="1.1";
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_onevent2" {
+parameter Enable;
+parameter X_ORANGE-COM_Priority from PriorityServerSide;
+}
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_onevent2/Event/DeliveredEvents" {
+parameter X_ORANGE-COM_Events from TriggeringValue;
+}
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_onevent2" {
+parameter X_ORANGE-COM_ExportType from ExportType;
+}
+object HTTP {
+destination "pcb://$(PCB_MAIN_BUS)/BulkData/Profile/datamodel_probe_onevent2/HTTP" {
+parameter URL;
+parameter Compression;
+}
+}
+}
+}
+}

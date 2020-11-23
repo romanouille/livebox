@@ -1,0 +1,14 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+# in order to find ebtables libraries in the right place
+ldconfig
+
+if [ ! -f /etc/config/ADSL ] ; then
+   insmod /lib/modules/2.6.28.8/vdsldriver_lkm.ko
+else
+   insmod /lib/modules/2.6.28.8/pppRelay_lkm.ko
+   insmod /lib/modules/2.6.28.8/atmdriver_lkm.ko
+fi
+
+exit 0

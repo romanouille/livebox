@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# This script was copied, renamed and modified from //depot/sah/services/urlmon/MAIN/starturlmon
+
+case $1 in
+    start)
+
+# Create the captive portal chains
+iptables-restore -n < /etc/captiveportal/captiveportal.iptables
+ip6tables-restore -n < /etc/captiveportal/captiveportal.iptables
+
+
+#############
+### Insert the captiveportal required chains and rules in iptables if the firewall.defaults hasn't set it yet
+#############
+
+# Insert our hook only if it's not there already
+in_chain=$(/usr/sbin/iptables -n -t mangle -L PREROUTING | grep PREROUTING_CaptivePortal | wc -l)
+if [ "${in_chain}" -lt "1" ]; then
+    CMD="/usr/sbin/iptables -t mangle -I PREROUTING -j PREROUTING_CaptivePortal"
+    eval "${CMD}"
+    CMD="/usr/sbin/ip6tables -t mangle -I PREROUTING -j PREROUTING_CaptivePortal"
+    eval "${CMD}"
+else 
+	echo "$0: Info: hook already inserted"
+fi
+
+;;
+stop)
+	/usr/sbin/iptables -t mangle -F PREROUTING_CaptivePortal
+	/usr/sbin/ip6tables -t mangle -F PREROUTING_CaptivePortal
+;;
+
+*)
+    echo "Usage : $0 [start|stop]"
+;;
+esac

@@ -1,0 +1,136 @@
+
+
+using "autodiag.so";
+
+acl {
+  world none;
+  group admin read,write,execute;
+  group remoteadmin read,write,execute;
+  group cwmpd read,write,execute;
+}
+
+/**
+ * 
+ */
+persistent object AutoDiag {
+
+    /**
+    * Enable/disable automatic trigger
+    */
+    persistent bool AutoDiagnosisEnabled {
+        write with autoDiagnosisEnabledOnWrite;
+        default "false";
+    }
+
+    /**
+    * Version of the Diag Config File
+    */
+    read-only string DiagnosticScriptFile;
+
+    /**
+    * TR181 stuff
+    */
+    string DiagnosticsState {
+        constraint enum ["None", "Requested", "Cancel", "Complete","Error_Internal", "Error_Other"];
+        write with diagnosticsStateOnWrite;
+        default "None";
+    }
+
+    /**
+    * Lan API to get the diag Execution state
+    * Returns mib: { Diagnosis : "", DiagnosticsState : ""}
+    */
+    void getDiagnosticsState();
+
+    /**
+    * Diagnosis to be launched
+    */
+    string Diagnosis;
+
+    /**
+    * Diagnosis return code and timestamp
+    */
+    persistent read-only string DiagExitCode;
+    persistent read-only string DiagExitCodeTimeStamp;
+
+    /**
+    * Lan API to execute the input diag
+    * @param id: ID of the diagnosis to launch
+    */
+    bool executeDiagnosis(mandatory string id);
+
+    /**
+    * Lan API to cancel ongoing execution of a diag
+    */
+    bool cancelDiagnosis();
+
+    /**
+    * Last results generated
+    * Name of the last generated report for now
+    */
+    persistent read-only string Results;
+
+    /**
+    * URL where to send reports
+    */
+    persistent string StorageUrl;
+
+    /**
+    * StorageCounter: incremented when a report is generated, never decremented
+    */
+    persistent read-only uint32 StorageCounter;
+
+    /**
+    * StorageCounter Max
+    */
+    persistent uint32 StorageLimit {
+        default 9999;
+    }
+
+    /**
+    * Storage counter can be changed for validation purpose
+    */
+    bool setStorageCounter(uint32 value) {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+    * Reload Diag Conf file if changed
+    */
+    bool reloadDiagnosticsScript() {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+    * Return ID list of all available diagnosis
+    */
+    list getAvailableDiagnosis();
+
+    /**
+    * Remove reports from flash if any
+    */
+    bool flushReport() {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+
+    /**
+    * Backup fonction
+    */
+    bool export() {
+        acl {
+            group admin none;
+            group remoteadmin none;
+        }
+    }
+}
+
+/** @location sah_services_autodiag /autodiag-definitions.odl.m4 */

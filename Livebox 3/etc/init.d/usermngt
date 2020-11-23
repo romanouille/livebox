@@ -1,0 +1,57 @@
+#!/bin/sh
+
+. /usr/bin/pcb_common.sh
+
+name="usermngt"
+start_options="-c /usr/lib/usermngt/usermngt.odl"
+datamodel="UserManagement"
+trace_zones=""
+component="sah_services_usermngt"
+
+RESTORE="/var/lib/usermngt/restore"
+
+start() {
+    if [ -e /etc/environment ]; then
+        . /etc/environment
+    fi
+
+    if pcb_is_running $name; then
+        echo "usermngt service already started"
+        exit 1;
+    fi
+    export SERIAL_NUMBER WAN_ADDR WLAN_KEY
+    pcb_start $name $start_options
+}
+
+case $1 in
+    start)
+        start
+        ;;
+    stop)
+        pcb_stop $name
+        ;;
+    backup)
+        if pcb_is_running $name ; then
+            pcb_cli "UserManagement.export($2)"
+        else 
+            echo "UserManagement plugin is not running, impossible to make a backup"
+        fi                 
+        ;;
+    restore)
+        mkdir -p $(dirname "${RESTORE}") && touch "${RESTORE}"
+        ;;
+    debuginfo)
+        pcb_debug_info $name $component $datamodel
+        ;;
+    log)
+        action=$2
+        if [ -n "$action" ]; then
+            pcb_log $name $action $trace_zones
+        else
+            pcb_log $name enable $trace_zones
+        fi
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|backup|restore|debuginfo|log]"
+        ;;
+esac

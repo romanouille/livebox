@@ -1,0 +1,39 @@
+object NeMo {
+object extends MIB(0,"eth") {
+string Flag = "eth";
+object DataModel {
+read-only uint32 LastChangeTime;
+volatile read-only uint32 LastChange;
+int32 CurrentBitRate {
+constraint enum [ -1, 10, 100, 1000 ];
+default -1;
+}
+int32 MaxBitRateSupported {
+constraint enum [ -1, 10, 100, 1000 ];
+default 100;
+}
+persistent int32 MaxBitRateEnabled {
+constraint enum [ -1, 10, 100, 1000 ];
+default -1;
+}
+string CurrentDuplexMode {
+constraint enum [ "None", "Half", "Full" ];
+default "None";
+}
+persistent string DuplexModeEnabled {
+constraint enum [ "Auto", "Half", "Full" ];
+default "Auto";
+}
+bool PowerSavingSupported = false;
+persistent bool PowerSavingEnabled = false;
+string PhyDevice;
+int32 PhyId = -1;
+bool ExternalPhy;
+void getSwitchStats() {
+acl {
+world none;
+}
+}
+}
+}
+}

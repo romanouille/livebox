@@ -1,0 +1,10 @@
+<b>View:</b><br>
+<br>
+<span class="boldorange">Device description:</span> This section enables you to customise the device. You can enter a network name, specify the device type, assign an icon or specify which room of your house the device is in.<br>
+<span class="boldorange">Connection:</span>  This field shows how the device is connected to your livebox, the type of connection (Ethernet, WiFi or USB), IP address, MAC address and status (connected or disconnected).<br>
+<span class="boldorange">Delete device:</span> This button can be used to delete the device from your network.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

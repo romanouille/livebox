@@ -1,0 +1,47 @@
+/* No expression needed */
+
+/**
+ * MIB is loaded on all devices that have at least one mDNS service
+ *
+ * All devices matching expression: "mdns" are extended with this MIB
+ *
+ * See RFC 6763 regarding mDNS service discovery
+ *
+ * @version 6.0
+ */
+mib mdns {
+    /**
+     * List of availabe mDNS services of the device.
+     *
+     * @version 6.0
+     */
+    object mDNSService[] {
+        persistent string Name;
+        /**
+         * mDNS service name.
+         *
+         * @version 6.0
+         */
+        persistent string ServiceName;
+        /**
+         * mDNS domain.
+         *
+         * @version 6.0
+         */
+        persistent string Domain;
+        /**
+         * UDP or TCP port used by the service
+         *
+         * @version 6.0
+         */
+        persistent string Port;
+        /**
+         * Extra service information.
+         *
+         * @version 6.0
+         */
+        persistent string Text;
+    }
+}
+
+/** @location sah_services_gmap /mibs/mdns.odl */

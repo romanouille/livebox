@@ -1,0 +1,8 @@
+<b>Reset:</b><br>
+<br>
+Click the <i>Reset</i> button to restore the default values of all livebox configuration settings. All settings that you have customised will be lost once you restore the factory settings. For this reason we recommend backing up your custom settings beforehand.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

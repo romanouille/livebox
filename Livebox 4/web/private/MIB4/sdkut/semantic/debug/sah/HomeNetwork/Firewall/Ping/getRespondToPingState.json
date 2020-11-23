@@ -1,0 +1,7 @@
+{
+  "status": 0,
+  "data": {
+    "isEnabledIPv4": true,
+    "isEnabledIPv6": true
+  }
+}

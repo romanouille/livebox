@@ -1,0 +1,50 @@
+
+#!/bin/sh
+
+ODL="/usr/lib/devicemngt/devicemngt.odl"
+PID="/var/run/devicemngt.pid"
+
+case $1 in
+    start)
+ 
+        if [ -e /var/lib/devicemanagement/root-password ] ; then
+	    . /etc/environment
+	    echo -n "root:$SSH_HASH"| chpasswd -e
+            echo "setting root password."
+        fi
+
+        bulkdata=200 ssh=200 sahenv -f /etc/environment pcb_plugin -vv -n devicemngt -c $ODL
+        ;;
+    stop)
+        echo -n "Stopping devicemngt plugin ..."
+        pcb_cli -q "Process.sysbus_devicemngt.unloadSharedObject(\"modules\")"
+        if [ -e $PID ] ; then
+        	kill $(cat $PID)
+        	echo "done."
+        else
+            echo "not running."
+        fi
+        ;;
+    status)
+    	if [ -e $PID ] ; then
+            echo "devicemngt plugin is running."
+        else
+            echo "devicemngt plugin is not running."
+        fi
+        ;;
+    backup)
+        # if [ -e $PID ] ; then
+        #     pcb_cli -q "DeviceManagement.export($2)"
+        # else
+        #     echo "DeviceManagement is not running, impossible to make a backup"
+        # fi
+        ;;
+    restore)
+        mkdir -p /var/lib/devicemanagement
+        # touch /var/lib/devicemanagement/restore
+        touch /var/lib/devicemanagement/root-password
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|status|backup|restore]"
+        ;;
+esac

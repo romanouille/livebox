@@ -1,0 +1,21 @@
+/dev/ttyUSB0
+921600
+-crtscts
+modem
+passive
+novj
+nodefaultroute
+noipdefault
+usepeerdns
+noauth
+hide-password
+persist
+holdoff 10
+maxfail 0
+debug
+ipparam WWAN
+linkname wwan
+user %USER%
+password %PASS%
+show-password
+connect "/usr/sbin/chat -v -f /var/lib/nemo/wwan/chatscript"

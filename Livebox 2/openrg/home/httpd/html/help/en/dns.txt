@@ -1,0 +1,9 @@
+<b>DNS:</b><br>
+<br>
+A DNS server is used to convert domain names to IP addresses and vice versa. You can configure primary and secondary DNS servers by entering their IP addresses in the format X.X.X.X.<br>
+If you choose automatic mode, Orange's DNS servers will be used by default.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien : <a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

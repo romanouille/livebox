@@ -1,0 +1,17 @@
+/**
+ * The DSLite MIB is available on all NeMo Intfs that have the "dslite"-flag set. Such Intf
+ * represents the B4 side of a DSLite tunnel. The interface on wich the tunnel is set up depends
+ * on the lower layer dependencies. The tunnel endpoint can be learned from DHCPv6 automatically
+ * on the condition that this Intf is stacked on top of a DHCPv6 Intf.
+ */
+object NeMo {
+	object extends MIB(0,"dslite") {
+		string Flag = "dslite";
+		object DataModel {
+			string LocalEndpointAddress;
+			string RemoteEndpointAddress;
+		}
+	}
+}
+
+/** @location sah_services_nemo /mibs/dslite.odl */

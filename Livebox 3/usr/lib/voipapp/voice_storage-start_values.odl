@@ -1,0 +1,6 @@
+datamodel {
+instance of VoiceService(0,"VoiceApplication") {
+instance of VoiceProfile(0,"SIP-Trunk") {
+}
+}
+}

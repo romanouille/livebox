@@ -1,0 +1,97 @@
+#!/bin/sh
+
+
+# This file is based on the athr83xx driver switch initialization (athr83xx_driver.c).
+# The same initialization is done from this script in case the switch plugin
+# reruns the initialization scripts following a switch reset.
+
+
+MAX_PORTS=5
+
+read_reg()
+{
+	if [ -z $1 ]; then
+		echo $0 invalid parameter >&2
+		return 1
+	fi
+
+	resline=$(sysutil athr83xxregrw read $1)
+	echo ${resline} | sed -n 's/.*Value\[\(0x[0-9]*\)\]$/\1/p'
+}
+
+write_reg()
+{
+	if [ -z $1 ] || [ -z $2 ]; then
+		echo $0 invalid parameter >&2
+		return 1
+	fi
+
+	sysutil athr83xxregrw write $1 $2
+}
+
+#write_phy_reg
+# $1: phy_addr
+# $2: phy_reg
+# $3: val
+write_phy_reg()
+{
+	sysutil athr83xxconf --writephy $1 $2 $3
+}
+
+write_reg 0x0004 0x07000000         # MAC0 is connected to CPU through RGMII interface
+write_reg 0x000c 0x01020000         # MAC6 is connected to CPU through RGMII interface
+write_reg 0x0010 0x40000000         # Power-on Strap register: got from Jeanson@Atheros
+write_reg 0x007c 0x7e               # Configure Port0 status register
+write_reg 0x0080 0x1280             # Configure Port1 status register
+write_reg 0x0084 0x1280             # Configure Port2 status register
+write_reg 0x0088 0x1280             # Configure Port3 status register
+write_reg 0x008c 0x1280             # Configure Port4 status register
+write_reg 0x0090 0x0                # Configure Port4 status register
+write_reg 0x0094 0x0                # Configure Port4 status register
+write_reg 0x0624 0x007f7f7f         # Forward unknown unicast, multicast and Broadcast to PORT0 also
+write_reg 0x0078 0x000006c0         # Set frame size to 1728 to support jumbo
+
+val=$(read_reg 0x0)
+rev=$(($val & 0xff))
+
+
+# From Atheros:: For AR83xx v1.0 chip, please add the following workaround for GigaPHY operation.
+if [ $rev -eq 1 ] ; then
+	phy_addr=0
+	while [ $phy_addr -lt $MAX_PORTS ] ; do
+		# For 100M waveform
+		write_phy_reg $phy_addr 0x1d 0x0
+		write_phy_reg $phy_addr 0x1e 0x02ea
+
+		# Turn On Gigabit Clock
+		write_phy_reg $phy_addr 0x1d 0x3d
+		write_phy_reg $phy_addr 0x1e 0x68a0
+
+		phy_addr=$(($phy_addr + 1))
+
+	done
+fi
+
+# Bug# 23295:: This is the fix for the AR8327 switch to Auto-negotiate in 1Gbps mode with Cisco 4506 switch.
+phy_addr=0
+while [ $phy_addr -lt $MAX_PORTS ] ; do
+	write_phy_reg $phy_addr 0xd 0x0007
+	write_phy_reg $phy_addr 0xe 0x003c
+
+	write_phy_reg $phy_addr 0xd 0x4007
+	write_phy_reg $phy_addr 0xe 0x0000
+
+	phy_addr=$(($phy_addr + 1))
+done
+# end of the patch for the AR8327 switch to Auto-negotiate in 1Gbps mode with Cisco 4506 switch.
+
+
+phy_addr=4
+write_phy_reg $phy_addr 0x1d 0x12
+write_phy_reg $phy_addr 0x1e 0x4c0c
+write_phy_reg $phy_addr 0x1d 0x0
+write_phy_reg $phy_addr 0x1e 0x82ee
+write_phy_reg $phy_addr 0x1d 0x5
+write_phy_reg $phy_addr 0x1e 0x3d46
+write_phy_reg $phy_addr 0x1d 0xb
+write_phy_reg $phy_addr 0x1e 0xbc00

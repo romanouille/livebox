@@ -1,0 +1,27 @@
+# DLI, November 27th 2000
+# Inventel Systemes 
+# See Comments in old version
+
+linux|linux console:\
+	:am:bs:eo:mi:ms:ut:xn:xo:\
+	:Co#8:co#80:it#8:li#25:pa#64:\
+	:&7=^Z:@7=\E[4~:AB=\E[4%p1%dm:AF=\E[3%p1%dm:\
+	:AL=\E[%dL:DC=\E[%dP:DL=\E[%dM:F1=\E[23~:F2=\E[24~:\
+	:F3=\E[25~:F4=\E[26~:F5=\E[28~:F6=\E[29~:F7=\E[31~:\
+	:F8=\E[32~:F9=\E[33~:FA=\E[34~:IC=\E[%d@:K2=\E[G:\
+	:S2=\E[11m:S3=\E[10m:Sb=\E[%+(m:Sf=\E[%+^^m:\
+	:ac=`\004a\261f\370g\361h\260j\331k\277l\332m\300n\305o~q\304r\362s_t\303u\264v\301w\302x\263y\371z\372{\373|\374}\375~\376.\031-\030\054\021+^P0\333:\
+	:ae=\E[10m:al=\E[L:as=\E[11m:bl=^G:cd=\E[J:ce=\E[K:\
+	:cl=\E[H\E[J:cm=\E[%i%d;%dH:cr=^M:cs=\E[%i%d;%dr:\
+	:ct=\E[3g:dc=\E[P:dl=\E[M:do=^J:ei=\E[4l:ho=\E[H:\
+	:ic=\E[@:im=\E[4h:k1=\E[[A:k2=\E[[B:k3=\E[[C:\
+	:k4=\E[[D:k5=\E[[E:k6=\E[17~:k7=\E[18~:k8=\E[19~:\
+	:k9=\E[20~:k;=\E[21~:kD=\E[3~:kI=\E[2~:kN=\E[6~:\
+	:kP=\E[5~:kb=^H:kd=\E[B:kh=\E[1~:kl=\E[D:kr=\E[C:\
+	:ku=\E[A:le=^H:mb=\E[5m:md=\E[1m:me=\E[0;10m:\
+	:mr=\E[7m:nd=\E[C:nw=^M^J:op=\E[37;40m:r1=\Ec:rc=\E8:\
+	:..sa=\E[0;10%?%p1%t;7%;%?%p2%t;4%;%?%p3%t;7%;%?%p4%t;5%;%?%p6%t;1%;%?%p7%t;8%;%?%p8%t;11%;%?%p9%t;11%;m:\
+	:sc=\E7:se=\E[m:sf=^J:so=\E[7m:sr=\EM:st=\EH:ta=^I:\
+	:u6=\E[%d;%dR:u7=\E[6n:u8=\E[?6c:u9=\E[c:ue=\E[24m:\
+	:up=\E[A:us=\E[4m:vb=\E[?5h\E[?5l:ve=\E[?25h:\
+	:vi=\E[?25l:

@@ -1,0 +1,6 @@
+
+
+include "autodiag-definitions.odl";
+include "autodiag-defaults.odl";
+
+/** @location sah_services_autodiag /autodiag.odl.m4 */

@@ -1,0 +1,264 @@
+datamodel {
+    object QueueManagement {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+        }
+        /*
+         * indexes of the queues are set explicitely
+         * because classifications may refer to them
+         */
+
+        /* xDSL queues */
+        instance of Queue(1, "xdsl_qmother") {
+            parameter Name = "xdsl_qmother";
+            parameter QueueKey = 0;
+        }
+        instance of Queue(2, "xdsl_q1") {
+            parameter Name = "xdsl_q1";
+            parameter QueueKey = 7;
+            parameter QueueWeight = 1;
+            parameter QueuePrecedence = 7;
+            parameter RootQueue = "xdsl_qmother";
+        }
+        instance of Queue(3, "xdsl_q2") {
+            parameter Name = "xdsl_q2";
+            parameter QueueKey = 1;
+            parameter QueueWeight = 2;
+            parameter QueuePrecedence = 6;
+            parameter RootQueue = "xdsl_qmother";
+        }
+        instance of Queue(4, "xdsl_q3") {
+            parameter Name = "xdsl_q3";
+            parameter QueueKey = 2;
+            parameter QueueWeight = 40;
+            parameter QueuePrecedence = 5;
+            parameter RootQueue = "xdsl_qmother";
+        }
+        instance of Queue(5, "xdsl_q4") {
+            parameter Name = "xdsl_q4";
+            parameter QueueKey = 3;
+            parameter QueueWeight = 28;
+            parameter QueuePrecedence = 5;
+            parameter RootQueue = "xdsl_qmother";
+        }
+        instance of Queue(6, "xdsl_q5") {
+            parameter Name = "xdsl_q5";
+            parameter QueueKey = 4;
+            parameter QueueWeight = 10;
+            parameter QueuePrecedence = 5;
+            parameter RootQueue = "xdsl_qmother";
+        }
+        instance of Queue(7, "xdsl_q6") {
+            parameter Name = "xdsl_q6";
+            parameter QueueKey = 5;
+            parameter QueueWeight = 2;
+            parameter QueuePrecedence = 5;
+            parameter RootQueue = "xdsl_qmother";
+        }
+
+        /* FTTH queues */
+        instance of Queue(8, "ftth_qmother") {
+            parameter Name = "ftth_qmother";
+        }
+        instance of Queue(9, "ftth_q1") {
+            parameter Name = "ftth_q1";
+            parameter QueuePrecedence = 1;
+            parameter RootQueue = "ftth_qmother";
+        }
+        instance of Queue(10, "ftth_q2") {
+            parameter Name = "ftth_q2";
+            parameter QueuePrecedence = 0;
+            parameter RootQueue = "ftth_qmother";
+        }
+        instance of Queue(11, "ftth_q3") {
+            parameter Name = "ftth_q3";
+            parameter QueuePrecedence = 7;
+            parameter RootQueue = "ftth_qmother";
+        }
+
+        /* Classifications */
+        instance of Classification(0, "igmp_wan") {
+            parameter Name = "igmp_wan";
+            parameter Protocol = 2;
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = Local;
+            parameter IPVersion = 4;
+            parameter DSCPMark = 36;
+        }
+        instance of Classification(0, "igmp_lan") {
+            parameter Name = "igmp_lan";
+            parameter Protocol = 2;
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = Postrouting;
+            parameter OutInterface = bridge;
+            parameter IPVersion = 4;
+            parameter DSCPMark = 32;
+        }
+        instance of Classification(0, "voip_lan") {
+            parameter Name = "voip_lan";
+            parameter Protocol = 17;
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = Local;
+            parameter OutInterface = bridge;
+            parameter DestPort = 5060;
+            parameter IPVersion = 4;
+            parameter DSCPMark = 48;
+        }
+        instance of Classification(0, "dhcpv4_lan") {
+            parameter Name = "dhcpv4_lan";
+            parameter Protocol = 17;
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = Local;
+            parameter OutInterface = bridge;
+            parameter DestPort = 68;
+            parameter IPVersion = 4;
+            parameter DSCPMark = 48;
+        }
+        instance of Classification(0, "ntp_wan") {
+            parameter Name = "ntp_wan";
+            parameter Protocol = 17;
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = Local;
+            parameter DestPort = 123;
+            parameter IPVersion = 0;
+            parameter DSCPMark = 0;
+            parameter StopTraverse = 0;
+        }
+        instance of Classification(0, "dhcpv6_lan") {
+            parameter Name = "dhcpv6_lan";
+            parameter Protocol = 17;
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = Local;
+            parameter OutInterface = bridge;
+            parameter DestPort = 546;
+            parameter IPVersion = 6;
+            parameter DSCPMark = 48;
+        }
+        instance of Classification(0, "dhcpv6_wan") {
+            parameter Name = "dhcpv6_wan";
+            parameter Protocol = 17;
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = Local;
+            parameter DestPort = 547;
+            parameter IPVersion = 6;
+            parameter DSCPMark = 48;
+        }
+        instance of Classification(0, "wfc_open") {
+            parameter Name = "wfc_open";
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = PostRouting;
+            parameter OutInterface = wl2;
+            parameter IPVersion = 4;
+            parameter DSCPMark = 8;
+        }
+        instance of Classification(0, "wfc_secure") {
+            parameter Name = "wfc_secure";
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = PostRouting;
+            parameter OutInterface = wl3;
+            parameter IPVersion = 4;
+            parameter DSCPMark = 8;
+        }
+        instance of Classification(0, "guest") {
+            parameter Name = "guest";
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = PostRouting;
+            parameter OutInterface = wlguest2;
+            parameter IPVersion = 4;
+            parameter DSCPMark = 8;
+        }
+        instance of Classification(0, "vdsl_832_pbit") {
+            parameter Name = "vdsl_832_pbit";
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = PostRouting;
+            parameter OutInterface = bridge_vvmulti;
+            parameter EthernetPriorityMark = -2;
+        }
+        instance of Classification(0, "ffth_832_pbit") {
+            parameter Name = "ftth_832_pbit";
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = PostRouting;
+            parameter OutInterface = bridge_vmulti;
+            parameter EthernetPriorityMark = -2;
+        }
+        /* VoIP, ARP, LCP ==> Q1 */
+        instance of Classification(0, "xdsl_q1") {
+            parameter Name = "xdsl_q1";
+            parameter ClassificationKey = 14343;    /* 7 << 11 | 7 */
+            parameter DSCPCheck = "40,46";
+            parameter ClassificationEnable = false;
+            parameter ClassInterface = PostRouting;
+            parameter ClassQueue = 2;
+            parameter IPVersion = 0;
+        }
+        /* DHCPv4, DHCPv6, RS, IGMPv6  ==> Q2 */
+        instance of Classification(0, "xdsl_q2") {
+            parameter Name = "xdsl_q2";
+            parameter ClassificationKey = 2049;     /* 1 << 11 | 1 */
+            parameter DSCPCheck = "48,56";
+            parameter ClassificationEnable = false;
+            parameter ClassInterface = PostRouting;
+            parameter ClassQueue = 3;
+            parameter IPVersion = 0;
+        }
+        /* VoWifi ==> Q2 */
+        instance of Classification(0, "vo_wifi") {
+            parameter Name = "vo_wifi";
+            parameter ClassificationKey = 2049;     /* 1 << 11 | 1 */
+            parameter ClassificationEnable = false;
+            parameter ClassInterface = PostRouting;
+            parameter ClassQueue = 3;
+            parameter IPVersion = 0;
+        }
+        /* IGMP ==> Q3 */
+        instance of Classification(0, "xdsl_q3") {
+            parameter Name = "xdsl_q3";
+            parameter ClassificationKey = 4098;     /* 2 << 11 | 2 */
+            parameter DSCPCheck = "38,36,34,32,30,28,26,24,18";
+            parameter ClassificationEnable = false;
+            parameter ClassInterface = PostRouting;
+            parameter ClassQueue = 4;
+            parameter IPVersion = 0;
+        }
+        /* Default ==> Q4 */
+        instance of Classification(0, "xdsl_q4") {
+            parameter Name = "xdsl_q4";
+            parameter ClassificationKey = 6147;     /* 3 << 11 | 3 */
+            parameter ClassificationEnable = false;
+            parameter ClassInterface = Forward;
+            parameter ClassQueue = 5;
+            parameter IPVersion = 0;
+        }
+        /* Default local ==> Q4 */
+        instance of Classification(0, "xdsl_q4_local") {
+            parameter Name = "xdsl_q4_local";
+            parameter ClassificationKey = 6147;     /* 3 << 11 | 3 */
+            parameter ClassificationEnable = true;
+            parameter ClassInterface = Local;
+            parameter ClassQueue = 5;
+            parameter IPVersion = 0;
+        }
+        /* OCC ==> Q5 */
+        instance of Classification(0, "xdsl_q5") {
+            parameter Name = "xdsl_q5";
+            parameter ClassificationKey = 8196;     /* 4 << 11 | 4 */
+            parameter ClassificationEnable = false;
+            parameter ClassInterface = Local;
+            parameter ClassQueue = 6;
+            parameter StopTraverse = 1;
+        }
+        /* Wificom ==> Q6 */
+        instance of Classification(0, "gretap_wfc") {
+            parameter Name = "gretap_wfc";
+            parameter ClassificationKey = 10245;     /* 5 << 11 | 5 */
+            parameter ClassificationEnable = false;
+            parameter ClassInterface = PostRouting;
+            parameter ClassQueue = 7;
+            parameter StopTraverse = 1;
+        }
+        parameter Enable = false;
+    }
+}
+

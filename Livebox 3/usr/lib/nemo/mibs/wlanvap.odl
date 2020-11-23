@@ -1,0 +1,156 @@
+object NeMo {
+object extends MIB(0,"wlanvap") {
+string Flag = "wlanvap";
+object DataModel {
+read-only string VAPStatus {
+constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+default "NotPresent";
+}
+read-only uint32 LastChangeTime;
+read-only uint32 LastChange;
+persistent string BSSID;
+persistent string SSID;
+persistent bool SSIDAdvertisementEnabled;
+persistent uint32 RetryLimit;
+read-only bool WMMCapability;
+read-only bool UAPSDCapability;
+persistent bool WMMEnable;
+persistent bool UAPSDEnable;
+persistent int32 MaxStations=-1;
+persistent bool APBridgeDisable;
+string BridgeInterface;
+void kickStation(string macaddress) {
+acl {
+world none;
+}
+}
+persistent object Security {
+read-only string ModesSupported;
+persistent string ModeEnabled {
+constraint enum ["None", "WEP-64", "WEP-128", "WPA-Personal", "WPA2-Personal", "WPA-WPA2-Personal",
+"WPA-Enterprise", "WPA2-Enterprise", "WPA-WPA2-Enterprise"];
+default "None";
+}
+persistent string WEPKey;
+persistent string PreSharedKey;
+persistent string KeyPassPhrase;
+persistent uint32 RekeyingInterval = 3600;
+persistent string RadiusServerIPAddr;
+persistent uint32 RadiusServerPort = 1812;
+persistent string RadiusSecret;
+persistent uint32 RadiusDefaultSessionTimeout;
+persistent string RadiusOwnIPAddress;
+persistent string RadiusNASIdentifier;
+persistent string RadiusCalledStationId;
+persistent bool RadiusChargeableUserId;
+}
+persistent object WPS {
+persistent bool Enable = false;
+read-only string ConfigMethodsSupported;
+persistent string ConfigMethodsEnabled = "Label,Display,PushButton";
+string SelfPIN;
+bool Configured = true;
+read-only bool PairingInProgress;
+void pushButton( string clientPIN) {
+acl {
+world none;
+}
+}
+string generateSelfPIN() {
+acl {
+world none;
+}
+}
+void cancelPairing() {
+acl {
+world none;
+}
+}
+}
+persistent object MACFiltering {
+persistent string Mode {
+constraint enum [ "Off", "WhiteList", "BlackList" ];
+default "Off";
+}
+persistent object Entry[] {
+persistent string MACAddress;
+}
+}
+persistent object HotSpot2 {
+persistent bool Enable = false;
+persistent bool DgafDisable {
+default 0;
+constraint range [0,1];
+}
+persistent bool L2TrafficInspect {
+default 1;
+constraint range [0,1];
+}
+persistent bool IcmpV4Echo {
+default 1;
+constraint range [0,1];
+}
+persistent bool Interworking {
+default 1;
+constraint range [0,1];
+}
+persistent bool Internet {
+default 0;
+constraint range [0,1];
+}
+persistent bool Hs2Ie {
+constraint range [0,1];
+}
+persistent bool P2PEnable {
+constraint range [0,1];
+}
+persistent int32 GasDelay;
+persistent uint8 AccessNetworkType {
+default 2;
+}
+persistent uint8 VenueType {
+default 8;
+}
+persistent uint8 VenueGroup {
+default 2;
+}
+}
+void getStationStats() {
+acl {
+world none;
+}
+}
+read-only uint32 AssociatedDeviceNumberOfEntries;
+read-only object AssociatedDevice[]{
+string ChargeableUserId;
+read-only string MACAddress;
+read-only bool AuthenticationState;
+read-only uint32 LastDataDownlinkRate{
+constraint range[0,1600000];
+}
+read-only uint32 LastDataUplinkRate{
+constraint range[0,1600000];
+}
+read-only int32 SignalStrength{
+constraint range[-200,0];
+}
+read-only uint32 Retransmissions{
+constraint range[0,100];
+}
+read-only bool Active;
+read-only int32 SignalNoiseRatio;
+read-only int32 Noise;
+read-only uint32 Inactive;
+read-only uint32 RxPacketCount;
+read-only uint32 TxPacketCount;
+read-only uint32 UplinkMCS;
+read-only bool UplinkIs40mhz;
+read-only bool UplinkShortGuard;
+read-only uint32 DownlinkMCS;
+read-only bool DownlinkIs40mhz;
+read-only bool DownlinkShortGuard;
+read-only string Mode;
+}
+}
+}
+}

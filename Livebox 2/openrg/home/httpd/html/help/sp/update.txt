@@ -1,0 +1,10 @@
+﻿<b>Actualizar:</b><br>
+<br>
+Si existe una actualización disponible de firmware, se descargará automáticamente desde Internet. El indicador de actualización del Livebox, parpadeará de color azul hasta que el proceso se complete.<br>
+Si durante el proceso de actualización se produce algún problema, la luz de actualización y la luz @ de Internet quedarán encendidas de forma fija.<br>
+<span class="boldorange">Versión de firmware actual:</span> Este es el firmware que tiene tu Livebox actualmente.<br>
+El firmware de tu Livebox se actualiza de manera remota para garantizar que siempre tengas acceso a los últimos servicios de Orange.<br> Orange lanza las actualizaciones de firmware por las noches. Cuando esto ocurre el LED azul se ilumina.<br>
+<!--
+<br>
+-->
+

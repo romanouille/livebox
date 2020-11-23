@@ -1,0 +1,16 @@
+#!/bin/sh
+IFACE=$1
+
+case $IFACE in 
+	bnep*)
+	# we are bnep server, put iface in the bridge
+	brctl addif br0 $IFACE
+	ifconfig $IFACE 0.0.0.0 up
+	;;
+	c-bnep*)
+	# we are client, launch dhcp on iface
+	dhcpcd $IFACE
+	;;
+esac
+
+	

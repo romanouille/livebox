@@ -1,0 +1,73 @@
+<div id="firewallCustomRule2" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+		<div id="helpPage">
+			<a  id="help" href="javascript:;">
+			<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image"/>
+			</a>
+		</div>
+		<h1 class="logo_param" i18n="page.myNetwork.firewallCustomRule2.title"/>
+		<div class="margin-left-40 margin-top-m8">
+			<strong  i18n="page.myNetwork.firewallCustomRule2.subtitle"/>
+		</div>
+	</div>
+	<div class="maindiv">		
+		<form action="#">
+		<div class="boxType4 border-bottom-3  margin-top-10">
+			<div class="firewallCustomRuleLeft">
+			 <span class="h3Text" i18n="page.myNetwork.firewallCustomRule2.source"/>
+				<div class="status-block left">					
+					<div class="clear"/>
+					<div widgetType="FormInput" i18n="common.ipadress">
+						<span class="w150px" id="SourceIP" widgetType="IPAddress" widgetArg="{namedregex: 'ipaddress', allowAny: true}" required="true" i18n="page.myNetwork.firewallCustomRule2.srcip" i18nError="page.myNetwork.firewallCustomRule2.ip.error" errnode="firewallCustomRuleErr"/>
+					</div>
+					<div widgetType="FormInput" i18n="page.myNetwork.firewallCustomRule2.mask">
+						<span class="w150px" id="SourceMask" widgetType="IPAddress" widgetArg="{namedregex: 'firewallmaskaddress', allowAny: true}" required="true" i18n="page.myNetwork.firewallCustomRule2.srcmask" i18nError="page.myNetwork.firewallCustomRule2.mask.error" errnode="firewallCustomRuleErr"/>
+					</div>
+					<div widgetType="FormInput" i18n="page.myNetwork.firewallCustomRule2.port">
+						<span class="w150px" id="SourcePort" widgetType="PortRange" required="true" i18n="page.myNetwork.firewallCustomRule2.srcport" i18nError="page.myNetwork.firewallCustomRule2.port.error" errnode="firewallCustomRuleErr"/>
+					</div>
+					<br/>
+				</div>
+				<br/>
+				<span class="h3Text"  i18n="page.myNetwork.firewallCustomRule2.dest"/>
+				<br/>
+				<div class="status-block left">					
+					<div class="clear"/>
+					<div widgetType="FormInput" i18n="common.ipadress">
+						<span class="w150px" id="DestinationIP" widgetType="IPAddress" widgetArg="{namedregex: 'ipaddress', allowAny: true}" required="true" i18n="page.myNetwork.firewallCustomRule2.destip" i18nError="page.myNetwork.firewallCustomRule2.ip.error" errnode="firewallCustomRuleErr"/>
+					</div>
+					<div widgetType="FormInput" i18n="page.myNetwork.firewallCustomRule2.mask">
+						<span class="w150px" id="DestinationMask" widgetType="IPAddress" widgetArg="{namedregex: 'firewallmaskaddress', allowAny: true}" required="true" i18n="page.myNetwork.firewallCustomRule2.destmask" i18nError="page.myNetwork.firewallCustomRule2.mask.error" errnode="firewallCustomRuleErr"/>
+					</div>
+					<div widgetType="FormInput" i18n="page.myNetwork.firewallCustomRule2.port">
+						<span class="w150px"  id="DestinationPort" widgetType="PortRange" required="true" i18n="page.myNetwork.firewallCustomRule2.destport" i18nError="page.myNetwork.firewallCustomRule2.destport.error" errnode="firewallCustomRuleErr"/>
+					</div>
+				</div>
+				
+				<div id="firewallCustomRuleErr" class="error"/>
+			</div>
+
+			<div class="firewallCustomRuleRight">
+				<div class="localnetwork" i18n="page.myNetwork.firewallCustomRule1.connectedservice.localnetwork"/>
+				<div class="application">&#160;</div>
+				<div class="internet" i18n="page.myNetwork.firewallCustomRule1.connectedservice.internet"/>
+				<div class="address">
+					<span i18n="page.myNetwork.firewallCustomRule2.address.from"/>&#160;<span id="from"/><br/>
+					<span i18n="page.myNetwork.firewallCustomRule2.address.port"/>&#160;<span id="port"/>
+				</div>
+			</div>
+			<div class="clear"/>
+         </div>
+			<div widgetType="ButtonContainer"  class="right" style="width: 100%">
+				<div class="btnPageBack" >
+					<span id="btnBack" widgetType="ButtonImage" i18n="page.myNetwork.firewallCustomRule1.back"/>
+				</div>
+				<div style="float: right">
+					<span id="btnPreviousStep" widgetType="ButtonImage" i18n="common.previous.step"/>				
+					<span id="btnCancel" widgetType="Button" widgetArg="{type: 'reset'}" i18n="data.cancel"/>
+					<span id="btnNext" widgetType="ButtonImage" i18n="page.myNetwork.firewallCustomRule1.next"/>
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>

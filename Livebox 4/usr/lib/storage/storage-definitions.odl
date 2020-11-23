@@ -1,0 +1,1440 @@
+
+using "storage.so";
+
+/**
+ * This object provides information about each logical volume configured
+ * on this device, see {LogicalVolume}. It is also used when creating 
+ * new logical volumes.
+ *
+ * @version 4.0
+ */
+define logicalVolume_t {
+  /**
+   * The URI of the volume, see {LogicalVolume.URI}
+   */
+  string uriString;
+
+  /**
+   * The name of the partition for this logical volume, see {LogicalVolume.Name}
+   */
+  string name;
+
+  /**
+   * Flags set for this volume,  see {LogicalVolume.Flags}. Can be set on
+   * creation (see StorageService.partitionPhysicalMedium}.
+   *
+   * @version 5.2
+   */
+   string flags;
+
+  /**
+   * The mount point of the disk, see {LogicalVolume.MountPoint}. Can be set on
+   * creation (see StorageService.partitionPhysicalMedium}.
+   */
+  string mountPoint;
+
+  /**
+   * The current status of this {LogicalVolume}, see {LogicalVolume.Status}. 
+   */
+  string status;
+
+   /**
+    * Enables or disables this {LogicalVolume} instance, see {LogicalVolume.Enable}.
+    */
+  bool enable;
+
+  /**
+   * The URI of the corresponding physical volume, see {LogicalVolume.PhysicalURI}.
+   */
+  string physicalMedium;
+
+  /**
+   * The file system for this {LogicalVolume}, see {LogicalVolume.FileSystem}. Can be set on
+   * creation (see StorageService.partitionPhysicalMedium}.
+   */
+  string fileSystem;
+
+  /**
+   * The Capacity of the Logical Volume in megabytes, see {LogicalVolume.Capacity}. Can be set on
+   * creation (see StorageService.partitionPhysicalMedium}.
+   */
+  uint64 capacity;
+
+  /**
+   * The Amount of Used Space on the Logical Volume in megabytes, see {LogicalVolume.UsedSpace}
+   */
+  uint64 usedSpace;
+
+  /**
+   * A possible error string if there was a problem accessing 
+   * the logical volume, see {LogicalVolume.LastError}.
+   */
+  string lastError;
+
+  /**
+   * When true, the volume will be connected automatically when plugged, see {LogicalVolume.AutoMount}.
+   * Can be set on creation (see StorageService.partitionPhysicalMedium}.
+   * @version 5.2
+   */
+  bool autoMount;
+  /**
+   * A possible string defining default mount options for the Logical Volume, see {LogicalVolume.MountOptions}.
+   */
+  string mountOptions;
+}
+
+/**
+ * This object provides information about each physical medium connected
+ * to this device, see {PhysicalMedium}.
+ *
+ * @version 5.2
+ */
+define physicalMedium_t {
+  /**
+   * The URI of the volume, see {PhysicalMedium.URI}
+   */
+  string uri;
+
+  /**
+   * The name of the medium, see {PhysicalMedium.Name}
+   */
+  string name;
+
+  /**
+   * Flags set for this medium, see {PhysicalMedium.Flags}. Can be set on
+   * creation (see StorageService.partitionPhysicalMedium}.
+   */
+   string flags;
+
+   /**
+    * The vendor of this physical storage medium, see {PhysicalMedium.Vendor}
+    */
+   string vendor;
+
+   /**
+    * The model name/number of this physical storage medium, see {PhysicalMedium.Model}
+    */
+   string model;
+
+   /**
+    * The serial number of this physical storage medium, see {PhysicalMedium.SerialNumber}
+    */
+   string serialNumber;
+
+   /**
+    * The firmware version for firmware contained within the physical medium's controller, see {PhysicalMedium.FirmwareVersion}
+    */
+   string firmwareVersion;
+
+   /**
+    * The method of connection to this storage device, see {PhysicalMedium.ConnectionType}
+    */
+   string connectionType;
+
+   /**
+    * Is this physical storage medium removable?, see {PhysicalMedium.Removable}
+    */
+   bool removable;
+
+   /**
+    * The formatted capacity of the physical storage medium in megabytes, see {PhysicalMedium.Capacity}
+    */
+   uint64 capacity;
+
+   /**
+    * The general activity status of this physical storage medium, see {PhysicalMedium.Status}
+    */
+   string status;
+   
+   /**
+    * The current temperature (in Celsius) of this physical storage medium, only valid on drives with SMART capability, otherwise 0
+    */
+   string temperature;
+}
+
+/**
+ * This structure is used by file browsing functions to represent a file.
+ * @version 5.0
+ */
+define file_t {
+  /** the relative path of the file */
+  string name;
+  /** the type of the file (directory or file) */
+  string type;
+  /** the size of the file */
+  uint64 size;
+  /** the date of the creation of the file */
+  datetime created;
+  /** the date of the last modification of the file */
+  datetime modified;
+}
+
+/**
+ * This structure is used by filesystem checks status
+ */
+define fsckStatus_t {
+  /** the status of the file system  */
+  uint32 status;
+  /** the progress of the file system check  */
+  uint32 progress;
+}
+
+acl {
+  world read,execute;
+  group admin read,execute;
+  group remoteadmin read,execute;
+  group cwmpd read,write,execute;
+  group mediahub read,execute;
+}
+
+/**
+ * The storage device management infrastructure
+ *
+ * @version 4.0
+ */
+persistent object StorageService {
+  /**
+   * Enables or Disables the entire storage mechanism
+   */
+  persistent bool Enable = false;
+
+  /**
+   * The number of instances of {PhysicalMedium}
+   */
+  read-only uint32 PhysicalMediumNumberOfEntries {
+    read with StorageService_getPhysicalMediumNumberOfEntries;
+    default 0;
+  }
+
+  /**
+   * The number of instances of {LogicalVolume}
+   */
+  read-only uint32 LogicalVolumeNumberOfEntries {
+    read with StorageService_getLogicalVolumeNumberOfEntries;
+    default 0;
+  }
+
+  /**
+   * The number of instances of {UserAccount}
+   */
+  read-only uint32 UserAccountNumberOfEntries = 0;
+
+  /**
+   * Add a new device
+   *
+   * When called, the storage service will find the module matching
+   * the scheme and call its plugURI function. It will then add the 
+   * matching {PhysicalMedium} and {LogicalVolume} objects. For logical
+   * volume, it will also try to mount them. 
+   *
+   * @param uri the uri that has been plugged 
+   * @return true if the event has been correctly received. 
+   *         Be carefull that this function returns before the mount
+   *         has actually happened.
+   */
+  bool devicePlugged(mandatory string uri, string flags) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Remove a device
+   *
+   * When called, the storage service try to umount the corresponding
+   * logical volume and then removes the matching {PhysicalMedium} and
+   * {LogicalVolume} objects. 
+   *
+   * @param uri the uri that has been unplugged
+   * @return true if the event has been correctly received. 
+   *         Be carefull that this function returns before the umount 
+   *         has actually happened.
+   */
+  bool deviceUnplugged(mandatory string uri) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Mark a logical volume as used
+   *
+   * This function is to be called by the client when it's using a
+   * logical volume so that we know who is using it for safe umounting.
+   * When called, the storage service will add a Process object to
+   * the matching {LogicalVolume} object. 
+   *
+   * @param uri the uri to mark as used
+   * @param pid the process id of the using process (getpid())
+   * @param applicationName an identifier for the using process.
+   *        argv[0] is a good value for example.
+   * @return true if the volume has been marked correctly
+   */
+  bool useLogicalVolume(mandatory string uri, mandatory int32 pid, mandatory string applicationName) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Add application specific parameters to a logical volume.
+   *
+   * @param uri the uri of the {LogicalVolume} where to add the info
+   * @param namespace the namespace under witch to add the info
+   * @param info a variant_map holding the info to add
+   * @return true if the volume has been marked correctly
+   */
+  bool setLogicalVolumeInfo(mandatory string uri, mandatory int32 pid, mandatory string namespace, mandatory object info) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Release a logical volume
+   *
+   * This function is to be called by the client when it has finished
+   * using a logical volume. The storage service will remove the 
+   * corresponding Process object. If there are no more clients (Process)
+   * using the logical volume and the logical volume is being deactivated
+   * (by calling {deviceUnplugged}, calling {ejectPhysicalMedium} or disabling
+   * using {LogicalVolume.Enable} parameter) the volume will be umounted.
+   * If the volume deactivation was trigger by an unplug event, it will
+   * also be removed.
+   *
+   * @param uri the uri to mark as used
+   * @param pid the process id of the using process (getpid())
+   * @return true if the volume has been released correctly
+   */
+  bool releaseLogicalVolume(mandatory string uri, mandatory int32 pid) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Release all logical volume
+   *
+   * A helper function for clients that calls {releaseLogicalVolume} for
+   * all the volumes marked has used by the given process id.
+   *
+   * @param pid the process id of the using process (getpid())
+   * @return true if the volume has been released correctly
+   */
+  bool releaseAllLogicalVolumes(mandatory int32 pid) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Fetch a logical volume
+   *
+   * @return a logical volume
+   */
+  logicalVolume_t getLogicalVolume(mandatory string uri);
+
+  /**
+   * Fetch all logical volumes
+   *
+   * @return an array of {logicalVolume_t}
+   */
+  list getLogicalVolumes();
+
+  /**
+   * Fetch a physical medium
+   *
+   * @param uri the URI of the physical medium
+   * @return a physical medium
+   * @version 5.2
+   */
+  physicalMedium_t getPhysicalMedium(mandatory string uri);
+
+  /**
+   * Fetch all physical mediums
+   *
+   * @return an array of {physicalMedium_t}
+   * @version 5.2
+   */
+  list getPhysicalMediums();
+  
+  /**
+   * Start a physical medium SMART check
+   *
+   * @param uri the URI of the physical medium
+   * @param type the type of SMART check (short,extended)
+   * @return true if succesfull
+   * @version 6.0
+   */
+  bool startSMARTCheck(mandatory string uri, mandatory string type);
+
+  /**
+   * Stop a physical medium SMART check
+   *
+   * @param uri the URI of the physical medium
+   * @return true if succesfull
+   * @version 6.0
+   */
+  bool stopSMARTCheck(mandatory string uri);
+  
+  /**
+   * Get the physical medium SMART check status
+   *
+   * @param uri the URI of the physical medium
+   * @param status The status of the test:
+   *              -1: Problem occurred while retrieving information.
+   *              0 : autotest successfully completed.
+   *              1 : autotest aborted by host.
+   *              2 : autotest aborted by reset.
+   *              3 : autotest fatal error.
+   *              4 : autotest unknown failure.
+   *              5 : autotest electric failure.
+   *              6 : autotest servo failure.
+   *              7 : autotest read failure.
+   *              15 : autotest in progress.
+   * @param progress the current test progress from 0 to 100.
+   * @return true if succesfull
+   * @version 6.0
+   */
+  bool getSMARTCheckStatus(mandatory string uri, uint32_t status, uint32 progress);
+  
+  /**
+   * Get the physical medium SMART check attributes
+   *
+   * @param uri the URI of the physical medium
+   * @param attributes List of the SMART check attributes [{id:uint32, name: string, value: uint32}.{},...]
+   * @return true if succesfull
+   * @version 6.0
+   */
+  bool getSMARTCheckAttributes(mandatory string uri, out list attributes);
+  
+  /**
+   * Start a file system check
+   *
+   * @param uri the URI of the logical volume
+   * @param repair if set to true, the errors will be automatically repaired
+   * @return true if succesfull
+   */
+  bool startFileSystemCheck(mandatory string uri, mandatory bool repair);
+
+  /**
+   * Stop a file system check
+   *
+   * @param uri the URI of the logical volume
+   * @return true if succesfull
+   */
+  bool stopFileSystemCheck(mandatory string uri);
+
+  /**
+   * Get the file system status
+   *
+   * @param uri the URI of the logical volume
+   * @return a fsckStatus_t map containing the file system status and the check progress
+   */
+  fsckStatus_t getFileSystemCheckStatus(mandatory string uri);
+
+  /**
+   * Change the name of a logical volume
+   *
+   * @param uri the URI of the {LogicalVolume} to update
+   * @param name the name of the logical volume
+   * @return true if everything went ok.
+   */
+  bool setLogicalVolumeName(mandatory string uri, mandatory string name) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Add flags to a logical volume
+   *
+   * @param uri the URI of the {LogicalVolume} to update
+   * @param flags the flags of the logical volume
+   * @return true if everything went ok.
+   * @version 5.0
+   */
+  bool addLogicalVolumeFlags(mandatory string uri, mandatory string flags) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Return the list of files/directories relative to the given path
+   * in a logical volume.
+   *
+   * @param uri the URI of the {LogicalVolume} to look up
+   * @param path the path to list, use "/" for root
+   * @param options.offset where to start reading from in the file list
+   * @param options.count how many results to read
+   * @param options.depth how much depth into directory
+   * @param options.resource what type of resource is read
+   * @return a list of {file_t} with the files contained in the path
+   * @version 5.0
+   */
+  list readDirectory(mandatory string uri, mandatory string path, object options) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Create a directory in a logical volume.
+   *
+   * This function creates a new folder on a logical volume. The parent directories 
+   * are created if they do not exists.
+   *
+   * @param uri the URI of the {LogicalVolume} on which to create the directory
+   * @param path the path of the directory to create
+   * @return true if the directory was correctly created
+   * @version 5.0
+   */
+  bool makeDirectory(mandatory string uri, mandatory string path) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Copy a file or a directory into another directory
+   *
+   * This function copies a file or a directory and its content into another
+   * file, directory. It uses the cp command internally so it behave the same:
+   *
+   * If destination exist and is a directory, the source is copied into the directory.
+   * If destination does not exists and source is a file, source is copied as destination.
+   * If destination does not exists and source is a directory, source is copied as destination.
+   *
+   * @param srcuri the URI of the {LogicalVolume} on which the source file is located
+   * @param srcpath the path of the source file or directory to copy
+   * @param desturi the URI of the {LogicalVolume} where to put the file
+   * @param destpath the path of the directory where to put the file/directory
+   * @param destname the name of the destination file or directory
+   * @return true if the file was copied correctly
+   * @version 5.0
+   */
+  bool copyFile(mandatory string srcuri, mandatory string srcpath, 
+                mandatory string desturi, mandatory string destpath) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Move or rename a file or a directory
+   *
+   * This function copies a file or a directory and its content into another
+   * file, directory. It uses the cp command internally so it behave the same:
+   *
+   * If destination exist and is a directory, the source is copied into the directory.
+   * If destination does not exists and source is a file, source is copied as destination.
+   * If destination does not exists and source is a directory, source is copied as destination.
+   *
+   * @param srcuri the URI of the {LogicalVolume} on which the source file is located
+   * @param srcpath the path of the source file or directory to copy
+   * @param desturi the URI of the {LogicalVolume} where to put the file
+   * @param destpath the path of the directory where to put the file/directory
+   * @param destname the name of the destination file or directory
+   * @return true if the file was moved correctly
+   * @version 5.0
+   */
+  bool moveFile(mandatory string srcuri, mandatory string srcpath, 
+                mandatory string desturi, mandatory string destpath) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Remove a file or a directory
+   *
+   * @param uri the URI of the {LogicalVolume} on which to remove the file
+   * @param path the path of the file to remove
+   * @return true if the file was deleted correctly
+   * @version 5.0
+   */
+  bool deleteFile(mandatory string uri, mandatory string path) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Open a file and return the file descriptor
+   *
+   * This function can only be executed locally. 
+   *
+   * @param uri the URI of the {LogicalVolume} on which to open the file
+   * @param path the path of the file to open
+   * @param the mode 4 for read, 2 for write
+   * @return a file descriptor if it was opened correctly, -1 otherwise.
+   * @version 5.0
+   */
+  variant openFile(mandatory string uri, mandatory string path, uint32 mode) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Check is a volume is beeing accessed
+   *
+   * @param users the list of application names using the logical volume
+   * @return true if the logical volume is accessed by an application
+   */
+  bool checkLogicalVolumeUsed(mandatory string uri, out list users);
+
+  /**
+   * Grant access to a folder to a user.
+   *
+   * @param uri the URI of the {LogicalVolume} containing the folder
+   * @param path the path of the {Folder} on which to set permissions
+   * @param username the user name
+   * @param permissions a unix like permission (1 = exec, 2 = write, 4 = read)
+   * @see LogicalVolume.Folder.UserAccess.Permissions
+   * @version 5.0
+   */
+  bool grantUserAccess(mandatory string uri,         mandatory string path, 
+                       mandatory string username, mandatory uint8_t permissions) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Grant access to a folder to a group.
+   *
+   * @param uri the URI of the {LogicalVolume} containing the folder
+   * @param path the path of the {Folder} on which to set permissions
+   * @param groupname the group name
+   * @param permissions a unix like permission (1 = exec, 2 = write, 4 = read)
+   * @see LogicalVolume.Folder.GroupAccess.Permissions
+   * @version 5.0
+   */
+  bool grantGroupAccess(mandatory string uri,         mandatory string path, 
+                        mandatory string username, mandatory uint8_t permissions) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Eject a physical volume
+   *
+   * This function will trigger the umount of all the related logical
+   * volumes and wait for them to be umounted before returning. 
+   *
+   * @param uri the uri of the {PhysicalMedium} to eject
+   * @return true if all the volumes have been unmounted correctly
+   */
+  bool ejectPhysicalMedium(mandatory string uri);
+
+  /**
+   * Find the {LogicalVolume} matching {PhysicalMedium} and eject it
+   *
+   * This function will trigger the umount of all the related logical
+   * volumes and wait for them to be umounted before returning. 
+   *
+   * @param uri the uri of the {LogicalVolume} to eject
+   * @return true if all the volumes have been unmounted correctly
+   */
+  bool ejectLogicalVolume(mandatory string uri);
+
+  /**
+   * Enable a network protocol
+   *
+   * This is to be used by client to announce support for a particular
+   * network protocol.
+   *
+   * @param protocol the protocol to be advertised. It should be one
+   *         of the accepted values for {Capabilities.SupportedNetworkProtocols}
+   * @return true if the protocol was correctly enabled
+   */
+  bool enableNetworkProtocol(mandatory string protocol) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Disable a network protocol
+   *
+   * This is to be used by client to remove support for a particular
+   * network protocol.
+   *
+   * @param protocol the protocol to be removed. It should be one
+   *         of the accepted values for {Capabilities.SupportedNetworkProtocols}
+   * @return true if the protocol was correctly disabled
+   */
+  bool disableNetworkProtocol(mandatory string protocol) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+  
+ /**
+   * Get the share list for the specified user
+   *
+   * @param userAccount The user account for which to get the share list, if emtpy all shares for all users are returned
+   * @param shares A list of shares that are available for the specified user
+   * @version 5.0
+   */
+  bool getShareList(string userAccount,out list shares) {
+    acl {
+      world none;
+    }
+  }
+
+  /**
+   * Check the permissions for the listed path.
+   *
+   * How the access rights are checked:
+   * e.g. path=/var/usbmount/sda/dir1/dir2/file
+   * --> check 'file' useraccess, if not set check 'dir2' useraccess, if not set, check 'dir1', if not set check 'sda'.
+   * --> The first access rights that are found for this user will be returned to the caller using the permissions argument
+   * --> If no permissions found, permissions=0 will be returned
+   *
+   * @param uri the URI of the {LogicalVolume} containing the folder
+   * @param path the path of the {Folder} for which permissions have to be checked
+   * @param username the user account user name
+   * @param services the service that is used to access the data
+   * @param permissions a unix like permission (1 = exec, 2 = write, 4 = read)
+   * @see LogicalVolume.Folder.UserAccess.Permissions
+   * @version 5.0
+   */
+  bool checkAccessRights(mandatory string uri,      mandatory string path,
+                         mandatory string username, mandatory string service,
+                         mandatory uint32 permissions) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * Partition a physical medium
+   *
+   * This will partition a physical medium into multiple (max 4) logical volumes. 
+   * The limitation to 4 partition is to avoid playing with physical/logical partitions,
+   * but this could be implemented. The total size of the created partitions is limited to
+   * the total size of the medium as displayed in {PhysicalMedium.Capacity} minus the 
+   * partition alignment requirements.Partition will be aligned on the device vendor provided
+   * io hints or on 1 megabyte boundaries.
+   *
+   * For each {logicalVolume_t}, these parameters MUST be set:
+   * <dl>
+   * <dt>capacity</dt>
+   * <dd>
+   *     The capacity of the volume in the unit specified in the unit argument or in megabytes
+   *     by default. The last volume can have a capacity of zero which means use all available
+   *     space.
+   * </dd>
+   * <dt>fileSystem</dt>
+   * <dd>
+   *     The file system to use to format the volume. Not all file system are supported depending
+   *     on the tools available in the environment, see {Capabilities.SupportedFileSystemTypes}.
+   *     If a file system is not supported, the function returns a 
+   *     <tt>pcb_error_invalid_value</tt> error.
+   * </dd>
+   * </dl>
+   * For each {logicalVolume_t}, these parameters CAN be set:
+   * <dl>
+   * <dt>name</dt>
+   * <dd>
+   *     Adding this parameter name the logical volume after it (see {LogicalVolume.Name}) and use
+   *     the provided string as a label when formatting the partition.
+   * </dd>
+   * <dt>flags</dt>
+   * <dd>
+   *     This parameter will set the logical volume flags (see  {LogicalVolume.Flags})
+   * </dd>
+   * <dt>mountPoint</dt>
+   * <dd>    
+   *     This parameter will set the logical volume preferred mount point
+   *     (see {LogicalVolume.PreferredMountPoint}).
+   * </dd>
+   * <dt>autoMount</dt>
+   * <dd>
+   *     This parameter will enable/disable auto-mounting of the partition,
+   *     (see {LogicalVolume.AutoMount}).
+   * </dd>
+   * </dl>
+   *
+   * @param uri the URI of the {PhysicalMedium} to partition
+   * @param parts a list of {logicalVolume_t} with capacity and fileSystem. It can also define name
+   *        to set the name and partition label, mountPoint, flags and autoMount.
+   *        The capacity of the last volume can be set to 0 so that it occupies the remaining space.
+   * @param unit the unit used for capacity: kilobytes, megabytes, gigabytesDefault is megabytes.
+   * @return true if the partitions where sucessfully created
+   * @version 5.2
+   */
+  bool partitionPhysicalMedium(mandatory string uri, mandatory list parts, string unit) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+  
+  /**
+   * export settings
+   *
+   * @param filename where to save settings
+   * @version 5.0
+   */
+  bool export(string filename) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * import settings
+   *
+   * @param filename where to load settings
+   * @version 5.0
+   */
+  bool import(string filename) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+  }
+
+  /**
+   * List the rules of the {StorageService} instance
+   */
+  persistent read-only object Rules[] {
+
+    /**
+     * RulesNumberOfEntries
+     *
+     * Counts the number of Rules
+     */
+    counted with RulesNumberOfEntries;
+
+    /**
+     * Condition
+     *
+     * The regexp condition to fullfill the rule.
+     */
+    persistent read-only string Condition;
+
+    /**
+     * Target
+     *
+     * The target of the rule.
+     */
+    persistent read-only object Target[] {
+
+      /**
+      * TargetNumberOfEntries
+      *
+      * Counts the number of Targets targeted by the rule
+      */
+     counted with TargetNumberOfEntries;
+
+      /**
+      * Path
+      *
+      * The path of the parameter targeted by the rule.
+      */
+      persistent read-only string Path;
+
+      /**
+      * Value
+      *
+      * The value the parameter has to be set off if the rule is fullfilled.
+      */
+      persistent read-only string Value;
+
+    }
+  }
+
+  /**
+   * List the capabilities of this {StorageService} instance
+   */
+  object Capabilities {
+    /**
+     * FTP protocol support
+     *
+     * Does this device contain an FTP server allowing clients to access the data via an FTP client?
+     * This is true if {SupportedNetworkProtocols} contains FTP.
+     */
+    read-only bool FTPCapable = false;
+
+    /**
+     * SFTP protocol support
+     *
+     * Does this device contain an SSH FTP server allowing clients to access the data via an SFTP client?
+     * This is true if {SupportedNetworkProtocols} contains SFTP.
+     */
+    read-only bool SFTPCapable = false;
+
+    /**
+     * HTTP protocol support
+     *
+     * Does this device contain an HTTP server allowing clients to access the data via an HTTP client?
+     * This is true if {SupportedNetworkProtocols} contains HTTP.
+     */
+    read-only bool HTTPCapable = false;
+
+    /**
+     * SHTTP protocol support
+     *
+     * Does this device contain an SHTTP server allowing clients to access the data via an SHTTP client?
+     * This is true if {SupportedNetworkProtocols} contains SHTTP.
+     */
+    read-only bool SHTTPCapable = false;
+
+    /**
+     * WEBDAV support
+     *
+     * Does this device contain an HTTP server that supports creating files via an HTTP PUT/POST
+     * mechanism that would allow an HTTP client to upload files via HTTP?
+     * This is also sometimes referred to as "WebDAV" support.
+     * This is true if {SupportedNetworkProtocol} contains WebDAV 
+     */
+    read-only bool HTTPWritable = false;
+
+    /**
+     * Supported application level protocol
+     *
+     * Possible values are SMB, NFS, AFS, FTP, SFTP, HTTP, SHTTP, UPnP , WebDAV (optional)
+     */
+    read-only string SupportedNetworkProtocols;
+
+    /**
+     * Supported file system types.
+     */
+    read-only string SupportedFileSystemTypes = "FAT16,FAT32,NTFS,HFS,HFS+,HFSJ,ext2,ext3,ext4,NFS,PTP,WebDAV";
+    
+    /**
+     * Encryption support
+     *
+     * Does this device have the ability to encrypt and decrypt Logical Volumes 
+     * as they are stored and retrieved?
+     */
+    read-only bool VolumeEncryptionCapable = false;
+  }
+
+  /**
+   * This object provides information about each physical medium connected
+   * to this device.
+   */
+  persistent object PhysicalMedium[] {
+    /**
+     * The URI of the medium
+     */
+    persistent read-only string URI;
+
+    /**
+     * A user-friendly name for this physical storage medium.
+     */
+    persistent string Name;
+
+    /**
+     * Flags set for this medium
+     *
+     * Initial flags can be set via udev when calling the 
+     * {StorageService.devicePlugged} function.
+     *
+     * @version 5.2
+     */
+    persistent string Flags;
+
+    /**
+     * The vendor of this physical storage medium
+     */
+    persistent read-only string Vendor;
+
+    /**
+     * The model name/number of this physical storage medium
+     */
+    persistent read-only string Model;
+
+    /**
+     * The serial number of this physical storage medium
+     */
+    persistent read-only string SerialNumber;
+
+    /**
+     * The firmware version for firmware contained within the physical medium's controller.
+     */
+    persistent read-only string FirmwareVersion;
+
+    /**
+     * The method of connection to this storage device
+     */
+    persistent read-only string ConnectionType {
+      constraint enum [ "USB 1.1", "USB 2.0", "IEEE1394", "IEEE1394b", "IDE", "EIDE", 
+                        "ATA/33", "ATA/66", "ATA/100", "ATA/133", "SATA/150", "SATA/300",
+                        "SCSI-1", "Fast SCSI", "Fast-Wide SCSI", "Ultra SCSI", "Ultra Wide SCSI",
+                        "Ultra2 SCSI", "Ultra2 Wide SCSI", "Ultra3 SCSI", "Ultra-320 SCSI",
+                        "Ultra-640 SCSI", "SSA", "SSA-40", "Fibre Channel"
+      ];
+      default "USB 1.1";
+    }
+
+    /**
+     * Is this physical storage medium removable?
+     *
+     * Removable storage implies that the removal action is part of normal operations 
+     * and is expected to leave the data on the removable storage intact.
+     */
+    persistent read-only bool Removable;
+
+    /**
+     * The formatted capacity of the physical storage medium in megabytes
+     */
+    persistent read-only uint64 Capacity;
+
+    /**
+     * The general activity status of this physical storage medium
+     */
+    read-only string Status {
+      constraint enum [ "Online", "Standby", "Offline", "Disconnected", "Restoring" ];
+      default "Offline";
+    }
+
+    /**
+     * Time since boot in seconds. This MAY reflect S.M.A.R.T. PowerOnHours.
+     */
+    persistent read-only uint32 Uptime;
+
+    /**
+     * Is this physical medium capable of reporting S.M.A.R.T. statistics?
+     */
+    persistent read-only bool SMARTCapable = false;
+
+    /**
+     * Temperature in degrees Celsius. This MAY reflect S.M.A.R.T. temperature.
+     *
+     * @version 5.2
+     */
+    read-only uint32 Temperature {
+      read with StorageService_getDeviceTemperature;
+      default 0;
+    }
+    
+    /**
+     * Enumerated type indicating the general health of this physical
+     * storage medium
+     */
+    persistent read-only string Health {
+      constraint enum [ "OK", "Failing", "Error" ];
+      default "OK";
+    }
+
+    /**
+     * Is this physical medium capable of being removed while the device is powered up?
+     *
+     * Hot-Swappable storage does not imply Removable storage; hot-swappable is an 
+     * operation taken only when the disk has failed and needs to be replaced. The data
+     * on the hot-swapped storage will not remain intact.
+     */
+    persistent read-only bool HotSwappable = false;
+
+    
+    /**
+     * This object is added if the device is a block device managed by the linux kernel.
+     *
+     * @version 5.2
+     */
+    persistent object Kernel {
+      /**
+      * The sysfs path of the device
+      */
+      persistent read-only string SysfsPath;
+      /**
+      * The devfs path of the device
+      */
+      persistent read-only string DevfsPath;
+    }
+
+  }
+  
+
+  /**
+  * This object provides information about each logical volume configured
+  * on this device. 
+
+  * A logical volume can reside either on an instance of
+  * a single {PhysicalMedium}. or on an instance of a single
+  * {StorageArray} instance, but it can not span multiple instances
+  * of either. {PhysicalReference} is used to define where this object
+  * instance resides.
+  * 
+  * Creating an instance of this object generates a disabled object
+  * instance. Before this new object instance can be enabled (via a
+  * SetParameterValues command), it MUST have the following parameters
+  * configured: {Name}, {PhysicalReference}, and {Capacity}. Once an instance
+  * is enabled the following parameters become immutable for the life of
+  * the instance: {Name}, {PhysicalReference}, and {Capacity}.
+  *
+  * If the feature enabled, logical volume can be stored permanently in the
+  * datamodel. The partition uuid as given by blkid (see {LogicalVolume.Kernel.UUID})
+  * well be used to match a plugged device partition against logical volumes. This
+  * mechanism can also be used to store default parameter for a partition in the
+  * storage default file. In that case it might be better to use the {LogicalVolume.Kernel.Label}
+  * to do the match.
+  */
+  persistent object LogicalVolume[] {
+    /**
+     * The URI of the volume
+     */
+    persistent read-only string URI;
+
+    /**
+     * The name of the partition for this logical volume.
+     *
+     * By default, the label of the filesystem will be used, otherwise
+     * a name will be auto generated.
+     */
+    persistent string Name;
+
+    /**
+     * The current status of this {LogicalVolume}. 
+     *
+     * The default Offline status will exist until this object is
+     * enabled.
+     */
+    read-only string Status {
+      constraint enum [ "Offline", "Online", "Error", "Disconnected" ];
+      default "Offline";
+    }
+
+    /**
+     * Enables or disables this {LogicalVolume} instance.
+     */
+    persistent bool Enable = false;
+
+    /**
+     * Flags set for this volume,
+     *
+     * Initial flags can either be set in the defaults file
+     * by providing only the Flags and the Kerne.Label or Kernel.UUID
+     * parameters or they can be set via udev when calling the 
+     * {StorageService.devicePlugged} function.
+     *
+     * @version 5.1
+     */
+    persistent string Flags;
+
+    /**
+     * This indicates that this Logical Volume resides on this
+     * {StorageService} enabled device within Physical Drive 
+     */
+    persistent read-only string PhysicalReference {
+      constraint maxvalue 256;
+    }
+
+    /**
+     * The URI of the corresponding physical volume
+     */
+    persistent read-only string PhysicalURI;
+
+    /**
+     * The file system for this {LogicalVolume} as it is currently
+     * formatted. 
+     * 
+     * This parameter is one of the enumerated values found in
+     * the {Capabilities} parameter {Capabilities.SupportedFileSystemTypes}.
+     */
+    persistent read-only string FileSystem {
+      constraint enum [ "Unknown",
+                        "FAT16", "FAT32", "NTFS", "HFS", "HFS+",
+                        "HFSJ", "ext2", "ext3",
+                        "ext4", "XFS",
+                        "REISER" , "WebDAV", "NFS", "PTP"
+      ];
+      default "Unknown";
+    }
+
+    /**
+     * The file system status for this {LogicalVolume} corresponding
+     * to the result of the last fsck performed
+     */
+    persistent read-only uint32 FileSystemStatus {
+      constraint enum [ 0, 1, 2, 4, 8, 16, 32, 128];
+      default 0;
+    }
+
+    /**
+     * Is there a filesystem check currently running ?
+     */
+    bool FileSystemCheck {
+      default 0;
+    }
+
+    /**
+     * The Capacity of the Logical Volume in MB.
+     *
+     * Once this instance becomes enabled, this parameter will be
+     * immutable for the life of the instance.
+     */
+    persistent uint64 Capacity;
+
+    /**
+     * The Amount of Used Space on the Logical Volume in bytes.
+     */
+    persistent read-only uint64 UsedSpace {
+      read with StorageService_getUsedSpace;
+    }
+
+    /**
+     * Is the Volume Encrypted? 
+     *
+     * The type of encryption will be handled
+     * by the device internally and is not a matter for remote
+     * management.
+     */
+    persistent read-only bool Encrypted = false;
+
+    /**
+     * The number of instance of {LogicalVolume.Folder}
+     */
+    read-only uint32 FolderNumberOfEntries {
+      read with StorageService_getFolderNumberOfEntries;
+      default 0;
+    }
+
+    /**
+     * Where to mount the disk
+     *
+     * @version 5.2
+     */
+    persistent string PreferredMountPoint = "";
+
+    /**
+     * When true, the volume will be connected automatically when plugged.
+     *
+     * @version 5.2
+     */
+    persistent bool AutoMount = true;
+
+    /**
+     * The mount point of the disk
+     */
+    read-only string MountPoint;
+
+    /**
+     * A possible error string if there was a problem accessing 
+     * the logical volume.
+     */
+    read-only string LastError;
+
+    /**
+     * A possible string defining default mount options for the Logical Volume.
+     */
+    read-only string MountOptions;
+
+    /**
+     * This object is added if the device is a block
+     * device
+     */
+    persistent object Kernel {
+      /**
+       * The unique ID of the volume
+       */
+      persistent read-only string UUID;
+
+      /**
+       * The label of the volume
+       */
+      persistent read-only string Label;
+
+      /**
+       * The sysfs path of the device
+       */
+      persistent read-only string SysfsPath;
+      /**
+      * The devfs path of the device
+      */
+      persistent read-only string DevfsPath;
+    }
+
+    /**
+     * List the processes using the {LogicalVolume}
+     */
+    object Process[] {
+      /**
+       * The process id using the {LogicalVolume}
+       */
+      int32 ProcessID;
+
+      /**
+       * The name of the application using the {LogicalVolume}
+       */
+      string ApplicationName;
+    }
+
+    /**
+     * This object provides information about each top-level folder
+     * configured on this logical volume. 
+     *
+     * Each top-level folder allows
+     * the configuration of quotas and access permissions.
+     * 
+     * All folders created on the Logical Volume will appear here, created
+     * locally or via AddObject. The local directory name will be
+     * formatted as a UNIX-style directory name, for example: /home/ftp
+     * The presence of a trailing / character is inconsequential,
+     * meaning that /home/ftp/ is the same as /home/ftp. Once this
+     * instance becomes enabled, the {Name} parameter will be immutable for
+     * the life of the instance. This parameter acts as the unique
+     * identifier for the instance, thus the device MUST NOT allow
+     * multiple objects instances within a {LogicalVolume} to use
+     * the same parameter.
+     *
+     * Creating an instance of this object generates a disabled object
+     * instance. Before this new object instance can be enabled (via a
+     * SetParameterValues command), it MUST have the {Name}
+     * configured. Folder instances are unique per
+     * {LogicalVolume} and the unique key for this object is {Name}
+     * which also means that once an instance is enabled {Name} becomes
+     * immutable for the life of the instance.
+     *
+     * @added A new folder is created using the {Name} parameter value as the 
+     *        name of the folder
+     * @deleted The folder matching the {Name} parameter value is removed
+     * @version 5.0
+     */
+    persistent object Folder[] {
+
+      /**
+       * The folder name
+       *
+       * Setting of this variable will add a new folder. The full
+       * hierarchical pathname of the folder MUST be specified.
+       *
+       * @updated The folder matching the old value of the Name parameter is 
+       *        renamed to the new value of Name.
+       */
+      persistent string Name;
+
+      /**
+       * Entry is enabled or disabled
+       */
+      persistent bool Enable = false;
+
+      /**
+       * What are the User authentication requirements of this folder? 
+       *
+       * The following bitmap is used.
+       * <dl>
+       * <dt>11</dt><dd>Authenticated Access required for Network protocols (NFS/AFP/SMB) and for non Network protocols (FTP/SFTP/HTTP/HTTPS)</dd>
+       * <dt>10</dt><dd>Authenticated Access required for Network protocols (NFS/AFP/SMB)</dd>
+       * <dt>01</dt><dd>Authenticated Access Required for non Network protocols (FTP/SFTP/HTTP/HTTPS)</dd>
+       * <dt>00</dt><dd>No Authentication required</dd>
+       * </dl>
+       */
+      persistent uint32 UserAccountAccess = 1;
+
+      /**
+       * This object provides information about each user account configured for
+       * access permissions on this folder.
+       *
+       * The unique key for this object is UserReference
+       */
+      persistent object UserAccess[] {
+        /**
+         * This is a reference to a User Account that has access to this Folder. 
+         *
+         * The User Account referenced by this parameter MUST exist within the same
+         * {StorageService} instance. Each reference can be either in the form of
+         *  “.UserAccount.{i}” or a fully qualified object name. For example:
+         * .StorageService.1.UserAccount.3
+         *
+         * This indicates a user on this {StorageService} enabled device of
+         * {UserAccount} instance #3 has the designated access to this folder.
+         * This parameter is unique within the {UserAccess} table and this Folder
+         * instance, meaning that for each {Folder} instance the {UserAccess} table MUST
+         * NOT contain multiple {UserAccess} objects with the same {UserReference}
+         * value.
+         */
+        persistent string UserReference;
+
+        /**
+         * What permissions the user account has over this {Folder}.
+         * 
+         * This is an integer value like the xNIX systems use for
+         * access permissions, meaning that it is a
+         * 3-bit field with the following structure:
+         *
+         * <dl>
+         * <dt>100</dt><dd>read field</dd>
+         * <dt>010</dt><dd>write field</dd>
+         * <dt>001</dt><dd>execute field</dd>
+         * </dl>
+         */
+        persistent uint8 Permissions = 0;
+      }
+
+      /**
+       * This object provides information about each user group configured for
+       * access permissions on this folder.
+       *
+       * The unique key for this object is UserReference
+       */
+      persistent object GroupAccess[] {
+        /**
+         * This is a reference to a User Group that has access to this Folder. 
+         *
+         * The User Group referenced by this parameter MUST exist within the same
+         * {StorageService} instance. Each reference can be either in the form of
+         *  “.UserAccount.{i}” or a fully qualified object name. For example:
+         * .StorageService.1.UserAccount.3
+         *
+         * This indicates a user on this {StorageService} enabled device of
+         * {UserAccount} instance #3 has the designated access to this folder.
+         * This parameter is unique within the {UserAccess} table and this Folder
+         * instance, meaning that for each {Folder} instance the {UserAccess} table MUST
+         * NOT contain multiple {UserAccess} objects with the same {UserReference}
+         * value.
+         */
+        persistent string GroupReference;
+
+        /**
+         * What permissions the user group has over this {Folder}.
+         * 
+         * This is an integer value like the xNIX systems use for
+         * access permissions, meaning that it is a
+         * 3-bit field with the following structure:
+         *
+         * <dl>
+         * <dt>100</dt><dd>read field</dd>
+         * <dt>010</dt><dd>write field</dd>
+         * <dt>001</dt><dd>execute field</dd>
+         * </dl>
+         */
+        persistent uint8 Permissions = 0;
+      }
+    }
+  }
+}
+
+/** @location sah_services_storage /storage-definitions.odl.m4 */

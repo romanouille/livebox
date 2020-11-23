@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+  <specVersion>
+    <major>1</major>
+    <minor>0</minor>
+  </specVersion>
+  <device>
+    <pnpx:X_hardwareId xmlns:pnpx="http://schemas.microsoft.com/windows/pnpx/2005/11">VEN___VID__&amp;DEV___DID__&amp;SUBSYS___SID__&amp;REV___RID__</pnpx:X_hardwareId>
+    <pnpx:X_compatibleId xmlns:pnpx="http://schemas.microsoft.com/windows/pnpx/2005/11">GenericUmPass</pnpx:X_compatibleId>
+    <pnpx:X_deviceCategory xmlns:pnpx="http://schemas.microsoft.com/windows/pnpx/2005/11">NetworkInfrastructure.Gateway</pnpx:X_deviceCategory>
+    <df:X_deviceCategory xmlns:df="http://schemas.microsoft.com/windows/2008/09/devicefoundation">Network.Gateway</df:X_deviceCategory>
+    <deviceType>urn:schemas-upnp-org:device:InternetGatewayDevice:1</deviceType>
+    <friendlyName>__FRIENDLY_NAME__</friendlyName>
+    <manufacturer>__MANUFACTURER_NAME__</manufacturer>
+    <manufacturerURL>__MANUFACTURER_URL__</manufacturerURL>
+    <modelName>__MODEL_NAME__</modelName>
+    <UDN>__UDN_INTERNETGATEWAYDEVICE__</UDN>
+    <modelDescription>__DESCRIPTION__</modelDescription>
+    <modelNumber>__MODEL_NUMBER__</modelNumber>
+    <serialNumber>__SERIAL_NUMBER__</serialNumber>
+    <presentationURL>__PRESENTATION_URL__</presentationURL>
+    <UPC>__UPC_NUMBER__</UPC>
+
+    <iconList>
+      <icon>
+        <mimetype>image/png</mimetype>
+        <width>16</width>
+        <height>16</height>
+        <depth>8</depth>
+        <url>__URL__/ligd.png</url>
+      </icon>
+    </iconList> 
+    <deviceList>
+      <device>
+        <deviceType>urn:schemas-upnp-org:device:WANDevice:1</deviceType>
+        <friendlyName>WANDevice</friendlyName>
+        <manufacturer>__MANUFACTURER_NAME__</manufacturer>
+        <manufacturerURL>__MANUFACTURER_URL__</manufacturerURL>
+        <modelDescription>WAN Device on __DESCRIPTION__</modelDescription>
+        <modelName>__MODEL_NAME__</modelName>
+        <modelNumber>__MODEL_NUMBER__</modelNumber>
+        <modelURL>__MANUFACTURER_URL__</modelURL>
+        <serialNumber>__SERIAL_NUMBER__</serialNumber>
+        <presentationURL>__PRESENTATION_URL__</presentationURL>
+        <UDN>__UDN_WANDEVICE_</UDN>
+        <UPC>__UPC_NUMBER__</UPC>
+        <serviceList>
+          <service>
+            <serviceType>urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1</serviceType>
+            <serviceId>urn:upnp-org:serviceId:WANCommonIFC1</serviceId>
+            <controlURL>__URL__/upnp/control/WANCommonIFC1</controlURL>
+            <eventSubURL>__URL__/upnp/control/WANCommonIFC1</eventSubURL>
+            <SCPDURL>__URL__/gateicfgSCPD.xml</SCPDURL>
+          </service>
+        </serviceList>
+        <deviceList>
+          <device>
+            <deviceType>urn:schemas-upnp-org:device:WANConnectionDevice:1</deviceType>
+            <friendlyName>WANConnectionDevice</friendlyName>
+            <manufacturer>__MANUFACTURER_NAME__</manufacturer>
+            <manufacturerURL>__MANUFACTURER_URL__</manufacturerURL>
+            <modelDescription>WanConnectionDevice on __DESCRIPTION__</modelDescription>
+            <modelName>__MODEL_NAME__</modelName>
+            <modelNumber>__MODEL_NUMBER__</modelNumber>
+            <modelURL>__MANUFACTURER_URL__</modelURL>
+            <serialNumber>__SERIAL_NUMBER__</serialNumber>
+            <presentationURL>__PRESENTATION_URL__</presentationURL>
+            <UDN>__UDN_WANCONNECTIONDEVICE__</UDN>
+            <UPC>__UPC_NUMBER__</UPC>
+            <serviceList>
+              <service>
+                <serviceType>urn:schemas-upnp-org:service:WAN__SERVICE_TYPE__Connection:1</serviceType>
+                <serviceId>urn:upnp-org:serviceId:WANIPConn1</serviceId>
+                <controlURL>__URL__/upnp/control/WANIPConn1</controlURL>
+                <eventSubURL>__URL__/upnp/control/WANIPConn1</eventSubURL>
+                <SCPDURL>__URL__/gateconnSCPD___SERVICE_TYPE__.xml</SCPDURL>
+              </service>
+            </serviceList>
+          </device>
+        </deviceList>
+      </device>
+    </deviceList>
+  </device>
+</root>

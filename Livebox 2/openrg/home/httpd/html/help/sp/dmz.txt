@@ -1,0 +1,7 @@
+﻿<b>DMZ:</b><br>
+<br>
+Si configuras esta opción, el ordenador seleccionado estará expuesto a Internet. Todos los puertos serán accesibles desde Internet y redirigidos hacia la dirección IP del dispositivo (sólo recomendado para usuarios avanzados).<br>
+<!--
+<br>
+-->
+

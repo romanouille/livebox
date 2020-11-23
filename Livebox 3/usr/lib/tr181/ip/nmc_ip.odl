@@ -1,0 +1,135 @@
+using "ip/nmc_ip.so";
+object IP {
+read-only bool IPv4Capable = true;
+bool IPv4Enable = true;
+read-only string IPv4Status = "Enabled";
+read-only bool IPv6Capable = true;
+bool IPv6Enable = true;
+read-only string IPv6Status = "Enabled";
+string ULAPrefix;
+object Interface [] {
+counted with InterfaceNumberOfEntries;
+string Alias;
+bool Enable;
+bool IPv4Enable;
+bool IPv6Enable;
+bool ULAEnable;
+read-only string Status;
+read-only string Name;
+read-only uint32 LastChange;
+string LowerLayers;
+string Router;
+bool Reset;
+uint32 MaxMTUSize;
+read-only string Type;
+bool Loopback;
+bool AutoIPEnable;
+object IPv4Address [] {
+counted with IPv4AddressNumberOfEntries;
+string Alias;
+bool Enable;
+read-only string Status;
+string IPAddress;
+string SubnetMask;
+read-only string AddressingType;
+}
+object IPv6Address [] {
+counted with IPv6AddressNumberOfEntries;
+string Alias;
+bool Enable;
+read-only string Status;
+read-only string IPAddressStatus;
+string IPAddress;
+read-only string Origin;
+string Prefix;
+string PreferredLifetime;
+string ValidLifetime;
+bool Anycast;
+}
+object IPv6Prefix [] {
+counted with IPv6PrefixNumberOfEntries;
+string Alias;
+bool Enable;
+read-only string Status;
+read-only string PrefixStatus;
+string Prefix;
+read-only string Origin;
+string StaticType;
+string ParentPrefix;
+string ChildPrefixBits;
+bool Autonomous;
+datetime PreferredLifetime;
+datetime ValidLifetime;
+}
+}
+}
+datamodel {
+object IP {
+destination "pcb://$(PCB_MAIN_BUS)/NMC/IPv6" {
+parameter IPv6Enable from Enable, UserRequested translate with translate_ipv6enable;
+parameter IPv6Status from Enable translate with translate_ipv6status;
+}
+instance of Interface(1, "IPIF_DATA") {
+parameter Alias = "IPIF_DATA";
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/atm_multi" {
+parameter IPv6Enable from IPv6Disable translate with translate_ipv6disable;
+}
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/data" {
+parameter Enable;
+}
+instance of IPv6Address(0,"LLA_WAN") {
+parameter Alias = "LLA_WAN";
+}
+instance of IPv4Address(0,"ip") {
+parameter Alias = "";
+parameter AddressingType = "Static";
+}
+}
+instance of Interface(2, "IP_VOIP") {
+parameter Alias = "IP_VOIP";
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/voip" {
+parameter Enable;
+}
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/dhcp_voip" {
+parameter Router from IPRouters;
+}
+instance of IPv4Address(0,"ip") {
+parameter Alias = "";
+parameter AddressingType = "Static";
+}
+}
+instance of Interface(3, "BR_LAN") {
+parameter Alias = "BR_LAN";
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/bridge" {
+parameter Enable;
+}
+destination "pcb://$(PCB_MAIN_BUS)/NeMo/Intf/bridge" {
+parameter IPv6Enable from IPv6Disable translate with translate_ipv6disable;
+}
+instance of IPv6Address(0,"GUA_LAN") {
+parameter Alias = "GUA_LAN";
+}
+instance of IPv4Address(0,"ip") {
+parameter Alias = "";
+parameter AddressingType = "Static";
+}
+}
+instance of Interface(4,"IPIF_BACKUP") {
+parameter Alias = "IPIF_BACKUP";
+instance of IPv4Address(0,"IP_BACKUP") {
+parameter Alias = "IP_BACKUP";
+parameter AddressingType = "Static";
+}
+}
+instance of Interface(5,"IPIF_TV") {
+parameter Alias = "IPIF_TV";
+instance of IPv4Address(0,"IP_TV") {
+parameter Alias = "IP_TV";
+destination "pcb://$(PCB_MAIN_BUS)/NMC/OrangeTV/IGDMap" {
+parameter IPAddress from ExternalIPAddress;
+parameter Enable;
+}
+}
+}
+}
+}

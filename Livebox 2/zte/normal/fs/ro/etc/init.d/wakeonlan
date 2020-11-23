@@ -1,0 +1,44 @@
+#!/bin/sh
+PIDWOL_PLUGIN="/var/run/wakeonlan-plugin.pid"
+WOL_PLUGIN="/bin/pcb_plugin -vv -n wakeonlan-plugin -c /usr/lib/wakeonlan/wakeonlan.odl"
+
+start() {
+
+    if [ -e ${PIDWOL_PLUGIN} ]; then
+        echo "WakeOnLan plug-in already started"
+    else
+        ${WOL_PLUGIN};
+    fi
+}
+
+stop() {
+    if [ -e ${PIDWOL_PLUGIN} ]; then
+        kill $(cat ${PIDWOL_PLUGIN});
+    else
+        echo "WakeOnLan plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDWOL_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage : $0 [start|stop|restart|backup|restore]"
+        ;;
+esac
+

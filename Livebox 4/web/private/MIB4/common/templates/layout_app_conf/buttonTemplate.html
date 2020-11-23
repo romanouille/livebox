@@ -1,0 +1,16 @@
+﻿<div class="button-container" {{#if id}}id="{{id}}" {{/if}}>
+  <div class="button-label greytxt">
+    {{#if label}}{{{label}}}{{/if}}
+  </div>
+  <div class="button-content">
+    {{#each value}}
+      <input {{#if id}}id="{{id}}" {{/if}} type="button" value="{{label}}"
+      {{#if data-translation}}
+        class="Translation button {{#ifEqual style "grey"}}grey-button{{/ifEqual}} {{#ifEqual style "lightgrey"}}button-disabled{{/ifEqual}}" data-translation="{{data-translation}}"        
+      {{else}}
+        class="button {{#ifEqual style "grey"}}grey-button{{/ifEqual}} {{#ifEqual style "lightgrey"}}button-disabled{{/ifEqual}}"
+      {{/if}}
+       >
+    {{/each}}
+  </div>
+</div>

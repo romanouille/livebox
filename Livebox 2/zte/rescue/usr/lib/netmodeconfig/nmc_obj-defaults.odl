@@ -1,0 +1,40 @@
+datamodel {
+	object NMC {
+		parameter WanModeList = "DSL_PPP;DSL_DHCP;Ethernet_PPP;Ethernet_DHCP;Detecting";
+
+		object OnePhone {
+			parameter Enable = 1;
+
+			instance of UMAGW (0,"0") {
+				parameter FQDN="sgw.mobile.orange.fr";
+				parameter Status="Unresolved";
+				parameter IP="";
+			}
+			instance of UMAGW (0,"1") {
+				parameter FQDN="psegw.gan.mnc001.mcc208.pub.3gppnetwork.org";
+				parameter Status="Unresolved";
+				parameter IP="";
+			}
+			instance of UMAGW (0,"2") {
+				parameter FQDN="psegw.gan.mnc002.mcc208.pub.3gppnetwork.org";
+				parameter Status="Unresolved";
+				parameter IP="";
+			}
+			instance of UMAGW (0,"3") {
+				parameter FQDN="sgwusbc.mobile.orangefrance.fr";
+				parameter Status="Unresolved";
+				parameter IP="";
+			}
+			instance of UMAGW (0,"4") {
+				parameter FQDN="sgw.uma.mnc001.mcc208.3gppnetwork.org";
+				parameter Status="Unresolved";
+				parameter IP="";
+			}
+		}
+
+		object Error {
+		parameter URL = "http://liveboxipv4/captivePortal.html";
+		parameter NoRedirectDomain = "g2.spnp.orange.com, se-connecter-au-reseau.orange.com";
+		}
+	}
+}

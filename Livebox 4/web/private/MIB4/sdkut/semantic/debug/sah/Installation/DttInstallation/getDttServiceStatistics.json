@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "data": {
+    "frequency": 43800,
+    "signalStrength": 60,
+    "signalQuality": 80,
+    "signalIntensity": 70,
+    "noiseRatio": 1,
+    "CBERExponent": 1,
+    "CBERMultiplier": 1,
+    "VBERExponent": 2,
+    "VBERMultiplier": 2,
+    "uncorrectBlocks": 0
+  }
+}

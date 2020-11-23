@@ -1,0 +1,65 @@
+using "audiphone_plugin.so";
+
+/* Permissions */
+acl {
+    group cwmpd read,write,execute;
+}
+
+/**
+ * Audiphone object
+ */
+persistent object Audiphone {
+
+    persistent uint8 Activate {
+        write with ActivateOnWrite;
+        default 0;
+    }
+    
+    persistent uint8 SendingMode {
+        default 0;
+    } 
+       
+    persistent string CallQoSURL {
+        default "http://karmatrack.orange.com/FR/sync";
+    }
+     
+    persistent string ServiceAvailabilityURL {
+        default "http://karmatrack.orange.com/FR/sync";
+    }
+    
+    persistent uint32 PeriodicAsynchronousInterval = 86400;
+    
+    persistent string AsynchronousURL {
+        default "http://karmatrack.orange.com/FR/async";
+    }
+    
+    bool SendLogs = 0;
+    
+    string ServiceAvailabilityLogHeader {
+        default "";
+    }
+    
+    string CallQoSLogHeader {
+        default "";
+    }
+    
+    persistent uint16 CallQoSLogNumberOfEntries {
+        write with CallQoSLogNumberOnWrite;
+        default 15;
+    }
+       
+    persistent uint16 ServiceLogNumberOfEntries {
+        write with ServiceLogNumberOnWrite;
+        default 50;
+    }
+    
+    object ServiceAvailabilityLog[50] {
+        string Ticket;
+    }
+    
+    object CallQoSLog[15] {
+        string Ticket;
+    }
+}
+
+/** @location ext_ft_services_audiphone /audiphone.odl */

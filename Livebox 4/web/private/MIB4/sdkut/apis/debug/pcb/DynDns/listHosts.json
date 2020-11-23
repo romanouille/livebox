@@ -1,0 +1,12 @@
+{
+    "status": true,
+    "data": [
+        {
+            "service": "dyndns",
+            "hostname": "host",
+            "username": "install",
+            "password": "install",
+            "last_update": "0001-01-01T00:00:00Z"
+        }
+    ]
+}

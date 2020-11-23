@@ -1,0 +1,109 @@
+html, body {
+	background-color: #ffffff;
+	margin: 0px;
+	text-align: left;
+	left:0px
+        
+}
+
+div.main {
+	background-color: #FFFFFF;
+	width: 100%;
+	margin: auto;
+	padding: 0px;
+	text-align: left;
+	left:0px
+	
+}
+
+img {
+	border: 0px;
+}
+
+img.led {
+	padding: 20px;
+}
+
+table.main {
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+}
+
+td.main {
+	vertical-align: top;
+}
+
+td.mainleft {
+	padding-left: 10px;
+	padding-right: 5px;
+	vertical-align: top;
+}
+
+td.mainright {
+	padding-left: 5px;
+	padding-right: 10px;
+	padding-top: 1px;
+	vertical-align: top;
+}
+td.mainright #menu {
+	padding-top: 28px;
+}
+td.maincenter {
+	padding-left: 120px;
+	padding-right: 120px;
+	vertical-align: top;
+}
+
+#alert_pass_word, div #alert_conf_pass{
+        display: none;
+	color:#FF0000;
+	padding-left: 12px;
+	font-weight: bold;
+	
+}
+#alerte-user td, #alerte-pass td{
+	color:#FF0000;
+	font-weight: bold;
+}
+#bt_help{
+	position:absolute;
+	right:15px;
+	top:20px;
+}
+#bt_help .LBButton_bg_help{
+	
+	display: block ;
+	width: 30px; 
+	height: 30px; 
+	background-image: url(../images/button/aidebg1.gif);
+	position:relative;
+
+	background-repeat:no-repeat;
+
+	background-position:center;
+}
+#bt_help .LBButton_fg_help{
+  	width: 30px; 
+	height: 30px; 
+	line-height: 30px; 
+	text-indent: 0px; 
+	background-image: url(../images/button/aidepict1.gif); 
+	color: rgb(0, 0, 0);
+	position:relative;
+
+	text-align:center;
+
+	background-repeat:no-repeat;
+
+	background-position:center;
+
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+
+	font-size:10px;
+
+	font-weight:bold;
+
+	cursor:pointer;
+
+}

@@ -1,0 +1,532 @@
+
+acl {
+  group admin read, execute;
+  group remoteadmin read, execute;
+  group technician read, execute;
+}
+
+/**
+ * Match request using the {HTTPService.Server} instance name
+ *
+ * @version 5.2  
+ */
+mib MatchServer {
+  /** The key of the server on which the request is received */
+  persistent string MatchServerName;
+}
+
+/**
+ * Match request where the header value of {MatchHeader.MatchHeaderName}
+ * is matching {MatchHeader.MatchHeaderValue}
+ *
+ * @version 5.2  
+ */
+mib MatchHeader {
+  /**
+   * The name of the HTTP header
+   *
+   * The {MatchHeaderValue} will be compared with the value of the header
+   * with this name in the request.
+   */
+  persistent string MatchHeaderName;
+  /** The value of the header to match */
+  persistent string MatchHeaderValue;
+}
+
+/**
+ * Match a request given an HTTP method
+ *
+ * @version 5.2  
+ */
+mib MatchMethod {
+  /** The HTTP method to match */
+  persistent string MatchMethod;
+}
+
+/**
+ * Match an authenticated request against a user name
+ *
+ * @version 5.2  
+ */
+mib MatchUser {
+  /** The request session should be owned by this user to match */
+  persistent string MatchUser;
+}
+
+/**
+ * Match a request where the user belongs to a group
+ *
+ * @version 5.2  
+ */
+mib MatchGroup {
+  /** The request session should be owned by a user in this group to match */
+  persistent string MatchGroup;
+}
+
+/**
+ * Match a request given a path
+ *
+ * @version 5.2  
+ */
+mib MatchPath {
+  /* The path to match */
+  persistent string MatchPath;
+}
+
+/**
+ * Match a request if a datamodel parameter is matching
+ * a given value
+ *
+ * @version 5.2  
+ */
+mib MatchParameter {
+  /** The path of the object in the sysbus */
+  persistent string MatchObjectPath;
+  /** The name of the object */
+  persistent string MatchParameterName;
+  /** The value which the parameter should match */
+  persistent string MatchParameterValue;
+}
+
+/**
+ * Reply with a file content
+ *
+ * @version 5.2  
+ */
+mib TargetFile {
+  /** The absolute path of the file to send */
+  persistent string TargetFile;
+}
+
+/**
+ * Send a custom reply
+ *
+ * @version 5.2  
+ */
+mib TargetReply {
+  /** The HTTP reply status code */
+  persistent string TargetReplyStatusCode;
+  /** 
+   * The HTTP reply reason phrase 
+   *
+   * Leave empty to use the default one associated to the
+   * {TargetReplyStatusCode}
+   */
+  persistent string TargetReplyReasonPhrase;
+  /**
+   * The HTTP reply body
+   *
+   * Leave empty to send the default html body associated to
+   * the {TargetReplyStatusCode}
+   */
+  persistent string TargetReplyBody;
+}
+
+/**
+ * Dispatch request to plugin
+ *
+ * @version 5.2  
+ */
+mib TargetPlugin {
+  /** The name of the plugin that must handle the request */
+  persistent string TargetPlugin = "staticfile";
+}
+
+/**
+ * Execute a process and sends its output
+ *
+ * @version 5.2  
+ */
+mib TargetProcess {
+  /**
+   * The process to execute using sh -c (should never be user provided) 
+   *
+   * This value should never be user provided to avoid shell symbol 
+   * injection
+   */
+  persistent string TargetCommand;
+}
+
+/**
+ * Use a CGI to handle the request
+ *
+ * @version 5.2  
+ */
+mib TargetCgi {
+  /** The absolute path of the CGI to execute */
+  persistent string TargetCGI;
+}
+
+/**
+ * Forward the request to an http server
+ *
+ * @version 5.2  
+ */
+mib TargetProxy {
+  /** The hostname where to forward the request */
+  persistent string TargetHost;
+  /** On which port to forward the request */
+  persistent string TargetPort;
+}
+
+/**
+ * Manage the HTTP server
+ */
+object HTTPService {
+
+  /**
+  * The SSL certificate
+  */
+  read-only string SSLCertificate {
+    default "/etc/srv.pem";
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician none;
+    }
+  }
+
+  /**
+  * The SSL CA certificate
+  * to authenticate Client Certificates
+  */
+  read-only string SSLCACertificate {
+    default "//etc/cacert.pem";
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician none;
+    }
+  }
+  
+  /**
+   * The HTTP service status
+   *
+   * @version 5.2
+   */
+  read-only string Status {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+    constraint enum [ "Offline", "Starting", "Online", "Stopping", "Error" ];
+    default "Offline";
+  }
+
+  /**
+   * The document root
+   *
+   * @version 5.2  
+   */
+  persistent string DocumentRoot {
+    default "/web/private";
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician none;
+    }
+  }
+
+  /**
+   * The value used as the Etag for html files
+   *
+   * Updating this value will force browser to dirty their cache and refresh the
+   * html files.
+   *
+   * @version 5.2  
+   */
+  persistent string Etag {
+    default "25a9a996";
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician none;
+    }
+  }
+
+  /**
+   * Change the document root
+   *
+   * @version 5.2  
+   */
+  bool setDocumentRoot(mandatory string docroot, string etag) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician none;
+    }
+  }
+
+  /**
+   * The session timeout. If zero, session is never timed out
+   */
+  persistent uint32 SessionTimeout {
+
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician read,write,execute;
+    }
+
+    default 600;
+  }
+
+  /**
+   * Change the session timeout. This can cause active session to end if the new timeout is
+   * smaller than the previous one.
+   */
+  bool setSessionTimeout(mandatory uint32 timeout) {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician execute;
+    }
+  }
+
+  /**
+   * The socket timeout. If zero, socket is never timed out.
+   * The socket will be closed when the timeout has passed
+   * upon following situations:
+   * - When the read buffer is empty and waiting for data from the client.
+   * - When the write buffer is full and waiting to write data to the client.
+   */
+  persistent uint32 SocketTimeout {
+
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+
+    default 120;
+  }
+
+  bool getCurrentUser() {
+    acl {
+      group http read,execute;
+    }
+  }
+
+  bool getSessions(){
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician none;
+    }
+  }
+
+
+  /**
+   * Listen on a new socket
+   *
+   * This function will create a new socket bind it to the given host, interface and port
+   * and then calling accept on it. The server will then accept requests on the given host,
+   * interface and port. 
+   *
+   * The corresponding firewall services will also be added.
+   *
+   * @param host the host that will be used in the bind() call
+   * @param interface the nemo interface name on which to bind the socket
+   * @param port the port on which to listen, if not given, an empty string or the string "random",
+   *        a random port will be opened
+   * @param public if true, the server will consider incoming request on that port as public ones
+   * @param useSSL if true, the server will accept HTTPS request
+   * @param persistent if true, the server will be restarted after a reboot
+   * @return an identifier for the server
+   */
+  string addServer(mandatory string host, mandatory string interface, out string port, 
+                   bool public, bool useSSL, bool persistent, string plugin) {
+    acl {
+      group admin read,execute;
+      group remoteadmin none;
+      group technician execute;
+      world none;
+    }
+  }
+    
+  /**
+   * Stop listening on a socket
+   *
+   * This will close the listen socket.
+   *
+   * @param id the id of the server to remove
+   */
+  bool deleteServer(mandatory string id) {
+    acl {
+      world none;
+      group remoteadmin read, execute;
+    }
+  }
+
+  
+  /**
+   * List of interface and ports on which to listen 
+   */
+  persistent read-only object Server[] {
+
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+      group technician none;
+    }
+
+    /**
+     * Is this server enabled
+     */
+    persistent bool Enable = true;
+
+    /**
+     * The status of this server
+     */
+    read-only string Status {
+      constraint enum [ "Offline", "Starting", "Online", "Stopping", "Error" ];
+      default "Offline";
+    }
+
+    /**
+     * The host on which to listen
+     */
+    persistent read-only string Host = "::";
+
+    /**
+     * The interface on which to listen to
+     */
+    persistent read-only string Interface;
+
+    /**
+     * The port on which to listen
+     */
+    persistent read-only string Port;
+
+    /**
+     * Is this server public
+     */
+    persistent read-only bool Public = false;
+
+    /**
+     * Does this server uses SSL
+     */
+    persistent read-only bool UseSSL = false;
+
+    /**
+     * Request on this server should be handled by this plugin
+     */
+    persistent read-only string Plugin = "";
+
+    /**
+     * The last error
+     */
+    read-only string LastError;
+  }
+
+  /**
+   * Provides a way to match an icoming request
+   *
+   * These can be composed in expressions using
+   * {Route.Matcher} to provide complex matching.
+   *
+   * @version 5.2
+   * @mibs MatchServer MatchHeader MatchMethod MatchUser MatchGroup MatchPath MatchParameter
+   */
+  persistent read-only object Matcher[] {
+
+    acl {
+      group admin none;
+      group remoteadmin none;
+    }
+
+    /**
+     * Type of matcher, see the corresponding Matcher… MIB for more information
+     */
+    persistent string Match {
+      constraint enum [ "server", "header", "method", "user", "path", "parameter" ];
+      default "path";
+    }
+
+    /**
+     * How to execute the match. Equal is testing using strcmp while
+     * regexp is using regular expressions (regex(7)) 
+     */
+    persistent string Test {
+      constraint enum [ "equal", "regexp" ];
+      default "equal";
+    }
+  }
+
+  /**
+   * Describe how to handle a incoming request. 
+   *
+   * An incoming request is tested against a matcher expression. If it
+   * matches, it will be handled using the defined target.
+   *
+   * @mibs TargetFile TargetReply TargetPlugin TargetProcess TargetCgi TargetPorxy
+   * @version 5.2
+   */
+  persistent read-only object Route[] {
+
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+
+    /**
+     * Matcher expression
+     *
+     * The matcher expression is composed of {HTTPService.Matcher} object — identified by their
+     * key —, operators and parentheses to group expressions. The valid operators are
+     * <tt>and</tt>, <tt>or</tt> and <tt>not</tt>.
+     */
+    persistent string Matcher;
+
+    /**
+     * How to handle a matching request
+     *
+     * When a request is matching the expression defined in {Matcher}, the action
+     * defined here will be executed. See the corresponding MIB for more information.
+     */
+    persistent string Target {
+      constraint enum [ "file", "reply", "plugin", "process", "cgi", "proxy" ];
+      default "plugin";
+    }
+    
+    /**
+     * Headers to add to the reply of a matching request
+     */
+    persistent object ReplyHeader[] {
+      /**
+       * The HTTP header name
+       */
+      persistent string Name;
+
+      /**
+       * The header value
+       */
+      persistent string Value;
+    }
+  }
+
+  persistent object BruteForceDetection {
+    acl {
+      world none;
+      group admin none;
+      group remoteadmin none;
+    }
+    persistent bool Enable; 
+    persistent uint32 Retries;
+    persistent uint32 Interval;
+    persistent bool Exponential;
+  }
+}
+
+/** @location sah_services_www_server /httpd-definitions.odl.m4 */

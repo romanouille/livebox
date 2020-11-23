@@ -1,0 +1,37 @@
+#!/bin/sh
+# Ce script configure le r�seau avec les param�tres du routeur.
+# Il lance le client dhcp et le d�mon proxydns si n�c�ssaire
+
+# Common
+. /etc_ro_fs/init.d/common
+. /etc_ro_fs/autoconf.conf
+
+# Source le fichier de configuration du router
+readconf /etc/bluedsl.conf HOSTNAME IP_0 
+
+case $1 in
+    start)
+	# hostname
+	/bin/echo "Hostname configuration : $HOSTNAME"
+	/bin/echo "127.0.0.1 localhost" > /etc/hosts
+	if [ "$CONFIG_HOSTNAME_ALIAS_ALTERNATE" = "y" ] ; then
+	    /bin/echo "127.0.0.1 $HOSTNAME configuration.adsl $CONFIG_HOSTNAME_ALIAS_ALTERNATE_NAME" >> /etc/hosts
+	else
+	    /bin/echo "127.0.0.1 $HOSTNAME configuration.adsl" >> /etc/hosts
+	fi
+	hostname $HOSTNAME
+
+	;;
+    stop)
+	;;
+    restart_mvc)
+	;;
+    *)
+	echo "Usage ..."
+	;;
+
+esac
+
+
+
+

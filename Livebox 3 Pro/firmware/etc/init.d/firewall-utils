@@ -1,0 +1,32 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2011 Sagemcom
+START=45
+
+start() {
+    echo -n "Starting firewall-utils: "
+	firewall-app &
+    echo "OK"
+
+	sleep 3
+
+	firewall-cli add outgoing -x IP_BR_LAN -p tftp
+	firewall-cli add outgoing -x IP_BR_LAN -p ping
+	firewall-cli add outgoing -x IP_BR_LAN -p syslog
+	firewall-cli add outgoing -x IP_DATA -p http
+
+	firewall-cli add ingoing -x IP_BR_LAN -p ping
+
+}
+
+stop() {
+	echo -n "Stopping firewall-utils: "
+	killall firewall-app
+	echo "OK"
+}
+
+restart() {
+	stop
+	sleep 3
+	start
+}
+

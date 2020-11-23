@@ -1,0 +1,12 @@
+<b>Administration:</b><br>
+<br>
+<span class="boldorange">Configure home page:</span><br>
+This feature enables you choose whether or not to display the list des devices connected to your livebox.<br>
+<br>
+<span class="boldorange">Confirmation message settings: </span><br>
+This feature enables you to enable or disable the confirmation messages which are displayed whenever you change the configuration of your livebox.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

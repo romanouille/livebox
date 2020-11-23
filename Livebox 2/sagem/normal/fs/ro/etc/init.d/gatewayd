@@ -1,0 +1,64 @@
+#!/bin/sh
+
+. /etc_ro_fs/init.d/mbusd_util
+
+case $1 in
+    start)
+	TELLER=0
+	
+	# Make a copy of the user database, and preserve the old database for the rescue firmware only
+        if [ ! -f /etc/do_import ]
+        then
+          OLDDB=/etc/config/mbus.dat
+          if [ -f "$OLDDB" ]
+          then
+            NEWDB=$OLDDB
+            [ -f /fs/common/config/dbpath.cfg ] && NEWDB=`cat /fs/common/config/dbpath.cfg | cut -d  ' ' -f 1`
+            if [ ! -f "$NEWDB" ]
+            then
+              cp -f "$OLDDB" "$NEWDB"
+            fi
+            # Convert database if needed
+            if [ -f ${NEWDB} ]; then
+              /usr/sbin/mbdbcvrt $NEWDB
+            fi
+          fi
+        else
+          rm /etc/do_import
+        fi
+
+        # Increase datagram queue length of AF_UNIX sockets from 10 to 100
+        echo 100 > /proc/sys/net/unix/max_dgram_qlen
+
+	# start gatewayd
+	/bin/echo "gatewayd start ..."
+        rm -f /var/run/appbox
+        mbusd_set_loadapp
+        if [ -f /mnt/jffs2/jffs2_3/fonske ]
+	then
+		/usr/sbin/gatewayd -t &
+	else
+		/usr/sbin/gatewayd &
+	fi
+
+	# updated_tmp.conf
+	if [ -f /etc/config/updated_tmp.conf ]
+	then
+		mv -f /etc/config/updated_tmp.conf /etc/config/updated.conf
+		
+	fi
+        # just to fasten start up, start polling after gatewayd started.
+	sleep 5
+	while [ ! -f /var/run/appbox ]
+        do
+           TELLER=`expr ${TELLER} + 1`
+           echo "wait for gatewayd to initialise (${TELLER})"
+           sleep 1;
+        done
+	;;
+    stop)
+    	killall -9 gatewayd
+	;;
+    *)
+esac
+

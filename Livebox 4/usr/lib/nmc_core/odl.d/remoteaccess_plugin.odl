@@ -1,0 +1,55 @@
+using "../nmccore_remoteaccess.so";
+
+define remoteaccess_t {
+    string username;
+    uint32 timeout;
+    uint32 timeleft;
+    uint32 port;
+}
+
+persistent object NMC {
+    /**
+     * Enable remote access
+     *
+     * It first tries to find an existing user matching the username given.
+     * If the user is found and is not a system user, it updates its password
+     * and makes sure it is in the remoteadmin group.
+     * If it cannot be found, it creates the user.
+     * If the user is in the system group, it errors out.
+     * Then it enable the remote access
+     *
+     * @param username username to allow
+     * @param password password to authenticate the user
+     * @param port the port to use, 0 to choose a random port
+     * @param timeout the timeout before closing the connection, 0 for a permanent access
+     * @version V4.6
+     * @return the port number allocated
+     */
+    uint32 enableRemoteAccess(string username, string password, uint32 port, uint32 timeout) {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * Fetch the remote access parameter
+     *
+     * @parameter username optional username to fetch
+     * @version V4.6
+     */
+    remoteaccess_t getRemoteAccess(string username) {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * Disable remote access
+     * @return the port number deallocated
+     */
+    uint32 disableRemoteAccess() {
+        acl {
+            world none;
+        }
+    }
+}

@@ -1,0 +1,6 @@
+
+
+include "gmap-definitions.odl";
+include "gmap-defaults.odl";
+
+/** @location  sah_services_gmap  /gmap.odl */

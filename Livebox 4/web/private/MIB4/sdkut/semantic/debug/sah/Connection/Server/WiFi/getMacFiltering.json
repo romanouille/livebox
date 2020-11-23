@@ -1,0 +1,21 @@
+{
+    "status": 0,
+    "data": {
+        "accessPointList": [
+            {
+                "accessPointId": "wl0",
+                "isActivated": false,
+                "mode": "",
+                "supportedModeList": "whiteList",
+                "macAddressList": []
+            },
+            {
+                "accessPointId": "wl1",
+                "isActivated": false,
+                "mode": "",
+                "supportedModeList": "whiteList",
+                "macAddressList": []
+            }
+        ]
+    }
+}

@@ -1,0 +1,37 @@
+#!/bin/sh
+TARGET_DIR="/var/lib/wld"
+
+case $1 in
+	start)
+		logger -t wifi "Create wld target directory"
+		mkdir -p -m 700 "$TARGET_DIR"
+		chmod 700 "$TARGET_DIR"
+		sahenv -f /etc/environment LD_LIBRARY_PATH=/usr/lib/wld:/usr/lib/wld/ath WIFIROOT=WiFiATH \
+		pcb_plugin -n wld_ath -I /var/run/wld_ath -c /usr/lib/wld/wld.odl
+		pcb_cli -q "NeMo.Module.wlan.addVendor(root=\"WiFiATH\", suffix=\"_ath\", dst=\"pcb://ipc:[/var/run/wld_ath]\")"
+		;;
+	stop)
+		pcb_cli -q "NeMo.Module.wlan.deleteVendor(root=\"WiFiATH\")"
+		[ -e /var/run/wld_ath.pid ] && kill `cat /var/run/wld_ath.pid`
+		;;
+	debuginfo)
+		echo "### /var/lib/wld"
+		ls -l /var/lib/wld
+		for x in /var/lib/wld/*.conf; do echo "### $x"; cat $x | sort; echo; done
+		echo "### iwconfig"
+		iwconfig
+		echo "### /var/lib/wld/iwpriv.log"
+		cat /var/lib/wld/iwpriv.log
+		echo "### wld plugin configuration and state"
+		old_wldtrace=$(pcb_cli -l "Process.sysbus_wld_ath.Tracing.TraceLevel?")
+		pcb_cli "Process.sysbus_wld_ath.Tracing.TraceLevel=500"
+		pcb_cli "WiFiATH.Radio.wifi0.verify()"
+		pcb_cli "WiFiATH.Radio.wifi1.verify()"
+		pcb_cli "Process.sysbus_wld_ath.Tracing.TraceLevel=$old_wldtrace"
+		cat /var/log/messages.0 /var/log/messages | grep wld
+		for x in wl0 wl1 wl2 wl3; do echo "### STA assoclist of $x"; wlanconfig $x list; echo; done
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac
+

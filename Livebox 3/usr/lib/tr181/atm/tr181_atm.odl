@@ -1,0 +1,18 @@
+object ATM {
+object Diagnostics {
+object F5Loopback {
+string DiagnosticsState;
+string Interface;
+uint32 NumberOfRepetitions {
+constraint minvalue 1;
+default 3;
+}
+uint32 Timeout;
+uint32 SuccessCount;
+uint32 FailureCount;
+uint32 AverageResponseTime;
+uint32 MinimumResponseTime;
+uint32 MaximumResponseTime;
+}
+}
+}

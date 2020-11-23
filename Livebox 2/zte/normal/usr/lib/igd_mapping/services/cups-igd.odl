@@ -1,0 +1,20 @@
+
+
+
+object Services {
+    object X_ORANGE-COM_SharedPrinter {
+        bool Enable;
+    }
+}
+
+datamodel {
+    object Services {
+        object X_ORANGE-COM_SharedPrinter {
+   	    destination "pcb://$(PCB_MAIN_BUS)/CupsService" {
+                parameter Enable;
+            }
+        } 
+    }
+}
+
+/** @location sah_services_cups /cups-plugin/cups-igd.odl.m4 */

@@ -1,0 +1,55 @@
+/**
+ * The DSL bonding MIB is available on all NeMo Intfs that have the "dslbonding"-flag set. If there is an
+ * enabled Intf with the "dslbonding"-flag set, an adsl connection will be set up and several status
+ * parameters of that connection will be exposed in the data model. 
+ */
+object NeMo { 
+	object extends MIB(0,"dslbonding") {
+		string Flag = "dslbonding";
+		object DataModel {
+			/**
+			 * Timestamp of the last operational state change, measured in seconds
+			 * since power on.
+			 */
+			read-only uint32 LastChangeTime;
+
+			/**
+			 * The accumulated time in seconds since the Intf entered its current
+			 * operational state.
+			 */
+			volatile read-only uint32 LastChange;
+
+			/**
+			 * Status of the DSL bonding link.
+			 */
+			string BondingStatus {
+				constraint enum [ "Up", "Initializing", "EstablishingLink", "NoSignal", "Disabled", "Error" ];
+				default "Disabled";
+			}
+
+			/**
+			 * The current physical layer aggregate data rate (expressed in Kbps) of
+			 * the upstream DSL connection.
+			 */
+			uint32 UpstreamRate;
+
+			/**
+			 * The current physical layer aggregate data rate (expressed in Kbps) of
+			 * the downstream DSL connection.
+			 */
+			uint32 DownstreamRate;
+
+			string FailureReasons;
+			uint32 UpstreamPacketLoss;
+			uint32 DownstreamPacketLoss;
+			uint32 UpstreamDifferentialDelay;
+			uint32 DownstreamDifferentialDelay;
+			uint32 ErroredSeconds;
+			uint32 SeverelyErroredSeconds;
+			uint32 UnavailableSeconds;
+		}
+	}
+}
+
+
+/** @location sah_services_nemo /mibs/dslbonding.odl */

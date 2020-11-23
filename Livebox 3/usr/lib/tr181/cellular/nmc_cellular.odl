@@ -1,0 +1,39 @@
+object Cellular {
+object Interface[] {
+read-only string Alias;
+bool Enable {
+default false;
+}
+read-only string Status {
+constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+default "Unknown";
+}
+read-only string SupportedAccessTechnologies;
+read-only string CurrentAccessTechnology;
+read-only int32 RSSI;
+object USIM {
+read-only string Status {
+constraint enum ["None", "Available", "Valid", "Blocked", "Error"];
+default "None";
+}
+read-only string ICCID;
+}
+read-only string PINCheck;
+string PIN;
+uint32 X_ORANGE-COM_PINTry;
+}
+object AccessPoint[] {
+read-only string Alias;
+read-only bool Enable;
+read-only string APN;
+read-only string Username;
+read-only string Password;
+read-only string Interface;
+}
+}
+datamodel {
+object Cellular {
+object AccessPoint from "pcb://$(PCB_MAIN_BUS)/Domino/Cellular/AccessPoint" recursive;
+object Interface from "pcb://$(PCB_MAIN_BUS)/Domino/Cellular/Interface" recursive;
+}
+}

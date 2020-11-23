@@ -1,0 +1,63 @@
+#!/bin/sh
+
+LOG_LEVEL=200
+ETC_DIR="/var/etc/ra"
+PID_DIR="/var/run/radvd"
+PID="/var/run/raplugin.pid"
+
+case $1 in 
+	start)
+		chmod o+rw /dev/null 
+		if [ ! -d "${ETC_DIR}" ]; 
+		then 
+			mkdir -p "${ETC_DIR}"
+			chown radvd:radvd "${ETC_DIR}"
+		else
+			rm -rf "${ETC_DIR}"/*
+		fi
+		if [ ! -d "${PID_DIR}" ]; 
+		then 
+			mkdir -p "${PID_DIR}"
+			chown radvd:radvd "${PID_DIR}"
+		else
+			rm -rf "${PID_DIR}"/*
+		fi
+		pcb_cli -q 'Firewall.setService("radvd","lan","","58",6,true,133)'
+		ra=${LOG_LEVEL} /bin/pcb_plugin -n raplugin -c /usr/lib/ra/ra.odl -I /var/run/raplugin
+	;;
+	stop)
+		[ -f "${PID}" ] && kill `cat ${PID}`
+		[ -f "/var/run/radvd/radvd.pid" ] && kill `cat /var/run/radvd/radvd.pid`
+		pcb_cli -q 'Firewall.deleteService("radvd")'
+		rm -rf "${PID_DIR}"/* "${ETC_DIR}"/*
+	;;
+	status)
+		if [ -e $PID ] ; then 
+			echo "router advertisement plugin is running."
+		else 
+			echo "router advertisement plugin is not running."
+		fi 
+	;;
+	debuginfo)
+		if [ -e $PID ]; then 
+			echo "radvd plugin pid[ `cat ${PID}` ]"
+		else
+			echo "Error: radvd plugin is not running"
+		fi
+		if [ -e "/var/run/radvd/radvd.pid" ]; then 
+			echo "radvd pid[ `cat /var/run/radvd/radvd.pid` ]"
+		else 
+			echo "Warning: radvd is not running"
+		fi
+		if [ -e /var/etc/ra/radvd.conf ]; then 
+			echo "radvd.conf file"
+			cat /var/etc/ra/radvd.conf
+		else 
+			echo "Warning: empty radvd config file"
+		fi
+	;;
+	*)
+        	echo "Usage : $0 [start|stop|status|debuginfo]"
+	;;
+esac
+

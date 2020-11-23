@@ -1,0 +1,18 @@
+object DSPPlugin {
+void createDsp(string name);
+object DSP[] {
+void createDspChannel(string name);
+object DSP_CHANNEL[] {
+string Type {
+constraint enum [ "TDM", "FT_USB_DECT" ];
+default "TDM";
+}
+message void signal(byte_array signal);
+void create(byte_array cnx_info, list filedesc, string endpoint_path, uint32 ep_line_id);
+void modify(byte_array cnx_info, list filedesc, uint32 ep_line_id);
+void destroy(uint32 ep_line_id);
+bool get(byte_array param_set_request, byte_array param_set_reply);
+bool set(byte_array param_set_params);
+}
+}
+}

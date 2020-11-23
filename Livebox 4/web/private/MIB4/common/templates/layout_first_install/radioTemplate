@@ -1,0 +1,9 @@
+﻿<div class="txtandfield" {{#if id}}id="{{id}}" {{/if}}>
+  {{#each values}}
+    {{#ifEqual @index ../selected}}
+      <div class="radio-container"><input type="radio" {{#if ../../id}}id="{{../../../id}}_{{this.[0]}}" {{/if}}  {{#if ../../name}}name="{{../../../name}}" {{/if}} value="{{this.[0]}}" checked> <label {{#if ../../id}}for="{{../../../id}}_{{this.[0]}}" {{/if}}></label> <label {{#if ../../id}}for="{{../../../id}}_{{this.[0]}}" {{/if}}>{{{this.[1]}}}</label></div>
+      {{else}}
+      <div class="radio-container"><input type="radio" {{#if ../../id}}id="{{../../../id}}_{{this.[0]}}" {{/if}}  {{#if ../../name}}name="{{../../../name}}" value="{{this.[0]}}" {{/if}} > <label {{#if ../../id}}for="{{../../../id}}_{{this.[0]}}" {{/if}}></label> <label {{#if ../../id}}for="{{../../../id}}_{{this.[0]}}" {{/if}}>{{{this.[1]}}}</label></div>
+    {{/ifEqual}}
+  {{/each}}   
+</div>

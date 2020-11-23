@@ -1,0 +1,1503 @@
+using "gmap.so";
+
+/**
+ * Data structure containing name information.
+ *
+ * The {device_t} data structure contains a list of available names for a device.
+ * A device can have multiple names. this structure is used to represent a single name entry.
+ *
+ * @version 6.0
+ */
+define name_t {
+    /**
+     * The name
+     */
+    string Name;
+    /**
+     * The source that added the name.
+     */
+    string Source;
+}
+
+/**
+ * Data structure containing name information.
+ *
+ * The {device_t} data structure contains a list of available names for a device.
+ * A device can have multiple names. this structure is used to represent a single name entry.
+ *
+ * @version 6.0
+ */
+define devtype_t {
+    /**
+     * The device type
+     */
+    string Type;
+    /**
+     * The source that added the type
+     */
+    string Source;
+}
+
+/**
+ * Data structure containing the basic device information.
+ *
+ * All functions returning the detailed device information are using this
+ * as the basic data structure. More information can be added to this structure
+ * depending on the MIBs that are added to the device.
+ *
+ * In general all parameters and sub-objects are added to the data structure.
+ *
+ * @version 6.0
+ */
+define device_t {
+    /**
+     * The unique key of the device
+     *
+     * See {Devices.Device} object for more information.
+     *
+     * @version 6.0
+     */
+    string Key;
+    /**
+     * The discovery source that initially created the instance.
+     *
+     * See {Devices.Device} object for more information.
+     *
+     * @version 6.0
+     */
+    string DiscoverySource;
+    /**
+     * The selected name of the device.
+     *
+     * See {Devices.Device} object for more information.
+     *
+     * @version 6.0
+     */
+    string Name;
+    /**
+     * Indicates that the device is currently active or not.
+     *
+     * See {Devices.Device} object for more information.
+     *
+     * @version 6.0
+     */
+    string Active;
+    /**
+     * Contains a list of space seperated tags
+     *
+     * See {Devices.Device} object for more information.
+     *
+     * @version 6.0
+     */
+    string Tags;
+    /**
+     * Indicated the last time the device was active.
+     *
+     * See {Devices.Device} object for more information.
+     *
+     * @version 6.0
+     */
+     datetime LastConnection;
+    /**
+     * Contains the list of available names
+     *
+     * See {Devices.Device} object for more information.
+     * Each element in the list contains a {name_t} structure
+     *
+     * @version 6.0
+     */
+    list Names;
+    /**
+     * Contains the list of available device types
+     *
+     * See {Devices.Device} object for more information.
+     * Each element in the list contains a {devtype_t} structure
+     *
+     * @version 6.0
+     */
+    list deviceTypes;
+    /**
+     * Contains the list if linked devices.
+     *
+     * This list is only added to the structure by the function {Devices.Device.topology}.
+     *
+     * @version 6.0
+     */
+     list Children;
+}
+
+/**
+ * Data structure containing query information
+ *
+ * When openin a query, this structure is returned.
+ * It contains information about the query and a list of the matching devices.
+ *
+ * @version 6.0
+ */
+define query_t {
+    /**
+     * The index of the query. This index can be used in the index paths of the data model.
+     *
+     * @version 6.0
+     */
+    uint32 Index;
+    /**
+     * The unique id.
+     *
+     * A query can be reused or re-opened. Each time a unique id is assigned.
+     * The query is removed from the data model, when no body is using the query anymore.
+     *
+     * @version 6.0
+     */
+    uint32 Id;
+    /**
+     * A unique name, assigned by the first caller that opens the query.
+     *
+     * The name can only be set when opening the query for the first time, it can not be changed afterwards.
+     * If no name was set or given, the name will be the same as the index;
+     *
+     * The name can be used in the key paths of the data model.
+     *
+     * @version 6.0
+     */
+    string Name;
+    /**
+     * Contains the list {device_t} structures, containing detailed information of the matching devices.
+     *
+     * @version 6.0
+     */
+    list devices;
+}
+
+acl {
+  world read, execute;
+  group admin read, execute;
+  group remoteadmin read, execute;
+  group gmap read, execute;
+  group cwmpd read, write, execute;
+}
+
+/**
+ * gMap root object
+ *
+ * @version 6.0
+ */
+persistent object Devices {
+    /**
+     * Configuration root object
+     *
+     * Each module can add configuration options under this object.
+     * All configuration options will be stored persistently
+     *
+     * @version 6.0
+     */
+    persistent object Config {
+        acl {
+            world none;
+        }
+        /**
+         * Create a configuration group for a module
+         *
+         * @param module module identifier
+         *
+         * @version 6.0
+         */
+        bool create(mandatory string module) {
+            acl {
+                group admin none;
+                group remoteadmin none;
+                group gmap none;
+            }
+        }
+
+        /**
+         * Add a configuration option for a module and set the value
+         *
+         * @param module module identifier
+         * @param option the name of the configuration option
+         * @param value the configuration options value
+         *
+         * @version 6.0
+         */
+        void set(mandatory string module, mandatory string option, mandatory variant value);
+
+        /**
+         * Get a configuration option value
+         *
+         * @param module module identifier
+         * @param option the name of the configuration option
+         *
+         * @version 6.0
+         */
+        variant get(mandatory string module, mandatory string option);
+
+        /**
+         * Load a configuration group
+         *
+         * @param module module identifier
+         *
+         * @version 6.0
+         */
+        bool load(mandatory string module);
+
+        /**
+         * Save a configuration group
+         *
+         * @param module module identifier
+         *
+         * @version 6.0
+         */
+        bool save(mandatory string module);
+
+        /**
+         * Scan a directory for MIBs
+         *
+         * @param path the full path of the directory
+         *
+         * @version 6.0
+         */
+        void scanMibDir(mandatory string path) {
+            acl {
+                group admin none;
+                group remoteadmin none;
+                group gmap none;
+            }
+        }
+    }
+
+    /**
+     * List of discovered devices
+     *
+     * The device objects contains instances of all discovered devices.
+     * A device can be the representation of an real world device (physical device) or
+     * a logical device.
+     *
+     * @mibs alert armDisarm battery bluetoothAdapter bluetoothDevice bus dectuleDevice dectuleUnit dhcp dhcpServer ethNemo homeplugAtheros homeplugAv homeplugDevolo ieee1905 info ip keepAlive levelControl mac mdns nemo onOff powerMetering selfHGW tamperAlert upnpDev usbDev usbPort usbStorage voiceHandset voiceHandsetDECT voicehandsetRoot voiceHandsetSIP voiceInterfaceDECT waninfo wifiNemo wmbusDevice wmbusDongle
+     * @version 6.0
+     */
+    persistent read-only object Device[] {
+        /**
+         * The unique key of the device
+         *
+         * The unique key that is used to identify the device. This key is also used as
+         * the key for the instance.
+         *
+         * @version 6.0
+         */
+        persistent read-only string Key;
+        /**
+         * The discovery source that initially created the instance.
+         *
+         * The value of the parameter should indicate what discovered the device and added it to the gMap data model.
+         * The parameter is in the data model mainly for debugging/tracking purposes.
+         *
+         * @version 6.0
+         */
+        persistent read-only string DiscoverySource;
+        /**
+         * The selected name of the device.
+         *
+         * Each device has a name to help the end-user to identify the device.
+         * The name of the device is elected out of the list of available names see {Devices.Device.Names}
+         *
+         * @version 6.0
+         */
+        read-only string Name;
+        /**
+         * The selected device type of the device.
+         *
+         * Each device can have a device type.
+         * The type of the device is selected out of the list of available device types see {Devices.Device.DeviceTypes}
+         *
+         * @version 6.0
+         */
+        read-only string DeviceType;
+        /**
+         * Indicates that the device is currently active or not.
+         *
+         * Is set to true if the device is active and reachable, to false in all other cases
+         *
+         * @version 6.0
+         */
+        read-only bool Active;
+        /**
+         * Contains a list of space seperated tags
+         *
+         * A tag can be used to identify the capabilities or functionalities
+         * of a device or to filter on devices using expressions.
+         * Data model MIBs are loaded into the device object (or unloaded) using expressions and the
+         * tags specified in this parameter.
+         *
+         * @version 6.0
+         */
+        persistent string Tags;
+        /**
+         * Indicated first time the device was connected.
+         *
+         * The time is indicated in GMT.
+         *
+         * @version 7.0
+         */
+        persistent read-only datetime FirstSeen;
+        /**
+         * Indicated the last time the device was active and connected.
+         *
+         * The time is indicated in GMT.
+         *
+         * @version 6.0
+         */
+        volatile persistent datetime LastConnection;
+        /**
+         * Indicated the last time the device was updated
+         *
+         * The time is indicated in GMT.
+         *
+         * @version 6.0
+         */
+        volatile persistent datetime LastChanged;
+        /**
+         * Contains the key of the master device or is empty if the device is not set as alternative
+         *
+         * @version 6.1
+         */
+        persistent read-only string Master;
+        /**
+         * List of alternative devices.
+         *
+         * @version 6.1
+         */
+        persistent read-only object Alternative[];
+        /**
+         * Contains the list of available names
+         *
+         * A name can be discovered by a module (client) or assigned directly by
+         * the end user. A name can be added using the function {Devices.Device.setName} and can be
+         * deleted using the function {Devices.Device.delName}.
+         * The device's name is elected from this list of available names.
+         *
+         * @version 6.0
+         */
+        persistent object Names[] {
+            /**
+             * The name
+             *
+             * @version 6.0
+             */
+            persistent read-only string Name;
+            /**
+             * The source that added the name to the data model.
+             *
+             * @version 6.0
+             */
+            persistent read-only string Source;
+        }
+
+        /**
+         * Contains the list of available types
+         *
+         * A type can be discovered by a module (client) or assigned directly by
+         * the end user. A type can be added using the function {Devices.Device.setType} and can be
+         * deleted using the function {Devices.Device.delType}.
+         * The device's type is elected from this list of available types.
+         *
+         * @version 6.0
+         */
+        persistent object DeviceTypes[] {
+            /**
+             * Name of detected device type.
+             *
+             * @version 6.0
+             */
+            persistent read-only string Type;
+            /**
+             * Source that added the device type
+             *
+             * @version 6.0
+             */
+            persistent read-only string Source;
+        }
+
+        /**
+         * The upper link devices list
+         *
+         * The instances of UDevice are used to have a link to the logical upper device.
+         * The instances have no parameters or functions. Any device can only have upper link.
+         * Devices can be linked to each other using the function {Devices.link}, the link
+         * can be removed with the function {Devices.unlink}
+         *
+         * @version 6.0
+         */
+        read-only object UDevice[] {
+            read-only string Type;
+        }
+        /**
+         * The lower link devices list
+         *
+         * The instances of LDevice are used to have a link to the logical lower devices.
+         * The instances have no parameters or functions. Any device can have multiple lower links.
+         * Devices can be linked to each other using the function {Devices.link}, the link
+         * can be removed with the function {Devices.unlink}
+         *
+         * @version 6.0
+         */
+        read-only object LDevice[] {
+            read-only string Type;
+        }
+
+        /**
+         * Get detailed information of the device
+         *
+         * All information of the device is returned in structure. The sub-objects are returned in
+         * sub-structures. The upper devices and lower devices are not in the structure.
+         * Use {Devices.Device.topology} to get the hierarchy or topology from a device.
+         *
+         * Access Control List  are checked prior to adding a parameter and its value to the structure that is returned.
+         * Only parameters for which the calling user has read access and execute access are added to the returned structure.
+         *
+         * @return A structure containing detailed information of the device.
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *
+         * @version 6.0
+         */
+        device_t get(string flags);
+
+        /**
+         * Update all or some parameters of the device
+         *
+         * Sub-objects can be updated, by adding a structure to the {device_t} structure with the name of the
+         * sub-object, containing the parameters of the sub-object that needs to be updated.
+         * Each new structure added can have extra structures.
+         *
+         * Access Control Lists are checked prior to set the parameter's value, if no write access is granted,
+         * the parameter is skipped (silently discared) and the value is not updated. This is not causing the function
+         * to fail.
+         *
+         * Sub-objects (sub-structures} or parameters that are not found in the object are ignored (silently discared)
+         * This is not causing the function to fail.
+         *
+         * The root user can use this function to update read-only parameters.
+         *
+         * @param parameters a {device_t} containing all parameters, that needs to be updated
+         *
+         * @return true when no exception was encountered, false otherwise.
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_commit_failed,
+         *        pcb_error_function_argument_missing
+         *
+         * @version 6.0
+         */
+        bool set(mandatory device_t parameters) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Sets a device active or inactive
+         *
+         * When setting a device active, an extra check is done. The device tree is traversed in the up direction to find a path
+         * where all devices are active, if such a path is found the device is set as active. In the down direction all devices
+         * are verified and check if they can be set to active or not.
+         *
+         * When setting a device inactive, all lower devices are set inactive as well.
+         *
+         * @param active when true, the device is set active, when false the device is set inactive (default = true)
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_verify_active_failed,
+         *        gmap_error_traverse_failed,
+         *        gmap_error_commit_failed
+         *
+         * @version 6.0
+         */
+        void setActive(bool active) {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+                group gmap none;
+            }
+        }
+
+        /**
+         * Verifies that a tag is set on a device in the traverse tree.
+         *
+         * This function traverses the device tree in the direction indidcated by the traverse mode and checks that all tags has been
+         * set on at least one device that matches the expression.
+         *
+         * A device with alternative devices set, will match the expression if the device itself matches or one of its
+         * alternatives are matching.
+         *
+         * A master device contains a tag if the master device or one of its alternative devices contain the tag.
+         *
+         * An alternative device, contains a tag if the master device or one if its alternatives contain the tag, unless
+         * the traverse mode is set to @ref gmap_traverse_this
+         *
+         * @param tag space separated list of tags that needs to be verified
+         * @param expression the expression used for matching devices, the tags are only verified on matching devices (default = "")
+         * @param traverse the traverse mode (default = "this")
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_traverse_failed,
+         *        gmap_error_invalid_expression,
+         *        gmap_error_invalid_device_link,
+         *        gmap_error_recursive_device_link,
+         *        pcb_error_function_argument_missing
+         *
+         * @version 6.0
+         */
+        bool hasTag(mandatory string tag, string expression, string traverse);
+
+        /**
+         * Sets tags to one or more devices.
+         *
+         * This function traverses the device tree in the direction indidcated by the traverse mode and sets the given tags on all
+         * devices matching the expression.
+         *
+         * A tag can only be added to a device once, if it is added again, nothing is done.
+         *
+         * A device with alternative devices set, will match the expression if the device itself matches or one of its
+         * alternatives are matching.
+         *
+         * When calling this function on a master device, the tag is only set on the master device, not on any alternative device.
+         *
+         * When calling this function on an alternative device, the tag is set on the master device unless the traverse mode is
+         * set to "this"
+         *
+         * @param tag space separated list of tags that needs to be set
+         * @param expression the expression used for matching devices, the tags are only set on matching devices (default = "")
+         * @param traverse the traverse mode (default = "this")
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_traverse_failed,
+         *        gmap_error_invalid_expression,
+         *        gmap_error_invalid_device_link,
+         *        gmap_error_recursive_device_link,
+         *        pcb_error_function_argument_missing
+         *
+         * @version 6.0
+         */
+        void setTag(mandatory string tag, string expression, string traverse) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Clears tags to one or more devices
+         *
+         * This function traverses the device tree in the direction indidcated by the traverse mode and clears the given tags on all
+         * devices matching the expression.
+         *
+         * Clearing a tag that was not set has no effect.
+         *
+         * A device with alternative devices set, will match the expression if the device itself matches or one of its
+         * alternatives are matching.
+         *
+         * Clearing a tag on a master device, will also clear the tags on all alternative devices.
+         *
+         * Clearing a tag on an alternative device, will also clear it on the master and any other alternative device, unless
+         * the traverse mode is set to @ref gmap_traverse_this
+         *
+         * @param tag space separated list of tags that needs to be cleared
+         * @param expression the expression used for matching devices, the tags are only cleared on matching devices (default = "")
+         * @param traverse the traverse mode (default = "this")
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_traverse_failed,
+         *        gmap_error_invalid_expression,
+         *        gmap_error_invalid_device_link,
+         *        gmap_error_recursive_device_link,
+         *        pcb_error_function_argument_missing
+         *
+         * @version 6.0
+         */
+        void clearTag(mandatory string tag, string expression, string traverse) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Get the first parameter with the given name in the device tree of the device matching an expression.
+         *
+         * Fetches the first encounter parameter with the a specified name in the device tree for a device matching the given expression
+         * and traversing the tree in the specified traverse mode
+         *
+         * A master device matches the given expression if the device itself or one of its altrernative devices are matching.
+         *
+         * If the master device does not contain the parameter, but one or more of its alternatives do contain the parameter,
+         * the value is taken of the first alternative device that contains the parameter. The alternatives are inspected in
+         * the order they were added.
+         *
+         * When calling this function on an alternative device, the master device will be taken, unless the traverse mode is set
+         * to "this"
+         *
+         * @param parameter the name of the parameter the needs to be fetched
+         * @param expression the expression used for matching devices, the tags are only set on matching devices (default = "")
+         * @param traverse the traverse mode (default = "down")
+         *
+         * @return the value of the parameter or nothing when the parameter was not found
+         *
+         * @error gmap_error_invalid_key,
+         *        pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_traverse_failed
+         *
+         * @version 6.0
+         */
+        variant getFirstParameter(mandatory string parameter, string expression, string traverse);
+
+        /**
+         * Get all parameters with the given name in the device tree of the devices matching an expression.
+         *
+         * Fetches all parameters with the a specified name in the device tree for all devices matching the given expression
+         * and traversing the tree in the specified traverse mode (see @ref gmap_traverse_mode_t)
+         *
+         * When the function is called on a master device, then the returned list will contain all values of all alternatives,
+         * if they contain the parameter.
+         *
+         * When the function is called on an alternative device, the starting point for the traverse will be the master device,
+         * unless the traverse mode is set to "@ref gmap_traverse_this."this"
+         *
+         * @param parameter the name of the parameter the needs to be fetched
+         * @param expression the expression used for matching devices, the tags are only set on matching devices (default = "")
+         * @param traverse the traverse mode (default = "down")
+         *
+         * @return a list of key value pairs, where the key is the key of device that has the parameter searched for and the value is the value of the parameter
+         *
+         * @error gmap_error_invalid_key,
+         *        pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_traverse_failed
+         *
+         * @version 6.0
+         */
+        list getParameters(mandatory string parameter, string expression, string traverse);
+
+        /**
+         * Builds the device tree, starting from the specified device using a traverse mode.
+         *
+         * The device topology is build starting from a specific device. The hierarchy is traversed using the traverse mode specified.
+         * Details of the devices are only added if the devices are matching the expression, other devices in the topology
+         * are only added if they are relevant for devices which match the expression.
+         *
+         * The starting point device is always the top most device in the end result.
+         *
+         * With the flags it is possible to specify what should be in the returned structure.
+         * Possible flags are:
+         * "no_recurse": do not recurse into the next level, if the device does not match the expression
+         * "no_details": do not provide details of the device, only the device tree containing the keys of the devices is returned.
+         * "no_actions": do not provide the list of actions for the devices
+         * "alternatives": provide detailed information of the alternative devices.
+         *
+         * @param expression details for devices that are matching the expression are added to the end result (default = "")
+         * @param traverse the traverse mode (default = "down")
+         * @param flags a string containg flags, each flag is separated with the '|' symbol. The flags are used to modify the data structure returned.
+         *
+         * @return a structure containing the toppology tree
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_traverse_failed
+         *
+         * @version 6.0
+         */
+        variant topology(string expression, string traverse, string flags);
+
+        /**
+         * Searches the device tree to find out if the device is linked to another device
+         *
+         * Traverses the device tree in the specified direction starting from a device and checks if the device is linked to
+         * another device.
+         *
+         * For master devices, the alternative devices are used as well to traverse the tree, unless the traverse mode is set to
+         * "this"
+         *
+         * When starting from an alternative device, the master device is taken as starting point.
+         *
+         * The function will always return true if the provided device key is an alternative device or the master device.
+         *
+         * @param device key of the device that is searched in the device tree
+         * @param traverse the traverse mode (default = "up exclusive")
+         *
+         * @return true when the device is linked to the searched device, false otherwise
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_traverse_failed
+         *
+         * @version 6.0
+         */
+        bool isLinkedTo(mandatory string device, string traverse);
+
+        /**
+         * Adds or changes a name of a device
+         *
+         * This function creates a instance of the {Devices.Device.Names} object within the device object or modifies an
+         * an existing instance.
+         *
+         * Optionally the name of the source that adds the name can be given, if no source is provided,
+         * the source "webui" is used. If a name was already available for the source, the name is overwritten with the new one.
+         *
+         * After that the name is added or changed, the name selection algorithm is used to select the name of the device.
+         *
+         * @param name a name that can be used for the device
+         * @param source the source that added the name (default = "webui")
+         *
+         * @return true when the name is added, false when an error has occured
+         *
+         * @error gmap_error_invalid_name,
+         *        pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_commit_failed
+         *
+         * @version 6.0
+         */
+        bool setName(mandatory string name, string source) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * (deprecated) See {Devices.Device.setName}
+         *
+         * @version 6.0
+         */
+        bool addName(mandatory string name, string source) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Remove a name from a device
+         *
+         * This function removes the name for the given source from the device. If no source name is given the source "webui" is removed.
+         *
+         * After that the name is removed, the name selection algorithm is used to select the name of the device.
+         *
+         * The "default" source can not be removed.
+         *
+         * @param source the name of the source that added the device name (default = "webui")
+         *
+         * @return true when the name is deleted, false when an error has occured
+         *
+         * @error pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_commit_failed,
+         *        gmap_error_default_name
+         *
+         * @version 6.0
+         */
+        bool removeName(mandatory string source)  {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * (deprecated) See {Devices.Device.removeName}
+         *
+         * @version 6.0
+         */
+        bool delName(mandatory string name, string source) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Adds or changes a type of a device
+         *
+         * This function creates a instance of the {Devices.Device.DeviceTypes} object within the device object or modifies an
+         * an existing instance.
+         *
+         * Optionally the name of the source that adds the type can be given, if no source is provided,
+         * the source "webui" is used. If a type was already available for the source, the type is overwritten with the new one.
+         *
+         * After that the type is added or changed, the type selection algorithm is used to select the type of the device.
+         *
+         * @param type a type that can be used for the device
+         * @param source the source that added the type (default = "webui")
+         *
+         * @return true when the type is added, false when an error has occured
+         *
+         * @error gmap_error_invalid_type,
+         *        pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_commit_failed
+         *
+         * @version 6.0
+         */
+        bool setType(mandatory string type, string source) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Remove a type from a device
+         *
+         * This function removes the type for the given source from the device. If no source name is given the source "webui" is removed.
+         *
+         * After that the type is removed, the type selection algorithm is used to select the type of the device.
+         *
+         * @param source the name of the source that added the device type (default = "webui")
+         *
+         * @return true when the type is deleted, false when an error has occured
+         *
+         * @error pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_commit_failed,
+         *
+         * @version 6.0
+         */
+        bool removeType(mandatory string source)  {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Declare a device RPC function as an action of the device.
+         *
+         * When a function is marked as an action, the function definition is included in the data returned by one of the get
+         * functions.
+         *
+         * @param function name of the function, as defined in the data model
+         * @param name logical name for the action
+         *
+         * @return false when failed to mark a function as an action, true otherwise.
+         *
+         * @error pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_invalid_action
+         *
+         * @version 6.1
+         */
+        bool addAction(mandatory string function, string name) {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+                group gmap none;
+            }
+        }
+
+        bool setInstance(mandatory string sub_object, mandatory string key, variant data) {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+                group gmap none;
+            }
+        }
+
+        bool removeInstance(mandatory string sub_object, mandatory string key, variant data) {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+                group gmap none;
+            }
+        }
+
+        /**
+         * Set a RPC function implementation for a device
+         *
+         * The implementation of any RPC function of a device available (defined) in the data model can be changed.
+         * By calling this function, each function call to the specified funcion name will be delgated to the client
+         * calling this function. The client must call {csiFinished} when the funciton call is finished.
+         *
+         * @param function the function name as defined in the data model
+         *
+         * @return false when failed to change the function implementation, true when successfull.
+         *
+         * @error  pcb_error_not_found: function or device not found in data model
+         *
+         * @version 6.1
+         */
+        bool setFunction(mandatory string function) {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+                group gmap none;
+            }
+        }
+
+        /**
+         * Removes a RPC function implementation for a device
+         *
+         * By calling this function the RPC implementation is reset (removed). Any client calling the RPC method will
+         * get an error back: pcb_error_function_not_implemented, unless a new implementation of the RPC is set.
+         *
+         * @param function the function name as defined in the data model
+         *
+         * @return false when failed to remove the function implementation, true when successfull.
+         *
+         * @error  pcb_error_not_found: function or device not found in data model
+         *
+         * @version 6.1
+         */
+        bool removeFunction(mandatory string function) {
+            acl {
+                world none;
+                group admin none;
+                group remoteadmin none;
+                group gmap none;
+            }
+        }
+
+        /**
+         * Sets a device as an alternative
+         *
+         * As the same device can be discovered multiple times - example: a device connected to the gBox using ethernet and wifi -
+         * it is desirable that the end user (or even modules) get a unified view. By setting one device as the master and
+         * other device(s) as alternative(s), gMap creates a unified "device" - this is a "joined" device.
+         *
+         * When setting a device as alternative, the devices stay in the data model as separate devices, each with their own
+         * topology links and data. The "merge" of all the devices is done when calling RPC functions.
+         *
+         * When fetching the master device, (using gmap_device_get), either a merged data structure is returned or the master
+         * device with a list of the alternative devices. The topology links of the alternative devices will returned as topology
+         * links of the master device.
+         *
+         * A master device will match an expression (sued in RPCs) when itself matches the expression or one of its alternatives
+         * are.matching
+         *
+         * A query expression is evaluated on the individual devices and never on the "merged" device. A master device will only
+         * match a query expression if it matches the expresion by itself. The alternative devices are evaluated as separate
+         * devices when evaluatating a query expression.
+         *
+         * The alternative devices can be accessed as individual devices as well.
+         *
+         * @param alternative the key of the alternative device
+         *
+         * @return true when the alternative is set, or false when an error occured.
+         *
+         * @error pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_commit_failed,
+         *
+         * @version 6.1
+         */
+        bool setAlternative(mandatory string alternative) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Removes a device alternative
+         *
+         * This function will remove the references from the devices. After this function the alternative device is again an
+         * individual device.
+         *
+         * @param alternative the key of the alternative device
+         *
+         * @return true when the alternative is removed, or false when an error occured.
+         *
+         * @error pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *        gmap_error_commit_failed,
+         *
+         * @version 6.1
+         */
+        bool removeAlternative(mandatory string alternative) {
+            acl {
+                world none;
+            }
+        }
+
+        /**
+         * Checks if a device is set as an alternative
+         *
+         * @param alternative the key of the alternative device
+         *
+         * @return true when the device is set as an alternative or false when it is not.
+         *
+         * @error pcb_error_function_argument_missing,
+         *        pcb_error_no_memory,
+         *        pcb_error_not_found,
+         *
+         * @version 7.0
+         */
+        bool isAlternative(mandatory string alternative) {
+            acl {
+                world none;
+            }
+        }
+    }
+
+    /**
+     * Contains the list of opened queries
+     *
+     * Queries can be opened and used to get notifications, when a device starts matching the query,
+     * stops matching a query or when a device was matching a query and is updated
+     *
+     * The same query can be opened multiple tmes, but is only visible once in the data model. See {Devices.openQuery}.
+     * For each call to {Devices.openQuery} a matching call to {Devices.closeQuery} must be done.
+     *
+     * @version 6.0
+     */
+    read-only object Query[] {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+
+        /**
+         * The expression of the query
+         *
+         * @version 6.0
+         */
+        read-only string Expression;
+
+        /**
+         * Gets the list of all matching devices.
+         *
+         * Get the list of keys of the matching devices.
+         *
+         * @return the list of keys of all matching devices.
+         *
+         * @version 6.0
+         */
+        list matchingDevices();
+    }
+
+    /**
+     * Creates a new device in the data model
+     *
+     * This function creates a instance of the device template object. The key for the device must be unique and is used
+     * to identify the device.
+     * A set of tags can be provided at creation time, these tags are used to match the device against expressions
+     * and to add MIBs to the device object.
+     *
+     * Optionally a discovery source can be specified (it is recommended to do so). This information can be used for debugging
+     * purposes.
+     *
+     * During the creation of the device object, a default name is generated using the default implementation or a custom
+     * implementation.
+     *
+     * A device object can be marked as persistent or not. The data of persistent devices will survive a reboot but not an upgrade.
+     * The links between devices are not stored in the persistent storage file.
+     *
+     * When the creation of the device is successful, MIBs can already be added to the device object.
+     *
+     * @param key the unique key for the device
+     * @param discovery_source a string indicating the discovery source that added the device to the data model (default = "")
+     * @param tags a space separated list of tags
+     * @param persistent when set to true, the device data is stored to survive reboots
+     *
+     * @return true when the device instance is created, false when an error has occured
+     *
+     * @error pcb_error_function_argument_missing,
+     *        pcb_error_no_memory,
+     *        pcb_error_not_found,
+     *        gmap_error_commit_failed,
+     *        gmap_error_invalid_key,
+     *        pcb_error_not_unique_name
+     *
+     * @version 6.0
+     */
+    bool createDevice(mandatory string key, string discovery_source, string tags, bool persistent, string default_name, variant values) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Removes a device from the data model
+     *
+     * This function removes the device from the data model. The persistent stored data (if the device was marked persistent,
+     * is also removed. All links to other devices are removed as well, for the other devices the corresponding upper or lower edges are updated.
+     *
+     * When a device with the given key is not found in the data model this function is doing nothing.
+     *
+     * If the device is a master device, all alternative devices remain in the data model, but the reference to the master
+     * device is removed.
+     *
+     * If the device is an alternative device, the master device is updated and the reference to the alternative device is removed.
+     *
+     * @param key the unique key for the device
+     *
+     * @error pcb_error_function_argument_missing,
+     *        pcb_error_no_memory,
+     *        pcb_error_not_found,
+     *        gmap_error_commit_failed
+     *
+     * @version 6.0
+     */
+    bool destroyDevice(mandatory string key) {
+        acl {
+            world none;
+        }
+    }
+
+    /**
+     * Searches devices in the data model and returns a list of keys of the matching devices
+     *
+     * Using an expression this function is searching the data model for device that are matching the expression.
+     * A string list containing the keys of all matching devices is build and returned
+     *
+     * Multiple expressions can be provided in a variant map. The key in the variant map is the expression id and the value is an expression.
+     *
+     * Devices for which alternatives are set, match the expression if the device or one of its alternatives are matching.
+     * To change the behavior, provide the flags argument.
+     * Supported flags are:
+     * - alternatives: consider alternative devices as separate device. When this flag is set, alternative devices are added to the result list, if they are matching the expression.
+     *
+     * @param expression either a variant containing a variant map with expression ids and expressions or a string containing a single expression, is used to search for devices
+     * @param flags Change the behaviour of expression matching (only flag supported is "alternatives")
+     *
+     * @return a variant map containing the expression ids as keys and  the list of keys of matching devices as value or a list of the keys of matching devices when only a single expression was proviced
+     *
+     * @error pcb_error_no_memory,
+     *        gmap_error_invalid_expression
+     *
+     * @version 6.0
+     */
+    list find(variant expression, string flags);
+
+    /**
+     * Searches devices in the data model and returns a list of {device_t} containing detailed information of matching devices
+     *
+     * Using an expression this function is searching the data model for device that are matching the expression.
+     * A list containing the detailed information of all matching devices is build and returned
+     *
+     * Multiple expressions can be provided in a variant map. The key in the variant map is the expression id and the value is an expression.
+     *
+     * By default all the details of the devices (parameters and actions) are added, but no device topology is provided.
+     * To change the behavior, provide the flags argument.
+     * Supported flags are:
+     * - no_details: no parameters are added
+     * - no_actions: no actions are added
+     * - topology: the topology (down direction) starting from the device will be provided.
+     * - alternatives: provide details of the alternative devices as well. (Do not return joined result)
+     *
+     * @param expression either a variant containing a variant map with expression ids and expressions or a string containing a single expression, is used to search for devices
+     * @param flags the flags is a string cointaining a combination of the following strings "no_details", "no_actions", "topology". They must be separated with a '|' sign.
+     *
+     * @return a variant map containing the expression ids and as value a list of {device_t} of matching devices for the expression or single lust if {device_t} of matching devices.
+     *
+     * @error pcb_error_no_memory,
+     *        gmap_error_invalid_expression
+     *
+     * @version 6.0
+     */
+    list get(variant expression, string flags);
+
+    /**
+     * Logically link devices together
+     *
+     * Devices can be linked together in a hierarchical or logical way. This enables gMap to create a topology tree of the
+     * devices. A device has two edges, the lower edege and the upper edge. The hierarchy must be build top-down, that is
+     * the top most device must be the Home Gateay itself (gBox), the bottom most devices must be end devices.
+     *
+     * A device can have multiple upper devices (a device put on the upper edge), and multiple lower devices (devices
+     * put on the lower edge)
+     *
+     * When linking two device together (upper device and lower device), the lower edge of the upper device is modified so it
+     * contains a link to the lower device and the upper edge of the lower device is modified so it contains a link to the upper
+     * device.
+     *
+     * This function removes the already existing upper links to other devices and create a single new link.
+     * If the lower device was already linked to the upper device all other links are removed and only a single link is kept.
+     *
+     * Linking of the devices fail if one or both devices are not found in the data model
+     *
+     * @param upper_device the key of the upper device
+     * @param lower_device the key of the lower device
+     * @param type the link type
+     *
+     * @return true when the devices are linked togheter, false when an error occured
+     *
+     * @error pcb_error_no_memory,
+     *        pcb_error_not_found,
+     *        gmap_error_link_failed,
+     *        gmap_error_commit_failed,
+     *        pcb_error_function_argument_missing
+     *
+     * @version 6.0
+     */
+    bool link(mandatory string upper_device, mandatory string lower_device, string type) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Logically link devices together
+     *
+     * Devices can be linked together in a hierarchical or logical way. This enables gMap to create a topology tree of the
+     * devices. A device has two edges, the lower edege and the upper edge. The hierarchy must be build top-down, that is
+     * the top most device must be the Home Gateay itself (gBox), the bottom most devices must be end devices.
+     *
+     * A device can have multiple upper devices (a device put on the upper edge), and multiple lower devices (devices
+     * put on the lower edge)
+     *
+     * When linking two device together (upper device and lower device), the lower edge of the upper device is modified so it
+     * contains a link to the lower device and the upper edge of the lower device is modified so it contains a link to the upper
+     * device.
+     *
+     * This function adds a new link (if it was not existing yet), between the upper and lower device, but does not remove any other
+     * links to other devices.
+     *
+     * Linking of the devices fail if one or both devices are not found in the data model
+     *
+     * @param upper_device the key of the upper device
+     * @param lower_device the key of the lower device
+     * @param type the link type
+     *
+     * @return true when the devices are linked togheter, false when an error occured
+     *
+     * @error pcb_error_no_memory,
+     *        pcb_error_not_found,
+     *        gmap_error_link_failed,
+     *        gmap_error_commit_failed,
+     *        pcb_error_function_argument_missing
+     *
+     * @version 6.0
+     */
+    bool setLink(mandatory string upper_device, mandatory string lower_device, string type) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Logically unlink devices
+     *
+     * When devices were linked togheter, they can be unlinked using this function.
+     *
+     * When unlinking two device (upper device and lower device), the lower edge of the upper device is modified so that the
+     * link to the lower device is removed and the upper edge of the lower device is modified so that the link to the upper
+     * device is removed. If no such link was existing, this function does nothing.
+     *
+     * Unlinking of the devices fail if one or both devices are not found in the data model
+     *
+     * @param upper_device the key of the upper device
+     * @param lower_device the key of the lower device
+     *
+     * @return true if unlinking the devices was successful, false if an error occured
+     *
+     * @error pcb_error_no_memory,
+     *        pcb_error_not_found,
+     *        gmap_error_commit_failed,
+     *        pcb_error_function_argument_missing
+     *
+     * @version 6.0
+     */
+    bool unlink(string upper_device, string lower_device) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Opens a gmap query
+     *
+     * This function creates a instance of the query template object or re-uses an existing query object which contains
+     * exactly the same expression.
+     *
+     * After opening the query, a list of matching devices is available. Use function {Devices.Query.matchingDevices} to
+     * get the list of all matching device keys.
+     *
+     * Optionally a name can be provided (named query), this name must be unique.
+     *
+     * Each call to this function must have a matching call to {Devices.closeQuery}
+     *
+     * @param expression the expression of the query
+     * @param name a name for the query (default the same value as the index}
+     *
+     * @return a {query_t} structure containing information about the query and a list of the matching devices
+     *
+     * @version 6.0
+     */
+    query_t openQuery(mandatory string expression, string_t name) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Block a certain device (key) of being discovered.
+     *
+     * When it is undesired that a certain device is discovered and added to the data model, the key of that device can be
+     * blocked. The device key will be added to the list of blocked device keys. Whenever a module or a client creates a
+     * device with that key, the creation will fail.
+     *
+     * A key can only be added to the blocked list only once, all other calls to this function with a device key already
+     * blocked have no effect.
+     *
+     * @param key the device key that needs to be blocked
+     *
+     * @version 6.1
+     */
+    void block(mandatory string key) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Unblock a certain device (key).
+     *
+     * Whenever a device key was blocked, calling this function will remove it from the blocked
+     * list. Calling this function with a device key that was not blocked has no effect.
+     *
+     * After this function returns, modules or clients can add the device to the data model.
+     *
+     * @param key the device key that needs to be unblocked
+     *
+     * @return true when the device is blocked, false otherwise.
+     *
+     * @version 6.1
+     */
+    void unblock(mandatory string key) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Check that a the given device key is blocked.
+     *
+     * This function will check that the provided device key was blocked.
+     *
+     * @param key the device key that needs to verified
+     *
+     * @version 6.1
+     */
+    bool isBlocked(mandatory string key) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Closes a gmap query
+     *
+     * Closes a query that was opened with {Devices.openQuery}.
+     *
+     * @param index the index of the query as returned by the {Devices.openQuery} function
+     * @param id the id of the query as returned by the {devices.closeQuery} function
+     *
+     * @version 6.0
+     */
+    void closeQuery(mandatory uint32 index, mandatory uint32 id) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Send a notification
+     *
+     * Send a notification for the device with the specified key
+     *
+     * @param key the device key
+     * @param id the notification identifier, must be unique withing gmap
+     * @param name user friendly notification name
+     * @param data data that must be attached to the notification
+     *
+     * @version 6.0
+     */
+    void notify(mandatory string key, mandatory uint32 id, string name, variant data) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    /**
+     * Indicate that a client side implementation is done
+     *
+     * RPC functions of a device can be delegated to a gMap client application. Whenever the client has finished
+     * executing the RPC, it must call this function to indicate that the execution of the delegated function is done.
+     *
+     * @param ID the unique id of the delegated RPC, each delegated RPC will have its own unique ID.
+     * @param status the exection status (done or error)
+     * @param retval the return value of the delegated RPC
+     *
+     * @version 6.1
+     */
+    bool csiFinished(mandatory uint32 ID, mandatory uint32 status, mandatory variant retval) {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    bool import() {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+
+    bool export() {
+        acl {
+            world none;
+            group admin none;
+            group remoteadmin none;
+            group gmap none;
+        }
+    }
+}
+
+/** @location sah_services_gmap /gmap-definitions.odl.m4 */

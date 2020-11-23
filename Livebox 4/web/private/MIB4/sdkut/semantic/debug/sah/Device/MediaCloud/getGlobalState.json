@@ -1,0 +1,21 @@
+{
+  "status": 0,
+  "data": {
+    "uniqueIdentifier":"uid::xxxxxxxxxxxx",
+    "softwareVersion": "1.0.0",
+    "isEnabled": false,
+    "status": "ok",
+    "device": {
+      "status": "ok",
+      "capacity": 476907,
+      "temperature": 25
+    },
+    "content": {
+      "totalItem": 100,
+      "nbVideoItem": 10,
+      "nbAudioItem": 20,
+      "nbImageItem": 30,
+      "nbOtherItem": 40
+    }
+  }
+}

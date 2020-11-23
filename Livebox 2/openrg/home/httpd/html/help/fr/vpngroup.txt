@@ -1,0 +1,18 @@
+<b>VPN groupe :</b><br>
+<br>
+Cette page vous permet de créer de nouveaux profils d’utilisateurs et définir des paramètres basiques et avancés.<br>
+<br>
+<span class="boldorange">Paramètres basiques :</span><br>
+Vous devez définir un nom de profil : par exemple « nomade ».<br>
+Une fois qu’un utilisateur sera attaché à ce profil, son nom apparaitra alors.<br>
+<span class="boldorange">Paramètres utilisateurs :</span><br>
+Allocation IP : Vous pouvez définir la manière dont seront attribuées les adresses IP que les utilisateurs nomades utiliseront une fois connecté à votre site.<br>
+- DHCP : l’utilisateur nomade obtient une adresses IP automatiquement.<br> 
+- Statique : il faut définir l’adresse IP utilisée par l’utilisateur nomade. Elle doit être la même que celle que l’utilisateur nomade aura défini dans la configuration du logiciel VPN installé sur son ordinateur portable.<br>
+
+Vous pouvez définir la manière dont l’utilisateur distant accédera à Internet : via sa propre connexion, au travers de la Livebox ou lui interdire l’accès Internet.<br>
+<br>
+<span class="boldorange">Paramètres de sécurité (Facile ou Expert) :</span><br>
+Ce sont les mêmes paramètres que ceux de la page de configuration du tunnel VPN en mode Expert.<br>
+Attention, la clé secrète  doit être identique sur la livebox et le logiciel VPN de l’ordinateur portable de l’utilisateur nomade.
+

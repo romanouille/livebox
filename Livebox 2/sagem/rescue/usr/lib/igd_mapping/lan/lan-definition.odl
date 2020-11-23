@@ -1,0 +1,299 @@
+object LANConfigSecurity {
+    string ConfigPassword {
+        constraint maxvalue 64;
+        default "";
+    }
+}
+
+object LANDevice[] {
+    read-only uint32 LANEthernetInterfaceNumberOfEntries = 0;
+    read-only uint32 LANUSBInterfaceNumberOfEntries = 0;
+    read-only uint32 LANWLANConfigurationNumberOfEntries = 0;
+
+    object LANHostConfigManagement {
+        read-only string MACAddress;
+        bool DHCPServerConfigurable = false;
+        bool DHCPServerEnable = true;
+        read-only bool DHCPRelay = false;
+        string MinAddress = "";
+        string MaxAddress = "";
+        string ReservedAddresses {
+            constraint maxvalue 256;
+            default "";
+        }
+        string SubnetMask = "";
+        string DNSServers {
+            constraint maxvalue 64;
+            default "";
+        }
+        string DomainName {
+            constraint maxvalue 64;
+            default "";
+        }
+        string IPRouters {
+            constraint maxvalue 64;
+            default "";
+        }
+        read-only uint32 IPInterfaceNumberOfEntries = 0;
+        read-only uint32 DHCPConditionalPoolNumberOfEntries = 0;
+
+        object IPInterface[] {
+            bool Enable = false;
+            string IPInterfaceIPAddress = "";
+            string IPInterfaceSubnetMask = "";
+            string IPInterfaceAddressingType {
+                constraint enum [ "DHCP", "Static", "AutoIP" ];
+                default "DHCP";
+            }
+        }
+
+        object DHCPConditionalServingPool[] {
+            bool Enable;
+            uint32 PoolOrder;
+            string SourceInterface;
+            string VendorClassID;
+            string ClientID;
+            string UserClassID;
+            string Chaddr;
+            string ChaddrMask;
+            bool LocallyServed;
+            string MinAddress;
+            string MaxAddress;
+            string ReservedAddresses;
+            string SubnetMask;
+            string DNSServers;
+            string DomainName;
+            string IPRouters;
+            int32 DHCPLeaseTime;
+            string DHCPServerIPAddress;
+        }
+    }
+
+    object Hosts {
+        read-only uint32 HostNumberOfEntries = 0;
+        object Host[] {
+            read-only string IPAddress = "";
+            read-only string AddressSource {
+                constraint enum [ "DHCP", "Static", "AutoIP" ];
+                default "DHCP";
+            }
+            read-only int32 LeaseTimeRemaining {
+                constraint minvalue -1;
+                default -1;
+            }
+            read-only string MACAddress = "";
+            read-only string Layer2Interface {
+                constraint maxvalue 256;
+                default "";
+            }
+            read-only string VendorClassID {
+                constraint maxvalue 256;
+                default "";
+            }
+            read-only string ClientID {
+                constraint maxvalue 256;
+                default "";
+            }
+            read-only string UserClassId {
+                constraint maxvalue 256;
+                default "";
+            }
+            read-only string HostName {
+                constraint maxvalue 64;
+                default "";
+            }
+            read-only string InterfaceType {
+                constraint enum [ "Ethernet", "USB", "802.11", "HomePNA", "HomePlug", "MoCA", "Other" ];
+                default "Ethernet";
+            }
+            read-only bool Active = true;
+        }
+    }
+
+    read-only object LANEthernetInterfaceConfig[] {
+        bool Enable = false;
+        read-only string Status {
+            constraint enum [ "Up", "NoLink", "Disabled" ];
+            default "NoLink";
+        }
+        read-only string Name {
+            constraint maxvalue 16;
+            default "";
+        }
+        read-only string MACAddress = "";
+        bool MACAddressControlEnabled = false;
+        string MaxBitRate {
+            constraint enum [ "10", "100", "1000", "10000", "auto" ];
+            default "100";
+        }
+        string DuplexMode {
+            constraint enum [ "Half", "Full", "Auto" ];
+            default "Full";
+        }
+
+        object Stats {
+            read-only uint32 BytesSent = 0;
+            read-only uint32 BytesReceived = 0;
+            read-only uint32 PacketsSent = 0;
+            read-only uint32 PacketsReceived = 0;
+            read-only uint32 ErrorsSent = 0;
+            read-only uint32 ErrorsReceived = 0;
+            read-only uint32 UnicastPacketsSent = 0;
+            read-only uint32 UnicastPacketsReceived = 0;
+            read-only uint32 DiscardPacketsSent = 0;
+            read-only uint32 DiscardPacketsReceived = 0;
+            read-only uint32 MulticastPacketsSent = 0;
+            read-only uint32 MulticastPacketsReceived = 0;
+            read-only uint32 BroadcastPacketsSent = 0;
+            read-only uint32 BroadcastPacketsReceived = 0;
+            read-only uint32 UnknownProtoPacketsReceived = 0;
+        }
+    }
+
+    read-only object WLANConfiguration[] {
+        bool Enable = false;
+        read-only string Status {
+            constraint enum [ "Up", "Disabled" ];
+            default "Disabled";
+        }
+        read-only string Name {
+            constraint maxvalue 16;
+            default "";
+        }
+        read-only string BSSID = "";
+        string MaxBitRate = "Auto";
+        uint32 Channel {
+            constraint range [0,255];
+            default 0;
+        }
+        bool AutoChannelEnable = false;
+        string SSID {
+            constraint maxvalue 32;
+            default "";
+        }
+        string BeaconType {
+            constraint enum [ "None", "Basic", "WPA" ];
+            default "Basic";
+        }
+        bool MACAddressControlEnabled = false;
+        read-only string Standard {
+            constraint enum [ "a", "b", "g", "g-only", "n" ];
+            default "g";
+        }
+        uint32 WEPKeyIndex {
+            constraint range [1,4];
+            default 1;
+        }
+        string KeyPassphrase {
+            constraint maxvalue 63;
+            default "";
+        }
+        read-only string WEPEncryptionLevel {
+            constraint maxvalue 54;
+            default "Disabled";
+        }
+        string BasicEncryptionModes {
+            constraint enum [ "None", "WEPEncryption" ];
+            default "None";
+        }
+        string BasicAuthenticationMode {
+            constraint enum [ "None", "EAPAuthentication", "SharedAuthentication" ];
+            default "None";
+        }
+        string WPAEncryptionModes {
+            constraint enum [ "TKIPEncryption", "AESEncryption", "TKIPandAESEncryption" ];
+            default "AESEncryption";
+        }
+        string WPAAuthenticationMode {
+            constraint enum [ "PSKAuthentication" ];
+            default "PSKAuthentication";
+        }
+        read-only string PossibleChannels {
+            constraint maxvalue 1024;
+            default "";
+        }
+        string BasicDataTransmitRates {
+            constraint maxvalue 256;
+            default "";
+        }
+        string OperationalDataTransmitRates {
+            constraint maxvalue 256;
+            default "";
+        }
+        read-only string PossibleDataTransmitRates {
+            constraint maxvalue 256;
+            default "";
+        }
+        bool SSIDAdvertisementEnabled = true;
+        bool RadioEnabled = true;
+        string TransmitPowerSupported {
+            constraint maxvalue 64;
+            default "100";
+        }
+        uint32 TransmitPower = 100;
+        bool AutoRateFallBackEnabled = false;
+        read-only uint32 TotalBytesSent = 0;
+        read-only uint32 TotalBytesReceived = 0;
+        read-only uint32 TotalPacketsSent = 0;
+        read-only uint32 TotalPacketsReceived = 0;
+        read-only uint32 TotalAssociations = 0;
+        object Stats {
+            read-only uint32 ErrorsSent = 0;
+            read-only uint32 ErrorsReceived = 0;
+            read-only uint32 UnicastPacketsSent = 0;
+            read-only uint32 UnicastPacketsReceived = 0;
+            read-only uint32 DiscardPacketsSent = 0;
+            read-only uint32 DiscardPacketsReceived = 0;
+            read-only uint32 MulticastPacketsSent = 0;
+            read-only uint32 MulticastPacketsReceived = 0;
+            read-only uint32 BroadcastPacketsSent = 0;
+            read-only uint32 BroadcastPacketsReceived = 0;
+            read-only uint32 UnknownProtoPacketsReceived = 0;
+        }
+        read-only object AssociatedDevice[] {
+            read-only string AssociatedDeviceMACAddress = "";
+            read-only string AssociatedDeviceIPAddress {
+                constraint maxvalue 64;
+                default "";
+            }
+            read-only bool AssociatedDeviceAuthenticationState = false;
+        }
+        read-only object WEPKey[4] {
+            string WEPKey {
+                constraint maxvalue 128;
+                default "";
+            }
+        }
+        read-only object PreSharedKey[10] {
+            string PreSharedKey {
+                constraint maxvalue 64;
+                default "";
+            }
+            string KeyPassphrase {
+                constraint maxvalue 63;
+                default "";
+            }
+        }
+        object WPS {
+            bool Enable = false;
+            read-only string DeviceName {
+                constraint maxvalue 32;
+                default "";
+            }
+            uint32 DevicePassword = 0;
+            read-only string UUID {
+                constraint maxvalue 36;
+                default "";
+            }
+            read-only uint32 Version = 0;
+            read-only string ConfigMethodsSupported = "";
+            string ConfigMethodsEnabled = "";
+        }
+    }
+}
+
+object LANInterfaces {
+    read-only uint32 LANEthernetInterfaceNumberOfEntries = 0;
+    read-only uint32 LANUSBInterfaceNumberOfEntries = 0;
+    read-only uint32 LANWLANConfigurationNumberOfEntries = 0;
+}

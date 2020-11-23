@@ -1,0 +1,199 @@
+using "cwmp-plugin.so";
+acl {
+group admin none;
+group remoteadmin none;
+world none;
+group cwmpd read,write,execute;
+group technician read, write, execute;
+}
+persistent object ManagementServer {
+bool EnableCWMP=1;
+persistent string URL {
+default "http://acs-download.qacafe.com";
+write with writeURL;
+}
+read-only string ACSIP;
+persistent bool AllowConnectionRequestFromUnknownHost=false;
+persistent string AllowConnectionRequestFromAddress;
+persistent string Username {
+constraint maxvalue 256;
+default "cdrouter";
+}
+persistent string Password {
+constraint maxvalue 256;
+default "cdrouter";
+acl {
+group cwmpd read,write;
+}
+}
+persistent bool PeriodicInformEnable=1;
+persistent uint32 PeriodicInformInterval {
+constraint minvalue 1;
+default 432000;
+}
+persistent datetime PeriodicInformTime;
+persistent string ParameterKey;
+read-only string ConnectionRequestURL {
+read with readConnectionRequestURL;
+}
+persistent string ConnectionRequestUsername {
+constraint maxvalue 256;
+default "softathome";
+}
+persistent string ConnectionRequestPassword {
+constraint maxvalue 256;
+default "softathome";
+acl {
+group cwmpd read,write;
+}
+}
+persistent bool UpgradesManaged=1;
+persistent uint32 DefaultActiveNotificationThrottle;
+persistent uint32 MaxDownloadDelay;
+persistent uint32 MaxUploadDelay;
+persistent uint32 MaxDownloads=100;
+persistent uint32 MaxDownloadsErrorCode=9004;
+uint32 GetParameterValuesRequests=0;
+persistent bool BootPersistentScheduleInform=true;
+persistent bool AllowMultipleScheduleInform=true;
+persistent bool AlwaysEmptyPostAtEndOfSession=false;
+persistent bool VerifyParameterType=false;
+read-only bool AliasBasedAddressing = true;
+read-only string InstanceMode {
+constraint enum ["InstanceNumber","InstanceAlias"];
+default "InstanceNumber";
+}
+read-only bool AutoCreateInstances = true;
+persistent string Interface {
+write with writeInterface;
+default "mgmt";
+}
+persistent uint32 IPV4IPV6WANMaxWaitTime=0;
+persistent string IPV4IPV6WANMode {
+constraint enum ["IPV4ONLY","IPV4ANDIPV6"];
+default "IPV4ONLY";
+write with writeIPV4IPV6WANMode;
+}
+persistent uint32 ManageableDeviceNotificationLimit;
+string ConnRequestHost {
+default "0.0.0.0";
+}
+string LocalIPAddress {
+default "0.0.0.0";
+}
+persistent uint32 ConnRequestPort {
+constraint range [0,65535];
+default 50805;
+}
+persistent string ConnRequestPath;
+persistent uint32 SessionTimeout=300;
+persistent uint32 MaxStartupDelay=120;
+persistent bool FactoryResetOccurred=1;
+persistent string RebootCommandKey;
+persistent bool RebootByACS=0;
+persistent datetime LastSession;
+uint32 SessionsSinceReboot = 0;
+string SessionStatus {
+constraint enum ["Initializing","Idle","Busy","ServerDown"];
+default "Initializing";
+write with writeSessionStatus;
+}
+persistent bool SSLAcceptSelfSigned=0;
+persistent bool SSLVerifyHostname=1;
+persistent string SSLAcceptExpired {
+constraint enum ["Never", "Always", "NTP"];
+default "NTP";
+}
+persistent string ConnRequestPathType {
+constraint enum ["Fixed-Default","Random","Randomize","Fixed-MacBased"];
+default "Random";
+}
+persistent uint32 MaxConnectionRequest {
+constraint minvalue 1;
+default 50;
+}
+persistent uint32 FreqConnectionRequest {
+constraint minvalue 60;
+default 3600;
+}
+persistent bool VerifySupportedACSMethods=0;
+bool DisableBootInform {
+default false;
+}
+uint32 UpgradesAvailable=0;
+uint32 UpgradeBootDelay=30;
+string DeliveredEvents;
+string ACSEvents;
+string BlockedEvents;
+object InternalSettings {
+read-only string Datamodel {
+constraint enum ["TR098","TR106","TR181"];
+default "TR181";
+}
+read-only string DatamodelURL {
+default "pcb://ipc:{/var/run/tr181}";
+}
+read-only string PersistentRPCPath {
+default "/cfg/system/";
+}
+read-only string TimePluginPath {
+default "Time";
+}
+read-only bool UpdateConnRequestHost {
+default true;
+}
+}
+bool set(variant parameters);
+variant get();
+bool RequestDownload(string filetype);
+bool SendCustomNotification(bool active, string notificationName);
+bool SendDiagnosticsComplete();
+bool SendConnectionRequestInform();
+bool forceSave();
+bool updateLocalIPAddress();
+persistent object QueuedTransfers {
+acl {
+group admin none;
+group remoteadmin none;
+world none;
+group cwmpd none;
+group technician none;
+}
+read-only bool locked = false;
+bool LockQueue();
+bool UnlockQueue();
+bool AddTransfer(datetime beginTime, datetime endTime, string commandKey, bool isDownload, uint32 fileSize, string fileType, string url, string userName, string password, string targetFileName, string successUrl, string failureURL, string initiator, string status, datetime startTime, datetime completeTime);
+bool  RemoveTransfer(string commandKey);
+persistent object Entry[] {
+persistent datetime BeginTime;
+persistent datetime EndTime;
+persistent string CommandKey;
+persistent bool IsDownload;
+persistent uint32 FileSize;
+persistent string FileType;
+persistent string URL;
+persistent string Username;
+persistent string Password;
+persistent string TargetFileName;
+persistent string AnnounceURL;
+persistent string SuccessURL;
+persistent string FailureURL;
+persistent string Initiator;
+read-only string Owner;
+persistent datetime StartTime;
+persistent datetime CompleteTime;
+persistent uint32 FaultCode;
+persistent string FaultString;
+persistent read-only string Status {
+constraint enum ["Initial","Transfering","Applying","Applied","Finished"];
+default "Initial";
+}
+bool Cancel();
+bool Lock(string owner);
+bool IsLocked();
+bool Delay();
+bool ReportProgress(string state);
+bool Finish(uint32 faultcode, string faultmessage);
+}
+}
+}

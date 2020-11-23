@@ -1,0 +1,11 @@
+datamodel {
+acl {
+world none;
+group technician read,execute;
+group admin read,execute;
+group remoteadmin read,execute;
+group cwmpd read,write,execute;
+}
+object Hosts {
+}
+}

@@ -1,0 +1,32 @@
+datamodel {
+object ConMon {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+object Entry {
+acl {
+group admin read,write,execute;
+group remoteadmin read,write,execute;
+}
+}
+instance of Entry(0,"data_ipv4") {
+parameter Interface="data";
+parameter MainLoopTimerLength=120;
+parameter FailTimerLength=10;
+parameter IPVersion="ipv4";
+parameter NumberOfRetries=3;
+parameter Enable=1;
+parameter Up=0;
+}
+instance of Entry(0,"data_ipv6") {
+parameter Interface="data";
+parameter MainLoopTimerLength=120;
+parameter FailTimerLength=10;
+parameter IPVersion="ipv6";
+parameter NumberOfRetries=3;
+parameter Enable=1;
+parameter Up=0;
+}
+}
+}

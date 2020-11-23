@@ -1,0 +1,163 @@
+using "phonebook.so";
+define contact_t {
+string path;
+string uniqueID;
+string lastRevision;
+string name;
+string formattedName;
+datetime birthDay;
+string title;
+string organisation;
+string url;
+string ringtone;
+list addresses;
+list labels;
+list telephoneNumbers;
+list emails;
+list photos;
+string tags;
+}
+define property_t {
+string name;
+string type;
+bool preferred;
+}
+acl {
+group admin read,execute;
+group remoteadmin read,execute;
+group phonebook read,execute;
+}
+persistent object Phonebook {
+read-only uint32 NumberOfEntries {
+acl {
+group admin none;
+group remoteadmin none;
+group phonebook none;
+}
+read with numberOfEntries_read_handler;
+}
+persistent uint32 MaxNumberOfEntries {
+acl {
+group admin none;
+group remoteadmin none;
+group phonebook none;
+}
+}
+persistent object Entry[] {
+acl {
+group admin none;
+group remoteadmin none;
+group phonebook none;
+}
+persistent datetime LastRevision {
+read with lastRevision_read_handler;
+}
+persistent string UniqueID {
+constraint maxvalue 45;
+constraint custom unique_string_value_constraint;
+}
+persistent string Name {
+constraint maxvalue 60;
+}
+persistent string FormattedName {
+constraint maxvalue 60;
+}
+persistent datetime BirthDay;
+persistent string Title {
+constraint maxvalue 40;
+}
+persistent string Organisation {
+constraint maxvalue 50;
+}
+persistent string URL {
+constraint maxvalue 256;
+}
+persistent string Ringtone {
+constraint maxvalue 50;
+}
+persistent object Address[] {
+persistent string Address {
+constraint maxvalue 256;
+}
+persistent string Type {
+constraint enum ["","WORK","HOME","POSTAL","PARCEL"];
+default "";
+}
+persistent bool Preferred = false;
+}
+persistent object Label[] {
+persistent string Address {
+constraint maxvalue 256;
+}
+persistent string Type {
+constraint enum ["","WORK","HOME","POSTAL","PARCEL"];
+default "";
+}
+persistent bool Preferred = false;
+}
+persistent object TelephoneNumber[] {
+persistent string Number {
+write with write_handler_Number;
+constraint maxvalue 30;
+}
+persistent string Type {
+constraint enum ["","WORK","HOME","CELL","VOICE","FAX","MSG","VIDEO","CAR"];
+default "";
+}
+persistent bool Preferred = false;
+}
+persistent object Email[] {
+persistent string Address {
+constraint maxvalue 256;
+}
+persistent string Type {
+constraint enum ["","INTERNET"];
+default "INTERNET";
+}
+persistent bool Preferred;
+}
+persistent object Photo[] {
+persistent string URI {
+constraint maxvalue 256;
+}
+persistent string Type {
+constraint enum ["JPEG","BMP","PNG"];
+default "JPEG";
+}
+}
+persistent string Tags {
+constraint maxvalue 128;
+}
+}
+string addContactAndGenUUID(mandatory contact_t contact);
+bool addContact(mandatory contact_t contact);
+list addContacts(mandatory list contacts, out list result);
+bool removeContactByUniqueID(mandatory string uniqueID);
+bool removeContactByFormattedName(mandatory string formattedName);
+bool removeContact(mandatory string formattedName);
+bool removeAllContacts();
+contact_t getContactByUniqueID(mandatory string uniqueID);
+contact_t getContactByFormattedName(mandatory string formattedName);
+contact_t getContact(mandatory string formattedName);
+contact_t getContactByNumber(mandatory string number);
+list getAllContacts();
+uint32 getNumberOfContacts();
+uint32 getMaxNumberOfContacts();
+bool modifyContactByUniqueID(mandatory string uniqueID, mandatory contact_t contact);
+bool modifyContactByFormattedName(mandatory string formattedName, mandatory contact_t contact);
+bool modifyContact( string formattedName, contact_t contact );
+bool export(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+group phonebook none;
+}
+}
+bool import(string fileName) {
+acl {
+group admin none;
+group remoteadmin none;
+group phonebook none;
+}
+}
+}

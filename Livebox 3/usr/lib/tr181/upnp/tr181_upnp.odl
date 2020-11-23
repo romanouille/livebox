@@ -1,0 +1,16 @@
+object UPnP {
+object Device {
+bool Enable;
+}
+object Discovery;
+}
+datamodel {
+object UPnP {
+object Device {
+destination "pcb://$(PCB_MAIN_BUS)/UPnP-IGD" {
+parameter Enable;
+}
+}
+object Discovery from "pcb://$(PCB_MAIN_BUS)/UPnP/Discovery" recursive;
+}
+}

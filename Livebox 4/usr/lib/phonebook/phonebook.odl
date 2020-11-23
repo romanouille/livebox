@@ -1,0 +1,4 @@
+include "phonebook-definition.odl";
+include "phonebook-defaults.odl";
+
+/** @location sah_services_phonebook /phonebook.odl */

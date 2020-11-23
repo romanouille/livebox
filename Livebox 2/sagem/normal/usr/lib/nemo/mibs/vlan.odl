@@ -1,0 +1,16 @@
+object NeMo { 
+	object extends MIB(0,"vlan") {
+		string Flag = "vlan";
+		object DataModel {
+			read-only uint32 LastChangeTime;
+			volatile read-only uint32 LastChange;
+			persistent uint16 VLANID {
+				constraint range [0, 4095];
+			}
+			persistent int8 VLANPriority {
+				constraint range [-1, 7];
+			}
+		}
+	}
+}
+

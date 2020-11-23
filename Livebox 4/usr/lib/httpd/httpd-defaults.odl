@@ -1,0 +1,82 @@
+
+datamodel {
+  object HTTPService {
+
+    /* certificate to use */
+    parameter SSLCertificate = "/var/httpd/srv.pem";
+    /* document root */
+    parameter DocumentRoot = "/web/private/MIB4"; 
+    
+    /* listen on lan, port 80 without SSL */
+    instance of Server(0, "lan-http") {
+      parameter Interface = "lan";
+      parameter Port = "80";
+    }
+
+    /* listen on lan, port 443 with SSL */
+    instance of Server(0, "lan-https") {
+      parameter Interface = "lan";
+      parameter Port = "443";
+      parameter UseSSL = true;
+    }
+
+    instance of Matcher(0, "http_torrent") {
+      extend using mib MatchPath;
+      parameter Match = "path";
+      parameter MatchPath = "^/torrent_download";
+      parameter Test = "regexp";
+    }
+    instance of Matcher(0, "datahub") {
+      extend using mib MatchPath;
+      parameter Match = "path";
+      parameter MatchPath = "^/hub";
+      parameter Test = "regexp";
+    }
+    instance of Matcher(0, "webdav") {
+      extend using mib MatchPath;
+      parameter Match = "path";
+      parameter MatchPath = "^/webdav";
+      parameter Test = "regexp";
+    }
+    instance of Matcher(0, "webdav_propfind") {
+      extend using mib MatchMethod;
+	  parameter Match = "method";
+      parameter MatchMethod = "PROPFIND";
+    }
+    instance of Matcher(0, "webdav_options") {
+      extend using mib MatchMethod;
+	  parameter Match = "method";
+      parameter MatchMethod = "OPTIONS";
+    }
+    instance of Route(0, "webdav") {
+      extend using mib TargetPlugin;
+      parameter Matcher = "webdav";
+      parameter Target = "plugin";
+      parameter TargetPlugin = "webdav";
+    }
+    instance of Route(0, "webdav_propfind") {
+      extend using mib TargetPlugin;
+      parameter Matcher = "webdav_propfind";
+      parameter Target = "plugin";
+      parameter TargetPlugin = "webdav";
+    }
+    instance of Route(0, "webdav_options") {
+      extend using mib TargetPlugin;
+      parameter Matcher = "webdav_options";
+      parameter Target = "plugin";
+      parameter TargetPlugin = "webdav";
+    }    
+    instance of Route(0, "http_torrent") {
+      extend using mib TargetPlugin;
+      parameter Matcher = "http_torrent";
+      parameter Target = "plugin";
+      parameter TargetPlugin = "http_torrent";
+    }
+    instance of Route(0, "datahub") {
+      extend using mib TargetPlugin;
+      parameter Matcher = "datahub";
+      parameter Target = "plugin";
+      parameter TargetPlugin = "datahub";
+    }
+  } 
+}

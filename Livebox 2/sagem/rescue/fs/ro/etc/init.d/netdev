@@ -1,0 +1,39 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		[ -e /proc/sys/net/bridge/bridge-nf-call-iptables ] && \
+			echo "0" > /proc/sys/net/bridge/bridge-nf-call-iptables
+		[ -e /proc/sys/net/bridge/bridge-nf-call-ip6tables ] && \
+			echo "0" > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+		echo "1" > /proc/sys/net/ipv4/ip_forward
+		echo "1" > /proc/sys/net/ipv4/conf/default/forwarding
+		echo "0" > /proc/sys/net/ipv4/conf/default/accept_redirects
+		echo "1" > /proc/sys/net/ipv4/conf/default/promote_secondaries
+		echo "1" > /proc/sys/net/ipv4/conf/all/forwarding
+		echo "0" > /proc/sys/net/ipv4/conf/all/accept_redirects
+		echo "1" > /proc/sys/net/ipv4/conf/all/promote_secondaries
+		[ -e /proc/sys/net/ipv4/netfilter/ip_conntrack_udp_timeout ] && \
+			echo "120" > /proc/sys/net/ipv4/netfilter/ip_conntrack_udp_timeout
+		[ -e /proc/sys/net/netfilter/nf_conntrack_udp_timeout ] && \
+			echo "120" > /proc/sys/net/netfilter/nf_conntrack_udp_timeout
+		echo "1" > /proc/sys/net/ipv6/conf/default/accept_ra
+		echo "1" > /proc/sys/net/ipv6/conf/default/forwarding
+		echo "1" > /proc/sys/net/ipv6/conf/all/accept_ra
+		echo "1" > /proc/sys/net/ipv6/conf/all/forwarding
+
+		# Respect RFC4862 5.4.5
+		echo "2" > /proc/sys/net/ipv6/conf/all/accept_dad
+		echo "2" > /proc/sys/net/ipv6/conf/default/accept_dad
+
+		mafia --nothreads pcb_plugin -vvv -n netdev -I /var/run/netdev -c /usr/lib/netdev/netdev.odl
+		pcb_cli -q 'NeMo.loadModule(netdev.so, dst="pcb://ipc:[/var/run/netdev]")'
+		;;
+	stop)
+		pcb_cli -q 'NeMo.unloadModule(netdev.so)'
+		[ -e /var/run/netdev.pid ] && kill `cat /var/run/netdev.pid`
+		;;
+	*)
+		echo "Usage: $0 [start|stop]"
+esac
+

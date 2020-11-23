@@ -1,0 +1,26 @@
+#!/bin/sh
+
+/bin/echo "Enabling Reboot on kernel crash"
+
+
+/bin/echo 1 > /proc/sys/kernel/panic
+
+if ls -l /proc/sys/kernel/panic* | grep -q panic_on_page_allocation_failure
+
+then
+	/bin/echo 1 > /proc/sys/kernel/panic_on_page_allocation_failure
+else
+	/bin/echo "panic_on_page_allocation_failure flag is not present in this kernel release..."	
+fi
+
+/bin/echo 1 > /proc/sys/kernel/panic_on_oops
+
+
+return $?
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+<b>Personnaliser ma maison :</b><br>
+<br>
+Cette page vous permet de personnaliser votre réseau domestique. Vous précisez ici les pièces de votre maison. Ensuite, grâce à ces pièces, vous pouvez "localiser" vos équipements.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+

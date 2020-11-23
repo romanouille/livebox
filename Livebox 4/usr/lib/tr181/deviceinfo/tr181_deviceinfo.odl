@@ -1,0 +1,66 @@
+
+object DeviceInfo {
+    read-only string Manufacturer;
+    read-only string ManufacturerOUI;
+    read-only string ModelName;
+    read-only string Description;
+    read-only string ProductClass;
+    read-only string SerialNumber;
+    read-only string HardwareVersion;
+    read-only string SoftwareVersion;
+    read-only string ModemFirmwareVersion;
+    read-only string EnabledOptions;
+    read-only string AdditionalHardwareVersion;
+    read-only string AdditionalSoftwareVersion;
+    read-only string SpecVersion;
+    string ProvisioningCode;
+    read-only uint32 UpTime;
+    read-only datetime FirstUseDate;
+    read-only string DeviceLog;
+    read-only uint32 VendorConfigFileNumberOfEntries;
+    read-only object VendorConfigFile [] {
+        read-only string Alias;
+	read-only string Name;
+	read-only string Version;
+	read-only datetime Date;
+	read-only string Description;
+    }
+    read-only object ProcessStatus {
+        read-only object Process [] {
+            read-only string Alias;
+            read-only uint32 PID;
+            read-only string Command;
+            read-only uint32 Size;
+            read-only uint32 Priority;
+            read-only uint32 CPUTime;
+            read-only string State {
+                constraint enum ["Running","Sleeping","Stopped","Idle","Uninterruptible","Zombie"];
+                default "Running";
+            }
+        }
+    }
+}
+
+
+datamodel {
+    object DeviceInfo {
+        destination "pcb://$(PCB_MAIN_BUS)/DeviceInfo" {
+            parameter Manufacturer;
+            parameter ManufacturerOUI;
+            parameter ModelName;
+            parameter Description;
+            parameter ProductClass;
+            parameter SerialNumber;
+            parameter HardwareVersion;
+            parameter SoftwareVersion;
+            parameter AdditionalHardwareVersion;
+            parameter SpecVersion;
+            parameter ProvisioningCode;
+            parameter UpTime;
+        }
+        destination "pcb://$(NEMO_IPC)/NeMo/Intf/dsl0" {
+            parameter ModemFirmwareVersion from FirmwareVersion;
+        }
+    }
+}
+

@@ -1,0 +1,134 @@
+#!/bin/sh
+##################################################################
+# Project: SagemCom Mesh WLAN Solution 
+#                                      
+# This dynamic tunnel management file has to be located in /etc
+# This script will be called by OLSR
+#
+# mesh-wlan usage:
+#      - olsr-tunnel-mgt <IP local> <IP Remote> <add/remove> <RemoteNodeId>
+#                                      
+# ----------------------------------------------------------------
+# V1.0: 2010-02-03 : CDU 
+#             - As specified in V1.2 interface 
+#               specification document
+# ----------------------------------------------------------------
+# V1.1: 2010-05-12 : CDU 
+#             - Add TTL parameter to the tunnel
+# ----------------------------------------------------------------
+# V1.2: 2010-05-25 : CDU 
+#             - Add IPC mechanism (as specified in V1.6 interface 
+#               file & in V1.1 architecture file)
+##################################################################
+
+GENERICFILE="/etc/init.d/mesh-wlan/mesh-wlan-generic"
+
+
+##### Beginning of the script - Do not change below #####
+if [ -f $GENERICFILE ]; then
+    . $GENERICFILE
+else
+    echo "$0: Configuration error : can not find $GENERICFILE"
+    exit 1
+fi
+
+# Load the configuration file
+if [ -f $CONFFILE ]; then
+    . $CONFFILE
+else
+    logInfo crit "Can not find configuration file $CONFFILE"
+    exit 1
+fi
+
+if [ "$#" != "4" ]; then
+    logInfo crit "Bad parameters for tunnel management: $*"
+    exit 1
+fi
+
+localIP=$1
+remoteIP=$2
+cmd=$3
+id=$4
+
+
+######## ADD COMMAND 
+if [ "$cmd" = "add" ]; then
+# Let's create the tunnel
+#   $SUDO ip link add  lgre$id type gretap ttl $greTTL local $localIP remote $remoteIP
+#   exitcode=$?
+#   if [ "$exitcode" != "0" ]; then
+#       len=$(eval echo $remoteIP | wc -c)
+#       logInfo crit "Can not create the tunnel lgre$id : $*"
+#       exit 1
+#   fi
+
+#BLu modif MTU
+#   ifconfig lgre$id mtu 1500
+
+
+# Let's activate it
+#   $SUDO ifconfig lgre$id up
+#   exitcode=$?
+#   if [ "$exitcode" != "0" ]; then
+# let's delete the tunnel itsetf
+#       $SUDO ip link del lgre$id
+#       len=$(eval echo $remoteIP | wc -c)
+#       logInfo crit "err($exitcode): Can not activate tunnel lgre$id : $*"
+#       exit 1
+#   fi
+    
+# Let's insert it into the mesh-bridge
+#   $SUDO brctl addif $bridge_name lgre$id
+#   exitcode=$?
+#   if [ "$exitcode" != "0" ]; then
+# let's delete the tunnel itsetf
+#       $SUDO ip link del lgre$id
+#       len=$(eval echo $remoteIP | wc -c)
+#       logInfo crit "err($exitcode): Can not add tunnel lgre$id into $bridge_name : $*"
+#       exit 1
+#   fi
+
+#   len=$(eval echo $remoteIP | wc -c)
+#   logInfo info "tunnel lgre$id created : $*"
+
+    # Sagemcom callback
+    if [ "$SAGEMCOM_CALLBACK" != "" ]; then
+	logInfo info "sending JOIN message to Mesh-Connectivity SMU"
+	#$SAGEMCOM_CALLBACK CONNECTIVITY 1 lgre$id $localIP $remoteIP &
+	$SAGEMCOM_CALLBACK add $localIP $remoteIP &
+    fi
+    
+######## REMOVE COMMAND 
+elif [ "$cmd" = "remove" ]; then
+# Let's remove the tunnel from the mesh-bridge
+#   $SUDO brctl delif $bridge_name lgre$id
+#   exitcode=$?
+#   if [ "$exitcode" != "0" ]; then
+# let's delete the tunnel itsetf
+#       logInfo crit "err($exitcode): Can not remove tunnel lgre$id from $bridge_name : $*"
+#   fi
+#   
+# let's delete the tunnel itsetf
+#   $SUDO ip link del lgre$id
+#   exitcode=$?
+#   if [ "$exitcode" != "0" ]; then
+# let's delete the tunnel itsetf
+#       logInfo crit "err($exitcode): Can not delete tunnel lgre$id : $*"
+#       exit 1
+#   fi
+
+    # Sagemcom callback
+    if [ "$SAGEMCOM_CALLBACK" != "" ]; then
+	logInfo info "sending LEAVE message to Mesh-Connectivity SMU"
+	#$SAGEMCOM_CALLBACK CONNECTIVITY 2 lgre$id $localIP $remoteIP &
+	$SAGEMCOM_CALLBACK delete $localIP $remoteIP &
+    fi
+
+
+    logInfo info "tunnel lgre$id deleted : $*"
+    
+else
+    logInfo crit "Bad command for tunnel management: $*"
+    exit 1
+fi
+exit 0

@@ -1,0 +1,177 @@
+object NeMo {
+read-only object Module[];
+object extends Module(0, "wlan") {
+void addVendor(in mandatory string root, in string suffix, in string flag, in string dst) {
+acl {
+world none;
+}
+}
+void deleteVendor(in mandatory string root) {
+acl {
+world none;
+}
+}
+read-only object Vendor[] {
+read-only string Root;
+read-only string Suffix;
+read-only string Flag;
+}
+}
+object extends MIB(0,"wlanradio") {
+string Flag = "wlanradio";
+object DataModel {
+read-only string RadioStatus {
+constraint enum ["Up", "Down", "Unknown", "Dormant", "NotPresent", "LowerLayerDown", "Error"];
+default "NotPresent";
+}
+read-only uint32 LastChangeTime;
+read-only uint32 LastChange;
+read-only uint32 MaxBitRate;
+read-only string SupportedFrequencyBands;
+persistent string OperatingFrequencyBand {
+constraint enum [ "", "2.4GHz", "5GHz"];
+default "";
+}
+read-only string SupportedStandards;
+persistent string OperatingStandards = "";
+read-only string PossibleChannels;
+read-only string ChannelsInUse;
+persistent uint32 Channel {
+constraint range [0, 255];
+default 0;
+}
+read-only bool AutoChannelSupported;
+persistent bool AutoChannelEnable;
+persistent uint32 AutoChannelRefreshPeriod;
+read-only bool AutoChannelSelecting;
+persistent int32 ActiveAntennaCtrl {
+constraint range [-1,255];
+default -1;
+}
+persistent string OperatingChannelBandwidth {
+constraint enum ["20MHz", "40MHz", "Auto"];
+default "Auto";
+}
+persistent string ExtensionChannel {
+constraint enum ["AboveControlChannel", "BelowControlChannel", "Auto"];
+default "Auto";
+}
+persistent string GuardInterval {
+constraint enum ["400nsec", "800nsec", "Auto"];
+default "Auto";
+}
+persistent int32 MCS {
+constraint range [-1, 31];
+default -1;
+}
+read-only string TransmitPowerSupported;
+persistent int32 TransmitPower {
+constraint range [-1, 100];
+default -1;
+}
+read-only bool IEEE80211hSupported;
+persistent bool IEEE80211hEnabled;
+persistent string RegulatoryDomain = "FR";
+read-only bool ImplicitBeamFormingSupported;
+persistent bool ImplicitBeamFormingEnabled {
+default 1;
+}
+read-only bool ExplicitBeamFormingSupported;
+persistent bool ExplicitBeamFormingEnabled {
+default 0;
+}
+persistent bool AirtimeFairnessEnabled {
+default 0;
+}
+persistent bool MultiUserMIMOEnabled {
+default 0;
+}
+read-only uint32 DFSChannelChangeEventCounter {
+default 0;
+}
+read-only datetime DFSChannelChangeEventTimestamp {
+default 0;
+}
+read-only string ChannelChangeReason;
+void startAutoChannelSelection() {
+acl {
+world none;
+}
+}
+void getSpectrumInfo(bool update) {
+acl {
+world none;
+}
+}
+void startScan();
+void stopScan();
+void scan();
+void getScanResults(out variant results);
+void getRadioAirStats(out variant airstats);
+persistent object ChannelMgt {
+read-only string ClearedDfsChannels {
+default "";
+}
+read-only string RadarTriggeredDfsChannels {
+default "";
+}
+read-only bool Status {
+default false;
+}
+persistent object ChannelSelectParams {
+persistent int32 DfsWeight {
+default 100;
+}
+persistent int32 HighPowerWeight {
+default 100;
+}
+persistent int32 ApCountPenalty {
+default 1;
+}
+persistent int32 ApCountMaxPenalty {
+default 20;
+}
+persistent int32 AvailabilityWeight {
+default 1;
+}
+persistent int32 NoiseBonus {
+default 1;
+}
+persistent int32 WeightDifference {
+default 50;
+}
+persistent int32 LongWaitPenalty {
+default 25;
+}
+}
+persistent object ChannelSelectConfig {
+persistent bool EnableDFSChannels {
+default true;
+}
+persistent bool EnableLongWaitChannels {
+default false;
+}
+persistent bool LongWaitOnlyWhenCleared {
+default true;
+}
+persistent bool OnlyNonOverlappingChans {
+default true;
+}
+persistent int32 NrMeasurements {
+default 5;
+constraint minvalue 1;
+}
+persistent int32 TimeBetweenScans {
+default 900;
+constraint minvalue 60;
+}
+persistent int32 TimeBetweenUpdates {
+default 30;
+constraint minvalue 5;
+}
+}
+void performSelection();
+} 
+}
+}
+}

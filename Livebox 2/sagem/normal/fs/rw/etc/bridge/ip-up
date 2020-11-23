@@ -1,0 +1,53 @@
+#!/bin/sh
+# Fichier de configuration du router
+
+. /etc_ro_fs/init.d/common
+. /etc_ro_fs/autoconf.conf
+readconf /etc/bluedsl.conf FIREWALL_LEVEL
+
+# Debug ce script
+set -x
+
+# find ethernet if
+eth_if=$1
+
+# find conf file 
+file_id=$2
+
+[ ! -z "$file_id" ] && [ -f $file_id ] && . $file_id
+
+case $0 in
+    *ip-up)
+	if (type startfn ; ) ; then 
+	    startfn $1 $2
+        else
+	    echo 4 > /var/run/pppmsg
+	    ip_addr=$(ifconfig $eth_if | grep addr: | sed -e 's/inet addr:\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*/\1/' | sed -e 's/          //')
+	    echo IP=$ip_addr > /var/run/ppp_ip
+	    gateway=$(route | grep default | sed -e 's/\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*/\1/' | sed -e 's/default         //')
+	    echo GW=$gateway > /var/run/ppp_gw
+	    /etc/ppp/start_nat $1
+	    [ ! -z "$FIREWALL_LEVEL" ] && "/usr/sbin/firewall_l"$FIREWALL_LEVEL".start" $1
+	    current_date=$(date +"%j %X")
+	    echo $current_date  IP Up $1 >> /root/adsld.log
+	fi 
+
+	;;
+    *ip-down)
+	if (type stopfn ; ) ; then 
+	    stopfn $1 $2
+	else
+	    /etc/ppp/stop_nat $1
+	    /usr/sbin/firewall.stop $1
+	    rm -f /var/run/ppp_ip
+	    rm -f /var/run/ppp_gw
+	    current_date=$(date +"%j %X")
+	    echo $current_date  IP Down $1 >> /root/adsld.log
+	fi 
+
+	;;
+    *)	    
+	;;
+esac
+
+

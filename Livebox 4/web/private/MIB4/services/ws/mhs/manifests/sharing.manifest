@@ -1,0 +1,45 @@
+{
+    "Id": "sah_sharing",
+    "Category": "Social",
+    "Version": "0.1",
+    "Title": "sah_sharing.title",
+    "AllowedGroups": "admin,remoteadmin",
+    "Applet": [ 
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img sharing\"></span><div class=status><span class=caption><span class=\"black\" translate=sah_sharing.files></span> <span class=\"sah_green_dark nbmedia\">?</span></span></div>",
+                                            "<div class=title><span translate=sah_sharing.num_media_files></span><br><div class=nbmedia>N/A</div></div>"
+                                          ],
+                                "apicalls":{"class":"nbmedia", "ws":"Dms.Database:Dump", "filter2":"database.nb_items", "onerror_string": "sah_sharing.nodisk"}
+                              }
+                },
+                { "width": 1,
+                  "height": 1,
+                  "url": "apps/common/slider.html",
+                  "class": "slider2",
+                  "initializer": "slider2",
+                  "settings": { "slides": [ "<span class=\"img socialTV\"></span></div>"
+                                          ],
+                                "apicalls":{},
+                                "title": "sah_sharing.socialtitle"
+                              }
+                }
+              ],
+    "en":{
+        "title":"My Family Sharing",
+        "num_media_files":"Number of media files",
+        "nodisk":"no disk",
+        "files":"files:",
+        "socialtitle":"My Social TV"
+    },
+    "fr":{
+        "title":"toDymRyv",
+        "num_media_files":"TTCVdKPC",
+        "nodisk":"KUTSpXBH",
+        "files":"tMjVOFyy",
+        "socialtitle":"ELWMWJEP"
+    }
+}

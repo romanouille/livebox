@@ -1,0 +1,26 @@
+include "deviceinfo/deviceinfo.odl";
+include "wandevice/wandevice.odl";
+include "cwmp/managementserver.odl";
+include "l3f/layer3forwarding.odl";
+include "lan/lan.odl";
+include "cwmp/IPPingDiagnostics_map.odl";
+include "time/time_plugin_map.odl";
+include "netmodeconfig/nmc_obj_map.odl";
+
+{
+    acl {
+        group cwmpd read,write,execute;
+    }
+    read-only string DeviceSummary;
+    read-only string LANDeviceNumberOfEntries;
+    read-only string WANDeviceNumberOfEntries;
+}
+
+datamodel {
+    {
+        parameter LANDeviceNumberOfEntries = 1;
+        parameter WANDeviceNumberOfEntries = 2;
+        parameter DeviceSummary = "InternetGatewayDevice:1.4[](Baseline:2, EthernetLAN:2, ADSLWAN:1, EthernetWAN:1, Time:2, IPPing:1, DHCPCondServing:1)";
+    }
+}
+

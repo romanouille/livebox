@@ -1,0 +1,4 @@
+include "time-plugin-definitions.odl";
+include "time-plugin-defaults.odl";
+
+/** @location sah_services_time-plugin /time-plugin.odl */

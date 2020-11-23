@@ -1,0 +1,338 @@
+using "ra.so";
+
+acl {
+    group cwmpd read,write,execute;
+}
+
+persistent object RouterAdvertisement {
+	persistent object InterfaceSetting[16] {
+		write with interfaceOnWrite;
+		delete with interfaceOnDelete;
+		
+/**
+ * Shows the status of radvd interface. 
+ * The Status is set to 'Enabled' if the interface configuration is validated and contains all mandatory parameters. 
+ * 'Disabled' if the Enable is false.
+ * 'Error' if Enable is true but errors occured.
+ * @version V4.6
+ */
+		read-only string Status {
+			constraint enum ["Disabled", "Enabled", "Error"];
+			default "Disabled";
+			read with radvdInterfaceStatusOnRead;
+		}
+
+/**
+ * NeMo interface name.
+ * @version V4.6
+*/
+		persistent string Interface;
+		
+/**
+ * The maximum time allowed between sending unsolicited multicast router advertisements from the interface, in seconds. 
+ * Must be no less than 4 seconds and no greater than 1800 seconds. Default: 600 seconds
+ * @version V4.6
+ */
+		persistent uint32 MaxRtrAdvInterval = 600;
+
+/**
+ * The minimum time allowed between sending unsolicited multicast router advertisements from the interface, in seconds. 
+ * Must be no less than 3 seconds and no greater than 0.75 * MaxRtrAdvInterval. Default: 0.33 * MaxRtrAdvInterval
+ * @version V4.6
+*/
+		persistent uint32 MinRtrAdvInterval = 200;
+
+/**
+ * The lifetime associated with the default router in units of seconds. The maximum value corresponds to 18.2hours. 
+ * A lifetime of 0 indicates that the router is not a default router and should not appear on the default router list. 
+ * The router lifetime applies only to the router’s usefulness as a default router; 
+ * it does  not apply to information contained in other message fields or options. 
+ * Options that need time limitsfor their information include their own lifetime fields. 
+ * Must be either zero or between MaxRtrAdvInterval and 9000 seconds.Default: 3 * MaxRtrAdvInterval (Minimum 1 second).
+ * @version V4.6
+*/
+		persistent uint32 AdvDefaultLifetime = 1800;
+
+/**
+ * The lifetime associated with the Recursive DNS Server Option (RDNSS)  
+ * Must be between MaxRtrAdvInterval and 2 * MaxRtrAdvInterval.
+ * @version V4.6
+*/
+		persistent uint32 AdvRDNSSLifetime = 1200;
+        
+        
+/**
+ * The lifetime associated with the DNS Search List Option (DNSSL)  
+ * Must be between MaxRtrAdvInterval and 2 * MaxRtrAdvInterval.
+ * @version V4.6
+*/
+		persistent uint32 AdvDNSSLLifetime = 1200;
+        
+/**
+ * When set, hosts use the administered (stateful) protocol for address autoconfiguration in addition to any addresses autoconfigured using stateless address autoconfiguration. 
+ * The use of this flag is described in RFC 4862. Default: off
+ * @version V4.6
+*/
+		persistent bool AdvManagedFlag = false;
+		
+/**
+ * When  set, hosts use the administered (stateful) protocol for autoconfiguration of other (non-address) information. 
+ * The use of this flag is described in RFC 4862. Default: off
+ * @version V4.6
+*/
+		persistent bool AdvOtherConfigFlag = false;
+
+/**
+ * When set, the Home Agent signals it  supports  Mobile  Router  registrations  (specified  by  NEMO  Basic). 
+ * AdvHomeAgentInfo must also be set when using this option. Default: off
+ * @version V4.6
+*/
+		persistent bool AdvMobileAgentFlag = false;
+
+/**
+ * The preference associated with the default router, as either "low", "medium", or "high". Default: medium
+ * @version V4.6
+*/
+		persistent string AdvPreferredRouterFlag {
+			constraint enum ["high", "medium", "low"];
+			default "medium";
+		}
+		
+/** 
+ * TODO 
+ * @version V4.6
+*/
+		persistent bool AdvNDProxyFlag = false;
+
+/**
+ * The MTU option is used in router advertisement messages to insure that all nodes on a link use the same MTU value 
+ * in those cases where the link MTU is not well known.
+ * If specified, i.e. not 0, must not be smaller than 1280 and not greater than the maximum MTU allowed for this link 
+ * (e.g. ethernet has a maximum MTU of 1500. See RFC 4864). Default: 0
+ * @version V4.6
+ */
+		persistent uint32 AdvLinkMTU = 0;
+
+/**
+ * The time, in milliseconds, that a node assumes a neighbor is reachable after having received a reachability confirmation. 
+ * Used by the Neighbor Unreachability Detection algorithm (see Section 7.3 of RFC 4861). A value of zero means unspecified (by this router).
+ * Must be no greater than 3,600,000 milliseconds (1 hour).
+ * Default: 0
+ * @version V4.6
+*/
+		persistent uint32 AdvReachableTime = 0;
+
+/**
+ * The time, in milliseconds, between retransmitted Neighbor Solicitation messages. 
+ * Used by  address resolution and the Neighbor Unreachability Detection algorithm (see Sections 7.2 and 7.3 of RFC 4861).  
+ * A value of zero means unspecified (by this router).
+ * Default: 0
+ * @version V4.6
+*/
+		persistent uint32 AdvRetransTimer = 0;
+
+/**
+ * The default value that should be placed in the Hop Count field of the IP header for outgoing (unicast) IP packets. 
+ * The value should be set to the current diameter of the Internet. The value zero means unspecified (by this router).
+ * Default: 64
+ * @version V4.6
+*/
+		persistent uint32 AdvCurHopLimit = 64;
+
+/**
+ * Enable/disable interface, when changing this value, the configuration will be applied and saved. 
+ * @version V4.6
+*/
+		persistent bool Enable = false;
+
+/**
+ * IPv6 DNS server specification. [IPv6 Address][,IPv6 Address]*
+ * @version V4.6
+*/
+		persistent string DNS {
+			write with interfaceDNSOnWrite;
+		}
+
+/**
+ * Domain name to be configured on the interface.
+ * @version V4.6
+*/
+		persistent string Domain = home;
+
+/**
+ * The prefix object contains infomration about the ip ranges to be advertised. Up to 4 ip addresses can be used.
+ * @version V4.6
+*/
+		persistent object Prefix[8] {
+			write with prefixOnWrite;
+			delete with prefixOnDelete;
+
+/**
+ * IPV6 prefix to be advertised.
+ * @version V4.6
+*/
+			string Prefix;
+
+/**
+ * Shows the status of the radvd prefix. 
+ * The Status is set to Enabled if the prefix configuration contains all mandatory parameters, Enable is set to true and the parameters are validated.
+ * @version V4.6
+*/
+			read-only string Status {
+				constraint enum ["Disabled", "Enabled", "Error"];
+				default "Disabled";
+				read with radvdPrefixStatusOnRead;
+			}
+
+/**
+ * True indicates the selected DNS server(s) must be used. 
+ * @version V4.6
+*/
+			persistent bool UseDNS = true;
+
+/**
+ * IPv6 DNS server specification. [IPv6 Address][,IPv6 Address]*
+ * @version V4.6 
+*/
+			persistent string DNS;
+
+/**
+ * The length of time in seconds (relative to the time the packet is sent) that the  prefix  is valid  for the  purpose of on-link determination.
+ * The symbolic value infinity represents infinity (i.e. a value of all one bits (0xffffffff)). The valid lifetime is also used by RFC 4862.
+ * Note that clients will ignore AdvValidLifetime of an existing prefix if the lifetime is below two hours, as required in RFC 4862 Section 5.5.3 point e).
+ * @version V4.6 
+*/
+			persistent uint32 AdvValidLifetime = 86400;
+
+/**
+ * The length of time in seconds (relative to the time the packet is sent) that addresses  generated from the prefix via stateless address autoconfiguration remain preferred. 
+ * The symbolic value infinity represents infinity (i.e. a value of all one bits (0xffffffff)). See RFC 4862.
+ * @version V4.6
+*/
+			persistent uint32 AdvPreferredLifetime = 14400;
+
+/**
+ * Enable/disable the specific prefix configuration. When changing this value the configuration will be applied and saved.
+ * @version V4.6
+*/
+			persistent bool Enable;
+		}
+	}
+
+/**
+ * Volatile parameter to indicate the status of the service. 
+ * The Status parameter is set to Enabled, if all mandatory parameters are configured, Enable is set to true, all parameters are validated and radvd is running.
+ * @version V4.6
+*/
+	read-only string Status {
+		constraint enum ["Enabled", "Disabled", "Error"];
+		default "Disabled";
+		read with radvdStatusOnRead;
+	}
+
+/**
+ * General enable/disable parameter for the radvd service. When changing this value, the configuration will be applied and saved.
+ * @version V4.6
+*/
+	persistent bool Enable {
+		write with enableOnWrite;
+		default false;
+	}
+
+/** 
+ * Add a prefix configuration for a specific interface. 
+ * All but the prefix information is persistent
+ * The configuration is also saved automatically, unless if the request_createObject_not_persistent attribute is set in the request, 
+ * in that case any Prefix that is created by this function is marked as non-persistent.
+ * Different errors can be returned: 
+ *  RA_ROOT_NOT_FOUND: this means the root element RouterAdvertisement is not found in the datamodel, 
+ *  RA_OBJECT_NOT_FOUND: * This means a parameter cannot be configured correctly. 
+ *  RA_PARAMETER_MISSING: A mandatory parameter is missing. 
+ *  RA_OBJECT_NOT_CREATED: A error occurred during the creation of an interface or a prefix instance.
+ * @param interface - (NeMo) interface to enable router advertisements on. 
+ * @param key - [a-zA-Z0-9]*, key element to refer to a specific prefix.
+ * @param prefix - valid ipv6 prefix definition.
+ * @param dns - dns server specified as an ipv6 address.
+ * @param validLifetime - advertised time until expiration
+ * @param preferredLifetime - advertised time until deprecation
+ * @param enable - Enable or Disable the prefix configuration.
+ * @return - key of the generated prefix, or empty if the function fails.
+ * @version V4.6
+*/
+	string setPrefixToInterface(mandatory string interface, mandatory string key, mandatory string prefix, string dns, uint32 validLifetime, uint32 preferredLifetime, mandatory bool enable);
+
+/**
+ * Delete a prefix configuration from a specific interface.
+ * The configuration is applied and saved after function completed successfully.
+ * Different errors can be returned: 
+ *  RA_ROOT_NOT_FOUND: this means the root element RouterAdvertisement is not found in the datamodel, 
+ *  RA_OBJECT_NOT_FOUND: This means a parameter cannot be configured correctly. 
+ *  RA_PARAMETER_MISSING: A mandatory parameter is missing.
+ * @param interface - (NeMo) interface to enable router advertisements on.
+ * @param key - [a-zA-Z0-9]*, key element to refer to a specific prefix.
+ * @return None
+ * @version V4.6
+*/
+	void deletePrefixFromInterface(mandatory string interface, mandatory string key);
+
+/**
+ * Return a list of prefixes of a given interface. 
+ * Different errors can be returned: 
+ *  RA_ROOT_NOT_FOUND: The root element RouterAdvertisement is not found in the datamodel. 
+ *  RA_PARAMETER_MISSING: The mandatory interface parameter is missing. 
+ *  RA_OBJECT_NOT_FOUND: The interface parameter can not be found in the data-model.
+ * @param interface - (NeMo) interface to retrieve the prefixes from.
+ * @return - A list of all prefixes of a given interface.
+ * @version V4.6
+*/
+	list getPrefixFromInterface(mandatory string interface);
+
+/** 
+ * Set the dns server on an interface, if it exists already nothing will be added
+ * @return nothing or an error if something goes wrong.
+ * @param interface - NeMo interface name(lan)
+ * @param dns - comma separated list of ipv6 addresses.
+ * @param restart - if true(default), restart radvd immediatly
+ * @version V4.6
+*/
+	void setDNSServer(mandatory string interface, mandatory string dns, bool restart);
+
+/** 
+ * Delete dns server from interface.
+ * @return nothing if function is successfull, return an error 'RA_OBJECT_NOT_FOUND' if the interface is invalid.
+ * @param interface - mandatory parameter to indicate interface. (lan)
+ * @param dns - servers to be deleted, a comma separated list is supported, if no dns server is provided, delete all dnsservers.
+ * @param restart - if true(default), restart radvd immediatly
+ * @version V4.6
+*/
+	void deleteDNSServer(mandatory string interface, string dns, bool restart);
+	
+/** 
+ * Get all dns servers of a certain interface, interface can be empty, NULL
+ * @param interface - NeMo interface name(lan)
+ * @return list of DNS Servers or an error 'RA_OBJECT_NOT_FOUND' if the interface is invalid.
+ * @version V4.6
+*/
+	string getDNSServer(string interface);
+
+/** 
+ * Set Interface related parameters, if the interface name does not exist, create it, otherwise change it.
+ * @param interface - NeMo interface name.
+ * @param enable - Enable or disable interface section
+ * @param maxRtrAdvInterval - MaxRtrAdvInterval
+ * @param minRtrAdvInterval - MinRtrAdvInterval
+ * @param defaultLifetime - AdvDefaultLifetime
+ * @param RDNSSLifetime - AdvRDNSSLifetime
+ * @param DNSSLLifetime - AdvDNSSLLifetime
+ * @param MTU - define Link MTU for this interface.
+ * @param reachableTime - AdvReachableTime
+ * @param retransmitTimer - AdvRetransTimer
+ * @param dns - DNS Servers
+ * @param domain - Domain
+ * @return none if successful. error 'RA_OBJECT_NOT_FOUND' if the interface is invalid.
+ * @version V5.1
+ */
+	void setInterfaceSetting(mandatory string interface, mandatory bool enable, uint32 maxRtrAdvInterval, uint32 minRtrAdvInterval, uint32 defaultLifetime, uint32 AdvRDNSSLifetime, uint32 AdvDNSSLLifetime, uint32 MTU, uint32 reachableTime, uint32 retransmitTimer, string dns, dsn domain);
+}
+
+/** @location sah_services_raplugin /ra.odl */

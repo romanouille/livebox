@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        # Only save when /etc/config/db_ready doesn't exists (so NOT after a normal reboot)
+        if [ ! -f /etc/config/db_ready ]
+        then
+            # saveflush() performs a backup() and creates db_ready "atomically"
+            pcb_cli -q "NMC.saveflush()"
+        fi
+        ;;
+    stop)
+        ;;
+    *)
+        echo "Usage : $0 [start|stop]"
+        ;;
+esac

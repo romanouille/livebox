@@ -1,0 +1,430 @@
+#subcontener {
+	font-size: 12px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	margin-right: 0px;
+
+ }
+#subcontener table {
+	border: 8px;
+	border-collapse: collapse;
+    
+
+}
+
+#subcontener table.subcontener700px {
+	width: 700px;
+	border-collapse: collapse;
+	border: 1px;
+	margin-left: 20px;
+	margin-right: 0px;
+	padding: 0px;
+}
+
+
+#subcontener table.subcontener620px {
+	width: 730px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 0px;
+	padding: 0px;
+}
+#subcontener table.subcontener620px td.content table {
+	width: 98%;
+}
+#subcontener table.subcontener620px td.content {
+	padding-left: 0px;
+	padding-right: 0px;
+	width: 710px;
+	margin:0px;
+}
+#subcontener  table.subcontener640px {
+	width: 710px;
+	border-collapse: collapse;
+	border: 1px;
+	margin-left: 8px;
+	margin-right: 1px;
+	padding: 0px;
+}
+#subcontener  table.subcontener640px td.content {
+	padding-left: 0px;
+	padding-right: 0px;
+	width: 710px;
+	margin:0px;
+}
+td.mainleft  #subcontener  table.subcontener640px {
+	width: 670px;
+	border-collapse: collapse;
+	border: 1px;
+	margin-left: 20px;
+	margin-right: 20px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener650px {
+	border-collapse: collapse;
+	border: 1px;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener635px {
+	width: 700px;
+	border-collapse: collapse;
+	border: 1px;
+}
+#subcontener table.subcontener635px td.content {
+	padding-left: 8px;
+	padding-right: 8px;
+	width: 700px;
+	margin:0px;
+}
+#subcontener table.subcontener635px td.standard_cell {
+	padding-left: 12px;
+	margin:0px;
+}
+#subcontener table.subcontener600px {
+	width: 710px;
+	border: 1px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+#subcontener table.subcontener730px td.content {
+	padding-left: 8px;
+	padding-right: 8px;
+	width: 730px;
+	margin:0px;
+}
+#subcontener table.subcontener600px td.content {
+	padding-left: 8px;
+	padding-right: 8px;
+	margin:0px;
+}
+
+#subcontener table.subcontener600px td.content table td.tdt {
+	padding-top: 7px;
+	padding-right: 5px;
+	padding-bottom: 7px;	
+}
+#subcontener table.subcontener600px td.content table td.DATA blockquote{
+	padding: 0px;
+	margin: 0px;
+	font-weight: normal;
+	vertical-align:top;
+	padding-left: 35px;
+	
+}
+
+#subcontener table.subcontener600px td.energy_mode_txt{
+	width:600px;	
+	padding-left: 35px;
+}
+
+#subcontener table.subcontener500px {
+	width: 500px;
+	border-collapse: collapse;
+	border: 1px; 
+	padding: 0px;
+}
+
+#subcontener table.subcontener200px {
+	width: 200px;
+	border-collapse: collapse;
+	border: 1px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener480px {
+	width: 480px;
+	border-collapse: collapse;
+	border: 1px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener490px {
+	width: 490px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 10px;
+    margin-left: 190px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener430px {
+	width: 640px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 10px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener460px {
+	width: 460px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 10px;
+    margin-left: 140px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener380px {
+	width: 380px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 10px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener380px {
+	width: 380px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 10px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener160px {
+	width: 160px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 10px;
+	padding: 0px;
+}
+
+#subcontener table.subcontener400px {
+	width: 550px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/* Top contener */
+#subcontener td.topleft {
+	background: url(../images/frames/topleft.gif) no-repeat left top;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 5px;
+}
+
+#subcontener td.top {
+	background: url(../images/frames/border.gif) repeat-x top;
+	margin: 0px;
+	padding: 0px;
+	height: 5px;
+}
+
+#subcontener td.topright {
+	background: url(../images/frames/topright.gif) no-repeat right top;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 5px;
+}
+
+
+/* Cell content : The page */
+#subcontener td.left {
+	background: url(../images/frames/border.gif) repeat-y left;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+}
+
+#subcontener td.right {
+	background: url(../images/frames/border.gif) repeat-y right;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+}
+
+/* Bottom page */
+#subcontener td.bottomleft {
+	background: url(../images/frames/bottomleft.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 5px;
+}
+
+#subcontener td.bottom {
+	background: url(../images/frames/border.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 5px;
+}
+
+#subcontener td.bottomright {
+	background: url(../images/frames/bottomright.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 5px;
+}
+
+
+#checkbox_wireless {
+	margin-left:12px;
+	
+}
+#checkbox_easypairing {
+	margin-left:0px;
+}
+#checkbox_administration {
+  	margin-left:14px;
+  	margin-right:14px;
+}
+#subcontener table.subcontener650px #array table.array {
+	border-collapse:collapse;
+	font-size:12px;
+	padding:10px;
+	table-layout:fixed;
+	width:680px;
+}
+#subcontener table.subcontener620px #array table.array {
+	border-collapse:collapse;
+	font-size:12px;
+	padding-left:12px;
+	width:700px;
+}
+
+#subcontener table.small_equipement td.dev_status_0{
+	font-family: Verdana, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #FF0000;
+	
+}
+
+#subcontener table.small_equipement td.dev_status_1{
+	font-family: Verdana, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #006400;
+}
+#subcontener table.small_equipement {
+	margin-right: 200px;	
+	float: right;
+	padding-top: 12px;
+}
+#subcontener table.small_equipement td{
+	padding-bottom: 2px;
+}
+#subcontener table.small_equipement td.tdt_equ{
+	text-align:right;
+	padding-top: 12px;
+	padding-right: 20px;
+}
+#subcontener table.small_equipement td input,#subcontener table.small_equipement td select{
+	width:150px;
+}
+#subcontener table.small_equipement td.checkbox_class input{
+	width:13px;
+}
+#subcontener table.small_equipement td.tdt_equ img{
+	padding-right:20px;
+}
+
+#subcontener table.small_equipement td.tdt_equ img{
+	padding-right:20px;
+}
+#subcontener table.TLBT_logon {
+	width: 100%;
+        padding:0px;
+        margin:0px;  
+        text-align: right;
+}
+
+#subcontener table.TLBT_logon td.BT_logon {
+	width: 25%;
+        height:10px;
+        padding:0px;
+        margin:0px;
+        text-align: right;
+}
+#subcontener table.TLBT_logon td.BT_logon #button{
+        padding:0px;
+        margin:0px;
+        height:10px;
+}
+#subcontener table.form_auth{
+	width: 100%;
+        margin:0px;
+
+
+}
+#subcontener table.form_auth td{
+	width: 45%;
+        height: 1px;
+        margin:0px;
+        padding-top: 10px;
+
+}
+#subcontener table.form_auth .link_admin{
+	background: url('../images/menu/arrowrightorange.png') no-repeat left bottom;
+	background-repeat:no-repeat;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #000000;
+	padding-left: 20px;
+	white-space: nowrap;
+	cursor:pointer;
+	cursor:hand;           /* valide just for IE 5*/
+	vertical-align:middle;
+
+}
+
+#subcontener .link_limitation{
+	background: url('../images/menu/arrowrightorange.png') no-repeat left bottom;
+	background-repeat:no-repeat;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #000000;
+	padding-left: 20px;
+	white-space: nowrap;
+	cursor:pointer;
+	cursor:hand;           /* valide just for IE 5*/
+	vertical-align:middle;
+
+}
+
+#subcontener td.tdt_dhcp {
+	padding-right: 30px;
+}
+
+#subcontener a:hover {
+text-decoration: none;
+color: #FF4500;
+}
+
+
+#contener a:hover .txtboldblack{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	padding-left: 12px;
+	padding-right: 12px;
+	text-align: left;
+	color: #FF4500;
+}

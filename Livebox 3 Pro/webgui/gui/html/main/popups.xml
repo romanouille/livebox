@@ -1,0 +1,62 @@
+<div id="popups" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div id="cm_abs">
+	    <h1 i18n="infobox.cm.abs.title" class="bold_font_normal "/>
+		<div class="content">
+			<div i18n="infobox.cm.abs"/>
+			<div widgetType="ButtonContainer" class="margin-left-110">
+				<span id="cm_abs_btnOk" widgetType="ButtonImage" i18n="data.ok"/>
+			</div>
+		</div>
+	</div>
+	
+	<div id="cm_removed">
+		<h1 i18n="infobox.cm.removed.title" class="bold_font_normal "/>
+		<div class="content">
+			<div i18n="infobox.cm.removed"/>
+			<div widgetType="ButtonContainer" class="margin-left-110">
+				<span id="cm_removed_btnOk" widgetType="ButtonImage" i18n="data.ok"/>
+			</div>
+		</div>
+	</div>
+	
+	<div id="saved_popup">
+	<h1 i18n="infobox.popup_save" class="bold_font_normal "/>
+		<div class="content">
+			<!-- Display the message "saved to the memory card" only if the memory card is OK -->
+			<div widgetType="VisibleDependent" widgetArg="{value: 'VALID'}" dataId="Device/DeviceInfo/SmartCard/Status" i18n="infobox.popup_saveCM"/>
+			<div widgetType="VisibleDependent" widgetArg="{value: 'VALID_SECURE'}" dataId="Device/DeviceInfo/SmartCard/Status" i18n="infobox.popup_saveCM"/>
+			<!-- Else "saved to the livebox" only -->
+			<div widgetType="VisibleDependent" widgetArg="{value: 'VALID', equals: false}" dataId="Device/DeviceInfo/SmartCard/Status">
+				<div widgetType="VisibleDependent" widgetArg="{value: 'VALID_SECURE', equals: false}" dataId="Device/DeviceInfo/SmartCard/Status">
+					<div i18n="infobox.popup_saveLB"/>
+				</div>
+			</div>
+			<br/>
+		</div>
+	</div>
+	
+	<div id="confirmation_popup">
+		<h1 class="bold_font_normal"/>
+		<div class="content">
+			<form>
+				<div class="text"/>
+				<div widgetType="ButtonContainer" class="margin-left-130">
+					<span id="no" widgetType="ButtonImage" i18n="common.no"/>
+					<span id="yes" widgetType="ButtonImage" i18n="common.yes"/>
+				</div>			
+			</form>
+		</div>
+	</div>
+	
+	<div id="error_popup">
+		<h1 class="bold_font_normal"/>
+		<div class="content">
+			<form>
+				<div class="text"/>
+				<div widgetType="ButtonContainer" class="center">
+					<span id="ok" widgetType="ButtonImage" i18n="common.ok"/>
+				</div>			
+			</form>
+		</div>
+	</div>
+</div>

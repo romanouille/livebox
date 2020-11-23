@@ -1,0 +1,6 @@
+{
+  "status": 0,
+  "data": {
+    "levelList": ["Low", "Medium", "High", "Custom"]
+  }
+}

@@ -1,0 +1,45 @@
+#!/bin/sh
+PIDSCHEDULER_PLUGIN="/var/run/scheduler-plugin.pid"
+SCHEDULER_PLUGIN="/bin/pcb_plugin -vv -n scheduler-plugin -c /usr/lib/scheduler_plugin/scheduler_plugin.odl"
+
+start() {
+
+    if [ -e ${PIDSCHEDULER_PLUGIN} ]; then
+        echo "Scheduler plug-in already started"
+    else
+        echo "Starting Scheduler plug-in"
+        ${SCHEDULER_PLUGIN};
+    fi
+}
+
+stop() {
+    if [ -e ${PIDSCHEDULER_PLUGIN} ]; then
+        echo "Stopping Scheduler plug-in"
+        kill $(cat ${PIDSCHEDULER_PLUGIN});
+    else
+        echo "Scheduler plug-in already stopped"
+    fi
+}
+
+restart() {
+    stop
+    while test -e ${PIDSCHEDULER_PLUGIN}; do
+        sleep 1
+    done
+    start
+}
+
+case $1 in
+    start)
+        start
+	;;
+    stop)
+        stop
+	;;
+    restart)
+        restart
+        ;;
+    *)
+        ;;
+esac
+

@@ -1,0 +1,56 @@
+<div id="wifiVisitorAccess" xmlns="http://www.orange.com/xhtml/engine/loose">
+	<div class="boxType3">
+		<div id="helpPage">
+			<a id="help" href="javascript:;">
+				<img align="middle" i18n="img.data.ico_txt_help" widgetType="Image" />
+			</a>
+		</div>
+		<h1 class="logo_generic " i18n="menuServices.wifiaccess" />
+		<div class="margin-left-40 margin-top-m8">
+			<strong i18n="page.myServices.wifiaccess.subtitle" />
+		</div>
+	</div>
+	<div class="maindiv">
+		<form action="#">
+			<div class="boxType4 border-bottom-1">
+				<span class="h3Text" i18n="page.myServices.wifiaccess.statutTitle" />
+				<!-- <div class="bordered"> -->
+				<br />
+				<div widgetType="FormInput" i18n="page.myServices.wifiaccess.SSID">
+					<span dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='HotspotWiFi']/SSID" />
+				</div>
+				<div widgetType="FormInput" i18n="page.myServices.wifiaccess.activationState">
+					<span id="activationState" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='HotspotWiFi']/Enable" i18nPrefix="page.myServices.wifiaccess.activationState" />
+				</div>
+				<div widgetType="FormInput" i18n="page.myServices.wifiaccess.statutWifi">
+					<span dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='HotspotWiFi']/HotspotStatus"  i18nPrefix="page.myServices.wifiaccess.status" />
+				</div>
+				<!-- </div> -->
+				<br />
+			</div>
+			<div class="boxType5 border-bottom-1">
+				<div class="h3Text" i18n="page.myServices.wifiaccess.activeLink" />
+				<div> <!-- class="forminput" -->
+					<span widgetType="VisibleDependent" widgetArg="{value: true}" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='HotspotWiFi']/Enable">
+						<a class="forminput-label orange" href="http://r.orange.fr/r/Omoncompteinternet_messervices" target="_blank" i18n="page.myServices.phone.status.link1" />
+					</span>
+					<span widgetType="VisibleDependent" widgetArg="{value: false}" dataId="Device/Networks/LAN[@name='LAN']/LANPorts/HotspotWiFiPort[@Name='HotspotWiFi']/Enable">
+						<a class="forminput-label orange" href="http://r.orange.fr/r/Omoncompteinternet_messervices" target="_blank" i18n="page.myServices.phone.status.link2" />
+					</span>
+					<div class="clear" />
+				</div>
+			</div>
+			<div class="boxType5 border-bottom-3">
+				<div class="h3Text" i18n="page.myServices.wifiaccess.why.title" />
+				<div i18n="page.myServices.wifiaccess.why.text" />
+				<br />
+				<div class="h3Text" i18n="page.myServices.wifiaccess.howactivate.title" />
+				<div i18n="page.myServices.wifiaccess.howactivate.text" />
+				<br />
+				<div class="h3Text" i18n="page.myServices.wifiaccess.howconnect.title" />
+				<div i18n="page.myServices.wifiaccess.howconnect.text" />
+				<br />
+			</div>
+		</form>
+	</div>
+</div>

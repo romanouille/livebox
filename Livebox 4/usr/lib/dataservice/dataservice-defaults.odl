@@ -1,0 +1,7 @@
+
+
+datamodel {
+    object DataHub {
+    }
+}
+/** @location commod_datahub_dataservice add-on/frontend/pcb/dataservice-defaults.odl.m4 */

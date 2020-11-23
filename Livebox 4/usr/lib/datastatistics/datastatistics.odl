@@ -1,0 +1,6 @@
+
+
+include "datastatistics-definitions.odl";
+include "datastatistics-defaults.odl";
+
+/** @location  commod_datahub_datastatistics  add-on/frontend/pcb/datastatistics.odl.m4 */

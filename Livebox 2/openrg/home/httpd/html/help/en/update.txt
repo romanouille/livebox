@@ -1,0 +1,11 @@
+<b>Update:</b><br>
+<br>
+If an update is available, it is downloaded automatically. The blue update indicator flashes until the process is complete.<br>
+If a problem occurs during the update, the update light and the Internet light are lit steadily.<br>
+<span class="boldorange">Current firmware version:</span> Firmware used on your livebox.<br>
+The firmware in your livebox is updated remotely to ensure that you always have access to the latest services.<br> Orange automatically updates the firmware at night to avoid adversely affecting your use of the livebox. The blue LED is lit when this occurs.<br>
+<!--
+<br>
+<b>Pour plus d’infos, cliquez ici</b> (Lien :<a href="http://assistance.orange.fr/2626">http://assistance.orange.fr/2626</a>)
+-->
+
